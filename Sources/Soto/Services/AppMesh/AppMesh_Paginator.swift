@@ -27,14 +27,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listGatewayRoutesPaginator<Result>(
         _ input: ListGatewayRoutesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListGatewayRoutesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension AppMesh {
             command: listGatewayRoutes,
             inputKey: \ListGatewayRoutesInput.nextToken,
             outputKey: \ListGatewayRoutesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listGatewayRoutesPaginator(
         _ input: ListGatewayRoutesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListGatewayRoutesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension AppMesh {
             command: listGatewayRoutes,
             inputKey: \ListGatewayRoutesInput.nextToken,
             outputKey: \ListGatewayRoutesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listMeshesPaginator<Result>(
         _ input: ListMeshesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListMeshesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension AppMesh {
             command: listMeshes,
             inputKey: \ListMeshesInput.nextToken,
             outputKey: \ListMeshesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMeshesPaginator(
         _ input: ListMeshesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMeshesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension AppMesh {
             command: listMeshes,
             inputKey: \ListMeshesInput.nextToken,
             outputKey: \ListMeshesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listRoutesPaginator<Result>(
         _ input: ListRoutesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListRoutesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension AppMesh {
             command: listRoutes,
             inputKey: \ListRoutesInput.nextToken,
             outputKey: \ListRoutesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRoutesPaginator(
         _ input: ListRoutesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRoutesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension AppMesh {
             command: listRoutes,
             inputKey: \ListRoutesInput.nextToken,
             outputKey: \ListRoutesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listTagsForResourcePaginator<Result>(
         _ input: ListTagsForResourceInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension AppMesh {
             command: listTagsForResource,
             inputKey: \ListTagsForResourceInput.nextToken,
             outputKey: \ListTagsForResourceOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTagsForResourceOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension AppMesh {
             command: listTagsForResource,
             inputKey: \ListTagsForResourceInput.nextToken,
             outputKey: \ListTagsForResourceOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listVirtualGatewaysPaginator<Result>(
         _ input: ListVirtualGatewaysInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListVirtualGatewaysOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension AppMesh {
             command: listVirtualGateways,
             inputKey: \ListVirtualGatewaysInput.nextToken,
             outputKey: \ListVirtualGatewaysOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVirtualGatewaysPaginator(
         _ input: ListVirtualGatewaysInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVirtualGatewaysOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension AppMesh {
             command: listVirtualGateways,
             inputKey: \ListVirtualGatewaysInput.nextToken,
             outputKey: \ListVirtualGatewaysOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listVirtualNodesPaginator<Result>(
         _ input: ListVirtualNodesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListVirtualNodesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension AppMesh {
             command: listVirtualNodes,
             inputKey: \ListVirtualNodesInput.nextToken,
             outputKey: \ListVirtualNodesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVirtualNodesPaginator(
         _ input: ListVirtualNodesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVirtualNodesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension AppMesh {
             command: listVirtualNodes,
             inputKey: \ListVirtualNodesInput.nextToken,
             outputKey: \ListVirtualNodesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listVirtualRoutersPaginator<Result>(
         _ input: ListVirtualRoutersInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListVirtualRoutersOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension AppMesh {
             command: listVirtualRouters,
             inputKey: \ListVirtualRoutersInput.nextToken,
             outputKey: \ListVirtualRoutersOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVirtualRoutersPaginator(
         _ input: ListVirtualRoutersInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVirtualRoutersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension AppMesh {
             command: listVirtualRouters,
             inputKey: \ListVirtualRoutersInput.nextToken,
             outputKey: \ListVirtualRoutersOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension AppMesh {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listVirtualServicesPaginator<Result>(
         _ input: ListVirtualServicesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListVirtualServicesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension AppMesh {
             command: listVirtualServices,
             inputKey: \ListVirtualServicesInput.nextToken,
             outputKey: \ListVirtualServicesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension AppMesh {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVirtualServicesPaginator(
         _ input: ListVirtualServicesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVirtualServicesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension AppMesh {
             command: listVirtualServices,
             inputKey: \ListVirtualServicesInput.nextToken,
             outputKey: \ListVirtualServicesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

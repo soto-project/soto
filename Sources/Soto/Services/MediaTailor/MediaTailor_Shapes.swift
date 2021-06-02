@@ -68,6 +68,7 @@ extension MediaTailor {
     // MARK: Shapes
 
     public struct AccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
         public let accessType: AccessType?
 
@@ -81,6 +82,7 @@ extension MediaTailor {
     }
 
     public struct AdBreak: AWSEncodableShape & AWSDecodableShape {
+
         /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT.
         public let messageType: MessageType?
         /// How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.
@@ -106,6 +108,7 @@ extension MediaTailor {
     }
 
     public struct AdMarkerPassthrough: AWSEncodableShape & AWSDecodableShape {
+
         /// Enables ad marker passthrough for your configuration.
         public let enabled: Bool?
 
@@ -119,6 +122,7 @@ extension MediaTailor {
     }
 
     public struct AvailSuppression: AWSEncodableShape & AWSDecodableShape {
+
         /// Sets the ad suppression mode. By default, ad suppression is off and all ad breaks are filled with ads or slate. When Mode is set to BEHIND_LIVE_EDGE, ad suppression is active and MediaTailor won't fill ad breaks on or behind the ad suppression Value time in the manifest lookback window.
         public let mode: Mode?
         /// A live edge offset time in HH:MM:SS. MediaTailor won't fill ad breaks on or behind this time in the manifest lookback window. If Value is set to 00:00:00, it is in sync with the live edge, and MediaTailor won't fill any ad breaks on or behind the live edge. If you set a Value time, MediaTailor won't fill any ad breaks on or behind this time in the manifest lookback window. For example, if you set 00:45:00, then MediaTailor will fill ad breaks that occur within 45 minutes behind the live edge, but won't fill ad breaks on or behind 45 minutes behind the live edge.
@@ -136,6 +140,7 @@ extension MediaTailor {
     }
 
     public struct Bumper: AWSEncodableShape & AWSDecodableShape {
+
         /// The URL for the end bumper asset.
         public let endUrl: String?
         /// The URL for the start bumper asset.
@@ -153,6 +158,7 @@ extension MediaTailor {
     }
 
     public struct CdnConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the origin ads.mediatailor.&amp;lt;region&gt;.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
         public let adSegmentUrlPrefix: String?
         /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
@@ -170,6 +176,7 @@ extension MediaTailor {
     }
 
     public struct Channel: AWSDecodableShape {
+
         /// The ARN of the channel.
         public let arn: String
         /// The name of the channel.
@@ -208,7 +215,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -235,11 +242,12 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateChannelResponse: AWSDecodableShape {
+
         public let arn: String?
         public let channelName: String?
         public let channelState: ChannelState?
@@ -270,13 +278,13 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateProgramRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
             AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
         ]
 
@@ -309,6 +317,7 @@ extension MediaTailor {
     }
 
     public struct CreateProgramResponse: AWSDecodableShape {
+
         public let adBreaks: [AdBreak]?
         public let arn: String?
         public let channelName: String?
@@ -366,11 +375,12 @@ extension MediaTailor {
             case accessConfiguration = "AccessConfiguration"
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateSourceLocationResponse: AWSDecodableShape {
+
         public let accessConfiguration: AccessConfiguration?
         public let arn: String?
         @OptionalCustomCoding<UnixEpochDateCoder>
@@ -401,13 +411,13 @@ extension MediaTailor {
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")), 
             AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
         ]
 
@@ -427,11 +437,12 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case httpPackageConfigurations = "HttpPackageConfigurations"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateVodSourceResponse: AWSDecodableShape {
+
         public let arn: String?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
@@ -458,12 +469,13 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
 
     public struct DashConfiguration: AWSDecodableShape {
+
         /// The URL generated by MediaTailor to initiate a playback session. The session uses server-side reporting. This setting is ignored in PUT operations.
         public let manifestEndpointPrefix: String?
         /// The setting that controls whether MediaTailor includes the Location tag in DASH manifests. MediaTailor populates the Location tag with the URL for manifest update requests, to be used by players that don't support sticky redirects. Disable this if you have CDN routing rules set up for accessing MediaTailor manifests, and you are either using client-side reporting or your players support sticky HTTP redirects. Valid values are DISABLED and EMT_DEFAULT. The EMT_DEFAULT setting enables the inclusion of the tag and is the default value.
@@ -485,6 +497,7 @@ extension MediaTailor {
     }
 
     public struct DashConfigurationForPut: AWSEncodableShape {
+
         /// The setting that controls whether MediaTailor includes the Location tag in DASH manifests. MediaTailor populates the Location tag with the URL for manifest update requests, to be used by players that don't support sticky redirects. Disable this if you have CDN routing rules set up for accessing MediaTailor manifests, and you are either using client-side reporting or your players support sticky HTTP redirects. Valid values are DISABLED and EMT_DEFAULT. The EMT_DEFAULT setting enables the inclusion of the tag and is the default value.
         public let mpdLocation: String?
         /// The setting that controls whether MediaTailor handles manifests from the origin server as multi-period manifests or single-period manifests. If your origin server produces single-period manifests, set this to SINGLE_PERIOD. The default setting is MULTI_PERIOD. For multi-period manifests, omit this setting or set it to MULTI_PERIOD.
@@ -502,6 +515,7 @@ extension MediaTailor {
     }
 
     public struct DashPlaylistSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
         public let manifestWindowSeconds: Int?
         /// Minimum amount of content (measured in seconds) that a player must keep available in the buffer. Minimum value: 2 seconds. Maximum value: 60 seconds.
@@ -527,6 +541,7 @@ extension MediaTailor {
     }
 
     public struct DefaultSegmentDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The hostname of the server that will be used to serve segments. This string must include the protocol, such as https://.
         public let baseUrl: String?
 
@@ -554,7 +569,11 @@ extension MediaTailor {
     }
 
     public struct DeleteChannelPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
@@ -572,7 +591,11 @@ extension MediaTailor {
     }
 
     public struct DeleteChannelResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePlaybackConfigurationRequest: AWSEncodableShape {
@@ -590,12 +613,16 @@ extension MediaTailor {
     }
 
     public struct DeletePlaybackConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProgramRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
             AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
         ]
 
@@ -611,7 +638,11 @@ extension MediaTailor {
     }
 
     public struct DeleteProgramResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSourceLocationRequest: AWSEncodableShape {
@@ -629,12 +660,16 @@ extension MediaTailor {
     }
 
     public struct DeleteSourceLocationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")), 
             AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
         ]
 
@@ -650,7 +685,11 @@ extension MediaTailor {
     }
 
     public struct DeleteVodSourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
@@ -668,6 +707,7 @@ extension MediaTailor {
     }
 
     public struct DescribeChannelResponse: AWSDecodableShape {
+
         /// The ARN of the channel.
         public let arn: String?
         /// The name of the channel.
@@ -706,13 +746,13 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct DescribeProgramRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
             AWSMemberEncoding(label: "programName", location: .uri(locationName: "programName"))
         ]
 
@@ -728,6 +768,7 @@ extension MediaTailor {
     }
 
     public struct DescribeProgramResponse: AWSDecodableShape {
+
         /// The ad break configuration settings.
         public let adBreaks: [AdBreak]?
         /// The ARN of the program.
@@ -780,6 +821,7 @@ extension MediaTailor {
     }
 
     public struct DescribeSourceLocationResponse: AWSDecodableShape {
+
         /// The access configuration for the source location.
         public let accessConfiguration: AccessConfiguration?
         /// The ARN of the source location.
@@ -818,13 +860,13 @@ extension MediaTailor {
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct DescribeVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")), 
             AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
         ]
 
@@ -840,6 +882,7 @@ extension MediaTailor {
     }
 
     public struct DescribeVodSourceResponse: AWSDecodableShape {
+
         /// The ARN of the VOD source.
         public let arn: String?
         /// The timestamp that indicates when the VOD source was created.
@@ -873,7 +916,7 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -893,6 +936,7 @@ extension MediaTailor {
     }
 
     public struct GetChannelPolicyResponse: AWSDecodableShape {
+
         /// The IAM policy for the channel.
         public let policy: String?
 
@@ -907,9 +951,9 @@ extension MediaTailor {
 
     public struct GetChannelScheduleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
-            AWSMemberEncoding(label: "durationMinutes", location: .querystring(locationName: "durationMinutes")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
+            AWSMemberEncoding(label: "durationMinutes", location: .querystring(locationName: "durationMinutes")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -934,6 +978,7 @@ extension MediaTailor {
     }
 
     public struct GetChannelScheduleResponse: AWSDecodableShape {
+
         /// An array of schedule entries for the channel.
         public let items: [ScheduleEntry]?
         /// Pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -965,6 +1010,7 @@ extension MediaTailor {
     }
 
     public struct GetPlaybackConfigurationResponse: AWSDecodableShape {
+
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -1039,13 +1085,14 @@ extension MediaTailor {
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
     }
 
     public struct HlsConfiguration: AWSDecodableShape {
+
         /// The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
         public let manifestEndpointPrefix: String?
 
@@ -1059,6 +1106,7 @@ extension MediaTailor {
     }
 
     public struct HlsPlaylistSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The total duration (in seconds) of each manifest. Minimum value: 30 seconds. Maximum value: 3600 seconds.
         public let manifestWindowSeconds: Int?
 
@@ -1072,6 +1120,7 @@ extension MediaTailor {
     }
 
     public struct HttpConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The base URL for the source location host server. This string must include the protocol, such as https://.
         public let baseUrl: String
 
@@ -1085,6 +1134,7 @@ extension MediaTailor {
     }
 
     public struct HttpPackageConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The relative path to the URL for this VOD source. This is combined with SourceLocation::HttpConfiguration::BaseUrl to form a valid URL.
         public let path: String
         /// The name of the source group. This has to match one of the Channel::Outputs::SourceGroup.
@@ -1107,7 +1157,7 @@ extension MediaTailor {
 
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1128,6 +1178,7 @@ extension MediaTailor {
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
+
         /// An array of channels that are associated with this account.
         public let items: [Channel]?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1146,7 +1197,7 @@ extension MediaTailor {
 
     public struct ListPlaybackConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -1167,6 +1218,7 @@ extension MediaTailor {
     }
 
     public struct ListPlaybackConfigurationsResponse: AWSDecodableShape {
+
         /// Array of playback configurations. This might be all the available configurations or a subset, depending on the settings that you provide and the total number of configurations stored.
         public let items: [PlaybackConfiguration]?
         /// Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1185,7 +1237,7 @@ extension MediaTailor {
 
     public struct ListSourceLocationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1206,6 +1258,7 @@ extension MediaTailor {
     }
 
     public struct ListSourceLocationsResponse: AWSDecodableShape {
+
         /// An array of source locations.
         public let items: [SourceLocation]?
         /// Pagination token from the list request. Use the token to fetch the next page of results.
@@ -1237,6 +1290,7 @@ extension MediaTailor {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -1244,14 +1298,14 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListVodSourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
         ]
 
@@ -1274,6 +1328,7 @@ extension MediaTailor {
     }
 
     public struct ListVodSourcesResponse: AWSDecodableShape {
+
         /// Lists the VOD sources.
         public let items: [VodSource]?
         /// Pagination token from the list request. Use the token to fetch the next page of results.
@@ -1291,6 +1346,7 @@ extension MediaTailor {
     }
 
     public struct LivePreRollConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The maximum allowed duration for the pre-roll ad avail. AWS Elemental MediaTailor won't play pre-roll ads to exceed this duration, regardless of the total duration of ads that the ADS returns.
@@ -1308,6 +1364,7 @@ extension MediaTailor {
     }
 
     public struct ManifestProcessingRules: AWSEncodableShape & AWSDecodableShape {
+
         /// For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN, EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin manifest to the MediaTailor personalized manifest. No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT has a value of 60, but no ads are filled for that ad break, MediaTailor will not set the value to 0.
         public let adMarkerPassthrough: AdMarkerPassthrough?
 
@@ -1321,6 +1378,7 @@ extension MediaTailor {
     }
 
     public struct PlaybackConfiguration: AWSDecodableShape {
+
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -1395,7 +1453,7 @@ extension MediaTailor {
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
@@ -1421,10 +1479,15 @@ extension MediaTailor {
     }
 
     public struct PutChannelPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutPlaybackConfigurationRequest: AWSEncodableShape {
+
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -1487,13 +1550,14 @@ extension MediaTailor {
             case name = "Name"
             case personalizationThresholdSeconds = "PersonalizationThresholdSeconds"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
     }
 
     public struct PutPlaybackConfigurationResponse: AWSDecodableShape {
+
         public let adDecisionServerUrl: String?
         public let availSuppression: AvailSuppression?
         public let bumper: Bumper?
@@ -1550,13 +1614,14 @@ extension MediaTailor {
             case playbackEndpointPrefix = "PlaybackEndpointPrefix"
             case sessionInitializationEndpointPrefix = "SessionInitializationEndpointPrefix"
             case slateAdUrl = "SlateAdUrl"
-            case tags
+            case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
         }
     }
 
     public struct RequestOutputItem: AWSEncodableShape {
+
         /// DASH manifest configuration parameters.
         public let dashPlaylistSettings: DashPlaylistSettings?
         /// HLS playlist configuration parameters.
@@ -1582,6 +1647,7 @@ extension MediaTailor {
     }
 
     public struct ResponseOutputItem: AWSDecodableShape {
+
         /// DASH manifest configuration settings.
         public let dashPlaylistSettings: DashPlaylistSettings?
         /// HLS manifest configuration settings.
@@ -1611,6 +1677,7 @@ extension MediaTailor {
     }
 
     public struct ScheduleConfiguration: AWSEncodableShape {
+
         /// Program transition configurations.
         public let transition: Transition
 
@@ -1624,6 +1691,7 @@ extension MediaTailor {
     }
 
     public struct ScheduleEntry: AWSDecodableShape {
+
         /// The approximate duration of this program, in seconds.
         public let approximateDurationSeconds: Int64?
         /// The approximate time that the program will start playing.
@@ -1662,6 +1730,7 @@ extension MediaTailor {
     }
 
     public struct SlateSource: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the source location where the slate VOD source is stored.
         public let sourceLocationName: String?
         /// The slate VOD source name. The VOD source must already exist in a source location before it can be used for slate.
@@ -1679,6 +1748,7 @@ extension MediaTailor {
     }
 
     public struct SourceLocation: AWSDecodableShape {
+
         /// The access configuration for the source location.
         public let accessConfiguration: AccessConfiguration?
         /// The ARN of the SourceLocation.
@@ -1717,11 +1787,12 @@ extension MediaTailor {
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct SpliceInsertMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// This is written to splice_insert.avail_num, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0. Values must be between 0 and 256, inclusive.
         public let availNum: Int?
         /// This is written to splice_insert.avails_expected, as defined in section 9.7.3.1 of the SCTE-35 specification. The default value is 0. Values must be between 0 and 256, inclusive.
@@ -1761,7 +1832,11 @@ extension MediaTailor {
     }
 
     public struct StartChannelResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopChannelRequest: AWSEncodableShape {
@@ -1779,7 +1854,11 @@ extension MediaTailor {
     }
 
     public struct StopChannelResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -1796,11 +1875,12 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Transition: AWSEncodableShape {
+
         /// The position where this program will be inserted relative to the RelativeProgram. Possible values are: AFTER_PROGRAM, and BEFORE_PROGRAM.
         public let relativePosition: RelativePosition
         /// The name of the program that this program will be inserted next to, as defined by RelativePosition.
@@ -1823,7 +1903,7 @@ extension MediaTailor {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1858,6 +1938,7 @@ extension MediaTailor {
     }
 
     public struct UpdateChannelResponse: AWSDecodableShape {
+
         public let arn: String?
         public let channelName: String?
         public let channelState: ChannelState?
@@ -1888,7 +1969,7 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1920,6 +2001,7 @@ extension MediaTailor {
     }
 
     public struct UpdateSourceLocationResponse: AWSDecodableShape {
+
         public let accessConfiguration: AccessConfiguration?
         public let arn: String?
         @OptionalCustomCoding<UnixEpochDateCoder>
@@ -1950,13 +2032,13 @@ extension MediaTailor {
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct UpdateVodSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName")), 
             AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
         ]
 
@@ -1977,6 +2059,7 @@ extension MediaTailor {
     }
 
     public struct UpdateVodSourceResponse: AWSDecodableShape {
+
         public let arn: String?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
@@ -2003,12 +2086,13 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
 
     public struct VodSource: AWSDecodableShape {
+
         /// The ARN for the VOD source.
         public let arn: String
         /// The timestamp that indicates when the VOD source was created.
@@ -2042,7 +2126,7 @@ extension MediaTailor {
             case httpPackageConfigurations = "HttpPackageConfigurations"
             case lastModifiedTime = "LastModifiedTime"
             case sourceLocationName = "SourceLocationName"
-            case tags
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }

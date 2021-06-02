@@ -27,14 +27,14 @@ extension CloudHSMV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeBackupsPaginator<Result>(
         _ input: DescribeBackupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeBackupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension CloudHSMV2 {
             command: describeBackups,
             inputKey: \DescribeBackupsRequest.nextToken,
             outputKey: \DescribeBackupsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension CloudHSMV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeBackupsPaginator(
         _ input: DescribeBackupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeBackupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension CloudHSMV2 {
             command: describeBackups,
             inputKey: \DescribeBackupsRequest.nextToken,
             outputKey: \DescribeBackupsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension CloudHSMV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClustersPaginator<Result>(
         _ input: DescribeClustersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClustersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension CloudHSMV2 {
             command: describeClusters,
             inputKey: \DescribeClustersRequest.nextToken,
             outputKey: \DescribeClustersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension CloudHSMV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClustersPaginator(
         _ input: DescribeClustersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClustersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension CloudHSMV2 {
             command: describeClusters,
             inputKey: \DescribeClustersRequest.nextToken,
             outputKey: \DescribeClustersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension CloudHSMV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listTagsPaginator<Result>(
         _ input: ListTagsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension CloudHSMV2 {
             command: listTags,
             inputKey: \ListTagsRequest.nextToken,
             outputKey: \ListTagsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension CloudHSMV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTagsPaginator(
         _ input: ListTagsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension CloudHSMV2 {
             command: listTags,
             inputKey: \ListTagsRequest.nextToken,
             outputKey: \ListTagsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

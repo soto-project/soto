@@ -27,14 +27,14 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listJobsPaginator<Result>(
         _ input: ListJobsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListJobsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension Glacier {
             command: listJobs,
             inputKey: \ListJobsInput.marker,
             outputKey: \ListJobsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listJobsPaginator(
         _ input: ListJobsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension Glacier {
             command: listJobs,
             inputKey: \ListJobsInput.marker,
             outputKey: \ListJobsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listMultipartUploadsPaginator<Result>(
         _ input: ListMultipartUploadsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension Glacier {
             command: listMultipartUploads,
             inputKey: \ListMultipartUploadsInput.marker,
             outputKey: \ListMultipartUploadsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMultipartUploadsPaginator(
         _ input: ListMultipartUploadsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension Glacier {
             command: listMultipartUploads,
             inputKey: \ListMultipartUploadsInput.marker,
             outputKey: \ListMultipartUploadsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listPartsPaginator<Result>(
         _ input: ListPartsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListPartsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension Glacier {
             command: listParts,
             inputKey: \ListPartsInput.marker,
             outputKey: \ListPartsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPartsPaginator(
         _ input: ListPartsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPartsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension Glacier {
             command: listParts,
             inputKey: \ListPartsInput.marker,
             outputKey: \ListPartsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listVaultsPaginator<Result>(
         _ input: ListVaultsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListVaultsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension Glacier {
             command: listVaults,
             inputKey: \ListVaultsInput.marker,
             outputKey: \ListVaultsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVaultsPaginator(
         _ input: ListVaultsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVaultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension Glacier {
             command: listVaults,
             inputKey: \ListVaultsInput.marker,
             outputKey: \ListVaultsOutput.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

@@ -27,14 +27,14 @@ extension CodeDeploy {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listApplicationRevisionsPaginator<Result>(
         _ input: ListApplicationRevisionsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListApplicationRevisionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension CodeDeploy {
             command: listApplicationRevisions,
             inputKey: \ListApplicationRevisionsInput.nextToken,
             outputKey: \ListApplicationRevisionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension CodeDeploy {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationRevisionsPaginator(
         _ input: ListApplicationRevisionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListApplicationRevisionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension CodeDeploy {
             command: listApplicationRevisions,
             inputKey: \ListApplicationRevisionsInput.nextToken,
             outputKey: \ListApplicationRevisionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension CodeDeploy {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listApplicationsPaginator<Result>(
         _ input: ListApplicationsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListApplicationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension CodeDeploy {
             command: listApplications,
             inputKey: \ListApplicationsInput.nextToken,
             outputKey: \ListApplicationsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension CodeDeploy {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationsPaginator(
         _ input: ListApplicationsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListApplicationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension CodeDeploy {
             command: listApplications,
             inputKey: \ListApplicationsInput.nextToken,
             outputKey: \ListApplicationsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension CodeDeploy {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDeploymentConfigsPaginator<Result>(
         _ input: ListDeploymentConfigsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDeploymentConfigsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension CodeDeploy {
             command: listDeploymentConfigs,
             inputKey: \ListDeploymentConfigsInput.nextToken,
             outputKey: \ListDeploymentConfigsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension CodeDeploy {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeploymentConfigsPaginator(
         _ input: ListDeploymentConfigsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDeploymentConfigsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension CodeDeploy {
             command: listDeploymentConfigs,
             inputKey: \ListDeploymentConfigsInput.nextToken,
             outputKey: \ListDeploymentConfigsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension CodeDeploy {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDeploymentGroupsPaginator<Result>(
         _ input: ListDeploymentGroupsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDeploymentGroupsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension CodeDeploy {
             command: listDeploymentGroups,
             inputKey: \ListDeploymentGroupsInput.nextToken,
             outputKey: \ListDeploymentGroupsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension CodeDeploy {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeploymentGroupsPaginator(
         _ input: ListDeploymentGroupsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDeploymentGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension CodeDeploy {
             command: listDeploymentGroups,
             inputKey: \ListDeploymentGroupsInput.nextToken,
             outputKey: \ListDeploymentGroupsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,15 +247,15 @@ extension CodeDeploy {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
+    @available(*, deprecated, message:"This operation is deprecated, use ListDeploymentTargets instead.")
     public func listDeploymentInstancesPaginator<Result>(
         _ input: ListDeploymentInstancesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDeploymentInstancesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -257,6 +265,7 @@ extension CodeDeploy {
             command: listDeploymentInstances,
             inputKey: \ListDeploymentInstancesInput.nextToken,
             outputKey: \ListDeploymentInstancesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -266,13 +275,13 @@ extension CodeDeploy {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
+    @available(*, deprecated, message:"This operation is deprecated, use ListDeploymentTargets instead.")
     public func listDeploymentInstancesPaginator(
         _ input: ListDeploymentInstancesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDeploymentInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -281,6 +290,7 @@ extension CodeDeploy {
             command: listDeploymentInstances,
             inputKey: \ListDeploymentInstancesInput.nextToken,
             outputKey: \ListDeploymentInstancesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -294,14 +304,14 @@ extension CodeDeploy {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDeploymentsPaginator<Result>(
         _ input: ListDeploymentsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDeploymentsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -311,6 +321,7 @@ extension CodeDeploy {
             command: listDeployments,
             inputKey: \ListDeploymentsInput.nextToken,
             outputKey: \ListDeploymentsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -320,12 +331,12 @@ extension CodeDeploy {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeploymentsPaginator(
         _ input: ListDeploymentsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDeploymentsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -334,6 +345,7 @@ extension CodeDeploy {
             command: listDeployments,
             inputKey: \ListDeploymentsInput.nextToken,
             outputKey: \ListDeploymentsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

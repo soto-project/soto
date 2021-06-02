@@ -27,14 +27,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getDedicatedIpsPaginator<Result>(
         _ input: GetDedicatedIpsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetDedicatedIpsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension SESV2 {
             command: getDedicatedIps,
             inputKey: \GetDedicatedIpsRequest.nextToken,
             outputKey: \GetDedicatedIpsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDedicatedIpsPaginator(
         _ input: GetDedicatedIpsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetDedicatedIpsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension SESV2 {
             command: getDedicatedIps,
             inputKey: \GetDedicatedIpsRequest.nextToken,
             outputKey: \GetDedicatedIpsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listConfigurationSetsPaginator<Result>(
         _ input: ListConfigurationSetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListConfigurationSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension SESV2 {
             command: listConfigurationSets,
             inputKey: \ListConfigurationSetsRequest.nextToken,
             outputKey: \ListConfigurationSetsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listConfigurationSetsPaginator(
         _ input: ListConfigurationSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListConfigurationSetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension SESV2 {
             command: listConfigurationSets,
             inputKey: \ListConfigurationSetsRequest.nextToken,
             outputKey: \ListConfigurationSetsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listContactListsPaginator<Result>(
         _ input: ListContactListsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListContactListsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension SESV2 {
             command: listContactLists,
             inputKey: \ListContactListsRequest.nextToken,
             outputKey: \ListContactListsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContactListsPaginator(
         _ input: ListContactListsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListContactListsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension SESV2 {
             command: listContactLists,
             inputKey: \ListContactListsRequest.nextToken,
             outputKey: \ListContactListsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listContactsPaginator<Result>(
         _ input: ListContactsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListContactsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension SESV2 {
             command: listContacts,
             inputKey: \ListContactsRequest.nextToken,
             outputKey: \ListContactsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContactsPaginator(
         _ input: ListContactsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListContactsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension SESV2 {
             command: listContacts,
             inputKey: \ListContactsRequest.nextToken,
             outputKey: \ListContactsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listCustomVerificationEmailTemplatesPaginator<Result>(
         _ input: ListCustomVerificationEmailTemplatesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListCustomVerificationEmailTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension SESV2 {
             command: listCustomVerificationEmailTemplates,
             inputKey: \ListCustomVerificationEmailTemplatesRequest.nextToken,
             outputKey: \ListCustomVerificationEmailTemplatesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCustomVerificationEmailTemplatesPaginator(
         _ input: ListCustomVerificationEmailTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCustomVerificationEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension SESV2 {
             command: listCustomVerificationEmailTemplates,
             inputKey: \ListCustomVerificationEmailTemplatesRequest.nextToken,
             outputKey: \ListCustomVerificationEmailTemplatesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDedicatedIpPoolsPaginator<Result>(
         _ input: ListDedicatedIpPoolsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDedicatedIpPoolsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension SESV2 {
             command: listDedicatedIpPools,
             inputKey: \ListDedicatedIpPoolsRequest.nextToken,
             outputKey: \ListDedicatedIpPoolsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDedicatedIpPoolsPaginator(
         _ input: ListDedicatedIpPoolsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDedicatedIpPoolsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension SESV2 {
             command: listDedicatedIpPools,
             inputKey: \ListDedicatedIpPoolsRequest.nextToken,
             outputKey: \ListDedicatedIpPoolsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDeliverabilityTestReportsPaginator<Result>(
         _ input: ListDeliverabilityTestReportsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDeliverabilityTestReportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension SESV2 {
             command: listDeliverabilityTestReports,
             inputKey: \ListDeliverabilityTestReportsRequest.nextToken,
             outputKey: \ListDeliverabilityTestReportsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeliverabilityTestReportsPaginator(
         _ input: ListDeliverabilityTestReportsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDeliverabilityTestReportsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension SESV2 {
             command: listDeliverabilityTestReports,
             inputKey: \ListDeliverabilityTestReportsRequest.nextToken,
             outputKey: \ListDeliverabilityTestReportsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDomainDeliverabilityCampaignsPaginator<Result>(
         _ input: ListDomainDeliverabilityCampaignsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDomainDeliverabilityCampaignsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension SESV2 {
             command: listDomainDeliverabilityCampaigns,
             inputKey: \ListDomainDeliverabilityCampaignsRequest.nextToken,
             outputKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDomainDeliverabilityCampaignsPaginator(
         _ input: ListDomainDeliverabilityCampaignsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDomainDeliverabilityCampaignsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension SESV2 {
             command: listDomainDeliverabilityCampaigns,
             inputKey: \ListDomainDeliverabilityCampaignsRequest.nextToken,
             outputKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listEmailIdentitiesPaginator<Result>(
         _ input: ListEmailIdentitiesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListEmailIdentitiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension SESV2 {
             command: listEmailIdentities,
             inputKey: \ListEmailIdentitiesRequest.nextToken,
             outputKey: \ListEmailIdentitiesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEmailIdentitiesPaginator(
         _ input: ListEmailIdentitiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListEmailIdentitiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension SESV2 {
             command: listEmailIdentities,
             inputKey: \ListEmailIdentitiesRequest.nextToken,
             outputKey: \ListEmailIdentitiesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listEmailTemplatesPaginator<Result>(
         _ input: ListEmailTemplatesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListEmailTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension SESV2 {
             command: listEmailTemplates,
             inputKey: \ListEmailTemplatesRequest.nextToken,
             outputKey: \ListEmailTemplatesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEmailTemplatesPaginator(
         _ input: ListEmailTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension SESV2 {
             command: listEmailTemplates,
             inputKey: \ListEmailTemplatesRequest.nextToken,
             outputKey: \ListEmailTemplatesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listImportJobsPaginator<Result>(
         _ input: ListImportJobsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListImportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension SESV2 {
             command: listImportJobs,
             inputKey: \ListImportJobsRequest.nextToken,
             outputKey: \ListImportJobsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listImportJobsPaginator(
         _ input: ListImportJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension SESV2 {
             command: listImportJobs,
             inputKey: \ListImportJobsRequest.nextToken,
             outputKey: \ListImportJobsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension SESV2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listSuppressedDestinationsPaginator<Result>(
         _ input: ListSuppressedDestinationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListSuppressedDestinationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension SESV2 {
             command: listSuppressedDestinations,
             inputKey: \ListSuppressedDestinationsRequest.nextToken,
             outputKey: \ListSuppressedDestinationsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension SESV2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSuppressedDestinationsPaginator(
         _ input: ListSuppressedDestinationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSuppressedDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension SESV2 {
             command: listSuppressedDestinations,
             inputKey: \ListSuppressedDestinationsRequest.nextToken,
             outputKey: \ListSuppressedDestinationsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

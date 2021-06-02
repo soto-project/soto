@@ -64,43 +64,43 @@ public struct ConnectParticipant: AWSService {
     // MARK: API Calls
 
     /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API.
-    public func completeAttachmentUpload(_ input: CompleteAttachmentUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CompleteAttachmentUploadResponse> {
-        return self.client.execute(operation: "CompleteAttachmentUpload", path: "/participant/complete-attachment-upload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func completeAttachmentUpload(_ input: CompleteAttachmentUploadRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CompleteAttachmentUploadResponse> {
+        return self.client.execute(operation: "CompleteAttachmentUpload", path: "/participant/complete-attachment-upload", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic.  For chat, you need to publish the following on the established websocket connection:  {"topic":"aws/subscribe","content":{"topics":["aws/chat"]}}  Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
-    public func createParticipantConnection(_ input: CreateParticipantConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParticipantConnectionResponse> {
-        return self.client.execute(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createParticipantConnection(_ input: CreateParticipantConnectionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParticipantConnectionResponse> {
+        return self.client.execute(operation: "CreateParticipantConnection", path: "/participant/connection", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
-    public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisconnectParticipantResponse> {
-        return self.client.execute(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func disconnectParticipant(_ input: DisconnectParticipantRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisconnectParticipantResponse> {
+        return self.client.execute(operation: "DisconnectParticipant", path: "/participant/disconnect", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts.
-    public func getAttachment(_ input: GetAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttachmentResponse> {
-        return self.client.execute(operation: "GetAttachment", path: "/participant/attachment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getAttachment(_ input: GetAttachmentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttachmentResponse> {
+        return self.client.execute(operation: "GetAttachment", path: "/participant/attachment", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a transcript of the session, including details about any attachments. Note that ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
-    public func getTranscript(_ input: GetTranscriptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTranscriptResponse> {
-        return self.client.execute(operation: "GetTranscript", path: "/participant/transcript", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getTranscript(_ input: GetTranscriptRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTranscriptResponse> {
+        return self.client.execute(operation: "GetTranscript", path: "/participant/transcript", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
-    public func sendEvent(_ input: SendEventRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendEventResponse> {
-        return self.client.execute(operation: "SendEvent", path: "/participant/event", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func sendEvent(_ input: SendEventRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendEventResponse> {
+        return self.client.execute(operation: "SendEvent", path: "/participant/event", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
-    public func sendMessage(_ input: SendMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendMessageResponse> {
-        return self.client.execute(operation: "SendMessage", path: "/participant/message", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func sendMessage(_ input: SendMessageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendMessageResponse> {
+        return self.client.execute(operation: "SendMessage", path: "/participant/message", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3.
-    public func startAttachmentUpload(_ input: StartAttachmentUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAttachmentUploadResponse> {
-        return self.client.execute(operation: "StartAttachmentUpload", path: "/participant/start-attachment-upload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startAttachmentUpload(_ input: StartAttachmentUploadRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAttachmentUploadResponse> {
+        return self.client.execute(operation: "StartAttachmentUpload", path: "/participant/start-attachment-upload", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

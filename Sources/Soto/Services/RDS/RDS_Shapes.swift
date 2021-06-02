@@ -21,21 +21,21 @@ extension RDS {
     // MARK: Enums
 
     public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
-        case async
-        case sync
+        case async = "async"
+        case sync = "sync"
         public var description: String { return self.rawValue }
     }
 
     public enum ActivityStreamStatus: String, CustomStringConvertible, Codable {
-        case started
-        case starting
-        case stopped
-        case stopping
+        case started = "started"
+        case starting = "starting"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable {
-        case immediate
+        case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
@@ -46,12 +46,12 @@ extension RDS {
     }
 
     public enum DBProxyEndpointStatus: String, CustomStringConvertible, Codable {
-        case available
-        case creating
-        case deleting
+        case available = "available"
+        case creating = "creating"
+        case deleting = "deleting"
         case incompatibleNetwork = "incompatible-network"
         case insufficientResourceLimits = "insufficient-resource-limits"
-        case modifying
+        case modifying = "modifying"
         public var description: String { return self.rawValue }
     }
 
@@ -62,15 +62,15 @@ extension RDS {
     }
 
     public enum DBProxyStatus: String, CustomStringConvertible, Codable {
-        case available
-        case creating
-        case deleting
+        case available = "available"
+        case creating = "creating"
+        case deleting = "deleting"
         case incompatibleNetwork = "incompatible-network"
         case insufficientResourceLimits = "insufficient-resource-limits"
-        case modifying
-        case reactivating
-        case suspended
-        case suspending
+        case modifying = "modifying"
+        case reactivating = "reactivating"
+        case suspended = "suspended"
+        case suspending = "suspending"
         public var description: String { return self.rawValue }
     }
 
@@ -81,9 +81,9 @@ extension RDS {
     }
 
     public enum FailoverStatus: String, CustomStringConvertible, Codable {
-        case cancelling
+        case cancelling = "cancelling"
         case failingOver = "failing-over"
-        case pending
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -94,7 +94,7 @@ extension RDS {
     }
 
     public enum ReplicaMode: String, CustomStringConvertible, Codable {
-        case mounted
+        case mounted = "mounted"
         case openReadOnly = "open-read-only"
         public var description: String { return self.rawValue }
     }
@@ -140,18 +140,18 @@ extension RDS {
     }
 
     public enum WriteForwardingStatus: String, CustomStringConvertible, Codable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
-        case unknown
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AccountAttributesMessage: AWSDecodableShape {
-        public struct _AccountQuotasEncoding: ArrayCoderProperties { public static let member = "AccountQuota" }
+        public struct _AccountQuotasEncoding: ArrayCoderProperties { static public let member = "AccountQuota" }
 
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
         @OptionalCustomCoding<ArrayCoder<_AccountQuotasEncoding, AccountQuota>>
@@ -167,6 +167,7 @@ extension RDS {
     }
 
     public struct AccountQuota: AWSDecodableShape {
+
         /// The name of the Amazon RDS quota for this AWS account.
         public let accountQuotaName: String?
         /// The maximum allowed value for the quota.
@@ -188,6 +189,7 @@ extension RDS {
     }
 
     public struct AddRoleToDBClusterMessage: AWSEncodableShape {
+
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
         /// The name of the feature for the DB cluster that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
@@ -209,6 +211,7 @@ extension RDS {
     }
 
     public struct AddRoleToDBInstanceMessage: AWSEncodableShape {
+
         /// The name of the DB instance to associate the IAM role with.
         public let dBInstanceIdentifier: String
         /// The name of the feature for the DB instance that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
@@ -230,6 +233,7 @@ extension RDS {
     }
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSEncodableShape {
+
         /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.
         public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to add a source identifier to.
@@ -247,6 +251,7 @@ extension RDS {
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -259,7 +264,7 @@ extension RDS {
     }
 
     public struct AddTagsToResourceMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The Amazon RDS resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
         public let resourceName: String
@@ -279,6 +284,7 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
+
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation
         public let applyAction: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
@@ -300,6 +306,7 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionResult: AWSDecodableShape {
+
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
@@ -312,6 +319,7 @@ extension RDS {
     }
 
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSEncodableShape {
+
         /// The IP range to authorize.
         public let cidrip: String?
         /// The name of the DB security group to add authorization to.
@@ -341,6 +349,7 @@ extension RDS {
     }
 
     public struct AuthorizeDBSecurityGroupIngressResult: AWSDecodableShape {
+
         public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
@@ -353,6 +362,7 @@ extension RDS {
     }
 
     public struct AvailabilityZone: AWSDecodableShape {
+
         /// The name of the Availability Zone.
         public let name: String?
 
@@ -366,6 +376,7 @@ extension RDS {
     }
 
     public struct AvailableProcessorFeature: AWSDecodableShape {
+
         /// The allowed values for the processor feature of the DB instance class.
         public let allowedValues: String?
         /// The default value for the processor feature of the DB instance class.
@@ -387,6 +398,7 @@ extension RDS {
     }
 
     public struct BacktrackDBClusterMessage: AWSEncodableShape {
+
         /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page.   If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster.  Constraints:   Must contain a valid ISO 8601 timestamp.   Can't contain a timestamp set in the future.   Example: 2017-07-08T18:00Z
         public let backtrackTo: Date
         /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
@@ -412,6 +424,7 @@ extension RDS {
     }
 
     public struct CancelExportTaskMessage: AWSEncodableShape {
+
         /// The identifier of the snapshot export task to cancel.
         public let exportTaskIdentifier: String
 
@@ -425,6 +438,7 @@ extension RDS {
     }
 
     public struct Certificate: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
         /// The unique key that identifies a certificate.
@@ -466,7 +480,7 @@ extension RDS {
     }
 
     public struct CertificateMessage: AWSDecodableShape {
-        public struct _CertificatesEncoding: ArrayCoderProperties { public static let member = "Certificate" }
+        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "Certificate" }
 
         /// The list of Certificate objects for the AWS account.
         @OptionalCustomCoding<ArrayCoder<_CertificatesEncoding, Certificate>>
@@ -486,6 +500,7 @@ extension RDS {
     }
 
     public struct CharacterSet: AWSDecodableShape {
+
         /// The description of the character set.
         public let characterSetDescription: String?
         /// The name of the character set.
@@ -503,6 +518,7 @@ extension RDS {
     }
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
+
         /// The list of log types to disable.
         @OptionalCustomCoding<StandardArrayCoder>
         public var disableLogTypes: [String]?
@@ -522,6 +538,7 @@ extension RDS {
     }
 
     public struct ClusterPendingModifiedValues: AWSDecodableShape {
+
         /// The DBClusterIdentifier value for the DB cluster.
         public let dBClusterIdentifier: String?
         /// The database engine version.
@@ -550,6 +567,7 @@ extension RDS {
     }
 
     public struct ConnectionPoolConfiguration: AWSEncodableShape {
+
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
         public let connectionBorrowTimeout: Int?
         ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.  Default: no initialization query
@@ -580,6 +598,7 @@ extension RDS {
     }
 
     public struct ConnectionPoolConfigurationInfo: AWSDecodableShape {
+
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public let connectionBorrowTimeout: Int?
         ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
@@ -610,7 +629,7 @@ extension RDS {
     }
 
     public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide.  Constraints:   Must specify a valid DB cluster parameter group.
         public let sourceDBClusterParameterGroupIdentifier: String
@@ -637,6 +656,7 @@ extension RDS {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -649,7 +669,7 @@ extension RDS {
     }
 
     public struct CopyDBClusterSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A value that indicates whether to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot. By default, tags are not copied.
         public let copyTags: Bool?
@@ -684,6 +704,7 @@ extension RDS {
     }
 
     public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -696,7 +717,7 @@ extension RDS {
     }
 
     public struct CopyDBParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid DB parameter group.
         public let sourceDBParameterGroupIdentifier: String
@@ -723,6 +744,7 @@ extension RDS {
     }
 
     public struct CopyDBParameterGroupResult: AWSDecodableShape {
+
         public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
@@ -735,7 +757,7 @@ extension RDS {
     }
 
     public struct CopyDBSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags are not copied.
         public let copyTags: Bool?
@@ -778,6 +800,7 @@ extension RDS {
     }
 
     public struct CopyDBSnapshotResult: AWSDecodableShape {
+
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -790,7 +813,7 @@ extension RDS {
     }
 
     public struct CopyOptionGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier for the source option group.  Constraints:   Must specify a valid option group.
         public let sourceOptionGroupIdentifier: String
@@ -817,6 +840,7 @@ extension RDS {
     }
 
     public struct CopyOptionGroupResult: AWSDecodableShape {
+
         public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
@@ -829,6 +853,7 @@ extension RDS {
     }
 
     public struct CreateCustomAvailabilityZoneMessage: AWSEncodableShape {
+
         /// The name of the custom Availability Zone (AZ).
         public let customAvailabilityZoneName: String
         /// The ID of an existing virtual private network (VPN) between the Amazon RDS website and the VMware vSphere cluster.
@@ -854,6 +879,7 @@ extension RDS {
     }
 
     public struct CreateCustomAvailabilityZoneResult: AWSDecodableShape {
+
         public let customAvailabilityZone: CustomAvailabilityZone?
 
         public init(customAvailabilityZone: CustomAvailabilityZone? = nil) {
@@ -866,7 +892,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterEndpointMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
@@ -904,9 +930,9 @@ extension RDS {
     }
 
     public struct CreateDBClusterMessage: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A list of Availability Zones (AZs) where instances in the DB cluster can be created. For information on AWS Regions and Availability Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -1053,7 +1079,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DB cluster parameter group.    This value is stored as a lowercase string.
         public let dBClusterParameterGroupName: String
@@ -1081,6 +1107,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -1093,6 +1120,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -1105,7 +1133,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier of the DB cluster to create a snapshot for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1
         public let dBClusterIdentifier: String
@@ -1129,6 +1157,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -1141,10 +1170,10 @@ extension RDS {
     }
 
     public struct CreateDBInstanceMessage: AWSEncodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
         public let allocatedStorage: Int?
@@ -1352,9 +1381,9 @@ extension RDS {
     }
 
     public struct CreateDBInstanceReadReplicaMessage: AWSEncodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether minor engine upgrades are applied automatically to the read replica during the maintenance window. Default: Inherits from the source DB instance
         public let autoMinorVersionUpgrade: Bool?
@@ -1496,6 +1525,7 @@ extension RDS {
     }
 
     public struct CreateDBInstanceReadReplicaResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -1508,6 +1538,7 @@ extension RDS {
     }
 
     public struct CreateDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -1520,7 +1551,7 @@ extension RDS {
     }
 
     public struct CreateDBParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families, use the following command:  aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"   The output contains duplicates.
         public let dBParameterGroupFamily: String
@@ -1548,6 +1579,7 @@ extension RDS {
     }
 
     public struct CreateDBParameterGroupResult: AWSDecodableShape {
+
         public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
@@ -1560,7 +1592,7 @@ extension RDS {
     }
 
     public struct CreateDBProxyEndpointRequest: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The name of the DB proxy endpoint to create.
         public let dBProxyEndpointName: String
@@ -1606,6 +1638,7 @@ extension RDS {
     }
 
     public struct CreateDBProxyEndpointResponse: AWSDecodableShape {
+
         /// The DBProxyEndpoint object that is created by the API operation. The DB proxy endpoint that you create might provide capabilities such as read/write or read-only operations, or using a different VPC than the proxy's default VPC.
         public let dBProxyEndpoint: DBProxyEndpoint?
 
@@ -1619,7 +1652,7 @@ extension RDS {
     }
 
     public struct CreateDBProxyRequest: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The authorization mechanism that the proxy uses.
         @CustomCoding<StandardArrayCoder>
@@ -1674,6 +1707,7 @@ extension RDS {
     }
 
     public struct CreateDBProxyResponse: AWSDecodableShape {
+
         /// The DBProxy structure corresponding to the new proxy.
         public let dBProxy: DBProxy?
 
@@ -1687,7 +1721,7 @@ extension RDS {
     }
 
     public struct CreateDBSecurityGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The description for the DB security group.
         public let dBSecurityGroupDescription: String
@@ -1711,6 +1745,7 @@ extension RDS {
     }
 
     public struct CreateDBSecurityGroupResult: AWSDecodableShape {
+
         public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
@@ -1723,7 +1758,7 @@ extension RDS {
     }
 
     public struct CreateDBSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier of the DB instance that you want to create the snapshot of. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
@@ -1746,6 +1781,7 @@ extension RDS {
     }
 
     public struct CreateDBSnapshotResult: AWSDecodableShape {
+
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -1758,8 +1794,8 @@ extension RDS {
     }
 
     public struct CreateDBSubnetGroupMessage: AWSEncodableShape {
-        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String
@@ -1788,6 +1824,7 @@ extension RDS {
     }
 
     public struct CreateDBSubnetGroupResult: AWSDecodableShape {
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -1800,9 +1837,9 @@ extension RDS {
     }
 
     public struct CreateEventSubscriptionMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
-        public struct _SourceIdsEncoding: ArrayCoderProperties { public static let member = "SourceId" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         ///  A value that indicates whether to activate the subscription. If the event notification subscription isn't activated, the subscription is created but not active.
         public let enabled: Bool?
@@ -1843,6 +1880,7 @@ extension RDS {
     }
 
     public struct CreateEventSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -1855,6 +1893,7 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterMessage: AWSEncodableShape {
+
         ///  The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Aurora will not create a database in the global database cluster you are creating.
         public let databaseName: String?
         ///  The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
@@ -1892,6 +1931,7 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterResult: AWSDecodableShape {
+
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -1904,7 +1944,7 @@ extension RDS {
     }
 
     public struct CreateOptionGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Specifies the name of the engine that this option group should be associated with. Valid Values:     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engineName: String
@@ -1936,6 +1976,7 @@ extension RDS {
     }
 
     public struct CreateOptionGroupResult: AWSDecodableShape {
+
         public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
@@ -1948,6 +1989,7 @@ extension RDS {
     }
 
     public struct CustomAvailabilityZone: AWSDecodableShape {
+
         /// The identifier of the custom AZ. Amazon RDS generates a unique identifier when a custom AZ is created.
         public let customAvailabilityZoneId: String?
         /// The name of the custom AZ.
@@ -1973,7 +2015,7 @@ extension RDS {
     }
 
     public struct CustomAvailabilityZoneMessage: AWSDecodableShape {
-        public struct _CustomAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "CustomAvailabilityZone" }
+        public struct _CustomAvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "CustomAvailabilityZone" }
 
         /// The list of CustomAvailabilityZone objects for the AWS account.
         @OptionalCustomCoding<ArrayCoder<_CustomAvailabilityZonesEncoding, CustomAvailabilityZone>>
@@ -1993,14 +2035,14 @@ extension RDS {
     }
 
     public struct DBCluster: AWSDecodableShape {
-        public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBClusterRole" }
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _DBClusterMembersEncoding: ArrayCoderProperties { public static let member = "DBClusterMember" }
-        public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "DBClusterOptionGroup" }
-        public struct _DomainMembershipsEncoding: ArrayCoderProperties { public static let member = "DomainMembership" }
-        public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaIdentifier" }
-        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
+        public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBClusterRole" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
+        public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBClusterOptionGroup" }
+        public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
+        public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaIdentifier" }
+        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
 
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let activityStreamKinesisStreamName: String?
@@ -2243,6 +2285,7 @@ extension RDS {
     }
 
     public struct DBClusterBacktrack: AWSDecodableShape {
+
         /// The timestamp of the time from which the DB cluster was backtracked.
         public let backtrackedFrom: Date?
         /// Contains the backtrack identifier.
@@ -2276,7 +2319,7 @@ extension RDS {
     }
 
     public struct DBClusterBacktrackMessage: AWSDecodableShape {
-        public struct _DBClusterBacktracksEncoding: ArrayCoderProperties { public static let member = "DBClusterBacktrack" }
+        public struct _DBClusterBacktracksEncoding: ArrayCoderProperties { static public let member = "DBClusterBacktrack" }
 
         /// Contains a list of backtracks for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClusterBacktracksEncoding, DBClusterBacktrack>>
@@ -2296,6 +2339,7 @@ extension RDS {
     }
 
     public struct DBClusterCapacityInfo: AWSDecodableShape {
+
         /// The current capacity of the DB cluster.
         public let currentCapacity: Int?
         /// A user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
@@ -2325,6 +2369,7 @@ extension RDS {
     }
 
     public struct DBClusterEndpoint: AWSDecodableShape {
+
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
@@ -2376,7 +2421,7 @@ extension RDS {
     }
 
     public struct DBClusterEndpointMessage: AWSDecodableShape {
-        public struct _DBClusterEndpointsEncoding: ArrayCoderProperties { public static let member = "DBClusterEndpointList" }
+        public struct _DBClusterEndpointsEncoding: ArrayCoderProperties { static public let member = "DBClusterEndpointList" }
 
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
         @OptionalCustomCoding<ArrayCoder<_DBClusterEndpointsEncoding, DBClusterEndpoint>>
@@ -2396,6 +2441,7 @@ extension RDS {
     }
 
     public struct DBClusterMember: AWSDecodableShape {
+
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the DB cluster.
@@ -2421,7 +2467,7 @@ extension RDS {
     }
 
     public struct DBClusterMessage: AWSDecodableShape {
-        public struct _DBClustersEncoding: ArrayCoderProperties { public static let member = "DBCluster" }
+        public struct _DBClustersEncoding: ArrayCoderProperties { static public let member = "DBCluster" }
 
         /// Contains a list of DB clusters for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClustersEncoding, DBCluster>>
@@ -2441,6 +2487,7 @@ extension RDS {
     }
 
     public struct DBClusterOptionGroupStatus: AWSDecodableShape {
+
         /// Specifies the name of the DB cluster option group.
         public let dBClusterOptionGroupName: String?
         /// Specifies the status of the DB cluster option group.
@@ -2458,6 +2505,7 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroup: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
         /// The name of the DB cluster parameter group.
@@ -2483,7 +2531,7 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupDetails: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
@@ -2503,6 +2551,7 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupNameMessage: AWSDecodableShape {
+
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
         public let dBClusterParameterGroupName: String?
 
@@ -2516,7 +2565,7 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupsMessage: AWSDecodableShape {
-        public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBClusterParameterGroup" }
+        public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBClusterParameterGroup" }
 
         /// A list of DB cluster parameter groups.
         @OptionalCustomCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>>
@@ -2536,6 +2585,7 @@ extension RDS {
     }
 
     public struct DBClusterRole: AWSDecodableShape {
+
         /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
@@ -2557,8 +2607,8 @@ extension RDS {
     }
 
     public struct DBClusterSnapshot: AWSDecodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -2658,7 +2708,7 @@ extension RDS {
     }
 
     public struct DBClusterSnapshotAttribute: AWSDecodableShape {
-        public struct _AttributeValuesEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
 
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
         public let attributeName: String?
@@ -2678,7 +2728,7 @@ extension RDS {
     }
 
     public struct DBClusterSnapshotAttributesResult: AWSDecodableShape {
-        public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { public static let member = "DBClusterSnapshotAttribute" }
+        public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshotAttribute" }
 
         /// The list of attributes and values for the manual DB cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>>
@@ -2698,7 +2748,7 @@ extension RDS {
     }
 
     public struct DBClusterSnapshotMessage: AWSDecodableShape {
-        public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { public static let member = "DBClusterSnapshot" }
+        public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshot" }
 
         /// Provides a list of DB cluster snapshots for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>>
@@ -2718,10 +2768,10 @@ extension RDS {
     }
 
     public struct DBEngineVersion: AWSDecodableShape {
-        public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { public static let member = "CharacterSet" }
-        public struct _SupportedNcharCharacterSetsEncoding: ArrayCoderProperties { public static let member = "CharacterSet" }
-        public struct _SupportedTimezonesEncoding: ArrayCoderProperties { public static let member = "Timezone" }
-        public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { public static let member = "UpgradeTarget" }
+        public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
+        public struct _SupportedNcharCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
+        public struct _SupportedTimezonesEncoding: ArrayCoderProperties { static public let member = "Timezone" }
+        public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
 
         /// The description of the database engine.
         public let dBEngineDescription: String?
@@ -2811,7 +2861,7 @@ extension RDS {
     }
 
     public struct DBEngineVersionMessage: AWSDecodableShape {
-        public struct _DBEngineVersionsEncoding: ArrayCoderProperties { public static let member = "DBEngineVersion" }
+        public struct _DBEngineVersionsEncoding: ArrayCoderProperties { static public let member = "DBEngineVersion" }
 
         ///  A list of DBEngineVersion elements.
         @OptionalCustomCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>>
@@ -2831,18 +2881,18 @@ extension RDS {
     }
 
     public struct DBInstance: AWSDecodableShape {
-        public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBInstanceRole" }
-        public struct _DBInstanceAutomatedBackupsReplicationsEncoding: ArrayCoderProperties { public static let member = "DBInstanceAutomatedBackupsReplication" }
-        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBParameterGroup" }
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
-        public struct _DomainMembershipsEncoding: ArrayCoderProperties { public static let member = "DomainMembership" }
-        public struct _OptionGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "OptionGroupMembership" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _ReadReplicaDBClusterIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaDBClusterIdentifier" }
-        public struct _ReadReplicaDBInstanceIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaDBInstanceIdentifier" }
-        public struct _StatusInfosEncoding: ArrayCoderProperties { public static let member = "DBInstanceStatusInfo" }
-        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
+        public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBInstanceRole" }
+        public struct _DBInstanceAutomatedBackupsReplicationsEncoding: ArrayCoderProperties { static public let member = "DBInstanceAutomatedBackupsReplication" }
+        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
+        public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
+        public struct _OptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "OptionGroupMembership" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _ReadReplicaDBClusterIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBClusterIdentifier" }
+        public struct _ReadReplicaDBInstanceIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBInstanceIdentifier" }
+        public struct _StatusInfosEncoding: ArrayCoderProperties { static public let member = "DBInstanceStatusInfo" }
+        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
 
         /// Specifies the allocated storage size specified in gibibytes.
         public let allocatedStorage: Int?
@@ -3121,7 +3171,7 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackup: AWSDecodableShape {
-        public struct _DBInstanceAutomatedBackupsReplicationsEncoding: ArrayCoderProperties { public static let member = "DBInstanceAutomatedBackupsReplication" }
+        public struct _DBInstanceAutomatedBackupsReplicationsEncoding: ArrayCoderProperties { static public let member = "DBInstanceAutomatedBackupsReplication" }
 
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -3237,7 +3287,7 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackupMessage: AWSDecodableShape {
-        public struct _DBInstanceAutomatedBackupsEncoding: ArrayCoderProperties { public static let member = "DBInstanceAutomatedBackup" }
+        public struct _DBInstanceAutomatedBackupsEncoding: ArrayCoderProperties { static public let member = "DBInstanceAutomatedBackup" }
 
         ///  A list of DBInstanceAutomatedBackup instances.
         @OptionalCustomCoding<ArrayCoder<_DBInstanceAutomatedBackupsEncoding, DBInstanceAutomatedBackup>>
@@ -3257,6 +3307,7 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackupsReplication: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the replicated automated backups.
         public let dBInstanceAutomatedBackupsArn: String?
 
@@ -3270,7 +3321,7 @@ extension RDS {
     }
 
     public struct DBInstanceMessage: AWSDecodableShape {
-        public struct _DBInstancesEncoding: ArrayCoderProperties { public static let member = "DBInstance" }
+        public struct _DBInstancesEncoding: ArrayCoderProperties { static public let member = "DBInstance" }
 
         ///  A list of DBInstance instances.
         @OptionalCustomCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>>
@@ -3290,6 +3341,7 @@ extension RDS {
     }
 
     public struct DBInstanceRole: AWSDecodableShape {
+
         /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB instance.
@@ -3311,6 +3363,7 @@ extension RDS {
     }
 
     public struct DBInstanceStatusInfo: AWSDecodableShape {
+
         /// Details of the error if there is an error for the instance. If the instance isn't in an error state, this value is blank.
         public let message: String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -3336,6 +3389,7 @@ extension RDS {
     }
 
     public struct DBParameterGroup: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
         /// The name of the DB parameter group family that this DB parameter group is compatible with.
@@ -3361,7 +3415,7 @@ extension RDS {
     }
 
     public struct DBParameterGroupDetails: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -3381,6 +3435,7 @@ extension RDS {
     }
 
     public struct DBParameterGroupNameMessage: AWSDecodableShape {
+
         /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
 
@@ -3394,6 +3449,7 @@ extension RDS {
     }
 
     public struct DBParameterGroupStatus: AWSDecodableShape {
+
         /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
         /// The status of parameter updates.
@@ -3411,7 +3467,7 @@ extension RDS {
     }
 
     public struct DBParameterGroupsMessage: AWSDecodableShape {
-        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBParameterGroup" }
+        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
 
         ///  A list of DBParameterGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroup>>
@@ -3431,6 +3487,7 @@ extension RDS {
     }
 
     public struct DBProxy: AWSDecodableShape {
+
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
         @OptionalCustomCoding<StandardArrayCoder>
         public var auth: [UserAuthConfigInfo]?
@@ -3503,6 +3560,7 @@ extension RDS {
     }
 
     public struct DBProxyEndpoint: AWSDecodableShape {
+
         /// The date and time when the DB proxy endpoint was first created.
         public let createdDate: Date?
         /// The Amazon Resource Name (ARN) for the DB proxy endpoint.
@@ -3558,6 +3616,7 @@ extension RDS {
     }
 
     public struct DBProxyTarget: AWSDecodableShape {
+
         /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
         public let endpoint: String?
         /// The port that the RDS Proxy uses to connect to the target RDS DB instance or Aurora DB cluster.
@@ -3599,6 +3658,7 @@ extension RDS {
     }
 
     public struct DBProxyTargetGroup: AWSDecodableShape {
+
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfigurationInfo?
         /// The date and time when the target group was first created.
@@ -3640,8 +3700,8 @@ extension RDS {
     }
 
     public struct DBSecurityGroup: AWSDecodableShape {
-        public struct _EC2SecurityGroupsEncoding: ArrayCoderProperties { public static let member = "EC2SecurityGroup" }
-        public struct _IPRangesEncoding: ArrayCoderProperties { public static let member = "IPRange" }
+        public struct _EC2SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "EC2SecurityGroup" }
+        public struct _IPRangesEncoding: ArrayCoderProperties { static public let member = "IPRange" }
 
         /// The Amazon Resource Name (ARN) for the DB security group.
         public let dBSecurityGroupArn: String?
@@ -3682,6 +3742,7 @@ extension RDS {
     }
 
     public struct DBSecurityGroupMembership: AWSDecodableShape {
+
         /// The name of the DB security group.
         public let dBSecurityGroupName: String?
         /// The status of the DB security group.
@@ -3699,7 +3760,7 @@ extension RDS {
     }
 
     public struct DBSecurityGroupMessage: AWSDecodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
 
         ///  A list of DBSecurityGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, DBSecurityGroup>>
@@ -3719,8 +3780,8 @@ extension RDS {
     }
 
     public struct DBSnapshot: AWSDecodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -3848,7 +3909,7 @@ extension RDS {
     }
 
     public struct DBSnapshotAttribute: AWSDecodableShape {
-        public struct _AttributeValuesEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
 
         /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
         public let attributeName: String?
@@ -3868,7 +3929,7 @@ extension RDS {
     }
 
     public struct DBSnapshotAttributesResult: AWSDecodableShape {
-        public struct _DBSnapshotAttributesEncoding: ArrayCoderProperties { public static let member = "DBSnapshotAttribute" }
+        public struct _DBSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBSnapshotAttribute" }
 
         /// The list of attributes and values for the manual DB snapshot.
         @OptionalCustomCoding<ArrayCoder<_DBSnapshotAttributesEncoding, DBSnapshotAttribute>>
@@ -3888,7 +3949,7 @@ extension RDS {
     }
 
     public struct DBSnapshotMessage: AWSDecodableShape {
-        public struct _DBSnapshotsEncoding: ArrayCoderProperties { public static let member = "DBSnapshot" }
+        public struct _DBSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBSnapshot" }
 
         ///  A list of DBSnapshot instances.
         @OptionalCustomCoding<ArrayCoder<_DBSnapshotsEncoding, DBSnapshot>>
@@ -3908,7 +3969,7 @@ extension RDS {
     }
 
     public struct DBSubnetGroup: AWSDecodableShape {
-        public struct _SubnetsEncoding: ArrayCoderProperties { public static let member = "Subnet" }
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "Subnet" }
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
@@ -3944,7 +4005,7 @@ extension RDS {
     }
 
     public struct DBSubnetGroupMessage: AWSDecodableShape {
-        public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { public static let member = "DBSubnetGroup" }
+        public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "DBSubnetGroup" }
 
         ///  A list of DBSubnetGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>>
@@ -3964,6 +4025,7 @@ extension RDS {
     }
 
     public struct DeleteCustomAvailabilityZoneMessage: AWSEncodableShape {
+
         /// The custom AZ identifier.
         public let customAvailabilityZoneId: String
 
@@ -3977,6 +4039,7 @@ extension RDS {
     }
 
     public struct DeleteCustomAvailabilityZoneResult: AWSDecodableShape {
+
         public let customAvailabilityZone: CustomAvailabilityZone?
 
         public init(customAvailabilityZone: CustomAvailabilityZone? = nil) {
@@ -3989,6 +4052,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterEndpointMessage: AWSEncodableShape {
+
         /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
 
@@ -4002,6 +4066,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterMessage: AWSEncodableShape {
+
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.    Specifying this parameter and also skipping the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
@@ -4023,6 +4088,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
+
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Can't be associated with any DB clusters.
         public let dBClusterParameterGroupName: String
 
@@ -4036,6 +4102,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -4048,6 +4115,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
+
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
 
@@ -4061,6 +4129,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -4073,6 +4142,7 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupMessage: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the automated backups to delete, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE.
         public let dBInstanceAutomatedBackupsArn: String?
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
@@ -4090,6 +4160,7 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupResult: AWSDecodableShape {
+
         public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
 
         public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
@@ -4102,6 +4173,7 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceMessage: AWSEncodableShape {
+
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.
         public let dBInstanceIdentifier: String
         /// A value that indicates whether to remove automated backups immediately after the DB instance is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB instance is deleted.
@@ -4127,6 +4199,7 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -4139,6 +4212,7 @@ extension RDS {
     }
 
     public struct DeleteDBParameterGroupMessage: AWSEncodableShape {
+
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Can't be associated with any DB instances
         public let dBParameterGroupName: String
 
@@ -4152,6 +4226,7 @@ extension RDS {
     }
 
     public struct DeleteDBProxyEndpointRequest: AWSEncodableShape {
+
         /// The name of the DB proxy endpoint to delete.
         public let dBProxyEndpointName: String
 
@@ -4171,6 +4246,7 @@ extension RDS {
     }
 
     public struct DeleteDBProxyEndpointResponse: AWSDecodableShape {
+
         /// The data structure representing the details of the DB proxy endpoint that you delete.
         public let dBProxyEndpoint: DBProxyEndpoint?
 
@@ -4184,6 +4260,7 @@ extension RDS {
     }
 
     public struct DeleteDBProxyRequest: AWSEncodableShape {
+
         /// The name of the DB proxy to delete.
         public let dBProxyName: String
 
@@ -4197,6 +4274,7 @@ extension RDS {
     }
 
     public struct DeleteDBProxyResponse: AWSDecodableShape {
+
         /// The data structure representing the details of the DB proxy that you delete.
         public let dBProxy: DBProxy?
 
@@ -4210,6 +4288,7 @@ extension RDS {
     }
 
     public struct DeleteDBSecurityGroupMessage: AWSEncodableShape {
+
         /// The name of the DB security group to delete.  You can't delete the default DB security group.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"
         public let dBSecurityGroupName: String
 
@@ -4223,6 +4302,7 @@ extension RDS {
     }
 
     public struct DeleteDBSnapshotMessage: AWSEncodableShape {
+
         /// The DB snapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
         public let dBSnapshotIdentifier: String
 
@@ -4236,6 +4316,7 @@ extension RDS {
     }
 
     public struct DeleteDBSnapshotResult: AWSDecodableShape {
+
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -4248,6 +4329,7 @@ extension RDS {
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
+
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dBSubnetGroupName: String
 
@@ -4261,6 +4343,7 @@ extension RDS {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
+
         /// The name of the RDS event notification subscription you want to delete.
         public let subscriptionName: String
 
@@ -4274,6 +4357,7 @@ extension RDS {
     }
 
     public struct DeleteEventSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -4286,6 +4370,7 @@ extension RDS {
     }
 
     public struct DeleteGlobalClusterMessage: AWSEncodableShape {
+
         ///  The cluster identifier of the global database cluster being deleted.
         public let globalClusterIdentifier: String
 
@@ -4299,6 +4384,7 @@ extension RDS {
     }
 
     public struct DeleteGlobalClusterResult: AWSDecodableShape {
+
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -4311,6 +4397,7 @@ extension RDS {
     }
 
     public struct DeleteInstallationMediaMessage: AWSEncodableShape {
+
         /// The installation medium ID.
         public let installationMediaId: String
 
@@ -4324,6 +4411,7 @@ extension RDS {
     }
 
     public struct DeleteOptionGroupMessage: AWSEncodableShape {
+
         /// The name of the option group to be deleted.  You can't delete default option groups.
         public let optionGroupName: String
 
@@ -4337,6 +4425,7 @@ extension RDS {
     }
 
     public struct DeregisterDBProxyTargetsRequest: AWSEncodableShape {
+
         /// One or more DB cluster identifiers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBClusterIdentifiers: [String]?
@@ -4364,15 +4453,23 @@ extension RDS {
     }
 
     public struct DeregisterDBProxyTargetsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAccountAttributesMessage: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeCertificatesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.
         public let certificateIdentifier: String?
@@ -4400,7 +4497,7 @@ extension RDS {
     }
 
     public struct DescribeCustomAvailabilityZonesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The custom AZ identifier. If this parameter is specified, information from only the specific custom AZ is returned.
         public let customAvailabilityZoneId: String?
@@ -4428,7 +4525,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterBacktracksMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// If specified, this value is the backtrack identifier of the backtrack to be described. Constraints:   Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see A Universally Unique Identifier (UUID) URN Namespace.   Example: 123e4567-e89b-12d3-a456-426655440000
         public let backtrackIdentifier: String?
@@ -4460,7 +4557,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterEndpointsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String?
@@ -4492,7 +4589,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String?
@@ -4520,7 +4617,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String
@@ -4552,6 +4649,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
+
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
 
@@ -4565,6 +4663,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -4577,7 +4676,7 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String?
@@ -4621,7 +4720,7 @@ extension RDS {
     }
 
     public struct DescribeDBClustersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String?
@@ -4653,7 +4752,7 @@ extension RDS {
     }
 
     public struct DescribeDBEngineVersionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.
         public let dBParameterGroupFamily: String?
@@ -4705,7 +4804,7 @@ extension RDS {
     }
 
     public struct DescribeDBInstanceAutomatedBackupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The Amazon Resource Name (ARN) of the replicated automated backups, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE.
         public let dBInstanceAutomatedBackupsArn: String?
@@ -4741,7 +4840,7 @@ extension RDS {
     }
 
     public struct DescribeDBInstancesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String?
@@ -4769,6 +4868,7 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesDetails: AWSDecodableShape {
+
         /// A POSIX timestamp when the last log entry was written.
         public let lastWritten: Int64?
         /// The name of the log file for the specified DB instance.
@@ -4790,7 +4890,7 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
@@ -4830,7 +4930,7 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesResponse: AWSDecodableShape {
-        public struct _DescribeDBLogFilesEncoding: ArrayCoderProperties { public static let member = "DescribeDBLogFilesDetails" }
+        public struct _DescribeDBLogFilesEncoding: ArrayCoderProperties { static public let member = "DescribeDBLogFilesDetails" }
 
         /// The DB log files returned.
         @OptionalCustomCoding<ArrayCoder<_DescribeDBLogFilesEncoding, DescribeDBLogFilesDetails>>
@@ -4850,7 +4950,7 @@ extension RDS {
     }
 
     public struct DescribeDBParameterGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBParameterGroupName: String?
@@ -4878,7 +4978,7 @@ extension RDS {
     }
 
     public struct DescribeDBParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
         public let dBParameterGroupName: String
@@ -4910,7 +5010,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxiesRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the DB proxy. If you omit this parameter, the output includes information about all DB proxies owned by your AWS account ID.
         public let dBProxyName: String?
@@ -4943,6 +5043,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxiesResponse: AWSDecodableShape {
+
         /// A return value representing an arbitrary number of DBProxy data structures.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBProxies: [DBProxy]?
@@ -4961,7 +5062,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyEndpointsRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a DB proxy endpoint to describe. If you omit this parameter, the output includes information about all DB proxy endpoints associated with the specified proxy.
         public let dBProxyEndpointName: String?
@@ -5004,6 +5105,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyEndpointsResponse: AWSDecodableShape {
+
         /// The list of ProxyEndpoint objects returned by the API operation.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBProxyEndpoints: [DBProxyEndpoint]?
@@ -5022,7 +5124,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetGroupsRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The identifier of the DBProxy associated with the target group.
         public let dBProxyName: String
@@ -5059,6 +5161,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetGroupsResponse: AWSDecodableShape {
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// An arbitrary number of DBProxyTargetGroup objects, containing details of the corresponding target groups.
@@ -5077,7 +5180,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetsRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The identifier of the DBProxyTarget to describe.
         public let dBProxyName: String
@@ -5114,6 +5217,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetsResponse: AWSDecodableShape {
+
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// An arbitrary number of DBProxyTarget objects, containing details of the corresponding targets.
@@ -5132,7 +5236,7 @@ extension RDS {
     }
 
     public struct DescribeDBSecurityGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the DB security group to return details for.
         public let dBSecurityGroupName: String?
@@ -5160,6 +5264,7 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotAttributesMessage: AWSEncodableShape {
+
         /// The identifier for the DB snapshot to describe the attributes for.
         public let dBSnapshotIdentifier: String
 
@@ -5173,6 +5278,7 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotAttributesResult: AWSDecodableShape {
+
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
@@ -5185,7 +5291,7 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String?
@@ -5233,7 +5339,7 @@ extension RDS {
     }
 
     public struct DescribeDBSubnetGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the DB subnet group to return details for.
         public let dBSubnetGroupName: String?
@@ -5261,7 +5367,7 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the DB cluster parameter group family to return engine parameter information for.
         public let dBParameterGroupFamily: String
@@ -5289,6 +5395,7 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSDecodableShape {
+
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -5301,7 +5408,7 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the DB parameter group family.
         public let dBParameterGroupFamily: String
@@ -5329,6 +5436,7 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultParametersResult: AWSDecodableShape {
+
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -5341,7 +5449,7 @@ extension RDS {
     }
 
     public struct DescribeEventCategoriesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5361,7 +5469,7 @@ extension RDS {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5389,8 +5497,8 @@ extension RDS {
     }
 
     public struct DescribeEventsMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int?
@@ -5439,7 +5547,7 @@ extension RDS {
     }
 
     public struct DescribeExportTasksMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The identifier of the snapshot export task to be described.
         public let exportTaskIdentifier: String?
@@ -5476,7 +5584,7 @@ extension RDS {
     }
 
     public struct DescribeGlobalClustersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// A filter that specifies one or more global DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5504,7 +5612,7 @@ extension RDS {
     }
 
     public struct DescribeInstallationMediaMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// A filter that specifies one or more installation media to describe. Supported filters include the following:    custom-availability-zone-id - Accepts custom Availability Zone (AZ) identifiers. The results list includes information about only the custom AZs identified by these identifiers.    engine - Accepts database engines. The results list includes information about only the database engines identified by these identifiers. For more information about the valid engines for installation media, see ImportInstallationMedia.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5532,7 +5640,7 @@ extension RDS {
     }
 
     public struct DescribeOptionGroupOptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// A required parameter. Options available for the given engine name are described. Valid Values:     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engineName: String
@@ -5564,7 +5672,7 @@ extension RDS {
     }
 
     public struct DescribeOptionGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// Filters the list of option groups to only include groups associated with a specific database engine. Valid Values:     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engineName: String?
@@ -5600,7 +5708,7 @@ extension RDS {
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The Availability Zone group associated with a Local Zone. Specify this parameter to retrieve available offerings for the Local Zones in the group. Omit this parameter to show the available offerings in the specified AWS Region.
         public let availabilityZoneGroup: String?
@@ -5648,7 +5756,7 @@ extension RDS {
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5676,7 +5784,7 @@ extension RDS {
     }
 
     public struct DescribeReservedDBInstancesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The DB instance class filter value. Specify this parameter to show only those reservations matching the specified DB instances class.
         public let dBInstanceClass: String?
@@ -5732,7 +5840,7 @@ extension RDS {
     }
 
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
         public let dBInstanceClass: String?
@@ -5780,7 +5888,7 @@ extension RDS {
     }
 
     public struct DescribeSourceRegionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5808,6 +5916,7 @@ extension RDS {
     }
 
     public struct DescribeValidDBInstanceModificationsMessage: AWSEncodableShape {
+
         /// The customer identifier or the ARN of your DB instance.
         public let dBInstanceIdentifier: String
 
@@ -5821,6 +5930,7 @@ extension RDS {
     }
 
     public struct DescribeValidDBInstanceModificationsResult: AWSDecodableShape {
+
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
         public init(validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage? = nil) {
@@ -5833,6 +5943,7 @@ extension RDS {
     }
 
     public struct DomainMembership: AWSDecodableShape {
+
         /// The identifier of the Active Directory Domain.
         public let domain: String?
         /// The fully qualified domain name of the Active Directory Domain.
@@ -5858,6 +5969,7 @@ extension RDS {
     }
 
     public struct DoubleRange: AWSDecodableShape {
+
         /// The minimum value in the range.
         public let from: Double?
         /// The maximum value in the range.
@@ -5875,6 +5987,7 @@ extension RDS {
     }
 
     public struct DownloadDBLogFilePortionDetails: AWSDecodableShape {
+
         /// Boolean value that if true, indicates there is more data to be downloaded.
         public let additionalDataPending: Bool?
         /// Entries from the specified log file.
@@ -5896,6 +6009,7 @@ extension RDS {
     }
 
     public struct DownloadDBLogFilePortionMessage: AWSEncodableShape {
+
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         /// The name of the log file to be downloaded.
@@ -5921,6 +6035,7 @@ extension RDS {
     }
 
     public struct EC2SecurityGroup: AWSDecodableShape {
+
         /// Specifies the id of the EC2 security group.
         public let eC2SecurityGroupId: String?
         /// Specifies the name of the EC2 security group.
@@ -5946,6 +6061,7 @@ extension RDS {
     }
 
     public struct Endpoint: AWSDecodableShape {
+
         /// Specifies the DNS address of the DB instance.
         public let address: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -5967,7 +6083,7 @@ extension RDS {
     }
 
     public struct EngineDefaults: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
         public let dBParameterGroupFamily: String?
@@ -5991,7 +6107,7 @@ extension RDS {
     }
 
     public struct Event: AWSDecodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// Specifies the date and time of the event.
         public let date: Date?
@@ -6027,7 +6143,7 @@ extension RDS {
     }
 
     public struct EventCategoriesMap: AWSDecodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// The event categories for the specified source type
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
@@ -6047,7 +6163,7 @@ extension RDS {
     }
 
     public struct EventCategoriesMessage: AWSDecodableShape {
-        public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { public static let member = "EventCategoriesMap" }
+        public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
 
         /// A list of EventCategoriesMap data types.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
@@ -6063,8 +6179,8 @@ extension RDS {
     }
 
     public struct EventSubscription: AWSDecodableShape {
-        public struct _EventCategoriesListEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
-        public struct _SourceIdsListEncoding: ArrayCoderProperties { public static let member = "SourceId" }
+        public struct _EventCategoriesListEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _SourceIdsListEncoding: ArrayCoderProperties { static public let member = "SourceId" }
 
         /// The AWS customer account associated with the RDS event notification subscription.
         public let customerAwsId: String?
@@ -6117,7 +6233,7 @@ extension RDS {
     }
 
     public struct EventSubscriptionsMessage: AWSDecodableShape {
-        public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { public static let member = "EventSubscription" }
+        public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
 
         /// A list of EventSubscriptions data types.
         @OptionalCustomCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>>
@@ -6137,7 +6253,7 @@ extension RDS {
     }
 
     public struct EventsMessage: AWSDecodableShape {
-        public struct _EventsEncoding: ArrayCoderProperties { public static let member = "Event" }
+        public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
 
         ///  A list of Event instances.
         @OptionalCustomCoding<ArrayCoder<_EventsEncoding, Event>>
@@ -6157,6 +6273,7 @@ extension RDS {
     }
 
     public struct ExportTask: AWSDecodableShape {
+
         /// The data exported from the snapshot. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
         @OptionalCustomCoding<StandardArrayCoder>
         public var exportOnly: [String]?
@@ -6227,7 +6344,7 @@ extension RDS {
     }
 
     public struct ExportTasksMessage: AWSDecodableShape {
-        public struct _ExportTasksEncoding: ArrayCoderProperties { public static let member = "ExportTask" }
+        public struct _ExportTasksEncoding: ArrayCoderProperties { static public let member = "ExportTask" }
 
         /// Information about an export of a snapshot to Amazon S3.
         @OptionalCustomCoding<ArrayCoder<_ExportTasksEncoding, ExportTask>>
@@ -6247,6 +6364,7 @@ extension RDS {
     }
 
     public struct FailoverDBClusterMessage: AWSEncodableShape {
+
         /// A DB cluster identifier to force a failover for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Aurora Replica in the DB cluster. For example, mydbcluster-replica1.
@@ -6264,6 +6382,7 @@ extension RDS {
     }
 
     public struct FailoverDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -6276,6 +6395,7 @@ extension RDS {
     }
 
     public struct FailoverGlobalClusterMessage: AWSEncodableShape {
+
         /// Identifier of the Aurora global database (GlobalCluster) that should be failed over. The identifier is the unique key assigned by the user when the Aurora global database was created. In other words, it's the name of the Aurora global database that you want to fail over.  Constraints:   Must match the identifier of an existing GlobalCluster (Aurora global database).
         public let globalClusterIdentifier: String
         /// Identifier of the secondary Aurora DB cluster that you want to promote to primary for the Aurora global database (GlobalCluster.) Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its AWS Region.
@@ -6302,6 +6422,7 @@ extension RDS {
     }
 
     public struct FailoverGlobalClusterResult: AWSDecodableShape {
+
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -6314,6 +6435,7 @@ extension RDS {
     }
 
     public struct FailoverState: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being demoted, and which is associated with this state.
         public let fromDbClusterArn: String?
         /// The current status of the Aurora global database (GlobalCluster). Possible values are as follows:    pending &#x96; A request to fail over the Aurora global database (GlobalCluster) has been received by the service. The GlobalCluster's primary DB cluster and the specified secondary DB cluster are being verified before the failover process can start.   failing-over &#x96; This status covers the range of Aurora internal operations that take place during the failover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB, and synchronizing replicas.    cancelling &#x96; The request to fail over the Aurora global database (GlobalCluster) was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
@@ -6335,7 +6457,7 @@ extension RDS {
     }
 
     public struct Filter: AWSEncodableShape {
-        public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
+        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "Value" }
 
         /// The name of the filter. Filter names are case-sensitive.
         public let name: String
@@ -6355,7 +6477,7 @@ extension RDS {
     }
 
     public struct GlobalCluster: AWSDecodableShape {
-        public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+        public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { static public let member = "GlobalClusterMember" }
 
         ///  The default database name within the new global database cluster.
         public let databaseName: String?
@@ -6411,6 +6533,7 @@ extension RDS {
     }
 
     public struct GlobalClusterMember: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) for each Aurora cluster.
         public let dBClusterArn: String?
         /// Specifies whether a secondary cluster in an Aurora global database has write forwarding enabled, not enabled, or is in the process of enabling it.
@@ -6437,7 +6560,7 @@ extension RDS {
     }
 
     public struct GlobalClustersMessage: AWSDecodableShape {
-        public struct _GlobalClustersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+        public struct _GlobalClustersEncoding: ArrayCoderProperties { static public let member = "GlobalClusterMember" }
 
         ///  The list of global clusters returned by this request.
         @OptionalCustomCoding<ArrayCoder<_GlobalClustersEncoding, GlobalCluster>>
@@ -6457,6 +6580,7 @@ extension RDS {
     }
 
     public struct IPRange: AWSDecodableShape {
+
         /// Specifies the IP range.
         public let cidrip: String?
         /// Specifies the status of the IP range. Status can be "authorizing", "authorized", "revoking", and "revoked".
@@ -6474,6 +6598,7 @@ extension RDS {
     }
 
     public struct ImportInstallationMediaMessage: AWSEncodableShape {
+
         /// The identifier of the custom Availability Zone (AZ) to import the installation media to.
         public let customAvailabilityZoneId: String
         /// The name of the database engine to be used for this instance.  The list only includes supported DB engines that require an on-premises customer provided license.  Valid Values:     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
@@ -6503,6 +6628,7 @@ extension RDS {
     }
 
     public struct InstallationMedia: AWSDecodableShape {
+
         /// The custom Availability Zone (AZ) that contains the installation media.
         public let customAvailabilityZoneId: String?
         /// The DB engine.
@@ -6544,6 +6670,7 @@ extension RDS {
     }
 
     public struct InstallationMediaFailureCause: AWSDecodableShape {
+
         /// The reason that an installation media import failed.
         public let message: String?
 
@@ -6557,7 +6684,7 @@ extension RDS {
     }
 
     public struct InstallationMediaMessage: AWSDecodableShape {
-        public struct _InstallationMediaEncoding: ArrayCoderProperties { public static let member = "InstallationMedia" }
+        public struct _InstallationMediaEncoding: ArrayCoderProperties { static public let member = "InstallationMedia" }
 
         /// The list of InstallationMedia objects for the AWS account.
         @OptionalCustomCoding<ArrayCoder<_InstallationMediaEncoding, InstallationMedia>>
@@ -6577,7 +6704,7 @@ extension RDS {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -6597,6 +6724,7 @@ extension RDS {
     }
 
     public struct MinimumEngineVersionPerAllowedValue: AWSDecodableShape {
+
         /// The allowed value for an option setting.
         public let allowedValue: String?
         /// The minimum DB engine version required for the allowed value.
@@ -6614,6 +6742,7 @@ extension RDS {
     }
 
     public struct ModifyCertificatesMessage: AWSEncodableShape {
+
         /// The new default certificate identifier to override the current one with. To determine the valid values, use the describe-certificates AWS CLI command or the DescribeCertificates API operation.
         public let certificateIdentifier: String?
         /// A value that indicates whether to remove the override for the default certificate. If the override is removed, the default certificate is the system default.
@@ -6631,6 +6760,7 @@ extension RDS {
     }
 
     public struct ModifyCertificatesResult: AWSDecodableShape {
+
         public let certificate: Certificate?
 
         public init(certificate: Certificate? = nil) {
@@ -6643,6 +6773,7 @@ extension RDS {
     }
 
     public struct ModifyCurrentDBClusterCapacityMessage: AWSEncodableShape {
+
         /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256.   For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.
         public let capacity: Int?
         /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB cluster.
@@ -6668,6 +6799,7 @@ extension RDS {
     }
 
     public struct ModifyDBClusterEndpointMessage: AWSEncodableShape {
+
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
         /// The type of the endpoint. One of: READER, WRITER, ANY.
@@ -6695,7 +6827,7 @@ extension RDS {
     }
 
     public struct ModifyDBClusterMessage: AWSEncodableShape {
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
         public let allowMajorVersionUpgrade: Bool?
@@ -6803,7 +6935,7 @@ extension RDS {
     }
 
     public struct ModifyDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the DB cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
@@ -6823,6 +6955,7 @@ extension RDS {
     }
 
     public struct ModifyDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -6835,8 +6968,8 @@ extension RDS {
     }
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSEncodableShape {
-        public struct _ValuesToAddEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
-        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _ValuesToAddEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
 
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.  To view the list of attributes available to modify, use the DescribeDBClusterSnapshotAttributes API action.
         public let attributeName: String
@@ -6865,6 +6998,7 @@ extension RDS {
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -6877,9 +7011,9 @@ extension RDS {
     }
 
     public struct ModifyDBInstanceMessage: AWSEncodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// The new amount of storage (in gibibytes) to allocate for the DB instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  For the valid values for allocated storage for each engine, see CreateDBInstance.
         public let allocatedStorage: Int?
@@ -7079,6 +7213,7 @@ extension RDS {
     }
 
     public struct ModifyDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -7091,7 +7226,7 @@ extension RDS {
     }
 
     public struct ModifyDBParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
         public let dBParameterGroupName: String
@@ -7111,6 +7246,7 @@ extension RDS {
     }
 
     public struct ModifyDBProxyEndpointRequest: AWSEncodableShape {
+
         /// The name of the DB proxy sociated with the DB proxy endpoint that you want to modify.
         public let dBProxyEndpointName: String
         /// The new identifier for the DBProxyEndpoint. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -7142,6 +7278,7 @@ extension RDS {
     }
 
     public struct ModifyDBProxyEndpointResponse: AWSDecodableShape {
+
         /// The DBProxyEndpoint object representing the new settings for the DB proxy endpoint.
         public let dBProxyEndpoint: DBProxyEndpoint?
 
@@ -7155,6 +7292,7 @@ extension RDS {
     }
 
     public struct ModifyDBProxyRequest: AWSEncodableShape {
+
         /// The new authentication settings for the DBProxy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var auth: [UserAuthConfig]?
@@ -7198,6 +7336,7 @@ extension RDS {
     }
 
     public struct ModifyDBProxyResponse: AWSDecodableShape {
+
         /// The DBProxy object representing the new settings for the proxy.
         public let dBProxy: DBProxy?
 
@@ -7211,6 +7350,7 @@ extension RDS {
     }
 
     public struct ModifyDBProxyTargetGroupRequest: AWSEncodableShape {
+
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfiguration?
         /// The name of the new proxy to which to assign the target group.
@@ -7236,6 +7376,7 @@ extension RDS {
     }
 
     public struct ModifyDBProxyTargetGroupResponse: AWSDecodableShape {
+
         /// The settings of the modified DBProxyTarget.
         public let dBProxyTargetGroup: DBProxyTargetGroup?
 
@@ -7249,8 +7390,8 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotAttributeMessage: AWSEncodableShape {
-        public struct _ValuesToAddEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
-        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _ValuesToAddEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
 
         /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.  To view the list of attributes available to modify, use the DescribeDBSnapshotAttributes API action.
         public let attributeName: String
@@ -7279,6 +7420,7 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotAttributeResult: AWSDecodableShape {
+
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
@@ -7291,6 +7433,7 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotMessage: AWSEncodableShape {
+
         /// The identifier of the DB snapshot to modify.
         public let dBSnapshotIdentifier: String
         /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see  Upgrading the PostgreSQL DB Engine for Amazon RDS.
@@ -7312,6 +7455,7 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotResult: AWSDecodableShape {
+
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -7324,7 +7468,7 @@ extension RDS {
     }
 
     public struct ModifyDBSubnetGroupMessage: AWSEncodableShape {
-        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
 
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String?
@@ -7348,6 +7492,7 @@ extension RDS {
     }
 
     public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -7360,7 +7505,7 @@ extension RDS {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         ///  A value that indicates whether to activate the subscription.
         public let enabled: Bool?
@@ -7392,6 +7537,7 @@ extension RDS {
     }
 
     public struct ModifyEventSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -7404,6 +7550,7 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterMessage: AWSEncodableShape {
+
         /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version. Apply any custom parameter groups after completing the upgrade.
         public let allowMajorVersionUpgrade: Bool?
         ///  Indicates if the global database cluster has deletion protection enabled. The global database cluster can't be deleted when deletion protection is enabled.
@@ -7433,6 +7580,7 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterResult: AWSDecodableShape {
+
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -7445,7 +7593,7 @@ extension RDS {
     }
 
     public struct ModifyOptionGroupMessage: AWSEncodableShape {
-        public struct _OptionsToIncludeEncoding: ArrayCoderProperties { public static let member = "OptionConfiguration" }
+        public struct _OptionsToIncludeEncoding: ArrayCoderProperties { static public let member = "OptionConfiguration" }
 
         /// A value that indicates whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
         public let applyImmediately: Bool?
@@ -7474,6 +7622,7 @@ extension RDS {
     }
 
     public struct ModifyOptionGroupResult: AWSDecodableShape {
+
         public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
@@ -7486,9 +7635,9 @@ extension RDS {
     }
 
     public struct Option: AWSDecodableShape {
-        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionSetting" }
-        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
+        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
+        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "OptionSetting" }
+        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
 
         /// If the option requires access to a port, then this DB security group allows access to the port.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupMembershipsEncoding, DBSecurityGroupMembership>>
@@ -7538,9 +7687,9 @@ extension RDS {
     }
 
     public struct OptionConfiguration: AWSEncodableShape {
-        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionSetting" }
-        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
+        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "OptionSetting" }
+        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A list of DBSecurityGroupMembership name strings used for this option.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupMembershipsEncoding, String>>
@@ -7578,7 +7727,7 @@ extension RDS {
     }
 
     public struct OptionGroup: AWSDecodableShape {
-        public struct _OptionsEncoding: ArrayCoderProperties { public static let member = "Option" }
+        public struct _OptionsEncoding: ArrayCoderProperties { static public let member = "Option" }
 
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances.
         public let allowsVpcAndNonVpcInstanceMemberships: Bool?
@@ -7622,6 +7771,7 @@ extension RDS {
     }
 
     public struct OptionGroupMembership: AWSDecodableShape {
+
         /// The name of the option group that the instance belongs to.
         public let optionGroupName: String?
         /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed.
@@ -7639,10 +7789,10 @@ extension RDS {
     }
 
     public struct OptionGroupOption: AWSDecodableShape {
-        public struct _OptionGroupOptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionGroupOptionSetting" }
-        public struct _OptionGroupOptionVersionsEncoding: ArrayCoderProperties { public static let member = "OptionVersion" }
-        public struct _OptionsConflictsWithEncoding: ArrayCoderProperties { public static let member = "OptionConflictName" }
-        public struct _OptionsDependedOnEncoding: ArrayCoderProperties { public static let member = "OptionName" }
+        public struct _OptionGroupOptionSettingsEncoding: ArrayCoderProperties { static public let member = "OptionGroupOptionSetting" }
+        public struct _OptionGroupOptionVersionsEncoding: ArrayCoderProperties { static public let member = "OptionVersion" }
+        public struct _OptionsConflictsWithEncoding: ArrayCoderProperties { static public let member = "OptionConflictName" }
+        public struct _OptionsDependedOnEncoding: ArrayCoderProperties { static public let member = "OptionName" }
 
         /// If the option requires a port, specifies the default port for the option.
         public let defaultPort: Int?
@@ -7721,7 +7871,7 @@ extension RDS {
     }
 
     public struct OptionGroupOptionSetting: AWSDecodableShape {
-        public struct _MinimumEngineVersionPerAllowedValueEncoding: ArrayCoderProperties { public static let member = "MinimumEngineVersionPerAllowedValue" }
+        public struct _MinimumEngineVersionPerAllowedValueEncoding: ArrayCoderProperties { static public let member = "MinimumEngineVersionPerAllowedValue" }
 
         /// Indicates the acceptable values for the option group option.
         public let allowedValues: String?
@@ -7765,7 +7915,7 @@ extension RDS {
     }
 
     public struct OptionGroupOptionsMessage: AWSDecodableShape {
-        public struct _OptionGroupOptionsEncoding: ArrayCoderProperties { public static let member = "OptionGroupOption" }
+        public struct _OptionGroupOptionsEncoding: ArrayCoderProperties { static public let member = "OptionGroupOption" }
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -7784,7 +7934,7 @@ extension RDS {
     }
 
     public struct OptionGroups: AWSDecodableShape {
-        public struct _OptionGroupsListEncoding: ArrayCoderProperties { public static let member = "OptionGroup" }
+        public struct _OptionGroupsListEncoding: ArrayCoderProperties { static public let member = "OptionGroup" }
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -7804,6 +7954,7 @@ extension RDS {
     }
 
     public struct OptionSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// The allowed values of the option setting.
         public let allowedValues: String?
         /// The DB engine specific parameter type.
@@ -7849,6 +8000,7 @@ extension RDS {
     }
 
     public struct OptionVersion: AWSDecodableShape {
+
         /// True if the version is the default version of the option, and otherwise false.
         public let isDefault: Bool?
         /// The version of the option.
@@ -7866,8 +8018,8 @@ extension RDS {
     }
 
     public struct OrderableDBInstanceOption: AWSDecodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _AvailableProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "AvailableProcessorFeature" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _AvailableProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "AvailableProcessorFeature" }
 
         /// The Availability Zone group for a DB instance.
         public let availabilityZoneGroup: String?
@@ -7989,7 +8141,7 @@ extension RDS {
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSDecodableShape {
-        public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { public static let member = "OrderableDBInstanceOption" }
+        public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { static public let member = "OrderableDBInstanceOption" }
 
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
@@ -8009,6 +8161,7 @@ extension RDS {
     }
 
     public struct Outpost: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let arn: String?
 
@@ -8022,6 +8175,7 @@ extension RDS {
     }
 
     public struct Parameter: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when to apply parameter updates.
@@ -8076,6 +8230,7 @@ extension RDS {
     }
 
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
+
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var logTypesToDisable: [String]?
@@ -8095,6 +8250,7 @@ extension RDS {
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
+
         /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, hardware-maintenance, and ca-certificate-rotation.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
@@ -8128,7 +8284,7 @@ extension RDS {
     }
 
     public struct PendingMaintenanceActionsMessage: AWSDecodableShape {
-        public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { public static let member = "ResourcePendingMaintenanceActions" }
+        public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { static public let member = "ResourcePendingMaintenanceActions" }
 
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
@@ -8148,7 +8304,7 @@ extension RDS {
     }
 
     public struct PendingModifiedValues: AWSDecodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
 
         /// The allocated storage size for the DB instance specified in gibibytes .
         public let allocatedStorage: Int?
@@ -8223,6 +8379,7 @@ extension RDS {
     }
 
     public struct ProcessorFeature: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the processor feature. Valid names are coreCount and threadsPerCore.
         public let name: String?
         /// The value of a processor feature name.
@@ -8240,6 +8397,7 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaDBClusterMessage: AWSEncodableShape {
+
         /// The identifier of the DB cluster read replica to promote. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing DB cluster read replica.   Example: my-cluster-replica1
         public let dBClusterIdentifier: String
 
@@ -8253,6 +8411,7 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -8265,6 +8424,7 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaMessage: AWSEncodableShape {
+
         /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to read replicas.
         public let backupRetentionPeriod: Int?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing read replica DB instance.   Example: mydbinstance
@@ -8286,6 +8446,7 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -8298,7 +8459,7 @@ extension RDS {
     }
 
     public struct PurchaseReservedDBInstancesOfferingMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The number of instances to reserve. Default: 1
         public let dBInstanceCount: Int?
@@ -8325,6 +8486,7 @@ extension RDS {
     }
 
     public struct PurchaseReservedDBInstancesOfferingResult: AWSDecodableShape {
+
         public let reservedDBInstance: ReservedDBInstance?
 
         public init(reservedDBInstance: ReservedDBInstance? = nil) {
@@ -8337,6 +8499,7 @@ extension RDS {
     }
 
     public struct Range: AWSDecodableShape {
+
         /// The minimum value in the range.
         public let from: Int?
         /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
@@ -8358,6 +8521,7 @@ extension RDS {
     }
 
     public struct RebootDBInstanceMessage: AWSEncodableShape {
+
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         ///  A value that indicates whether the reboot is conducted through a Multi-AZ failover.  Constraint: You can't enable force failover if the instance isn't configured for Multi-AZ.
@@ -8375,6 +8539,7 @@ extension RDS {
     }
 
     public struct RebootDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -8387,6 +8552,7 @@ extension RDS {
     }
 
     public struct RecurringCharge: AWSDecodableShape {
+
         /// The amount of the recurring charge.
         public let recurringChargeAmount: Double?
         /// The frequency of the recurring charge.
@@ -8404,6 +8570,7 @@ extension RDS {
     }
 
     public struct RegisterDBProxyTargetsRequest: AWSEncodableShape {
+
         /// One or more DB cluster identifiers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBClusterIdentifiers: [String]?
@@ -8431,6 +8598,7 @@ extension RDS {
     }
 
     public struct RegisterDBProxyTargetsResponse: AWSDecodableShape {
+
         /// One or more DBProxyTarget objects that are created when you register targets with a target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBProxyTargets: [DBProxyTarget]?
@@ -8445,6 +8613,7 @@ extension RDS {
     }
 
     public struct RemoveFromGlobalClusterMessage: AWSEncodableShape {
+
         ///  The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster.
         public let dbClusterIdentifier: String?
         ///  The cluster identifier to detach from the Aurora global database cluster.
@@ -8462,6 +8631,7 @@ extension RDS {
     }
 
     public struct RemoveFromGlobalClusterResult: AWSDecodableShape {
+
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -8474,6 +8644,7 @@ extension RDS {
     }
 
     public struct RemoveRoleFromDBClusterMessage: AWSEncodableShape {
+
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
         /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion.
@@ -8495,6 +8666,7 @@ extension RDS {
     }
 
     public struct RemoveRoleFromDBInstanceMessage: AWSEncodableShape {
+
         /// The name of the DB instance to disassociate the IAM role from.
         public let dBInstanceIdentifier: String
         /// The name of the feature for the DB instance that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion.
@@ -8516,6 +8688,7 @@ extension RDS {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSEncodableShape {
+
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
         public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to remove a source identifier from.
@@ -8533,6 +8706,7 @@ extension RDS {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -8545,6 +8719,7 @@ extension RDS {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
+
         /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
@@ -8563,7 +8738,7 @@ extension RDS {
     }
 
     public struct ReservedDBInstance: AWSDecodableShape {
-        public struct _RecurringChargesEncoding: ArrayCoderProperties { public static let member = "RecurringCharge" }
+        public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
 
         /// The currency code for the reserved DB instance.
         public let currencyCode: String?
@@ -8639,7 +8814,7 @@ extension RDS {
     }
 
     public struct ReservedDBInstanceMessage: AWSDecodableShape {
-        public struct _ReservedDBInstancesEncoding: ArrayCoderProperties { public static let member = "ReservedDBInstance" }
+        public struct _ReservedDBInstancesEncoding: ArrayCoderProperties { static public let member = "ReservedDBInstance" }
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -8659,7 +8834,7 @@ extension RDS {
     }
 
     public struct ReservedDBInstancesOffering: AWSDecodableShape {
-        public struct _RecurringChargesEncoding: ArrayCoderProperties { public static let member = "RecurringCharge" }
+        public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
 
         /// The currency code for the reserved DB instance offering.
         public let currencyCode: String?
@@ -8711,7 +8886,7 @@ extension RDS {
     }
 
     public struct ReservedDBInstancesOfferingMessage: AWSDecodableShape {
-        public struct _ReservedDBInstancesOfferingsEncoding: ArrayCoderProperties { public static let member = "ReservedDBInstancesOffering" }
+        public struct _ReservedDBInstancesOfferingsEncoding: ArrayCoderProperties { static public let member = "ReservedDBInstancesOffering" }
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -8731,7 +8906,7 @@ extension RDS {
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
@@ -8755,7 +8930,7 @@ extension RDS {
     }
 
     public struct ResetDBParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.
         public let dBParameterGroupName: String
@@ -8779,7 +8954,7 @@ extension RDS {
     }
 
     public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
-        public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { public static let member = "PendingMaintenanceAction" }
+        public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { static public let member = "PendingMaintenanceAction" }
 
         /// A list that provides details about the pending maintenance actions for the resource.
         @OptionalCustomCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>>
@@ -8799,9 +8974,9 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromS3Message: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -8939,6 +9114,7 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromS3Result: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -8951,9 +9127,9 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -9056,6 +9232,7 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -9068,8 +9245,8 @@ extension RDS {
     }
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
@@ -9158,6 +9335,7 @@ extension RDS {
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -9170,9 +9348,9 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSEncodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
         public let autoMinorVersionUpgrade: Bool?
@@ -9302,6 +9480,7 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromDBSnapshotResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9314,10 +9493,10 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromS3Message: AWSEncodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
         public let allocatedStorage: Int?
@@ -9509,6 +9688,7 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromS3Result: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9521,9 +9701,9 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceToPointInTimeMessage: AWSEncodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
         public let autoMinorVersionUpgrade: Bool?
@@ -9673,6 +9853,7 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceToPointInTimeResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9685,6 +9866,7 @@ extension RDS {
     }
 
     public struct RestoreWindow: AWSDecodableShape {
+
         /// The earliest time you can restore an instance to.
         public let earliestTime: Date?
         /// The latest time you can restore an instance to.
@@ -9702,6 +9884,7 @@ extension RDS {
     }
 
     public struct RevokeDBSecurityGroupIngressMessage: AWSEncodableShape {
+
         ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be provided.
         public let cidrip: String?
         /// The name of the DB security group to revoke ingress from.
@@ -9731,6 +9914,7 @@ extension RDS {
     }
 
     public struct RevokeDBSecurityGroupIngressResult: AWSDecodableShape {
+
         public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
@@ -9743,6 +9927,7 @@ extension RDS {
     }
 
     public struct ScalingConfiguration: AWSEncodableShape {
+
         /// A value that indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections).  If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it.
         public let autoPause: Bool?
         /// The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384. The maximum capacity must be greater than or equal to the minimum capacity.
@@ -9772,6 +9957,7 @@ extension RDS {
     }
 
     public struct ScalingConfigurationInfo: AWSDecodableShape {
+
         /// A value that indicates whether automatic pause is allowed for the Aurora DB cluster in serverless DB engine mode. When the value is set to false for an Aurora Serverless DB cluster, the DB cluster automatically resumes.
         public let autoPause: Bool?
         /// The maximum capacity for an Aurora DB cluster in serverless DB engine mode.
@@ -9801,6 +9987,7 @@ extension RDS {
     }
 
     public struct SourceRegion: AWSDecodableShape {
+
         /// The endpoint for the source AWS Region endpoint.
         public let endpoint: String?
         /// The name of the source AWS Region.
@@ -9826,7 +10013,7 @@ extension RDS {
     }
 
     public struct SourceRegionMessage: AWSDecodableShape {
-        public struct _SourceRegionsEncoding: ArrayCoderProperties { public static let member = "SourceRegion" }
+        public struct _SourceRegionsEncoding: ArrayCoderProperties { static public let member = "SourceRegion" }
 
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -9846,6 +10033,7 @@ extension RDS {
     }
 
     public struct StartActivityStreamRequest: AWSEncodableShape {
+
         /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
         /// The AWS KMS key identifier for encrypting messages in the database activity stream. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
@@ -9871,6 +10059,7 @@ extension RDS {
     }
 
     public struct StartActivityStreamResponse: AWSDecodableShape {
+
         /// Indicates whether or not the database activity stream will start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
         /// The name of the Amazon Kinesis data stream to be used for the database activity stream.
@@ -9900,6 +10089,7 @@ extension RDS {
     }
 
     public struct StartDBClusterMessage: AWSEncodableShape {
+
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be started. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
 
@@ -9913,6 +10103,7 @@ extension RDS {
     }
 
     public struct StartDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -9925,6 +10116,7 @@ extension RDS {
     }
 
     public struct StartDBInstanceAutomatedBackupsReplicationMessage: AWSEncodableShape {
+
         /// The retention period for the replicated automated backups.
         public let backupRetentionPeriod: Int?
         /// The AWS KMS key identifier for encryption of the replicated automated backups. The KMS key ID is the Amazon Resource Name (ARN) for the KMS encryption key in the destination AWS Region, for example, arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE.
@@ -9950,6 +10142,7 @@ extension RDS {
     }
 
     public struct StartDBInstanceAutomatedBackupsReplicationResult: AWSDecodableShape {
+
         public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
 
         public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
@@ -9962,6 +10155,7 @@ extension RDS {
     }
 
     public struct StartDBInstanceMessage: AWSEncodableShape {
+
         ///  The user-supplied instance identifier.
         public let dBInstanceIdentifier: String
 
@@ -9975,6 +10169,7 @@ extension RDS {
     }
 
     public struct StartDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9987,6 +10182,7 @@ extension RDS {
     }
 
     public struct StartExportTaskMessage: AWSEncodableShape {
+
         /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
         @OptionalCustomCoding<StandardArrayCoder>
         public var exportOnly: [String]?
@@ -10025,6 +10221,7 @@ extension RDS {
     }
 
     public struct StopActivityStreamRequest: AWSEncodableShape {
+
         /// Specifies whether or not the database activity stream is to stop as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
         /// The Amazon Resource Name (ARN) of the DB cluster for the database activity stream. For example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster.
@@ -10042,6 +10239,7 @@ extension RDS {
     }
 
     public struct StopActivityStreamResponse: AWSDecodableShape {
+
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let kinesisStreamName: String?
         /// The AWS KMS key identifier used for encrypting messages in the database activity stream. The AWS KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the AWS KMS customer master key (CMK).
@@ -10063,6 +10261,7 @@ extension RDS {
     }
 
     public struct StopDBClusterMessage: AWSEncodableShape {
+
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be stopped. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
 
@@ -10076,6 +10275,7 @@ extension RDS {
     }
 
     public struct StopDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -10088,6 +10288,7 @@ extension RDS {
     }
 
     public struct StopDBInstanceAutomatedBackupsReplicationMessage: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the source DB instance for which to stop replicating automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
         public let sourceDBInstanceArn: String
 
@@ -10101,6 +10302,7 @@ extension RDS {
     }
 
     public struct StopDBInstanceAutomatedBackupsReplicationResult: AWSDecodableShape {
+
         public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
 
         public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
@@ -10113,6 +10315,7 @@ extension RDS {
     }
 
     public struct StopDBInstanceMessage: AWSEncodableShape {
+
         ///  The user-supplied instance identifier.
         public let dBInstanceIdentifier: String
         ///  The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
@@ -10130,6 +10333,7 @@ extension RDS {
     }
 
     public struct StopDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -10142,6 +10346,7 @@ extension RDS {
     }
 
     public struct Subnet: AWSDecodableShape {
+
         public let subnetAvailabilityZone: AvailabilityZone?
         /// The identifier of the subnet.
         public let subnetIdentifier: String?
@@ -10166,6 +10371,7 @@ extension RDS {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
@@ -10183,7 +10389,7 @@ extension RDS {
     }
 
     public struct TagListMessage: AWSDecodableShape {
-        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// List of tags returned by the ListTagsForResource operation.
         @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
@@ -10199,6 +10405,7 @@ extension RDS {
     }
 
     public struct TargetHealth: AWSDecodableShape {
+
         /// A description of the health of the RDS Proxy target. If the State is AVAILABLE, a description is not included.
         public let description: String?
         /// The reason for the current health State of the RDS Proxy target.
@@ -10220,6 +10427,7 @@ extension RDS {
     }
 
     public struct Timezone: AWSDecodableShape {
+
         /// The name of the time zone.
         public let timezoneName: String?
 
@@ -10233,6 +10441,7 @@ extension RDS {
     }
 
     public struct UpgradeTarget: AWSDecodableShape {
+
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
@@ -10275,6 +10484,7 @@ extension RDS {
     }
 
     public struct UserAuthConfig: AWSEncodableShape {
+
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
@@ -10304,6 +10514,7 @@ extension RDS {
     }
 
     public struct UserAuthConfigInfo: AWSDecodableShape {
+
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
@@ -10333,8 +10544,8 @@ extension RDS {
     }
 
     public struct ValidDBInstanceModificationsMessage: AWSDecodableShape {
-        public struct _StorageEncoding: ArrayCoderProperties { public static let member = "ValidStorageOptions" }
-        public struct _ValidProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "AvailableProcessorFeature" }
+        public struct _StorageEncoding: ArrayCoderProperties { static public let member = "ValidStorageOptions" }
+        public struct _ValidProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "AvailableProcessorFeature" }
 
         /// Valid storage options for your DB instance.
         @OptionalCustomCoding<ArrayCoder<_StorageEncoding, ValidStorageOptions>>
@@ -10355,9 +10566,9 @@ extension RDS {
     }
 
     public struct ValidStorageOptions: AWSDecodableShape {
-        public struct _IopsToStorageRatioEncoding: ArrayCoderProperties { public static let member = "DoubleRange" }
-        public struct _ProvisionedIopsEncoding: ArrayCoderProperties { public static let member = "Range" }
-        public struct _StorageSizeEncoding: ArrayCoderProperties { public static let member = "Range" }
+        public struct _IopsToStorageRatioEncoding: ArrayCoderProperties { static public let member = "DoubleRange" }
+        public struct _ProvisionedIopsEncoding: ArrayCoderProperties { static public let member = "Range" }
+        public struct _StorageSizeEncoding: ArrayCoderProperties { static public let member = "Range" }
 
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
         @OptionalCustomCoding<ArrayCoder<_IopsToStorageRatioEncoding, DoubleRange>>
@@ -10391,6 +10602,7 @@ extension RDS {
     }
 
     public struct VpcSecurityGroupMembership: AWSDecodableShape {
+
         /// The status of the VPC security group.
         public let status: String?
         /// The name of the VPC security group.
@@ -10408,6 +10620,7 @@ extension RDS {
     }
 
     public struct VpnDetails: AWSDecodableShape {
+
         /// The IP address of network traffic from AWS to your on-premises data center.
         public let vpnGatewayIp: String?
         /// The ID of the VPN.

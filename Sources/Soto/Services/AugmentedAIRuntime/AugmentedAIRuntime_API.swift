@@ -64,28 +64,28 @@ public struct AugmentedAIRuntime: AWSService {
     // MARK: API Calls
 
     /// Deletes the specified human loop for a flow definition.
-    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHumanLoopResponse> {
-        return self.client.execute(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteHumanLoop(_ input: DeleteHumanLoopRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteHumanLoopResponse> {
+        return self.client.execute(operation: "DeleteHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about the specified human loop.
-    public func describeHumanLoop(_ input: DescribeHumanLoopRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHumanLoopResponse> {
-        return self.client.execute(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeHumanLoop(_ input: DescribeHumanLoopRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeHumanLoopResponse> {
+        return self.client.execute(operation: "DescribeHumanLoop", path: "/human-loops/{HumanLoopName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
-    public func listHumanLoops(_ input: ListHumanLoopsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHumanLoopsResponse> {
-        return self.client.execute(operation: "ListHumanLoops", path: "/human-loops", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listHumanLoops(_ input: ListHumanLoopsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHumanLoopsResponse> {
+        return self.client.execute(operation: "ListHumanLoops", path: "/human-loops", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Starts a human loop, provided that at least one activation condition is met.
-    public func startHumanLoop(_ input: StartHumanLoopRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartHumanLoopResponse> {
-        return self.client.execute(operation: "StartHumanLoop", path: "/human-loops", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startHumanLoop(_ input: StartHumanLoopRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartHumanLoopResponse> {
+        return self.client.execute(operation: "StartHumanLoop", path: "/human-loops", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Stops the specified human loop.
-    public func stopHumanLoop(_ input: StopHumanLoopRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopHumanLoopResponse> {
-        return self.client.execute(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func stopHumanLoop(_ input: StopHumanLoopRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopHumanLoopResponse> {
+        return self.client.execute(operation: "StopHumanLoop", path: "/human-loops/stop", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

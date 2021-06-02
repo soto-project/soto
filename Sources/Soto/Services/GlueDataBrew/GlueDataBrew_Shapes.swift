@@ -167,6 +167,7 @@ extension GlueDataBrew {
     }
 
     public struct BatchDeleteRecipeVersionResponse: AWSDecodableShape {
+
         /// Errors, if any, that occurred while attempting to delete the recipe versions.
         public let errors: [RecipeVersionErrorDetail]?
         /// The name of the recipe that was modified.
@@ -184,6 +185,7 @@ extension GlueDataBrew {
     }
 
     public struct ConditionExpression: AWSEncodableShape & AWSDecodableShape {
+
         /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the AWS Glue DataBrew Developer Guide.
         public let condition: String
         /// A column to apply this condition to.
@@ -214,6 +216,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
+
         /// The file format of a dataset that is created from an S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
@@ -258,6 +261,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
+
         /// The name of the dataset that you created.
         public let name: String
 
@@ -271,6 +275,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateProfileJobRequest: AWSEncodableShape {
+
         /// The name of the dataset that this job is to act upon.
         public let datasetName: String
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
@@ -346,6 +351,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateProfileJobResponse: AWSDecodableShape {
+
         /// The name of the job that was created.
         public let name: String
 
@@ -359,6 +365,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
+
         /// The name of an existing dataset to associate this project with.
         public let datasetName: String
         /// A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
@@ -408,6 +415,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateProjectResponse: AWSDecodableShape {
+
         /// The name of the project that you created.
         public let name: String
 
@@ -421,6 +429,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateRecipeJobRequest: AWSEncodableShape {
+
         /// The name of the dataset that this job processes.
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
@@ -506,6 +515,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateRecipeJobResponse: AWSDecodableShape {
+
         /// The name of the job that you created.
         public let name: String
 
@@ -519,6 +529,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateRecipeRequest: AWSEncodableShape {
+
         /// A description for the recipe.
         public let description: String?
         /// A unique name for the recipe. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
@@ -558,6 +569,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateRecipeResponse: AWSDecodableShape {
+
         /// The name of the recipe that you created.
         public let name: String
 
@@ -571,6 +583,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateScheduleRequest: AWSEncodableShape {
+
         /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run.
@@ -613,6 +626,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateScheduleResponse: AWSDecodableShape {
+
         /// The name of the schedule that was created.
         public let name: String
 
@@ -626,6 +640,7 @@ extension GlueDataBrew {
     }
 
     public struct CsvOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// A single character that specifies the delimiter being used in the CSV file.
         public let delimiter: String?
         /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
@@ -648,6 +663,7 @@ extension GlueDataBrew {
     }
 
     public struct CsvOutputOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// A single character that specifies the delimiter used to create CSV job output.
         public let delimiter: String?
 
@@ -666,6 +682,7 @@ extension GlueDataBrew {
     }
 
     public struct DataCatalogInputDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier of the AWS account that holds the Data Catalog that stores the data.
         public let catalogId: String?
         /// The name of a database in the Data Catalog.
@@ -701,6 +718,7 @@ extension GlueDataBrew {
     }
 
     public struct DatabaseInputDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// The table within the target database.
         public let databaseTableName: String
         /// The AWS Glue Connection that stores the connection information for the target database.
@@ -729,6 +747,7 @@ extension GlueDataBrew {
     }
 
     public struct Dataset: AWSDecodableShape {
+
         /// The ID of the AWS account that owns the dataset.
         public let accountId: String?
         /// The date and time that the dataset was created.
@@ -790,6 +809,7 @@ extension GlueDataBrew {
     }
 
     public struct DatasetParameter: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional boolean value that defines whether the captured value of this parameter should be loaded as an additional column in the dataset.
         public let createColumn: Bool?
         /// Additional parameter options such as a format and a timezone. Required for datetime parameters.
@@ -826,6 +846,7 @@ extension GlueDataBrew {
     }
 
     public struct DatetimeOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Required option, that defines the datetime format used for a date parameter in the S3 path. Should use only supported datetime specifiers and separation characters, all litera a-z or A-Z character should be escaped with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
         public let format: String
         /// Optional value for a non-US locale code, needed for correct interpretation of some date formats.
@@ -878,6 +899,7 @@ extension GlueDataBrew {
     }
 
     public struct DeleteDatasetResponse: AWSDecodableShape {
+
         /// The name of the dataset that you deleted.
         public let name: String
 
@@ -911,6 +933,7 @@ extension GlueDataBrew {
     }
 
     public struct DeleteJobResponse: AWSDecodableShape {
+
         /// The name of the job that you deleted.
         public let name: String
 
@@ -944,6 +967,7 @@ extension GlueDataBrew {
     }
 
     public struct DeleteProjectResponse: AWSDecodableShape {
+
         /// The name of the project that you deleted.
         public let name: String
 
@@ -958,7 +982,7 @@ extension GlueDataBrew {
 
     public struct DeleteRecipeVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "recipeVersion", location: .uri(locationName: "recipeVersion"))
         ]
 
@@ -983,6 +1007,7 @@ extension GlueDataBrew {
     }
 
     public struct DeleteRecipeVersionResponse: AWSDecodableShape {
+
         /// The name of the recipe that was deleted.
         public let name: String
         /// The version of the recipe that was deleted.
@@ -1020,6 +1045,7 @@ extension GlueDataBrew {
     }
 
     public struct DeleteScheduleResponse: AWSDecodableShape {
+
         /// The name of the schedule that was deleted.
         public let name: String
 
@@ -1053,6 +1079,7 @@ extension GlueDataBrew {
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
+
         /// The date and time that the dataset was created.
         public let createDate: Date?
         /// The identifier (user name) of the user who created the dataset.
@@ -1128,6 +1155,7 @@ extension GlueDataBrew {
     }
 
     public struct DescribeJobResponse: AWSDecodableShape {
+
         /// The date and time that the job was created.
         public let createDate: Date?
         /// The identifier (user name) of the user associated with the creation of the job.
@@ -1217,7 +1245,7 @@ extension GlueDataBrew {
 
     public struct DescribeJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "runId", location: .uri(locationName: "runId"))
         ]
 
@@ -1242,6 +1270,7 @@ extension GlueDataBrew {
     }
 
     public struct DescribeJobRunResponse: AWSDecodableShape {
+
         /// The number of times that DataBrew has attempted to run the job.
         public let attempt: Int?
         /// The date and time when the job completed processing.
@@ -1330,6 +1359,7 @@ extension GlueDataBrew {
     }
 
     public struct DescribeProjectResponse: AWSDecodableShape {
+
         /// The date and time that the project was created.
         public let createDate: Date?
         /// The identifier (user name) of the user who created the project.
@@ -1395,7 +1425,7 @@ extension GlueDataBrew {
 
     public struct DescribeRecipeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "recipeVersion", location: .querystring(locationName: "recipeVersion"))
         ]
 
@@ -1420,6 +1450,7 @@ extension GlueDataBrew {
     }
 
     public struct DescribeRecipeResponse: AWSDecodableShape {
+
         /// The date and time that the recipe was created.
         public let createDate: Date?
         /// The identifier (user name) of the user who created the recipe.
@@ -1501,6 +1532,7 @@ extension GlueDataBrew {
     }
 
     public struct DescribeScheduleResponse: AWSDecodableShape {
+
         /// The date and time that the schedule was created.
         public let createDate: Date?
         /// The identifier (user name) of the user who created the schedule.
@@ -1546,6 +1578,7 @@ extension GlueDataBrew {
     }
 
     public struct ExcelOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
         public let headerRow: Bool?
         /// One or more sheet numbers in the Excel file that will be included in the dataset.
@@ -1582,6 +1615,7 @@ extension GlueDataBrew {
     }
 
     public struct FilesLimit: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of S3 files to select.
         public let maxFiles: Int
         /// A criteria to use for S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Anotherpossible value is ASCENDING.
@@ -1607,6 +1641,7 @@ extension GlueDataBrew {
     }
 
     public struct FilterExpression: AWSEncodableShape & AWSDecodableShape {
+
         /// The expression which includes condition names followed by substitution variables, possibly grouped and combined with other conditions. For example, "(starts_with :prefix1 or starts_with :prefix2) and (ends_with :suffix1 or ends_with :suffix2)". Substitution variables should start with ':' symbol.
         public let expression: String
         /// The map of substitution variable names to their values used in this filter expression.
@@ -1636,6 +1671,7 @@ extension GlueDataBrew {
     }
 
     public struct FormatOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Options that define how CSV input is to be interpreted by DataBrew.
         public let csv: CsvOptions?
         /// Options that define how Excel input is to be interpreted by DataBrew.
@@ -1662,6 +1698,7 @@ extension GlueDataBrew {
     }
 
     public struct Input: AWSEncodableShape & AWSDecodableShape {
+
         /// Connection information for dataset input files stored in a database.
         public let databaseInputDefinition: DatabaseInputDefinition?
         /// The AWS Glue Data Catalog parameters for the data.
@@ -1689,6 +1726,7 @@ extension GlueDataBrew {
     }
 
     public struct Job: AWSDecodableShape {
+
         /// The ID of the AWS account that owns the job.
         public let accountId: String?
         /// The date and time that the job was created.
@@ -1782,6 +1820,7 @@ extension GlueDataBrew {
     }
 
     public struct JobRun: AWSDecodableShape {
+
         /// The number of times that DataBrew has attempted to run the job.
         public let attempt: Int?
         /// The date and time when the job completed processing.
@@ -1851,6 +1890,7 @@ extension GlueDataBrew {
     }
 
     public struct JobSample: AWSEncodableShape & AWSDecodableShape {
+
         /// A value that determines whether the profile job is run on the entire dataset or a specified number of rows. This value must be one of the following:   FULL_DATASET - The profile job is run on the entire dataset.   CUSTOM_ROWS - The profile job is run on the number of rows specified in the Size parameter.
         public let mode: SampleMode?
         /// The Size parameter is only required when the mode is CUSTOM_ROWS. The profile job is run on the specified number of rows. The maximum value for size is Long.MAX_VALUE. Long.MAX_VALUE = 9223372036854775807
@@ -1868,6 +1908,7 @@ extension GlueDataBrew {
     }
 
     public struct JsonOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// A value that specifies whether JSON input contains embedded new line characters.
         public let multiLine: Bool?
 
@@ -1882,7 +1923,7 @@ extension GlueDataBrew {
 
     public struct ListDatasetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1907,6 +1948,7 @@ extension GlueDataBrew {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
+
         /// A list of datasets that are defined.
         public let datasets: [Dataset]
         /// A token that you can use in a subsequent call to retrieve the next set of results.
@@ -1925,8 +1967,8 @@ extension GlueDataBrew {
 
     public struct ListJobRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1956,6 +1998,7 @@ extension GlueDataBrew {
     }
 
     public struct ListJobRunsResponse: AWSDecodableShape {
+
         /// A list of job runs that have occurred for the specified job.
         public let jobRuns: [JobRun]
         /// A token that you can use in a subsequent call to retrieve the next set of results.
@@ -1974,9 +2017,9 @@ extension GlueDataBrew {
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .querystring(locationName: "datasetName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "datasetName", location: .querystring(locationName: "datasetName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "projectName", location: .querystring(locationName: "projectName"))
         ]
 
@@ -2011,6 +2054,7 @@ extension GlueDataBrew {
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
+
         /// A list of jobs that are defined.
         public let jobs: [Job]
         /// A token that you can use in a subsequent call to retrieve the next set of results.
@@ -2029,7 +2073,7 @@ extension GlueDataBrew {
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2054,6 +2098,7 @@ extension GlueDataBrew {
     }
 
     public struct ListProjectsResponse: AWSDecodableShape {
+
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
         /// A list of projects that are defined .
@@ -2072,8 +2117,8 @@ extension GlueDataBrew {
 
     public struct ListRecipeVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2103,6 +2148,7 @@ extension GlueDataBrew {
     }
 
     public struct ListRecipeVersionsResponse: AWSDecodableShape {
+
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
         /// A list of versions for the specified recipe.
@@ -2121,8 +2167,8 @@ extension GlueDataBrew {
 
     public struct ListRecipesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "recipeVersion", location: .querystring(locationName: "recipeVersion"))
         ]
 
@@ -2152,6 +2198,7 @@ extension GlueDataBrew {
     }
 
     public struct ListRecipesResponse: AWSDecodableShape {
+
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
         /// A list of recipes that are defined.
@@ -2170,8 +2217,8 @@ extension GlueDataBrew {
 
     public struct ListSchedulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobName", location: .querystring(locationName: "jobName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "jobName", location: .querystring(locationName: "jobName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2201,6 +2248,7 @@ extension GlueDataBrew {
     }
 
     public struct ListSchedulesResponse: AWSDecodableShape {
+
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
         /// A list of schedules that are defined.
@@ -2238,6 +2286,7 @@ extension GlueDataBrew {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// A list of tags associated with the DataBrew resource.
         public let tags: [String: String]?
 
@@ -2251,6 +2300,7 @@ extension GlueDataBrew {
     }
 
     public struct Output: AWSEncodableShape & AWSDecodableShape {
+
         /// The compression algorithm used to compress the output text of the job.
         public let compressionFormat: CompressionFormat?
         /// The data format of the output of the job.
@@ -2294,6 +2344,7 @@ extension GlueDataBrew {
     }
 
     public struct OutputFormatOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Represents a set of options that define the structure of comma-separated value (CSV) job output.
         public let csv: CsvOutputOptions?
 
@@ -2311,6 +2362,7 @@ extension GlueDataBrew {
     }
 
     public struct PathOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// If provided, this structure imposes a limit on a number of files that should be selected.
         public let filesLimit: FilesLimit?
         /// If provided, this structure defines a date range for matching S3 objects based on their LastModifiedDate attribute in S3.
@@ -2342,6 +2394,7 @@ extension GlueDataBrew {
     }
 
     public struct Project: AWSDecodableShape {
+
         /// The ID of the AWS account that owns the project.
         public let accountId: String?
         /// The date and time that the project was created.
@@ -2433,6 +2486,7 @@ extension GlueDataBrew {
     }
 
     public struct PublishRecipeResponse: AWSDecodableShape {
+
         /// The name of the recipe that you published.
         public let name: String
 
@@ -2446,6 +2500,7 @@ extension GlueDataBrew {
     }
 
     public struct Recipe: AWSDecodableShape {
+
         /// The date and time that the recipe was created.
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the recipe.
@@ -2507,6 +2562,7 @@ extension GlueDataBrew {
     }
 
     public struct RecipeAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of a valid DataBrew transformation to be performed on the data.
         public let operation: String
         /// Contextual parameters for the transformation.
@@ -2537,6 +2593,7 @@ extension GlueDataBrew {
     }
 
     public struct RecipeReference: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the recipe.
         public let name: String
         /// The identifier for the version for the recipe.
@@ -2561,6 +2618,7 @@ extension GlueDataBrew {
     }
 
     public struct RecipeStep: AWSEncodableShape & AWSDecodableShape {
+
         /// The particular action to be performed in the recipe step.
         public let action: RecipeAction
         /// One or more conditions that must be met for the recipe step to succeed.  All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation.
@@ -2585,6 +2643,7 @@ extension GlueDataBrew {
     }
 
     public struct RecipeVersionErrorDetail: AWSDecodableShape {
+
         /// The HTTP status code for the error.
         public let errorCode: String?
         /// The text of the error message.
@@ -2606,6 +2665,7 @@ extension GlueDataBrew {
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+
         /// The S3 bucket name.
         public let bucket: String
         /// The unique name of the object in the bucket.
@@ -2630,6 +2690,7 @@ extension GlueDataBrew {
     }
 
     public struct Sample: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of rows in the sample.
         public let size: Int?
         /// The way in which DataBrew obtains rows from a dataset.
@@ -2652,6 +2713,7 @@ extension GlueDataBrew {
     }
 
     public struct Schedule: AWSDecodableShape {
+
         /// The ID of the AWS account that owns the schedule.
         public let accountId: String?
         /// The date and time that the schedule was created.
@@ -2746,6 +2808,7 @@ extension GlueDataBrew {
     }
 
     public struct SendProjectSessionActionResponse: AWSDecodableShape {
+
         /// A unique identifier for the action that was performed.
         public let actionId: Int?
         /// The name of the project that was affected by the action.
@@ -2787,6 +2850,7 @@ extension GlueDataBrew {
     }
 
     public struct StartJobRunResponse: AWSDecodableShape {
+
         /// A system-generated identifier for this particular job run.
         public let runId: String
 
@@ -2825,6 +2889,7 @@ extension GlueDataBrew {
     }
 
     public struct StartProjectSessionResponse: AWSDecodableShape {
+
         /// A system-generated identifier for the session.
         public let clientSessionId: String?
         /// The name of the project to be acted upon.
@@ -2843,7 +2908,7 @@ extension GlueDataBrew {
 
     public struct StopJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
             AWSMemberEncoding(label: "runId", location: .uri(locationName: "runId"))
         ]
 
@@ -2868,6 +2933,7 @@ extension GlueDataBrew {
     }
 
     public struct StopJobRunResponse: AWSDecodableShape {
+
         /// The ID of the job run that you stopped.
         public let runId: String
 
@@ -2911,12 +2977,16 @@ extension GlueDataBrew {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -2945,7 +3015,11 @@ extension GlueDataBrew {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDatasetRequest: AWSEncodableShape {
@@ -2987,6 +3061,7 @@ extension GlueDataBrew {
     }
 
     public struct UpdateDatasetResponse: AWSDecodableShape {
+
         /// The name of the dataset that you updated.
         public let name: String
 
@@ -3063,6 +3138,7 @@ extension GlueDataBrew {
     }
 
     public struct UpdateProfileJobResponse: AWSDecodableShape {
+
         /// The name of the job that was updated.
         public let name: String
 
@@ -3107,6 +3183,7 @@ extension GlueDataBrew {
     }
 
     public struct UpdateProjectResponse: AWSDecodableShape {
+
         /// The date and time that the project was last modified.
         public let lastModifiedDate: Date?
         /// The name of the project that you updated.
@@ -3187,6 +3264,7 @@ extension GlueDataBrew {
     }
 
     public struct UpdateRecipeJobResponse: AWSDecodableShape {
+
         /// The name of the job that you updated.
         public let name: String
 
@@ -3233,6 +3311,7 @@ extension GlueDataBrew {
     }
 
     public struct UpdateRecipeResponse: AWSDecodableShape {
+
         /// The name of the recipe that was updated.
         public let name: String
 
@@ -3282,6 +3361,7 @@ extension GlueDataBrew {
     }
 
     public struct UpdateScheduleResponse: AWSDecodableShape {
+
         /// The name of the schedule that was updated.
         public let name: String
 
@@ -3295,6 +3375,7 @@ extension GlueDataBrew {
     }
 
     public struct ViewFrame: AWSEncodableShape {
+
         /// The number of columns to include in the view frame, beginning with the StartColumnIndex value and ignoring any columns in the HiddenColumns list.
         public let columnRange: Int?
         /// A list of columns to hide in the view frame.

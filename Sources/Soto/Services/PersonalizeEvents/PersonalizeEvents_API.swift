@@ -64,18 +64,18 @@ public struct PersonalizeEvents: AWSService {
     // MARK: API Calls
 
     /// Records user interaction event data. For more information see Recording Events.
-    @discardableResult public func putEvents(_ input: PutEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func putEvents(_ input: PutEventsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutEvents", path: "/events", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds one or more items to an Items dataset. For more information see Importing Items Incrementally.
-    @discardableResult public func putItems(_ input: PutItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutItems", path: "/items", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func putItems(_ input: PutItemsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutItems", path: "/items", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds one or more users to a Users dataset. For more information see Importing Users Incrementally.
-    @discardableResult public func putUsers(_ input: PutUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutUsers", path: "/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func putUsers(_ input: PutUsersRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutUsers", path: "/users", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

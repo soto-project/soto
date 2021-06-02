@@ -105,6 +105,7 @@ extension KinesisAnalyticsV2 {
     // MARK: Shapes
 
     public struct AddApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
+
         /// The Kinesis Data Analytics application name.
         public let applicationName: String
         /// Provides the Amazon CloudWatch log stream Amazon Resource Name (ARN).
@@ -123,7 +124,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.cloudWatchLoggingOption.validate(name: "\(name).cloudWatchLoggingOption")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
 
@@ -135,6 +136,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationCloudWatchLoggingOptionResponse: AWSDecodableShape {
+
         /// The application's ARN.
         public let applicationARN: String?
         /// The new version ID of the Kinesis Data Analytics application. Kinesis Data Analytics updates the ApplicationVersionId each time you change the CloudWatch logging options.
@@ -156,6 +158,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationInputProcessingConfigurationRequest: AWSEncodableShape {
+
         /// The name of the application to which you want to add the input processing configuration.
         public let applicationName: String
         /// The version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -176,7 +179,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.inputId, name: "inputId", parent: name, max: 50)
             try self.validate(self.inputId, name: "inputId", parent: name, min: 1)
@@ -193,6 +196,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationInputProcessingConfigurationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// Provides the current application version.
@@ -218,6 +222,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationInputRequest: AWSEncodableShape {
+
         /// The name of your existing application to which you want to add the streaming source.
         public let applicationName: String
         /// The current version of your application. You can use the DescribeApplication operation to find the current application version.
@@ -235,7 +240,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.input.validate(name: "\(name).input")
         }
@@ -248,6 +253,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationInputResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// Provides the current application version.
@@ -269,6 +275,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationOutputRequest: AWSEncodableShape {
+
         /// The name of the application to which you want to add the output configuration.
         public let applicationName: String
         /// The version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -286,7 +293,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.output.validate(name: "\(name).output")
         }
@@ -299,6 +306,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationOutputResponse: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The updated application version ID. Kinesis Data Analytics increments this ID when the application is updated.
@@ -320,6 +328,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationReferenceDataSourceRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -337,7 +346,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.referenceDataSource.validate(name: "\(name).referenceDataSource")
         }
@@ -350,6 +359,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationReferenceDataSourceResponse: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The updated application version ID. Kinesis Data Analytics increments this ID when the application is updated.
@@ -371,6 +381,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationVpcConfigurationRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The version of the application to which you want to add the VPC configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -388,7 +399,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
         }
@@ -401,6 +412,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct AddApplicationVpcConfigurationResponse: AWSDecodableShape {
+
         /// The ARN of the application.
         public let applicationARN: String?
         /// Provides the current application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application.
@@ -422,6 +434,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationCodeConfiguration: AWSEncodableShape {
+
         /// The location and type of the application code.
         public let codeContent: CodeContent?
         /// Specifies whether the code content is in text or zip format.
@@ -443,6 +456,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationCodeConfigurationDescription: AWSDecodableShape {
+
         /// Describes details about the location and format of the application code.
         public let codeContentDescription: CodeContentDescription?
         /// Specifies whether the code content is in text or zip format.
@@ -460,6 +474,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationCodeConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to the code content type.
         public let codeContentTypeUpdate: CodeContentType?
         /// Describes updates to the code content of an application.
@@ -481,6 +496,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationConfiguration: AWSEncodableShape {
+
         /// The code location and type parameters for a Flink-based Kinesis Data Analytics application.
         public let applicationCodeConfiguration: ApplicationCodeConfiguration
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
@@ -524,6 +540,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationConfigurationDescription: AWSDecodableShape {
+
         /// The details about the application code for a Flink-based Kinesis Data Analytics application.
         public let applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription?
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
@@ -561,6 +578,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to a Flink-based Kinesis Data Analytics application's code configuration.
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
@@ -604,6 +622,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationDetail: AWSDecodableShape {
+
         /// The ARN of the application.
         public let applicationARN: String
         /// Provides details about the application's Java, SQL, or Scala code and starting parameters.
@@ -661,6 +680,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationMaintenanceConfigurationDescription: AWSDecodableShape {
+
         /// The end time for the automatic maintenance window.
         public let applicationMaintenanceWindowEndTime: String
         /// The start time for the automatic maintenance window.
@@ -678,6 +698,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationMaintenanceConfigurationUpdate: AWSEncodableShape {
+
         /// The updated start time for the automatic maintenance window.
         public let applicationMaintenanceWindowStartTimeUpdate: String
 
@@ -697,6 +718,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationRestoreConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies how the application should be restored.
         public let applicationRestoreType: ApplicationRestoreType
         /// The identifier of an existing snapshot of application state to use to restart an application. The application uses this value if RESTORE_FROM_CUSTOM_SNAPSHOT is specified for the ApplicationRestoreType.
@@ -720,6 +742,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfiguration: AWSEncodableShape {
+
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
 
@@ -733,6 +756,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfigurationDescription: AWSDecodableShape {
+
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let snapshotsEnabled: Bool
 
@@ -746,6 +770,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let snapshotsEnabledUpdate: Bool
 
@@ -759,6 +784,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSummary: AWSDecodableShape {
+
         /// The ARN of the application.
         public let applicationARN: String
         /// The name of the application.
@@ -788,6 +814,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CSVMappingParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
         public let recordColumnDelimiter: String
         /// The row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
@@ -812,6 +839,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CheckpointConfiguration: AWSEncodableShape {
+
         /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabled: Bool?
         /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
@@ -842,6 +870,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CheckpointConfigurationDescription: AWSDecodableShape {
+
         /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabled: Bool?
         /// Describes the interval in milliseconds between checkpoint operations.   If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
@@ -867,6 +896,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CheckpointConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to whether checkpointing is enabled for an application.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public let checkpointingEnabledUpdate: Bool?
         /// Describes updates to the interval in milliseconds between checkpoint operations.  If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
@@ -897,6 +927,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CloudWatchLoggingOption: AWSEncodableShape {
+
         /// The ARN of the CloudWatch log to receive application messages.
         public let logStreamARN: String
 
@@ -916,6 +947,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CloudWatchLoggingOptionDescription: AWSDecodableShape {
+
         /// The ID of the CloudWatch logging option description.
         public let cloudWatchLoggingOptionId: String?
         /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application messages.
@@ -937,6 +969,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CloudWatchLoggingOptionUpdate: AWSEncodableShape {
+
         /// The ID of the CloudWatch logging option to update
         public let cloudWatchLoggingOptionId: String
         /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application messages.
@@ -963,6 +996,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CodeContent: AWSEncodableShape {
+
         /// Information about the Amazon S3 bucket containing the application code.
         public let s3ContentLocation: S3ContentLocation?
         /// The text-format code for a Flink-based Kinesis Data Analytics application.
@@ -978,9 +1012,9 @@ extension KinesisAnalyticsV2 {
 
         public func validate(name: String) throws {
             try self.s3ContentLocation?.validate(name: "\(name).s3ContentLocation")
-            try self.validate(self.textContent, name: "textContent", parent: name, max: 102_400)
+            try self.validate(self.textContent, name: "textContent", parent: name, max: 102400)
             try self.validate(self.textContent, name: "textContent", parent: name, min: 0)
-            try self.validate(self.zipFileContent, name: "zipFileContent", parent: name, max: 52_428_800)
+            try self.validate(self.zipFileContent, name: "zipFileContent", parent: name, max: 52428800)
             try self.validate(self.zipFileContent, name: "zipFileContent", parent: name, min: 0)
         }
 
@@ -992,6 +1026,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CodeContentDescription: AWSDecodableShape {
+
         /// The checksum that can be used to validate zip-format code.
         public let codeMD5: String?
         /// The size in bytes of the application code. Can be used to validate zip-format code.
@@ -1017,6 +1052,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CodeContentUpdate: AWSEncodableShape {
+
         /// Describes an update to the location of code for an application.
         public let s3ContentLocationUpdate: S3ContentLocationUpdate?
         /// Describes an update to the text code for an application.
@@ -1032,9 +1068,9 @@ extension KinesisAnalyticsV2 {
 
         public func validate(name: String) throws {
             try self.s3ContentLocationUpdate?.validate(name: "\(name).s3ContentLocationUpdate")
-            try self.validate(self.textContentUpdate, name: "textContentUpdate", parent: name, max: 102_400)
+            try self.validate(self.textContentUpdate, name: "textContentUpdate", parent: name, max: 102400)
             try self.validate(self.textContentUpdate, name: "textContentUpdate", parent: name, min: 0)
-            try self.validate(self.zipFileContentUpdate, name: "zipFileContentUpdate", parent: name, max: 52_428_800)
+            try self.validate(self.zipFileContentUpdate, name: "zipFileContentUpdate", parent: name, max: 52428800)
             try self.validate(self.zipFileContentUpdate, name: "zipFileContentUpdate", parent: name, min: 0)
         }
 
@@ -1046,6 +1082,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationPresignedUrlRequest: AWSEncodableShape {
+
         /// The name of the application.
         public let applicationName: String
         /// The duration in seconds for which the returned URL will be valid.
@@ -1075,6 +1112,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationPresignedUrlResponse: AWSDecodableShape {
+
         /// The URL of the extension.
         public let authorizedUrl: String?
 
@@ -1088,6 +1126,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+
         /// Use this parameter to configure the application.
         public let applicationConfiguration: ApplicationConfiguration?
         /// A summary description of the application.
@@ -1145,6 +1184,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
+
         /// In response to your CreateApplication request, Kinesis Data Analytics returns a response with details of the application it created.
         public let applicationDetail: ApplicationDetail
 
@@ -1158,6 +1198,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationSnapshotRequest: AWSEncodableShape {
+
         /// The name of an existing application
         public let applicationName: String
         /// An identifier for the application snapshot.
@@ -1184,10 +1225,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CreateApplicationSnapshotResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
+
         /// The application name.
         public let applicationName: String
         /// The CloudWatchLoggingOptionId of the Amazon CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation.
@@ -1208,7 +1254,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, max: 50)
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, min: 1)
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
 
@@ -1220,6 +1266,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationCloudWatchLoggingOptionResponse: AWSDecodableShape {
+
         /// The application's Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The version ID of the application. Kinesis Data Analytics updates the ApplicationVersionId each time you change the CloudWatch logging options.
@@ -1241,6 +1288,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationInputProcessingConfigurationRequest: AWSEncodableShape {
+
         /// The name of the application.
         public let applicationName: String
         /// The application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -1258,7 +1306,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.inputId, name: "inputId", parent: name, max: 50)
             try self.validate(self.inputId, name: "inputId", parent: name, min: 1)
@@ -1273,6 +1321,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationInputProcessingConfigurationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// The current application version ID.
@@ -1290,6 +1339,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationOutputRequest: AWSEncodableShape {
+
         /// The application name.
         public let applicationName: String
         /// The application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -1307,7 +1357,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.outputId, name: "outputId", parent: name, max: 50)
             try self.validate(self.outputId, name: "outputId", parent: name, min: 1)
@@ -1322,6 +1372,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationOutputResponse: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The current application version ID.
@@ -1339,6 +1390,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationReferenceDataSourceRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The current application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
@@ -1356,7 +1408,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.referenceId, name: "referenceId", parent: name, max: 50)
             try self.validate(self.referenceId, name: "referenceId", parent: name, min: 1)
@@ -1371,6 +1423,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationReferenceDataSourceResponse: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationARN: String?
         /// The updated version ID of the application.
@@ -1388,6 +1441,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
+
         /// The name of the application to delete.
         public let applicationName: String
         /// Use the DescribeApplication operation to get this value.
@@ -1411,10 +1465,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteApplicationSnapshotRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The creation timestamp of the application snapshot to delete. You can retrieve this value using or .
@@ -1445,10 +1504,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationSnapshotResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteApplicationVpcConfigurationRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The current application version ID. You can retrieve the application version ID using DescribeApplication.
@@ -1466,7 +1530,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.vpcConfigurationId, name: "vpcConfigurationId", parent: name, max: 50)
             try self.validate(self.vpcConfigurationId, name: "vpcConfigurationId", parent: name, min: 1)
@@ -1481,6 +1545,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DeleteApplicationVpcConfigurationResponse: AWSDecodableShape {
+
         /// The ARN of the Kinesis Data Analytics application.
         public let applicationARN: String?
         /// The updated version ID of the application.
@@ -1498,6 +1563,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
+
         /// The name of the application.
         public let applicationName: String
         /// Displays verbose information about a Kinesis Data Analytics application, including the application's job plan.
@@ -1521,6 +1587,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DescribeApplicationResponse: AWSDecodableShape {
+
         /// Provides a description of the application, such as the application's Amazon Resource Name (ARN), status, and latest version.
         public let applicationDetail: ApplicationDetail
 
@@ -1534,6 +1601,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DescribeApplicationSnapshotRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The identifier of an application snapshot. You can retrieve this value using .
@@ -1560,6 +1628,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DescribeApplicationSnapshotResponse: AWSDecodableShape {
+
         /// An object containing information about the application snapshot.
         public let snapshotDetails: SnapshotDetails
 
@@ -1573,6 +1642,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DestinationSchema: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the format of the records on the output stream.
         public let recordFormatType: RecordFormatType
 
@@ -1586,6 +1656,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DiscoverInputSchemaRequest: AWSEncodableShape {
+
         /// The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
         public let inputProcessingConfiguration: InputProcessingConfiguration?
         /// The point at which you want Kinesis Data Analytics to start reading records from the specified streaming source discovery purposes.
@@ -1626,6 +1697,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct DiscoverInputSchemaResponse: AWSDecodableShape {
+
         /// The schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
         public let inputSchema: SourceSchema?
         /// An array of elements, where each element corresponds to a row in a stream record (a stream record can have more than one row).
@@ -1651,6 +1723,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct EnvironmentProperties: AWSEncodableShape {
+
         /// Describes the execution property groups.
         public let propertyGroups: [PropertyGroup]
 
@@ -1671,6 +1744,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct EnvironmentPropertyDescriptions: AWSDecodableShape {
+
         /// Describes the execution property groups.
         public let propertyGroupDescriptions: [PropertyGroup]?
 
@@ -1684,6 +1758,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct EnvironmentPropertyUpdates: AWSEncodableShape {
+
         /// Describes updates to the execution property groups.
         public let propertyGroups: [PropertyGroup]
 
@@ -1704,6 +1779,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct FlinkApplicationConfiguration: AWSEncodableShape {
+
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see  Checkpoints for Fault Tolerance in the Apache Flink Documentation.
         public let checkpointConfiguration: CheckpointConfiguration?
         /// Describes configuration parameters for Amazon CloudWatch logging for an application.
@@ -1730,6 +1806,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct FlinkApplicationConfigurationDescription: AWSDecodableShape {
+
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public let checkpointConfigurationDescription: CheckpointConfigurationDescription?
         /// The job plan for an application. For more information about the job plan, see Jobs and Scheduling in the Apache Flink Documentation. To retrieve the job plan for the application, use the DescribeApplicationRequest$IncludeAdditionalDetails parameter of the DescribeApplication operation.
@@ -1755,6 +1832,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct FlinkApplicationConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public let checkpointConfigurationUpdate: CheckpointConfigurationUpdate?
         /// Describes updates to the configuration parameters for Amazon CloudWatch logging for an application.
@@ -1781,6 +1859,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct FlinkRunConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see  Allowing Non-Restored State in the Apache Flink documentation.  This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public let allowNonRestoredState: Bool?
 
@@ -1794,6 +1873,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct Input: AWSEncodableShape {
+
         /// Describes the number of in-application streams to create.
         public let inputParallelism: InputParallelism?
         /// The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor.
@@ -1838,6 +1918,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputDescription: AWSDecodableShape {
+
         /// Returns the in-application stream names that are mapped to the stream source.
         public let inAppStreamNames: [String]?
         /// The input ID that is associated with the application input. This is the ID that Kinesis Data Analytics assigns to each input configuration that you add to your application.
@@ -1883,6 +1964,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputLambdaProcessor: AWSEncodableShape {
+
         /// The ARN of the AWS Lambda function that operates on records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
         public let resourceARN: String
 
@@ -1902,6 +1984,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputLambdaProcessorDescription: AWSDecodableShape {
+
         /// The ARN of the AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
         public let resourceARN: String
         /// The ARN of the IAM role that is used to access the AWS Lambda function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
@@ -1919,6 +2002,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputLambdaProcessorUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
         public let resourceARNUpdate: String
 
@@ -1938,6 +2022,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputParallelism: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of in-application streams to create.
         public let count: Int?
 
@@ -1956,6 +2041,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputParallelismUpdate: AWSEncodableShape {
+
         /// The number of in-application streams to create for the specified streaming source.
         public let countUpdate: Int
 
@@ -1974,6 +2060,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputProcessingConfiguration: AWSEncodableShape {
+
         /// The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
         public let inputLambdaProcessor: InputLambdaProcessor
 
@@ -1991,6 +2078,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputProcessingConfigurationDescription: AWSDecodableShape {
+
         /// Provides configuration information about the associated InputLambdaProcessorDescription
         public let inputLambdaProcessorDescription: InputLambdaProcessorDescription?
 
@@ -2004,6 +2092,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputProcessingConfigurationUpdate: AWSEncodableShape {
+
         /// Provides update information for an InputLambdaProcessor.
         public let inputLambdaProcessorUpdate: InputLambdaProcessorUpdate
 
@@ -2021,6 +2110,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputSchemaUpdate: AWSEncodableShape {
+
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream.
         public let recordColumnUpdates: [RecordColumn]?
         /// Specifies the encoding of the records in the streaming source; for example, UTF-8.
@@ -2054,6 +2144,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputStartingPositionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The starting position on the stream.    NOW - Start reading just after the most recent record in the stream, and start at the request timestamp that the customer issued.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Data Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
         public let inputStartingPosition: InputStartingPosition?
 
@@ -2067,6 +2158,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct InputUpdate: AWSEncodableShape {
+
         /// The input ID of the application input to be updated.
         public let inputId: String
         /// Describes the parallelism updates (the number of in-application streams Kinesis Data Analytics creates for the specific streaming source).
@@ -2118,6 +2210,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct JSONMappingParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The path to the top-level parent that contains the records.
         public let recordRowPath: String
 
@@ -2137,6 +2230,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisFirehoseInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
 
@@ -2156,6 +2250,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisFirehoseInputDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics assumes to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
@@ -2173,6 +2268,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisFirehoseInputUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the input delivery stream to read.
         public let resourceARNUpdate: String
 
@@ -2192,6 +2288,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisFirehoseOutput: AWSEncodableShape {
+
         /// The ARN of the destination delivery stream to write to.
         public let resourceARN: String
 
@@ -2211,6 +2308,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisFirehoseOutputDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
@@ -2228,6 +2326,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisFirehoseOutputUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the delivery stream to write to.
         public let resourceARNUpdate: String
 
@@ -2247,6 +2346,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisStreamsInput: AWSEncodableShape {
+
         /// The ARN of the input Kinesis data stream to read.
         public let resourceARN: String
 
@@ -2266,6 +2366,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisStreamsInputDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
@@ -2283,6 +2384,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisStreamsInputUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the input Kinesis data stream to read.
         public let resourceARNUpdate: String
 
@@ -2302,6 +2404,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisStreamsOutput: AWSEncodableShape {
+
         /// The ARN of the destination Kinesis data stream to write to.
         public let resourceARN: String
 
@@ -2321,6 +2424,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisStreamsOutputDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Kinesis data stream.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the stream.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
@@ -2338,6 +2442,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct KinesisStreamsOutputUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Kinesis data stream where you want to write the output.
         public let resourceARNUpdate: String
 
@@ -2357,6 +2462,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct LambdaOutput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the destination Lambda function to write to.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
         public let resourceARN: String
 
@@ -2376,6 +2482,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct LambdaOutputDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the destination Lambda function.
         public let resourceARN: String
         /// The ARN of the IAM role that Kinesis Data Analytics can assume to write to the destination function.  Provided for backward compatibility. Applications that are created with the current API version have an application-level service execution role rather than a resource-level role.
@@ -2393,6 +2500,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct LambdaOutputUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.  To specify an earlier version of the Lambda function than the latest, include the Lambda function version in the Lambda function ARN. For more information about Lambda ARNs, see Example ARNs: AWS Lambda
         public let resourceARNUpdate: String
 
@@ -2412,6 +2520,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ListApplicationSnapshotsRequest: AWSEncodableShape {
+
         /// The name of an existing application.
         public let applicationName: String
         /// The maximum number of application snapshots to list.
@@ -2443,6 +2552,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ListApplicationSnapshotsResponse: AWSDecodableShape {
+
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// A collection of objects containing information about the application snapshots.
@@ -2460,6 +2570,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
+
         /// The maximum number of applications to list.
         public let limit: Int?
         /// If a previous command returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
@@ -2485,6 +2596,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
+
         /// A list of ApplicationSummary objects.
         public let applicationSummaries: [ApplicationSummary]
         /// The pagination token for the next set of results, or null if there are no additional results. Pass this token into a subsequent command to retrieve the next set of items For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
@@ -2502,6 +2614,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The ARN of the application for which to retrieve tags.
         public let resourceARN: String
 
@@ -2521,6 +2634,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The key-value tags assigned to the application.
         public let tags: [Tag]?
 
@@ -2534,6 +2648,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct MappingParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
         public let cSVMappingParameters: CSVMappingParameters?
         /// Provides additional mapping information when JSON is the record format on the streaming source.
@@ -2556,6 +2671,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct MonitoringConfiguration: AWSEncodableShape {
+
         /// Describes whether to use the default CloudWatch logging configuration for an application. You must set this property to CUSTOM in order to set the LogLevel or MetricsLevel parameters.
         public let configurationType: ConfigurationType
         /// Describes the verbosity of the CloudWatch Logs for an application.
@@ -2577,6 +2693,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct MonitoringConfigurationDescription: AWSDecodableShape {
+
         /// Describes whether to use the default CloudWatch logging configuration for an application.
         public let configurationType: ConfigurationType?
         /// Describes the verbosity of the CloudWatch Logs for an application.
@@ -2598,6 +2715,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct MonitoringConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to whether to use the default CloudWatch logging configuration for an application. You must set this property to CUSTOM in order to set the LogLevel or MetricsLevel parameters.
         public let configurationTypeUpdate: ConfigurationType?
         /// Describes updates to the verbosity of the CloudWatch Logs for an application.
@@ -2619,6 +2737,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct Output: AWSEncodableShape {
+
         /// Describes the data format when records are written to the destination.
         public let destinationSchema: DestinationSchema
         /// Identifies a Kinesis Data Firehose delivery stream as the destination.
@@ -2657,6 +2776,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct OutputDescription: AWSDecodableShape {
+
         /// The data format used for writing data to the destination.
         public let destinationSchema: DestinationSchema?
         /// Describes the Kinesis Data Firehose delivery stream that is configured as the destination where output is written.
@@ -2690,6 +2810,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct OutputUpdate: AWSEncodableShape {
+
         /// Describes the data format when records are written to the destination.
         public let destinationSchemaUpdate: DestinationSchema?
         /// Describes a Kinesis Data Firehose delivery stream as the destination for the output.
@@ -2735,6 +2856,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ParallelismConfiguration: AWSEncodableShape {
+
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
@@ -2765,6 +2887,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ParallelismConfigurationDescription: AWSDecodableShape {
+
         /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabled: Bool?
         /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service.
@@ -2794,6 +2917,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ParallelismConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
         public let autoScalingEnabledUpdate: Bool?
         /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
@@ -2824,6 +2948,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct PropertyGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// Describes the key of an application execution property key-value pair.
         public let propertyGroupId: String
         /// Describes the value of an application execution property key-value pair.
@@ -2853,6 +2978,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct RecordColumn: AWSEncodableShape & AWSDecodableShape {
+
         /// A reference to the data element in the streaming input or the reference data source.
         public let mapping: String?
         /// The name of the column that is created in the in-application input stream or reference table.
@@ -2884,6 +3010,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct RecordFormat: AWSEncodableShape & AWSDecodableShape {
+
         /// When you configure application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
         public let mappingParameters: MappingParameters?
         /// The type of record format.
@@ -2905,6 +3032,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ReferenceDataSource: AWSEncodableShape {
+
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         public let referenceSchema: SourceSchema
         /// Identifies the S3 bucket and object that contains the reference data. A Kinesis Data Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application.
@@ -2933,6 +3061,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ReferenceDataSourceDescription: AWSDecodableShape {
+
         /// The ID of the reference data source. This is the ID that Kinesis Data Analytics assigns when you add the reference data source to your application using the CreateApplication or UpdateApplication operation.
         public let referenceId: String
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
@@ -2958,6 +3087,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ReferenceDataSourceUpdate: AWSEncodableShape {
+
         /// The ID of the reference data source that is being updated. You can use the DescribeApplication operation to get this value.
         public let referenceId: String
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
@@ -2993,6 +3123,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct RunConfiguration: AWSEncodableShape {
+
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
         /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
@@ -3021,6 +3152,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct RunConfigurationDescription: AWSDecodableShape {
+
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfigurationDescription: ApplicationRestoreConfiguration?
         public let flinkRunConfigurationDescription: FlinkRunConfiguration?
@@ -3037,6 +3169,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct RunConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
         /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
@@ -3058,6 +3191,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3ApplicationCodeLocationDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
         /// The file key for the object containing the application code.
@@ -3079,6 +3213,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3Configuration: AWSEncodableShape {
+
         /// The ARN of the S3 bucket that contains the data.
         public let bucketARN: String
         /// The name of the object that contains the data.
@@ -3104,6 +3239,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3ContentLocation: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
         /// The file key for the object containing the application code.
@@ -3135,6 +3271,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3ContentLocationUpdate: AWSEncodableShape {
+
         /// The new Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARNUpdate: String?
         /// The new file key for the object containing the application code.
@@ -3166,6 +3303,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3ReferenceDataSource: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String?
         /// The object key name containing the reference data.
@@ -3191,6 +3329,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3ReferenceDataSourceDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARN: String
         /// Amazon S3 object key name.
@@ -3212,6 +3351,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct S3ReferenceDataSourceUpdate: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public let bucketARNUpdate: String?
         /// The object key name.
@@ -3237,6 +3377,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SnapshotDetails: AWSDecodableShape {
+
         /// The current application version ID when the snapshot was created.
         public let applicationVersionId: Int64
         /// The timestamp of the application snapshot.
@@ -3262,6 +3403,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SourceSchema: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of RecordColumn objects.
         public let recordColumns: [RecordColumn]
         /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
@@ -3295,6 +3437,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SqlApplicationConfiguration: AWSEncodableShape {
+
         /// The array of Input objects describing the input streams used by the application.
         public let inputs: [Input]?
         /// The array of Output objects describing the destination streams used by the application.
@@ -3328,6 +3471,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SqlApplicationConfigurationDescription: AWSDecodableShape {
+
         /// The array of InputDescription objects describing the input streams used by the application.
         public let inputDescriptions: [InputDescription]?
         /// The array of OutputDescription objects describing the destination streams used by the application.
@@ -3349,6 +3493,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SqlApplicationConfigurationUpdate: AWSEncodableShape {
+
         /// The array of InputUpdate objects describing the new input streams used by the application.
         public let inputUpdates: [InputUpdate]?
         /// The array of OutputUpdate objects describing the new destination streams used by the application.
@@ -3382,6 +3527,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct SqlRunConfiguration: AWSEncodableShape {
+
         /// The input source ID. You can get this ID by calling the DescribeApplication operation.
         public let inputId: String
         /// The point at which you want the application to start processing records from the streaming source.
@@ -3405,6 +3551,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StartApplicationRequest: AWSEncodableShape {
+
         /// The name of the application.
         public let applicationName: String
         /// Identifies the run configuration (start parameters) of a Kinesis Data Analytics application.
@@ -3429,10 +3576,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StartApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopApplicationRequest: AWSEncodableShape {
+
         /// The name of the running application to stop.
         public let applicationName: String
         /// Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot.   Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application.  You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
@@ -3456,10 +3608,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct StopApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the key-value tag.
         public let key: String
         /// The value of the key-value tag. The value is optional.
@@ -3484,6 +3641,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The ARN of the application to assign the tags.
         public let resourceARN: String
         /// The key-value tags to assign to the application.
@@ -3512,10 +3670,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The ARN of the Kinesis Data Analytics application from which to remove the tags.
         public let resourceARN: String
         /// A list of keys of tags to remove from the specified application.
@@ -3545,10 +3708,15 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateApplicationMaintenanceConfigurationRequest: AWSEncodableShape {
+
         /// Describes the application maintenance configuration update.
         public let applicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate
         /// The name of the application for which you want to update the maintenance time window.
@@ -3573,6 +3741,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UpdateApplicationMaintenanceConfigurationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationARN: String?
         /// The application maintenance configuration description after the update.
@@ -3590,6 +3759,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+
         /// Describes application configuration updates.
         public let applicationConfigurationUpdate: ApplicationConfigurationUpdate?
         /// The name of the application to update.
@@ -3620,7 +3790,7 @@ extension KinesisAnalyticsV2 {
             try self.cloudWatchLoggingOptionUpdates?.forEach {
                 try $0.validate(name: "\(name).cloudWatchLoggingOptionUpdates[]")
             }
-            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999999999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.runConfigurationUpdate?.validate(name: "\(name).runConfigurationUpdate")
             try self.validate(self.serviceExecutionRoleUpdate, name: "serviceExecutionRoleUpdate", parent: name, max: 2048)
@@ -3639,6 +3809,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
+
         /// Describes application updates.
         public let applicationDetail: ApplicationDetail
 
@@ -3652,6 +3823,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct VpcConfiguration: AWSEncodableShape {
+
         /// The array of SecurityGroup IDs used by the VPC configuration.
         public let securityGroupIds: [String]
         /// The array of Subnet IDs used by the VPC configuration.
@@ -3676,6 +3848,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct VpcConfigurationDescription: AWSDecodableShape {
+
         /// The array of SecurityGroup IDs used by the VPC configuration.
         public let securityGroupIds: [String]
         /// The array of Subnet IDs used by the VPC configuration.
@@ -3701,6 +3874,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct VpcConfigurationUpdate: AWSEncodableShape {
+
         /// Describes updates to the array of SecurityGroup IDs used by the VPC configuration.
         public let securityGroupIdUpdates: [String]?
         /// Describes updates to the array of Subnet IDs used by the VPC configuration.

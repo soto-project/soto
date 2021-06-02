@@ -65,118 +65,118 @@ public struct ECRPublic: AWSService {
     // MARK: API Calls
 
     /// Checks the availability of one or more image layers within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
-    public func batchCheckLayerAvailability(_ input: BatchCheckLayerAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCheckLayerAvailabilityResponse> {
-        return self.client.execute(operation: "BatchCheckLayerAvailability", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func batchCheckLayerAvailability(_ input: BatchCheckLayerAvailabilityRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCheckLayerAvailabilityResponse> {
+        return self.client.execute(operation: "BatchCheckLayerAvailability", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a list of specified images within a repository in a public registry. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the image's digest in your request.
-    public func batchDeleteImage(_ input: BatchDeleteImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteImageResponse> {
-        return self.client.execute(operation: "BatchDeleteImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func batchDeleteImage(_ input: BatchDeleteImageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteImageResponse> {
+        return self.client.execute(operation: "BatchDeleteImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Informs Amazon ECR that the image layer upload has completed for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
-    public func completeLayerUpload(_ input: CompleteLayerUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CompleteLayerUploadResponse> {
-        return self.client.execute(operation: "CompleteLayerUpload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func completeLayerUpload(_ input: CompleteLayerUploadRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CompleteLayerUploadResponse> {
+        return self.client.execute(operation: "CompleteLayerUpload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a repository in a public registry. For more information, see Amazon ECR repositories in the Amazon Elastic Container Registry User Guide.
-    public func createRepository(_ input: CreateRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRepositoryResponse> {
-        return self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createRepository(_ input: CreateRepositoryRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRepositoryResponse> {
+        return self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a repository in a public registry. If the repository contains images, you must either delete all images in the repository or use the force option which deletes all images on your behalf before deleting the repository.
-    public func deleteRepository(_ input: DeleteRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryResponse> {
-        return self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteRepository(_ input: DeleteRepositoryRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryResponse> {
+        return self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the repository policy associated with the specified repository.
-    public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryPolicyResponse> {
-        return self.client.execute(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteRepositoryPolicy(_ input: DeleteRepositoryPolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryPolicyResponse> {
+        return self.client.execute(operation: "DeleteRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the image tag details for a repository in a public registry.
-    public func describeImageTags(_ input: DescribeImageTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImageTagsResponse> {
-        return self.client.execute(operation: "DescribeImageTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeImageTags(_ input: DescribeImageTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImageTagsResponse> {
+        return self.client.execute(operation: "DescribeImageTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns metadata about the images in a repository in a public registry.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
-    public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImagesResponse> {
-        return self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeImages(_ input: DescribeImagesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImagesResponse> {
+        return self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns details for a public registry.
-    public func describeRegistries(_ input: DescribeRegistriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegistriesResponse> {
-        return self.client.execute(operation: "DescribeRegistries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeRegistries(_ input: DescribeRegistriesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegistriesResponse> {
+        return self.client.execute(operation: "DescribeRegistries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes repositories in a public registry.
-    public func describeRepositories(_ input: DescribeRepositoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRepositoriesResponse> {
-        return self.client.execute(operation: "DescribeRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeRepositories(_ input: DescribeRepositoriesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRepositoriesResponse> {
+        return self.client.execute(operation: "DescribeRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
-    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAuthorizationTokenResponse> {
-        return self.client.execute(operation: "GetAuthorizationToken", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAuthorizationTokenResponse> {
+        return self.client.execute(operation: "GetAuthorizationToken", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves catalog metadata for a public registry.
-    public func getRegistryCatalogData(_ input: GetRegistryCatalogDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRegistryCatalogDataResponse> {
-        return self.client.execute(operation: "GetRegistryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getRegistryCatalogData(_ input: GetRegistryCatalogDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRegistryCatalogDataResponse> {
+        return self.client.execute(operation: "GetRegistryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.
-    public func getRepositoryCatalogData(_ input: GetRepositoryCatalogDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryCatalogDataResponse> {
-        return self.client.execute(operation: "GetRepositoryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getRepositoryCatalogData(_ input: GetRepositoryCatalogDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryCatalogDataResponse> {
+        return self.client.execute(operation: "GetRepositoryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the repository policy for the specified repository.
-    public func getRepositoryPolicy(_ input: GetRepositoryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryPolicyResponse> {
-        return self.client.execute(operation: "GetRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getRepositoryPolicy(_ input: GetRepositoryPolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryPolicyResponse> {
+        return self.client.execute(operation: "GetRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
-    public func initiateLayerUpload(_ input: InitiateLayerUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InitiateLayerUploadResponse> {
-        return self.client.execute(operation: "InitiateLayerUpload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func initiateLayerUpload(_ input: InitiateLayerUploadRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InitiateLayerUploadResponse> {
+        return self.client.execute(operation: "InitiateLayerUpload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List the tags for an Amazon ECR Public resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates or updates the image manifest and tags associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags associated with the image.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
-    public func putImage(_ input: PutImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutImageResponse> {
-        return self.client.execute(operation: "PutImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putImage(_ input: PutImageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutImageResponse> {
+        return self.client.execute(operation: "PutImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Create or updates the catalog data for a public registry.
-    public func putRegistryCatalogData(_ input: PutRegistryCatalogDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRegistryCatalogDataResponse> {
-        return self.client.execute(operation: "PutRegistryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putRegistryCatalogData(_ input: PutRegistryCatalogDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRegistryCatalogDataResponse> {
+        return self.client.execute(operation: "PutRegistryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates or updates the catalog data for a repository in a public registry.
-    public func putRepositoryCatalogData(_ input: PutRepositoryCatalogDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRepositoryCatalogDataResponse> {
-        return self.client.execute(operation: "PutRepositoryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putRepositoryCatalogData(_ input: PutRepositoryCatalogDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRepositoryCatalogDataResponse> {
+        return self.client.execute(operation: "PutRepositoryCatalogData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Applies a repository policy to the specified public repository to control access permissions. For more information, see Amazon ECR Repository Policies in the Amazon Elastic Container Registry User Guide.
-    public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetRepositoryPolicyResponse> {
-        return self.client.execute(operation: "SetRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func setRepositoryPolicy(_ input: SetRepositoryPolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetRepositoryPolicyResponse> {
+        return self.client.execute(operation: "SetRepositoryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes specified tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart API is called once per each new image layer part.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
-    public func uploadLayerPart(_ input: UploadLayerPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UploadLayerPartResponse> {
-        return self.client.execute(operation: "UploadLayerPart", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func uploadLayerPart(_ input: UploadLayerPartRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UploadLayerPartResponse> {
+        return self.client.execute(operation: "UploadLayerPart", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

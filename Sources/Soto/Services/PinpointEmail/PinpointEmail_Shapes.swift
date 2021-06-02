@@ -97,6 +97,7 @@ extension PinpointEmail {
     // MARK: Shapes
 
     public struct BlacklistEntry: AWSDecodableShape {
+
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public let description: String?
         /// The time when the blacklisting event occurred, shown in Unix time format.
@@ -118,6 +119,7 @@ extension PinpointEmail {
     }
 
     public struct Body: AWSEncodableShape {
+
         /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more.
         public let html: Content?
         /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
@@ -135,6 +137,7 @@ extension PinpointEmail {
     }
 
     public struct CloudWatchDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
 
@@ -148,6 +151,7 @@ extension PinpointEmail {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:   It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
         public let defaultDimensionValue: String
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name has to meet the following criteria:   It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
@@ -169,6 +173,7 @@ extension PinpointEmail {
     }
 
     public struct Content: AWSEncodableShape {
+
         /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
         public let charset: String?
         /// The content of the message itself.
@@ -210,10 +215,15 @@ extension PinpointEmail {
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateConfigurationSetRequest: AWSEncodableShape {
+
         /// The name of the configuration set.
         public let configurationSetName: String
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -247,10 +257,15 @@ extension PinpointEmail {
     }
 
     public struct CreateConfigurationSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateDedicatedIpPoolRequest: AWSEncodableShape {
+
         /// The name of the dedicated IP pool.
         public let poolName: String
         /// An object that defines the tags (keys and values) that you want to associate with the pool.
@@ -268,10 +283,15 @@ extension PinpointEmail {
     }
 
     public struct CreateDedicatedIpPoolResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateDeliverabilityTestReportRequest: AWSEncodableShape {
+
         /// The HTML body of the message that you sent when you performed the predictive inbox placement test.
         public let content: EmailContent
         /// The email address that the predictive inbox placement test email was sent from.
@@ -301,6 +321,7 @@ extension PinpointEmail {
     }
 
     public struct CreateDeliverabilityTestReportResponse: AWSDecodableShape {
+
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
         public let deliverabilityTestStatus: DeliverabilityTestStatus
         /// A unique string that identifies the predictive inbox placement test.
@@ -318,6 +339,7 @@ extension PinpointEmail {
     }
 
     public struct CreateEmailIdentityRequest: AWSEncodableShape {
+
         /// The email address or domain that you want to verify.
         public let emailIdentity: String
         /// An array of objects that define the tags (keys and values) that you want to associate with the email identity.
@@ -335,6 +357,7 @@ extension PinpointEmail {
     }
 
     public struct CreateEmailIdentityResponse: AWSDecodableShape {
+
         /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
         public let dkimAttributes: DkimAttributes?
         /// The email identity type.
@@ -356,6 +379,7 @@ extension PinpointEmail {
     }
 
     public struct DailyVolume: AWSDecodableShape {
+
         /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
         public let domainIspPlacements: [DomainIspPlacement]?
         /// The date that the DailyVolume metrics apply to, in Unix time.
@@ -377,6 +401,7 @@ extension PinpointEmail {
     }
 
     public struct DedicatedIp: AWSDecodableShape {
+
         /// An IP address that is reserved for use by your Amazon Pinpoint account.
         public let ip: String
         /// The name of the dedicated IP pool that the IP address is associated with.
@@ -403,7 +428,7 @@ extension PinpointEmail {
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
@@ -421,7 +446,11 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
@@ -440,7 +469,11 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDedicatedIpPoolRequest: AWSEncodableShape {
@@ -459,7 +492,11 @@ extension PinpointEmail {
     }
 
     public struct DeleteDedicatedIpPoolResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteEmailIdentityRequest: AWSEncodableShape {
@@ -478,10 +515,15 @@ extension PinpointEmail {
     }
 
     public struct DeleteEmailIdentityResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeliverabilityTestReport: AWSDecodableShape {
+
         /// The date and time when the predictive inbox placement test was created, in Unix time format.
         public let createDate: Date?
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
@@ -515,6 +557,7 @@ extension PinpointEmail {
     }
 
     public struct DeliveryOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
         public let sendingPoolName: String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
@@ -532,6 +575,7 @@ extension PinpointEmail {
     }
 
     public struct Destination: AWSEncodableShape {
+
         /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
         public let bccAddresses: [String]?
         /// An array that contains the email addresses of the "CC" (carbon copy) recipients for the email.
@@ -553,6 +597,7 @@ extension PinpointEmail {
     }
 
     public struct DkimAttributes: AWSDecodableShape {
+
         /// If the value is true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. If the value is false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
         public let signingEnabled: Bool?
         /// Describes whether or not Amazon Pinpoint has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:    PENDING – Amazon Pinpoint hasn't yet located the DKIM records in the DNS configuration for the domain, but will continue to attempt to locate them.    SUCCESS – Amazon Pinpoint located the DKIM records in the DNS configuration for the domain and determined that they're correct. Amazon Pinpoint can now send DKIM-signed email from the identity.    FAILED – Amazon Pinpoint was unable to locate the DKIM records in the DNS settings for the domain, and won't continue to search for them.    TEMPORARY_FAILURE – A temporary issue occurred, which prevented Amazon Pinpoint from determining the DKIM status for the domain.    NOT_STARTED – Amazon Pinpoint hasn't yet started searching for the DKIM records in the DKIM records for the domain.
@@ -574,6 +619,7 @@ extension PinpointEmail {
     }
 
     public struct DomainDeliverabilityCampaign: AWSDecodableShape {
+
         /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
         public let campaignId: String?
         /// The percentage of email messages that were deleted by recipients, without being opened first. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
@@ -639,6 +685,7 @@ extension PinpointEmail {
     }
 
     public struct DomainDeliverabilityTrackingOption: AWSEncodableShape & AWSDecodableShape {
+
         /// A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.
         public let domain: String?
         /// An object that contains information about the inbox placement data settings for the domain.
@@ -660,6 +707,7 @@ extension PinpointEmail {
     }
 
     public struct DomainIspPlacement: AWSDecodableShape {
+
         /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
         public let inboxPercentage: Double?
         /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
@@ -689,6 +737,7 @@ extension PinpointEmail {
     }
 
     public struct EmailContent: AWSEncodableShape {
+
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let raw: RawMessage?
         /// The simple email message. The message consists of a subject and a message body.
@@ -714,6 +763,7 @@ extension PinpointEmail {
     }
 
     public struct EventDestination: AWSDecodableShape {
+
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
@@ -751,6 +801,7 @@ extension PinpointEmail {
     }
 
     public struct EventDestinationDefinition: AWSEncodableShape {
+
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public let cloudWatchDestination: CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
@@ -784,10 +835,15 @@ extension PinpointEmail {
     }
 
     public struct GetAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAccountResponse: AWSDecodableShape {
+
         /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
         public let dedicatedIpAutoWarmupEnabled: Bool?
         /// The reputation status of your Amazon Pinpoint account. The status can be one of the following:    HEALTHY – There are no reputation-related issues that currently impact your account.    PROBATION – We've identified some issues with your Amazon Pinpoint account. We're placing your account under review while you work on correcting these issues.    SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.
@@ -832,6 +888,7 @@ extension PinpointEmail {
     }
 
     public struct GetBlacklistReportsResponse: AWSDecodableShape {
+
         /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
         public let blacklistReport: [String: [BlacklistEntry]]
 
@@ -860,6 +917,7 @@ extension PinpointEmail {
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
+
         /// An array that includes all of the events destinations that have been configured for the configuration set.
         public let eventDestinations: [EventDestination]?
 
@@ -888,6 +946,7 @@ extension PinpointEmail {
     }
 
     public struct GetConfigurationSetResponse: AWSDecodableShape {
+
         /// The name of the configuration set.
         public let configurationSetName: String?
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -936,6 +995,7 @@ extension PinpointEmail {
     }
 
     public struct GetDedicatedIpResponse: AWSDecodableShape {
+
         /// An object that contains information about a dedicated IP address.
         public let dedicatedIp: DedicatedIp?
 
@@ -950,8 +1010,8 @@ extension PinpointEmail {
 
     public struct GetDedicatedIpsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")), 
             AWSMemberEncoding(label: "poolName", location: .querystring(locationName: "PoolName"))
         ]
 
@@ -972,6 +1032,7 @@ extension PinpointEmail {
     }
 
     public struct GetDedicatedIpsResponse: AWSDecodableShape {
+
         /// A list of dedicated IP addresses that are reserved for use by your Amazon Pinpoint account.
         public let dedicatedIps: [DedicatedIp]?
         /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
@@ -989,10 +1050,15 @@ extension PinpointEmail {
     }
 
     public struct GetDeliverabilityDashboardOptionsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetDeliverabilityDashboardOptionsResponse: AWSDecodableShape {
+
         /// The current status of your Deliverability dashboard subscription. If this value is PENDING_EXPIRATION, your subscription is scheduled to expire at the end of the current calendar month.
         public let accountStatus: DeliverabilityDashboardAccountStatus?
         /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that isn’t scheduled to expire at the end of the current calendar month.
@@ -1037,6 +1103,7 @@ extension PinpointEmail {
     }
 
     public struct GetDeliverabilityTestReportResponse: AWSDecodableShape {
+
         /// An object that contains the results of the predictive inbox placement test.
         public let deliverabilityTestReport: DeliverabilityTestReport
         /// An object that describes how the test email was handled by several email providers, including Gmail, Hotmail, Yahoo, AOL, and others.
@@ -1081,6 +1148,7 @@ extension PinpointEmail {
     }
 
     public struct GetDomainDeliverabilityCampaignResponse: AWSDecodableShape {
+
         /// An object that contains the deliverability data for the campaign.
         public let domainDeliverabilityCampaign: DomainDeliverabilityCampaign
 
@@ -1095,8 +1163,8 @@ extension PinpointEmail {
 
     public struct GetDomainStatisticsReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .uri(locationName: "Domain")),
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")),
+            AWSMemberEncoding(label: "domain", location: .uri(locationName: "Domain")), 
+            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")), 
             AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "StartDate"))
         ]
 
@@ -1117,6 +1185,7 @@ extension PinpointEmail {
     }
 
     public struct GetDomainStatisticsReportResponse: AWSDecodableShape {
+
         /// An object that contains deliverability metrics for the domain that you specified. This object contains data for each day, starting on the StartDate and ending on the EndDate.
         public let dailyVolumes: [DailyVolume]
         /// An object that contains deliverability metrics for the domain that you specified. The data in this object is a summary of all of the data that was collected from the StartDate to the EndDate.
@@ -1149,6 +1218,7 @@ extension PinpointEmail {
     }
 
     public struct GetEmailIdentityResponse: AWSDecodableShape {
+
         /// An object that contains information about the DKIM attributes for the identity. This object includes the tokens that you use to create the CNAME records that are required to complete the DKIM verification process.
         public let dkimAttributes: DkimAttributes?
         /// The feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
@@ -1182,6 +1252,7 @@ extension PinpointEmail {
     }
 
     public struct IdentityInfo: AWSDecodableShape {
+
         /// The address or domain of the identity.
         public let identityName: String?
         /// The email identity type. The identity type can be one of the following:    EMAIL_ADDRESS – The identity is an email address.    DOMAIN – The identity is a domain.    MANAGED_DOMAIN – The identity is a domain that is managed by AWS.
@@ -1203,6 +1274,7 @@ extension PinpointEmail {
     }
 
     public struct InboxPlacementTrackingOption: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether inbox placement data is being tracked for the domain.
         public let global: Bool?
         /// An array of strings, one for each major email provider that the inbox placement data applies to.
@@ -1220,6 +1292,7 @@ extension PinpointEmail {
     }
 
     public struct IspPlacement: AWSDecodableShape {
+
         /// The name of the email provider that the inbox placement data applies to.
         public let ispName: String?
         /// An object that contains inbox placement metrics for a specific email provider.
@@ -1237,6 +1310,7 @@ extension PinpointEmail {
     }
 
     public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that Amazon Pinpoint sends email events to.
         public let deliveryStreamArn: String
         /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses when sending email events to the Amazon Kinesis Data Firehose stream.
@@ -1255,7 +1329,7 @@ extension PinpointEmail {
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
@@ -1273,6 +1347,7 @@ extension PinpointEmail {
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
+
         /// An array that contains all of the configuration sets in your Amazon Pinpoint account in the current AWS Region.
         public let configurationSets: [String]?
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
@@ -1291,7 +1366,7 @@ extension PinpointEmail {
 
     public struct ListDedicatedIpPoolsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
@@ -1309,6 +1384,7 @@ extension PinpointEmail {
     }
 
     public struct ListDedicatedIpPoolsResponse: AWSDecodableShape {
+
         /// A list of all of the dedicated IP pools that are associated with your Amazon Pinpoint account.
         public let dedicatedIpPools: [String]?
         /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
@@ -1327,7 +1403,7 @@ extension PinpointEmail {
 
     public struct ListDeliverabilityTestReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
@@ -1345,6 +1421,7 @@ extension PinpointEmail {
     }
 
     public struct ListDeliverabilityTestReportsResponse: AWSDecodableShape {
+
         /// An object that contains a lists of predictive inbox placement tests that you've performed.
         public let deliverabilityTestReports: [DeliverabilityTestReport]
         /// A token that indicates that there are additional predictive inbox placement tests to list. To view additional predictive inbox placement tests, issue another request to ListDeliverabilityTestReports, and pass this token in the NextToken parameter.
@@ -1363,10 +1440,10 @@ extension PinpointEmail {
 
     public struct ListDomainDeliverabilityCampaignsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "StartDate")),
+            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "EndDate")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize")), 
+            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "StartDate")), 
             AWSMemberEncoding(label: "subscribedDomain", location: .uri(locationName: "SubscribedDomain"))
         ]
 
@@ -1393,6 +1470,7 @@ extension PinpointEmail {
     }
 
     public struct ListDomainDeliverabilityCampaignsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each campaign that used the domain to send email during the specified time range.
         public let domainDeliverabilityCampaigns: [DomainDeliverabilityCampaign]
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of the campaign in the list of campaigns.
@@ -1411,7 +1489,7 @@ extension PinpointEmail {
 
     public struct ListEmailIdentitiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
@@ -1429,6 +1507,7 @@ extension PinpointEmail {
     }
 
     public struct ListEmailIdentitiesResponse: AWSDecodableShape {
+
         /// An array that includes all of the identities associated with your Amazon Pinpoint account.
         public let emailIdentities: [IdentityInfo]?
         /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
@@ -1461,6 +1540,7 @@ extension PinpointEmail {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
         public let tags: [Tag]
 
@@ -1474,6 +1554,7 @@ extension PinpointEmail {
     }
 
     public struct MailFromAttributes: AWSDecodableShape {
+
         /// The action that Amazon Pinpoint to takes if it can't read the required MX record for a custom MAIL FROM domain. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure
         /// The name of a domain that an email identity uses as a custom MAIL FROM domain.
@@ -1495,6 +1576,7 @@ extension PinpointEmail {
     }
 
     public struct Message: AWSEncodableShape {
+
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         public let body: Body
         /// The subject line of the email. The subject line can only contain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using encoded-word syntax, as described in RFC 2047.
@@ -1512,6 +1594,7 @@ extension PinpointEmail {
     }
 
     public struct MessageTag: AWSEncodableShape {
+
         /// The name of the message tag. The message tag name has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
         public let name: String
         /// The value of the message tag. The message tag value has to meet the following criteria:   It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).   It can contain no more than 256 characters.
@@ -1529,6 +1612,7 @@ extension PinpointEmail {
     }
 
     public struct OverallVolume: AWSDecodableShape {
+
         /// An object that contains inbox and junk mail placement metrics for individual email providers.
         public let domainIspPlacements: [DomainIspPlacement]?
         /// The percentage of emails that were sent from the domain that were read by their recipients.
@@ -1550,6 +1634,7 @@ extension PinpointEmail {
     }
 
     public struct PinpointDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.
         public let applicationArn: String?
 
@@ -1563,6 +1648,7 @@ extension PinpointEmail {
     }
 
     public struct PlacementStatistics: AWSDecodableShape {
+
         /// The percentage of emails that were authenticated by using DomainKeys Identified Mail (DKIM) during the predictive inbox placement test.
         public let dkimPercentage: Double?
         /// The percentage of emails that arrived in recipients' inboxes during the predictive inbox placement test.
@@ -1592,6 +1678,7 @@ extension PinpointEmail {
     }
 
     public struct PutAccountDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
+
         /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
         public let autoWarmupEnabled: Bool?
 
@@ -1605,10 +1692,15 @@ extension PinpointEmail {
     }
 
     public struct PutAccountDedicatedIpWarmupAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutAccountSendingAttributesRequest: AWSEncodableShape {
+
         /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
         public let sendingEnabled: Bool?
 
@@ -1622,7 +1714,11 @@ extension PinpointEmail {
     }
 
     public struct PutAccountSendingAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
@@ -1650,7 +1746,11 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetDeliveryOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSEncodableShape {
@@ -1674,7 +1774,11 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetReputationOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSEncodableShape {
@@ -1698,7 +1802,11 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetSendingOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
@@ -1722,7 +1830,11 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetTrackingOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutDedicatedIpInPoolRequest: AWSEncodableShape {
@@ -1746,7 +1858,11 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpInPoolResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
@@ -1770,10 +1886,15 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpWarmupAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutDeliverabilityDashboardOptionRequest: AWSEncodableShape {
+
         /// Specifies whether to enable the Deliverability dashboard for your Amazon Pinpoint account. To enable the dashboard, set this value to true.
         public let dashboardEnabled: Bool
         /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
@@ -1791,7 +1912,11 @@ extension PinpointEmail {
     }
 
     public struct PutDeliverabilityDashboardOptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSEncodableShape {
@@ -1815,7 +1940,11 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityDkimAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSEncodableShape {
@@ -1839,7 +1968,11 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityFeedbackAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSEncodableShape {
@@ -1867,10 +2000,15 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityMailFromAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RawMessage: AWSEncodableShape {
+
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   Attachments must be in a file format that Amazon Pinpoint supports.    The entire message must be Base64 encoded.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let data: Data
 
@@ -1884,6 +2022,7 @@ extension PinpointEmail {
     }
 
     public struct ReputationOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public let lastFreshStart: Date?
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
@@ -1901,6 +2040,7 @@ extension PinpointEmail {
     }
 
     public struct SendEmailRequest: AWSEncodableShape {
+
         /// The name of the configuration set that you want to use when sending the email.
         public let configurationSetName: String?
         /// An object that contains the body of the message. You can send either a Simple message or a Raw message.
@@ -1942,6 +2082,7 @@ extension PinpointEmail {
     }
 
     public struct SendEmailResponse: AWSDecodableShape {
+
         /// A unique identifier for the message that is generated when Amazon Pinpoint accepts the message.  It is possible for Amazon Pinpoint to accept a message without sending it. This can happen when the message you're trying to send has an attachment doesn't pass a virus check, or when you send a templated email that contains invalid personalization content, for example.
         public let messageId: String?
 
@@ -1955,6 +2096,7 @@ extension PinpointEmail {
     }
 
     public struct SendQuota: AWSDecodableShape {
+
         /// The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your sending quota.
         public let max24HourSend: Double?
         /// The maximum number of emails that you can send per second in the current AWS Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
@@ -1976,6 +2118,7 @@ extension PinpointEmail {
     }
 
     public struct SendingOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public let sendingEnabled: Bool?
 
@@ -1989,6 +2132,7 @@ extension PinpointEmail {
     }
 
     public struct SnsDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicArn: String
 
@@ -2002,6 +2146,7 @@ extension PinpointEmail {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         public let key: String
         /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don’t want a resource to have a specific tag value, don’t specify a value for this parameter. Amazon Pinpoint will set the value to an empty string.
@@ -2019,6 +2164,7 @@ extension PinpointEmail {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
         public let resourceArn: String
         /// A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
@@ -2036,10 +2182,15 @@ extension PinpointEmail {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Template: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the template.
         public let templateArn: String?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
@@ -2051,7 +2202,7 @@ extension PinpointEmail {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2061,6 +2212,7 @@ extension PinpointEmail {
     }
 
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// The domain that you want to use for tracking open and click events.
         public let customRedirectDomain: String
 
@@ -2075,7 +2227,7 @@ extension PinpointEmail {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "ResourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "ResourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "TagKeys"))
         ]
 
@@ -2093,12 +2245,16 @@ extension PinpointEmail {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
@@ -2121,10 +2277,15 @@ extension PinpointEmail {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VolumeStatistics: AWSDecodableShape {
+
         /// The total number of emails that arrived in recipients' inboxes.
         public let inboxRawCount: Int64?
         /// An estimate of the percentage of emails sent from the current domain that will arrive in recipients' inboxes.

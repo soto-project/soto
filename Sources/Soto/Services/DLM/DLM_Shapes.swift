@@ -84,6 +84,7 @@ extension DLM {
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
+
         /// The rule for copying shared snapshots across Regions.
         public let crossRegionCopy: [CrossRegionCopyAction]
         /// A descriptive name for the action.
@@ -112,6 +113,7 @@ extension DLM {
     }
 
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
+
         /// A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+$ are supported.
         public let description: String
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
@@ -158,6 +160,7 @@ extension DLM {
     }
 
     public struct CreateLifecyclePolicyResponse: AWSDecodableShape {
+
         /// The identifier of the lifecycle policy.
         public let policyId: String?
 
@@ -171,6 +174,7 @@ extension DLM {
     }
 
     public struct CreateRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The schedule, as a Cron expression. The schedule interval must be between 1 hour and 1 year. For more information, see Cron expressions in the Amazon CloudWatch User Guide.
         public let cronExpression: String?
         /// The interval between snapshots. The supported values are 1, 2, 3, 4, 6, 8, 12, and 24.
@@ -213,6 +217,7 @@ extension DLM {
     }
 
     public struct CrossRegionCopyAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The encryption settings for the copied snapshot.
         public let encryptionConfiguration: EncryptionConfiguration
         public let retainRule: CrossRegionCopyRetainRule?
@@ -241,6 +246,7 @@ extension DLM {
     }
 
     public struct CrossRegionCopyRetainRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
         public let interval: Int?
         /// The unit of time for time-based retention.
@@ -262,6 +268,7 @@ extension DLM {
     }
 
     public struct CrossRegionCopyRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
         public let cmkArn: String?
         /// Copy all user-defined tags from the source snapshot to the copied snapshot.
@@ -329,10 +336,15 @@ extension DLM {
     }
 
     public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK) to use for EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used.
         public let cmkArn: String?
         /// To encrypt a copy of an unencrypted snapshot when encryption by default is not enabled, enable encryption using this parameter. Copies of encrypted snapshots are encrypted, even if this parameter is false or when encryption by default is not enabled.
@@ -356,6 +368,7 @@ extension DLM {
     }
 
     public struct EventParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The snapshot description that can trigger the policy. The description pattern is specified using a regular expression. The policy runs only if a snapshot with a description that matches the specified pattern is shared with your account. For example, specifying ^.*Created for policy: policy-1234567890abcdef0.*$ configures the policy to run only if snapshots created by policy policy-1234567890abcdef0 are shared with your account.
         public let descriptionRegex: String
         /// The type of event. Currently, only snapshot sharing events are supported.
@@ -390,6 +403,7 @@ extension DLM {
     }
 
     public struct EventSource: AWSEncodableShape & AWSDecodableShape {
+
         /// Information about the event.
         public let parameters: EventParameters?
         /// The source of the event. Currently only managed AWS CloudWatch Events rules are supported.
@@ -411,6 +425,7 @@ extension DLM {
     }
 
     public struct FastRestoreRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The Availability Zones in which to enable fast snapshot restore.
         public let availabilityZones: [String]
         /// The number of snapshots to be enabled with fast snapshot restore.
@@ -450,10 +465,10 @@ extension DLM {
 
     public struct GetLifecyclePoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "policyIds", location: .querystring(locationName: "policyIds")),
-            AWSMemberEncoding(label: "resourceTypes", location: .querystring(locationName: "resourceTypes")),
-            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "tagsToAdd", location: .querystring(locationName: "tagsToAdd")),
+            AWSMemberEncoding(label: "policyIds", location: .querystring(locationName: "policyIds")), 
+            AWSMemberEncoding(label: "resourceTypes", location: .querystring(locationName: "resourceTypes")), 
+            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")), 
+            AWSMemberEncoding(label: "tagsToAdd", location: .querystring(locationName: "tagsToAdd")), 
             AWSMemberEncoding(label: "targetTags", location: .querystring(locationName: "targetTags"))
         ]
 
@@ -504,6 +519,7 @@ extension DLM {
     }
 
     public struct GetLifecyclePoliciesResponse: AWSDecodableShape {
+
         /// Summary information about the lifecycle policies.
         public let policies: [LifecyclePolicySummary]?
 
@@ -538,6 +554,7 @@ extension DLM {
     }
 
     public struct GetLifecyclePolicyResponse: AWSDecodableShape {
+
         /// Detailed information about the lifecycle policy.
         public let policy: LifecyclePolicy?
 
@@ -551,6 +568,7 @@ extension DLM {
     }
 
     public struct LifecyclePolicy: AWSDecodableShape {
+
         /// The local date and time when the lifecycle policy was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var dateCreated: Date?
@@ -602,6 +620,7 @@ extension DLM {
     }
 
     public struct LifecyclePolicySummary: AWSDecodableShape {
+
         /// The description of the lifecycle policy.
         public let description: String?
         /// The identifier of the lifecycle policy.
@@ -652,6 +671,7 @@ extension DLM {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// Information about the tags.
         public let tags: [String: String]?
 
@@ -665,6 +685,7 @@ extension DLM {
     }
 
     public struct Parameters: AWSEncodableShape & AWSDecodableShape {
+
         /// [EBS Snapshot Management – Instance policies only] Indicates whether to exclude the root volume from snapshots created using CreateSnapshots. The default is false.
         public let excludeBootVolume: Bool?
         /// Applies to AMI lifecycle policies only. Indicates whether targeted instances are rebooted when the lifecycle policy runs. true indicates that targeted instances are not rebooted when the policy runs. false indicates that target instances are rebooted when the policy runs. The default is true (instances are not rebooted).
@@ -682,6 +703,7 @@ extension DLM {
     }
 
     public struct PolicyDetails: AWSEncodableShape & AWSDecodableShape {
+
         /// The actions to be performed when the event-based policy is triggered. You can specify only one action per policy. This parameter is required for event-based policies only. If you are creating a snapshot or AMI policy, omit this parameter.
         public let actions: [Action]?
         /// The event that triggers the event-based policy.  This parameter is required for event-based policies only. If you are creating a snapshot or AMI policy, omit this parameter.
@@ -746,6 +768,7 @@ extension DLM {
     }
 
     public struct RetainRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of snapshots to retain for each volume, up to a maximum of 1000.
         public let count: Int?
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
@@ -773,6 +796,7 @@ extension DLM {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
+
         /// Copy all user-defined tags on a source volume to snapshots of the volume created by this policy.
         public let copyTags: Bool?
         /// The creation rule.
@@ -847,6 +871,7 @@ extension DLM {
     }
 
     public struct ShareRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The IDs of the AWS accounts with which to share the snapshots.
         public let targetAccounts: [String]
         /// The period after which snapshots that are shared with other AWS accounts are automatically unshared.
@@ -878,6 +903,7 @@ extension DLM {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag key.
         public let key: String
         /// The tag value.
@@ -937,12 +963,16 @@ extension DLM {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -973,7 +1003,11 @@ extension DLM {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
@@ -1022,6 +1056,10 @@ extension DLM {
     }
 
     public struct UpdateLifecyclePolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

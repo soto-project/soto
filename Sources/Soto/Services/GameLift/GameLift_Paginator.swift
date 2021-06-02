@@ -27,14 +27,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFleetAttributesPaginator<Result>(
         _ input: DescribeFleetAttributesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFleetAttributesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension GameLift {
             command: describeFleetAttributes,
             inputKey: \DescribeFleetAttributesInput.nextToken,
             outputKey: \DescribeFleetAttributesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFleetAttributesPaginator(
         _ input: DescribeFleetAttributesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFleetAttributesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension GameLift {
             command: describeFleetAttributes,
             inputKey: \DescribeFleetAttributesInput.nextToken,
             outputKey: \DescribeFleetAttributesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFleetCapacityPaginator<Result>(
         _ input: DescribeFleetCapacityInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFleetCapacityOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension GameLift {
             command: describeFleetCapacity,
             inputKey: \DescribeFleetCapacityInput.nextToken,
             outputKey: \DescribeFleetCapacityOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFleetCapacityPaginator(
         _ input: DescribeFleetCapacityInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFleetCapacityOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension GameLift {
             command: describeFleetCapacity,
             inputKey: \DescribeFleetCapacityInput.nextToken,
             outputKey: \DescribeFleetCapacityOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFleetEventsPaginator<Result>(
         _ input: DescribeFleetEventsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFleetEventsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension GameLift {
             command: describeFleetEvents,
             inputKey: \DescribeFleetEventsInput.nextToken,
             outputKey: \DescribeFleetEventsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFleetEventsPaginator(
         _ input: DescribeFleetEventsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFleetEventsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension GameLift {
             command: describeFleetEvents,
             inputKey: \DescribeFleetEventsInput.nextToken,
             outputKey: \DescribeFleetEventsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFleetLocationAttributesPaginator<Result>(
         _ input: DescribeFleetLocationAttributesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFleetLocationAttributesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension GameLift {
             command: describeFleetLocationAttributes,
             inputKey: \DescribeFleetLocationAttributesInput.nextToken,
             outputKey: \DescribeFleetLocationAttributesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFleetLocationAttributesPaginator(
         _ input: DescribeFleetLocationAttributesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFleetLocationAttributesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension GameLift {
             command: describeFleetLocationAttributes,
             inputKey: \DescribeFleetLocationAttributesInput.nextToken,
             outputKey: \DescribeFleetLocationAttributesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFleetUtilizationPaginator<Result>(
         _ input: DescribeFleetUtilizationInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFleetUtilizationOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension GameLift {
             command: describeFleetUtilization,
             inputKey: \DescribeFleetUtilizationInput.nextToken,
             outputKey: \DescribeFleetUtilizationOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFleetUtilizationPaginator(
         _ input: DescribeFleetUtilizationInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFleetUtilizationOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension GameLift {
             command: describeFleetUtilization,
             inputKey: \DescribeFleetUtilizationInput.nextToken,
             outputKey: \DescribeFleetUtilizationOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeGameServerInstancesPaginator<Result>(
         _ input: DescribeGameServerInstancesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeGameServerInstancesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension GameLift {
             command: describeGameServerInstances,
             inputKey: \DescribeGameServerInstancesInput.nextToken,
             outputKey: \DescribeGameServerInstancesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGameServerInstancesPaginator(
         _ input: DescribeGameServerInstancesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeGameServerInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension GameLift {
             command: describeGameServerInstances,
             inputKey: \DescribeGameServerInstancesInput.nextToken,
             outputKey: \DescribeGameServerInstancesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeGameSessionDetailsPaginator<Result>(
         _ input: DescribeGameSessionDetailsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeGameSessionDetailsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension GameLift {
             command: describeGameSessionDetails,
             inputKey: \DescribeGameSessionDetailsInput.nextToken,
             outputKey: \DescribeGameSessionDetailsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGameSessionDetailsPaginator(
         _ input: DescribeGameSessionDetailsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeGameSessionDetailsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension GameLift {
             command: describeGameSessionDetails,
             inputKey: \DescribeGameSessionDetailsInput.nextToken,
             outputKey: \DescribeGameSessionDetailsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeGameSessionQueuesPaginator<Result>(
         _ input: DescribeGameSessionQueuesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeGameSessionQueuesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension GameLift {
             command: describeGameSessionQueues,
             inputKey: \DescribeGameSessionQueuesInput.nextToken,
             outputKey: \DescribeGameSessionQueuesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGameSessionQueuesPaginator(
         _ input: DescribeGameSessionQueuesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeGameSessionQueuesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension GameLift {
             command: describeGameSessionQueues,
             inputKey: \DescribeGameSessionQueuesInput.nextToken,
             outputKey: \DescribeGameSessionQueuesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeGameSessionsPaginator<Result>(
         _ input: DescribeGameSessionsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeGameSessionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension GameLift {
             command: describeGameSessions,
             inputKey: \DescribeGameSessionsInput.nextToken,
             outputKey: \DescribeGameSessionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGameSessionsPaginator(
         _ input: DescribeGameSessionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeGameSessionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension GameLift {
             command: describeGameSessions,
             inputKey: \DescribeGameSessionsInput.nextToken,
             outputKey: \DescribeGameSessionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstancesPaginator<Result>(
         _ input: DescribeInstancesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstancesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension GameLift {
             command: describeInstances,
             inputKey: \DescribeInstancesInput.nextToken,
             outputKey: \DescribeInstancesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstancesPaginator(
         _ input: DescribeInstancesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstancesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension GameLift {
             command: describeInstances,
             inputKey: \DescribeInstancesInput.nextToken,
             outputKey: \DescribeInstancesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMatchmakingConfigurationsPaginator<Result>(
         _ input: DescribeMatchmakingConfigurationsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMatchmakingConfigurationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension GameLift {
             command: describeMatchmakingConfigurations,
             inputKey: \DescribeMatchmakingConfigurationsInput.nextToken,
             outputKey: \DescribeMatchmakingConfigurationsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMatchmakingConfigurationsPaginator(
         _ input: DescribeMatchmakingConfigurationsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMatchmakingConfigurationsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension GameLift {
             command: describeMatchmakingConfigurations,
             inputKey: \DescribeMatchmakingConfigurationsInput.nextToken,
             outputKey: \DescribeMatchmakingConfigurationsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMatchmakingRuleSetsPaginator<Result>(
         _ input: DescribeMatchmakingRuleSetsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMatchmakingRuleSetsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension GameLift {
             command: describeMatchmakingRuleSets,
             inputKey: \DescribeMatchmakingRuleSetsInput.nextToken,
             outputKey: \DescribeMatchmakingRuleSetsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMatchmakingRuleSetsPaginator(
         _ input: DescribeMatchmakingRuleSetsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMatchmakingRuleSetsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension GameLift {
             command: describeMatchmakingRuleSets,
             inputKey: \DescribeMatchmakingRuleSetsInput.nextToken,
             outputKey: \DescribeMatchmakingRuleSetsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -663,14 +687,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePlayerSessionsPaginator<Result>(
         _ input: DescribePlayerSessionsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePlayerSessionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -680,6 +704,7 @@ extension GameLift {
             command: describePlayerSessions,
             inputKey: \DescribePlayerSessionsInput.nextToken,
             outputKey: \DescribePlayerSessionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -689,12 +714,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePlayerSessionsPaginator(
         _ input: DescribePlayerSessionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePlayerSessionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -703,6 +728,7 @@ extension GameLift {
             command: describePlayerSessions,
             inputKey: \DescribePlayerSessionsInput.nextToken,
             outputKey: \DescribePlayerSessionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -716,14 +742,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeScalingPoliciesPaginator<Result>(
         _ input: DescribeScalingPoliciesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeScalingPoliciesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -733,6 +759,7 @@ extension GameLift {
             command: describeScalingPolicies,
             inputKey: \DescribeScalingPoliciesInput.nextToken,
             outputKey: \DescribeScalingPoliciesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -742,12 +769,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeScalingPoliciesPaginator(
         _ input: DescribeScalingPoliciesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScalingPoliciesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -756,6 +783,7 @@ extension GameLift {
             command: describeScalingPolicies,
             inputKey: \DescribeScalingPoliciesInput.nextToken,
             outputKey: \DescribeScalingPoliciesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -769,14 +797,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listAliasesPaginator<Result>(
         _ input: ListAliasesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListAliasesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -786,6 +814,7 @@ extension GameLift {
             command: listAliases,
             inputKey: \ListAliasesInput.nextToken,
             outputKey: \ListAliasesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -795,12 +824,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAliasesPaginator(
         _ input: ListAliasesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListAliasesOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -809,6 +838,7 @@ extension GameLift {
             command: listAliases,
             inputKey: \ListAliasesInput.nextToken,
             outputKey: \ListAliasesOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -822,14 +852,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listBuildsPaginator<Result>(
         _ input: ListBuildsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListBuildsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -839,6 +869,7 @@ extension GameLift {
             command: listBuilds,
             inputKey: \ListBuildsInput.nextToken,
             outputKey: \ListBuildsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -848,12 +879,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listBuildsPaginator(
         _ input: ListBuildsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListBuildsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -862,6 +893,7 @@ extension GameLift {
             command: listBuilds,
             inputKey: \ListBuildsInput.nextToken,
             outputKey: \ListBuildsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -875,14 +907,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listFleetsPaginator<Result>(
         _ input: ListFleetsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListFleetsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -892,6 +924,7 @@ extension GameLift {
             command: listFleets,
             inputKey: \ListFleetsInput.nextToken,
             outputKey: \ListFleetsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -901,12 +934,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFleetsPaginator(
         _ input: ListFleetsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListFleetsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -915,6 +948,7 @@ extension GameLift {
             command: listFleets,
             inputKey: \ListFleetsInput.nextToken,
             outputKey: \ListFleetsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -928,14 +962,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listGameServerGroupsPaginator<Result>(
         _ input: ListGameServerGroupsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListGameServerGroupsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -945,6 +979,7 @@ extension GameLift {
             command: listGameServerGroups,
             inputKey: \ListGameServerGroupsInput.nextToken,
             outputKey: \ListGameServerGroupsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -954,12 +989,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listGameServerGroupsPaginator(
         _ input: ListGameServerGroupsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListGameServerGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -968,6 +1003,7 @@ extension GameLift {
             command: listGameServerGroups,
             inputKey: \ListGameServerGroupsInput.nextToken,
             outputKey: \ListGameServerGroupsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -981,14 +1017,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listGameServersPaginator<Result>(
         _ input: ListGameServersInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListGameServersOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -998,6 +1034,7 @@ extension GameLift {
             command: listGameServers,
             inputKey: \ListGameServersInput.nextToken,
             outputKey: \ListGameServersOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1007,12 +1044,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listGameServersPaginator(
         _ input: ListGameServersInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListGameServersOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1021,6 +1058,7 @@ extension GameLift {
             command: listGameServers,
             inputKey: \ListGameServersInput.nextToken,
             outputKey: \ListGameServersOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1034,14 +1072,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listScriptsPaginator<Result>(
         _ input: ListScriptsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListScriptsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1051,6 +1089,7 @@ extension GameLift {
             command: listScripts,
             inputKey: \ListScriptsInput.nextToken,
             outputKey: \ListScriptsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1060,12 +1099,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listScriptsPaginator(
         _ input: ListScriptsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListScriptsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1074,6 +1113,7 @@ extension GameLift {
             command: listScripts,
             inputKey: \ListScriptsInput.nextToken,
             outputKey: \ListScriptsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1087,14 +1127,14 @@ extension GameLift {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func searchGameSessionsPaginator<Result>(
         _ input: SearchGameSessionsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, SearchGameSessionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1104,6 +1144,7 @@ extension GameLift {
             command: searchGameSessions,
             inputKey: \SearchGameSessionsInput.nextToken,
             outputKey: \SearchGameSessionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,12 +1154,12 @@ extension GameLift {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchGameSessionsPaginator(
         _ input: SearchGameSessionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (SearchGameSessionsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1127,6 +1168,7 @@ extension GameLift {
             command: searchGameSessions,
             inputKey: \SearchGameSessionsInput.nextToken,
             outputKey: \SearchGameSessionsOutput.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

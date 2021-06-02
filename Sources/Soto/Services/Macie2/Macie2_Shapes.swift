@@ -89,7 +89,7 @@ extension Macie2 {
     }
 
     public enum FindingStatisticsSortAttributeName: String, CustomStringConvertible, Codable {
-        case count
+        case count = "count"
         case groupkey = "groupKey"
         public var description: String { return self.rawValue }
     }
@@ -118,7 +118,7 @@ extension Macie2 {
         case classificationdetailsJobid = "classificationDetails.jobId"
         case resourcesaffectedS3BucketName = "resourcesAffected.s3Bucket.name"
         case severityDescription = "severity.description"
-        case type
+        case type = "type"
         public var description: String { return self.rawValue }
     }
 
@@ -174,7 +174,7 @@ extension Macie2 {
         case createdat = "createdAt"
         case jobstatus = "jobStatus"
         case jobtype = "jobType"
-        case name
+        case name = "name"
         public var description: String { return self.rawValue }
     }
 
@@ -182,7 +182,7 @@ extension Macie2 {
         case createdat = "createdAt"
         case jobstatus = "jobStatus"
         case jobtype = "jobType"
-        case name
+        case name = "name"
         public var description: String { return self.rawValue }
     }
 
@@ -294,7 +294,7 @@ extension Macie2 {
         case accountid = "accountId"
         case freetrialstartdate = "freeTrialStartDate"
         case servicelimit = "serviceLimit"
-        case total
+        case total = "total"
         public var description: String { return self.rawValue }
     }
 
@@ -302,7 +302,7 @@ extension Macie2 {
         case accountid = "accountId"
         case freetrialstartdate = "freeTrialStartDate"
         case servicelimitvalue = "serviceLimitValue"
-        case total
+        case total = "total"
         public var description: String { return self.rawValue }
     }
 
@@ -325,6 +325,7 @@ extension Macie2 {
     // MARK: Shapes
 
     public struct AcceptInvitationRequest: AWSEncodableShape {
+
         public let administratorAccountId: String?
         public let invitationId: String
         public let masterAccount: String?
@@ -336,17 +337,22 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorAccountId
-            case invitationId
-            case masterAccount
+            case administratorAccountId = "administratorAccountId"
+            case invitationId = "invitationId"
+            case masterAccount = "masterAccount"
         }
     }
 
     public struct AcceptInvitationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AccessControlList: AWSDecodableShape {
+
         public let allowsPublicReadAccess: Bool?
         public let allowsPublicWriteAccess: Bool?
 
@@ -356,12 +362,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsPublicReadAccess
-            case allowsPublicWriteAccess
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
     public struct AccountDetail: AWSEncodableShape {
+
         public let accountId: String
         public let email: String
 
@@ -371,12 +378,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case email
+            case accountId = "accountId"
+            case email = "email"
         }
     }
 
     public struct AccountLevelPermissions: AWSDecodableShape {
+
         public let blockPublicAccess: BlockPublicAccess?
 
         public init(blockPublicAccess: BlockPublicAccess? = nil) {
@@ -384,11 +392,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockPublicAccess
+            case blockPublicAccess = "blockPublicAccess"
         }
     }
 
     public struct AdminAccount: AWSDecodableShape {
+
         public let accountId: String?
         public let status: AdminStatus?
 
@@ -398,12 +407,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case status
+            case accountId = "accountId"
+            case status = "status"
         }
     }
 
     public struct ApiCallDetails: AWSDecodableShape {
+
         public let api: String?
         public let apiServiceName: String?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -419,14 +429,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case api
-            case apiServiceName
-            case firstSeen
-            case lastSeen
+            case api = "api"
+            case apiServiceName = "apiServiceName"
+            case firstSeen = "firstSeen"
+            case lastSeen = "lastSeen"
         }
     }
 
     public struct AssumedRole: AWSDecodableShape {
+
         public let accessKeyId: String?
         public let accountId: String?
         public let arn: String?
@@ -442,15 +453,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case accountId
-            case arn
-            case principalId
-            case sessionContext
+            case accessKeyId = "accessKeyId"
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case sessionContext = "sessionContext"
         }
     }
 
     public struct AwsAccount: AWSDecodableShape {
+
         public let accountId: String?
         public let principalId: String?
 
@@ -460,12 +472,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case principalId
+            case accountId = "accountId"
+            case principalId = "principalId"
         }
     }
 
     public struct AwsService: AWSDecodableShape {
+
         public let invokedBy: String?
 
         public init(invokedBy: String? = nil) {
@@ -473,11 +486,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invokedBy
+            case invokedBy = "invokedBy"
         }
     }
 
     public struct BatchGetCustomDataIdentifierSummary: AWSDecodableShape {
+
         public let arn: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -496,16 +510,17 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deleted
-            case description
-            case id
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deleted = "deleted"
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct BatchGetCustomDataIdentifiersRequest: AWSEncodableShape {
+
         public let ids: [String]?
 
         public init(ids: [String]? = nil) {
@@ -513,11 +528,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
     public struct BatchGetCustomDataIdentifiersResponse: AWSDecodableShape {
+
         public let customDataIdentifiers: [BatchGetCustomDataIdentifierSummary]?
         public let notFoundIdentifierIds: [String]?
 
@@ -527,12 +543,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customDataIdentifiers
-            case notFoundIdentifierIds
+            case customDataIdentifiers = "customDataIdentifiers"
+            case notFoundIdentifierIds = "notFoundIdentifierIds"
         }
     }
 
     public struct BlockPublicAccess: AWSDecodableShape {
+
         public let blockPublicAcls: Bool?
         public let blockPublicPolicy: Bool?
         public let ignorePublicAcls: Bool?
@@ -546,14 +563,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockPublicAcls
-            case blockPublicPolicy
-            case ignorePublicAcls
-            case restrictPublicBuckets
+            case blockPublicAcls = "blockPublicAcls"
+            case blockPublicPolicy = "blockPublicPolicy"
+            case ignorePublicAcls = "ignorePublicAcls"
+            case restrictPublicBuckets = "restrictPublicBuckets"
         }
     }
 
     public struct BucketCountByEffectivePermission: AWSDecodableShape {
+
         public let publiclyAccessible: Int64?
         public let publiclyReadable: Int64?
         public let publiclyWritable: Int64?
@@ -567,14 +585,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publiclyAccessible
-            case publiclyReadable
-            case publiclyWritable
-            case unknown
+            case publiclyAccessible = "publiclyAccessible"
+            case publiclyReadable = "publiclyReadable"
+            case publiclyWritable = "publiclyWritable"
+            case unknown = "unknown"
         }
     }
 
     public struct BucketCountByEncryptionType: AWSDecodableShape {
+
         public let kmsManaged: Int64?
         public let s3Managed: Int64?
         public let unencrypted: Int64?
@@ -588,14 +607,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsManaged
-            case s3Managed
-            case unencrypted
-            case unknown
+            case kmsManaged = "kmsManaged"
+            case s3Managed = "s3Managed"
+            case unencrypted = "unencrypted"
+            case unknown = "unknown"
         }
     }
 
     public struct BucketCountBySharedAccessType: AWSDecodableShape {
+
         public let external: Int64?
         public let `internal`: Int64?
         public let notShared: Int64?
@@ -609,14 +629,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case external
-            case `internal`
-            case notShared
-            case unknown
+            case external = "external"
+            case `internal` = "internal"
+            case notShared = "notShared"
+            case unknown = "unknown"
         }
     }
 
     public struct BucketCountPolicyAllowsUnencryptedObjectUploads: AWSDecodableShape {
+
         public let allowsUnencryptedObjectUploads: Int64?
         public let deniesUnencryptedObjectUploads: Int64?
         public let unknown: Int64?
@@ -628,13 +649,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsUnencryptedObjectUploads
-            case deniesUnencryptedObjectUploads
-            case unknown
+            case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case deniesUnencryptedObjectUploads = "deniesUnencryptedObjectUploads"
+            case unknown = "unknown"
         }
     }
 
     public struct BucketCriteriaAdditionalProperties: AWSEncodableShape {
+
         public let eq: [String]?
         public let gt: Int64?
         public let gte: Int64?
@@ -654,17 +676,18 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eq
-            case gt
-            case gte
-            case lt
-            case lte
-            case neq
-            case prefix
+            case eq = "eq"
+            case gt = "gt"
+            case gte = "gte"
+            case lt = "lt"
+            case lte = "lte"
+            case neq = "neq"
+            case prefix = "prefix"
         }
     }
 
     public struct BucketLevelPermissions: AWSDecodableShape {
+
         public let accessControlList: AccessControlList?
         public let blockPublicAccess: BlockPublicAccess?
         public let bucketPolicy: BucketPolicy?
@@ -676,13 +699,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessControlList
-            case blockPublicAccess
-            case bucketPolicy
+            case accessControlList = "accessControlList"
+            case blockPublicAccess = "blockPublicAccess"
+            case bucketPolicy = "bucketPolicy"
         }
     }
 
     public struct BucketMetadata: AWSDecodableShape {
+
         public let accountId: String?
         public let allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads?
         public let bucketArn: String?
@@ -734,32 +758,33 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case allowsUnencryptedObjectUploads
-            case bucketArn
-            case bucketCreatedAt
-            case bucketName
-            case classifiableObjectCount
-            case classifiableSizeInBytes
-            case jobDetails
-            case lastUpdated
-            case objectCount
-            case objectCountByEncryptionType
-            case publicAccess
-            case region
-            case replicationDetails
-            case serverSideEncryption
-            case sharedAccess
-            case sizeInBytes
-            case sizeInBytesCompressed
-            case tags
-            case unclassifiableObjectCount
-            case unclassifiableObjectSizeInBytes
-            case versioning
+            case accountId = "accountId"
+            case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case bucketArn = "bucketArn"
+            case bucketCreatedAt = "bucketCreatedAt"
+            case bucketName = "bucketName"
+            case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case jobDetails = "jobDetails"
+            case lastUpdated = "lastUpdated"
+            case objectCount = "objectCount"
+            case objectCountByEncryptionType = "objectCountByEncryptionType"
+            case publicAccess = "publicAccess"
+            case region = "region"
+            case replicationDetails = "replicationDetails"
+            case serverSideEncryption = "serverSideEncryption"
+            case sharedAccess = "sharedAccess"
+            case sizeInBytes = "sizeInBytes"
+            case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case tags = "tags"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
+            case versioning = "versioning"
         }
     }
 
     public struct BucketPermissionConfiguration: AWSDecodableShape {
+
         public let accountLevelPermissions: AccountLevelPermissions?
         public let bucketLevelPermissions: BucketLevelPermissions?
 
@@ -769,12 +794,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountLevelPermissions
-            case bucketLevelPermissions
+            case accountLevelPermissions = "accountLevelPermissions"
+            case bucketLevelPermissions = "bucketLevelPermissions"
         }
     }
 
     public struct BucketPolicy: AWSDecodableShape {
+
         public let allowsPublicReadAccess: Bool?
         public let allowsPublicWriteAccess: Bool?
 
@@ -784,12 +810,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsPublicReadAccess
-            case allowsPublicWriteAccess
+            case allowsPublicReadAccess = "allowsPublicReadAccess"
+            case allowsPublicWriteAccess = "allowsPublicWriteAccess"
         }
     }
 
     public struct BucketPublicAccess: AWSDecodableShape {
+
         public let effectivePermission: EffectivePermission?
         public let permissionConfiguration: BucketPermissionConfiguration?
 
@@ -799,12 +826,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectivePermission
-            case permissionConfiguration
+            case effectivePermission = "effectivePermission"
+            case permissionConfiguration = "permissionConfiguration"
         }
     }
 
     public struct BucketServerSideEncryption: AWSDecodableShape {
+
         public let kmsMasterKeyId: String?
         public let type: `Type`?
 
@@ -814,12 +842,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsMasterKeyId
-            case type
+            case kmsMasterKeyId = "kmsMasterKeyId"
+            case type = "type"
         }
     }
 
     public struct BucketSortCriteria: AWSEncodableShape {
+
         public let attributeName: String?
         public let orderBy: OrderBy?
 
@@ -829,12 +858,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
     public struct Cell: AWSDecodableShape {
+
         public let cellReference: String?
         public let column: Int64?
         public let columnName: String?
@@ -848,14 +878,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellReference
-            case column
-            case columnName
-            case row
+            case cellReference = "cellReference"
+            case column = "column"
+            case columnName = "columnName"
+            case row = "row"
         }
     }
 
     public struct ClassificationDetails: AWSDecodableShape {
+
         public let detailedResultsLocation: String?
         public let jobArn: String?
         public let jobId: String?
@@ -869,14 +900,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detailedResultsLocation
-            case jobArn
-            case jobId
-            case result
+            case detailedResultsLocation = "detailedResultsLocation"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case result = "result"
         }
     }
 
     public struct ClassificationExportConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         public let s3Destination: S3Destination?
 
         public init(s3Destination: S3Destination? = nil) {
@@ -884,11 +916,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Destination
+            case s3Destination = "s3Destination"
         }
     }
 
     public struct ClassificationResult: AWSDecodableShape {
+
         public let additionalOccurrences: Bool?
         public let customDataIdentifiers: CustomDataIdentifiers?
         public let mimeType: String?
@@ -906,16 +939,17 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalOccurrences
-            case customDataIdentifiers
-            case mimeType
-            case sensitiveData
-            case sizeClassified
-            case status
+            case additionalOccurrences = "additionalOccurrences"
+            case customDataIdentifiers = "customDataIdentifiers"
+            case mimeType = "mimeType"
+            case sensitiveData = "sensitiveData"
+            case sizeClassified = "sizeClassified"
+            case status = "status"
         }
     }
 
     public struct ClassificationResultStatus: AWSDecodableShape {
+
         public let code: String?
         public let reason: String?
 
@@ -925,12 +959,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case reason
+            case code = "code"
+            case reason = "reason"
         }
     }
 
     public struct CreateClassificationJobRequest: AWSEncodableShape {
+
         public let clientToken: String
         public let customDataIdentifierIds: [String]?
         public let description: String?
@@ -956,20 +991,21 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case customDataIdentifierIds
-            case description
-            case initialRun
-            case jobType
-            case name
-            case s3JobDefinition
-            case samplingPercentage
-            case scheduleFrequency
-            case tags
+            case clientToken = "clientToken"
+            case customDataIdentifierIds = "customDataIdentifierIds"
+            case description = "description"
+            case initialRun = "initialRun"
+            case jobType = "jobType"
+            case name = "name"
+            case s3JobDefinition = "s3JobDefinition"
+            case samplingPercentage = "samplingPercentage"
+            case scheduleFrequency = "scheduleFrequency"
+            case tags = "tags"
         }
     }
 
     public struct CreateClassificationJobResponse: AWSDecodableShape {
+
         public let jobArn: String?
         public let jobId: String?
 
@@ -979,12 +1015,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobArn
-            case jobId
+            case jobArn = "jobArn"
+            case jobId = "jobId"
         }
     }
 
     public struct CreateCustomDataIdentifierRequest: AWSEncodableShape {
+
         public let clientToken: String?
         public let description: String?
         public let ignoreWords: [String]?
@@ -1006,18 +1043,19 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case ignoreWords
-            case keywords
-            case maximumMatchDistance
-            case name
-            case regex
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case ignoreWords = "ignoreWords"
+            case keywords = "keywords"
+            case maximumMatchDistance = "maximumMatchDistance"
+            case name = "name"
+            case regex = "regex"
+            case tags = "tags"
         }
     }
 
     public struct CreateCustomDataIdentifierResponse: AWSDecodableShape {
+
         public let customDataIdentifierId: String?
 
         public init(customDataIdentifierId: String? = nil) {
@@ -1025,11 +1063,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customDataIdentifierId
+            case customDataIdentifierId = "customDataIdentifierId"
         }
     }
 
     public struct CreateFindingsFilterRequest: AWSEncodableShape {
+
         public let action: FindingsFilterAction
         public let clientToken: String?
         public let description: String?
@@ -1049,17 +1088,18 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case clientToken
-            case description
-            case findingCriteria
-            case name
-            case position
-            case tags
+            case action = "action"
+            case clientToken = "clientToken"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case name = "name"
+            case position = "position"
+            case tags = "tags"
         }
     }
 
     public struct CreateFindingsFilterResponse: AWSDecodableShape {
+
         public let arn: String?
         public let id: String?
 
@@ -1069,12 +1109,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
     public struct CreateInvitationsRequest: AWSEncodableShape {
+
         public let accountIds: [String]
         public let disableEmailNotification: Bool?
         public let message: String?
@@ -1086,13 +1127,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case disableEmailNotification
-            case message
+            case accountIds = "accountIds"
+            case disableEmailNotification = "disableEmailNotification"
+            case message = "message"
         }
     }
 
     public struct CreateInvitationsResponse: AWSDecodableShape {
+
         public let unprocessedAccounts: [UnprocessedAccount]?
 
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
@@ -1100,11 +1142,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
     public struct CreateMemberRequest: AWSEncodableShape {
+
         public let account: AccountDetail
         public let tags: [String: String]?
 
@@ -1114,12 +1157,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case account
-            case tags
+            case account = "account"
+            case tags = "tags"
         }
     }
 
     public struct CreateMemberResponse: AWSDecodableShape {
+
         public let arn: String?
 
         public init(arn: String? = nil) {
@@ -1127,11 +1171,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct CreateSampleFindingsRequest: AWSEncodableShape {
+
         public let findingTypes: [FindingType]?
 
         public init(findingTypes: [FindingType]? = nil) {
@@ -1139,15 +1184,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingTypes
+            case findingTypes = "findingTypes"
         }
     }
 
     public struct CreateSampleFindingsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CriterionAdditionalProperties: AWSEncodableShape & AWSDecodableShape {
+
         public let eq: [String]?
         public let eqExactMatch: [String]?
         public let gt: Int64?
@@ -1167,17 +1217,18 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eq
-            case eqExactMatch
-            case gt
-            case gte
-            case lt
-            case lte
-            case neq
+            case eq = "eq"
+            case eqExactMatch = "eqExactMatch"
+            case gt = "gt"
+            case gte = "gte"
+            case lt = "lt"
+            case lte = "lte"
+            case neq = "neq"
         }
     }
 
     public struct CustomDataIdentifierSummary: AWSDecodableShape {
+
         public let arn: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -1194,15 +1245,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case id
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct CustomDataIdentifiers: AWSDecodableShape {
+
         public let detections: [CustomDetection]?
         public let totalCount: Int64?
 
@@ -1212,12 +1264,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detections
-            case totalCount
+            case detections = "detections"
+            case totalCount = "totalCount"
         }
     }
 
     public struct CustomDetection: AWSDecodableShape {
+
         public let arn: String?
         public let count: Int64?
         public let name: String?
@@ -1231,18 +1284,23 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case count
-            case name
-            case occurrences
+            case arn = "arn"
+            case count = "count"
+            case name = "name"
+            case occurrences = "occurrences"
         }
     }
 
     public struct DailySchedule: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeclineInvitationsRequest: AWSEncodableShape {
+
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -1250,11 +1308,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
     public struct DeclineInvitationsResponse: AWSDecodableShape {
+
         public let unprocessedAccounts: [UnprocessedAccount]?
 
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
@@ -1262,11 +1321,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
     public struct DefaultDetection: AWSDecodableShape {
+
         public let count: Int64?
         public let occurrences: Occurrences?
         public let type: String?
@@ -1278,9 +1338,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case occurrences
-            case type
+            case count = "count"
+            case occurrences = "occurrences"
+            case type = "type"
         }
     }
 
@@ -1299,7 +1359,11 @@ extension Macie2 {
     }
 
     public struct DeleteCustomDataIdentifierResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteFindingsFilterRequest: AWSEncodableShape {
@@ -1317,10 +1381,15 @@ extension Macie2 {
     }
 
     public struct DeleteFindingsFilterResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteInvitationsRequest: AWSEncodableShape {
+
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -1328,11 +1397,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
+            case accountIds = "accountIds"
         }
     }
 
     public struct DeleteInvitationsResponse: AWSDecodableShape {
+
         public let unprocessedAccounts: [UnprocessedAccount]?
 
         public init(unprocessedAccounts: [UnprocessedAccount]? = nil) {
@@ -1340,7 +1410,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedAccounts
+            case unprocessedAccounts = "unprocessedAccounts"
         }
     }
 
@@ -1359,10 +1429,15 @@ extension Macie2 {
     }
 
     public struct DeleteMemberResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeBucketsRequest: AWSEncodableShape {
+
         public let criteria: [String: BucketCriteriaAdditionalProperties]?
         public let maxResults: Int?
         public let nextToken: String?
@@ -1376,14 +1451,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case criteria = "criteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
     public struct DescribeBucketsResponse: AWSDecodableShape {
+
         public let buckets: [BucketMetadata]?
         public let nextToken: String?
 
@@ -1393,8 +1469,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buckets
-            case nextToken
+            case buckets = "buckets"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1413,6 +1489,7 @@ extension Macie2 {
     }
 
     public struct DescribeClassificationJobResponse: AWSDecodableShape {
+
         public let clientToken: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -1456,32 +1533,37 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case createdAt
-            case customDataIdentifierIds
-            case description
-            case initialRun
-            case jobArn
-            case jobId
-            case jobStatus
-            case jobType
-            case lastRunErrorStatus
-            case lastRunTime
-            case name
-            case s3JobDefinition
-            case samplingPercentage
-            case scheduleFrequency
-            case statistics
-            case tags
-            case userPausedDetails
+            case clientToken = "clientToken"
+            case createdAt = "createdAt"
+            case customDataIdentifierIds = "customDataIdentifierIds"
+            case description = "description"
+            case initialRun = "initialRun"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobStatus = "jobStatus"
+            case jobType = "jobType"
+            case lastRunErrorStatus = "lastRunErrorStatus"
+            case lastRunTime = "lastRunTime"
+            case name = "name"
+            case s3JobDefinition = "s3JobDefinition"
+            case samplingPercentage = "samplingPercentage"
+            case scheduleFrequency = "scheduleFrequency"
+            case statistics = "statistics"
+            case tags = "tags"
+            case userPausedDetails = "userPausedDetails"
         }
     }
 
     public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
+
         public let autoEnable: Bool?
         public let maxAccountLimitReached: Bool?
 
@@ -1491,17 +1573,25 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
-            case maxAccountLimitReached
+            case autoEnable = "autoEnable"
+            case maxAccountLimitReached = "maxAccountLimitReached"
         }
     }
 
     public struct DisableMacieRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableMacieResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
@@ -1519,23 +1609,43 @@ extension Macie2 {
     }
 
     public struct DisableOrganizationAdminAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateFromAdministratorAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateFromMasterAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateMemberRequest: AWSEncodableShape {
@@ -1553,10 +1663,15 @@ extension Macie2 {
     }
 
     public struct DisassociateMemberResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DomainDetails: AWSDecodableShape {
+
         public let domainName: String?
 
         public init(domainName: String? = nil) {
@@ -1564,11 +1679,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
     public struct EnableMacieRequest: AWSEncodableShape {
+
         public let clientToken: String?
         public let findingPublishingFrequency: FindingPublishingFrequency?
         public let status: MacieStatus?
@@ -1580,17 +1696,22 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case findingPublishingFrequency
-            case status
+            case clientToken = "clientToken"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case status = "status"
         }
     }
 
     public struct EnableMacieResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
+
         public let adminAccountId: String
         public let clientToken: String?
 
@@ -1600,16 +1721,21 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case clientToken
+            case adminAccountId = "adminAccountId"
+            case clientToken = "clientToken"
         }
     }
 
     public struct EnableOrganizationAdminAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct FederatedUser: AWSDecodableShape {
+
         public let accessKeyId: String?
         public let accountId: String?
         public let arn: String?
@@ -1625,15 +1751,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case accountId
-            case arn
-            case principalId
-            case sessionContext
+            case accessKeyId = "accessKeyId"
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case sessionContext = "sessionContext"
         }
     }
 
     public struct Finding: AWSDecodableShape {
+
         public let accountId: String?
         public let archived: Bool?
         public let category: FindingCategory?
@@ -1677,28 +1804,29 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case archived
-            case category
-            case classificationDetails
-            case count
-            case createdAt
-            case description
-            case id
-            case partition
-            case policyDetails
-            case region
-            case resourcesAffected
-            case sample
-            case schemaVersion
-            case severity
-            case title
-            case type
-            case updatedAt
+            case accountId = "accountId"
+            case archived = "archived"
+            case category = "category"
+            case classificationDetails = "classificationDetails"
+            case count = "count"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case partition = "partition"
+            case policyDetails = "policyDetails"
+            case region = "region"
+            case resourcesAffected = "resourcesAffected"
+            case sample = "sample"
+            case schemaVersion = "schemaVersion"
+            case severity = "severity"
+            case title = "title"
+            case type = "type"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct FindingAction: AWSDecodableShape {
+
         public let actionType: FindingActionType?
         public let apiCallDetails: ApiCallDetails?
 
@@ -1708,12 +1836,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
-            case apiCallDetails
+            case actionType = "actionType"
+            case apiCallDetails = "apiCallDetails"
         }
     }
 
     public struct FindingActor: AWSDecodableShape {
+
         public let domainDetails: DomainDetails?
         public let ipAddressDetails: IpAddressDetails?
         public let userIdentity: UserIdentity?
@@ -1725,13 +1854,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainDetails
-            case ipAddressDetails
-            case userIdentity
+            case domainDetails = "domainDetails"
+            case ipAddressDetails = "ipAddressDetails"
+            case userIdentity = "userIdentity"
         }
     }
 
     public struct FindingCriteria: AWSEncodableShape & AWSDecodableShape {
+
         public let criterion: [String: CriterionAdditionalProperties]?
 
         public init(criterion: [String: CriterionAdditionalProperties]? = nil) {
@@ -1739,11 +1869,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case criterion
+            case criterion = "criterion"
         }
     }
 
     public struct FindingStatisticsSortCriteria: AWSEncodableShape {
+
         public let attributeName: FindingStatisticsSortAttributeName?
         public let orderBy: OrderBy?
 
@@ -1753,12 +1884,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
     public struct FindingsFilterListItem: AWSDecodableShape {
+
         public let action: FindingsFilterAction?
         public let arn: String?
         public let id: String?
@@ -1774,19 +1906,24 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case arn
-            case id
-            case name
-            case tags
+            case action = "action"
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct GetAdministratorAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAdministratorAccountResponse: AWSDecodableShape {
+
         public let administrator: Invitation?
 
         public init(administrator: Invitation? = nil) {
@@ -1794,11 +1931,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administrator
+            case administrator = "administrator"
         }
     }
 
     public struct GetBucketStatisticsRequest: AWSEncodableShape {
+
         public let accountId: String?
 
         public init(accountId: String? = nil) {
@@ -1806,11 +1944,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
+            case accountId = "accountId"
         }
     }
 
     public struct GetBucketStatisticsResponse: AWSDecodableShape {
+
         public let bucketCount: Int64?
         public let bucketCountByEffectivePermission: BucketCountByEffectivePermission?
         public let bucketCountByEncryptionType: BucketCountByEncryptionType?
@@ -1843,27 +1982,32 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketCount
-            case bucketCountByEffectivePermission
-            case bucketCountByEncryptionType
-            case bucketCountByObjectEncryptionRequirement
-            case bucketCountBySharedAccessType
-            case classifiableObjectCount
-            case classifiableSizeInBytes
-            case lastUpdated
-            case objectCount
-            case sizeInBytes
-            case sizeInBytesCompressed
-            case unclassifiableObjectCount
-            case unclassifiableObjectSizeInBytes
+            case bucketCount = "bucketCount"
+            case bucketCountByEffectivePermission = "bucketCountByEffectivePermission"
+            case bucketCountByEncryptionType = "bucketCountByEncryptionType"
+            case bucketCountByObjectEncryptionRequirement = "bucketCountByObjectEncryptionRequirement"
+            case bucketCountBySharedAccessType = "bucketCountBySharedAccessType"
+            case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case lastUpdated = "lastUpdated"
+            case objectCount = "objectCount"
+            case sizeInBytes = "sizeInBytes"
+            case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
         }
     }
 
     public struct GetClassificationExportConfigurationRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetClassificationExportConfigurationResponse: AWSDecodableShape {
+
         public let configuration: ClassificationExportConfiguration?
 
         public init(configuration: ClassificationExportConfiguration? = nil) {
@@ -1871,7 +2015,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -1890,6 +2034,7 @@ extension Macie2 {
     }
 
     public struct GetCustomDataIdentifierResponse: AWSDecodableShape {
+
         public let arn: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -1918,21 +2063,22 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deleted
-            case description
-            case id
-            case ignoreWords
-            case keywords
-            case maximumMatchDistance
-            case name
-            case regex
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deleted = "deleted"
+            case description = "description"
+            case id = "id"
+            case ignoreWords = "ignoreWords"
+            case keywords = "keywords"
+            case maximumMatchDistance = "maximumMatchDistance"
+            case name = "name"
+            case regex = "regex"
+            case tags = "tags"
         }
     }
 
     public struct GetFindingStatisticsRequest: AWSEncodableShape {
+
         public let findingCriteria: FindingCriteria?
         public let groupBy: GroupBy
         public let size: Int?
@@ -1946,14 +2092,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingCriteria
-            case groupBy
-            case size
-            case sortCriteria
+            case findingCriteria = "findingCriteria"
+            case groupBy = "groupBy"
+            case size = "size"
+            case sortCriteria = "sortCriteria"
         }
     }
 
     public struct GetFindingStatisticsResponse: AWSDecodableShape {
+
         public let countsByGroup: [GroupCount]?
 
         public init(countsByGroup: [GroupCount]? = nil) {
@@ -1961,7 +2108,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countsByGroup
+            case countsByGroup = "countsByGroup"
         }
     }
 
@@ -1980,6 +2127,7 @@ extension Macie2 {
     }
 
     public struct GetFindingsFilterResponse: AWSDecodableShape {
+
         public let action: FindingsFilterAction?
         public let arn: String?
         public let description: String?
@@ -2001,22 +2149,27 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case arn
-            case description
-            case findingCriteria
-            case id
-            case name
-            case position
-            case tags
+            case action = "action"
+            case arn = "arn"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case id = "id"
+            case name = "name"
+            case position = "position"
+            case tags = "tags"
         }
     }
 
     public struct GetFindingsPublicationConfigurationRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetFindingsPublicationConfigurationResponse: AWSDecodableShape {
+
         public let securityHubConfiguration: SecurityHubConfiguration?
 
         public init(securityHubConfiguration: SecurityHubConfiguration? = nil) {
@@ -2024,11 +2177,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityHubConfiguration
+            case securityHubConfiguration = "securityHubConfiguration"
         }
     }
 
     public struct GetFindingsRequest: AWSEncodableShape {
+
         public let findingIds: [String]
         public let sortCriteria: SortCriteria?
 
@@ -2038,12 +2192,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
-            case sortCriteria
+            case findingIds = "findingIds"
+            case sortCriteria = "sortCriteria"
         }
     }
 
     public struct GetFindingsResponse: AWSDecodableShape {
+
         public let findings: [Finding]?
 
         public init(findings: [Finding]? = nil) {
@@ -2051,15 +2206,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
+            case findings = "findings"
         }
     }
 
     public struct GetInvitationsCountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetInvitationsCountResponse: AWSDecodableShape {
+
         public let invitationsCount: Int64?
 
         public init(invitationsCount: Int64? = nil) {
@@ -2067,15 +2227,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitationsCount
+            case invitationsCount = "invitationsCount"
         }
     }
 
     public struct GetMacieSessionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetMacieSessionResponse: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
         public let findingPublishingFrequency: FindingPublishingFrequency?
@@ -2093,19 +2258,24 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case findingPublishingFrequency
-            case serviceRole
-            case status
-            case updatedAt
+            case createdAt = "createdAt"
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case serviceRole = "serviceRole"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct GetMasterAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetMasterAccountResponse: AWSDecodableShape {
+
         public let master: Invitation?
 
         public init(master: Invitation? = nil) {
@@ -2113,7 +2283,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case master
+            case master = "master"
         }
     }
 
@@ -2132,6 +2302,7 @@ extension Macie2 {
     }
 
     public struct GetMemberResponse: AWSDecodableShape {
+
         public let accountId: String?
         public let administratorAccountId: String?
         public let arn: String?
@@ -2157,19 +2328,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case administratorAccountId
-            case arn
-            case email
-            case invitedAt
-            case masterAccountId
-            case relationshipStatus
-            case tags
-            case updatedAt
+            case accountId = "accountId"
+            case administratorAccountId = "administratorAccountId"
+            case arn = "arn"
+            case email = "email"
+            case invitedAt = "invitedAt"
+            case masterAccountId = "masterAccountId"
+            case relationshipStatus = "relationshipStatus"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct GetUsageStatisticsRequest: AWSEncodableShape {
+
         public let filterBy: [UsageStatisticsFilter]?
         public let maxResults: Int?
         public let nextToken: String?
@@ -2185,15 +2357,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterBy
-            case maxResults
-            case nextToken
-            case sortBy
-            case timeRange
+            case filterBy = "filterBy"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case timeRange = "timeRange"
         }
     }
 
     public struct GetUsageStatisticsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let records: [UsageRecord]?
         public let timeRange: TimeRange?
@@ -2205,9 +2378,9 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case records
-            case timeRange
+            case nextToken = "nextToken"
+            case records = "records"
+            case timeRange = "timeRange"
         }
     }
 
@@ -2226,6 +2399,7 @@ extension Macie2 {
     }
 
     public struct GetUsageTotalsResponse: AWSDecodableShape {
+
         public let timeRange: TimeRange?
         public let usageTotals: [UsageTotal]?
 
@@ -2235,12 +2409,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeRange
-            case usageTotals
+            case timeRange = "timeRange"
+            case usageTotals = "usageTotals"
         }
     }
 
     public struct GroupCount: AWSDecodableShape {
+
         public let count: Int64?
         public let groupKey: String?
 
@@ -2250,12 +2425,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case groupKey
+            case count = "count"
+            case groupKey = "groupKey"
         }
     }
 
     public struct IamUser: AWSDecodableShape {
+
         public let accountId: String?
         public let arn: String?
         public let principalId: String?
@@ -2269,14 +2445,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case principalId
-            case userName
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case userName = "userName"
         }
     }
 
     public struct Invitation: AWSDecodableShape {
+
         public let accountId: String?
         public let invitationId: String?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2291,14 +2468,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case invitationId
-            case invitedAt
-            case relationshipStatus
+            case accountId = "accountId"
+            case invitationId = "invitationId"
+            case invitedAt = "invitedAt"
+            case relationshipStatus = "relationshipStatus"
         }
     }
 
     public struct IpAddressDetails: AWSDecodableShape {
+
         public let ipAddressV4: String?
         public let ipCity: IpCity?
         public let ipCountry: IpCountry?
@@ -2314,15 +2492,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddressV4
-            case ipCity
-            case ipCountry
-            case ipGeoLocation
-            case ipOwner
+            case ipAddressV4 = "ipAddressV4"
+            case ipCity = "ipCity"
+            case ipCountry = "ipCountry"
+            case ipGeoLocation = "ipGeoLocation"
+            case ipOwner = "ipOwner"
         }
     }
 
     public struct IpCity: AWSDecodableShape {
+
         public let name: String?
 
         public init(name: String? = nil) {
@@ -2330,11 +2509,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct IpCountry: AWSDecodableShape {
+
         public let code: String?
         public let name: String?
 
@@ -2344,12 +2524,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
     public struct IpGeoLocation: AWSDecodableShape {
+
         public let lat: Double?
         public let lon: Double?
 
@@ -2359,12 +2540,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lat
-            case lon
+            case lat = "lat"
+            case lon = "lon"
         }
     }
 
     public struct IpOwner: AWSDecodableShape {
+
         public let asn: String?
         public let asnOrg: String?
         public let isp: String?
@@ -2378,14 +2560,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asn
-            case asnOrg
-            case isp
-            case org
+            case asn = "asn"
+            case asnOrg = "asnOrg"
+            case isp = "isp"
+            case org = "org"
         }
     }
 
     public struct JobDetails: AWSDecodableShape {
+
         public let isDefinedInJob: IsDefinedInJob?
         public let isMonitoredByJob: IsMonitoredByJob?
         public let lastJobId: String?
@@ -2400,14 +2583,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isDefinedInJob
-            case isMonitoredByJob
-            case lastJobId
-            case lastJobRunTime
+            case isDefinedInJob = "isDefinedInJob"
+            case isMonitoredByJob = "isMonitoredByJob"
+            case lastJobId = "lastJobId"
+            case lastJobRunTime = "lastJobRunTime"
         }
     }
 
     public struct JobScheduleFrequency: AWSEncodableShape & AWSDecodableShape {
+
         public let dailySchedule: DailySchedule?
         public let monthlySchedule: MonthlySchedule?
         public let weeklySchedule: WeeklySchedule?
@@ -2419,13 +2603,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dailySchedule
-            case monthlySchedule
-            case weeklySchedule
+            case dailySchedule = "dailySchedule"
+            case monthlySchedule = "monthlySchedule"
+            case weeklySchedule = "weeklySchedule"
         }
     }
 
     public struct JobScopeTerm: AWSEncodableShape & AWSDecodableShape {
+
         public let simpleScopeTerm: SimpleScopeTerm?
         public let tagScopeTerm: TagScopeTerm?
 
@@ -2435,12 +2620,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simpleScopeTerm
-            case tagScopeTerm
+            case simpleScopeTerm = "simpleScopeTerm"
+            case tagScopeTerm = "tagScopeTerm"
         }
     }
 
     public struct JobScopingBlock: AWSEncodableShape & AWSDecodableShape {
+
         public let and: [JobScopeTerm]?
 
         public init(and: [JobScopeTerm]? = nil) {
@@ -2448,11 +2634,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case and
+            case and = "and"
         }
     }
 
     public struct JobSummary: AWSDecodableShape {
+
         public let bucketDefinitions: [S3BucketDefinitionForJob]?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -2475,18 +2662,19 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketDefinitions
-            case createdAt
-            case jobId
-            case jobStatus
-            case jobType
-            case lastRunErrorStatus
-            case name
-            case userPausedDetails
+            case bucketDefinitions = "bucketDefinitions"
+            case createdAt = "createdAt"
+            case jobId = "jobId"
+            case jobStatus = "jobStatus"
+            case jobType = "jobType"
+            case lastRunErrorStatus = "lastRunErrorStatus"
+            case name = "name"
+            case userPausedDetails = "userPausedDetails"
         }
     }
 
     public struct KeyValuePair: AWSDecodableShape {
+
         public let key: String?
         public let value: String?
 
@@ -2496,12 +2684,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct LastRunErrorStatus: AWSDecodableShape {
+
         public let code: LastRunErrorStatusCode?
 
         public init(code: LastRunErrorStatusCode? = nil) {
@@ -2509,11 +2698,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
+            case code = "code"
         }
     }
 
     public struct ListClassificationJobsRequest: AWSEncodableShape {
+
         public let filterCriteria: ListJobsFilterCriteria?
         public let maxResults: Int?
         public let nextToken: String?
@@ -2527,14 +2717,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
     public struct ListClassificationJobsResponse: AWSDecodableShape {
+
         public let items: [JobSummary]?
         public let nextToken: String?
 
@@ -2544,12 +2735,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListCustomDataIdentifiersRequest: AWSEncodableShape {
+
         public let maxResults: Int?
         public let nextToken: String?
 
@@ -2559,12 +2751,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListCustomDataIdentifiersResponse: AWSDecodableShape {
+
         public let items: [CustomDataIdentifierSummary]?
         public let nextToken: String?
 
@@ -2574,14 +2767,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFindingsFiltersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2602,6 +2795,7 @@ extension Macie2 {
     }
 
     public struct ListFindingsFiltersResponse: AWSDecodableShape {
+
         public let findingsFilterListItems: [FindingsFilterListItem]?
         public let nextToken: String?
 
@@ -2611,12 +2805,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingsFilterListItems
-            case nextToken
+            case findingsFilterListItems = "findingsFilterListItems"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFindingsRequest: AWSEncodableShape {
+
         public let findingCriteria: FindingCriteria?
         public let maxResults: Int?
         public let nextToken: String?
@@ -2630,14 +2825,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingCriteria
-            case maxResults
-            case nextToken
-            case sortCriteria
+            case findingCriteria = "findingCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
         }
     }
 
     public struct ListFindingsResponse: AWSDecodableShape {
+
         public let findingIds: [String]?
         public let nextToken: String?
 
@@ -2647,14 +2843,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingIds
-            case nextToken
+            case findingIds = "findingIds"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListInvitationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2675,6 +2871,7 @@ extension Macie2 {
     }
 
     public struct ListInvitationsResponse: AWSDecodableShape {
+
         public let invitations: [Invitation]?
         public let nextToken: String?
 
@@ -2684,12 +2881,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case invitations
-            case nextToken
+            case invitations = "invitations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListJobsFilterCriteria: AWSEncodableShape {
+
         public let excludes: [ListJobsFilterTerm]?
         public let includes: [ListJobsFilterTerm]?
 
@@ -2699,12 +2897,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
-            case includes
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
     public struct ListJobsFilterTerm: AWSEncodableShape {
+
         public let comparator: JobComparator?
         public let key: ListJobsFilterKey?
         public let values: [String]?
@@ -2716,13 +2915,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
     public struct ListJobsSortCriteria: AWSEncodableShape {
+
         public let attributeName: ListJobsSortAttributeName?
         public let orderBy: OrderBy?
 
@@ -2732,15 +2932,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "onlyAssociated", location: .querystring(locationName: "onlyAssociated"))
         ]
 
@@ -2763,6 +2963,7 @@ extension Macie2 {
     }
 
     public struct ListMembersResponse: AWSDecodableShape {
+
         public let members: [Member]?
         public let nextToken: String?
 
@@ -2772,14 +2973,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case members
-            case nextToken
+            case members = "members"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2800,6 +3001,7 @@ extension Macie2 {
     }
 
     public struct ListOrganizationAdminAccountsResponse: AWSDecodableShape {
+
         public let adminAccounts: [AdminAccount]?
         public let nextToken: String?
 
@@ -2809,8 +3011,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccounts
-            case nextToken
+            case adminAccounts = "adminAccounts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2829,6 +3031,7 @@ extension Macie2 {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2836,11 +3039,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Member: AWSDecodableShape {
+
         public let accountId: String?
         public let administratorAccountId: String?
         public let arn: String?
@@ -2866,19 +3070,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case administratorAccountId
-            case arn
-            case email
-            case invitedAt
-            case masterAccountId
-            case relationshipStatus
-            case tags
-            case updatedAt
+            case accountId = "accountId"
+            case administratorAccountId = "administratorAccountId"
+            case arn = "arn"
+            case email = "email"
+            case invitedAt = "invitedAt"
+            case masterAccountId = "masterAccountId"
+            case relationshipStatus = "relationshipStatus"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct MonthlySchedule: AWSEncodableShape & AWSDecodableShape {
+
         public let dayOfMonth: Int?
 
         public init(dayOfMonth: Int? = nil) {
@@ -2886,11 +3091,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dayOfMonth
+            case dayOfMonth = "dayOfMonth"
         }
     }
 
     public struct ObjectCountByEncryptionType: AWSDecodableShape {
+
         public let customerManaged: Int64?
         public let kmsManaged: Int64?
         public let s3Managed: Int64?
@@ -2906,15 +3112,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManaged
-            case kmsManaged
-            case s3Managed
-            case unencrypted
-            case unknown
+            case customerManaged = "customerManaged"
+            case kmsManaged = "kmsManaged"
+            case s3Managed = "s3Managed"
+            case unencrypted = "unencrypted"
+            case unknown = "unknown"
         }
     }
 
     public struct ObjectLevelStatistics: AWSDecodableShape {
+
         public let fileType: Int64?
         public let storageClass: Int64?
         public let total: Int64?
@@ -2926,13 +3133,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileType
-            case storageClass
-            case total
+            case fileType = "fileType"
+            case storageClass = "storageClass"
+            case total = "total"
         }
     }
 
     public struct Occurrences: AWSDecodableShape {
+
         public let cells: [Cell]?
         public let lineRanges: [Range]?
         public let offsetRanges: [Range]?
@@ -2948,15 +3156,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case lineRanges
-            case offsetRanges
-            case pages
-            case records
+            case cells = "cells"
+            case lineRanges = "lineRanges"
+            case offsetRanges = "offsetRanges"
+            case pages = "pages"
+            case records = "records"
         }
     }
 
     public struct Page: AWSDecodableShape {
+
         public let lineRange: Range?
         public let offsetRange: Range?
         public let pageNumber: Int64?
@@ -2968,13 +3177,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lineRange
-            case offsetRange
-            case pageNumber
+            case lineRange = "lineRange"
+            case offsetRange = "offsetRange"
+            case pageNumber = "pageNumber"
         }
     }
 
     public struct PolicyDetails: AWSDecodableShape {
+
         public let action: FindingAction?
         public let actor: FindingActor?
 
@@ -2984,12 +3194,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case actor
+            case action = "action"
+            case actor = "actor"
         }
     }
 
     public struct PutClassificationExportConfigurationRequest: AWSEncodableShape {
+
         public let configuration: ClassificationExportConfiguration
 
         public init(configuration: ClassificationExportConfiguration) {
@@ -2997,11 +3208,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
     public struct PutClassificationExportConfigurationResponse: AWSDecodableShape {
+
         public let configuration: ClassificationExportConfiguration?
 
         public init(configuration: ClassificationExportConfiguration? = nil) {
@@ -3009,11 +3221,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
     public struct PutFindingsPublicationConfigurationRequest: AWSEncodableShape {
+
         public let clientToken: String?
         public let securityHubConfiguration: SecurityHubConfiguration?
 
@@ -3023,16 +3236,21 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case securityHubConfiguration
+            case clientToken = "clientToken"
+            case securityHubConfiguration = "securityHubConfiguration"
         }
     }
 
     public struct PutFindingsPublicationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Range: AWSDecodableShape {
+
         public let end: Int64?
         public let start: Int64?
         public let startColumn: Int64?
@@ -3044,13 +3262,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
-            case startColumn
+            case end = "end"
+            case start = "start"
+            case startColumn = "startColumn"
         }
     }
 
     public struct Record: AWSDecodableShape {
+
         public let jsonPath: String?
         public let recordIndex: Int64?
 
@@ -3060,12 +3279,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jsonPath
-            case recordIndex
+            case jsonPath = "jsonPath"
+            case recordIndex = "recordIndex"
         }
     }
 
     public struct ReplicationDetails: AWSDecodableShape {
+
         public let replicated: Bool?
         public let replicatedExternally: Bool?
         public let replicationAccounts: [String]?
@@ -3077,13 +3297,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicated
-            case replicatedExternally
-            case replicationAccounts
+            case replicated = "replicated"
+            case replicatedExternally = "replicatedExternally"
+            case replicationAccounts = "replicationAccounts"
         }
     }
 
     public struct ResourcesAffected: AWSDecodableShape {
+
         public let s3Bucket: S3Bucket?
         public let s3Object: S3Object?
 
@@ -3093,12 +3314,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Object
+            case s3Bucket = "s3Bucket"
+            case s3Object = "s3Object"
         }
     }
 
     public struct S3Bucket: AWSDecodableShape {
+
         public let allowsUnencryptedObjectUploads: AllowsUnencryptedObjectUploads?
         public let arn: String?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3121,18 +3343,19 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsUnencryptedObjectUploads
-            case arn
-            case createdAt
-            case defaultServerSideEncryption
-            case name
-            case owner
-            case publicAccess
-            case tags
+            case allowsUnencryptedObjectUploads = "allowsUnencryptedObjectUploads"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case defaultServerSideEncryption = "defaultServerSideEncryption"
+            case name = "name"
+            case owner = "owner"
+            case publicAccess = "publicAccess"
+            case tags = "tags"
         }
     }
 
     public struct S3BucketDefinitionForJob: AWSEncodableShape & AWSDecodableShape {
+
         public let accountId: String
         public let buckets: [String]
 
@@ -3142,12 +3365,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case buckets
+            case accountId = "accountId"
+            case buckets = "buckets"
         }
     }
 
     public struct S3BucketOwner: AWSDecodableShape {
+
         public let displayName: String?
         public let id: String?
 
@@ -3157,12 +3381,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case id
+            case displayName = "displayName"
+            case id = "id"
         }
     }
 
     public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
+
         public let bucketName: String
         public let keyPrefix: String?
         public let kmsKeyArn: String
@@ -3174,13 +3399,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case keyPrefix
-            case kmsKeyArn
+            case bucketName = "bucketName"
+            case keyPrefix = "keyPrefix"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
     public struct S3JobDefinition: AWSEncodableShape & AWSDecodableShape {
+
         public let bucketDefinitions: [S3BucketDefinitionForJob]?
         public let scoping: Scoping?
 
@@ -3190,12 +3416,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketDefinitions
-            case scoping
+            case bucketDefinitions = "bucketDefinitions"
+            case scoping = "scoping"
         }
     }
 
     public struct S3Object: AWSDecodableShape {
+
         public let bucketArn: String?
         public let eTag: String?
         public let `extension`: String?
@@ -3226,22 +3453,23 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketArn
-            case eTag
-            case `extension`
-            case key
-            case lastModified
-            case path
-            case publicAccess
-            case serverSideEncryption
-            case size
-            case storageClass
-            case tags
-            case versionId
+            case bucketArn = "bucketArn"
+            case eTag = "eTag"
+            case `extension` = "extension"
+            case key = "key"
+            case lastModified = "lastModified"
+            case path = "path"
+            case publicAccess = "publicAccess"
+            case serverSideEncryption = "serverSideEncryption"
+            case size = "size"
+            case storageClass = "storageClass"
+            case tags = "tags"
+            case versionId = "versionId"
         }
     }
 
     public struct Scoping: AWSEncodableShape & AWSDecodableShape {
+
         public let excludes: JobScopingBlock?
         public let includes: JobScopingBlock?
 
@@ -3251,12 +3479,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludes
-            case includes
+            case excludes = "excludes"
+            case includes = "includes"
         }
     }
 
     public struct SecurityHubConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         public let publishClassificationFindings: Bool
         public let publishPolicyFindings: Bool
 
@@ -3266,12 +3495,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case publishClassificationFindings
-            case publishPolicyFindings
+            case publishClassificationFindings = "publishClassificationFindings"
+            case publishPolicyFindings = "publishPolicyFindings"
         }
     }
 
     public struct SensitiveDataItem: AWSDecodableShape {
+
         public let category: SensitiveDataItemCategory?
         public let detections: [DefaultDetection]?
         public let totalCount: Int64?
@@ -3283,13 +3513,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case detections
-            case totalCount
+            case category = "category"
+            case detections = "detections"
+            case totalCount = "totalCount"
         }
     }
 
     public struct ServerSideEncryption: AWSDecodableShape {
+
         public let encryptionType: EncryptionType?
         public let kmsMasterKeyId: String?
 
@@ -3299,12 +3530,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsMasterKeyId
+            case encryptionType = "encryptionType"
+            case kmsMasterKeyId = "kmsMasterKeyId"
         }
     }
 
     public struct ServiceLimit: AWSDecodableShape {
+
         public let isServiceLimited: Bool?
         public let unit: Unit?
         public let value: Int64?
@@ -3316,13 +3548,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isServiceLimited
-            case unit
-            case value
+            case isServiceLimited = "isServiceLimited"
+            case unit = "unit"
+            case value = "value"
         }
     }
 
     public struct SessionContext: AWSDecodableShape {
+
         public let attributes: SessionContextAttributes?
         public let sessionIssuer: SessionIssuer?
 
@@ -3332,12 +3565,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case sessionIssuer
+            case attributes = "attributes"
+            case sessionIssuer = "sessionIssuer"
         }
     }
 
     public struct SessionContextAttributes: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
         public let mfaAuthenticated: Bool?
@@ -3348,12 +3582,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case mfaAuthenticated
+            case creationDate = "creationDate"
+            case mfaAuthenticated = "mfaAuthenticated"
         }
     }
 
     public struct SessionIssuer: AWSDecodableShape {
+
         public let accountId: String?
         public let arn: String?
         public let principalId: String?
@@ -3369,15 +3604,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case principalId
-            case type
-            case userName
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
+            case type = "type"
+            case userName = "userName"
         }
     }
 
     public struct Severity: AWSDecodableShape {
+
         public let description: SeverityDescription?
         public let score: Int64?
 
@@ -3387,12 +3623,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case score
+            case description = "description"
+            case score = "score"
         }
     }
 
     public struct SimpleScopeTerm: AWSEncodableShape & AWSDecodableShape {
+
         public let comparator: JobComparator?
         public let key: ScopeFilterKey?
         public let values: [String]?
@@ -3404,13 +3641,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
     public struct SortCriteria: AWSEncodableShape {
+
         public let attributeName: String?
         public let orderBy: OrderBy?
 
@@ -3420,12 +3658,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
     public struct Statistics: AWSDecodableShape {
+
         public let approximateNumberOfObjectsToProcess: Double?
         public let numberOfRuns: Double?
 
@@ -3435,8 +3674,8 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateNumberOfObjectsToProcess
-            case numberOfRuns
+            case approximateNumberOfObjectsToProcess = "approximateNumberOfObjectsToProcess"
+            case numberOfRuns = "numberOfRuns"
         }
     }
 
@@ -3454,15 +3693,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TagScopeTerm: AWSEncodableShape & AWSDecodableShape {
+
         public let comparator: JobComparator?
         public let key: String?
         public let tagValues: [TagValuePair]?
@@ -3476,14 +3720,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case tagValues
-            case target
+            case comparator = "comparator"
+            case key = "key"
+            case tagValues = "tagValues"
+            case target = "target"
         }
     }
 
     public struct TagValuePair: AWSEncodableShape & AWSDecodableShape {
+
         public let key: String?
         public let value: String?
 
@@ -3493,12 +3738,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TestCustomDataIdentifierRequest: AWSEncodableShape {
+
         public let ignoreWords: [String]?
         public let keywords: [String]?
         public let maximumMatchDistance: Int?
@@ -3514,15 +3760,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ignoreWords
-            case keywords
-            case maximumMatchDistance
-            case regex
-            case sampleText
+            case ignoreWords = "ignoreWords"
+            case keywords = "keywords"
+            case maximumMatchDistance = "maximumMatchDistance"
+            case regex = "regex"
+            case sampleText = "sampleText"
         }
     }
 
     public struct TestCustomDataIdentifierResponse: AWSDecodableShape {
+
         public let matchCount: Int?
 
         public init(matchCount: Int? = nil) {
@@ -3530,11 +3777,12 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case matchCount
+            case matchCount = "matchCount"
         }
     }
 
     public struct UnprocessedAccount: AWSDecodableShape {
+
         public let accountId: String?
         public let errorCode: ErrorCode?
         public let errorMessage: String?
@@ -3546,15 +3794,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case errorCode
-            case errorMessage
+            case accountId = "accountId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -3570,7 +3818,11 @@ extension Macie2 {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateClassificationJobRequest: AWSEncodableShape {
@@ -3587,12 +3839,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobStatus
+            case jobStatus = "jobStatus"
         }
     }
 
     public struct UpdateClassificationJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFindingsFilterRequest: AWSEncodableShape {
@@ -3617,15 +3873,16 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case description
-            case findingCriteria
-            case name
-            case position
+            case action = "action"
+            case description = "description"
+            case findingCriteria = "findingCriteria"
+            case name = "name"
+            case position = "position"
         }
     }
 
     public struct UpdateFindingsFilterResponse: AWSDecodableShape {
+
         public let arn: String?
         public let id: String?
 
@@ -3635,12 +3892,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
+            case arn = "arn"
+            case id = "id"
         }
     }
 
     public struct UpdateMacieSessionRequest: AWSEncodableShape {
+
         public let findingPublishingFrequency: FindingPublishingFrequency?
         public let status: MacieStatus?
 
@@ -3650,13 +3908,17 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingPublishingFrequency
-            case status
+            case findingPublishingFrequency = "findingPublishingFrequency"
+            case status = "status"
         }
     }
 
     public struct UpdateMacieSessionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateMemberSessionRequest: AWSEncodableShape {
@@ -3673,15 +3935,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct UpdateMemberSessionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
+
         public let autoEnable: Bool
 
         public init(autoEnable: Bool) {
@@ -3689,15 +3956,20 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoEnable
+            case autoEnable = "autoEnable"
         }
     }
 
     public struct UpdateOrganizationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UsageByAccount: AWSDecodableShape {
+
         public let currency: Currency?
         public let estimatedCost: String?
         public let serviceLimit: ServiceLimit?
@@ -3711,14 +3983,15 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case estimatedCost
-            case serviceLimit
-            case type
+            case currency = "currency"
+            case estimatedCost = "estimatedCost"
+            case serviceLimit = "serviceLimit"
+            case type = "type"
         }
     }
 
     public struct UsageRecord: AWSDecodableShape {
+
         public let accountId: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var freeTrialStartDate: Date?
@@ -3731,13 +4004,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case freeTrialStartDate
-            case usage
+            case accountId = "accountId"
+            case freeTrialStartDate = "freeTrialStartDate"
+            case usage = "usage"
         }
     }
 
     public struct UsageStatisticsFilter: AWSEncodableShape {
+
         public let comparator: UsageStatisticsFilterComparator?
         public let key: UsageStatisticsFilterKey?
         public let values: [String]?
@@ -3749,13 +4023,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comparator
-            case key
-            case values
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
         }
     }
 
     public struct UsageStatisticsSortBy: AWSEncodableShape {
+
         public let key: UsageStatisticsSortKey?
         public let orderBy: OrderBy?
 
@@ -3765,12 +4040,13 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case orderBy
+            case key = "key"
+            case orderBy = "orderBy"
         }
     }
 
     public struct UsageTotal: AWSDecodableShape {
+
         public let currency: Currency?
         public let estimatedCost: String?
         public let type: UsageType?
@@ -3782,13 +4058,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currency
-            case estimatedCost
-            case type
+            case currency = "currency"
+            case estimatedCost = "estimatedCost"
+            case type = "type"
         }
     }
 
     public struct UserIdentity: AWSDecodableShape {
+
         public let assumedRole: AssumedRole?
         public let awsAccount: AwsAccount?
         public let awsService: AwsService?
@@ -3808,17 +4085,18 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assumedRole
-            case awsAccount
-            case awsService
-            case federatedUser
-            case iamUser
-            case root
-            case type
+            case assumedRole = "assumedRole"
+            case awsAccount = "awsAccount"
+            case awsService = "awsService"
+            case federatedUser = "federatedUser"
+            case iamUser = "iamUser"
+            case root = "root"
+            case type = "type"
         }
     }
 
     public struct UserIdentityRoot: AWSDecodableShape {
+
         public let accountId: String?
         public let arn: String?
         public let principalId: String?
@@ -3830,13 +4108,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case principalId
+            case accountId = "accountId"
+            case arn = "arn"
+            case principalId = "principalId"
         }
     }
 
     public struct UserPausedDetails: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var jobExpiresAt: Date?
         public let jobImminentExpirationHealthEventArn: String?
@@ -3850,13 +4129,14 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobExpiresAt
-            case jobImminentExpirationHealthEventArn
-            case jobPausedAt
+            case jobExpiresAt = "jobExpiresAt"
+            case jobImminentExpirationHealthEventArn = "jobImminentExpirationHealthEventArn"
+            case jobPausedAt = "jobPausedAt"
         }
     }
 
     public struct WeeklySchedule: AWSEncodableShape & AWSDecodableShape {
+
         public let dayOfWeek: DayOfWeek?
 
         public init(dayOfWeek: DayOfWeek? = nil) {
@@ -3864,7 +4144,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dayOfWeek
+            case dayOfWeek = "dayOfWeek"
         }
     }
 }

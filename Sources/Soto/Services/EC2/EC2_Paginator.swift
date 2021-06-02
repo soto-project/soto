@@ -27,14 +27,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeAddressesAttributePaginator<Result>(
         _ input: DescribeAddressesAttributeRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeAddressesAttributeResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension EC2 {
             command: describeAddressesAttribute,
             inputKey: \DescribeAddressesAttributeRequest.nextToken,
             outputKey: \DescribeAddressesAttributeResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAddressesAttributePaginator(
         _ input: DescribeAddressesAttributeRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAddressesAttributeResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension EC2 {
             command: describeAddressesAttribute,
             inputKey: \DescribeAddressesAttributeRequest.nextToken,
             outputKey: \DescribeAddressesAttributeResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeByoipCidrsPaginator<Result>(
         _ input: DescribeByoipCidrsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeByoipCidrsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension EC2 {
             command: describeByoipCidrs,
             inputKey: \DescribeByoipCidrsRequest.nextToken,
             outputKey: \DescribeByoipCidrsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeByoipCidrsPaginator(
         _ input: DescribeByoipCidrsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeByoipCidrsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension EC2 {
             command: describeByoipCidrs,
             inputKey: \DescribeByoipCidrsRequest.nextToken,
             outputKey: \DescribeByoipCidrsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeCapacityReservationsPaginator<Result>(
         _ input: DescribeCapacityReservationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeCapacityReservationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension EC2 {
             command: describeCapacityReservations,
             inputKey: \DescribeCapacityReservationsRequest.nextToken,
             outputKey: \DescribeCapacityReservationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeCapacityReservationsPaginator(
         _ input: DescribeCapacityReservationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeCapacityReservationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension EC2 {
             command: describeCapacityReservations,
             inputKey: \DescribeCapacityReservationsRequest.nextToken,
             outputKey: \DescribeCapacityReservationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeCarrierGatewaysPaginator<Result>(
         _ input: DescribeCarrierGatewaysRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeCarrierGatewaysResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension EC2 {
             command: describeCarrierGateways,
             inputKey: \DescribeCarrierGatewaysRequest.nextToken,
             outputKey: \DescribeCarrierGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeCarrierGatewaysPaginator(
         _ input: DescribeCarrierGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeCarrierGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension EC2 {
             command: describeCarrierGateways,
             inputKey: \DescribeCarrierGatewaysRequest.nextToken,
             outputKey: \DescribeCarrierGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClassicLinkInstancesPaginator<Result>(
         _ input: DescribeClassicLinkInstancesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClassicLinkInstancesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension EC2 {
             command: describeClassicLinkInstances,
             inputKey: \DescribeClassicLinkInstancesRequest.nextToken,
             outputKey: \DescribeClassicLinkInstancesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClassicLinkInstancesPaginator(
         _ input: DescribeClassicLinkInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClassicLinkInstancesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension EC2 {
             command: describeClassicLinkInstances,
             inputKey: \DescribeClassicLinkInstancesRequest.nextToken,
             outputKey: \DescribeClassicLinkInstancesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClientVpnAuthorizationRulesPaginator<Result>(
         _ input: DescribeClientVpnAuthorizationRulesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClientVpnAuthorizationRulesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension EC2 {
             command: describeClientVpnAuthorizationRules,
             inputKey: \DescribeClientVpnAuthorizationRulesRequest.nextToken,
             outputKey: \DescribeClientVpnAuthorizationRulesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClientVpnAuthorizationRulesPaginator(
         _ input: DescribeClientVpnAuthorizationRulesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClientVpnAuthorizationRulesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension EC2 {
             command: describeClientVpnAuthorizationRules,
             inputKey: \DescribeClientVpnAuthorizationRulesRequest.nextToken,
             outputKey: \DescribeClientVpnAuthorizationRulesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClientVpnConnectionsPaginator<Result>(
         _ input: DescribeClientVpnConnectionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClientVpnConnectionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension EC2 {
             command: describeClientVpnConnections,
             inputKey: \DescribeClientVpnConnectionsRequest.nextToken,
             outputKey: \DescribeClientVpnConnectionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClientVpnConnectionsPaginator(
         _ input: DescribeClientVpnConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClientVpnConnectionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension EC2 {
             command: describeClientVpnConnections,
             inputKey: \DescribeClientVpnConnectionsRequest.nextToken,
             outputKey: \DescribeClientVpnConnectionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClientVpnEndpointsPaginator<Result>(
         _ input: DescribeClientVpnEndpointsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClientVpnEndpointsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension EC2 {
             command: describeClientVpnEndpoints,
             inputKey: \DescribeClientVpnEndpointsRequest.nextToken,
             outputKey: \DescribeClientVpnEndpointsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClientVpnEndpointsPaginator(
         _ input: DescribeClientVpnEndpointsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClientVpnEndpointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension EC2 {
             command: describeClientVpnEndpoints,
             inputKey: \DescribeClientVpnEndpointsRequest.nextToken,
             outputKey: \DescribeClientVpnEndpointsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClientVpnRoutesPaginator<Result>(
         _ input: DescribeClientVpnRoutesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClientVpnRoutesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension EC2 {
             command: describeClientVpnRoutes,
             inputKey: \DescribeClientVpnRoutesRequest.nextToken,
             outputKey: \DescribeClientVpnRoutesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClientVpnRoutesPaginator(
         _ input: DescribeClientVpnRoutesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClientVpnRoutesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension EC2 {
             command: describeClientVpnRoutes,
             inputKey: \DescribeClientVpnRoutesRequest.nextToken,
             outputKey: \DescribeClientVpnRoutesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeClientVpnTargetNetworksPaginator<Result>(
         _ input: DescribeClientVpnTargetNetworksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeClientVpnTargetNetworksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension EC2 {
             command: describeClientVpnTargetNetworks,
             inputKey: \DescribeClientVpnTargetNetworksRequest.nextToken,
             outputKey: \DescribeClientVpnTargetNetworksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeClientVpnTargetNetworksPaginator(
         _ input: DescribeClientVpnTargetNetworksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeClientVpnTargetNetworksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension EC2 {
             command: describeClientVpnTargetNetworks,
             inputKey: \DescribeClientVpnTargetNetworksRequest.nextToken,
             outputKey: \DescribeClientVpnTargetNetworksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeCoipPoolsPaginator<Result>(
         _ input: DescribeCoipPoolsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeCoipPoolsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension EC2 {
             command: describeCoipPools,
             inputKey: \DescribeCoipPoolsRequest.nextToken,
             outputKey: \DescribeCoipPoolsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeCoipPoolsPaginator(
         _ input: DescribeCoipPoolsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeCoipPoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension EC2 {
             command: describeCoipPools,
             inputKey: \DescribeCoipPoolsRequest.nextToken,
             outputKey: \DescribeCoipPoolsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDhcpOptionsPaginator<Result>(
         _ input: DescribeDhcpOptionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDhcpOptionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension EC2 {
             command: describeDhcpOptions,
             inputKey: \DescribeDhcpOptionsRequest.nextToken,
             outputKey: \DescribeDhcpOptionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDhcpOptionsPaginator(
         _ input: DescribeDhcpOptionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDhcpOptionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension EC2 {
             command: describeDhcpOptions,
             inputKey: \DescribeDhcpOptionsRequest.nextToken,
             outputKey: \DescribeDhcpOptionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -663,14 +687,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeEgressOnlyInternetGatewaysPaginator<Result>(
         _ input: DescribeEgressOnlyInternetGatewaysRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeEgressOnlyInternetGatewaysResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -680,6 +704,7 @@ extension EC2 {
             command: describeEgressOnlyInternetGateways,
             inputKey: \DescribeEgressOnlyInternetGatewaysRequest.nextToken,
             outputKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -689,12 +714,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEgressOnlyInternetGatewaysPaginator(
         _ input: DescribeEgressOnlyInternetGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeEgressOnlyInternetGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -703,6 +728,7 @@ extension EC2 {
             command: describeEgressOnlyInternetGateways,
             inputKey: \DescribeEgressOnlyInternetGatewaysRequest.nextToken,
             outputKey: \DescribeEgressOnlyInternetGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -716,14 +742,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeExportImageTasksPaginator<Result>(
         _ input: DescribeExportImageTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeExportImageTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -733,6 +759,7 @@ extension EC2 {
             command: describeExportImageTasks,
             inputKey: \DescribeExportImageTasksRequest.nextToken,
             outputKey: \DescribeExportImageTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -742,12 +769,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeExportImageTasksPaginator(
         _ input: DescribeExportImageTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeExportImageTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -756,6 +783,7 @@ extension EC2 {
             command: describeExportImageTasks,
             inputKey: \DescribeExportImageTasksRequest.nextToken,
             outputKey: \DescribeExportImageTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -769,14 +797,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFastSnapshotRestoresPaginator<Result>(
         _ input: DescribeFastSnapshotRestoresRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFastSnapshotRestoresResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -786,6 +814,7 @@ extension EC2 {
             command: describeFastSnapshotRestores,
             inputKey: \DescribeFastSnapshotRestoresRequest.nextToken,
             outputKey: \DescribeFastSnapshotRestoresResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -795,12 +824,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFastSnapshotRestoresPaginator(
         _ input: DescribeFastSnapshotRestoresRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFastSnapshotRestoresResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -809,6 +838,7 @@ extension EC2 {
             command: describeFastSnapshotRestores,
             inputKey: \DescribeFastSnapshotRestoresRequest.nextToken,
             outputKey: \DescribeFastSnapshotRestoresResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -822,14 +852,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFleetsPaginator<Result>(
         _ input: DescribeFleetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFleetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -839,6 +869,7 @@ extension EC2 {
             command: describeFleets,
             inputKey: \DescribeFleetsRequest.nextToken,
             outputKey: \DescribeFleetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -848,12 +879,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFleetsPaginator(
         _ input: DescribeFleetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFleetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -862,6 +893,7 @@ extension EC2 {
             command: describeFleets,
             inputKey: \DescribeFleetsRequest.nextToken,
             outputKey: \DescribeFleetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -875,14 +907,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFlowLogsPaginator<Result>(
         _ input: DescribeFlowLogsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFlowLogsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -892,6 +924,7 @@ extension EC2 {
             command: describeFlowLogs,
             inputKey: \DescribeFlowLogsRequest.nextToken,
             outputKey: \DescribeFlowLogsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -901,12 +934,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFlowLogsPaginator(
         _ input: DescribeFlowLogsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFlowLogsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -915,6 +948,7 @@ extension EC2 {
             command: describeFlowLogs,
             inputKey: \DescribeFlowLogsRequest.nextToken,
             outputKey: \DescribeFlowLogsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -928,14 +962,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeFpgaImagesPaginator<Result>(
         _ input: DescribeFpgaImagesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeFpgaImagesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -945,6 +979,7 @@ extension EC2 {
             command: describeFpgaImages,
             inputKey: \DescribeFpgaImagesRequest.nextToken,
             outputKey: \DescribeFpgaImagesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -954,12 +989,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeFpgaImagesPaginator(
         _ input: DescribeFpgaImagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeFpgaImagesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -968,6 +1003,7 @@ extension EC2 {
             command: describeFpgaImages,
             inputKey: \DescribeFpgaImagesRequest.nextToken,
             outputKey: \DescribeFpgaImagesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -981,14 +1017,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeHostReservationOfferingsPaginator<Result>(
         _ input: DescribeHostReservationOfferingsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeHostReservationOfferingsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -998,6 +1034,7 @@ extension EC2 {
             command: describeHostReservationOfferings,
             inputKey: \DescribeHostReservationOfferingsRequest.nextToken,
             outputKey: \DescribeHostReservationOfferingsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1007,12 +1044,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeHostReservationOfferingsPaginator(
         _ input: DescribeHostReservationOfferingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeHostReservationOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1021,6 +1058,7 @@ extension EC2 {
             command: describeHostReservationOfferings,
             inputKey: \DescribeHostReservationOfferingsRequest.nextToken,
             outputKey: \DescribeHostReservationOfferingsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1034,14 +1072,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeHostReservationsPaginator<Result>(
         _ input: DescribeHostReservationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeHostReservationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1051,6 +1089,7 @@ extension EC2 {
             command: describeHostReservations,
             inputKey: \DescribeHostReservationsRequest.nextToken,
             outputKey: \DescribeHostReservationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1060,12 +1099,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeHostReservationsPaginator(
         _ input: DescribeHostReservationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeHostReservationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1074,6 +1113,7 @@ extension EC2 {
             command: describeHostReservations,
             inputKey: \DescribeHostReservationsRequest.nextToken,
             outputKey: \DescribeHostReservationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1087,14 +1127,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeHostsPaginator<Result>(
         _ input: DescribeHostsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeHostsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1104,6 +1144,7 @@ extension EC2 {
             command: describeHosts,
             inputKey: \DescribeHostsRequest.nextToken,
             outputKey: \DescribeHostsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,12 +1154,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeHostsPaginator(
         _ input: DescribeHostsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeHostsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1127,6 +1168,7 @@ extension EC2 {
             command: describeHosts,
             inputKey: \DescribeHostsRequest.nextToken,
             outputKey: \DescribeHostsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1140,14 +1182,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeIamInstanceProfileAssociationsPaginator<Result>(
         _ input: DescribeIamInstanceProfileAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeIamInstanceProfileAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1157,6 +1199,7 @@ extension EC2 {
             command: describeIamInstanceProfileAssociations,
             inputKey: \DescribeIamInstanceProfileAssociationsRequest.nextToken,
             outputKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1166,12 +1209,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeIamInstanceProfileAssociationsPaginator(
         _ input: DescribeIamInstanceProfileAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeIamInstanceProfileAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1180,6 +1223,7 @@ extension EC2 {
             command: describeIamInstanceProfileAssociations,
             inputKey: \DescribeIamInstanceProfileAssociationsRequest.nextToken,
             outputKey: \DescribeIamInstanceProfileAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1193,14 +1237,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeImportImageTasksPaginator<Result>(
         _ input: DescribeImportImageTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeImportImageTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1210,6 +1254,7 @@ extension EC2 {
             command: describeImportImageTasks,
             inputKey: \DescribeImportImageTasksRequest.nextToken,
             outputKey: \DescribeImportImageTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1219,12 +1264,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeImportImageTasksPaginator(
         _ input: DescribeImportImageTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeImportImageTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1233,6 +1278,7 @@ extension EC2 {
             command: describeImportImageTasks,
             inputKey: \DescribeImportImageTasksRequest.nextToken,
             outputKey: \DescribeImportImageTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1246,14 +1292,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeImportSnapshotTasksPaginator<Result>(
         _ input: DescribeImportSnapshotTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeImportSnapshotTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1263,6 +1309,7 @@ extension EC2 {
             command: describeImportSnapshotTasks,
             inputKey: \DescribeImportSnapshotTasksRequest.nextToken,
             outputKey: \DescribeImportSnapshotTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1272,12 +1319,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeImportSnapshotTasksPaginator(
         _ input: DescribeImportSnapshotTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeImportSnapshotTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1286,6 +1333,7 @@ extension EC2 {
             command: describeImportSnapshotTasks,
             inputKey: \DescribeImportSnapshotTasksRequest.nextToken,
             outputKey: \DescribeImportSnapshotTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1299,14 +1347,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstanceCreditSpecificationsPaginator<Result>(
         _ input: DescribeInstanceCreditSpecificationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstanceCreditSpecificationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1316,6 +1364,7 @@ extension EC2 {
             command: describeInstanceCreditSpecifications,
             inputKey: \DescribeInstanceCreditSpecificationsRequest.nextToken,
             outputKey: \DescribeInstanceCreditSpecificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1325,12 +1374,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstanceCreditSpecificationsPaginator(
         _ input: DescribeInstanceCreditSpecificationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstanceCreditSpecificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1339,6 +1388,7 @@ extension EC2 {
             command: describeInstanceCreditSpecifications,
             inputKey: \DescribeInstanceCreditSpecificationsRequest.nextToken,
             outputKey: \DescribeInstanceCreditSpecificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1352,14 +1402,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstanceStatusPaginator<Result>(
         _ input: DescribeInstanceStatusRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstanceStatusResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1369,6 +1419,7 @@ extension EC2 {
             command: describeInstanceStatus,
             inputKey: \DescribeInstanceStatusRequest.nextToken,
             outputKey: \DescribeInstanceStatusResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1378,12 +1429,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstanceStatusPaginator(
         _ input: DescribeInstanceStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstanceStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1392,6 +1443,7 @@ extension EC2 {
             command: describeInstanceStatus,
             inputKey: \DescribeInstanceStatusRequest.nextToken,
             outputKey: \DescribeInstanceStatusResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1405,14 +1457,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstanceTypeOfferingsPaginator<Result>(
         _ input: DescribeInstanceTypeOfferingsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstanceTypeOfferingsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1422,6 +1474,7 @@ extension EC2 {
             command: describeInstanceTypeOfferings,
             inputKey: \DescribeInstanceTypeOfferingsRequest.nextToken,
             outputKey: \DescribeInstanceTypeOfferingsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1431,12 +1484,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstanceTypeOfferingsPaginator(
         _ input: DescribeInstanceTypeOfferingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstanceTypeOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1445,6 +1498,7 @@ extension EC2 {
             command: describeInstanceTypeOfferings,
             inputKey: \DescribeInstanceTypeOfferingsRequest.nextToken,
             outputKey: \DescribeInstanceTypeOfferingsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1458,14 +1512,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstanceTypesPaginator<Result>(
         _ input: DescribeInstanceTypesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstanceTypesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1475,6 +1529,7 @@ extension EC2 {
             command: describeInstanceTypes,
             inputKey: \DescribeInstanceTypesRequest.nextToken,
             outputKey: \DescribeInstanceTypesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1484,12 +1539,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstanceTypesPaginator(
         _ input: DescribeInstanceTypesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstanceTypesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1498,6 +1553,7 @@ extension EC2 {
             command: describeInstanceTypes,
             inputKey: \DescribeInstanceTypesRequest.nextToken,
             outputKey: \DescribeInstanceTypesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1511,14 +1567,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstancesPaginator<Result>(
         _ input: DescribeInstancesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstancesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1528,6 +1584,7 @@ extension EC2 {
             command: describeInstances,
             inputKey: \DescribeInstancesRequest.nextToken,
             outputKey: \DescribeInstancesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1537,12 +1594,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstancesPaginator(
         _ input: DescribeInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstancesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1551,6 +1608,7 @@ extension EC2 {
             command: describeInstances,
             inputKey: \DescribeInstancesRequest.nextToken,
             outputKey: \DescribeInstancesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1564,14 +1622,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInternetGatewaysPaginator<Result>(
         _ input: DescribeInternetGatewaysRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInternetGatewaysResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1581,6 +1639,7 @@ extension EC2 {
             command: describeInternetGateways,
             inputKey: \DescribeInternetGatewaysRequest.nextToken,
             outputKey: \DescribeInternetGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1590,12 +1649,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInternetGatewaysPaginator(
         _ input: DescribeInternetGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInternetGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1604,6 +1663,7 @@ extension EC2 {
             command: describeInternetGateways,
             inputKey: \DescribeInternetGatewaysRequest.nextToken,
             outputKey: \DescribeInternetGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1617,14 +1677,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeIpv6PoolsPaginator<Result>(
         _ input: DescribeIpv6PoolsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeIpv6PoolsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1634,6 +1694,7 @@ extension EC2 {
             command: describeIpv6Pools,
             inputKey: \DescribeIpv6PoolsRequest.nextToken,
             outputKey: \DescribeIpv6PoolsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1643,12 +1704,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeIpv6PoolsPaginator(
         _ input: DescribeIpv6PoolsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeIpv6PoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1657,6 +1718,7 @@ extension EC2 {
             command: describeIpv6Pools,
             inputKey: \DescribeIpv6PoolsRequest.nextToken,
             outputKey: \DescribeIpv6PoolsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1670,14 +1732,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLaunchTemplateVersionsPaginator<Result>(
         _ input: DescribeLaunchTemplateVersionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLaunchTemplateVersionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1687,6 +1749,7 @@ extension EC2 {
             command: describeLaunchTemplateVersions,
             inputKey: \DescribeLaunchTemplateVersionsRequest.nextToken,
             outputKey: \DescribeLaunchTemplateVersionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,12 +1759,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLaunchTemplateVersionsPaginator(
         _ input: DescribeLaunchTemplateVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLaunchTemplateVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1710,6 +1773,7 @@ extension EC2 {
             command: describeLaunchTemplateVersions,
             inputKey: \DescribeLaunchTemplateVersionsRequest.nextToken,
             outputKey: \DescribeLaunchTemplateVersionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1723,14 +1787,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLaunchTemplatesPaginator<Result>(
         _ input: DescribeLaunchTemplatesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLaunchTemplatesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1740,6 +1804,7 @@ extension EC2 {
             command: describeLaunchTemplates,
             inputKey: \DescribeLaunchTemplatesRequest.nextToken,
             outputKey: \DescribeLaunchTemplatesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1749,12 +1814,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLaunchTemplatesPaginator(
         _ input: DescribeLaunchTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLaunchTemplatesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1763,6 +1828,7 @@ extension EC2 {
             command: describeLaunchTemplates,
             inputKey: \DescribeLaunchTemplatesRequest.nextToken,
             outputKey: \DescribeLaunchTemplatesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1776,14 +1842,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsPaginator<Result>(
         _ input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1793,6 +1859,7 @@ extension EC2 {
             command: describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations,
             inputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest.nextToken,
             outputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1802,12 +1869,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsPaginator(
         _ input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1816,6 +1883,7 @@ extension EC2 {
             command: describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations,
             inputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest.nextToken,
             outputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1829,14 +1897,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLocalGatewayRouteTableVpcAssociationsPaginator<Result>(
         _ input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLocalGatewayRouteTableVpcAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1846,6 +1914,7 @@ extension EC2 {
             command: describeLocalGatewayRouteTableVpcAssociations,
             inputKey: \DescribeLocalGatewayRouteTableVpcAssociationsRequest.nextToken,
             outputKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1855,12 +1924,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLocalGatewayRouteTableVpcAssociationsPaginator(
         _ input: DescribeLocalGatewayRouteTableVpcAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLocalGatewayRouteTableVpcAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1869,6 +1938,7 @@ extension EC2 {
             command: describeLocalGatewayRouteTableVpcAssociations,
             inputKey: \DescribeLocalGatewayRouteTableVpcAssociationsRequest.nextToken,
             outputKey: \DescribeLocalGatewayRouteTableVpcAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1882,14 +1952,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLocalGatewayRouteTablesPaginator<Result>(
         _ input: DescribeLocalGatewayRouteTablesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLocalGatewayRouteTablesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1899,6 +1969,7 @@ extension EC2 {
             command: describeLocalGatewayRouteTables,
             inputKey: \DescribeLocalGatewayRouteTablesRequest.nextToken,
             outputKey: \DescribeLocalGatewayRouteTablesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1908,12 +1979,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLocalGatewayRouteTablesPaginator(
         _ input: DescribeLocalGatewayRouteTablesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLocalGatewayRouteTablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1922,6 +1993,7 @@ extension EC2 {
             command: describeLocalGatewayRouteTables,
             inputKey: \DescribeLocalGatewayRouteTablesRequest.nextToken,
             outputKey: \DescribeLocalGatewayRouteTablesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1935,14 +2007,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLocalGatewayVirtualInterfaceGroupsPaginator<Result>(
         _ input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLocalGatewayVirtualInterfaceGroupsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1952,6 +2024,7 @@ extension EC2 {
             command: describeLocalGatewayVirtualInterfaceGroups,
             inputKey: \DescribeLocalGatewayVirtualInterfaceGroupsRequest.nextToken,
             outputKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1961,12 +2034,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLocalGatewayVirtualInterfaceGroupsPaginator(
         _ input: DescribeLocalGatewayVirtualInterfaceGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLocalGatewayVirtualInterfaceGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1975,6 +2048,7 @@ extension EC2 {
             command: describeLocalGatewayVirtualInterfaceGroups,
             inputKey: \DescribeLocalGatewayVirtualInterfaceGroupsRequest.nextToken,
             outputKey: \DescribeLocalGatewayVirtualInterfaceGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1988,14 +2062,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLocalGatewayVirtualInterfacesPaginator<Result>(
         _ input: DescribeLocalGatewayVirtualInterfacesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLocalGatewayVirtualInterfacesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2005,6 +2079,7 @@ extension EC2 {
             command: describeLocalGatewayVirtualInterfaces,
             inputKey: \DescribeLocalGatewayVirtualInterfacesRequest.nextToken,
             outputKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2014,12 +2089,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLocalGatewayVirtualInterfacesPaginator(
         _ input: DescribeLocalGatewayVirtualInterfacesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLocalGatewayVirtualInterfacesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2028,6 +2103,7 @@ extension EC2 {
             command: describeLocalGatewayVirtualInterfaces,
             inputKey: \DescribeLocalGatewayVirtualInterfacesRequest.nextToken,
             outputKey: \DescribeLocalGatewayVirtualInterfacesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2041,14 +2117,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeLocalGatewaysPaginator<Result>(
         _ input: DescribeLocalGatewaysRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeLocalGatewaysResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2058,6 +2134,7 @@ extension EC2 {
             command: describeLocalGateways,
             inputKey: \DescribeLocalGatewaysRequest.nextToken,
             outputKey: \DescribeLocalGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2067,12 +2144,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeLocalGatewaysPaginator(
         _ input: DescribeLocalGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeLocalGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2081,6 +2158,7 @@ extension EC2 {
             command: describeLocalGateways,
             inputKey: \DescribeLocalGatewaysRequest.nextToken,
             outputKey: \DescribeLocalGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2094,14 +2172,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeManagedPrefixListsPaginator<Result>(
         _ input: DescribeManagedPrefixListsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeManagedPrefixListsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2111,6 +2189,7 @@ extension EC2 {
             command: describeManagedPrefixLists,
             inputKey: \DescribeManagedPrefixListsRequest.nextToken,
             outputKey: \DescribeManagedPrefixListsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2120,12 +2199,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeManagedPrefixListsPaginator(
         _ input: DescribeManagedPrefixListsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeManagedPrefixListsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2134,6 +2213,7 @@ extension EC2 {
             command: describeManagedPrefixLists,
             inputKey: \DescribeManagedPrefixListsRequest.nextToken,
             outputKey: \DescribeManagedPrefixListsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2147,14 +2227,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMovingAddressesPaginator<Result>(
         _ input: DescribeMovingAddressesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMovingAddressesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2164,6 +2244,7 @@ extension EC2 {
             command: describeMovingAddresses,
             inputKey: \DescribeMovingAddressesRequest.nextToken,
             outputKey: \DescribeMovingAddressesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2173,12 +2254,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMovingAddressesPaginator(
         _ input: DescribeMovingAddressesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMovingAddressesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2187,6 +2268,7 @@ extension EC2 {
             command: describeMovingAddresses,
             inputKey: \DescribeMovingAddressesRequest.nextToken,
             outputKey: \DescribeMovingAddressesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2200,14 +2282,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeNatGatewaysPaginator<Result>(
         _ input: DescribeNatGatewaysRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeNatGatewaysResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2217,6 +2299,7 @@ extension EC2 {
             command: describeNatGateways,
             inputKey: \DescribeNatGatewaysRequest.nextToken,
             outputKey: \DescribeNatGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2226,12 +2309,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNatGatewaysPaginator(
         _ input: DescribeNatGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNatGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2240,6 +2323,7 @@ extension EC2 {
             command: describeNatGateways,
             inputKey: \DescribeNatGatewaysRequest.nextToken,
             outputKey: \DescribeNatGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2253,14 +2337,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeNetworkAclsPaginator<Result>(
         _ input: DescribeNetworkAclsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeNetworkAclsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2270,6 +2354,7 @@ extension EC2 {
             command: describeNetworkAcls,
             inputKey: \DescribeNetworkAclsRequest.nextToken,
             outputKey: \DescribeNetworkAclsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2279,12 +2364,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNetworkAclsPaginator(
         _ input: DescribeNetworkAclsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNetworkAclsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2293,6 +2378,7 @@ extension EC2 {
             command: describeNetworkAcls,
             inputKey: \DescribeNetworkAclsRequest.nextToken,
             outputKey: \DescribeNetworkAclsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2306,14 +2392,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeNetworkInsightsAnalysesPaginator<Result>(
         _ input: DescribeNetworkInsightsAnalysesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeNetworkInsightsAnalysesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2323,6 +2409,7 @@ extension EC2 {
             command: describeNetworkInsightsAnalyses,
             inputKey: \DescribeNetworkInsightsAnalysesRequest.nextToken,
             outputKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2332,12 +2419,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNetworkInsightsAnalysesPaginator(
         _ input: DescribeNetworkInsightsAnalysesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNetworkInsightsAnalysesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2346,6 +2433,7 @@ extension EC2 {
             command: describeNetworkInsightsAnalyses,
             inputKey: \DescribeNetworkInsightsAnalysesRequest.nextToken,
             outputKey: \DescribeNetworkInsightsAnalysesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2359,14 +2447,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeNetworkInsightsPathsPaginator<Result>(
         _ input: DescribeNetworkInsightsPathsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeNetworkInsightsPathsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2376,6 +2464,7 @@ extension EC2 {
             command: describeNetworkInsightsPaths,
             inputKey: \DescribeNetworkInsightsPathsRequest.nextToken,
             outputKey: \DescribeNetworkInsightsPathsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2385,12 +2474,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNetworkInsightsPathsPaginator(
         _ input: DescribeNetworkInsightsPathsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNetworkInsightsPathsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2399,6 +2488,7 @@ extension EC2 {
             command: describeNetworkInsightsPaths,
             inputKey: \DescribeNetworkInsightsPathsRequest.nextToken,
             outputKey: \DescribeNetworkInsightsPathsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2412,14 +2502,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeNetworkInterfacePermissionsPaginator<Result>(
         _ input: DescribeNetworkInterfacePermissionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeNetworkInterfacePermissionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2429,6 +2519,7 @@ extension EC2 {
             command: describeNetworkInterfacePermissions,
             inputKey: \DescribeNetworkInterfacePermissionsRequest.nextToken,
             outputKey: \DescribeNetworkInterfacePermissionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2438,12 +2529,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNetworkInterfacePermissionsPaginator(
         _ input: DescribeNetworkInterfacePermissionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNetworkInterfacePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2452,6 +2543,7 @@ extension EC2 {
             command: describeNetworkInterfacePermissions,
             inputKey: \DescribeNetworkInterfacePermissionsRequest.nextToken,
             outputKey: \DescribeNetworkInterfacePermissionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2465,14 +2557,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeNetworkInterfacesPaginator<Result>(
         _ input: DescribeNetworkInterfacesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeNetworkInterfacesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2482,6 +2574,7 @@ extension EC2 {
             command: describeNetworkInterfaces,
             inputKey: \DescribeNetworkInterfacesRequest.nextToken,
             outputKey: \DescribeNetworkInterfacesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2491,12 +2584,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeNetworkInterfacesPaginator(
         _ input: DescribeNetworkInterfacesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeNetworkInterfacesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2505,6 +2598,7 @@ extension EC2 {
             command: describeNetworkInterfaces,
             inputKey: \DescribeNetworkInterfacesRequest.nextToken,
             outputKey: \DescribeNetworkInterfacesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2518,14 +2612,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePrefixListsPaginator<Result>(
         _ input: DescribePrefixListsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePrefixListsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2535,6 +2629,7 @@ extension EC2 {
             command: describePrefixLists,
             inputKey: \DescribePrefixListsRequest.nextToken,
             outputKey: \DescribePrefixListsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2544,12 +2639,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePrefixListsPaginator(
         _ input: DescribePrefixListsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePrefixListsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2558,6 +2653,7 @@ extension EC2 {
             command: describePrefixLists,
             inputKey: \DescribePrefixListsRequest.nextToken,
             outputKey: \DescribePrefixListsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2571,14 +2667,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePrincipalIdFormatPaginator<Result>(
         _ input: DescribePrincipalIdFormatRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePrincipalIdFormatResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2588,6 +2684,7 @@ extension EC2 {
             command: describePrincipalIdFormat,
             inputKey: \DescribePrincipalIdFormatRequest.nextToken,
             outputKey: \DescribePrincipalIdFormatResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2597,12 +2694,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePrincipalIdFormatPaginator(
         _ input: DescribePrincipalIdFormatRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePrincipalIdFormatResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2611,6 +2708,7 @@ extension EC2 {
             command: describePrincipalIdFormat,
             inputKey: \DescribePrincipalIdFormatRequest.nextToken,
             outputKey: \DescribePrincipalIdFormatResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2624,14 +2722,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePublicIpv4PoolsPaginator<Result>(
         _ input: DescribePublicIpv4PoolsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePublicIpv4PoolsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2641,6 +2739,7 @@ extension EC2 {
             command: describePublicIpv4Pools,
             inputKey: \DescribePublicIpv4PoolsRequest.nextToken,
             outputKey: \DescribePublicIpv4PoolsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2650,12 +2749,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePublicIpv4PoolsPaginator(
         _ input: DescribePublicIpv4PoolsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePublicIpv4PoolsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2664,6 +2763,7 @@ extension EC2 {
             command: describePublicIpv4Pools,
             inputKey: \DescribePublicIpv4PoolsRequest.nextToken,
             outputKey: \DescribePublicIpv4PoolsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2677,14 +2777,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReplaceRootVolumeTasksPaginator<Result>(
         _ input: DescribeReplaceRootVolumeTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeReplaceRootVolumeTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2694,6 +2794,7 @@ extension EC2 {
             command: describeReplaceRootVolumeTasks,
             inputKey: \DescribeReplaceRootVolumeTasksRequest.nextToken,
             outputKey: \DescribeReplaceRootVolumeTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2703,12 +2804,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReplaceRootVolumeTasksPaginator(
         _ input: DescribeReplaceRootVolumeTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReplaceRootVolumeTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2717,6 +2818,7 @@ extension EC2 {
             command: describeReplaceRootVolumeTasks,
             inputKey: \DescribeReplaceRootVolumeTasksRequest.nextToken,
             outputKey: \DescribeReplaceRootVolumeTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2730,14 +2832,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReservedInstancesModificationsPaginator<Result>(
         _ input: DescribeReservedInstancesModificationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeReservedInstancesModificationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2747,6 +2849,7 @@ extension EC2 {
             command: describeReservedInstancesModifications,
             inputKey: \DescribeReservedInstancesModificationsRequest.nextToken,
             outputKey: \DescribeReservedInstancesModificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2756,12 +2859,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedInstancesModificationsPaginator(
         _ input: DescribeReservedInstancesModificationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReservedInstancesModificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2770,6 +2873,7 @@ extension EC2 {
             command: describeReservedInstancesModifications,
             inputKey: \DescribeReservedInstancesModificationsRequest.nextToken,
             outputKey: \DescribeReservedInstancesModificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2783,14 +2887,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReservedInstancesOfferingsPaginator<Result>(
         _ input: DescribeReservedInstancesOfferingsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeReservedInstancesOfferingsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2800,6 +2904,7 @@ extension EC2 {
             command: describeReservedInstancesOfferings,
             inputKey: \DescribeReservedInstancesOfferingsRequest.nextToken,
             outputKey: \DescribeReservedInstancesOfferingsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2809,12 +2914,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedInstancesOfferingsPaginator(
         _ input: DescribeReservedInstancesOfferingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeReservedInstancesOfferingsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2823,6 +2928,7 @@ extension EC2 {
             command: describeReservedInstancesOfferings,
             inputKey: \DescribeReservedInstancesOfferingsRequest.nextToken,
             outputKey: \DescribeReservedInstancesOfferingsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2836,14 +2942,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeRouteTablesPaginator<Result>(
         _ input: DescribeRouteTablesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeRouteTablesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2853,6 +2959,7 @@ extension EC2 {
             command: describeRouteTables,
             inputKey: \DescribeRouteTablesRequest.nextToken,
             outputKey: \DescribeRouteTablesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2862,12 +2969,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeRouteTablesPaginator(
         _ input: DescribeRouteTablesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeRouteTablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2876,6 +2983,7 @@ extension EC2 {
             command: describeRouteTables,
             inputKey: \DescribeRouteTablesRequest.nextToken,
             outputKey: \DescribeRouteTablesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2889,14 +2997,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeScheduledInstanceAvailabilityPaginator<Result>(
         _ input: DescribeScheduledInstanceAvailabilityRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeScheduledInstanceAvailabilityResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2906,6 +3014,7 @@ extension EC2 {
             command: describeScheduledInstanceAvailability,
             inputKey: \DescribeScheduledInstanceAvailabilityRequest.nextToken,
             outputKey: \DescribeScheduledInstanceAvailabilityResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2915,12 +3024,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeScheduledInstanceAvailabilityPaginator(
         _ input: DescribeScheduledInstanceAvailabilityRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScheduledInstanceAvailabilityResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2929,6 +3038,7 @@ extension EC2 {
             command: describeScheduledInstanceAvailability,
             inputKey: \DescribeScheduledInstanceAvailabilityRequest.nextToken,
             outputKey: \DescribeScheduledInstanceAvailabilityResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2942,14 +3052,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeScheduledInstancesPaginator<Result>(
         _ input: DescribeScheduledInstancesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeScheduledInstancesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2959,6 +3069,7 @@ extension EC2 {
             command: describeScheduledInstances,
             inputKey: \DescribeScheduledInstancesRequest.nextToken,
             outputKey: \DescribeScheduledInstancesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2968,12 +3079,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeScheduledInstancesPaginator(
         _ input: DescribeScheduledInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeScheduledInstancesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2982,6 +3093,7 @@ extension EC2 {
             command: describeScheduledInstances,
             inputKey: \DescribeScheduledInstancesRequest.nextToken,
             outputKey: \DescribeScheduledInstancesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2995,14 +3107,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSecurityGroupsPaginator<Result>(
         _ input: DescribeSecurityGroupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSecurityGroupsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3012,6 +3124,7 @@ extension EC2 {
             command: describeSecurityGroups,
             inputKey: \DescribeSecurityGroupsRequest.nextToken,
             outputKey: \DescribeSecurityGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3021,12 +3134,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSecurityGroupsPaginator(
         _ input: DescribeSecurityGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSecurityGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3035,6 +3148,7 @@ extension EC2 {
             command: describeSecurityGroups,
             inputKey: \DescribeSecurityGroupsRequest.nextToken,
             outputKey: \DescribeSecurityGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3048,14 +3162,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSnapshotsPaginator<Result>(
         _ input: DescribeSnapshotsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSnapshotsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3065,6 +3179,7 @@ extension EC2 {
             command: describeSnapshots,
             inputKey: \DescribeSnapshotsRequest.nextToken,
             outputKey: \DescribeSnapshotsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3074,12 +3189,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSnapshotsPaginator(
         _ input: DescribeSnapshotsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSnapshotsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3088,6 +3203,7 @@ extension EC2 {
             command: describeSnapshots,
             inputKey: \DescribeSnapshotsRequest.nextToken,
             outputKey: \DescribeSnapshotsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3101,14 +3217,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSpotFleetRequestsPaginator<Result>(
         _ input: DescribeSpotFleetRequestsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSpotFleetRequestsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3118,6 +3234,7 @@ extension EC2 {
             command: describeSpotFleetRequests,
             inputKey: \DescribeSpotFleetRequestsRequest.nextToken,
             outputKey: \DescribeSpotFleetRequestsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3127,12 +3244,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSpotFleetRequestsPaginator(
         _ input: DescribeSpotFleetRequestsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSpotFleetRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3141,6 +3258,7 @@ extension EC2 {
             command: describeSpotFleetRequests,
             inputKey: \DescribeSpotFleetRequestsRequest.nextToken,
             outputKey: \DescribeSpotFleetRequestsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3154,14 +3272,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSpotInstanceRequestsPaginator<Result>(
         _ input: DescribeSpotInstanceRequestsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSpotInstanceRequestsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3171,6 +3289,7 @@ extension EC2 {
             command: describeSpotInstanceRequests,
             inputKey: \DescribeSpotInstanceRequestsRequest.nextToken,
             outputKey: \DescribeSpotInstanceRequestsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3180,12 +3299,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSpotInstanceRequestsPaginator(
         _ input: DescribeSpotInstanceRequestsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSpotInstanceRequestsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3194,6 +3313,7 @@ extension EC2 {
             command: describeSpotInstanceRequests,
             inputKey: \DescribeSpotInstanceRequestsRequest.nextToken,
             outputKey: \DescribeSpotInstanceRequestsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3207,14 +3327,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSpotPriceHistoryPaginator<Result>(
         _ input: DescribeSpotPriceHistoryRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSpotPriceHistoryResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3224,6 +3344,7 @@ extension EC2 {
             command: describeSpotPriceHistory,
             inputKey: \DescribeSpotPriceHistoryRequest.nextToken,
             outputKey: \DescribeSpotPriceHistoryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3233,12 +3354,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSpotPriceHistoryPaginator(
         _ input: DescribeSpotPriceHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSpotPriceHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3247,6 +3368,7 @@ extension EC2 {
             command: describeSpotPriceHistory,
             inputKey: \DescribeSpotPriceHistoryRequest.nextToken,
             outputKey: \DescribeSpotPriceHistoryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3260,14 +3382,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeStaleSecurityGroupsPaginator<Result>(
         _ input: DescribeStaleSecurityGroupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeStaleSecurityGroupsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3277,6 +3399,7 @@ extension EC2 {
             command: describeStaleSecurityGroups,
             inputKey: \DescribeStaleSecurityGroupsRequest.nextToken,
             outputKey: \DescribeStaleSecurityGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3286,12 +3409,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeStaleSecurityGroupsPaginator(
         _ input: DescribeStaleSecurityGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeStaleSecurityGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3300,6 +3423,7 @@ extension EC2 {
             command: describeStaleSecurityGroups,
             inputKey: \DescribeStaleSecurityGroupsRequest.nextToken,
             outputKey: \DescribeStaleSecurityGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3313,14 +3437,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeStoreImageTasksPaginator<Result>(
         _ input: DescribeStoreImageTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeStoreImageTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3330,6 +3454,7 @@ extension EC2 {
             command: describeStoreImageTasks,
             inputKey: \DescribeStoreImageTasksRequest.nextToken,
             outputKey: \DescribeStoreImageTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3339,12 +3464,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeStoreImageTasksPaginator(
         _ input: DescribeStoreImageTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeStoreImageTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3353,6 +3478,7 @@ extension EC2 {
             command: describeStoreImageTasks,
             inputKey: \DescribeStoreImageTasksRequest.nextToken,
             outputKey: \DescribeStoreImageTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3366,14 +3492,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSubnetsPaginator<Result>(
         _ input: DescribeSubnetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSubnetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3383,6 +3509,7 @@ extension EC2 {
             command: describeSubnets,
             inputKey: \DescribeSubnetsRequest.nextToken,
             outputKey: \DescribeSubnetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3392,12 +3519,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSubnetsPaginator(
         _ input: DescribeSubnetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSubnetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3406,6 +3533,7 @@ extension EC2 {
             command: describeSubnets,
             inputKey: \DescribeSubnetsRequest.nextToken,
             outputKey: \DescribeSubnetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3419,14 +3547,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTagsPaginator<Result>(
         _ input: DescribeTagsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTagsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3436,6 +3564,7 @@ extension EC2 {
             command: describeTags,
             inputKey: \DescribeTagsRequest.nextToken,
             outputKey: \DescribeTagsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3445,12 +3574,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTagsPaginator(
         _ input: DescribeTagsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTagsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3459,6 +3588,7 @@ extension EC2 {
             command: describeTags,
             inputKey: \DescribeTagsRequest.nextToken,
             outputKey: \DescribeTagsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3472,14 +3602,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTrafficMirrorFiltersPaginator<Result>(
         _ input: DescribeTrafficMirrorFiltersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTrafficMirrorFiltersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3489,6 +3619,7 @@ extension EC2 {
             command: describeTrafficMirrorFilters,
             inputKey: \DescribeTrafficMirrorFiltersRequest.nextToken,
             outputKey: \DescribeTrafficMirrorFiltersResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3498,12 +3629,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTrafficMirrorFiltersPaginator(
         _ input: DescribeTrafficMirrorFiltersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTrafficMirrorFiltersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3512,6 +3643,7 @@ extension EC2 {
             command: describeTrafficMirrorFilters,
             inputKey: \DescribeTrafficMirrorFiltersRequest.nextToken,
             outputKey: \DescribeTrafficMirrorFiltersResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3525,14 +3657,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTrafficMirrorSessionsPaginator<Result>(
         _ input: DescribeTrafficMirrorSessionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTrafficMirrorSessionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3542,6 +3674,7 @@ extension EC2 {
             command: describeTrafficMirrorSessions,
             inputKey: \DescribeTrafficMirrorSessionsRequest.nextToken,
             outputKey: \DescribeTrafficMirrorSessionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3551,12 +3684,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTrafficMirrorSessionsPaginator(
         _ input: DescribeTrafficMirrorSessionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTrafficMirrorSessionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3565,6 +3698,7 @@ extension EC2 {
             command: describeTrafficMirrorSessions,
             inputKey: \DescribeTrafficMirrorSessionsRequest.nextToken,
             outputKey: \DescribeTrafficMirrorSessionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3578,14 +3712,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTrafficMirrorTargetsPaginator<Result>(
         _ input: DescribeTrafficMirrorTargetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTrafficMirrorTargetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3595,6 +3729,7 @@ extension EC2 {
             command: describeTrafficMirrorTargets,
             inputKey: \DescribeTrafficMirrorTargetsRequest.nextToken,
             outputKey: \DescribeTrafficMirrorTargetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3604,12 +3739,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTrafficMirrorTargetsPaginator(
         _ input: DescribeTrafficMirrorTargetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTrafficMirrorTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3618,6 +3753,7 @@ extension EC2 {
             command: describeTrafficMirrorTargets,
             inputKey: \DescribeTrafficMirrorTargetsRequest.nextToken,
             outputKey: \DescribeTrafficMirrorTargetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3631,14 +3767,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayAttachmentsPaginator<Result>(
         _ input: DescribeTransitGatewayAttachmentsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayAttachmentsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3648,6 +3784,7 @@ extension EC2 {
             command: describeTransitGatewayAttachments,
             inputKey: \DescribeTransitGatewayAttachmentsRequest.nextToken,
             outputKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3657,12 +3794,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayAttachmentsPaginator(
         _ input: DescribeTransitGatewayAttachmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayAttachmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3671,6 +3808,7 @@ extension EC2 {
             command: describeTransitGatewayAttachments,
             inputKey: \DescribeTransitGatewayAttachmentsRequest.nextToken,
             outputKey: \DescribeTransitGatewayAttachmentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3684,14 +3822,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayConnectPeersPaginator<Result>(
         _ input: DescribeTransitGatewayConnectPeersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayConnectPeersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3701,6 +3839,7 @@ extension EC2 {
             command: describeTransitGatewayConnectPeers,
             inputKey: \DescribeTransitGatewayConnectPeersRequest.nextToken,
             outputKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3710,12 +3849,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayConnectPeersPaginator(
         _ input: DescribeTransitGatewayConnectPeersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayConnectPeersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3724,6 +3863,7 @@ extension EC2 {
             command: describeTransitGatewayConnectPeers,
             inputKey: \DescribeTransitGatewayConnectPeersRequest.nextToken,
             outputKey: \DescribeTransitGatewayConnectPeersResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3737,14 +3877,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayConnectsPaginator<Result>(
         _ input: DescribeTransitGatewayConnectsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayConnectsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3754,6 +3894,7 @@ extension EC2 {
             command: describeTransitGatewayConnects,
             inputKey: \DescribeTransitGatewayConnectsRequest.nextToken,
             outputKey: \DescribeTransitGatewayConnectsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3763,12 +3904,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayConnectsPaginator(
         _ input: DescribeTransitGatewayConnectsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayConnectsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3777,6 +3918,7 @@ extension EC2 {
             command: describeTransitGatewayConnects,
             inputKey: \DescribeTransitGatewayConnectsRequest.nextToken,
             outputKey: \DescribeTransitGatewayConnectsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3790,14 +3932,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayMulticastDomainsPaginator<Result>(
         _ input: DescribeTransitGatewayMulticastDomainsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayMulticastDomainsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3807,6 +3949,7 @@ extension EC2 {
             command: describeTransitGatewayMulticastDomains,
             inputKey: \DescribeTransitGatewayMulticastDomainsRequest.nextToken,
             outputKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3816,12 +3959,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayMulticastDomainsPaginator(
         _ input: DescribeTransitGatewayMulticastDomainsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayMulticastDomainsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3830,6 +3973,7 @@ extension EC2 {
             command: describeTransitGatewayMulticastDomains,
             inputKey: \DescribeTransitGatewayMulticastDomainsRequest.nextToken,
             outputKey: \DescribeTransitGatewayMulticastDomainsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3843,14 +3987,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayPeeringAttachmentsPaginator<Result>(
         _ input: DescribeTransitGatewayPeeringAttachmentsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayPeeringAttachmentsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3860,6 +4004,7 @@ extension EC2 {
             command: describeTransitGatewayPeeringAttachments,
             inputKey: \DescribeTransitGatewayPeeringAttachmentsRequest.nextToken,
             outputKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3869,12 +4014,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayPeeringAttachmentsPaginator(
         _ input: DescribeTransitGatewayPeeringAttachmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayPeeringAttachmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3883,6 +4028,7 @@ extension EC2 {
             command: describeTransitGatewayPeeringAttachments,
             inputKey: \DescribeTransitGatewayPeeringAttachmentsRequest.nextToken,
             outputKey: \DescribeTransitGatewayPeeringAttachmentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3896,14 +4042,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayRouteTablesPaginator<Result>(
         _ input: DescribeTransitGatewayRouteTablesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayRouteTablesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3913,6 +4059,7 @@ extension EC2 {
             command: describeTransitGatewayRouteTables,
             inputKey: \DescribeTransitGatewayRouteTablesRequest.nextToken,
             outputKey: \DescribeTransitGatewayRouteTablesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3922,12 +4069,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayRouteTablesPaginator(
         _ input: DescribeTransitGatewayRouteTablesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayRouteTablesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3936,6 +4083,7 @@ extension EC2 {
             command: describeTransitGatewayRouteTables,
             inputKey: \DescribeTransitGatewayRouteTablesRequest.nextToken,
             outputKey: \DescribeTransitGatewayRouteTablesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3949,14 +4097,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewayVpcAttachmentsPaginator<Result>(
         _ input: DescribeTransitGatewayVpcAttachmentsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewayVpcAttachmentsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -3966,6 +4114,7 @@ extension EC2 {
             command: describeTransitGatewayVpcAttachments,
             inputKey: \DescribeTransitGatewayVpcAttachmentsRequest.nextToken,
             outputKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -3975,12 +4124,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewayVpcAttachmentsPaginator(
         _ input: DescribeTransitGatewayVpcAttachmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewayVpcAttachmentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -3989,6 +4138,7 @@ extension EC2 {
             command: describeTransitGatewayVpcAttachments,
             inputKey: \DescribeTransitGatewayVpcAttachmentsRequest.nextToken,
             outputKey: \DescribeTransitGatewayVpcAttachmentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4002,14 +4152,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeTransitGatewaysPaginator<Result>(
         _ input: DescribeTransitGatewaysRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeTransitGatewaysResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4019,6 +4169,7 @@ extension EC2 {
             command: describeTransitGateways,
             inputKey: \DescribeTransitGatewaysRequest.nextToken,
             outputKey: \DescribeTransitGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4028,12 +4179,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeTransitGatewaysPaginator(
         _ input: DescribeTransitGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeTransitGatewaysResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4042,6 +4193,7 @@ extension EC2 {
             command: describeTransitGateways,
             inputKey: \DescribeTransitGatewaysRequest.nextToken,
             outputKey: \DescribeTransitGatewaysResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4055,14 +4207,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVolumeStatusPaginator<Result>(
         _ input: DescribeVolumeStatusRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVolumeStatusResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4072,6 +4224,7 @@ extension EC2 {
             command: describeVolumeStatus,
             inputKey: \DescribeVolumeStatusRequest.nextToken,
             outputKey: \DescribeVolumeStatusResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4081,12 +4234,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVolumeStatusPaginator(
         _ input: DescribeVolumeStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVolumeStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4095,6 +4248,7 @@ extension EC2 {
             command: describeVolumeStatus,
             inputKey: \DescribeVolumeStatusRequest.nextToken,
             outputKey: \DescribeVolumeStatusResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4108,14 +4262,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVolumesPaginator<Result>(
         _ input: DescribeVolumesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVolumesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4125,6 +4279,7 @@ extension EC2 {
             command: describeVolumes,
             inputKey: \DescribeVolumesRequest.nextToken,
             outputKey: \DescribeVolumesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4134,12 +4289,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVolumesPaginator(
         _ input: DescribeVolumesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVolumesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4148,6 +4303,7 @@ extension EC2 {
             command: describeVolumes,
             inputKey: \DescribeVolumesRequest.nextToken,
             outputKey: \DescribeVolumesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4161,14 +4317,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVolumesModificationsPaginator<Result>(
         _ input: DescribeVolumesModificationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVolumesModificationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4178,6 +4334,7 @@ extension EC2 {
             command: describeVolumesModifications,
             inputKey: \DescribeVolumesModificationsRequest.nextToken,
             outputKey: \DescribeVolumesModificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4187,12 +4344,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVolumesModificationsPaginator(
         _ input: DescribeVolumesModificationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVolumesModificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4201,6 +4358,7 @@ extension EC2 {
             command: describeVolumesModifications,
             inputKey: \DescribeVolumesModificationsRequest.nextToken,
             outputKey: \DescribeVolumesModificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4214,14 +4372,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcClassicLinkDnsSupportPaginator<Result>(
         _ input: DescribeVpcClassicLinkDnsSupportRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcClassicLinkDnsSupportResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4231,6 +4389,7 @@ extension EC2 {
             command: describeVpcClassicLinkDnsSupport,
             inputKey: \DescribeVpcClassicLinkDnsSupportRequest.nextToken,
             outputKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4240,12 +4399,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcClassicLinkDnsSupportPaginator(
         _ input: DescribeVpcClassicLinkDnsSupportRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcClassicLinkDnsSupportResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4254,6 +4413,7 @@ extension EC2 {
             command: describeVpcClassicLinkDnsSupport,
             inputKey: \DescribeVpcClassicLinkDnsSupportRequest.nextToken,
             outputKey: \DescribeVpcClassicLinkDnsSupportResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4267,14 +4427,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcEndpointConnectionNotificationsPaginator<Result>(
         _ input: DescribeVpcEndpointConnectionNotificationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcEndpointConnectionNotificationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4284,6 +4444,7 @@ extension EC2 {
             command: describeVpcEndpointConnectionNotifications,
             inputKey: \DescribeVpcEndpointConnectionNotificationsRequest.nextToken,
             outputKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4293,12 +4454,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcEndpointConnectionNotificationsPaginator(
         _ input: DescribeVpcEndpointConnectionNotificationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcEndpointConnectionNotificationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4307,6 +4468,7 @@ extension EC2 {
             command: describeVpcEndpointConnectionNotifications,
             inputKey: \DescribeVpcEndpointConnectionNotificationsRequest.nextToken,
             outputKey: \DescribeVpcEndpointConnectionNotificationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4320,14 +4482,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcEndpointConnectionsPaginator<Result>(
         _ input: DescribeVpcEndpointConnectionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcEndpointConnectionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4337,6 +4499,7 @@ extension EC2 {
             command: describeVpcEndpointConnections,
             inputKey: \DescribeVpcEndpointConnectionsRequest.nextToken,
             outputKey: \DescribeVpcEndpointConnectionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4346,12 +4509,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcEndpointConnectionsPaginator(
         _ input: DescribeVpcEndpointConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcEndpointConnectionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4360,6 +4523,7 @@ extension EC2 {
             command: describeVpcEndpointConnections,
             inputKey: \DescribeVpcEndpointConnectionsRequest.nextToken,
             outputKey: \DescribeVpcEndpointConnectionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4373,14 +4537,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcEndpointServiceConfigurationsPaginator<Result>(
         _ input: DescribeVpcEndpointServiceConfigurationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcEndpointServiceConfigurationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4390,6 +4554,7 @@ extension EC2 {
             command: describeVpcEndpointServiceConfigurations,
             inputKey: \DescribeVpcEndpointServiceConfigurationsRequest.nextToken,
             outputKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4399,12 +4564,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcEndpointServiceConfigurationsPaginator(
         _ input: DescribeVpcEndpointServiceConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcEndpointServiceConfigurationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4413,6 +4578,7 @@ extension EC2 {
             command: describeVpcEndpointServiceConfigurations,
             inputKey: \DescribeVpcEndpointServiceConfigurationsRequest.nextToken,
             outputKey: \DescribeVpcEndpointServiceConfigurationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4426,14 +4592,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcEndpointServicePermissionsPaginator<Result>(
         _ input: DescribeVpcEndpointServicePermissionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcEndpointServicePermissionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4443,6 +4609,7 @@ extension EC2 {
             command: describeVpcEndpointServicePermissions,
             inputKey: \DescribeVpcEndpointServicePermissionsRequest.nextToken,
             outputKey: \DescribeVpcEndpointServicePermissionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4452,12 +4619,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcEndpointServicePermissionsPaginator(
         _ input: DescribeVpcEndpointServicePermissionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcEndpointServicePermissionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4466,6 +4633,7 @@ extension EC2 {
             command: describeVpcEndpointServicePermissions,
             inputKey: \DescribeVpcEndpointServicePermissionsRequest.nextToken,
             outputKey: \DescribeVpcEndpointServicePermissionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4479,14 +4647,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcEndpointsPaginator<Result>(
         _ input: DescribeVpcEndpointsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcEndpointsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4496,6 +4664,7 @@ extension EC2 {
             command: describeVpcEndpoints,
             inputKey: \DescribeVpcEndpointsRequest.nextToken,
             outputKey: \DescribeVpcEndpointsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4505,12 +4674,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcEndpointsPaginator(
         _ input: DescribeVpcEndpointsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcEndpointsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4519,6 +4688,7 @@ extension EC2 {
             command: describeVpcEndpoints,
             inputKey: \DescribeVpcEndpointsRequest.nextToken,
             outputKey: \DescribeVpcEndpointsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4532,14 +4702,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcPeeringConnectionsPaginator<Result>(
         _ input: DescribeVpcPeeringConnectionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcPeeringConnectionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4549,6 +4719,7 @@ extension EC2 {
             command: describeVpcPeeringConnections,
             inputKey: \DescribeVpcPeeringConnectionsRequest.nextToken,
             outputKey: \DescribeVpcPeeringConnectionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4558,12 +4729,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcPeeringConnectionsPaginator(
         _ input: DescribeVpcPeeringConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcPeeringConnectionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4572,6 +4743,7 @@ extension EC2 {
             command: describeVpcPeeringConnections,
             inputKey: \DescribeVpcPeeringConnectionsRequest.nextToken,
             outputKey: \DescribeVpcPeeringConnectionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4585,14 +4757,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeVpcsPaginator<Result>(
         _ input: DescribeVpcsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeVpcsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4602,6 +4774,7 @@ extension EC2 {
             command: describeVpcs,
             inputKey: \DescribeVpcsRequest.nextToken,
             outputKey: \DescribeVpcsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4611,12 +4784,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeVpcsPaginator(
         _ input: DescribeVpcsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeVpcsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4625,6 +4798,7 @@ extension EC2 {
             command: describeVpcs,
             inputKey: \DescribeVpcsRequest.nextToken,
             outputKey: \DescribeVpcsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4638,14 +4812,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getAssociatedIpv6PoolCidrsPaginator<Result>(
         _ input: GetAssociatedIpv6PoolCidrsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetAssociatedIpv6PoolCidrsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4655,6 +4829,7 @@ extension EC2 {
             command: getAssociatedIpv6PoolCidrs,
             inputKey: \GetAssociatedIpv6PoolCidrsRequest.nextToken,
             outputKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4664,12 +4839,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getAssociatedIpv6PoolCidrsPaginator(
         _ input: GetAssociatedIpv6PoolCidrsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetAssociatedIpv6PoolCidrsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4678,6 +4853,7 @@ extension EC2 {
             command: getAssociatedIpv6PoolCidrs,
             inputKey: \GetAssociatedIpv6PoolCidrsRequest.nextToken,
             outputKey: \GetAssociatedIpv6PoolCidrsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4691,14 +4867,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getGroupsForCapacityReservationPaginator<Result>(
         _ input: GetGroupsForCapacityReservationRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetGroupsForCapacityReservationResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4708,6 +4884,7 @@ extension EC2 {
             command: getGroupsForCapacityReservation,
             inputKey: \GetGroupsForCapacityReservationRequest.nextToken,
             outputKey: \GetGroupsForCapacityReservationResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4717,12 +4894,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getGroupsForCapacityReservationPaginator(
         _ input: GetGroupsForCapacityReservationRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetGroupsForCapacityReservationResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4731,6 +4908,7 @@ extension EC2 {
             command: getGroupsForCapacityReservation,
             inputKey: \GetGroupsForCapacityReservationRequest.nextToken,
             outputKey: \GetGroupsForCapacityReservationResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4744,14 +4922,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getManagedPrefixListAssociationsPaginator<Result>(
         _ input: GetManagedPrefixListAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetManagedPrefixListAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4761,6 +4939,7 @@ extension EC2 {
             command: getManagedPrefixListAssociations,
             inputKey: \GetManagedPrefixListAssociationsRequest.nextToken,
             outputKey: \GetManagedPrefixListAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4770,12 +4949,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getManagedPrefixListAssociationsPaginator(
         _ input: GetManagedPrefixListAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetManagedPrefixListAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4784,6 +4963,7 @@ extension EC2 {
             command: getManagedPrefixListAssociations,
             inputKey: \GetManagedPrefixListAssociationsRequest.nextToken,
             outputKey: \GetManagedPrefixListAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4797,14 +4977,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getManagedPrefixListEntriesPaginator<Result>(
         _ input: GetManagedPrefixListEntriesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetManagedPrefixListEntriesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4814,6 +4994,7 @@ extension EC2 {
             command: getManagedPrefixListEntries,
             inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
             outputKey: \GetManagedPrefixListEntriesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4823,12 +5004,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getManagedPrefixListEntriesPaginator(
         _ input: GetManagedPrefixListEntriesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetManagedPrefixListEntriesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4837,6 +5018,7 @@ extension EC2 {
             command: getManagedPrefixListEntries,
             inputKey: \GetManagedPrefixListEntriesRequest.nextToken,
             outputKey: \GetManagedPrefixListEntriesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4850,14 +5032,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTransitGatewayAttachmentPropagationsPaginator<Result>(
         _ input: GetTransitGatewayAttachmentPropagationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTransitGatewayAttachmentPropagationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4867,6 +5049,7 @@ extension EC2 {
             command: getTransitGatewayAttachmentPropagations,
             inputKey: \GetTransitGatewayAttachmentPropagationsRequest.nextToken,
             outputKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4876,12 +5059,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayAttachmentPropagationsPaginator(
         _ input: GetTransitGatewayAttachmentPropagationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTransitGatewayAttachmentPropagationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4890,6 +5073,7 @@ extension EC2 {
             command: getTransitGatewayAttachmentPropagations,
             inputKey: \GetTransitGatewayAttachmentPropagationsRequest.nextToken,
             outputKey: \GetTransitGatewayAttachmentPropagationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4903,14 +5087,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTransitGatewayMulticastDomainAssociationsPaginator<Result>(
         _ input: GetTransitGatewayMulticastDomainAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTransitGatewayMulticastDomainAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4920,6 +5104,7 @@ extension EC2 {
             command: getTransitGatewayMulticastDomainAssociations,
             inputKey: \GetTransitGatewayMulticastDomainAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4929,12 +5114,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayMulticastDomainAssociationsPaginator(
         _ input: GetTransitGatewayMulticastDomainAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTransitGatewayMulticastDomainAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4943,6 +5128,7 @@ extension EC2 {
             command: getTransitGatewayMulticastDomainAssociations,
             inputKey: \GetTransitGatewayMulticastDomainAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayMulticastDomainAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4956,14 +5142,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTransitGatewayPrefixListReferencesPaginator<Result>(
         _ input: GetTransitGatewayPrefixListReferencesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTransitGatewayPrefixListReferencesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -4973,6 +5159,7 @@ extension EC2 {
             command: getTransitGatewayPrefixListReferences,
             inputKey: \GetTransitGatewayPrefixListReferencesRequest.nextToken,
             outputKey: \GetTransitGatewayPrefixListReferencesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -4982,12 +5169,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayPrefixListReferencesPaginator(
         _ input: GetTransitGatewayPrefixListReferencesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTransitGatewayPrefixListReferencesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -4996,6 +5183,7 @@ extension EC2 {
             command: getTransitGatewayPrefixListReferences,
             inputKey: \GetTransitGatewayPrefixListReferencesRequest.nextToken,
             outputKey: \GetTransitGatewayPrefixListReferencesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5009,14 +5197,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTransitGatewayRouteTableAssociationsPaginator<Result>(
         _ input: GetTransitGatewayRouteTableAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTransitGatewayRouteTableAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -5026,6 +5214,7 @@ extension EC2 {
             command: getTransitGatewayRouteTableAssociations,
             inputKey: \GetTransitGatewayRouteTableAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5035,12 +5224,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayRouteTableAssociationsPaginator(
         _ input: GetTransitGatewayRouteTableAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTransitGatewayRouteTableAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -5049,6 +5238,7 @@ extension EC2 {
             command: getTransitGatewayRouteTableAssociations,
             inputKey: \GetTransitGatewayRouteTableAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayRouteTableAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5062,14 +5252,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTransitGatewayRouteTablePropagationsPaginator<Result>(
         _ input: GetTransitGatewayRouteTablePropagationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTransitGatewayRouteTablePropagationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -5079,6 +5269,7 @@ extension EC2 {
             command: getTransitGatewayRouteTablePropagations,
             inputKey: \GetTransitGatewayRouteTablePropagationsRequest.nextToken,
             outputKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5088,12 +5279,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayRouteTablePropagationsPaginator(
         _ input: GetTransitGatewayRouteTablePropagationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTransitGatewayRouteTablePropagationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -5102,6 +5293,7 @@ extension EC2 {
             command: getTransitGatewayRouteTablePropagations,
             inputKey: \GetTransitGatewayRouteTablePropagationsRequest.nextToken,
             outputKey: \GetTransitGatewayRouteTablePropagationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5115,14 +5307,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func searchLocalGatewayRoutesPaginator<Result>(
         _ input: SearchLocalGatewayRoutesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, SearchLocalGatewayRoutesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -5132,6 +5324,7 @@ extension EC2 {
             command: searchLocalGatewayRoutes,
             inputKey: \SearchLocalGatewayRoutesRequest.nextToken,
             outputKey: \SearchLocalGatewayRoutesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5141,12 +5334,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchLocalGatewayRoutesPaginator(
         _ input: SearchLocalGatewayRoutesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (SearchLocalGatewayRoutesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -5155,6 +5348,7 @@ extension EC2 {
             command: searchLocalGatewayRoutes,
             inputKey: \SearchLocalGatewayRoutesRequest.nextToken,
             outputKey: \SearchLocalGatewayRoutesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5168,14 +5362,14 @@ extension EC2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func searchTransitGatewayMulticastGroupsPaginator<Result>(
         _ input: SearchTransitGatewayMulticastGroupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, SearchTransitGatewayMulticastGroupsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -5185,6 +5379,7 @@ extension EC2 {
             command: searchTransitGatewayMulticastGroups,
             inputKey: \SearchTransitGatewayMulticastGroupsRequest.nextToken,
             outputKey: \SearchTransitGatewayMulticastGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -5194,12 +5389,12 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchTransitGatewayMulticastGroupsPaginator(
         _ input: SearchTransitGatewayMulticastGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (SearchTransitGatewayMulticastGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -5208,6 +5403,7 @@ extension EC2 {
             command: searchTransitGatewayMulticastGroups,
             inputKey: \SearchTransitGatewayMulticastGroupsRequest.nextToken,
             outputKey: \SearchTransitGatewayMulticastGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

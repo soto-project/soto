@@ -27,14 +27,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getClassifiersPaginator<Result>(
         _ input: GetClassifiersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetClassifiersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension Glue {
             command: getClassifiers,
             inputKey: \GetClassifiersRequest.nextToken,
             outputKey: \GetClassifiersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getClassifiersPaginator(
         _ input: GetClassifiersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetClassifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension Glue {
             command: getClassifiers,
             inputKey: \GetClassifiersRequest.nextToken,
             outputKey: \GetClassifiersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getConnectionsPaginator<Result>(
         _ input: GetConnectionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension Glue {
             command: getConnections,
             inputKey: \GetConnectionsRequest.nextToken,
             outputKey: \GetConnectionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getConnectionsPaginator(
         _ input: GetConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension Glue {
             command: getConnections,
             inputKey: \GetConnectionsRequest.nextToken,
             outputKey: \GetConnectionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getCrawlerMetricsPaginator<Result>(
         _ input: GetCrawlerMetricsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetCrawlerMetricsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension Glue {
             command: getCrawlerMetrics,
             inputKey: \GetCrawlerMetricsRequest.nextToken,
             outputKey: \GetCrawlerMetricsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCrawlerMetricsPaginator(
         _ input: GetCrawlerMetricsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetCrawlerMetricsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension Glue {
             command: getCrawlerMetrics,
             inputKey: \GetCrawlerMetricsRequest.nextToken,
             outputKey: \GetCrawlerMetricsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getCrawlersPaginator<Result>(
         _ input: GetCrawlersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetCrawlersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension Glue {
             command: getCrawlers,
             inputKey: \GetCrawlersRequest.nextToken,
             outputKey: \GetCrawlersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCrawlersPaginator(
         _ input: GetCrawlersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetCrawlersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension Glue {
             command: getCrawlers,
             inputKey: \GetCrawlersRequest.nextToken,
             outputKey: \GetCrawlersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getDatabasesPaginator<Result>(
         _ input: GetDatabasesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetDatabasesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension Glue {
             command: getDatabases,
             inputKey: \GetDatabasesRequest.nextToken,
             outputKey: \GetDatabasesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDatabasesPaginator(
         _ input: GetDatabasesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetDatabasesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension Glue {
             command: getDatabases,
             inputKey: \GetDatabasesRequest.nextToken,
             outputKey: \GetDatabasesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getDevEndpointsPaginator<Result>(
         _ input: GetDevEndpointsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetDevEndpointsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension Glue {
             command: getDevEndpoints,
             inputKey: \GetDevEndpointsRequest.nextToken,
             outputKey: \GetDevEndpointsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDevEndpointsPaginator(
         _ input: GetDevEndpointsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetDevEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension Glue {
             command: getDevEndpoints,
             inputKey: \GetDevEndpointsRequest.nextToken,
             outputKey: \GetDevEndpointsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getJobRunsPaginator<Result>(
         _ input: GetJobRunsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetJobRunsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension Glue {
             command: getJobRuns,
             inputKey: \GetJobRunsRequest.nextToken,
             outputKey: \GetJobRunsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getJobRunsPaginator(
         _ input: GetJobRunsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetJobRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension Glue {
             command: getJobRuns,
             inputKey: \GetJobRunsRequest.nextToken,
             outputKey: \GetJobRunsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getJobsPaginator<Result>(
         _ input: GetJobsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension Glue {
             command: getJobs,
             inputKey: \GetJobsRequest.nextToken,
             outputKey: \GetJobsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getJobsPaginator(
         _ input: GetJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension Glue {
             command: getJobs,
             inputKey: \GetJobsRequest.nextToken,
             outputKey: \GetJobsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getMLTaskRunsPaginator<Result>(
         _ input: GetMLTaskRunsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetMLTaskRunsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension Glue {
             command: getMLTaskRuns,
             inputKey: \GetMLTaskRunsRequest.nextToken,
             outputKey: \GetMLTaskRunsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getMLTaskRunsPaginator(
         _ input: GetMLTaskRunsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetMLTaskRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension Glue {
             command: getMLTaskRuns,
             inputKey: \GetMLTaskRunsRequest.nextToken,
             outputKey: \GetMLTaskRunsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getMLTransformsPaginator<Result>(
         _ input: GetMLTransformsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetMLTransformsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension Glue {
             command: getMLTransforms,
             inputKey: \GetMLTransformsRequest.nextToken,
             outputKey: \GetMLTransformsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getMLTransformsPaginator(
         _ input: GetMLTransformsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetMLTransformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension Glue {
             command: getMLTransforms,
             inputKey: \GetMLTransformsRequest.nextToken,
             outputKey: \GetMLTransformsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getPartitionIndexesPaginator<Result>(
         _ input: GetPartitionIndexesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetPartitionIndexesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension Glue {
             command: getPartitionIndexes,
             inputKey: \GetPartitionIndexesRequest.nextToken,
             outputKey: \GetPartitionIndexesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getPartitionIndexesPaginator(
         _ input: GetPartitionIndexesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetPartitionIndexesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension Glue {
             command: getPartitionIndexes,
             inputKey: \GetPartitionIndexesRequest.nextToken,
             outputKey: \GetPartitionIndexesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getPartitionsPaginator<Result>(
         _ input: GetPartitionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetPartitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension Glue {
             command: getPartitions,
             inputKey: \GetPartitionsRequest.nextToken,
             outputKey: \GetPartitionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getPartitionsPaginator(
         _ input: GetPartitionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetPartitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension Glue {
             command: getPartitions,
             inputKey: \GetPartitionsRequest.nextToken,
             outputKey: \GetPartitionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -663,14 +687,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getResourcePoliciesPaginator<Result>(
         _ input: GetResourcePoliciesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetResourcePoliciesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -680,6 +704,7 @@ extension Glue {
             command: getResourcePolicies,
             inputKey: \GetResourcePoliciesRequest.nextToken,
             outputKey: \GetResourcePoliciesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -689,12 +714,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getResourcePoliciesPaginator(
         _ input: GetResourcePoliciesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetResourcePoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -703,6 +728,7 @@ extension Glue {
             command: getResourcePolicies,
             inputKey: \GetResourcePoliciesRequest.nextToken,
             outputKey: \GetResourcePoliciesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -716,14 +742,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getSecurityConfigurationsPaginator<Result>(
         _ input: GetSecurityConfigurationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetSecurityConfigurationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -733,6 +759,7 @@ extension Glue {
             command: getSecurityConfigurations,
             inputKey: \GetSecurityConfigurationsRequest.nextToken,
             outputKey: \GetSecurityConfigurationsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -742,12 +769,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getSecurityConfigurationsPaginator(
         _ input: GetSecurityConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetSecurityConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -756,6 +783,7 @@ extension Glue {
             command: getSecurityConfigurations,
             inputKey: \GetSecurityConfigurationsRequest.nextToken,
             outputKey: \GetSecurityConfigurationsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -769,14 +797,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTableVersionsPaginator<Result>(
         _ input: GetTableVersionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTableVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -786,6 +814,7 @@ extension Glue {
             command: getTableVersions,
             inputKey: \GetTableVersionsRequest.nextToken,
             outputKey: \GetTableVersionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -795,12 +824,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTableVersionsPaginator(
         _ input: GetTableVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTableVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -809,6 +838,7 @@ extension Glue {
             command: getTableVersions,
             inputKey: \GetTableVersionsRequest.nextToken,
             outputKey: \GetTableVersionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -822,14 +852,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTablesPaginator<Result>(
         _ input: GetTablesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTablesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -839,6 +869,7 @@ extension Glue {
             command: getTables,
             inputKey: \GetTablesRequest.nextToken,
             outputKey: \GetTablesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -848,12 +879,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTablesPaginator(
         _ input: GetTablesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTablesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -862,6 +893,7 @@ extension Glue {
             command: getTables,
             inputKey: \GetTablesRequest.nextToken,
             outputKey: \GetTablesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -875,14 +907,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getTriggersPaginator<Result>(
         _ input: GetTriggersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetTriggersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -892,6 +924,7 @@ extension Glue {
             command: getTriggers,
             inputKey: \GetTriggersRequest.nextToken,
             outputKey: \GetTriggersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -901,12 +934,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTriggersPaginator(
         _ input: GetTriggersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetTriggersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -915,6 +948,7 @@ extension Glue {
             command: getTriggers,
             inputKey: \GetTriggersRequest.nextToken,
             outputKey: \GetTriggersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -928,14 +962,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getUserDefinedFunctionsPaginator<Result>(
         _ input: GetUserDefinedFunctionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetUserDefinedFunctionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -945,6 +979,7 @@ extension Glue {
             command: getUserDefinedFunctions,
             inputKey: \GetUserDefinedFunctionsRequest.nextToken,
             outputKey: \GetUserDefinedFunctionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -954,12 +989,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getUserDefinedFunctionsPaginator(
         _ input: GetUserDefinedFunctionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetUserDefinedFunctionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -968,6 +1003,7 @@ extension Glue {
             command: getUserDefinedFunctions,
             inputKey: \GetUserDefinedFunctionsRequest.nextToken,
             outputKey: \GetUserDefinedFunctionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -981,14 +1017,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getWorkflowRunsPaginator<Result>(
         _ input: GetWorkflowRunsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetWorkflowRunsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -998,6 +1034,7 @@ extension Glue {
             command: getWorkflowRuns,
             inputKey: \GetWorkflowRunsRequest.nextToken,
             outputKey: \GetWorkflowRunsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1007,12 +1044,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getWorkflowRunsPaginator(
         _ input: GetWorkflowRunsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetWorkflowRunsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1021,6 +1058,7 @@ extension Glue {
             command: getWorkflowRuns,
             inputKey: \GetWorkflowRunsRequest.nextToken,
             outputKey: \GetWorkflowRunsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1034,14 +1072,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listCrawlersPaginator<Result>(
         _ input: ListCrawlersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListCrawlersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1051,6 +1089,7 @@ extension Glue {
             command: listCrawlers,
             inputKey: \ListCrawlersRequest.nextToken,
             outputKey: \ListCrawlersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1060,12 +1099,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCrawlersPaginator(
         _ input: ListCrawlersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCrawlersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1074,6 +1113,7 @@ extension Glue {
             command: listCrawlers,
             inputKey: \ListCrawlersRequest.nextToken,
             outputKey: \ListCrawlersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1087,14 +1127,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDevEndpointsPaginator<Result>(
         _ input: ListDevEndpointsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDevEndpointsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1104,6 +1144,7 @@ extension Glue {
             command: listDevEndpoints,
             inputKey: \ListDevEndpointsRequest.nextToken,
             outputKey: \ListDevEndpointsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,12 +1154,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDevEndpointsPaginator(
         _ input: ListDevEndpointsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDevEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1127,6 +1168,7 @@ extension Glue {
             command: listDevEndpoints,
             inputKey: \ListDevEndpointsRequest.nextToken,
             outputKey: \ListDevEndpointsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1140,14 +1182,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listJobsPaginator<Result>(
         _ input: ListJobsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1157,6 +1199,7 @@ extension Glue {
             command: listJobs,
             inputKey: \ListJobsRequest.nextToken,
             outputKey: \ListJobsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1166,12 +1209,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listJobsPaginator(
         _ input: ListJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1180,6 +1223,7 @@ extension Glue {
             command: listJobs,
             inputKey: \ListJobsRequest.nextToken,
             outputKey: \ListJobsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1193,14 +1237,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listMLTransformsPaginator<Result>(
         _ input: ListMLTransformsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListMLTransformsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1210,6 +1254,7 @@ extension Glue {
             command: listMLTransforms,
             inputKey: \ListMLTransformsRequest.nextToken,
             outputKey: \ListMLTransformsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1219,12 +1264,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMLTransformsPaginator(
         _ input: ListMLTransformsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMLTransformsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1233,6 +1278,7 @@ extension Glue {
             command: listMLTransforms,
             inputKey: \ListMLTransformsRequest.nextToken,
             outputKey: \ListMLTransformsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1246,14 +1292,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listRegistriesPaginator<Result>(
         _ input: ListRegistriesInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListRegistriesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1263,6 +1309,7 @@ extension Glue {
             command: listRegistries,
             inputKey: \ListRegistriesInput.nextToken,
             outputKey: \ListRegistriesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1272,12 +1319,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRegistriesPaginator(
         _ input: ListRegistriesInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRegistriesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1286,6 +1333,7 @@ extension Glue {
             command: listRegistries,
             inputKey: \ListRegistriesInput.nextToken,
             outputKey: \ListRegistriesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1299,14 +1347,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listSchemaVersionsPaginator<Result>(
         _ input: ListSchemaVersionsInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListSchemaVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1316,6 +1364,7 @@ extension Glue {
             command: listSchemaVersions,
             inputKey: \ListSchemaVersionsInput.nextToken,
             outputKey: \ListSchemaVersionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1325,12 +1374,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSchemaVersionsPaginator(
         _ input: ListSchemaVersionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSchemaVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1339,6 +1388,7 @@ extension Glue {
             command: listSchemaVersions,
             inputKey: \ListSchemaVersionsInput.nextToken,
             outputKey: \ListSchemaVersionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1352,14 +1402,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listSchemasPaginator<Result>(
         _ input: ListSchemasInput,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListSchemasResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1369,6 +1419,7 @@ extension Glue {
             command: listSchemas,
             inputKey: \ListSchemasInput.nextToken,
             outputKey: \ListSchemasResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1378,12 +1429,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSchemasPaginator(
         _ input: ListSchemasInput,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1392,6 +1443,7 @@ extension Glue {
             command: listSchemas,
             inputKey: \ListSchemasInput.nextToken,
             outputKey: \ListSchemasResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1405,14 +1457,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listTriggersPaginator<Result>(
         _ input: ListTriggersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListTriggersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1422,6 +1474,7 @@ extension Glue {
             command: listTriggers,
             inputKey: \ListTriggersRequest.nextToken,
             outputKey: \ListTriggersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1431,12 +1484,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTriggersPaginator(
         _ input: ListTriggersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListTriggersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1445,6 +1498,7 @@ extension Glue {
             command: listTriggers,
             inputKey: \ListTriggersRequest.nextToken,
             outputKey: \ListTriggersResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1458,14 +1512,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listWorkflowsPaginator<Result>(
         _ input: ListWorkflowsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListWorkflowsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1475,6 +1529,7 @@ extension Glue {
             command: listWorkflows,
             inputKey: \ListWorkflowsRequest.nextToken,
             outputKey: \ListWorkflowsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1484,12 +1539,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorkflowsPaginator(
         _ input: ListWorkflowsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListWorkflowsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1498,6 +1553,7 @@ extension Glue {
             command: listWorkflows,
             inputKey: \ListWorkflowsRequest.nextToken,
             outputKey: \ListWorkflowsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1511,14 +1567,14 @@ extension Glue {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func searchTablesPaginator<Result>(
         _ input: SearchTablesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, SearchTablesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1528,6 +1584,7 @@ extension Glue {
             command: searchTables,
             inputKey: \SearchTablesRequest.nextToken,
             outputKey: \SearchTablesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1537,12 +1594,12 @@ extension Glue {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchTablesPaginator(
         _ input: SearchTablesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (SearchTablesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1551,6 +1608,7 @@ extension Glue {
             command: searchTables,
             inputKey: \SearchTablesRequest.nextToken,
             outputKey: \SearchTablesResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

@@ -101,10 +101,10 @@ extension Lambda {
         case dotnetcore21 = "dotnetcore2.1"
         case dotnetcore31 = "dotnetcore3.1"
         case go1X = "go1.x"
-        case java11
-        case java8
+        case java11 = "java11"
+        case java8 = "java8"
         case java8Al2 = "java8.al2"
-        case nodejs
+        case nodejs = "nodejs"
         case nodejs10X = "nodejs10.x"
         case nodejs12X = "nodejs12.x"
         case nodejs14X = "nodejs14.x"
@@ -112,7 +112,7 @@ extension Lambda {
         case nodejs43Edge = "nodejs4.3-edge"
         case nodejs610 = "nodejs6.10"
         case nodejs810 = "nodejs8.10"
-        case provided
+        case provided = "provided"
         case providedAl2 = "provided.al2"
         case python27 = "python2.7"
         case python36 = "python3.6"
@@ -166,6 +166,7 @@ extension Lambda {
     // MARK: Shapes
 
     public struct AccountLimit: AWSDecodableShape {
+
         /// The maximum size of a function's deployment package and layers when they're extracted.
         public let codeSizeUnzipped: Int64?
         /// The maximum size of a deployment package when it's uploaded directly to AWS Lambda. Use Amazon S3 for larger files.
@@ -195,6 +196,7 @@ extension Lambda {
     }
 
     public struct AccountUsage: AWSDecodableShape {
+
         /// The number of Lambda functions.
         public let functionCount: Int64?
         /// The amount of storage space, in bytes, that's being used by deployment packages and layer archives.
@@ -213,8 +215,8 @@ extension Lambda {
 
     public struct AddLayerVersionPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")),
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")), 
             AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
@@ -264,6 +266,7 @@ extension Lambda {
     }
 
     public struct AddLayerVersionPermissionResponse: AWSDecodableShape {
+
         /// A unique identifier for the current revision of the policy.
         public let revisionId: String?
         /// The permission statement.
@@ -282,7 +285,7 @@ extension Lambda {
 
     public struct AddPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -348,6 +351,7 @@ extension Lambda {
     }
 
     public struct AddPermissionResponse: AWSDecodableShape {
+
         /// The permission statement that's added to the function policy.
         public let statement: String?
 
@@ -361,6 +365,7 @@ extension Lambda {
     }
 
     public struct AliasConfiguration: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the alias.
         public let aliasArn: String?
         /// A description of the alias.
@@ -394,6 +399,7 @@ extension Lambda {
     }
 
     public struct AliasRoutingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The second version, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
 
@@ -417,6 +423,7 @@ extension Lambda {
     }
 
     public struct AllowedPublishers: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package.
         public let signingProfileVersionArns: [String]
 
@@ -438,6 +445,7 @@ extension Lambda {
     }
 
     public struct CodeSigningConfig: AWSDecodableShape {
+
         /// List of allowed publishers.
         public let allowedPublishers: AllowedPublishers
         /// The Amazon Resource Name (ARN) of the Code signing configuration.
@@ -471,6 +479,7 @@ extension Lambda {
     }
 
     public struct CodeSigningPolicies: AWSEncodableShape & AWSDecodableShape {
+
         /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log.  Default value: Warn
         public let untrustedArtifactOnDeployment: CodeSigningPolicy?
 
@@ -484,6 +493,7 @@ extension Lambda {
     }
 
     public struct Concurrency: AWSDecodableShape {
+
         /// The number of concurrent executions that are reserved for this function. For more information, see Managing Concurrency.
         public let reservedConcurrentExecutions: Int?
 
@@ -544,6 +554,7 @@ extension Lambda {
     }
 
     public struct CreateCodeSigningConfigRequest: AWSEncodableShape {
+
         /// Signing profiles for this code signing configuration.
         public let allowedPublishers: AllowedPublishers
         /// The code signing policies define the actions to take if the validation checks fail.
@@ -571,6 +582,7 @@ extension Lambda {
     }
 
     public struct CreateCodeSigningConfigResponse: AWSDecodableShape {
+
         /// The code signing configuration.
         public let codeSigningConfig: CodeSigningConfig
 
@@ -584,6 +596,7 @@ extension Lambda {
     }
 
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
+
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry.
@@ -654,7 +667,7 @@ extension Lambda {
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 0)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
-            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
+            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
@@ -707,6 +720,7 @@ extension Lambda {
     }
 
     public struct CreateFunctionRequest: AWSEncodableShape {
+
         /// The code for the function.
         public let code: FunctionCode
         /// To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
@@ -827,6 +841,7 @@ extension Lambda {
     }
 
     public struct DeadLetterConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
 
@@ -845,7 +860,7 @@ extension Lambda {
 
     public struct DeleteAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
         ]
 
@@ -892,7 +907,11 @@ extension Lambda {
     }
 
     public struct DeleteCodeSigningConfigResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteEventSourceMappingRequest: AWSEncodableShape {
@@ -954,7 +973,7 @@ extension Lambda {
 
     public struct DeleteFunctionEventInvokeConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -982,7 +1001,7 @@ extension Lambda {
 
     public struct DeleteFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1010,7 +1029,7 @@ extension Lambda {
 
     public struct DeleteLayerVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
             AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
@@ -1035,7 +1054,7 @@ extension Lambda {
 
     public struct DeleteProvisionedConcurrencyConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1062,6 +1081,7 @@ extension Lambda {
     }
 
     public struct DestinationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The destination configuration for failed invocations.
         public let onFailure: OnFailure?
         /// The destination configuration for successful invocations.
@@ -1084,6 +1104,7 @@ extension Lambda {
     }
 
     public struct Environment: AWSEncodableShape {
+
         /// Environment variable key-value pairs.
         public let variables: [String: String]?
 
@@ -1103,6 +1124,7 @@ extension Lambda {
     }
 
     public struct EnvironmentError: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: String?
         /// The error message.
@@ -1120,6 +1142,7 @@ extension Lambda {
     }
 
     public struct EnvironmentResponse: AWSDecodableShape {
+
         /// Error messages for environment variables that couldn't be applied.
         public let error: EnvironmentError?
         /// Environment variable key-value pairs.
@@ -1137,6 +1160,7 @@ extension Lambda {
     }
 
     public struct EventSourceMappingConfiguration: AWSDecodableShape {
+
         /// The maximum number of items to retrieve in a single batch.
         public let batchSize: Int?
         /// (Streams) If the function returns an error, split the batch in two and retry. The default value is false.
@@ -1234,6 +1258,7 @@ extension Lambda {
     }
 
     public struct FileSystemConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.
         public let arn: String
         /// The path where the function can access the file system, starting with /mnt/.
@@ -1258,6 +1283,7 @@ extension Lambda {
     }
 
     public struct FunctionCode: AWSEncodableShape {
+
         /// URI of a container image in the Amazon ECR registry.
         public let imageUri: String?
         /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
@@ -1297,6 +1323,7 @@ extension Lambda {
     }
 
     public struct FunctionCodeLocation: AWSDecodableShape {
+
         /// URI of a container image in the Amazon ECR registry.
         public let imageUri: String?
         /// A presigned URL that you can use to download the deployment package.
@@ -1322,6 +1349,7 @@ extension Lambda {
     }
 
     public struct FunctionConfiguration: AWSDecodableShape {
+
         /// The SHA256 hash of the function's deployment package.
         public let codeSha256: String?
         /// The size of the function's deployment package, in bytes.
@@ -1455,6 +1483,7 @@ extension Lambda {
     }
 
     public struct FunctionEventInvokeConfig: AWSDecodableShape {
+
         /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
         public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the function.
@@ -1484,10 +1513,15 @@ extension Lambda {
     }
 
     public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAccountSettingsResponse: AWSDecodableShape {
+
         /// Limits that are related to concurrency and code storage.
         public let accountLimit: AccountLimit?
         /// The number of functions and amount of storage in use.
@@ -1506,7 +1540,7 @@ extension Lambda {
 
     public struct GetAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
         ]
 
@@ -1553,6 +1587,7 @@ extension Lambda {
     }
 
     public struct GetCodeSigningConfigResponse: AWSDecodableShape {
+
         /// The code signing configuration
         public let codeSigningConfig: CodeSigningConfig
 
@@ -1602,6 +1637,7 @@ extension Lambda {
     }
 
     public struct GetFunctionCodeSigningConfigResponse: AWSDecodableShape {
+
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1640,6 +1676,7 @@ extension Lambda {
     }
 
     public struct GetFunctionConcurrencyResponse: AWSDecodableShape {
+
         /// The number of simultaneous executions that are reserved for the function.
         public let reservedConcurrentExecutions: Int?
 
@@ -1654,7 +1691,7 @@ extension Lambda {
 
     public struct GetFunctionConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1682,7 +1719,7 @@ extension Lambda {
 
     public struct GetFunctionEventInvokeConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1710,7 +1747,7 @@ extension Lambda {
 
     public struct GetFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1737,6 +1774,7 @@ extension Lambda {
     }
 
     public struct GetFunctionResponse: AWSDecodableShape {
+
         /// The deployment package of the function or version.
         public let code: FunctionCodeLocation?
         /// The function's reserved concurrency.
@@ -1784,7 +1822,7 @@ extension Lambda {
 
     public struct GetLayerVersionPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
             AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
@@ -1808,6 +1846,7 @@ extension Lambda {
     }
 
     public struct GetLayerVersionPolicyResponse: AWSDecodableShape {
+
         /// The policy document.
         public let policy: String?
         /// A unique identifier for the current revision of the policy.
@@ -1826,7 +1865,7 @@ extension Lambda {
 
     public struct GetLayerVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
             AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
@@ -1850,6 +1889,7 @@ extension Lambda {
     }
 
     public struct GetLayerVersionResponse: AWSDecodableShape {
+
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
@@ -1892,7 +1932,7 @@ extension Lambda {
 
     public struct GetPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1919,6 +1959,7 @@ extension Lambda {
     }
 
     public struct GetPolicyResponse: AWSDecodableShape {
+
         /// The resource-based policy.
         public let policy: String?
         /// A unique identifier for the current revision of the policy.
@@ -1937,7 +1978,7 @@ extension Lambda {
 
     public struct GetProvisionedConcurrencyConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -1964,6 +2005,7 @@ extension Lambda {
     }
 
     public struct GetProvisionedConcurrencyConfigResponse: AWSDecodableShape {
+
         /// The amount of provisioned concurrency allocated.
         public let allocatedProvisionedConcurrentExecutions: Int?
         /// The amount of provisioned concurrency available.
@@ -1997,6 +2039,7 @@ extension Lambda {
     }
 
     public struct ImageConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies parameters that you want to pass in with ENTRYPOINT.
         public let command: [String]?
         /// Specifies the entry point to their application, which is typically the location of the runtime executable.
@@ -2024,6 +2067,7 @@ extension Lambda {
     }
 
     public struct ImageConfigError: AWSDecodableShape {
+
         /// Error code.
         public let errorCode: String?
         /// Error message.
@@ -2041,6 +2085,7 @@ extension Lambda {
     }
 
     public struct ImageConfigResponse: AWSDecodableShape {
+
         /// Error response to GetFunctionConfiguration.
         public let error: ImageConfigError?
         /// Configuration values that override the container image Dockerfile.
@@ -2062,11 +2107,11 @@ extension Lambda {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "X-Amz-Client-Context")),
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "invocationType", location: .header(locationName: "X-Amz-Invocation-Type")),
-            AWSMemberEncoding(label: "logType", location: .header(locationName: "X-Amz-Log-Type")),
-            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload")),
+            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "X-Amz-Client-Context")), 
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "invocationType", location: .header(locationName: "X-Amz-Invocation-Type")), 
+            AWSMemberEncoding(label: "logType", location: .header(locationName: "X-Amz-Log-Type")), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -2109,10 +2154,10 @@ extension Lambda {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "executedVersion", location: .header(locationName: "X-Amz-Executed-Version")),
-            AWSMemberEncoding(label: "functionError", location: .header(locationName: "X-Amz-Function-Error")),
-            AWSMemberEncoding(label: "logResult", location: .header(locationName: "X-Amz-Log-Result")),
-            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload")),
+            AWSMemberEncoding(label: "executedVersion", location: .header(locationName: "X-Amz-Executed-Version")), 
+            AWSMemberEncoding(label: "functionError", location: .header(locationName: "X-Amz-Function-Error")), 
+            AWSMemberEncoding(label: "logResult", location: .header(locationName: "X-Amz-Log-Result")), 
+            AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload")), 
             AWSMemberEncoding(label: "statusCode", location: .statusCode)
         ]
 
@@ -2149,7 +2194,7 @@ extension Lambda {
         public static let _payloadPath: String = "invokeArgs"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "invokeArgs", location: .body(locationName: "InvokeArgs"))
         ]
 
@@ -2190,6 +2235,7 @@ extension Lambda {
     }
 
     public struct Layer: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the function layer.
         public let arn: String?
         /// The size of the layer archive in bytes.
@@ -2215,6 +2261,7 @@ extension Lambda {
     }
 
     public struct LayerVersionContentInput: AWSEncodableShape {
+
         /// The Amazon S3 bucket of the layer archive.
         public let s3Bucket: String?
         /// The Amazon S3 key of the layer archive.
@@ -2250,6 +2297,7 @@ extension Lambda {
     }
 
     public struct LayerVersionContentOutput: AWSDecodableShape {
+
         /// The SHA-256 hash of the layer archive.
         public let codeSha256: String?
         /// The size of the layer archive in bytes.
@@ -2279,6 +2327,7 @@ extension Lambda {
     }
 
     public struct LayerVersionsListItem: AWSDecodableShape {
+
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
@@ -2312,6 +2361,7 @@ extension Lambda {
     }
 
     public struct LayersListItem: AWSDecodableShape {
+
         /// The newest version of the layer.
         public let latestMatchingVersion: LayerVersionsListItem?
         /// The Amazon Resource Name (ARN) of the function layer.
@@ -2334,9 +2384,9 @@ extension Lambda {
 
     public struct ListAliasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "functionVersion", location: .querystring(locationName: "FunctionVersion")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "functionVersion", location: .querystring(locationName: "FunctionVersion")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2371,6 +2421,7 @@ extension Lambda {
     }
 
     public struct ListAliasesResponse: AWSDecodableShape {
+
         /// A list of aliases.
         public let aliases: [AliasConfiguration]?
         /// The pagination token that's included if more results are available.
@@ -2389,7 +2440,7 @@ extension Lambda {
 
     public struct ListCodeSigningConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2412,6 +2463,7 @@ extension Lambda {
     }
 
     public struct ListCodeSigningConfigsResponse: AWSDecodableShape {
+
         /// The code signing configurations
         public let codeSigningConfigs: [CodeSigningConfig]?
         /// The pagination token that's included if more results are available.
@@ -2430,9 +2482,9 @@ extension Lambda {
 
     public struct ListEventSourceMappingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventSourceArn", location: .querystring(locationName: "EventSourceArn")),
-            AWSMemberEncoding(label: "functionName", location: .querystring(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "eventSourceArn", location: .querystring(locationName: "EventSourceArn")), 
+            AWSMemberEncoding(label: "functionName", location: .querystring(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2465,6 +2517,7 @@ extension Lambda {
     }
 
     public struct ListEventSourceMappingsResponse: AWSDecodableShape {
+
         /// A list of event source mappings.
         public let eventSourceMappings: [EventSourceMappingConfiguration]?
         /// A pagination token that's returned when the response doesn't contain all event source mappings.
@@ -2483,8 +2536,8 @@ extension Lambda {
 
     public struct ListFunctionEventInvokeConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2513,6 +2566,7 @@ extension Lambda {
     }
 
     public struct ListFunctionEventInvokeConfigsResponse: AWSDecodableShape {
+
         /// A list of configurations.
         public let functionEventInvokeConfigs: [FunctionEventInvokeConfig]?
         /// The pagination token that's included if more results are available.
@@ -2531,8 +2585,8 @@ extension Lambda {
 
     public struct ListFunctionsByCodeSigningConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri(locationName: "CodeSigningConfigArn")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri(locationName: "CodeSigningConfigArn")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2560,6 +2614,7 @@ extension Lambda {
     }
 
     public struct ListFunctionsByCodeSigningConfigResponse: AWSDecodableShape {
+
         /// The function ARNs.
         public let functionArns: [String]?
         /// The pagination token that's included if more results are available.
@@ -2578,9 +2633,9 @@ extension Lambda {
 
     public struct ListFunctionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionVersion", location: .querystring(locationName: "FunctionVersion")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
-            AWSMemberEncoding(label: "masterRegion", location: .querystring(locationName: "MasterRegion")),
+            AWSMemberEncoding(label: "functionVersion", location: .querystring(locationName: "FunctionVersion")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "masterRegion", location: .querystring(locationName: "MasterRegion")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2609,6 +2664,7 @@ extension Lambda {
     }
 
     public struct ListFunctionsResponse: AWSDecodableShape {
+
         /// A list of Lambda functions.
         public let functions: [FunctionConfiguration]?
         /// The pagination token that's included if more results are available.
@@ -2627,9 +2683,9 @@ extension Lambda {
 
     public struct ListLayerVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")),
-            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")), 
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2661,6 +2717,7 @@ extension Lambda {
     }
 
     public struct ListLayerVersionsResponse: AWSDecodableShape {
+
         /// A list of versions.
         public let layerVersions: [LayerVersionsListItem]?
         /// A pagination token returned when the response doesn't contain all versions.
@@ -2679,8 +2736,8 @@ extension Lambda {
 
     public struct ListLayersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring(locationName: "CompatibleRuntime")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2706,6 +2763,7 @@ extension Lambda {
     }
 
     public struct ListLayersResponse: AWSDecodableShape {
+
         /// A list of function layers.
         public let layers: [LayersListItem]?
         /// A pagination token returned when the response doesn't contain all layers.
@@ -2724,8 +2782,8 @@ extension Lambda {
 
     public struct ListProvisionedConcurrencyConfigsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2754,6 +2812,7 @@ extension Lambda {
     }
 
     public struct ListProvisionedConcurrencyConfigsResponse: AWSDecodableShape {
+
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
         /// A list of provisioned concurrency configurations.
@@ -2790,6 +2849,7 @@ extension Lambda {
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
+
         /// The function's tags.
         public let tags: [String: String]?
 
@@ -2804,8 +2864,8 @@ extension Lambda {
 
     public struct ListVersionsByFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -2834,6 +2894,7 @@ extension Lambda {
     }
 
     public struct ListVersionsByFunctionResponse: AWSDecodableShape {
+
         /// The pagination token that's included if more results are available.
         public let nextMarker: String?
         /// A list of Lambda function versions.
@@ -2851,6 +2912,7 @@ extension Lambda {
     }
 
     public struct OnFailure: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the destination resource.
         public let destination: String?
 
@@ -2870,6 +2932,7 @@ extension Lambda {
     }
 
     public struct OnSuccess: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the destination resource.
         public let destination: String?
 
@@ -2889,6 +2952,7 @@ extension Lambda {
     }
 
     public struct ProvisionedConcurrencyConfigListItem: AWSDecodableShape {
+
         /// The amount of provisioned concurrency allocated.
         public let allocatedProvisionedConcurrentExecutions: Int?
         /// The amount of provisioned concurrency available.
@@ -2969,6 +3033,7 @@ extension Lambda {
     }
 
     public struct PublishLayerVersionResponse: AWSDecodableShape {
+
         /// The layer's compatible runtimes.
         public let compatibleRuntimes: [Runtime]?
         /// Details about the layer version.
@@ -3074,6 +3139,7 @@ extension Lambda {
     }
 
     public struct PutFunctionCodeSigningConfigResponse: AWSDecodableShape {
+
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -3119,7 +3185,7 @@ extension Lambda {
 
     public struct PutFunctionEventInvokeConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -3165,7 +3231,7 @@ extension Lambda {
 
     public struct PutProvisionedConcurrencyConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -3198,6 +3264,7 @@ extension Lambda {
     }
 
     public struct PutProvisionedConcurrencyConfigResponse: AWSDecodableShape {
+
         /// The amount of provisioned concurrency allocated.
         public let allocatedProvisionedConcurrentExecutions: Int?
         /// The amount of provisioned concurrency available.
@@ -3232,9 +3299,9 @@ extension Lambda {
 
     public struct RemoveLayerVersionPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")),
-            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "StatementId")),
+            AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")), 
+            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "StatementId")), 
             AWSMemberEncoding(label: "versionNumber", location: .uri(locationName: "VersionNumber"))
         ]
 
@@ -3268,9 +3335,9 @@ extension Lambda {
 
     public struct RemovePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
+            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier")), 
+            AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "RevisionId")), 
             AWSMemberEncoding(label: "statementId", location: .uri(locationName: "StatementId"))
         ]
 
@@ -3306,6 +3373,7 @@ extension Lambda {
     }
 
     public struct SelfManagedEventSource: AWSEncodableShape & AWSDecodableShape {
+
         /// The list of bootstrap servers for your Kafka brokers in the following format: "KAFKA_BOOTSTRAP_SERVERS": ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"].
         public let endpoints: [EndPointType: [String]]?
 
@@ -3326,6 +3394,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of authentication protocol or the VPC components for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (MQ) The Secrets Manager secret that stores your broker credentials.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your Self-Managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your Self-Managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka brokers.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
@@ -3373,6 +3442,7 @@ extension Lambda {
     }
 
     public struct TracingConfig: AWSEncodableShape {
+
         /// The tracing mode.
         public let mode: TracingMode?
 
@@ -3386,6 +3456,7 @@ extension Lambda {
     }
 
     public struct TracingConfigResponse: AWSDecodableShape {
+
         /// The tracing mode.
         public let mode: TracingMode?
 
@@ -3400,7 +3471,7 @@ extension Lambda {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .uri(locationName: "ARN")),
+            AWSMemberEncoding(label: "resource", location: .uri(locationName: "ARN")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -3423,7 +3494,7 @@ extension Lambda {
 
     public struct UpdateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
         ]
 
@@ -3509,6 +3580,7 @@ extension Lambda {
     }
 
     public struct UpdateCodeSigningConfigResponse: AWSDecodableShape {
+
         /// The code signing configuration
         public let codeSigningConfig: CodeSigningConfig
 
@@ -3580,7 +3652,7 @@ extension Lambda {
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, min: 0)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
-            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604_800)
+            try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, max: 604800)
             try self.validate(self.maximumRecordAgeInSeconds, name: "maximumRecordAgeInSeconds", parent: name, min: -1)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 10000)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: -1)
@@ -3778,7 +3850,7 @@ extension Lambda {
 
     public struct UpdateFunctionEventInvokeConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
+            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")), 
             AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
         ]
 
@@ -3823,6 +3895,7 @@ extension Lambda {
     }
 
     public struct VpcConfig: AWSEncodableShape {
+
         /// A list of VPC security groups IDs.
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.
@@ -3845,6 +3918,7 @@ extension Lambda {
     }
 
     public struct VpcConfigResponse: AWSDecodableShape {
+
         /// A list of VPC security groups IDs.
         public let securityGroupIds: [String]?
         /// A list of VPC subnet IDs.

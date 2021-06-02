@@ -63,173 +63,173 @@ public struct IoTAnalytics: AWSService {
     // MARK: API Calls
 
     /// Sends messages to a channel.
-    public func batchPutMessage(_ input: BatchPutMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutMessageResponse> {
-        return self.client.execute(operation: "BatchPutMessage", path: "/messages/batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func batchPutMessage(_ input: BatchPutMessageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutMessageResponse> {
+        return self.client.execute(operation: "BatchPutMessage", path: "/messages/batch", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Cancels the reprocessing of data through the pipeline.
-    public func cancelPipelineReprocessing(_ input: CancelPipelineReprocessingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelPipelineReprocessingResponse> {
-        return self.client.execute(operation: "CancelPipelineReprocessing", path: "/pipelines/{pipelineName}/reprocessing/{reprocessingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func cancelPipelineReprocessing(_ input: CancelPipelineReprocessingRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelPipelineReprocessingResponse> {
+        return self.client.execute(operation: "CancelPipelineReprocessing", path: "/pipelines/{pipelineName}/reprocessing/{reprocessingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
-    public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
-        return self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createChannel(_ input: CreateChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
+        return self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
-    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetResponse> {
-        return self.client.execute(operation: "CreateDataset", path: "/datasets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDataset(_ input: CreateDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetResponse> {
+        return self.client.execute(operation: "CreateDataset", path: "/datasets", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates the content of a data set by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
-    public func createDatasetContent(_ input: CreateDatasetContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetContentResponse> {
-        return self.client.execute(operation: "CreateDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDatasetContent(_ input: CreateDatasetContentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetContentResponse> {
+        return self.client.execute(operation: "CreateDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a data store, which is a repository for messages.
-    public func createDatastore(_ input: CreateDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatastoreResponse> {
-        return self.client.execute(operation: "CreateDatastore", path: "/datastores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDatastore(_ input: CreateDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatastoreResponse> {
+        return self.client.execute(operation: "CreateDatastore", path: "/datastores", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
-    public func createPipeline(_ input: CreatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePipelineResponse> {
-        return self.client.execute(operation: "CreatePipeline", path: "/pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createPipeline(_ input: CreatePipelineRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePipelineResponse> {
+        return self.client.execute(operation: "CreatePipeline", path: "/pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified channel.
-    @discardableResult public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteChannel", path: "/channels/{channelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteChannel(_ input: DeleteChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteChannel", path: "/channels/{channelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
-    @discardableResult public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDataset", path: "/datasets/{datasetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteDataset(_ input: DeleteDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDataset", path: "/datasets/{datasetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the content of the specified dataset.
-    @discardableResult public func deleteDatasetContent(_ input: DeleteDatasetContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteDatasetContent(_ input: DeleteDatasetContentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified data store.
-    @discardableResult public func deleteDatastore(_ input: DeleteDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDatastore", path: "/datastores/{datastoreName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteDatastore(_ input: DeleteDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDatastore", path: "/datastores/{datastoreName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified pipeline.
-    @discardableResult public func deletePipeline(_ input: DeletePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePipeline", path: "/pipelines/{pipelineName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deletePipeline(_ input: DeletePipelineRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeletePipeline", path: "/pipelines/{pipelineName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a channel.
-    public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
-        return self.client.execute(operation: "DescribeChannel", path: "/channels/{channelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeChannel(_ input: DescribeChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
+        return self.client.execute(operation: "DescribeChannel", path: "/channels/{channelName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a dataset.
-    public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
-        return self.client.execute(operation: "DescribeDataset", path: "/datasets/{datasetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeDataset(_ input: DescribeDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
+        return self.client.execute(operation: "DescribeDataset", path: "/datasets/{datasetName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a data store.
-    public func describeDatastore(_ input: DescribeDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatastoreResponse> {
-        return self.client.execute(operation: "DescribeDatastore", path: "/datastores/{datastoreName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeDatastore(_ input: DescribeDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatastoreResponse> {
+        return self.client.execute(operation: "DescribeDatastore", path: "/datastores/{datastoreName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the current settings of the AWS IoT Analytics logging options.
-    public func describeLoggingOptions(_ input: DescribeLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLoggingOptionsResponse> {
-        return self.client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeLoggingOptions(_ input: DescribeLoggingOptionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLoggingOptionsResponse> {
+        return self.client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a pipeline.
-    public func describePipeline(_ input: DescribePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePipelineResponse> {
-        return self.client.execute(operation: "DescribePipeline", path: "/pipelines/{pipelineName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describePipeline(_ input: DescribePipelineRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePipelineResponse> {
+        return self.client.execute(operation: "DescribePipeline", path: "/pipelines/{pipelineName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the contents of a data set as presigned URIs.
-    public func getDatasetContent(_ input: GetDatasetContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatasetContentResponse> {
-        return self.client.execute(operation: "GetDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getDatasetContent(_ input: GetDatasetContentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatasetContentResponse> {
+        return self.client.execute(operation: "GetDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of channels.
-    public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
-        return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listChannels(_ input: ListChannelsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
+        return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists information about data set contents that have been created.
-    public func listDatasetContents(_ input: ListDatasetContentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetContentsResponse> {
-        return self.client.execute(operation: "ListDatasetContents", path: "/datasets/{datasetName}/contents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDatasetContents(_ input: ListDatasetContentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetContentsResponse> {
+        return self.client.execute(operation: "ListDatasetContents", path: "/datasets/{datasetName}/contents", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about data sets.
-    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetsResponse> {
-        return self.client.execute(operation: "ListDatasets", path: "/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDatasets(_ input: ListDatasetsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetsResponse> {
+        return self.client.execute(operation: "ListDatasets", path: "/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of data stores.
-    public func listDatastores(_ input: ListDatastoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatastoresResponse> {
-        return self.client.execute(operation: "ListDatastores", path: "/datastores", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDatastores(_ input: ListDatastoresRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatastoresResponse> {
+        return self.client.execute(operation: "ListDatastores", path: "/datastores", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of pipelines.
-    public func listPipelines(_ input: ListPipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelinesResponse> {
-        return self.client.execute(operation: "ListPipelines", path: "/pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listPipelines(_ input: ListPipelinesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelinesResponse> {
+        return self.client.execute(operation: "ListPipelines", path: "/pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the tags (metadata) that you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Sets or updates the AWS IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
-    @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func putLoggingOptions(_ input: PutLoggingOptionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Simulates the results of running a pipeline activity on a message payload.
-    public func runPipelineActivity(_ input: RunPipelineActivityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RunPipelineActivityResponse> {
-        return self.client.execute(operation: "RunPipelineActivity", path: "/pipelineactivities/run", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func runPipelineActivity(_ input: RunPipelineActivityRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RunPipelineActivityResponse> {
+        return self.client.execute(operation: "RunPipelineActivity", path: "/pipelineactivities/run", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
-    public func sampleChannelData(_ input: SampleChannelDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SampleChannelDataResponse> {
-        return self.client.execute(operation: "SampleChannelData", path: "/channels/{channelName}/sample", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func sampleChannelData(_ input: SampleChannelDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SampleChannelDataResponse> {
+        return self.client.execute(operation: "SampleChannelData", path: "/channels/{channelName}/sample", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Starts the reprocessing of raw message data through the pipeline.
-    public func startPipelineReprocessing(_ input: StartPipelineReprocessingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartPipelineReprocessingResponse> {
-        return self.client.execute(operation: "StartPipelineReprocessing", path: "/pipelines/{pipelineName}/reprocessing", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startPipelineReprocessing(_ input: StartPipelineReprocessingRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartPipelineReprocessingResponse> {
+        return self.client.execute(operation: "StartPipelineReprocessing", path: "/pipelines/{pipelineName}/reprocessing", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes the given tags (metadata) from the resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the settings of a channel.
-    @discardableResult public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateChannel", path: "/channels/{channelName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func updateChannel(_ input: UpdateChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateChannel", path: "/channels/{channelName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the settings of a data set.
-    @discardableResult public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDataset", path: "/datasets/{datasetName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func updateDataset(_ input: UpdateDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateDataset", path: "/datasets/{datasetName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the settings of a data store.
-    @discardableResult public func updateDatastore(_ input: UpdateDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDatastore", path: "/datastores/{datastoreName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func updateDatastore(_ input: UpdateDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateDatastore", path: "/datastores/{datastoreName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
-    @discardableResult public func updatePipeline(_ input: UpdatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdatePipeline", path: "/pipelines/{pipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func updatePipeline(_ input: UpdatePipelineRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdatePipeline", path: "/pipelines/{pipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

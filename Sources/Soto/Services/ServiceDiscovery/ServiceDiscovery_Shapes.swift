@@ -133,6 +133,7 @@ extension ServiceDiscovery {
     // MARK: Shapes
 
     public struct CreateHttpNamespaceRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed CreateHttpNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
         /// A description for the namespace.
@@ -170,6 +171,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreateHttpNamespaceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
@@ -183,6 +185,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreatePrivateDnsNamespaceRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed CreatePrivateDnsNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
         /// A description for the namespace.
@@ -225,6 +228,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreatePrivateDnsNamespaceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
@@ -238,6 +242,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreatePublicDnsNamespaceRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed CreatePublicDnsNamespace requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
         /// A description for the namespace.
@@ -275,6 +280,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreatePublicDnsNamespaceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
@@ -288,6 +294,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreateServiceRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed CreateService requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String?
         /// A description for the service.
@@ -347,6 +354,7 @@ extension ServiceDiscovery {
     }
 
     public struct CreateServiceResponse: AWSDecodableShape {
+
         /// A complex type that contains information about the new service.
         public let service: Service?
 
@@ -360,6 +368,7 @@ extension ServiceDiscovery {
     }
 
     public struct DeleteNamespaceRequest: AWSEncodableShape {
+
         /// The ID of the namespace that you want to delete.
         public let id: String
 
@@ -377,6 +386,7 @@ extension ServiceDiscovery {
     }
 
     public struct DeleteNamespaceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
@@ -390,6 +400,7 @@ extension ServiceDiscovery {
     }
 
     public struct DeleteServiceRequest: AWSEncodableShape {
+
         /// The ID of the service that you want to delete.
         public let id: String
 
@@ -407,10 +418,15 @@ extension ServiceDiscovery {
     }
 
     public struct DeleteServiceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeregisterInstanceRequest: AWSEncodableShape {
+
         /// The value that you specified for Id in the RegisterInstance request.
         public let instanceId: String
         /// The ID of the service that the instance is associated with.
@@ -433,6 +449,7 @@ extension ServiceDiscovery {
     }
 
     public struct DeregisterInstanceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. For more information, see GetOperation.
         public let operationId: String?
 
@@ -446,6 +463,7 @@ extension ServiceDiscovery {
     }
 
     public struct DiscoverInstancesRequest: AWSEncodableShape {
+
         /// The health status of the instances that you want to discover.
         public let healthStatus: HealthStatusFilter?
         /// The maximum number of instances that you want AWS Cloud Map to return in the response to a DiscoverInstances request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
@@ -498,6 +516,7 @@ extension ServiceDiscovery {
     }
 
     public struct DiscoverInstancesResponse: AWSDecodableShape {
+
         /// A complex type that contains one HttpInstanceSummary for each registered instance.
         public let instances: [HttpInstanceSummary]?
 
@@ -511,6 +530,7 @@ extension ServiceDiscovery {
     }
 
     public struct DnsConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// An array that contains one DnsRecord object for each Route 53 DNS record that you want AWS Cloud Map to create when you register an instance.
         public let dnsRecords: [DnsRecord]
         /// The routing policy that you want to apply to all Route 53 DNS records that AWS Cloud Map creates when you register an instance and specify this service.  If you want to use this service to register instances that create alias records, specify WEIGHTED for the routing policy.  You can specify the following values:  MULTIVALUE  If you define a health check for the service and the health check is healthy, Route 53 returns the applicable value for up to eight instances. For example, suppose the service includes configurations for one A record and a health check, and you use the service to register 10 instances. Route 53 responds to DNS queries with IP addresses for up to eight healthy instances. If fewer than eight instances are healthy, Route 53 responds to every DNS query with the IP addresses for all of the healthy instances. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the values for up to eight instances. For more information about the multivalue routing policy, see Multivalue Answer Routing in the Route 53 Developer Guide.  WEIGHTED  Route 53 returns the applicable value from one randomly selected instance from among the instances that you registered using the same service. Currently, all records have the same weight, so you can't route more or less traffic to any instances. For example, suppose the service includes configurations for one A record and a health check, and you use the service to register 10 instances. Route 53 responds to DNS queries with the IP address for one randomly selected instance from among the healthy instances. If no instances are healthy, Route 53 responds to DNS queries as if all of the instances were healthy. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the applicable value for one randomly selected instance. For more information about the weighted routing policy, see Weighted Routing in the Route 53 Developer Guide.
@@ -534,6 +554,7 @@ extension ServiceDiscovery {
     }
 
     public struct DnsConfigChange: AWSEncodableShape {
+
         /// An array that contains one DnsRecord object for each Route 53 record that you want AWS Cloud Map to create when you register an instance.
         public let dnsRecords: [DnsRecord]
 
@@ -553,6 +574,7 @@ extension ServiceDiscovery {
     }
 
     public struct DnsProperties: AWSDecodableShape {
+
         /// The ID for the Route 53 hosted zone that AWS Cloud Map creates when you create a namespace.
         public let hostedZoneId: String?
 
@@ -566,6 +588,7 @@ extension ServiceDiscovery {
     }
 
     public struct DnsRecord: AWSEncodableShape & AWSDecodableShape {
+
         /// The amount of time, in seconds, that you want DNS resolvers to cache the settings for this record.  Alias records don't include a TTL because Route 53 uses the TTL for the AWS resource that an alias record routes traffic to. If you include the AWS_ALIAS_DNS_NAME attribute when you submit a RegisterInstance request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records.
         public let ttl: Int64
         /// The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. You can specify values for Type in the following combinations:    A     AAAA     A and AAAA     SRV     CNAME    If you want AWS Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type. You specify other settings, such as the IP address for A and AAAA records, when you register an instance. For more information, see RegisterInstance. The following values are supported:  A     Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44.  AAAA     Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345.  CNAME     Route 53 returns the domain name of the resource, such as www.example.com. Note the following:   You specify the domain name that you want to route traffic to when you register an instance. For more information, see Attributes in the topic RegisterInstance.   You must specify WEIGHTED for the value of RoutingPolicy.   You can't specify both CNAME for Type and settings for HealthCheckConfig. If you do, the request will fail with an InvalidInput error.    SRV  Route 53 returns the value for an SRV record. The value for an SRV record uses the following values:  priority weight port service-hostname  Note the following about the values:   The values of priority and weight are both set to 1 and can't be changed.    The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request.    The value of service-hostname is a concatenation of the following values:   The value that you specify for InstanceId when you register an instance.   The name of the service.   The name of the namespace.    For example, if the value of InstanceId is test, the name of the service is backend, and the name of the namespace is example.com, the value of service-hostname is:  test.backend.example.com    If you specify settings for an SRV record, note the following:   If you specify values for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both in the RegisterInstance request, AWS Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records.   If you're using a system that requires a specific SRV format, such as HAProxy, see the Name element in the documentation about CreateService for information about how to specify the correct name format.
@@ -577,7 +600,7 @@ extension ServiceDiscovery {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ttl, name: "ttl", parent: name, max: 2_147_483_647)
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 2147483647)
             try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
         }
 
@@ -588,6 +611,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetInstanceRequest: AWSEncodableShape {
+
         /// The ID of the instance that you want to get information about.
         public let instanceId: String
         /// The ID of the service that the instance is associated with.
@@ -610,6 +634,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetInstanceResponse: AWSDecodableShape {
+
         /// A complex type that contains information about a specified instance.
         public let instance: Instance?
 
@@ -623,6 +648,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetInstancesHealthStatusRequest: AWSEncodableShape {
+
         /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances, AWS Cloud Map returns the health status for all the instances that are associated with the specified service.  To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request.
         public let instances: [String]?
         /// The maximum number of instances that you want AWS Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
@@ -659,6 +685,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetInstancesHealthStatusResponse: AWSDecodableShape {
+
         /// If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
         public let nextToken: String?
         /// A complex type that contains the IDs and the health status of the instances that you specified in the GetInstancesHealthStatus request.
@@ -676,6 +703,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetNamespaceRequest: AWSEncodableShape {
+
         /// The ID of the namespace that you want to get information about.
         public let id: String
 
@@ -693,6 +721,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetNamespaceResponse: AWSDecodableShape {
+
         /// A complex type that contains information about the specified namespace.
         public let namespace: Namespace?
 
@@ -706,6 +735,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetOperationRequest: AWSEncodableShape {
+
         /// The ID of the operation that you want to get more information about.
         public let operationId: String
 
@@ -723,6 +753,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetOperationResponse: AWSDecodableShape {
+
         /// A complex type that contains information about the operation.
         public let operation: Operation?
 
@@ -736,6 +767,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetServiceRequest: AWSEncodableShape {
+
         /// The ID of the service that you want to get settings for.
         public let id: String
 
@@ -753,6 +785,7 @@ extension ServiceDiscovery {
     }
 
     public struct GetServiceResponse: AWSDecodableShape {
+
         /// A complex type that contains information about the service.
         public let service: Service?
 
@@ -766,6 +799,7 @@ extension ServiceDiscovery {
     }
 
     public struct HealthCheckConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of consecutive health checks that an endpoint must pass or fail for Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
         public let failureThreshold: Int?
         /// The path that you want Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, such as the file /docs/route53-health-check.html. Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath, the default value is /. If you specify TCP for Type, you must not specify a value for ResourcePath.
@@ -793,10 +827,15 @@ extension ServiceDiscovery {
     }
 
     public struct HealthCheckCustomConfig: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct HttpInstanceSummary: AWSDecodableShape {
+
         /// If you included any attributes when you registered the instance, the values of those attributes.
         public let attributes: [String: String]?
         /// If you configured health checking in the service, the current health status of the service instance.
@@ -826,6 +865,7 @@ extension ServiceDiscovery {
     }
 
     public struct HttpProperties: AWSDecodableShape {
+
         /// The name of an HTTP namespace.
         public let httpName: String?
 
@@ -839,6 +879,7 @@ extension ServiceDiscovery {
     }
 
     public struct Instance: AWSDecodableShape {
+
         /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME     If you want AWS Cloud Map to create a Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2 instance ID for the instance. The AWS_INSTANCE_IPV4 attribute contains the primary private IPv4 address.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service.
         public let attributes: [String: String]?
         /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
@@ -860,6 +901,7 @@ extension ServiceDiscovery {
     }
 
     public struct InstanceSummary: AWSDecodableShape {
+
         /// A string map that contains the following information:   The attributes that are associate with the instance.    For each attribute, the applicable value.   Supported attribute keys include the following:    AWS_ALIAS_DNS_NAME: For an alias record that routes traffic to an Elastic Load Balancing load balancer, the DNS name that is associated with the load balancer.     AWS_EC2_INSTANCE_ID: (HTTP namespaces only) The Amazon EC2 instance ID for the instance. When the AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute contains the primary private IPv4 address.    AWS_INSTANCE_CNAME: For a CNAME record, the domain name that Route 53 returns in response to DNS queries, for example, example.com.    AWS_INSTANCE_IPV4: For an A record, the IPv4 address that Route 53 returns in response to DNS queries, for example, 192.0.2.44.    AWS_INSTANCE_IPV6: For an AAAA record, the IPv6 address that Route 53 returns in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345.    AWS_INSTANCE_PORT: For an SRV record, the value that Route 53 returns for the port. In addition, if the service includes HealthCheckConfig, the port on the endpoint that Route 53 sends requests to.
         public let attributes: [String: String]?
         /// The ID for an instance that you created by using a specified service.
@@ -877,6 +919,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListInstancesRequest: AWSEncodableShape {
+
         /// The maximum number of instances that you want AWS Cloud Map to return in the response to a ListInstances request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 instances.
         public let maxResults: Int?
         /// For the first ListInstances request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
@@ -905,6 +948,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListInstancesResponse: AWSDecodableShape {
+
         /// Summary information about the instances that are associated with the specified service.
         public let instances: [InstanceSummary]?
         /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
@@ -922,6 +966,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListNamespacesRequest: AWSEncodableShape {
+
         /// A complex type that contains specifications for the namespaces that you want to list. If you specify more than one filter, a namespace must match all filters to be returned by ListNamespaces.
         public let filters: [NamespaceFilter]?
         /// The maximum number of namespaces that you want AWS Cloud Map to return in the response to a ListNamespaces request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 namespaces.
@@ -952,6 +997,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListNamespacesResponse: AWSDecodableShape {
+
         /// An array that contains one NamespaceSummary object for each namespace that matches the specified filter criteria.
         public let namespaces: [NamespaceSummary]?
         /// If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria.
@@ -969,6 +1015,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListOperationsRequest: AWSEncodableShape {
+
         /// A complex type that contains specifications for the operations that you want to list, for example, operations that you started between a specified start date and end date. If you specify more than one filter, an operation must match all filters to be returned by ListOperations.
         public let filters: [OperationFilter]?
         /// The maximum number of items that you want AWS Cloud Map to return in the response to a ListOperations request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 operations.
@@ -999,6 +1046,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListOperationsResponse: AWSDecodableShape {
+
         /// If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria.
         public let nextToken: String?
         /// Summary information about the operations that match the specified criteria.
@@ -1016,6 +1064,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
+
         /// A complex type that contains specifications for the namespaces that you want to list services for.  If you specify more than one filter, an operation must match all filters to be returned by ListServices.
         public let filters: [ServiceFilter]?
         /// The maximum number of services that you want AWS Cloud Map to return in the response to a ListServices request. If you don't specify a value for MaxResults, AWS Cloud Map returns up to 100 services.
@@ -1046,6 +1095,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListServicesResponse: AWSDecodableShape {
+
         /// If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  AWS Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria.
         public let nextToken: String?
         /// An array that contains one ServiceSummary object for each service that matches the specified filter criteria.
@@ -1063,6 +1113,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
         public let resourceARN: String
 
@@ -1081,6 +1132,7 @@ extension ServiceDiscovery {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags that are assigned to the resource.
         public let tags: [Tag]?
 
@@ -1094,6 +1146,7 @@ extension ServiceDiscovery {
     }
 
     public struct Namespace: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
         public let arn: String?
         /// The date that the namespace was created, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1139,6 +1192,7 @@ extension ServiceDiscovery {
     }
 
     public struct NamespaceFilter: AWSEncodableShape {
+
         /// The operator that you want to use to determine whether ListNamespaces returns a namespace. Valid values for condition include:    EQ: When you specify EQ for the condition, you can choose to list only public namespaces or private namespaces, but not both. EQ is the default condition and can be omitted.    IN: When you specify IN for the condition, you can choose to list public namespaces, private namespaces, or both.     BETWEEN: Not applicable
         public let condition: FilterCondition?
         /// Specify TYPE.
@@ -1167,6 +1221,7 @@ extension ServiceDiscovery {
     }
 
     public struct NamespaceProperties: AWSDecodableShape {
+
         /// A complex type that contains the ID for the Route 53 hosted zone that AWS Cloud Map creates when you create a namespace.
         public let dnsProperties: DnsProperties?
         /// A complex type that contains the name of an HTTP namespace.
@@ -1184,6 +1239,7 @@ extension ServiceDiscovery {
     }
 
     public struct NamespaceSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the namespace when you create it.
         public let arn: String?
         /// The date and time that the namespace was created.
@@ -1224,6 +1280,7 @@ extension ServiceDiscovery {
     }
 
     public struct Operation: AWSDecodableShape {
+
         /// The date and time that the request was submitted, in Unix date/time format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let createDate: Date?
         /// The code associated with ErrorMessage. Values for ErrorCode include the following:    ACCESS_DENIED     CANNOT_CREATE_HOSTED_ZONE     EXPIRED_TOKEN     HOSTED_ZONE_NOT_FOUND     INTERNAL_FAILURE     INVALID_CHANGE_BATCH     THROTTLED_REQUEST
@@ -1265,6 +1322,7 @@ extension ServiceDiscovery {
     }
 
     public struct OperationFilter: AWSEncodableShape {
+
         /// The operator that you want to use to determine whether an operation matches the specified value. Valid values for condition include:    EQ: When you specify EQ for the condition, you can specify only one value. EQ is supported for NAMESPACE_ID, SERVICE_ID, STATUS, and TYPE. EQ is the default condition and can be omitted.    IN: When you specify IN for the condition, you can specify a list of one or more values. IN is supported for STATUS and TYPE. An operation must match one of the specified values to be returned in the response.    BETWEEN: Specify a start date and an end date in Unix date/time format and Coordinated Universal Time (UTC). The start date must be the first value. BETWEEN is supported for UPDATE_DATE.
         public let condition: FilterCondition?
         /// Specify the operations that you want to get:    NAMESPACE_ID: Gets operations related to specified namespaces.    SERVICE_ID: Gets operations related to specified services.    STATUS: Gets operations based on the status of the operations: SUBMITTED, PENDING, SUCCEED, or FAIL.    TYPE: Gets specified types of operation.    UPDATE_DATE: Gets operations that changed status during a specified date/time range.
@@ -1293,6 +1351,7 @@ extension ServiceDiscovery {
     }
 
     public struct OperationSummary: AWSDecodableShape {
+
         /// The ID for an operation.
         public let id: String?
         /// The status of the operation. Values include the following:    SUBMITTED: This is the initial state immediately after you submit a request.    PENDING: AWS Cloud Map is performing the operation.    SUCCESS: The operation succeeded.    FAIL: The operation failed. For the failure reason, see ErrorMessage.
@@ -1310,6 +1369,7 @@ extension ServiceDiscovery {
     }
 
     public struct RegisterInstanceRequest: AWSEncodableShape {
+
         /// A string map that contains the following information for the service that you specify in ServiceId:   The attributes that apply to the records that are defined in the service.    For each attribute, the applicable value.   Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME  If you want AWS Cloud Map to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer. For information about how to get the DNS name, see "DNSName" in the topic AliasTarget in the Route 53 API Reference. Note the following:   The configuration for the service that is specified by ServiceId must include settings for an A record, an AAAA record, or both.   In the service that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map will create the Route 53 health check, but it won't associate the health check with the alias record.   Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than Elastic Load Balancing load balancers.   If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.    AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2 instance ID for the instance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the only other attribute that can be specified is AWS_INIT_HEALTH_STATUS. When the AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute will be filled out with the primary private IPv4 address.  AWS_INIT_HEALTH_STATUS  If the service configuration includes HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the domain name that you want Route 53 to return in response to DNS queries, for example, example.com. This value is required if the service specified by ServiceId includes settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that you want Route 53 to return in response to DNS queries, for example, 192.0.2.44. This value is required if the service specified by ServiceId includes settings for an A record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service configuration includes an AAAA record, the IPv6 address that you want Route 53 to return in response to DNS queries, for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. This value is required if the service specified by ServiceId includes settings for an AAAA record. If the service includes settings for an SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53 to return for the port. If the service includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send requests to.  This value is required if you specified settings for an SRV record or a Route 53 health check when you created the service.  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the maximum length of the attribute name is 255 characters, and the maximum length of the attribute value is 1,024 characters. The total size of all provided attributes (sum of all keys and values) must not exceed 5,000 characters.
         public let attributes: [String: String]
         /// A unique string that identifies the request and that allows failed RegisterInstance requests to be retried without the risk of executing the operation twice. You must use a unique CreatorRequestId string every time you submit a RegisterInstance request if you're registering additional instances for the same namespace and service. CreatorRequestId can be any unique string, for example, a date/time stamp.
@@ -1347,6 +1407,7 @@ extension ServiceDiscovery {
     }
 
     public struct RegisterInstanceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
@@ -1360,6 +1421,7 @@ extension ServiceDiscovery {
     }
 
     public struct Service: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
         public let arn: String?
         /// The date and time that the service was created, in Unix format and Coordinated Universal Time (UTC). The value of CreateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1417,6 +1479,7 @@ extension ServiceDiscovery {
     }
 
     public struct ServiceChange: AWSEncodableShape {
+
         /// A description for the service.
         public let description: String?
         /// A complex type that contains information about the Route 53 DNS records that you want AWS Cloud Map to create when you register an instance.
@@ -1443,6 +1506,7 @@ extension ServiceDiscovery {
     }
 
     public struct ServiceFilter: AWSEncodableShape {
+
         /// The operator that you want to use to determine whether a service is returned by ListServices. Valid values for Condition include the following:    EQ: When you specify EQ, specify one namespace ID for Values. EQ is the default condition and can be omitted.    IN: When you specify IN, specify a list of the IDs for the namespaces that you want ListServices to return a list of services for.    BETWEEN: Not applicable.
         public let condition: FilterCondition?
         /// Specify NAMESPACE_ID.
@@ -1471,6 +1535,7 @@ extension ServiceDiscovery {
     }
 
     public struct ServiceSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that AWS Cloud Map assigns to the service when you create it.
         public let arn: String?
         /// The date and time that the service was created.
@@ -1517,6 +1582,7 @@ extension ServiceDiscovery {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key identifier, or name, of the tag.
         public let key: String
         /// The string value associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
@@ -1541,6 +1607,7 @@ extension ServiceDiscovery {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
         public let resourceARN: String
         /// The tags to add to the specified resource. Specifying the tag key is required. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
@@ -1568,10 +1635,15 @@ extension ServiceDiscovery {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
         public let resourceARN: String
         /// The tag keys to remove from the specified resource.
@@ -1600,10 +1672,15 @@ extension ServiceDiscovery {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateInstanceCustomHealthStatusRequest: AWSEncodableShape {
+
         /// The ID of the instance that you want to change the health status for.
         public let instanceId: String
         /// The ID of the service that includes the configuration for the custom health check that you want to change the status for.
@@ -1630,6 +1707,7 @@ extension ServiceDiscovery {
     }
 
     public struct UpdateServiceRequest: AWSEncodableShape {
+
         /// The ID of the service that you want to update.
         public let id: String
         /// A complex type that contains the new settings for the service.
@@ -1652,6 +1730,7 @@ extension ServiceDiscovery {
     }
 
     public struct UpdateServiceResponse: AWSDecodableShape {
+
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 

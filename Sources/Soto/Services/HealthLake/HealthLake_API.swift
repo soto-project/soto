@@ -64,43 +64,43 @@ public struct HealthLake: AWSService {
     // MARK: API Calls
 
     /// Creates a Data Store that can ingest and export FHIR formatted data.
-    public func createFHIRDatastore(_ input: CreateFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFHIRDatastoreResponse> {
-        return self.client.execute(operation: "CreateFHIRDatastore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createFHIRDatastore(_ input: CreateFHIRDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFHIRDatastoreResponse> {
+        return self.client.execute(operation: "CreateFHIRDatastore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a Data Store.
-    public func deleteFHIRDatastore(_ input: DeleteFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFHIRDatastoreResponse> {
-        return self.client.execute(operation: "DeleteFHIRDatastore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteFHIRDatastore(_ input: DeleteFHIRDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFHIRDatastoreResponse> {
+        return self.client.execute(operation: "DeleteFHIRDatastore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
-    public func describeFHIRDatastore(_ input: DescribeFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFHIRDatastoreResponse> {
-        return self.client.execute(operation: "DescribeFHIRDatastore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeFHIRDatastore(_ input: DescribeFHIRDatastoreRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFHIRDatastoreResponse> {
+        return self.client.execute(operation: "DescribeFHIRDatastore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
-    public func describeFHIRExportJob(_ input: DescribeFHIRExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFHIRExportJobResponse> {
-        return self.client.execute(operation: "DescribeFHIRExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeFHIRExportJob(_ input: DescribeFHIRExportJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFHIRExportJobResponse> {
+        return self.client.execute(operation: "DescribeFHIRExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
-    public func describeFHIRImportJob(_ input: DescribeFHIRImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFHIRImportJobResponse> {
-        return self.client.execute(operation: "DescribeFHIRImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeFHIRImportJob(_ input: DescribeFHIRImportJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFHIRImportJobResponse> {
+        return self.client.execute(operation: "DescribeFHIRImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
-    public func listFHIRDatastores(_ input: ListFHIRDatastoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFHIRDatastoresResponse> {
-        return self.client.execute(operation: "ListFHIRDatastores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listFHIRDatastores(_ input: ListFHIRDatastoresRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFHIRDatastoresResponse> {
+        return self.client.execute(operation: "ListFHIRDatastores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Begins a FHIR export job.
-    public func startFHIRExportJob(_ input: StartFHIRExportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFHIRExportJobResponse> {
-        return self.client.execute(operation: "StartFHIRExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startFHIRExportJob(_ input: StartFHIRExportJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFHIRExportJobResponse> {
+        return self.client.execute(operation: "StartFHIRExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Begins a FHIR Import job.
-    public func startFHIRImportJob(_ input: StartFHIRImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFHIRImportJobResponse> {
-        return self.client.execute(operation: "StartFHIRImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startFHIRImportJob(_ input: StartFHIRImportJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFHIRImportJobResponse> {
+        return self.client.execute(operation: "StartFHIRImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

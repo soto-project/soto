@@ -23,6 +23,7 @@ extension MobileAnalytics {
     // MARK: Shapes
 
     public struct Event: AWSEncodableShape {
+
         /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
         public let attributes: [String: String]?
         /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
@@ -64,18 +65,18 @@ extension MobileAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case eventType
-            case metrics
-            case session
-            case timestamp
-            case version
+            case attributes = "attributes"
+            case eventType = "eventType"
+            case metrics = "metrics"
+            case session = "session"
+            case timestamp = "timestamp"
+            case version = "version"
         }
     }
 
     public struct PutEventsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "x-amz-Client-Context")),
+            AWSMemberEncoding(label: "clientContext", location: .header(locationName: "x-amz-Client-Context")), 
             AWSMemberEncoding(label: "clientContextEncoding", location: .header(locationName: "x-amz-Client-Context-Encoding"))
         ]
 
@@ -99,11 +100,12 @@ extension MobileAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
+            case events = "events"
         }
     }
 
     public struct Session: AWSEncodableShape {
+
         /// The duration of the session.
         public let duration: Int64?
         /// A unique identifier for the session
@@ -126,10 +128,10 @@ extension MobileAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
-            case id
-            case startTimestamp
-            case stopTimestamp
+            case duration = "duration"
+            case id = "id"
+            case startTimestamp = "startTimestamp"
+            case stopTimestamp = "stopTimestamp"
         }
     }
 }

@@ -64,13 +64,13 @@ public struct SagemakerEdgeManager: AWSService {
     // MARK: API Calls
 
     /// Use to check if a device is registered with SageMaker Edge Manager.
-    public func getDeviceRegistration(_ input: GetDeviceRegistrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceRegistrationResult> {
-        return self.client.execute(operation: "GetDeviceRegistration", path: "/GetDeviceRegistration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getDeviceRegistration(_ input: GetDeviceRegistrationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceRegistrationResult> {
+        return self.client.execute(operation: "GetDeviceRegistration", path: "/GetDeviceRegistration", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
-    @discardableResult public func sendHeartbeat(_ input: SendHeartbeatRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "SendHeartbeat", path: "/SendHeartbeat", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func sendHeartbeat(_ input: SendHeartbeatRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "SendHeartbeat", path: "/SendHeartbeat", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

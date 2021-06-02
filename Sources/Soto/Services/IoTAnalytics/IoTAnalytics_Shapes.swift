@@ -82,6 +82,7 @@ extension IoTAnalytics {
     // MARK: Shapes
 
     public struct AddAttributesActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of 1-50 AttributeNameMapping objects that map an existing attribute to a new attribute.  The existing attributes remain in the message, so if you want to remove the originals, use RemoveAttributeActivity.
         public let attributes: [String: String]
         /// The name of the addAttributes activity.
@@ -109,13 +110,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case name
-            case next
+            case attributes = "attributes"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct BatchPutMessageErrorEntry: AWSDecodableShape {
+
         /// The code associated with the error.
         public let errorCode: String?
         /// The message associated with the error.
@@ -130,13 +132,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case messageId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case messageId = "messageId"
         }
     }
 
     public struct BatchPutMessageRequest: AWSEncodableShape {
+
         /// The name of the channel where the messages are sent.
         public let channelName: String
         /// The list of messages to be sent. Each message has the format: { "messageId": "string", "payload": "string"}. The field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_). No other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".    Cannot be more than 255 characters.   Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)   For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
@@ -157,12 +160,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName
-            case messages
+            case channelName = "channelName"
+            case messages = "messages"
         }
     }
 
     public struct BatchPutMessageResponse: AWSDecodableShape {
+
         /// A list of any errors encountered when sending the messages to the channel.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
 
@@ -171,13 +175,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchPutMessageErrorEntries
+            case batchPutMessageErrorEntries = "batchPutMessageErrorEntries"
         }
     }
 
     public struct CancelPipelineReprocessingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName")),
+            AWSMemberEncoding(label: "pipelineName", location: .uri(locationName: "pipelineName")), 
             AWSMemberEncoding(label: "reprocessingId", location: .uri(locationName: "reprocessingId"))
         ]
 
@@ -201,10 +205,15 @@ extension IoTAnalytics {
     }
 
     public struct CancelPipelineReprocessingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Channel: AWSDecodableShape {
+
         /// The ARN of the channel.
         public let arn: String?
         /// When the channel was created.
@@ -234,18 +243,19 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case lastMessageArrivalTime
-            case lastUpdateTime
-            case name
-            case retentionPeriod
-            case status
-            case storage
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case lastMessageArrivalTime = "lastMessageArrivalTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case retentionPeriod = "retentionPeriod"
+            case status = "status"
+            case storage = "storage"
         }
     }
 
     public struct ChannelActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the channel from which the messages are processed.
         public let channelName: String
         /// The name of the channel activity.
@@ -270,13 +280,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName
-            case name
-            case next
+            case channelName = "channelName"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct ChannelMessages: AWSEncodableShape {
+
         /// Specifies one or more keys that identify the Amazon Simple Storage Service (Amazon S3) objects that save your channel messages.
         public let s3Paths: [String]?
 
@@ -295,11 +306,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Paths
+            case s3Paths = "s3Paths"
         }
     }
 
     public struct ChannelStatistics: AWSDecodableShape {
+
         /// The estimated size of the channel.
         public let size: EstimatedResourceSize?
 
@@ -308,11 +320,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case size
+            case size = "size"
         }
     }
 
     public struct ChannelStorage: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this to store channel data in an S3 bucket that you manage. If customer managed storage is selected, the retentionPeriod parameter is ignored. You cannot change the choice of service-managed or customer-managed S3 storage after the channel is created.
         public let customerManagedS3: CustomerManagedChannelS3Storage?
         /// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics. You cannot change the choice of service-managed or customer-managed S3 storage after the channel is created.
@@ -328,12 +341,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManagedS3
-            case serviceManagedS3
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
         }
     }
 
     public struct ChannelStorageSummary: AWSDecodableShape {
+
         /// Used to store channel data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedChannelS3StorageSummary?
         /// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
@@ -345,12 +359,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManagedS3
-            case serviceManagedS3
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
         }
     }
 
     public struct ChannelSummary: AWSDecodableShape {
+
         /// The name of the channel.
         public let channelName: String?
         /// Where channel data is stored.
@@ -374,16 +389,17 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName
-            case channelStorage
-            case creationTime
-            case lastMessageArrivalTime
-            case lastUpdateTime
-            case status
+            case channelName = "channelName"
+            case channelStorage = "channelStorage"
+            case creationTime = "creationTime"
+            case lastMessageArrivalTime = "lastMessageArrivalTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case status = "status"
         }
     }
 
     public struct Column: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the column.
         public let name: String
         /// The type of data. For more information about the supported data types, see Common data types in the AWS Glue Developer Guide.
@@ -398,18 +414,19 @@ extension IoTAnalytics {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$")
-            try self.validate(self.type, name: "type", parent: name, max: 131_072)
+            try self.validate(self.type, name: "type", parent: name, max: 131072)
             try self.validate(self.type, name: "type", parent: name, min: 1)
             try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
     public struct ContainerDatasetAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the role that gives permission to the system to access required resources to run the containerAction. This includes, at minimum, permission to retrieve the dataset contents that are the input to the containerized application.
         public let executionRoleArn: String
         /// The ARN of the Docker container stored in your account. The Docker container contains an application and required support libraries and is used to generate dataset contents.
@@ -439,14 +456,15 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionRoleArn
-            case image
-            case resourceConfiguration
-            case variables
+            case executionRoleArn = "executionRoleArn"
+            case image = "image"
+            case resourceConfiguration = "resourceConfiguration"
+            case variables = "variables"
         }
     }
 
     public struct CreateChannelRequest: AWSEncodableShape {
+
         /// The name of the channel.
         public let channelName: String
         /// Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the channel is created.
@@ -477,14 +495,15 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelName
-            case channelStorage
-            case retentionPeriod
-            case tags
+            case channelName = "channelName"
+            case channelStorage = "channelStorage"
+            case retentionPeriod = "retentionPeriod"
+            case tags = "tags"
         }
     }
 
     public struct CreateChannelResponse: AWSDecodableShape {
+
         /// The ARN of the channel.
         public let channelArn: String?
         /// The name of the channel.
@@ -499,9 +518,9 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelArn
-            case channelName
-            case retentionPeriod
+            case channelArn = "channelArn"
+            case channelName = "channelName"
+            case retentionPeriod = "retentionPeriod"
         }
     }
 
@@ -529,11 +548,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versionId
+            case versionId = "versionId"
         }
     }
 
     public struct CreateDatasetContentResponse: AWSDecodableShape {
+
         /// The version ID of the dataset contents that are being created.
         public let versionId: String?
 
@@ -542,11 +562,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case versionId
+            case versionId = "versionId"
         }
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
+
         /// A list of actions that create the data set contents.
         public let actions: [DatasetAction]
         /// When dataset contents are created, they are delivered to destinations specified here.
@@ -609,18 +630,19 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case contentDeliveryRules
-            case datasetName
-            case lateDataRules
-            case retentionPeriod
-            case tags
-            case triggers
-            case versioningConfiguration
+            case actions = "actions"
+            case contentDeliveryRules = "contentDeliveryRules"
+            case datasetName = "datasetName"
+            case lateDataRules = "lateDataRules"
+            case retentionPeriod = "retentionPeriod"
+            case tags = "tags"
+            case triggers = "triggers"
+            case versioningConfiguration = "versioningConfiguration"
         }
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
+
         /// The ARN of the dataset.
         public let datasetArn: String?
         /// The name of the dataset.
@@ -635,13 +657,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case datasetName
-            case retentionPeriod
+            case datasetArn = "datasetArn"
+            case datasetName = "datasetName"
+            case retentionPeriod = "retentionPeriod"
         }
     }
 
     public struct CreateDatastoreRequest: AWSEncodableShape {
+
         /// The name of the data store.
         public let datastoreName: String
         /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
@@ -676,15 +699,16 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreName
-            case datastoreStorage
-            case fileFormatConfiguration
-            case retentionPeriod
-            case tags
+            case datastoreName = "datastoreName"
+            case datastoreStorage = "datastoreStorage"
+            case fileFormatConfiguration = "fileFormatConfiguration"
+            case retentionPeriod = "retentionPeriod"
+            case tags = "tags"
         }
     }
 
     public struct CreateDatastoreResponse: AWSDecodableShape {
+
         /// The ARN of the data store.
         public let datastoreArn: String?
         /// The name of the data store.
@@ -699,13 +723,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreArn
-            case datastoreName
-            case retentionPeriod
+            case datastoreArn = "datastoreArn"
+            case datastoreName = "datastoreName"
+            case retentionPeriod = "retentionPeriod"
         }
     }
 
     public struct CreatePipelineRequest: AWSEncodableShape {
+
         /// A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... } }, ... ]
         public let pipelineActivities: [PipelineActivity]
         /// The name of the pipeline.
@@ -736,13 +761,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineActivities
-            case pipelineName
-            case tags
+            case pipelineActivities = "pipelineActivities"
+            case pipelineName = "pipelineName"
+            case tags = "tags"
         }
     }
 
     public struct CreatePipelineResponse: AWSDecodableShape {
+
         /// The ARN of the pipeline.
         public let pipelineArn: String?
         /// The name of the pipeline.
@@ -754,12 +780,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineArn
-            case pipelineName
+            case pipelineArn = "pipelineArn"
+            case pipelineName = "pipelineName"
         }
     }
 
     public struct CustomerManagedChannelS3Storage: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the S3 bucket in which channel data is stored.
         public let bucket: String
         /// Optional. The prefix used to create the keys of the channel data objects. Each object in an S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
@@ -785,13 +812,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case keyPrefix
-            case roleArn
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
         }
     }
 
     public struct CustomerManagedChannelS3StorageSummary: AWSDecodableShape {
+
         /// The name of the S3 bucket in which channel data is stored.
         public let bucket: String?
         /// Optional. The prefix used to create the keys of the channel data objects. Each object in an S3 bucket has a key that is its unique identifier within the bucket (each object in a bucket has exactly one key). The prefix must end with a forward slash (/).
@@ -806,13 +834,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case keyPrefix
-            case roleArn
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
         }
     }
 
     public struct CustomerManagedDatastoreS3Storage: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the S3 bucket in which data store data is stored.
         public let bucket: String
         /// Optional. The prefix used to create the keys of the data store data objects. Each object in an S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
@@ -838,13 +867,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case keyPrefix
-            case roleArn
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
         }
     }
 
     public struct CustomerManagedDatastoreS3StorageSummary: AWSDecodableShape {
+
         /// The name of the S3 bucket in which data store data is stored.
         public let bucket: String?
         /// Optional. The prefix used to create the keys of the data store data objects. Each object in an S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
@@ -859,13 +889,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case keyPrefix
-            case roleArn
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+            case roleArn = "roleArn"
         }
     }
 
     public struct Dataset: AWSDecodableShape {
+
         /// The DatasetAction objects that automatically create the data set contents.
         public let actions: [DatasetAction]?
         /// The ARN of the data set.
@@ -904,21 +935,22 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case arn
-            case contentDeliveryRules
-            case creationTime
-            case lastUpdateTime
-            case lateDataRules
-            case name
-            case retentionPeriod
-            case status
-            case triggers
-            case versioningConfiguration
+            case actions = "actions"
+            case arn = "arn"
+            case contentDeliveryRules = "contentDeliveryRules"
+            case creationTime = "creationTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case lateDataRules = "lateDataRules"
+            case name = "name"
+            case retentionPeriod = "retentionPeriod"
+            case status = "status"
+            case triggers = "triggers"
+            case versioningConfiguration = "versioningConfiguration"
         }
     }
 
     public struct DatasetAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the data set action by which data set contents are automatically created.
         public let actionName: String?
         /// Information that allows the system to run a containerized application to create the dataset contents. The application must be in a Docker container along with any required support libraries.
@@ -941,13 +973,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case containerAction
-            case queryAction
+            case actionName = "actionName"
+            case containerAction = "containerAction"
+            case queryAction = "queryAction"
         }
     }
 
     public struct DatasetActionSummary: AWSDecodableShape {
+
         /// The name of the action that automatically creates the dataset's contents.
         public let actionName: String?
         /// The type of action by which the dataset's contents are automatically created.
@@ -959,12 +992,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case actionType
+            case actionName = "actionName"
+            case actionType = "actionType"
         }
     }
 
     public struct DatasetContentDeliveryDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// Configuration information for delivery of dataset contents to AWS IoT Events.
         public let iotEventsDestinationConfiguration: IotEventsDestinationConfiguration?
         /// Configuration information for delivery of dataset contents to Amazon S3.
@@ -981,12 +1015,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iotEventsDestinationConfiguration
-            case s3DestinationConfiguration
+            case iotEventsDestinationConfiguration = "iotEventsDestinationConfiguration"
+            case s3DestinationConfiguration = "s3DestinationConfiguration"
         }
     }
 
     public struct DatasetContentDeliveryRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The destination to which dataset contents are delivered.
         public let destination: DatasetContentDeliveryDestination
         /// The name of the dataset content delivery rules entry.
@@ -1002,12 +1037,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case entryName
+            case destination = "destination"
+            case entryName = "entryName"
         }
     }
 
     public struct DatasetContentStatus: AWSDecodableShape {
+
         /// The reason the data set contents are in this state.
         public let reason: String?
         /// The state of the data set contents. Can be one of READY, CREATING, SUCCEEDED, or FAILED.
@@ -1019,12 +1055,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case state
+            case reason = "reason"
+            case state = "state"
         }
     }
 
     public struct DatasetContentSummary: AWSDecodableShape {
+
         /// The time the dataset content status was updated to SUCCEEDED or FAILED.
         public let completionTime: Date?
         /// The actual time the creation of the dataset contents was started.
@@ -1045,15 +1082,16 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime
-            case creationTime
-            case scheduleTime
-            case status
-            case version
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case scheduleTime = "scheduleTime"
+            case status = "status"
+            case version = "version"
         }
     }
 
     public struct DatasetContentVersionValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the dataset whose latest contents are used as input to the notebook or application.
         public let datasetName: String
 
@@ -1068,11 +1106,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetName
+            case datasetName = "datasetName"
         }
     }
 
     public struct DatasetEntry: AWSDecodableShape {
+
         /// The presigned URI of the data set item.
         public let dataURI: String?
         /// The name of the data set item.
@@ -1084,12 +1123,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataURI
-            case entryName
+            case dataURI = "dataURI"
+            case entryName = "entryName"
         }
     }
 
     public struct DatasetSummary: AWSDecodableShape {
+
         /// A list of DataActionSummary objects.
         public let actions: [DatasetActionSummary]?
         /// The time the data set was created.
@@ -1113,16 +1153,17 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case creationTime
-            case datasetName
-            case lastUpdateTime
-            case status
-            case triggers
+            case actions = "actions"
+            case creationTime = "creationTime"
+            case datasetName = "datasetName"
+            case lastUpdateTime = "lastUpdateTime"
+            case status = "status"
+            case triggers = "triggers"
         }
     }
 
     public struct DatasetTrigger: AWSEncodableShape & AWSDecodableShape {
+
         /// The data set whose content creation triggers the creation of this data set's contents.
         public let dataset: TriggeringDataset?
         /// The Schedule when the trigger is initiated.
@@ -1138,12 +1179,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataset
-            case schedule
+            case dataset = "dataset"
+            case schedule = "schedule"
         }
     }
 
     public struct Datastore: AWSDecodableShape {
+
         /// The ARN of the data store.
         public let arn: String?
         /// When the data store was created.
@@ -1176,19 +1218,20 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationTime
-            case fileFormatConfiguration
-            case lastMessageArrivalTime
-            case lastUpdateTime
-            case name
-            case retentionPeriod
-            case status
-            case storage
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case fileFormatConfiguration = "fileFormatConfiguration"
+            case lastMessageArrivalTime = "lastMessageArrivalTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case retentionPeriod = "retentionPeriod"
+            case status = "status"
+            case storage = "storage"
         }
     }
 
     public struct DatastoreActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the data store where processed messages are stored.
         public let datastoreName: String
         /// The name of the datastore activity.
@@ -1208,12 +1251,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreName
-            case name
+            case datastoreName = "datastoreName"
+            case name = "name"
         }
     }
 
     public struct DatastoreStatistics: AWSDecodableShape {
+
         /// The estimated size of the data store.
         public let size: EstimatedResourceSize?
 
@@ -1222,11 +1266,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case size
+            case size = "size"
         }
     }
 
     public struct DatastoreStorage: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this to store data store data in an S3 bucket that you manage. When customer managed storage is selected, the retentionPeriod parameter is ignored. The choice of service-managed or customer-managed S3 storage cannot be changed after creation of the data store.
         public let customerManagedS3: CustomerManagedDatastoreS3Storage?
         /// Use this to store data store data in an S3 bucket managed by AWS IoT Analytics. You cannot change the choice of service-managed or customer-managed S3 storage after the data store is created.
@@ -1242,12 +1287,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManagedS3
-            case serviceManagedS3
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
         }
     }
 
     public struct DatastoreStorageSummary: AWSDecodableShape {
+
         /// Used to store data store data in an S3 bucket that you manage.
         public let customerManagedS3: CustomerManagedDatastoreS3StorageSummary?
         /// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
@@ -1259,12 +1305,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerManagedS3
-            case serviceManagedS3
+            case customerManagedS3 = "customerManagedS3"
+            case serviceManagedS3 = "serviceManagedS3"
         }
     }
 
     public struct DatastoreSummary: AWSDecodableShape {
+
         /// When the data store was created.
         public let creationTime: Date?
         /// The name of the data store.
@@ -1291,13 +1338,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case datastoreName
-            case datastoreStorage
-            case fileFormatType
-            case lastMessageArrivalTime
-            case lastUpdateTime
-            case status
+            case creationTime = "creationTime"
+            case datastoreName = "datastoreName"
+            case datastoreStorage = "datastoreStorage"
+            case fileFormatType = "fileFormatType"
+            case lastMessageArrivalTime = "lastMessageArrivalTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case status = "status"
         }
     }
 
@@ -1324,7 +1371,7 @@ extension IoTAnalytics {
 
     public struct DeleteDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")),
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -1413,6 +1460,7 @@ extension IoTAnalytics {
     }
 
     public struct DeltaTime: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of seconds of estimated in-flight lag time of message data. When you create dataset contents using message data from a specified timeframe, some message data might still be in flight when processing begins, and so do not arrive in time to be processed. Use this field to make allowances for the in flight time of your message data, so that data not processed from a previous timeframe is included with the next timeframe. Otherwise, missed message data would be excluded from processing during the next timeframe too, because its timestamp places it within the previous timeframe.
         public let offsetSeconds: Int
         /// An expression by which the time of the message data might be determined. This can be the name of a timestamp field or a SQL expression that is used to derive the time the message data was generated.
@@ -1424,12 +1472,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offsetSeconds
-            case timeExpression
+            case offsetSeconds = "offsetSeconds"
+            case timeExpression = "timeExpression"
         }
     }
 
     public struct DeltaTimeSessionWindowConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A time interval. You can use timeoutInMinutes so that AWS IoT Analytics can batch up late data notifications that have been generated since the last execution. AWS IoT Analytics sends one batch of notifications to Amazon CloudWatch Events at one time. For more information about how to write a timestamp expression, see Date and Time Functions and Operators, in the Presto 0.172 Documentation.
         public let timeoutInMinutes: Int
 
@@ -1443,13 +1492,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeoutInMinutes
+            case timeoutInMinutes = "timeoutInMinutes"
         }
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
             AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
         ]
 
@@ -1473,6 +1522,7 @@ extension IoTAnalytics {
     }
 
     public struct DescribeChannelResponse: AWSDecodableShape {
+
         /// An object that contains information about the channel.
         public let channel: Channel?
         /// Statistics about the channel. Included if the includeStatistics parameter is set to true in the request.
@@ -1484,8 +1534,8 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channel
-            case statistics
+            case channel = "channel"
+            case statistics = "statistics"
         }
     }
 
@@ -1511,6 +1561,7 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
+
         /// An object that contains information about the data set.
         public let dataset: Dataset?
 
@@ -1519,13 +1570,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataset
+            case dataset = "dataset"
         }
     }
 
     public struct DescribeDatastoreRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName")),
+            AWSMemberEncoding(label: "datastoreName", location: .uri(locationName: "datastoreName")), 
             AWSMemberEncoding(label: "includeStatistics", location: .querystring(locationName: "includeStatistics"))
         ]
 
@@ -1549,6 +1600,7 @@ extension IoTAnalytics {
     }
 
     public struct DescribeDatastoreResponse: AWSDecodableShape {
+
         /// Information about the data store.
         public let datastore: Datastore?
         /// Additional statistical information about the data store. Included if the includeStatistics parameter is set to true in the request.
@@ -1560,16 +1612,21 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastore
-            case statistics
+            case datastore = "datastore"
+            case statistics = "statistics"
         }
     }
 
     public struct DescribeLoggingOptionsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeLoggingOptionsResponse: AWSDecodableShape {
+
         /// The current settings of the AWS IoT Analytics logging options.
         public let loggingOptions: LoggingOptions?
 
@@ -1578,7 +1635,7 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingOptions
+            case loggingOptions = "loggingOptions"
         }
     }
 
@@ -1604,6 +1661,7 @@ extension IoTAnalytics {
     }
 
     public struct DescribePipelineResponse: AWSDecodableShape {
+
         /// A Pipeline object that contains information about the pipeline.
         public let pipeline: Pipeline?
 
@@ -1612,11 +1670,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
     public struct DeviceRegistryEnrichActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the attribute that is added to the message.
         public let attribute: String
         /// The name of the deviceRegistryEnrich activity.
@@ -1650,15 +1709,16 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case name
-            case next
-            case roleArn
-            case thingName
+            case attribute = "attribute"
+            case name = "name"
+            case next = "next"
+            case roleArn = "roleArn"
+            case thingName = "thingName"
         }
     }
 
     public struct DeviceShadowEnrichActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the attribute that is added to the message.
         public let attribute: String
         /// The name of the deviceShadowEnrich activity.
@@ -1692,15 +1752,16 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case name
-            case next
-            case roleArn
-            case thingName
+            case attribute = "attribute"
+            case name = "name"
+            case next = "next"
+            case roleArn = "roleArn"
+            case thingName = "thingName"
         }
     }
 
     public struct EstimatedResourceSize: AWSDecodableShape {
+
         /// The time when the estimate of the size of the resource was made.
         public let estimatedOn: Date?
         /// The estimated size of the resource, in bytes.
@@ -1712,12 +1773,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedOn
-            case estimatedSizeInBytes
+            case estimatedOn = "estimatedOn"
+            case estimatedSizeInBytes = "estimatedSizeInBytes"
         }
     }
 
     public struct FileFormatConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Contains the configuration information of the JSON format.
         public let jsonConfiguration: JsonConfiguration?
         /// Contains the configuration information of the Parquet format.
@@ -1733,12 +1795,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jsonConfiguration
-            case parquetConfiguration
+            case jsonConfiguration = "jsonConfiguration"
+            case parquetConfiguration = "parquetConfiguration"
         }
     }
 
     public struct FilterActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// An expression that looks like a SQL WHERE clause that must return a Boolean value. Messages that satisfy the condition are passed to the next activity.
         public let filter: String
         /// The name of the filter activity.
@@ -1762,15 +1825,15 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case name
-            case next
+            case filter = "filter"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct GetDatasetContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")),
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -1796,6 +1859,7 @@ extension IoTAnalytics {
     }
 
     public struct GetDatasetContentResponse: AWSDecodableShape {
+
         /// A list of DatasetEntry objects.
         public let entries: [DatasetEntry]?
         /// The status of the data set content.
@@ -1810,13 +1874,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
-            case status
-            case timestamp
+            case entries = "entries"
+            case status = "status"
+            case timestamp = "timestamp"
         }
     }
 
     public struct GlueConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the database in your AWS Glue Data Catalog in which the table is located. An AWS Glue Data Catalog database contains metadata tables.
         public let databaseName: String
         /// The name of the table in your AWS Glue Data Catalog that is used to perform the ETL operations. An AWS Glue Data Catalog table contains partitioned data and descriptions of data sources and targets.
@@ -1837,12 +1902,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case databaseName
-            case tableName
+            case databaseName = "databaseName"
+            case tableName = "tableName"
         }
     }
 
     public struct IotEventsDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the AWS IoT Events input to which dataset contents are delivered.
         public let inputName: String
         /// The ARN of the role that grants AWS IoT Analytics permission to deliver dataset contents to an AWS IoT Events input.
@@ -1862,16 +1928,21 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputName
-            case roleArn
+            case inputName = "inputName"
+            case roleArn = "roleArn"
         }
     }
 
     public struct JsonConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct LambdaActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of messages passed to the Lambda function for processing. The Lambda function must be able to process all of these messages within five minutes, which is the maximum timeout duration for Lambda functions.
         public let batchSize: Int
         /// The name of the Lambda function that is run on the message.
@@ -1901,14 +1972,15 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchSize
-            case lambdaName
-            case name
-            case next
+            case batchSize = "batchSize"
+            case lambdaName = "lambdaName"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct LateDataRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The information needed to configure the late data rule.
         public let ruleConfiguration: LateDataRuleConfiguration
         /// The name of the late data rule.
@@ -1927,12 +1999,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleConfiguration
-            case ruleName
+            case ruleConfiguration = "ruleConfiguration"
+            case ruleName = "ruleName"
         }
     }
 
     public struct LateDataRuleConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The information needed to configure a delta time session window.
         public let deltaTimeSessionWindowConfiguration: DeltaTimeSessionWindowConfiguration?
 
@@ -1945,13 +2018,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deltaTimeSessionWindowConfiguration
+            case deltaTimeSessionWindowConfiguration = "deltaTimeSessionWindowConfiguration"
         }
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1974,6 +2047,7 @@ extension IoTAnalytics {
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
+
         /// A list of ChannelSummary objects.
         public let channelSummaries: [ChannelSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
@@ -1985,17 +2059,17 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelSummaries
-            case nextToken
+            case channelSummaries = "channelSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetContentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore")),
+            AWSMemberEncoding(label: "datasetName", location: .uri(locationName: "datasetName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "scheduledBefore", location: .querystring(locationName: "scheduledBefore")), 
             AWSMemberEncoding(label: "scheduledOnOrAfter", location: .querystring(locationName: "scheduledOnOrAfter"))
         ]
 
@@ -2030,6 +2104,7 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetContentsResponse: AWSDecodableShape {
+
         /// Summary information about data set contents that have been created.
         public let datasetContentSummaries: [DatasetContentSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
@@ -2041,14 +2116,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetContentSummaries
-            case nextToken
+            case datasetContentSummaries = "datasetContentSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2071,6 +2146,7 @@ extension IoTAnalytics {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
+
         /// A list of DatasetSummary objects.
         public let datasetSummaries: [DatasetSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
@@ -2082,14 +2158,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetSummaries
-            case nextToken
+            case datasetSummaries = "datasetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatastoresRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2112,6 +2188,7 @@ extension IoTAnalytics {
     }
 
     public struct ListDatastoresResponse: AWSDecodableShape {
+
         /// A list of DatastoreSummary objects.
         public let datastoreSummaries: [DatastoreSummary]?
         /// The token to retrieve the next set of results, or null if there are no more results.
@@ -2123,14 +2200,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreSummaries
-            case nextToken
+            case datastoreSummaries = "datastoreSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPipelinesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2153,6 +2230,7 @@ extension IoTAnalytics {
     }
 
     public struct ListPipelinesResponse: AWSDecodableShape {
+
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// A list of PipelineSummary objects.
@@ -2164,8 +2242,8 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pipelineSummaries
+            case nextToken = "nextToken"
+            case pipelineSummaries = "pipelineSummaries"
         }
     }
 
@@ -2190,6 +2268,7 @@ extension IoTAnalytics {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags (metadata) that you have assigned to the resource.
         public let tags: [Tag]?
 
@@ -2198,11 +2277,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// If true, logging is enabled for AWS IoT Analytics.
         public let enabled: Bool
         /// The logging level. Currently, only ERROR is supported.
@@ -2222,13 +2302,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case level
-            case roleArn
+            case enabled = "enabled"
+            case level = "level"
+            case roleArn = "roleArn"
         }
     }
 
     public struct MathActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the attribute that contains the result of the math operation.
         public let attribute: String
         /// An expression that uses one or more existing attributes and must return an integer value.
@@ -2257,14 +2338,15 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case math
-            case name
-            case next
+            case attribute = "attribute"
+            case math = "math"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct Message: AWSEncodableShape {
+
         /// The ID you want to assign to the message. Each messageId must be unique within each batch sent.
         public let messageId: String
         /// The payload of the message. This can be a JSON string or a base64-encoded string representing binary data, in which case you must decode it by means of a pipeline activity.
@@ -2281,12 +2363,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messageId
-            case payload
+            case messageId = "messageId"
+            case payload = "payload"
         }
     }
 
     public struct OutputFileUriValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The URI of the location where dataset contents are stored, usually the URI of a file in an S3 bucket.
         public let fileName: String
 
@@ -2299,11 +2382,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileName
+            case fileName = "fileName"
         }
     }
 
     public struct ParquetConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Information needed to define a schema.
         public let schemaDefinition: SchemaDefinition?
 
@@ -2316,11 +2400,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaDefinition
+            case schemaDefinition = "schemaDefinition"
         }
     }
 
     public struct Pipeline: AWSDecodableShape {
+
         /// The activities that perform transformations on the messages.
         public let activities: [PipelineActivity]?
         /// The ARN of the pipeline.
@@ -2344,16 +2429,17 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activities
-            case arn
-            case creationTime
-            case lastUpdateTime
-            case name
-            case reprocessingSummaries
+            case activities = "activities"
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case name = "name"
+            case reprocessingSummaries = "reprocessingSummaries"
         }
     }
 
     public struct PipelineActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// Adds other attributes based on existing attributes in the message.
         public let addAttributes: AddAttributesActivity?
         /// Determines the source of the messages to be processed.
@@ -2402,20 +2488,21 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAttributes
-            case channel
-            case datastore
-            case deviceRegistryEnrich
-            case deviceShadowEnrich
-            case filter
-            case lambda
-            case math
-            case removeAttributes
-            case selectAttributes
+            case addAttributes = "addAttributes"
+            case channel = "channel"
+            case datastore = "datastore"
+            case deviceRegistryEnrich = "deviceRegistryEnrich"
+            case deviceShadowEnrich = "deviceShadowEnrich"
+            case filter = "filter"
+            case lambda = "lambda"
+            case math = "math"
+            case removeAttributes = "removeAttributes"
+            case selectAttributes = "selectAttributes"
         }
     }
 
     public struct PipelineSummary: AWSDecodableShape {
+
         /// When the pipeline was created.
         public let creationTime: Date?
         /// When the pipeline was last updated.
@@ -2433,14 +2520,15 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case lastUpdateTime
-            case pipelineName
-            case reprocessingSummaries
+            case creationTime = "creationTime"
+            case lastUpdateTime = "lastUpdateTime"
+            case pipelineName = "pipelineName"
+            case reprocessingSummaries = "reprocessingSummaries"
         }
     }
 
     public struct PutLoggingOptionsRequest: AWSEncodableShape {
+
         /// The new values of the AWS IoT Analytics logging options.
         public let loggingOptions: LoggingOptions
 
@@ -2453,11 +2541,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingOptions
+            case loggingOptions = "loggingOptions"
         }
     }
 
     public struct QueryFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// Used to limit data to that which has arrived since the last execution of the action.
         public let deltaTime: DeltaTime?
 
@@ -2466,11 +2555,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deltaTime
+            case deltaTime = "deltaTime"
         }
     }
 
     public struct RemoveAttributesActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of 1-50 attributes to remove from the message.
         public let attributes: [String]
         /// The name of the removeAttributes activity.
@@ -2498,13 +2588,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case name
-            case next
+            case attributes = "attributes"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct ReprocessingSummary: AWSDecodableShape {
+
         /// The time the pipeline reprocessing was created.
         public let creationTime: Date?
         /// The reprocessingId returned by StartPipelineReprocessing.
@@ -2519,13 +2610,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case id
-            case status
+            case creationTime = "creationTime"
+            case id = "id"
+            case status = "status"
         }
     }
 
     public struct ResourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of the compute resource used to execute the containerAction. Possible values are: ACU_1 (vCPU=4, memory=16 GiB) or ACU_2 (vCPU=8, memory=32 GiB).
         public let computeType: ComputeType
         /// The size, in GB, of the persistent storage available to the resource instance used to execute the containerAction (min: 1, max: 50).
@@ -2542,12 +2634,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeType
-            case volumeSizeInGB
+            case computeType = "computeType"
+            case volumeSizeInGB = "volumeSizeInGB"
         }
     }
 
     public struct RetentionPeriod: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of days that message data is kept. The unlimited parameter must be false.
         public let numberOfDays: Int?
         /// If true, message data is kept indefinitely.
@@ -2563,12 +2656,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfDays
-            case unlimited
+            case numberOfDays = "numberOfDays"
+            case unlimited = "unlimited"
         }
     }
 
     public struct RunPipelineActivityRequest: AWSEncodableShape {
+
         /// The sample message payloads on which the pipeline activity is run.
         public let payloads: [Data]
         /// The pipeline activity that is run. This must not be a channel activity or a datastore activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a lambda activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
@@ -2586,12 +2680,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payloads
-            case pipelineActivity
+            case payloads = "payloads"
+            case pipelineActivity = "pipelineActivity"
         }
     }
 
     public struct RunPipelineActivityResponse: AWSDecodableShape {
+
         /// In case the pipeline activity fails, the log message that is generated.
         public let logResult: String?
         /// The enriched or transformed sample message payloads as base64-encoded strings. (The results of running the pipeline activity on each input sample message payload, encoded in base64.)
@@ -2603,12 +2698,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logResult
-            case payloads
+            case logResult = "logResult"
+            case payloads = "payloads"
         }
     }
 
     public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the S3 bucket to which dataset contents are delivered.
         public let bucket: String
         /// Configuration information for coordination with AWS Glue, a fully managed extract, transform and load (ETL) service.
@@ -2638,18 +2734,18 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case glueConfiguration
-            case key
-            case roleArn
+            case bucket = "bucket"
+            case glueConfiguration = "glueConfiguration"
+            case key = "key"
+            case roleArn = "roleArn"
         }
     }
 
     public struct SampleChannelDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")),
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxMessages", location: .querystring(locationName: "maxMessages")),
+            AWSMemberEncoding(label: "channelName", location: .uri(locationName: "channelName")), 
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxMessages", location: .querystring(locationName: "maxMessages")), 
             AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime"))
         ]
 
@@ -2681,6 +2777,7 @@ extension IoTAnalytics {
     }
 
     public struct SampleChannelDataResponse: AWSDecodableShape {
+
         /// The list of message samples. Each sample message is returned as a base64-encoded string.
         public let payloads: [Data]?
 
@@ -2689,11 +2786,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payloads
+            case payloads = "payloads"
         }
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
+
         /// The expression that defines when to trigger an update. For more information, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
         public let expression: String?
 
@@ -2702,11 +2800,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
+            case expression = "expression"
         }
     }
 
     public struct SchemaDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies one or more columns that store your data. Each schema can have up to 100 columns. Each column can have up to 100 nested types
         public let columns: [Column]?
 
@@ -2721,11 +2820,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columns
+            case columns = "columns"
         }
     }
 
     public struct SelectAttributesActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of the attributes to select from the message.
         public let attributes: [String]
         /// The name of the selectAttributes activity.
@@ -2753,29 +2853,46 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case name
-            case next
+            case attributes = "attributes"
+            case name = "name"
+            case next = "next"
         }
     }
 
     public struct ServiceManagedChannelS3Storage: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ServiceManagedChannelS3StorageSummary: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ServiceManagedDatastoreS3Storage: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ServiceManagedDatastoreS3StorageSummary: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SqlQueryDatasetAction: AWSEncodableShape & AWSDecodableShape {
+
         /// Prefilters applied to message data.
         public let filters: [QueryFilter]?
         /// A SQL query string.
@@ -2792,8 +2909,8 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case sqlQuery
+            case filters = "filters"
+            case sqlQuery = "sqlQuery"
         }
     }
 
@@ -2826,13 +2943,14 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelMessages
-            case endTime
-            case startTime
+            case channelMessages = "channelMessages"
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
     public struct StartPipelineReprocessingResponse: AWSDecodableShape {
+
         /// The ID of the pipeline reprocessing activity that was started.
         public let reprocessingId: String?
 
@@ -2841,11 +2959,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reprocessingId
+            case reprocessingId = "reprocessingId"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag's key.
         public let key: String
         /// The tag's value.
@@ -2864,8 +2983,8 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -2895,15 +3014,20 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TriggeringDataset: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the dataset whose content generation triggers the new dataset content generation.
         public let name: String
 
@@ -2918,13 +3042,13 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -2953,7 +3077,11 @@ extension IoTAnalytics {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
@@ -2983,8 +3111,8 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelStorage
-            case retentionPeriod
+            case channelStorage = "channelStorage"
+            case retentionPeriod = "retentionPeriod"
         }
     }
 
@@ -3047,12 +3175,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case contentDeliveryRules
-            case lateDataRules
-            case retentionPeriod
-            case triggers
-            case versioningConfiguration
+            case actions = "actions"
+            case contentDeliveryRules = "contentDeliveryRules"
+            case lateDataRules = "lateDataRules"
+            case retentionPeriod = "retentionPeriod"
+            case triggers = "triggers"
+            case versioningConfiguration = "versioningConfiguration"
         }
     }
 
@@ -3087,9 +3215,9 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datastoreStorage
-            case fileFormatConfiguration
-            case retentionPeriod
+            case datastoreStorage = "datastoreStorage"
+            case fileFormatConfiguration = "fileFormatConfiguration"
+            case retentionPeriod = "retentionPeriod"
         }
     }
 
@@ -3120,11 +3248,12 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineActivities
+            case pipelineActivities = "pipelineActivities"
         }
     }
 
     public struct Variable: AWSEncodableShape & AWSDecodableShape {
+
         /// The value of the variable as a structure that specifies a dataset content version.
         public let datasetContentVersionValue: DatasetContentVersionValue?
         /// The value of the variable as a double (numeric).
@@ -3154,15 +3283,16 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetContentVersionValue
-            case doubleValue
-            case name
-            case outputFileUriValue
-            case stringValue
+            case datasetContentVersionValue = "datasetContentVersionValue"
+            case doubleValue = "doubleValue"
+            case name = "name"
+            case outputFileUriValue = "outputFileUriValue"
+            case stringValue = "stringValue"
         }
     }
 
     public struct VersioningConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// How many versions of dataset contents are kept. The unlimited parameter must be false.
         public let maxVersions: Int?
         /// If true, unlimited versions of dataset contents are kept.
@@ -3179,8 +3309,8 @@ extension IoTAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxVersions
-            case unlimited
+            case maxVersions = "maxVersions"
+            case unlimited = "unlimited"
         }
     }
 }

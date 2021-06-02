@@ -63,158 +63,158 @@ public struct WellArchitected: AWSService {
     // MARK: API Calls
 
     /// Associate a lens to a workload.
-    @discardableResult public func associateLenses(_ input: AssociateLensesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AssociateLenses", path: "/workloads/{WorkloadId}/associateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func associateLenses(_ input: AssociateLensesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateLenses", path: "/workloads/{WorkloadId}/associateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Create a milestone for an existing workload.
-    public func createMilestone(_ input: CreateMilestoneInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMilestoneOutput> {
-        return self.client.execute(operation: "CreateMilestone", path: "/workloads/{WorkloadId}/milestones", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createMilestone(_ input: CreateMilestoneInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMilestoneOutput> {
+        return self.client.execute(operation: "CreateMilestone", path: "/workloads/{WorkloadId}/milestones", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Create a new workload. The owner of a workload can share the workload with other AWS accounts and IAM users in the same AWS Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the AWS Well-Architected Tool User Guide.
-    public func createWorkload(_ input: CreateWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkloadOutput> {
-        return self.client.execute(operation: "CreateWorkload", path: "/workloads", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createWorkload(_ input: CreateWorkloadInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkloadOutput> {
+        return self.client.execute(operation: "CreateWorkload", path: "/workloads", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Create a workload share. The owner of a workload can share it with other AWS accounts and IAM users in the same AWS Region. Shared access to a workload is not removed until the workload invitation is deleted. For more information, see Sharing a Workload in the AWS Well-Architected Tool User Guide.
-    public func createWorkloadShare(_ input: CreateWorkloadShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkloadShareOutput> {
-        return self.client.execute(operation: "CreateWorkloadShare", path: "/workloads/{WorkloadId}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createWorkloadShare(_ input: CreateWorkloadShareInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkloadShareOutput> {
+        return self.client.execute(operation: "CreateWorkloadShare", path: "/workloads/{WorkloadId}/shares", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Delete an existing workload.
-    @discardableResult public func deleteWorkload(_ input: DeleteWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteWorkload", path: "/workloads/{WorkloadId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteWorkload(_ input: DeleteWorkloadInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteWorkload", path: "/workloads/{WorkloadId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Delete a workload share.
-    @discardableResult public func deleteWorkloadShare(_ input: DeleteWorkloadShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteWorkloadShare", path: "/workloads/{WorkloadId}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteWorkloadShare(_ input: DeleteWorkloadShareInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteWorkloadShare", path: "/workloads/{WorkloadId}/shares/{ShareId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Disassociate a lens from a workload.  The AWS Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
-    @discardableResult public func disassociateLenses(_ input: DisassociateLensesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisassociateLenses", path: "/workloads/{WorkloadId}/disassociateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func disassociateLenses(_ input: DisassociateLensesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateLenses", path: "/workloads/{WorkloadId}/disassociateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get lens review.
-    public func getAnswer(_ input: GetAnswerInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnswerOutput> {
-        return self.client.execute(operation: "GetAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getAnswer(_ input: GetAnswerInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnswerOutput> {
+        return self.client.execute(operation: "GetAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get lens review.
-    public func getLensReview(_ input: GetLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLensReviewOutput> {
-        return self.client.execute(operation: "GetLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getLensReview(_ input: GetLensReviewInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLensReviewOutput> {
+        return self.client.execute(operation: "GetLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get lens review report.
-    public func getLensReviewReport(_ input: GetLensReviewReportInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLensReviewReportOutput> {
-        return self.client.execute(operation: "GetLensReviewReport", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/report", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getLensReviewReport(_ input: GetLensReviewReportInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLensReviewReportOutput> {
+        return self.client.execute(operation: "GetLensReviewReport", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/report", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get lens version differences.
-    public func getLensVersionDifference(_ input: GetLensVersionDifferenceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLensVersionDifferenceOutput> {
-        return self.client.execute(operation: "GetLensVersionDifference", path: "/lenses/{LensAlias}/versionDifference", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getLensVersionDifference(_ input: GetLensVersionDifferenceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLensVersionDifferenceOutput> {
+        return self.client.execute(operation: "GetLensVersionDifference", path: "/lenses/{LensAlias}/versionDifference", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get a milestone for an existing workload.
-    public func getMilestone(_ input: GetMilestoneInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMilestoneOutput> {
-        return self.client.execute(operation: "GetMilestone", path: "/workloads/{WorkloadId}/milestones/{MilestoneNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getMilestone(_ input: GetMilestoneInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMilestoneOutput> {
+        return self.client.execute(operation: "GetMilestone", path: "/workloads/{WorkloadId}/milestones/{MilestoneNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get an existing workload.
-    public func getWorkload(_ input: GetWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkloadOutput> {
-        return self.client.execute(operation: "GetWorkload", path: "/workloads/{WorkloadId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getWorkload(_ input: GetWorkloadInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkloadOutput> {
+        return self.client.execute(operation: "GetWorkload", path: "/workloads/{WorkloadId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List of answers.
-    public func listAnswers(_ input: ListAnswersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnswersOutput> {
-        return self.client.execute(operation: "ListAnswers", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listAnswers(_ input: ListAnswersInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnswersOutput> {
+        return self.client.execute(operation: "ListAnswers", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List lens review improvements.
-    public func listLensReviewImprovements(_ input: ListLensReviewImprovementsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensReviewImprovementsOutput> {
-        return self.client.execute(operation: "ListLensReviewImprovements", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/improvements", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listLensReviewImprovements(_ input: ListLensReviewImprovementsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensReviewImprovementsOutput> {
+        return self.client.execute(operation: "ListLensReviewImprovements", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/improvements", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List lens reviews.
-    public func listLensReviews(_ input: ListLensReviewsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensReviewsOutput> {
-        return self.client.execute(operation: "ListLensReviews", path: "/workloads/{WorkloadId}/lensReviews", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listLensReviews(_ input: ListLensReviewsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensReviewsOutput> {
+        return self.client.execute(operation: "ListLensReviews", path: "/workloads/{WorkloadId}/lensReviews", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List the available lenses.
-    public func listLenses(_ input: ListLensesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensesOutput> {
-        return self.client.execute(operation: "ListLenses", path: "/lenses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listLenses(_ input: ListLensesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLensesOutput> {
+        return self.client.execute(operation: "ListLenses", path: "/lenses", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List all milestones for an existing workload.
-    public func listMilestones(_ input: ListMilestonesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMilestonesOutput> {
-        return self.client.execute(operation: "ListMilestones", path: "/workloads/{WorkloadId}/milestonesSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listMilestones(_ input: ListMilestonesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMilestonesOutput> {
+        return self.client.execute(operation: "ListMilestones", path: "/workloads/{WorkloadId}/milestonesSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List lens notifications.
-    public func listNotifications(_ input: ListNotificationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotificationsOutput> {
-        return self.client.execute(operation: "ListNotifications", path: "/notifications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listNotifications(_ input: ListNotificationsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNotificationsOutput> {
+        return self.client.execute(operation: "ListNotifications", path: "/notifications", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List the workload invitations.
-    public func listShareInvitations(_ input: ListShareInvitationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListShareInvitationsOutput> {
-        return self.client.execute(operation: "ListShareInvitations", path: "/shareInvitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listShareInvitations(_ input: ListShareInvitationsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListShareInvitationsOutput> {
+        return self.client.execute(operation: "ListShareInvitations", path: "/shareInvitations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List the tags for a resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{WorkloadArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{WorkloadArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List the workload shares associated with the workload.
-    public func listWorkloadShares(_ input: ListWorkloadSharesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkloadSharesOutput> {
-        return self.client.execute(operation: "ListWorkloadShares", path: "/workloads/{WorkloadId}/shares", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listWorkloadShares(_ input: ListWorkloadSharesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkloadSharesOutput> {
+        return self.client.execute(operation: "ListWorkloadShares", path: "/workloads/{WorkloadId}/shares", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List workloads. Paginated.
-    public func listWorkloads(_ input: ListWorkloadsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkloadsOutput> {
-        return self.client.execute(operation: "ListWorkloads", path: "/workloadsSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listWorkloads(_ input: ListWorkloadsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkloadsOutput> {
+        return self.client.execute(operation: "ListWorkloads", path: "/workloadsSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds one or more tags to the specified resource.
-    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{WorkloadArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{WorkloadArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes specified tags from a resource.
-    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{WorkloadArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{WorkloadArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Update the answer to a specific question in a workload review.
-    public func updateAnswer(_ input: UpdateAnswerInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnswerOutput> {
-        return self.client.execute(operation: "UpdateAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateAnswer(_ input: UpdateAnswerInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnswerOutput> {
+        return self.client.execute(operation: "UpdateAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Update lens review.
-    public func updateLensReview(_ input: UpdateLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLensReviewOutput> {
-        return self.client.execute(operation: "UpdateLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateLensReview(_ input: UpdateLensReviewInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLensReviewOutput> {
+        return self.client.execute(operation: "UpdateLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Update a workload invitation.
-    public func updateShareInvitation(_ input: UpdateShareInvitationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateShareInvitationOutput> {
-        return self.client.execute(operation: "UpdateShareInvitation", path: "/shareInvitations/{ShareInvitationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateShareInvitation(_ input: UpdateShareInvitationInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateShareInvitationOutput> {
+        return self.client.execute(operation: "UpdateShareInvitation", path: "/shareInvitations/{ShareInvitationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Update an existing workload.
-    public func updateWorkload(_ input: UpdateWorkloadInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkloadOutput> {
-        return self.client.execute(operation: "UpdateWorkload", path: "/workloads/{WorkloadId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateWorkload(_ input: UpdateWorkloadInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkloadOutput> {
+        return self.client.execute(operation: "UpdateWorkload", path: "/workloads/{WorkloadId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Update a workload share.
-    public func updateWorkloadShare(_ input: UpdateWorkloadShareInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkloadShareOutput> {
-        return self.client.execute(operation: "UpdateWorkloadShare", path: "/workloads/{WorkloadId}/shares/{ShareId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateWorkloadShare(_ input: UpdateWorkloadShareInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkloadShareOutput> {
+        return self.client.execute(operation: "UpdateWorkloadShare", path: "/workloads/{WorkloadId}/shares/{ShareId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Upgrade lens review.
-    @discardableResult public func upgradeLensReview(_ input: UpgradeLensReviewInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpgradeLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func upgradeLensReview(_ input: UpgradeLensReviewInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpgradeLensReview", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/upgrade", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

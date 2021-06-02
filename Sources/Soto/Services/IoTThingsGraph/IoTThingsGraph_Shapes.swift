@@ -133,6 +133,7 @@ extension IoTThingsGraph {
     // MARK: Shapes
 
     public struct AssociateEntityToThingRequest: AWSEncodableShape {
+
         /// The ID of the device to be associated with the thing. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
         public let entityId: String
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace.
@@ -155,17 +156,22 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case namespaceVersion
-            case thingName
+            case entityId = "entityId"
+            case namespaceVersion = "namespaceVersion"
+            case thingName = "thingName"
         }
     }
 
     public struct AssociateEntityToThingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateFlowTemplateRequest: AWSEncodableShape {
+
         /// The namespace version in which the workflow is to be created. If no value is specified, the latest version is used by default.
         public let compatibleNamespaceVersion: Int64?
         /// The workflow DefinitionDocument.
@@ -181,12 +187,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
         }
     }
 
     public struct CreateFlowTemplateResponse: AWSDecodableShape {
+
         /// The summary object that describes the created workflow.
         public let summary: FlowTemplateSummary?
 
@@ -195,11 +202,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
     public struct CreateSystemInstanceRequest: AWSEncodableShape {
+
         public let definition: DefinitionDocument
         /// The ARN of the IAM role that AWS IoT Things Graph will assume when it executes the flow. This role must have read and write access to AWS Lambda and AWS IoT and any other AWS services that the flow uses when it executes. This value is required if the value of the target parameter is CLOUD.
         public let flowActionsRoleArn: String?
@@ -236,17 +244,18 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case flowActionsRoleArn
-            case greengrassGroupName
-            case metricsConfiguration
-            case s3BucketName
-            case tags
-            case target
+            case definition = "definition"
+            case flowActionsRoleArn = "flowActionsRoleArn"
+            case greengrassGroupName = "greengrassGroupName"
+            case metricsConfiguration = "metricsConfiguration"
+            case s3BucketName = "s3BucketName"
+            case tags = "tags"
+            case target = "target"
         }
     }
 
     public struct CreateSystemInstanceResponse: AWSDecodableShape {
+
         /// The summary object that describes the new system instance.
         public let summary: SystemInstanceSummary?
 
@@ -255,11 +264,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
     public struct CreateSystemTemplateRequest: AWSEncodableShape {
+
         /// The namespace version in which the system is to be created. If no value is specified, the latest version is used by default.
         public let compatibleNamespaceVersion: Int64?
         /// The DefinitionDocument used to create the system.
@@ -275,12 +285,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
         }
     }
 
     public struct CreateSystemTemplateResponse: AWSDecodableShape {
+
         /// The summary object that describes the created system.
         public let summary: SystemTemplateSummary?
 
@@ -289,11 +300,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
     public struct DefinitionDocument: AWSEncodableShape & AWSDecodableShape {
+
         /// The language used to define the entity. GRAPHQL is the only valid value.
         public let language: DefinitionLanguage
         /// The GraphQL text that defines the entity.
@@ -305,16 +317,17 @@ extension IoTThingsGraph {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.text, name: "text", parent: name, max: 1_048_576)
+            try self.validate(self.text, name: "text", parent: name, max: 1048576)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
-            case text
+            case language = "language"
+            case text = "text"
         }
     }
 
     public struct DeleteFlowTemplateRequest: AWSEncodableShape {
+
         /// The ID of the workflow to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
 
@@ -328,19 +341,28 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeleteFlowTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteNamespaceRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteNamespaceResponse: AWSDecodableShape {
+
         /// The ARN of the namespace to be deleted.
         public let namespaceArn: String?
         /// The name of the namespace to be deleted.
@@ -352,12 +374,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceArn
-            case namespaceName
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
         }
     }
 
     public struct DeleteSystemInstanceRequest: AWSEncodableShape {
+
         /// The ID of the system instance to be deleted.
         public let id: String?
 
@@ -371,15 +394,20 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeleteSystemInstanceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSystemTemplateRequest: AWSEncodableShape {
+
         /// The ID of the system to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
 
@@ -393,15 +421,20 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeleteSystemTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DependencyRevision: AWSDecodableShape {
+
         /// The ID of the workflow or system.
         public let id: String?
         /// The revision number of the workflow or system.
@@ -413,12 +446,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revisionNumber
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
     public struct DeploySystemInstanceRequest: AWSEncodableShape {
+
         /// The ID of the system instance. This value is returned by the CreateSystemInstance action. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME
         public let id: String?
 
@@ -432,11 +466,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeploySystemInstanceResponse: AWSDecodableShape {
+
         /// The ID of the Greengrass deployment used to deploy the system instance.
         public let greengrassDeploymentId: String?
         /// An object that contains summary information about a system instance that was deployed.
@@ -448,12 +483,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case greengrassDeploymentId
-            case summary
+            case greengrassDeploymentId = "greengrassDeploymentId"
+            case summary = "summary"
         }
     }
 
     public struct DeprecateFlowTemplateRequest: AWSEncodableShape {
+
         /// The ID of the workflow to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
 
@@ -467,15 +503,20 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeprecateFlowTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeprecateSystemTemplateRequest: AWSEncodableShape {
+
         /// The ID of the system to delete. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
 
@@ -489,15 +530,20 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeprecateSystemTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeNamespaceRequest: AWSEncodableShape {
+
         /// The name of the user's namespace. Set this to aws to get the public namespace.
         public let namespaceName: String?
 
@@ -510,11 +556,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceName
+            case namespaceName = "namespaceName"
         }
     }
 
     public struct DescribeNamespaceResponse: AWSDecodableShape {
+
         /// The ARN of the namespace.
         public let namespaceArn: String?
         /// The name of the namespace.
@@ -535,15 +582,16 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespaceArn
-            case namespaceName
-            case namespaceVersion
-            case trackingNamespaceName
-            case trackingNamespaceVersion
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case namespaceVersion = "namespaceVersion"
+            case trackingNamespaceName = "trackingNamespaceName"
+            case trackingNamespaceVersion = "trackingNamespaceVersion"
         }
     }
 
     public struct DissociateEntityFromThingRequest: AWSEncodableShape {
+
         /// The entity type from which to disassociate the thing.
         public let entityType: EntityType
         /// The name of the thing to disassociate.
@@ -561,16 +609,21 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityType
-            case thingName
+            case entityType = "entityType"
+            case thingName = "thingName"
         }
     }
 
     public struct DissociateEntityFromThingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EntityDescription: AWSDecodableShape {
+
         /// The entity ARN.
         public let arn: String?
         /// The time at which the entity was created.
@@ -591,15 +644,16 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case definition
-            case id
-            case type
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case definition = "definition"
+            case id = "id"
+            case type = "type"
         }
     }
 
     public struct EntityFilter: AWSEncodableShape {
+
         /// The name of the entity search filter field. REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example, you can filter on the ID of a property that is used in a state.
         public let name: EntityFilterName?
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
@@ -611,12 +665,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct FlowExecutionMessage: AWSDecodableShape {
+
         /// The type of flow event .
         public let eventType: FlowExecutionEventType?
         /// The unique identifier of the message.
@@ -634,14 +689,15 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventType
-            case messageId
-            case payload
-            case timestamp
+            case eventType = "eventType"
+            case messageId = "messageId"
+            case payload = "payload"
+            case timestamp = "timestamp"
         }
     }
 
     public struct FlowExecutionSummary: AWSDecodableShape {
+
         /// The date and time when the flow execution summary was created.
         public let createdAt: Date?
         /// The ID of the flow execution.
@@ -665,16 +721,17 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case flowExecutionId
-            case flowTemplateId
-            case status
-            case systemInstanceId
-            case updatedAt
+            case createdAt = "createdAt"
+            case flowExecutionId = "flowExecutionId"
+            case flowTemplateId = "flowTemplateId"
+            case status = "status"
+            case systemInstanceId = "systemInstanceId"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct FlowTemplateDescription: AWSDecodableShape {
+
         /// A workflow's definition document.
         public let definition: DefinitionDocument?
         /// An object that contains summary information about a workflow.
@@ -689,13 +746,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case summary
-            case validatedNamespaceVersion
+            case definition = "definition"
+            case summary = "summary"
+            case validatedNamespaceVersion = "validatedNamespaceVersion"
         }
     }
 
     public struct FlowTemplateFilter: AWSEncodableShape {
+
         /// The name of the search filter field.
         public let name: FlowTemplateFilterName
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
@@ -713,12 +771,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct FlowTemplateSummary: AWSDecodableShape {
+
         /// The ARN of the workflow.
         public let arn: String?
         /// The date when the workflow was created.
@@ -736,14 +795,15 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case revisionNumber
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
     public struct GetEntitiesRequest: AWSEncodableShape {
+
         /// An array of entity IDs. The IDs should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
         public let ids: [String]
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace.
@@ -764,12 +824,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case namespaceVersion
+            case ids = "ids"
+            case namespaceVersion = "namespaceVersion"
         }
     }
 
     public struct GetEntitiesResponse: AWSDecodableShape {
+
         /// An array of descriptions for the specified entities.
         public let descriptions: [EntityDescription]?
 
@@ -778,11 +839,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descriptions
+            case descriptions = "descriptions"
         }
     }
 
     public struct GetFlowTemplateRequest: AWSEncodableShape {
+
         /// The ID of the workflow. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
         /// The number of the workflow revision to retrieve.
@@ -799,12 +861,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revisionNumber
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
     public struct GetFlowTemplateResponse: AWSDecodableShape {
+
         /// The object that describes the specified workflow.
         public let description: FlowTemplateDescription?
 
@@ -813,11 +876,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
     public struct GetFlowTemplateRevisionsRequest: AWSEncodableShape {
+
         /// The ID of the workflow. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
         /// The maximum number of results to return in the response.
@@ -839,13 +903,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case maxResults
-            case nextToken
+            case id = "id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetFlowTemplateRevisionsResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of objects that provide summary data about each revision.
@@ -857,16 +922,21 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
     public struct GetNamespaceDeletionStatusRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetNamespaceDeletionStatusResponse: AWSDecodableShape {
+
         /// An error code returned by the namespace deletion task.
         public let errorCode: NamespaceDeletionStatusErrorCodes?
         /// An error code returned by the namespace deletion task.
@@ -887,15 +957,16 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case namespaceArn
-            case namespaceName
-            case status
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case status = "status"
         }
     }
 
     public struct GetSystemInstanceRequest: AWSEncodableShape {
+
         /// The ID of the system deployment instance. This value is returned by CreateSystemInstance. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME
         public let id: String
 
@@ -909,11 +980,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct GetSystemInstanceResponse: AWSDecodableShape {
+
         /// An object that describes the system instance.
         public let description: SystemInstanceDescription?
 
@@ -922,11 +994,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
     public struct GetSystemTemplateRequest: AWSEncodableShape {
+
         /// The ID of the system to get. This ID must be in the user's namespace. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
         /// The number that specifies the revision of the system to get.
@@ -943,12 +1016,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case revisionNumber
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
     public struct GetSystemTemplateResponse: AWSDecodableShape {
+
         /// An object that contains summary data about the system.
         public let description: SystemTemplateDescription?
 
@@ -957,11 +1031,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
     public struct GetSystemTemplateRevisionsRequest: AWSEncodableShape {
+
         /// The ID of the system template. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
         /// The maximum number of results to return in the response.
@@ -983,13 +1058,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case maxResults
-            case nextToken
+            case id = "id"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetSystemTemplateRevisionsResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of objects that contain summary data about the system template revisions.
@@ -1001,12 +1077,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
     public struct GetUploadStatusRequest: AWSEncodableShape {
+
         /// The ID of the upload. This value is returned by the UploadEntityDefinitions action.
         public let uploadId: String
 
@@ -1020,11 +1097,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uploadId
+            case uploadId = "uploadId"
         }
     }
 
     public struct GetUploadStatusResponse: AWSDecodableShape {
+
         /// The date at which the upload was created.
         public let createdDate: Date
         /// The reason for an upload failure.
@@ -1051,17 +1129,18 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case failureReason
-            case namespaceArn
-            case namespaceName
-            case namespaceVersion
-            case uploadId
-            case uploadStatus
+            case createdDate = "createdDate"
+            case failureReason = "failureReason"
+            case namespaceArn = "namespaceArn"
+            case namespaceName = "namespaceName"
+            case namespaceVersion = "namespaceVersion"
+            case uploadId = "uploadId"
+            case uploadStatus = "uploadStatus"
         }
     }
 
     public struct ListFlowExecutionMessagesRequest: AWSEncodableShape {
+
         /// The ID of the flow execution.
         public let flowExecutionId: String
         /// The maximum number of results to return in the response.
@@ -1081,13 +1160,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowExecutionId
-            case maxResults
-            case nextToken
+            case flowExecutionId = "flowExecutionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFlowExecutionMessagesResponse: AWSDecodableShape {
+
         /// A list of objects that contain information about events in the specified flow execution.
         public let messages: [FlowExecutionMessage]?
         /// The string to specify as nextToken when you request the next page of results.
@@ -1099,12 +1179,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages
-            case nextToken
+            case messages = "messages"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The maximum number of tags to return.
         public let maxResults: Int?
         /// The token that specifies the next page of results to return.
@@ -1126,13 +1207,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The token that specifies the next page of results to return.
         public let nextToken: String?
         /// List of tags returned by the ListTagsForResource operation.
@@ -1144,12 +1226,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
     public struct MetricsConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A Boolean that specifies whether cloud metrics are collected.
         public let cloudMetricEnabled: Bool?
         /// The ARN of the role that is used to collect cloud metrics.
@@ -1166,12 +1249,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudMetricEnabled
-            case metricRuleRoleArn
+            case cloudMetricEnabled = "cloudMetricEnabled"
+            case metricRuleRoleArn = "metricRuleRoleArn"
         }
     }
 
     public struct SearchEntitiesRequest: AWSEncodableShape {
+
         /// The entity types for which to search.
         public let entityTypes: [EntityType]
         /// Optional filter to apply to the search. Valid filters are NAME NAMESPACE, SEMANTIC_TYPE_PATH and REFERENCED_ENTITY_ID. REFERENCED_ENTITY_ID filters on entities that are used by the entity in the result set. For example, you can filter on the ID of a property that is used in a state. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
@@ -1197,15 +1281,16 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityTypes
-            case filters
-            case maxResults
-            case namespaceVersion
-            case nextToken
+            case entityTypes = "entityTypes"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case namespaceVersion = "namespaceVersion"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SearchEntitiesResponse: AWSDecodableShape {
+
         /// An array of descriptions for each entity returned in the search result.
         public let descriptions: [EntityDescription]?
         /// The string to specify as nextToken when you request the next page of results.
@@ -1217,12 +1302,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descriptions
-            case nextToken
+            case descriptions = "descriptions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SearchFlowExecutionsRequest: AWSEncodableShape {
+
         /// The date and time of the latest flow execution to return.
         public let endTime: Date?
         /// The ID of a flow execution.
@@ -1253,16 +1339,17 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case flowExecutionId
-            case maxResults
-            case nextToken
-            case startTime
-            case systemInstanceId
+            case endTime = "endTime"
+            case flowExecutionId = "flowExecutionId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case startTime = "startTime"
+            case systemInstanceId = "systemInstanceId"
         }
     }
 
     public struct SearchFlowExecutionsResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of objects that contain summary information about each workflow execution in the result set.
@@ -1274,12 +1361,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
     public struct SearchFlowTemplatesRequest: AWSEncodableShape {
+
         /// An array of objects that limit the result set. The only valid filter is DEVICE_MODEL_ID.
         public let filters: [FlowTemplateFilter]?
         /// The maximum number of results to return in the response.
@@ -1302,13 +1390,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SearchFlowTemplatesResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of objects that contain summary information about each workflow in the result set.
@@ -1320,12 +1409,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
     public struct SearchSystemInstancesRequest: AWSEncodableShape {
+
         /// Optional filter to apply to the search. Valid filters are SYSTEM_TEMPLATE_ID, STATUS, and GREENGRASS_GROUP_NAME. Multiple filters function as OR criteria in the query. Multiple values passed inside the filter function as AND criteria.
         public let filters: [SystemInstanceFilter]?
         /// The maximum number of results to return in the response.
@@ -1345,13 +1435,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SearchSystemInstancesResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of objects that contain summary data abour the system instances in the result set.
@@ -1363,12 +1454,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
     public struct SearchSystemTemplatesRequest: AWSEncodableShape {
+
         /// An array of filters that limit the result set. The only valid filter is FLOW_TEMPLATE_ID.
         public let filters: [SystemTemplateFilter]?
         /// The maximum number of results to return in the response.
@@ -1391,13 +1483,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SearchSystemTemplatesResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of objects that contain summary information about each system deployment in the result set.
@@ -1409,12 +1502,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case summaries
+            case nextToken = "nextToken"
+            case summaries = "summaries"
         }
     }
 
     public struct SearchThingsRequest: AWSEncodableShape {
+
         /// The ID of the entity to which the things are associated. The IDs should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:device:DEVICENAME
         public let entityId: String
         /// The maximum number of results to return in the response.
@@ -1439,14 +1533,15 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityId
-            case maxResults
-            case namespaceVersion
-            case nextToken
+            case entityId = "entityId"
+            case maxResults = "maxResults"
+            case namespaceVersion = "namespaceVersion"
+            case nextToken = "nextToken"
         }
     }
 
     public struct SearchThingsResponse: AWSDecodableShape {
+
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
         /// An array of things in the result set.
@@ -1458,12 +1553,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case things
+            case nextToken = "nextToken"
+            case things = "things"
         }
     }
 
     public struct SystemInstanceDescription: AWSDecodableShape {
+
         public let definition: DefinitionDocument?
         /// The AWS Identity and Access Management (IAM) role that AWS IoT Things Graph assumes during flow execution in a cloud deployment. This role must have read and write permissionss to AWS Lambda and AWS IoT and to any other AWS services that the flow uses.
         public let flowActionsRoleArn: String?
@@ -1488,17 +1584,18 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case flowActionsRoleArn
-            case metricsConfiguration
-            case s3BucketName
-            case summary
-            case validatedDependencyRevisions
-            case validatedNamespaceVersion
+            case definition = "definition"
+            case flowActionsRoleArn = "flowActionsRoleArn"
+            case metricsConfiguration = "metricsConfiguration"
+            case s3BucketName = "s3BucketName"
+            case summary = "summary"
+            case validatedDependencyRevisions = "validatedDependencyRevisions"
+            case validatedNamespaceVersion = "validatedNamespaceVersion"
         }
     }
 
     public struct SystemInstanceFilter: AWSEncodableShape {
+
         /// The name of the search filter field.
         public let name: SystemInstanceFilterName?
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
@@ -1510,12 +1607,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct SystemInstanceSummary: AWSDecodableShape {
+
         /// The ARN of the system instance.
         public let arn: String?
         /// The date when the system instance was created.
@@ -1548,19 +1646,20 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case greengrassGroupId
-            case greengrassGroupName
-            case greengrassGroupVersionId
-            case id
-            case status
-            case target
-            case updatedAt
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case greengrassGroupId = "greengrassGroupId"
+            case greengrassGroupName = "greengrassGroupName"
+            case greengrassGroupVersionId = "greengrassGroupVersionId"
+            case id = "id"
+            case status = "status"
+            case target = "target"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct SystemTemplateDescription: AWSDecodableShape {
+
         /// The definition document of a system.
         public let definition: DefinitionDocument?
         /// An object that contains summary information about a system.
@@ -1575,13 +1674,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case summary
-            case validatedNamespaceVersion
+            case definition = "definition"
+            case summary = "summary"
+            case validatedNamespaceVersion = "validatedNamespaceVersion"
         }
     }
 
     public struct SystemTemplateFilter: AWSEncodableShape {
+
         /// The name of the system search filter field.
         public let name: SystemTemplateFilterName
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
@@ -1599,12 +1699,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct SystemTemplateSummary: AWSDecodableShape {
+
         /// The ARN of the system.
         public let arn: String?
         /// The date when the system was created.
@@ -1622,14 +1723,15 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case id
-            case revisionNumber
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case id = "id"
+            case revisionNumber = "revisionNumber"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length.
         public let key: String
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length.
@@ -1649,12 +1751,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource whose tags are returned.
         public let resourceArn: String
         /// A list of tags to add to the resource.&gt;
@@ -1676,16 +1779,21 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Thing: AWSDecodableShape {
+
         /// The ARN of the thing.
         public let thingArn: String?
         /// The name of the thing.
@@ -1697,12 +1805,13 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case thingArn
-            case thingName
+            case thingArn = "thingArn"
+            case thingName = "thingName"
         }
     }
 
     public struct UndeploySystemInstanceRequest: AWSEncodableShape {
+
         /// The ID of the system instance to remove from its target.
         public let id: String?
 
@@ -1716,11 +1825,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct UndeploySystemInstanceResponse: AWSDecodableShape {
+
         /// An object that contains summary information about the system instance that was removed from its target.
         public let summary: SystemInstanceSummary?
 
@@ -1729,11 +1839,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource whose tags are to be removed.
         public let resourceArn: String
         /// A list of tag key names to remove from the resource. You don't specify the value. Both the key and its associated value are removed.  This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
@@ -1757,16 +1868,21 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFlowTemplateRequest: AWSEncodableShape {
+
         /// The version of the user's namespace. If no value is specified, the latest version is used by default. Use the GetFlowTemplateRevisions if you want to find earlier revisions of the flow to update.
         public let compatibleNamespaceVersion: Int64?
         /// The DefinitionDocument that contains the updated workflow definition.
@@ -1787,13 +1903,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
-            case id
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
+            case id = "id"
         }
     }
 
     public struct UpdateFlowTemplateResponse: AWSDecodableShape {
+
         /// An object containing summary information about the updated workflow.
         public let summary: FlowTemplateSummary?
 
@@ -1802,11 +1919,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
     public struct UpdateSystemTemplateRequest: AWSEncodableShape {
+
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace. If no value is specified, the latest version is used by default.
         public let compatibleNamespaceVersion: Int64?
         /// The DefinitionDocument that contains the updated system definition.
@@ -1827,13 +1945,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleNamespaceVersion
-            case definition
-            case id
+            case compatibleNamespaceVersion = "compatibleNamespaceVersion"
+            case definition = "definition"
+            case id = "id"
         }
     }
 
     public struct UpdateSystemTemplateResponse: AWSDecodableShape {
+
         /// An object containing summary information about the updated system.
         public let summary: SystemTemplateSummary?
 
@@ -1842,11 +1961,12 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summary
+            case summary = "summary"
         }
     }
 
     public struct UploadEntityDefinitionsRequest: AWSEncodableShape {
+
         /// A Boolean that specifies whether to deprecate all entities in the latest version before uploading the new DefinitionDocument. If set to true, the upload will create a new namespace version.
         public let deprecateExistingEntities: Bool?
         /// The DefinitionDocument that defines the updated entities.
@@ -1865,13 +1985,14 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deprecateExistingEntities
-            case document
-            case syncWithPublicNamespace
+            case deprecateExistingEntities = "deprecateExistingEntities"
+            case document = "document"
+            case syncWithPublicNamespace = "syncWithPublicNamespace"
         }
     }
 
     public struct UploadEntityDefinitionsResponse: AWSDecodableShape {
+
         /// The ID that specifies the upload action. You can use this to track the status of the upload.
         public let uploadId: String
 
@@ -1880,7 +2001,7 @@ extension IoTThingsGraph {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uploadId
+            case uploadId = "uploadId"
         }
     }
 }

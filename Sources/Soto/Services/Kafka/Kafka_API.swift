@@ -63,153 +63,153 @@ public struct Kafka: AWSService {
     // MARK: API Calls
 
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
-    public func batchAssociateScramSecret(_ input: BatchAssociateScramSecretRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateScramSecretResponse> {
-        return self.client.execute(operation: "BatchAssociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func batchAssociateScramSecret(_ input: BatchAssociateScramSecretRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateScramSecretResponse> {
+        return self.client.execute(operation: "BatchAssociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
-    public func batchDisassociateScramSecret(_ input: BatchDisassociateScramSecretRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisassociateScramSecretResponse> {
-        return self.client.execute(operation: "BatchDisassociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func batchDisassociateScramSecret(_ input: BatchDisassociateScramSecretRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisassociateScramSecretResponse> {
+        return self.client.execute(operation: "BatchDisassociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new MSK cluster.
-    public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateClusterResponse> {
-        return self.client.execute(operation: "CreateCluster", path: "/v1/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createCluster(_ input: CreateClusterRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateClusterResponse> {
+        return self.client.execute(operation: "CreateCluster", path: "/v1/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new MSK configuration.
-    public func createConfiguration(_ input: CreateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationResponse> {
-        return self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createConfiguration(_ input: CreateConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationResponse> {
+        return self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
-    public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteClusterResponse> {
-        return self.client.execute(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteCluster(_ input: DeleteClusterRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteClusterResponse> {
+        return self.client.execute(operation: "DeleteCluster", path: "/v1/clusters/{clusterArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified MSK configuration. The configuration must be in the ACTIVE or DELETE_FAILED state.
-    public func deleteConfiguration(_ input: DeleteConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationResponse> {
-        return self.client.execute(operation: "DeleteConfiguration", path: "/v1/configurations/{arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteConfiguration(_ input: DeleteConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationResponse> {
+        return self.client.execute(operation: "DeleteConfiguration", path: "/v1/configurations/{arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
-    public func describeCluster(_ input: DescribeClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClusterResponse> {
-        return self.client.execute(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeCluster(_ input: DescribeClusterRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClusterResponse> {
+        return self.client.execute(operation: "DescribeCluster", path: "/v1/clusters/{clusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a description of the cluster operation specified by the ARN.
-    public func describeClusterOperation(_ input: DescribeClusterOperationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClusterOperationResponse> {
-        return self.client.execute(operation: "DescribeClusterOperation", path: "/v1/operations/{clusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeClusterOperation(_ input: DescribeClusterOperationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClusterOperationResponse> {
+        return self.client.execute(operation: "DescribeClusterOperation", path: "/v1/operations/{clusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a description of this MSK configuration.
-    public func describeConfiguration(_ input: DescribeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationResponse> {
-        return self.client.execute(operation: "DescribeConfiguration", path: "/v1/configurations/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeConfiguration(_ input: DescribeConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationResponse> {
+        return self.client.execute(operation: "DescribeConfiguration", path: "/v1/configurations/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a description of this revision of the configuration.
-    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationRevisionResponse> {
-        return self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{arn}/revisions/{revision}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationRevisionResponse> {
+        return self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{arn}/revisions/{revision}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// A list of brokers that a client application can use to bootstrap.
-    public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBootstrapBrokersResponse> {
-        return self.client.execute(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBootstrapBrokersResponse> {
+        return self.client.execute(operation: "GetBootstrapBrokers", path: "/v1/clusters/{clusterArn}/bootstrap-brokers", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
-    public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleKafkaVersionsResponse> {
-        return self.client.execute(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCompatibleKafkaVersionsResponse> {
+        return self.client.execute(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
-    public func listClusterOperations(_ input: ListClusterOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClusterOperationsResponse> {
-        return self.client.execute(operation: "ListClusterOperations", path: "/v1/clusters/{clusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listClusterOperations(_ input: ListClusterOperationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClusterOperationsResponse> {
+        return self.client.execute(operation: "ListClusterOperations", path: "/v1/clusters/{clusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
-    public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClustersResponse> {
-        return self.client.execute(operation: "ListClusters", path: "/v1/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listClusters(_ input: ListClustersRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClustersResponse> {
+        return self.client.execute(operation: "ListClusters", path: "/v1/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of all the revisions of an MSK configuration.
-    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationRevisionsResponse> {
-        return self.client.execute(operation: "ListConfigurationRevisions", path: "/v1/configurations/{arn}/revisions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationRevisionsResponse> {
+        return self.client.execute(operation: "ListConfigurationRevisions", path: "/v1/configurations/{arn}/revisions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of all the MSK configurations in this Region.
-    public func listConfigurations(_ input: ListConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationsResponse> {
-        return self.client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listConfigurations(_ input: ListConfigurationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationsResponse> {
+        return self.client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of Kafka versions.
-    public func listKafkaVersions(_ input: ListKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKafkaVersionsResponse> {
-        return self.client.execute(operation: "ListKafkaVersions", path: "/v1/kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listKafkaVersions(_ input: ListKafkaVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListKafkaVersionsResponse> {
+        return self.client.execute(operation: "ListKafkaVersions", path: "/v1/kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the broker nodes in the cluster.
-    public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNodesResponse> {
-        return self.client.execute(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listNodes(_ input: ListNodesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNodesResponse> {
+        return self.client.execute(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
-    public func listScramSecrets(_ input: ListScramSecretsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListScramSecretsResponse> {
-        return self.client.execute(operation: "ListScramSecrets", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listScramSecrets(_ input: ListScramSecretsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListScramSecretsResponse> {
+        return self.client.execute(operation: "ListScramSecrets", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the tags associated with the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Executes a reboot on a broker.
-    public func rebootBroker(_ input: RebootBrokerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootBrokerResponse> {
-        return self.client.execute(operation: "RebootBroker", path: "/v1/clusters/{clusterArn}/reboot-broker", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func rebootBroker(_ input: RebootBrokerRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RebootBrokerResponse> {
+        return self.client.execute(operation: "RebootBroker", path: "/v1/clusters/{clusterArn}/reboot-broker", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds tags to the specified MSK resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes the tags associated with the keys that are provided in the query.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the number of broker nodes in the cluster. You can use this operation to increase the number of brokers in an existing cluster. You can't decrease the number of brokers.
-    public func updateBrokerCount(_ input: UpdateBrokerCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerCountResponse> {
-        return self.client.execute(operation: "UpdateBrokerCount", path: "/v1/clusters/{clusterArn}/nodes/count", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBrokerCount(_ input: UpdateBrokerCountRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerCountResponse> {
+        return self.client.execute(operation: "UpdateBrokerCount", path: "/v1/clusters/{clusterArn}/nodes/count", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the EBS storage associated with MSK brokers.
-    public func updateBrokerStorage(_ input: UpdateBrokerStorageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerStorageResponse> {
-        return self.client.execute(operation: "UpdateBrokerStorage", path: "/v1/clusters/{clusterArn}/nodes/storage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBrokerStorage(_ input: UpdateBrokerStorageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerStorageResponse> {
+        return self.client.execute(operation: "UpdateBrokerStorage", path: "/v1/clusters/{clusterArn}/nodes/storage", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates all the brokers in the cluster to the specified type.
-    public func updateBrokerType(_ input: UpdateBrokerTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerTypeResponse> {
-        return self.client.execute(operation: "UpdateBrokerType", path: "/v1/clusters/{clusterArn}/nodes/type", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBrokerType(_ input: UpdateBrokerTypeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBrokerTypeResponse> {
+        return self.client.execute(operation: "UpdateBrokerType", path: "/v1/clusters/{clusterArn}/nodes/type", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the cluster with the configuration that is specified in the request body.
-    public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterConfigurationResponse> {
-        return self.client.execute(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterConfigurationResponse> {
+        return self.client.execute(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{clusterArn}/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the Apache Kafka version for the cluster.
-    public func updateClusterKafkaVersion(_ input: UpdateClusterKafkaVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterKafkaVersionResponse> {
-        return self.client.execute(operation: "UpdateClusterKafkaVersion", path: "/v1/clusters/{clusterArn}/version", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateClusterKafkaVersion(_ input: UpdateClusterKafkaVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterKafkaVersionResponse> {
+        return self.client.execute(operation: "UpdateClusterKafkaVersion", path: "/v1/clusters/{clusterArn}/version", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates an existing MSK configuration. The configuration must be in the Active state.
-    public func updateConfiguration(_ input: UpdateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConfigurationResponse> {
-        return self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateConfiguration(_ input: UpdateConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConfigurationResponse> {
+        return self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
-    public func updateMonitoring(_ input: UpdateMonitoringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMonitoringResponse> {
-        return self.client.execute(operation: "UpdateMonitoring", path: "/v1/clusters/{clusterArn}/monitoring", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateMonitoring(_ input: UpdateMonitoringRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMonitoringResponse> {
+        return self.client.execute(operation: "UpdateMonitoring", path: "/v1/clusters/{clusterArn}/monitoring", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

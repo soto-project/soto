@@ -36,9 +36,9 @@ extension IoTJobsDataPlane {
 
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")),
-            AWSMemberEncoding(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "executionNumber", location: .querystring(locationName: "executionNumber")), 
+            AWSMemberEncoding(label: "includeJobDocument", location: .querystring(locationName: "includeJobDocument")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -69,6 +69,7 @@ extension IoTJobsDataPlane {
     }
 
     public struct DescribeJobExecutionResponse: AWSDecodableShape {
+
         /// Contains data about a job execution.
         public let execution: JobExecution?
 
@@ -77,7 +78,7 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case execution
+            case execution = "execution"
         }
     }
 
@@ -103,6 +104,7 @@ extension IoTJobsDataPlane {
     }
 
     public struct GetPendingJobExecutionsResponse: AWSDecodableShape {
+
         /// A list of JobExecutionSummary objects with status IN_PROGRESS.
         public let inProgressJobs: [JobExecutionSummary]?
         /// A list of JobExecutionSummary objects with status QUEUED.
@@ -114,12 +116,13 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inProgressJobs
-            case queuedJobs
+            case inProgressJobs = "inProgressJobs"
+            case queuedJobs = "queuedJobs"
         }
     }
 
     public struct JobExecution: AWSDecodableShape {
+
         /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT.
         public let approximateSecondsBeforeTimedOut: Int64?
         /// A number that identifies a particular job execution on a particular device. It can be used later in commands that return or update job execution information.
@@ -158,21 +161,22 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approximateSecondsBeforeTimedOut
-            case executionNumber
-            case jobDocument
-            case jobId
-            case lastUpdatedAt
-            case queuedAt
-            case startedAt
-            case status
-            case statusDetails
-            case thingName
-            case versionNumber
+            case approximateSecondsBeforeTimedOut = "approximateSecondsBeforeTimedOut"
+            case executionNumber = "executionNumber"
+            case jobDocument = "jobDocument"
+            case jobId = "jobId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case queuedAt = "queuedAt"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case thingName = "thingName"
+            case versionNumber = "versionNumber"
         }
     }
 
     public struct JobExecutionState: AWSDecodableShape {
+
         /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
         public let status: JobExecutionStatus?
         /// A collection of name/value pairs that describe the status of the job execution.
@@ -187,13 +191,14 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusDetails
-            case versionNumber
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case versionNumber = "versionNumber"
         }
     }
 
     public struct JobExecutionSummary: AWSDecodableShape {
+
         /// A number that identifies a particular job execution on a particular device.
         public let executionNumber: Int64?
         /// The unique identifier you assigned to this job when it was created.
@@ -217,12 +222,12 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionNumber
-            case jobId
-            case lastUpdatedAt
-            case queuedAt
-            case startedAt
-            case versionNumber
+            case executionNumber = "executionNumber"
+            case jobId = "jobId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case queuedAt = "queuedAt"
+            case startedAt = "startedAt"
+            case versionNumber = "versionNumber"
         }
     }
 
@@ -259,12 +264,13 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statusDetails
-            case stepTimeoutInMinutes
+            case statusDetails = "statusDetails"
+            case stepTimeoutInMinutes = "stepTimeoutInMinutes"
         }
     }
 
     public struct StartNextPendingJobExecutionResponse: AWSDecodableShape {
+
         /// A JobExecution object.
         public let execution: JobExecution?
 
@@ -273,13 +279,13 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case execution
+            case execution = "execution"
         }
     }
 
     public struct UpdateJobExecutionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -332,17 +338,18 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionNumber
-            case expectedVersion
-            case includeJobDocument
-            case includeJobExecutionState
-            case status
-            case statusDetails
-            case stepTimeoutInMinutes
+            case executionNumber = "executionNumber"
+            case expectedVersion = "expectedVersion"
+            case includeJobDocument = "includeJobDocument"
+            case includeJobExecutionState = "includeJobExecutionState"
+            case status = "status"
+            case statusDetails = "statusDetails"
+            case stepTimeoutInMinutes = "stepTimeoutInMinutes"
         }
     }
 
     public struct UpdateJobExecutionResponse: AWSDecodableShape {
+
         /// A JobExecutionState object.
         public let executionState: JobExecutionState?
         /// The contents of the Job Documents.
@@ -354,8 +361,8 @@ extension IoTJobsDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionState
-            case jobDocument
+            case executionState = "executionState"
+            case jobDocument = "jobDocument"
         }
     }
 }

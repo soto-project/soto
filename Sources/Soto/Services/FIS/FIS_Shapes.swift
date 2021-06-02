@@ -21,31 +21,32 @@ extension FIS {
     // MARK: Enums
 
     public enum ExperimentActionStatus: String, CustomStringConvertible, Codable {
-        case cancelled
-        case completed
-        case failed
-        case initiating
-        case pending
-        case running
-        case stopped
-        case stopping
+        case cancelled = "cancelled"
+        case completed = "completed"
+        case failed = "failed"
+        case initiating = "initiating"
+        case pending = "pending"
+        case running = "running"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum ExperimentStatus: String, CustomStringConvertible, Codable {
-        case completed
-        case failed
-        case initiating
-        case pending
-        case running
-        case stopped
-        case stopping
+        case completed = "completed"
+        case failed = "failed"
+        case initiating = "initiating"
+        case pending = "pending"
+        case running = "running"
+        case stopped = "stopped"
+        case stopping = "stopping"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Action: AWSDecodableShape {
+
         /// The description for the action.
         public let description: String?
         /// The ID of the action.
@@ -66,15 +67,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case parameters
-            case tags
-            case targets
+            case description = "description"
+            case id = "id"
+            case parameters = "parameters"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
     public struct ActionParameter: AWSDecodableShape {
+
         /// The parameter description.
         public let description: String?
         /// Indicates whether the parameter is required.
@@ -86,12 +88,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case required
+            case description = "description"
+            case required = "required"
         }
     }
 
     public struct ActionSummary: AWSDecodableShape {
+
         /// The description for the action.
         public let description: String?
         /// The ID of the action.
@@ -109,14 +112,15 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case tags
-            case targets
+            case description = "description"
+            case id = "id"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
     public struct ActionTarget: AWSDecodableShape {
+
         /// The resource type of the target.
         public let resourceType: String?
 
@@ -125,11 +129,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceType
+            case resourceType = "resourceType"
         }
     }
 
     public struct CreateExperimentTemplateActionInput: AWSEncodableShape {
+
         /// The ID of the action.
         public let actionId: String
         /// A description for the action.
@@ -173,15 +178,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case targets = "targets"
         }
     }
 
     public struct CreateExperimentTemplateRequest: AWSEncodableShape {
+
         /// The actions for the experiment.
         public let actions: [String: CreateExperimentTemplateActionInput]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -238,17 +244,18 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case clientToken
-            case description
-            case roleArn
-            case stopConditions
-            case tags
-            case targets
+            case actions = "actions"
+            case clientToken = "clientToken"
+            case description = "description"
+            case roleArn = "roleArn"
+            case stopConditions = "stopConditions"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
     public struct CreateExperimentTemplateResponse: AWSDecodableShape {
+
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
@@ -257,11 +264,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
     public struct CreateExperimentTemplateStopConditionInput: AWSEncodableShape {
+
         /// The source for the stop condition. Specify aws:cloudwatch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition.
         public let source: String
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm. This is required if the source is a CloudWatch alarm.
@@ -281,12 +289,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
     public struct CreateExperimentTemplateTargetInput: AWSEncodableShape {
+
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTemplateTargetInputFilter]?
         /// The Amazon Resource Names (ARNs) of the resources.
@@ -329,11 +338,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 
@@ -358,6 +367,7 @@ extension FIS {
     }
 
     public struct DeleteExperimentTemplateResponse: AWSDecodableShape {
+
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
@@ -366,11 +376,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
     public struct Experiment: AWSDecodableShape {
+
         /// The actions for the experiment.
         public let actions: [String: ExperimentAction]?
         /// The time the experiment was created.
@@ -409,21 +420,22 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case creationTime
-            case endTime
-            case experimentTemplateId
-            case id
-            case roleArn
-            case startTime
-            case state
-            case stopConditions
-            case tags
-            case targets
+            case actions = "actions"
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case experimentTemplateId = "experimentTemplateId"
+            case id = "id"
+            case roleArn = "roleArn"
+            case startTime = "startTime"
+            case state = "state"
+            case stopConditions = "stopConditions"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
     public struct ExperimentAction: AWSDecodableShape {
+
         /// The ID of the action.
         public let actionId: String?
         /// The description for the action.
@@ -447,16 +459,17 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case state
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case state = "state"
+            case targets = "targets"
         }
     }
 
     public struct ExperimentActionState: AWSDecodableShape {
+
         /// The reason for the state.
         public let reason: String?
         /// The state of the action.
@@ -468,12 +481,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
     public struct ExperimentState: AWSDecodableShape {
+
         /// The reason for the state.
         public let reason: String?
         /// The state of the experiment.
@@ -485,12 +499,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
-            case status
+            case reason = "reason"
+            case status = "status"
         }
     }
 
     public struct ExperimentStopCondition: AWSDecodableShape {
+
         /// The source for the stop condition.
         public let source: String?
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
@@ -502,12 +517,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
     public struct ExperimentSummary: AWSDecodableShape {
+
         /// The time that the experiment was created.
         public let creationTime: Date?
         /// The ID of the experiment template.
@@ -528,15 +544,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case experimentTemplateId
-            case id
-            case state
-            case tags
+            case creationTime = "creationTime"
+            case experimentTemplateId = "experimentTemplateId"
+            case id = "id"
+            case state = "state"
+            case tags = "tags"
         }
     }
 
     public struct ExperimentTarget: AWSDecodableShape {
+
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTargetFilter]?
         /// The Amazon Resource Names (ARNs) of the resources.
@@ -557,15 +574,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 
     public struct ExperimentTargetFilter: AWSDecodableShape {
+
         /// The attribute path for the filter.
         public let path: String?
         /// The attribute values for the filter.
@@ -577,12 +595,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case values
+            case path = "path"
+            case values = "values"
         }
     }
 
     public struct ExperimentTemplate: AWSDecodableShape {
+
         /// The actions for the experiment.
         public let actions: [String: ExperimentTemplateAction]?
         /// The time the experiment template was created.
@@ -615,19 +634,20 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case roleArn
-            case stopConditions
-            case tags
-            case targets
+            case actions = "actions"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case roleArn = "roleArn"
+            case stopConditions = "stopConditions"
+            case tags = "tags"
+            case targets = "targets"
         }
     }
 
     public struct ExperimentTemplateAction: AWSDecodableShape {
+
         /// The ID of the action.
         public let actionId: String?
         /// A description for the action.
@@ -648,15 +668,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case targets = "targets"
         }
     }
 
     public struct ExperimentTemplateStopCondition: AWSDecodableShape {
+
         /// The source for the stop condition.
         public let source: String?
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
@@ -668,12 +689,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
     public struct ExperimentTemplateSummary: AWSDecodableShape {
+
         /// The time that the experiment template was created.
         public let creationTime: Date?
         /// The description of the experiment template.
@@ -694,15 +716,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime
-            case description
-            case id
-            case lastUpdateTime
-            case tags
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case lastUpdateTime = "lastUpdateTime"
+            case tags = "tags"
         }
     }
 
     public struct ExperimentTemplateTarget: AWSDecodableShape {
+
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTemplateTargetFilter]?
         /// The Amazon Resource Names (ARNs) of the targets.
@@ -723,15 +746,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 
     public struct ExperimentTemplateTargetFilter: AWSDecodableShape {
+
         /// The attribute path for the filter.
         public let path: String?
         /// The attribute values for the filter.
@@ -743,12 +767,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case values
+            case path = "path"
+            case values = "values"
         }
     }
 
     public struct ExperimentTemplateTargetInputFilter: AWSEncodableShape {
+
         /// The attribute path for the filter.
         public let path: String
         /// The attribute values for the filter.
@@ -769,8 +794,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case values
+            case path = "path"
+            case values = "values"
         }
     }
 
@@ -795,6 +820,7 @@ extension FIS {
     }
 
     public struct GetActionResponse: AWSDecodableShape {
+
         /// Information about the action.
         public let action: Action?
 
@@ -803,7 +829,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
+            case action = "action"
         }
     }
 
@@ -828,6 +854,7 @@ extension FIS {
     }
 
     public struct GetExperimentResponse: AWSDecodableShape {
+
         /// Information about the experiment.
         public let experiment: Experiment?
 
@@ -836,7 +863,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -861,6 +888,7 @@ extension FIS {
     }
 
     public struct GetExperimentTemplateResponse: AWSDecodableShape {
+
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
@@ -869,13 +897,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
     public struct ListActionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -901,6 +929,7 @@ extension FIS {
     }
 
     public struct ListActionsResponse: AWSDecodableShape {
+
         /// The actions.
         public let actions: [ActionSummary]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -912,14 +941,14 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case nextToken
+            case actions = "actions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListExperimentTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -945,6 +974,7 @@ extension FIS {
     }
 
     public struct ListExperimentTemplatesResponse: AWSDecodableShape {
+
         /// The experiment templates.
         public let experimentTemplates: [ExperimentTemplateSummary]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -956,14 +986,14 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplates
-            case nextToken
+            case experimentTemplates = "experimentTemplates"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListExperimentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -989,6 +1019,7 @@ extension FIS {
     }
 
     public struct ListExperimentsResponse: AWSDecodableShape {
+
         /// The experiments.
         public let experiments: [ExperimentSummary]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1000,8 +1031,8 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiments
-            case nextToken
+            case experiments = "experiments"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1027,6 +1058,7 @@ extension FIS {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags for the resource.
         public let tags: [String: String]?
 
@@ -1035,11 +1067,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct StartExperimentRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String
         /// The ID of the experiment template.
@@ -1068,13 +1101,14 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case experimentTemplateId
-            case tags
+            case clientToken = "clientToken"
+            case experimentTemplateId = "experimentTemplateId"
+            case tags = "tags"
         }
     }
 
     public struct StartExperimentResponse: AWSDecodableShape {
+
         /// Information about the experiment.
         public let experiment: Experiment?
 
@@ -1083,7 +1117,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -1108,6 +1142,7 @@ extension FIS {
     }
 
     public struct StopExperimentResponse: AWSDecodableShape {
+
         /// Information about the experiment.
         public let experiment: Experiment?
 
@@ -1116,7 +1151,7 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experiment
+            case experiment = "experiment"
         }
     }
 
@@ -1148,17 +1183,21 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1186,10 +1225,15 @@ extension FIS {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateExperimentTemplateActionInputItem: AWSEncodableShape {
+
         /// The ID of the action.
         public let actionId: String?
         /// A description for the action.
@@ -1233,11 +1277,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionId
-            case description
-            case parameters
-            case startAfter
-            case targets
+            case actionId = "actionId"
+            case description = "description"
+            case parameters = "parameters"
+            case startAfter = "startAfter"
+            case targets = "targets"
         }
     }
 
@@ -1292,15 +1336,16 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case description
-            case roleArn
-            case stopConditions
-            case targets
+            case actions = "actions"
+            case description = "description"
+            case roleArn = "roleArn"
+            case stopConditions = "stopConditions"
+            case targets = "targets"
         }
     }
 
     public struct UpdateExperimentTemplateResponse: AWSDecodableShape {
+
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
@@ -1309,11 +1354,12 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case experimentTemplate
+            case experimentTemplate = "experimentTemplate"
         }
     }
 
     public struct UpdateExperimentTemplateStopConditionInput: AWSEncodableShape {
+
         /// The source for the stop condition. Specify aws:cloudwatch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition.
         public let source: String
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm.
@@ -1333,12 +1379,13 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case source
-            case value
+            case source = "source"
+            case value = "value"
         }
     }
 
     public struct UpdateExperimentTemplateTargetInput: AWSEncodableShape {
+
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTemplateTargetInputFilter]?
         /// The Amazon Resource Names (ARNs) of the targets.
@@ -1381,11 +1428,11 @@ extension FIS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case resourceArns
-            case resourceTags
-            case resourceType
-            case selectionMode
+            case filters = "filters"
+            case resourceArns = "resourceArns"
+            case resourceTags = "resourceTags"
+            case resourceType = "resourceType"
+            case selectionMode = "selectionMode"
         }
     }
 }

@@ -64,68 +64,68 @@ public struct Cloud9: AWSService {
     // MARK: API Calls
 
     /// Creates an AWS Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
-    public func createEnvironmentEC2(_ input: CreateEnvironmentEC2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentEC2Result> {
-        return self.client.execute(operation: "CreateEnvironmentEC2", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createEnvironmentEC2(_ input: CreateEnvironmentEC2Request, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentEC2Result> {
+        return self.client.execute(operation: "CreateEnvironmentEC2", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds an environment member to an AWS Cloud9 development environment.
-    public func createEnvironmentMembership(_ input: CreateEnvironmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentMembershipResult> {
-        return self.client.execute(operation: "CreateEnvironmentMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createEnvironmentMembership(_ input: CreateEnvironmentMembershipRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentMembershipResult> {
+        return self.client.execute(operation: "CreateEnvironmentMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes an AWS Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
-    public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentResult> {
-        return self.client.execute(operation: "DeleteEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteEnvironment(_ input: DeleteEnvironmentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentResult> {
+        return self.client.execute(operation: "DeleteEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes an environment member from an AWS Cloud9 development environment.
-    public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentMembershipResult> {
-        return self.client.execute(operation: "DeleteEnvironmentMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteEnvironmentMembership(_ input: DeleteEnvironmentMembershipRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentMembershipResult> {
+        return self.client.execute(operation: "DeleteEnvironmentMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets information about environment members for an AWS Cloud9 development environment.
-    public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentMembershipsResult> {
-        return self.client.execute(operation: "DescribeEnvironmentMemberships", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeEnvironmentMemberships(_ input: DescribeEnvironmentMembershipsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentMembershipsResult> {
+        return self.client.execute(operation: "DescribeEnvironmentMemberships", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets status information for an AWS Cloud9 development environment.
-    public func describeEnvironmentStatus(_ input: DescribeEnvironmentStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentStatusResult> {
-        return self.client.execute(operation: "DescribeEnvironmentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeEnvironmentStatus(_ input: DescribeEnvironmentStatusRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentStatusResult> {
+        return self.client.execute(operation: "DescribeEnvironmentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets information about AWS Cloud9 development environments.
-    public func describeEnvironments(_ input: DescribeEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentsResult> {
-        return self.client.execute(operation: "DescribeEnvironments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeEnvironments(_ input: DescribeEnvironmentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEnvironmentsResult> {
+        return self.client.execute(operation: "DescribeEnvironments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets a list of AWS Cloud9 development environment identifiers.
-    public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnvironmentsResult> {
-        return self.client.execute(operation: "ListEnvironments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listEnvironments(_ input: ListEnvironmentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnvironmentsResult> {
+        return self.client.execute(operation: "ListEnvironments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets a list of the tags associated with an AWS Cloud9 development environment.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds tags to an AWS Cloud9 development environment.  Tags that you add to an AWS Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes tags from an AWS Cloud9 development environment.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Changes the settings of an existing AWS Cloud9 development environment.
-    public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentResult> {
-        return self.client.execute(operation: "UpdateEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateEnvironment(_ input: UpdateEnvironmentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentResult> {
+        return self.client.execute(operation: "UpdateEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Changes the settings of an existing environment member for an AWS Cloud9 development environment.
-    public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentMembershipResult> {
-        return self.client.execute(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateEnvironmentMembership(_ input: UpdateEnvironmentMembershipRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentMembershipResult> {
+        return self.client.execute(operation: "UpdateEnvironmentMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

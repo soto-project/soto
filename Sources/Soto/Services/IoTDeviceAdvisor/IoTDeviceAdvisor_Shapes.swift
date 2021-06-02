@@ -45,6 +45,7 @@ extension IoTDeviceAdvisor {
     // MARK: Shapes
 
     public struct CreateSuiteDefinitionRequest: AWSEncodableShape {
+
         /// Creates a Device Advisor test suite with suite definition configuration.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
         /// The tags to be attached to the suite definition.
@@ -66,12 +67,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suiteDefinitionConfiguration
-            case tags
+            case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
+            case tags = "tags"
         }
     }
 
     public struct CreateSuiteDefinitionResponse: AWSDecodableShape {
+
         /// Creates a Device Advisor test suite with TimeStamp of when it was created.
         public let createdAt: Date?
         /// Creates a Device Advisor test suite with Amazon Resource name.
@@ -89,10 +91,10 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case suiteDefinitionArn
-            case suiteDefinitionId
-            case suiteDefinitionName
+            case createdAt = "createdAt"
+            case suiteDefinitionArn = "suiteDefinitionArn"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
         }
     }
 
@@ -117,10 +119,15 @@ extension IoTDeviceAdvisor {
     }
 
     public struct DeleteSuiteDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeviceUnderTest: AWSEncodableShape & AWSDecodableShape {
+
         /// Lists devices certificate arn
         public let certificateArn: String?
         /// Lists devices thing arn
@@ -139,14 +146,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case thingArn
+            case certificateArn = "certificateArn"
+            case thingArn = "thingArn"
         }
     }
 
     public struct GetSuiteDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")), 
             AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
         ]
 
@@ -171,6 +178,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteDefinitionResponse: AWSDecodableShape {
+
         /// Gets the timestamp of the time suite was created with GetSuiteDefinition API call.
         public let createdAt: Date?
         /// Gets the timestamp of the time suite was modified with GetSuiteDefinition API call.
@@ -200,20 +208,20 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case lastModifiedAt
-            case latestVersion
-            case suiteDefinitionArn
-            case suiteDefinitionConfiguration
-            case suiteDefinitionId
-            case suiteDefinitionVersion
-            case tags
+            case createdAt = "createdAt"
+            case lastModifiedAt = "lastModifiedAt"
+            case latestVersion = "latestVersion"
+            case suiteDefinitionArn = "suiteDefinitionArn"
+            case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case tags = "tags"
         }
     }
 
     public struct GetSuiteRunReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")), 
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
@@ -238,6 +246,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteRunReportResponse: AWSDecodableShape {
+
         /// Gets the download URL of the qualification report.
         public let qualificationReportDownloadUrl: String?
 
@@ -246,13 +255,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qualificationReportDownloadUrl
+            case qualificationReportDownloadUrl = "qualificationReportDownloadUrl"
         }
     }
 
     public struct GetSuiteRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")), 
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
@@ -277,6 +286,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteRunResponse: AWSDecodableShape {
+
         /// Gets the information about Device Advisor test suite run based on end time.
         public let endTime: Date?
         /// Gets the information about Device Advisor test suite run based on error.
@@ -315,21 +325,22 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case errorReason
-            case startTime
-            case status
-            case suiteDefinitionId
-            case suiteDefinitionVersion
-            case suiteRunArn
-            case suiteRunConfiguration
-            case suiteRunId
-            case tags
-            case testResult
+            case endTime = "endTime"
+            case errorReason = "errorReason"
+            case startTime = "startTime"
+            case status = "status"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case suiteRunArn = "suiteRunArn"
+            case suiteRunConfiguration = "suiteRunConfiguration"
+            case suiteRunId = "suiteRunId"
+            case tags = "tags"
+            case testResult = "testResult"
         }
     }
 
     public struct GroupResult: AWSDecodableShape {
+
         /// Show Group Result Id.
         public let groupId: String?
         /// Show Group Result Name.
@@ -344,15 +355,15 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupId
-            case groupName
-            case tests
+            case groupId = "groupId"
+            case groupName = "groupName"
+            case tests = "tests"
         }
     }
 
     public struct ListSuiteDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -376,6 +387,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListSuiteDefinitionsResponse: AWSDecodableShape {
+
         /// Creates a Device Advisor test suite.
         public let nextToken: String?
         /// Lists test suite information using List suite definition.
@@ -387,16 +399,16 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case suiteDefinitionInformationList
+            case nextToken = "nextToken"
+            case suiteDefinitionInformationList = "suiteDefinitionInformationList"
         }
     }
 
     public struct ListSuiteRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "suiteDefinitionId", location: .querystring(locationName: "suiteDefinitionId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .querystring(locationName: "suiteDefinitionId")), 
             AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
         ]
 
@@ -430,6 +442,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListSuiteRunsResponse: AWSDecodableShape {
+
         /// Next pagination token for list suite run response.
         public let nextToken: String?
         /// Lists the runs of the specified Device Advisor test suite.
@@ -441,8 +454,8 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case suiteRunsList
+            case nextToken = "nextToken"
+            case suiteRunsList = "suiteRunsList"
         }
     }
 
@@ -467,6 +480,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags attached to the IoT Device Advisor resource.
         public let tags: [String: String]?
 
@@ -475,14 +489,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListTestCasesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "intendedForQualification", location: .querystring(locationName: "intendedForQualification")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "intendedForQualification", location: .querystring(locationName: "intendedForQualification")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -509,6 +523,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListTestCasesResponse: AWSDecodableShape {
+
         /// Gets the category of test case.
         public let categories: [TestCaseCategory]?
         /// Gets the configuration of test group.
@@ -526,10 +541,10 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categories
-            case groupConfiguration
-            case nextToken
-            case rootGroupConfiguration
+            case categories = "categories"
+            case groupConfiguration = "groupConfiguration"
+            case nextToken = "nextToken"
+            case rootGroupConfiguration = "rootGroupConfiguration"
         }
     }
 
@@ -569,13 +584,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suiteDefinitionVersion
-            case suiteRunConfiguration
-            case tags
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case suiteRunConfiguration = "suiteRunConfiguration"
+            case tags = "tags"
         }
     }
 
     public struct StartSuiteRunResponse: AWSDecodableShape {
+
         /// Starts a Device Advisor test suite run based on suite create time.
         public let createdAt: Date?
         /// Starts a Device Advisor test suite run based on suite run arn.
@@ -590,13 +606,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case suiteRunArn
-            case suiteRunId
+            case createdAt = "createdAt"
+            case suiteRunArn = "suiteRunArn"
+            case suiteRunId = "suiteRunId"
         }
     }
 
     public struct SuiteDefinitionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Gets device permission arn.
         public let devicePermissionRoleArn: String?
         /// Gets the devices configured.
@@ -631,15 +648,16 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePermissionRoleArn
-            case devices
-            case intendedForQualification
-            case rootGroup
-            case suiteDefinitionName
+            case devicePermissionRoleArn = "devicePermissionRoleArn"
+            case devices = "devices"
+            case intendedForQualification = "intendedForQualification"
+            case rootGroup = "rootGroup"
+            case suiteDefinitionName = "suiteDefinitionName"
         }
     }
 
     public struct SuiteDefinitionInformation: AWSDecodableShape {
+
         /// Gets the information of when the test suite was created.
         public let createdAt: Date?
         /// Specifies the devices under test.
@@ -660,15 +678,16 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case defaultDevices
-            case intendedForQualification
-            case suiteDefinitionId
-            case suiteDefinitionName
+            case createdAt = "createdAt"
+            case defaultDevices = "defaultDevices"
+            case intendedForQualification = "intendedForQualification"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
         }
     }
 
     public struct SuiteRunConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Gets the primary device for suite run.
         public let primaryDevice: DeviceUnderTest?
         /// Gets the secondary device for suite run.
@@ -694,13 +713,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case primaryDevice
-            case secondaryDevice
-            case selectedTestList
+            case primaryDevice = "primaryDevice"
+            case secondaryDevice = "secondaryDevice"
+            case selectedTestList = "selectedTestList"
         }
     }
 
     public struct SuiteRunInformation: AWSDecodableShape {
+
         /// Get suite run information based on time suite was created.
         public let createdAt: Date?
         /// Get suite run information based on end time of the run.
@@ -736,16 +756,16 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case endAt
-            case failed
-            case passed
-            case startedAt
-            case status
-            case suiteDefinitionId
-            case suiteDefinitionName
-            case suiteDefinitionVersion
-            case suiteRunId
+            case createdAt = "createdAt"
+            case endAt = "endAt"
+            case failed = "failed"
+            case passed = "passed"
+            case startedAt = "startedAt"
+            case status = "status"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
+            case suiteRunId = "suiteRunId"
         }
     }
 
@@ -776,15 +796,20 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TestCase: AWSDecodableShape {
+
         /// Shows test case configuration.
         public let configuration: [String: String]?
         /// Shows test case name.
@@ -799,13 +824,14 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case name
-            case test
+            case configuration = "configuration"
+            case name = "name"
+            case test = "test"
         }
     }
 
     public struct TestCaseCategory: AWSDecodableShape {
+
         /// Lists all the tests name in the specified category.
         public let name: String?
         /// Lists all the tests in the specified category.
@@ -817,12 +843,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case tests
+            case name = "name"
+            case tests = "tests"
         }
     }
 
     public struct TestCaseDefinition: AWSDecodableShape {
+
         /// Provides test case definition Id.
         public let id: String?
         /// Provides test case definition version.
@@ -834,12 +861,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case testCaseVersion
+            case id = "id"
+            case testCaseVersion = "testCaseVersion"
         }
     }
 
     public struct TestCaseRun: AWSDecodableShape {
+
         /// Provides test case run end time.
         public let endTime: Date?
         /// Provides test case run failure result.
@@ -872,19 +900,20 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case failure
-            case logUrl
-            case startTime
-            case status
-            case testCaseDefinitionId
-            case testCaseDefinitionName
-            case testCaseRunId
-            case warnings
+            case endTime = "endTime"
+            case failure = "failure"
+            case logUrl = "logUrl"
+            case startTime = "startTime"
+            case status = "status"
+            case testCaseDefinitionId = "testCaseDefinitionId"
+            case testCaseDefinitionName = "testCaseDefinitionName"
+            case testCaseRunId = "testCaseRunId"
+            case warnings = "warnings"
         }
     }
 
     public struct TestResult: AWSDecodableShape {
+
         /// Show each group of test results.
         public let groups: [GroupResult]?
 
@@ -893,13 +922,13 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groups
+            case groups = "groups"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -928,7 +957,11 @@ extension IoTDeviceAdvisor {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateSuiteDefinitionRequest: AWSEncodableShape {
@@ -953,11 +986,12 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suiteDefinitionConfiguration
+            case suiteDefinitionConfiguration = "suiteDefinitionConfiguration"
         }
     }
 
     public struct UpdateSuiteDefinitionResponse: AWSDecodableShape {
+
         /// Updates a Device Advisor test suite with TimeStamp of when it was created.
         public let createdAt: Date?
         /// Updates a Device Advisor test suite with TimeStamp of when it was updated.
@@ -981,12 +1015,12 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case lastUpdatedAt
-            case suiteDefinitionArn
-            case suiteDefinitionId
-            case suiteDefinitionName
-            case suiteDefinitionVersion
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case suiteDefinitionArn = "suiteDefinitionArn"
+            case suiteDefinitionId = "suiteDefinitionId"
+            case suiteDefinitionName = "suiteDefinitionName"
+            case suiteDefinitionVersion = "suiteDefinitionVersion"
         }
     }
 }

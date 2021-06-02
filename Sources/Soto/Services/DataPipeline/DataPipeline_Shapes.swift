@@ -39,6 +39,7 @@ extension DataPipeline {
     // MARK: Shapes
 
     public struct ActivatePipelineInput: AWSEncodableShape {
+
         /// A list of parameter values to pass to the pipeline at activation.
         public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
@@ -62,17 +63,22 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterValues
-            case pipelineId
-            case startTimestamp
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case startTimestamp = "startTimestamp"
         }
     }
 
     public struct ActivatePipelineOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AddTagsInput: AWSEncodableShape {
+
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The tags to add, as key/value pairs.
@@ -95,16 +101,21 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
-            case tags
+            case pipelineId = "pipelineId"
+            case tags = "tags"
         }
     }
 
     public struct AddTagsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreatePipelineInput: AWSEncodableShape {
+
         /// The description for the pipeline.
         public let description: String?
         /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
@@ -139,14 +150,15 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case tags
-            case uniqueId
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case uniqueId = "uniqueId"
         }
     }
 
     public struct CreatePipelineOutput: AWSDecodableShape {
+
         /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
         public let pipelineId: String
 
@@ -155,11 +167,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
+            case pipelineId = "pipelineId"
         }
     }
 
     public struct DeactivatePipelineInput: AWSEncodableShape {
+
         /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
         public let cancelActive: Bool?
         /// The ID of the pipeline.
@@ -177,16 +190,21 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancelActive
-            case pipelineId
+            case cancelActive = "cancelActive"
+            case pipelineId = "pipelineId"
         }
     }
 
     public struct DeactivatePipelineOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePipelineInput: AWSEncodableShape {
+
         /// The ID of the pipeline.
         public let pipelineId: String
 
@@ -201,11 +219,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
+            case pipelineId = "pipelineId"
         }
     }
 
     public struct DescribeObjectsInput: AWSEncodableShape {
+
         /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
         public let evaluateExpressions: Bool?
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
@@ -237,14 +256,15 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluateExpressions
-            case marker
-            case objectIds
-            case pipelineId
+            case evaluateExpressions = "evaluateExpressions"
+            case marker = "marker"
+            case objectIds = "objectIds"
+            case pipelineId = "pipelineId"
         }
     }
 
     public struct DescribeObjectsOutput: AWSDecodableShape {
+
         /// Indicates whether there are more results to return.
         public let hasMoreResults: Bool?
         /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
@@ -259,13 +279,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreResults
-            case marker
-            case pipelineObjects
+            case hasMoreResults = "hasMoreResults"
+            case marker = "marker"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
     public struct DescribePipelinesInput: AWSEncodableShape {
+
         /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
         public let pipelineIds: [String]
 
@@ -282,11 +303,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineIds
+            case pipelineIds = "pipelineIds"
         }
     }
 
     public struct DescribePipelinesOutput: AWSDecodableShape {
+
         /// An array of descriptions for the specified pipelines.
         public let pipelineDescriptionList: [PipelineDescription]
 
@@ -295,11 +317,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineDescriptionList
+            case pipelineDescriptionList = "pipelineDescriptionList"
         }
     }
 
     public struct EvaluateExpressionInput: AWSEncodableShape {
+
         /// The expression to evaluate.
         public let expression: String
         /// The ID of the object.
@@ -314,7 +337,7 @@ extension DataPipeline {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.expression, name: "expression", parent: name, max: 20_971_520)
+            try self.validate(self.expression, name: "expression", parent: name, max: 20971520)
             try self.validate(self.expression, name: "expression", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.objectId, name: "objectId", parent: name, max: 1024)
@@ -326,13 +349,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case objectId
-            case pipelineId
+            case expression = "expression"
+            case objectId = "objectId"
+            case pipelineId = "pipelineId"
         }
     }
 
     public struct EvaluateExpressionOutput: AWSDecodableShape {
+
         /// The evaluated expression.
         public let evaluatedExpression: String
 
@@ -341,11 +365,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evaluatedExpression
+            case evaluatedExpression = "evaluatedExpression"
         }
     }
 
     public struct Field: AWSEncodableShape & AWSDecodableShape {
+
         /// The field identifier.
         public let key: String
         /// The field value, expressed as the identifier of another object.
@@ -372,13 +397,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case refValue
-            case stringValue
+            case key = "key"
+            case refValue = "refValue"
+            case stringValue = "stringValue"
         }
     }
 
     public struct GetPipelineDefinitionInput: AWSEncodableShape {
+
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The version of the pipeline definition to retrieve. Set this parameter to latest (default) to use the last definition saved to the pipeline or active to use the last definition that was activated.
@@ -399,12 +425,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
-            case version
+            case pipelineId = "pipelineId"
+            case version = "version"
         }
     }
 
     public struct GetPipelineDefinitionOutput: AWSDecodableShape {
+
         /// The parameter objects used in the pipeline definition.
         public let parameterObjects: [ParameterObject]?
         /// The parameter values used in the pipeline definition.
@@ -419,13 +446,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects
-            case parameterValues
-            case pipelineObjects
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
     public struct InstanceIdentity: AWSEncodableShape {
+
         /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
         public let document: String?
         /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
@@ -446,12 +474,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case document
-            case signature
+            case document = "document"
+            case signature = "signature"
         }
     }
 
     public struct ListPipelinesInput: AWSEncodableShape {
+
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
         public let marker: String?
 
@@ -466,11 +495,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case marker
+            case marker = "marker"
         }
     }
 
     public struct ListPipelinesOutput: AWSDecodableShape {
+
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
         /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
@@ -485,13 +515,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreResults
-            case marker
-            case pipelineIdList
+            case hasMoreResults = "hasMoreResults"
+            case marker = "marker"
+            case pipelineIdList = "pipelineIdList"
         }
     }
 
     public struct Operator: AWSEncodableShape {
+
         ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
         public let type: OperatorType?
         /// The value that the actual field value will be compared with.
@@ -511,12 +542,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case values
+            case type = "type"
+            case values = "values"
         }
     }
 
     public struct ParameterAttribute: AWSEncodableShape & AWSDecodableShape {
+
         /// The field identifier.
         public let key: String
         /// The field value, expressed as a String.
@@ -537,12 +569,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case stringValue
+            case key = "key"
+            case stringValue = "stringValue"
         }
     }
 
     public struct ParameterObject: AWSEncodableShape & AWSDecodableShape {
+
         /// The attributes of the parameter object.
         public let attributes: [ParameterAttribute]
         /// The ID of the parameter object.
@@ -563,12 +596,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case id
+            case attributes = "attributes"
+            case id = "id"
         }
     }
 
     public struct ParameterValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the parameter value.
         public let id: String
         /// The field value, expressed as a String.
@@ -589,12 +623,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case stringValue
+            case id = "id"
+            case stringValue = "stringValue"
         }
     }
 
     public struct PipelineDescription: AWSDecodableShape {
+
         /// Description of the pipeline.
         public let description: String?
         /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
@@ -615,15 +650,16 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case fields
-            case name
-            case pipelineId
-            case tags
+            case description = "description"
+            case fields = "fields"
+            case name = "name"
+            case pipelineId = "pipelineId"
+            case tags = "tags"
         }
     }
 
     public struct PipelineIdName: AWSDecodableShape {
+
         /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
         public let id: String?
         /// The name of the pipeline.
@@ -635,12 +671,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct PipelineObject: AWSEncodableShape & AWSDecodableShape {
+
         /// Key-value pairs that define the properties of the object.
         public let fields: [Field]
         /// The ID of the object.
@@ -667,13 +704,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case id
-            case name
+            case fields = "fields"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct PollForTaskInput: AWSEncodableShape {
+
         /// The public DNS name of the calling task runner.
         public let hostname: String?
         /// Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
@@ -698,13 +736,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case instanceIdentity
-            case workerGroup
+            case hostname = "hostname"
+            case instanceIdentity = "instanceIdentity"
+            case workerGroup = "workerGroup"
         }
     }
 
     public struct PollForTaskOutput: AWSDecodableShape {
+
         /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to ReportTaskProgress and SetTaskStatus.
         public let taskObject: TaskObject?
 
@@ -713,11 +752,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskObject
+            case taskObject = "taskObject"
         }
     }
 
     public struct PutPipelineDefinitionInput: AWSEncodableShape {
+
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
         /// The parameter values used with the pipeline.
@@ -750,14 +790,15 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects
-            case parameterValues
-            case pipelineId
-            case pipelineObjects
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
     public struct PutPipelineDefinitionOutput: AWSDecodableShape {
+
         /// Indicates whether there were validation errors, and the pipeline definition is stored but cannot be activated until you correct the pipeline and call PutPipelineDefinition to commit the corrected pipeline.
         public let errored: Bool
         /// The validation errors that are associated with the objects defined in pipelineObjects.
@@ -772,13 +813,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errored
-            case validationErrors
-            case validationWarnings
+            case errored = "errored"
+            case validationErrors = "validationErrors"
+            case validationWarnings = "validationWarnings"
         }
     }
 
     public struct Query: AWSEncodableShape {
+
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
         public let selectors: [Selector]?
 
@@ -793,11 +835,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case selectors
+            case selectors = "selectors"
         }
     }
 
     public struct QueryObjectsInput: AWSEncodableShape {
+
         /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100.
         public let limit: Int?
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
@@ -831,15 +874,16 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case marker
-            case pipelineId
-            case query
-            case sphere
+            case limit = "limit"
+            case marker = "marker"
+            case pipelineId = "pipelineId"
+            case query = "query"
+            case sphere = "sphere"
         }
     }
 
     public struct QueryObjectsOutput: AWSDecodableShape {
+
         /// Indicates whether there are more results that can be obtained by a subsequent call.
         public let hasMoreResults: Bool?
         /// The identifiers that match the query selectors.
@@ -854,13 +898,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hasMoreResults
-            case ids
-            case marker
+            case hasMoreResults = "hasMoreResults"
+            case ids = "ids"
+            case marker = "marker"
         }
     }
 
     public struct RemoveTagsInput: AWSEncodableShape {
+
         /// The ID of the pipeline.
         public let pipelineId: String
         /// The keys of the tags to remove.
@@ -883,16 +928,21 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineId
-            case tagKeys
+            case pipelineId = "pipelineId"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct RemoveTagsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ReportTaskProgressInput: AWSEncodableShape {
+
         /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
         public let fields: [Field]?
         /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
@@ -913,12 +963,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fields
-            case taskId
+            case fields = "fields"
+            case taskId = "taskId"
         }
     }
 
     public struct ReportTaskProgressOutput: AWSDecodableShape {
+
         /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
         public let canceled: Bool
 
@@ -927,11 +978,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canceled
+            case canceled = "canceled"
         }
     }
 
     public struct ReportTaskRunnerHeartbeatInput: AWSEncodableShape {
+
         /// The public DNS name of the task runner.
         public let hostname: String?
         /// The ID of the task runner. This value should be unique across your AWS account. In the case of AWS Data Pipeline Task Runner launched on a resource managed by AWS Data Pipeline, the web service provides a unique identifier when it launches the application. If you have written a custom task runner, you should assign a unique identifier for the task runner.
@@ -958,13 +1010,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case taskrunnerId
-            case workerGroup
+            case hostname = "hostname"
+            case taskrunnerId = "taskrunnerId"
+            case workerGroup = "workerGroup"
         }
     }
 
     public struct ReportTaskRunnerHeartbeatOutput: AWSDecodableShape {
+
         /// Indicates whether the calling task runner should terminate.
         public let terminate: Bool
 
@@ -973,11 +1026,12 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case terminate
+            case terminate = "terminate"
         }
     }
 
     public struct Selector: AWSEncodableShape {
+
         /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
         public let fieldName: String?
         public let `operator`: Operator?
@@ -995,12 +1049,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldName
-            case `operator`
+            case fieldName = "fieldName"
+            case `operator` = "operator"
         }
     }
 
     public struct SetStatusInput: AWSEncodableShape {
+
         /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
         public let objectIds: [String]
         /// The ID of the pipeline that contains the objects.
@@ -1029,13 +1084,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case objectIds
-            case pipelineId
-            case status
+            case objectIds = "objectIds"
+            case pipelineId = "pipelineId"
+            case status = "status"
         }
     }
 
     public struct SetTaskStatusInput: AWSEncodableShape {
+
         /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
         public let errorId: String?
         /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
@@ -1068,19 +1124,24 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorId
-            case errorMessage
-            case errorStackTrace
-            case taskId
-            case taskStatus
+            case errorId = "errorId"
+            case errorMessage = "errorMessage"
+            case errorStackTrace = "errorStackTrace"
+            case taskId = "taskId"
+            case taskStatus = "taskStatus"
         }
     }
 
     public struct SetTaskStatusOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
         public let key: String
         /// The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
@@ -1099,12 +1160,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TaskObject: AWSDecodableShape {
+
         /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
         public let attemptId: String?
         /// Connection information for the location where the task runner will publish the output of the task.
@@ -1122,14 +1184,15 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attemptId
-            case objects
-            case pipelineId
-            case taskId
+            case attemptId = "attemptId"
+            case objects = "objects"
+            case pipelineId = "pipelineId"
+            case taskId = "taskId"
         }
     }
 
     public struct ValidatePipelineDefinitionInput: AWSEncodableShape {
+
         /// The parameter objects used with the pipeline.
         public let parameterObjects: [ParameterObject]?
         /// The parameter values used with the pipeline.
@@ -1162,14 +1225,15 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameterObjects
-            case parameterValues
-            case pipelineId
-            case pipelineObjects
+            case parameterObjects = "parameterObjects"
+            case parameterValues = "parameterValues"
+            case pipelineId = "pipelineId"
+            case pipelineObjects = "pipelineObjects"
         }
     }
 
     public struct ValidatePipelineDefinitionOutput: AWSDecodableShape {
+
         /// Indicates whether there were validation errors.
         public let errored: Bool
         /// Any validation errors that were found.
@@ -1184,13 +1248,14 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errored
-            case validationErrors
-            case validationWarnings
+            case errored = "errored"
+            case validationErrors = "validationErrors"
+            case validationWarnings = "validationWarnings"
         }
     }
 
     public struct ValidationError: AWSDecodableShape {
+
         /// A description of the validation error.
         public let errors: [String]?
         /// The identifier of the object that contains the validation error.
@@ -1202,12 +1267,13 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case id
+            case errors = "errors"
+            case id = "id"
         }
     }
 
     public struct ValidationWarning: AWSDecodableShape {
+
         /// The identifier of the object that contains the validation warning.
         public let id: String?
         /// A description of the validation warning.
@@ -1219,8 +1285,8 @@ extension DataPipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case warnings
+            case id = "id"
+            case warnings = "warnings"
         }
     }
 }

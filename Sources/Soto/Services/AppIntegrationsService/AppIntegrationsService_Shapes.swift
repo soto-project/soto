@@ -23,6 +23,7 @@ extension AppIntegrationsService {
     // MARK: Shapes
 
     public struct CreateEventIntegrationRequest: AWSEncodableShape {
+
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// The description of the event integration.
@@ -78,6 +79,7 @@ extension AppIntegrationsService {
     }
 
     public struct CreateEventIntegrationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the event integration.
         public let eventIntegrationArn: String?
 
@@ -112,10 +114,15 @@ extension AppIntegrationsService {
     }
 
     public struct DeleteEventIntegrationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EventFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The source of the events.
         public let source: String
 
@@ -135,6 +142,7 @@ extension AppIntegrationsService {
     }
 
     public struct EventIntegration: AWSDecodableShape {
+
         /// The event integration description.
         public let description: String?
         /// The Amazon Eventbridge bus for the event integration.
@@ -168,6 +176,7 @@ extension AppIntegrationsService {
     }
 
     public struct EventIntegrationAssociation: AWSDecodableShape {
+
         /// The metadata associated with the client.
         public let clientAssociationMetadata: [String: String]?
         /// The identifier for the client that is associated with the event integration.
@@ -222,6 +231,7 @@ extension AppIntegrationsService {
     }
 
     public struct GetEventIntegrationResponse: AWSDecodableShape {
+
         /// The description of the event integration.
         public let description: String?
         /// The Eventbridge bus.
@@ -256,8 +266,8 @@ extension AppIntegrationsService {
 
     public struct ListEventIntegrationAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eventIntegrationName", location: .uri(locationName: "Name")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "eventIntegrationName", location: .uri(locationName: "Name")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -289,6 +299,7 @@ extension AppIntegrationsService {
     }
 
     public struct ListEventIntegrationAssociationsResponse: AWSDecodableShape {
+
         /// The event integration associations.
         public let eventIntegrationAssociations: [EventIntegrationAssociation]?
         /// If there are additional results, this is the token for the next set of results.
@@ -307,7 +318,7 @@ extension AppIntegrationsService {
 
     public struct ListEventIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -333,6 +344,7 @@ extension AppIntegrationsService {
     }
 
     public struct ListEventIntegrationsResponse: AWSDecodableShape {
+
         /// The event integrations.
         public let eventIntegrations: [EventIntegration]?
         /// If there are additional results, this is the token for the next set of results.
@@ -371,6 +383,7 @@ extension AppIntegrationsService {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// Information about the tags.
         public let tags: [String: String]?
 
@@ -379,7 +392,7 @@ extension AppIntegrationsService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -411,17 +424,21 @@ extension AppIntegrationsService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -452,7 +469,11 @@ extension AppIntegrationsService {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateEventIntegrationRequest: AWSEncodableShape {
@@ -485,6 +506,10 @@ extension AppIntegrationsService {
     }
 
     public struct UpdateEventIntegrationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

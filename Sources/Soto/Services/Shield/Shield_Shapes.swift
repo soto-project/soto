@@ -98,6 +98,7 @@ extension Shield {
     // MARK: Shapes
 
     public struct AssociateDRTLogBucketRequest: AWSEncodableShape {
+
         /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
 
@@ -117,10 +118,15 @@ extension Shield {
     }
 
     public struct AssociateDRTLogBucketResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateDRTRoleRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
 
@@ -140,10 +146,15 @@ extension Shield {
     }
 
     public struct AssociateDRTRoleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateHealthCheckRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the health check to associate with the protection.
         public let healthCheckArn: String
         /// The unique identifier (ID) for the Protection object to add the health check association to.
@@ -170,10 +181,15 @@ extension Shield {
     }
 
     public struct AssociateHealthCheckResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateProactiveEngagementDetailsRequest: AWSEncodableShape {
+
         /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you for escalations to the DRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.
         public let emergencyContactList: [EmergencyContact]
 
@@ -195,10 +211,15 @@ extension Shield {
     }
 
     public struct AssociateProactiveEngagementDetailsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AttackDetail: AWSDecodableShape {
+
         /// List of counters that describe the attack for the specified time period.
         public let attackCounters: [SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
@@ -240,6 +261,7 @@ extension Shield {
     }
 
     public struct AttackProperty: AWSDecodableShape {
+
         /// The type of distributed denial of service (DDoS) event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
         public let attackLayer: AttackLayer?
         /// Defines the DDoS attack property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback DDoS attacks.
@@ -269,6 +291,7 @@ extension Shield {
     }
 
     public struct AttackStatisticsDataItem: AWSDecodableShape {
+
         /// The number of attacks detected during the time period. This is always present, but might be zero.
         public let attackCount: Int64
         /// Information about the volume of attacks during the time period. If the accompanying AttackCount is zero, this setting might be empty.
@@ -286,6 +309,7 @@ extension Shield {
     }
 
     public struct AttackSummary: AWSDecodableShape {
+
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
         /// The list of attacks for a specified time period.
@@ -315,6 +339,7 @@ extension Shield {
     }
 
     public struct AttackVectorDescription: AWSDecodableShape {
+
         /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION
         public let vectorType: String
 
@@ -328,6 +353,7 @@ extension Shield {
     }
 
     public struct AttackVolume: AWSDecodableShape {
+
         /// A statistics object that uses bits per second as the unit. This is included for network level attacks.
         public let bitsPerSecond: AttackVolumeStatistics?
         /// A statistics object that uses packets per second as the unit. This is included for network level attacks.
@@ -349,6 +375,7 @@ extension Shield {
     }
 
     public struct AttackVolumeStatistics: AWSDecodableShape {
+
         /// The maximum attack volume observed for the given unit.
         public let max: Double
 
@@ -362,6 +389,7 @@ extension Shield {
     }
 
     public struct Contributor: AWSDecodableShape {
+
         /// The name of the contributor. This is dependent on the AttackPropertyIdentifier. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public let name: String?
         /// The contribution of this contributor expressed in Protection units. For example 10,000.
@@ -379,6 +407,7 @@ extension Shield {
     }
 
     public struct CreateProtectionGroupRequest: AWSEncodableShape {
+
         /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
         public let aggregation: ProtectionGroupAggregation
         /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
@@ -430,10 +459,15 @@ extension Shield {
     }
 
     public struct CreateProtectionGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateProtectionRequest: AWSEncodableShape {
+
         /// Friendly name for the Protection you are creating.
         public let name: String
         /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
@@ -469,6 +503,7 @@ extension Shield {
     }
 
     public struct CreateProtectionResponse: AWSDecodableShape {
+
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
 
@@ -482,14 +517,23 @@ extension Shield {
     }
 
     public struct CreateSubscriptionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateSubscriptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProtectionGroupRequest: AWSEncodableShape {
+
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
 
@@ -509,10 +553,15 @@ extension Shield {
     }
 
     public struct DeleteProtectionGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProtectionRequest: AWSEncodableShape {
+
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
 
@@ -532,18 +581,31 @@ extension Shield {
     }
 
     public struct DeleteProtectionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSubscriptionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSubscriptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAttackRequest: AWSEncodableShape {
+
         /// The unique identifier (ID) for the attack that to be described.
         public let attackId: String
 
@@ -563,6 +625,7 @@ extension Shield {
     }
 
     public struct DescribeAttackResponse: AWSDecodableShape {
+
         /// The attack that is described.
         public let attack: AttackDetail?
 
@@ -576,10 +639,15 @@ extension Shield {
     }
 
     public struct DescribeAttackStatisticsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAttackStatisticsResponse: AWSDecodableShape {
+
         /// The data that describes the attacks detected during the time period.
         public let dataItems: [AttackStatisticsDataItem]
         public let timeRange: TimeRange
@@ -596,10 +664,15 @@ extension Shield {
     }
 
     public struct DescribeDRTAccessRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeDRTAccessResponse: AWSDecodableShape {
+
         /// The list of Amazon S3 buckets accessed by the DRT.
         public let logBucketList: [String]?
         /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS account.
@@ -617,10 +690,15 @@ extension Shield {
     }
 
     public struct DescribeEmergencyContactSettingsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeEmergencyContactSettingsResponse: AWSDecodableShape {
+
         /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support.
         public let emergencyContactList: [EmergencyContact]?
 
@@ -634,6 +712,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionGroupRequest: AWSEncodableShape {
+
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
 
@@ -653,6 +732,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionGroupResponse: AWSDecodableShape {
+
         /// A grouping of protected resources that you and AWS Shield Advanced can monitor as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
         public let protectionGroup: ProtectionGroup
 
@@ -666,6 +746,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionRequest: AWSEncodableShape {
+
         /// The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
         public let protectionId: String?
         /// The ARN (Amazon Resource Name) of the AWS resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
@@ -692,6 +773,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionResponse: AWSDecodableShape {
+
         /// The Protection object that is described.
         public let protection: Protection?
 
@@ -705,10 +787,15 @@ extension Shield {
     }
 
     public struct DescribeSubscriptionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeSubscriptionResponse: AWSDecodableShape {
+
         /// The AWS Shield Advanced subscription details for an account.
         public let subscription: Subscription?
 
@@ -722,14 +809,23 @@ extension Shield {
     }
 
     public struct DisableProactiveEngagementRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableProactiveEngagementResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTLogBucketRequest: AWSEncodableShape {
+
         /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
 
@@ -749,18 +845,31 @@ extension Shield {
     }
 
     public struct DisassociateDRTLogBucketResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTRoleRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTRoleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateHealthCheckRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the health check that is associated with the protection.
         public let healthCheckArn: String
         /// The unique identifier (ID) for the Protection object to remove the health check association from.
@@ -787,10 +896,15 @@ extension Shield {
     }
 
     public struct DisassociateHealthCheckResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EmergencyContact: AWSEncodableShape & AWSDecodableShape {
+
         /// Additional notes regarding the contact.
         public let contactNotes: String?
         /// The email address for the contact.
@@ -824,18 +938,31 @@ extension Shield {
     }
 
     public struct EnableProactiveEngagementRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableProactiveEngagementResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetSubscriptionStateRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetSubscriptionStateResponse: AWSDecodableShape {
+
         /// The status of the subscription.
         public let subscriptionState: SubscriptionState
 
@@ -849,6 +976,7 @@ extension Shield {
     }
 
     public struct Limit: AWSDecodableShape {
+
         /// The maximum number of protections that can be created for the specified Type.
         public let max: Int64?
         /// The type of protection.
@@ -866,6 +994,7 @@ extension Shield {
     }
 
     public struct ListAttacksRequest: AWSEncodableShape {
+
         /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed.
         public let endTime: TimeRange?
         /// The maximum number of AttackSummary objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
@@ -908,6 +1037,7 @@ extension Shield {
     }
 
     public struct ListAttacksResponse: AWSDecodableShape {
+
         /// The attack information for the specified time range.
         public let attackSummaries: [AttackSummary]?
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items. Shield Advanced might return the list of AttackSummary objects in batches smaller than the number specified by MaxResults. If there are more attack summary objects to return, Shield Advanced will always also return a NextToken.
@@ -925,6 +1055,7 @@ extension Shield {
     }
 
     public struct ListProtectionGroupsRequest: AWSEncodableShape {
+
         /// The maximum number of ProtectionGroup objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
         public let maxResults: Int?
         /// The next token value from a previous call to ListProtectionGroups. Pass null if this is the first call.
@@ -950,6 +1081,7 @@ extension Shield {
     }
 
     public struct ListProtectionGroupsResponse: AWSDecodableShape {
+
         /// If you specify a value for MaxResults and you have more protection groups than the value of MaxResults, AWS Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
         public let nextToken: String?
         public let protectionGroups: [ProtectionGroup]
@@ -966,6 +1098,7 @@ extension Shield {
     }
 
     public struct ListProtectionsRequest: AWSEncodableShape {
+
         /// The maximum number of Protection objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
         public let maxResults: Int?
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
@@ -991,6 +1124,7 @@ extension Shield {
     }
 
     public struct ListProtectionsResponse: AWSDecodableShape {
+
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. Shield Advanced might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, Shield Advanced will always also return a NextToken.
         public let nextToken: String?
         /// The array of enabled Protection objects.
@@ -1008,6 +1142,7 @@ extension Shield {
     }
 
     public struct ListResourcesInProtectionGroupRequest: AWSEncodableShape {
+
         /// The maximum number of resource ARN objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
         public let maxResults: Int?
         /// The next token value from a previous call to ListResourcesInProtectionGroup. Pass null if this is the first call.
@@ -1040,6 +1175,7 @@ extension Shield {
     }
 
     public struct ListResourcesInProtectionGroupResponse: AWSDecodableShape {
+
         /// If you specify a value for MaxResults and you have more resources in the protection group than the value of MaxResults, AWS Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
         public let nextToken: String?
         /// The Amazon Resource Names (ARNs) of the resources that are included in the protection group.
@@ -1057,6 +1193,7 @@ extension Shield {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource to get tags for.
         public let resourceARN: String
 
@@ -1076,6 +1213,7 @@ extension Shield {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [Tag]?
 
@@ -1089,6 +1227,7 @@ extension Shield {
     }
 
     public struct Mitigation: AWSDecodableShape {
+
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
 
@@ -1102,6 +1241,7 @@ extension Shield {
     }
 
     public struct Protection: AWSDecodableShape {
+
         /// The unique identifier (ID) for the Route 53 health check that's associated with the protection.
         public let healthCheckIds: [String]?
         /// The unique identifier (ID) of the protection.
@@ -1131,6 +1271,7 @@ extension Shield {
     }
 
     public struct ProtectionGroup: AWSDecodableShape {
+
         /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
         public let aggregation: ProtectionGroupAggregation
         /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
@@ -1164,6 +1305,7 @@ extension Shield {
     }
 
     public struct ProtectionGroupArbitraryPatternLimits: AWSDecodableShape {
+
         /// The maximum number of resources you can specify for a single arbitrary pattern in a protection group.
         public let maxMembers: Int64
 
@@ -1177,6 +1319,7 @@ extension Shield {
     }
 
     public struct ProtectionGroupLimits: AWSDecodableShape {
+
         /// The maximum number of protection groups that you can have at one time.
         public let maxProtectionGroups: Int64
         /// Limits settings by pattern type in the protection groups for your subscription.
@@ -1194,6 +1337,7 @@ extension Shield {
     }
 
     public struct ProtectionGroupPatternTypeLimits: AWSDecodableShape {
+
         /// Limits settings on protection groups with arbitrary pattern type.
         public let arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits
 
@@ -1207,6 +1351,7 @@ extension Shield {
     }
 
     public struct ProtectionLimits: AWSDecodableShape {
+
         /// The maximum number of resource types that you can specify in a protection.
         public let protectedResourceTypeLimits: [Limit]
 
@@ -1220,6 +1365,7 @@ extension Shield {
     }
 
     public struct SubResourceSummary: AWSDecodableShape {
+
         /// The list of attack types and associated counters.
         public let attackVectors: [SummarizedAttackVector]?
         /// The counters that describe the details of the attack.
@@ -1245,6 +1391,7 @@ extension Shield {
     }
 
     public struct Subscription: AWSDecodableShape {
+
         /// If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. When you initally create a subscription, AutoRenew is set to ENABLED. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
         /// The date and time your subscription will end.
@@ -1286,6 +1433,7 @@ extension Shield {
     }
 
     public struct SubscriptionLimits: AWSDecodableShape {
+
         /// Limits settings on protection groups for your subscription.
         public let protectionGroupLimits: ProtectionGroupLimits
         /// Limits settings on protections for your subscription.
@@ -1303,6 +1451,7 @@ extension Shield {
     }
 
     public struct SummarizedAttackVector: AWSDecodableShape {
+
         /// The list of counters that describe the details of the attack.
         public let vectorCounters: [SummarizedCounter]?
         /// The attack type, for example, SNMP reflection or SYN flood.
@@ -1320,6 +1469,7 @@ extension Shield {
     }
 
     public struct SummarizedCounter: AWSDecodableShape {
+
         /// The average value of the counter for a specified time period.
         public let average: Double?
         /// The maximum value of the counter for a specified time period.
@@ -1353,6 +1503,7 @@ extension Shield {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String?
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
@@ -1377,6 +1528,7 @@ extension Shield {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
         public let resourceARN: String
         /// The tags that you want to modify or add to the resource.
@@ -1405,10 +1557,15 @@ extension Shield {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The start time, in Unix time in seconds. For more information see timestamp.
         public let fromInclusive: Date?
         /// The end time, in Unix time in seconds. For more information see timestamp.
@@ -1426,6 +1583,7 @@ extension Shield {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
         public let resourceARN: String
         /// The tag key for each tag that you want to remove from the resource.
@@ -1455,10 +1613,15 @@ extension Shield {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateEmergencyContactSettingsRequest: AWSEncodableShape {
+
         /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
         public let emergencyContactList: [EmergencyContact]?
 
@@ -1480,10 +1643,15 @@ extension Shield {
     }
 
     public struct UpdateEmergencyContactSettingsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateProtectionGroupRequest: AWSEncodableShape {
+
         /// Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.
         public let aggregation: ProtectionGroupAggregation
         /// The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting.
@@ -1526,10 +1694,15 @@ extension Shield {
     }
 
     public struct UpdateProtectionGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateSubscriptionRequest: AWSEncodableShape {
+
         /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
 
@@ -1543,6 +1716,10 @@ extension Shield {
     }
 
     public struct UpdateSubscriptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

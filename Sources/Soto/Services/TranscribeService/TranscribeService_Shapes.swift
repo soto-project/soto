@@ -76,13 +76,13 @@ extension TranscribeService {
     }
 
     public enum MediaFormat: String, CustomStringConvertible, Codable {
-        case amr
-        case flac
-        case mp3
-        case mp4
-        case ogg
-        case wav
-        case webm
+        case amr = "amr"
+        case flac = "flac"
+        case mp3 = "mp3"
+        case mp4 = "mp4"
+        case ogg = "ogg"
+        case wav = "wav"
+        case webm = "webm"
         public var description: String { return self.rawValue }
     }
 
@@ -100,7 +100,7 @@ extension TranscribeService {
     }
 
     public enum RedactionOutput: String, CustomStringConvertible, Codable {
-        case redacted
+        case redacted = "redacted"
         case redactedAndUnredacted = "redacted_and_unredacted"
         public var description: String { return self.rawValue }
     }
@@ -130,9 +130,9 @@ extension TranscribeService {
     }
 
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
-        case mask
-        case remove
-        case tag
+        case mask = "mask"
+        case remove = "remove"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
@@ -146,6 +146,7 @@ extension TranscribeService {
     // MARK: Shapes
 
     public struct ContentRedaction: AWSEncodableShape & AWSDecodableShape {
+
         /// The output transcript file stored in either the default S3 bucket or in a bucket you specify. When you choose redacted Amazon Transcribe outputs only the redacted transcript. When you choose redacted_and_unredacted Amazon Transcribe outputs both the redacted and unredacted transcripts.
         public let redactionOutput: RedactionOutput
         /// Request parameter that defines the entities to be redacted. The only accepted value is PII.
@@ -163,6 +164,7 @@ extension TranscribeService {
     }
 
     public struct CreateLanguageModelRequest: AWSEncodableShape {
+
         /// The Amazon Transcribe standard language model, or base model used to create your custom language model. If you want to use your custom language model to transcribe audio with a sample rate of 16 kHz or greater, choose Wideband. If you want to use your custom language model to transcribe audio with a sample rate that is less than 16 kHz, choose Narrowband.
         public let baseModelName: BaseModelName
         /// Contains the data access role and the Amazon S3 prefixes to read the required input files to create a custom language model.
@@ -195,6 +197,7 @@ extension TranscribeService {
     }
 
     public struct CreateLanguageModelResponse: AWSDecodableShape {
+
         /// The Amazon Transcribe standard language model, or base model you've used to create a custom language model.
         public let baseModelName: BaseModelName?
         /// The data access role and Amazon S3 prefixes you've chosen to create your custom language model.
@@ -224,6 +227,7 @@ extension TranscribeService {
     }
 
     public struct CreateMedicalVocabularyRequest: AWSEncodableShape {
+
         /// The language code for the language used for the entries in your custom vocabulary. The language code of your custom vocabulary must match the language code of your transcription job. US English (en-US) is the only language code available for Amazon Transcribe Medical.
         public let languageCode: LanguageCode
         /// The location in Amazon S3 of the text file you use to define your custom vocabulary. The URI must be in the same AWS Region as the resource that you're calling. Enter information about your VocabularyFileUri in the following format:   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   The following is an example URI for a vocabulary file that is stored in Amazon S3:  https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt  For more information about Amazon S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies, see Medical Custom Vocabularies.
@@ -254,6 +258,7 @@ extension TranscribeService {
     }
 
     public struct CreateMedicalVocabularyResponse: AWSDecodableShape {
+
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
         public let failureReason: String?
         /// The language code for the entries in your custom vocabulary. US English (en-US) is the only valid language code for Amazon Transcribe Medical.
@@ -283,6 +288,7 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyFilterRequest: AWSEncodableShape {
+
         /// The language code of the words in the vocabulary filter. All words in the filter must be in the same language. The vocabulary filter can only be used with transcription jobs in the specified language.
         public let languageCode: LanguageCode
         /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
@@ -322,6 +328,7 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyFilterResponse: AWSDecodableShape {
+
         /// The language code of the words in the collection.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary filter was modified.
@@ -343,6 +350,7 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyRequest: AWSEncodableShape {
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
         /// An array of strings that contains the vocabulary entries.
@@ -382,6 +390,7 @@ extension TranscribeService {
     }
 
     public struct CreateVocabularyResponse: AWSDecodableShape {
+
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
         public let failureReason: String?
         /// The language code of the vocabulary entries.
@@ -411,6 +420,7 @@ extension TranscribeService {
     }
 
     public struct DeleteLanguageModelRequest: AWSEncodableShape {
+
         /// The name of the model you're choosing to delete.
         public let modelName: String
 
@@ -430,6 +440,7 @@ extension TranscribeService {
     }
 
     public struct DeleteMedicalTranscriptionJobRequest: AWSEncodableShape {
+
         /// The name you provide to the DeleteMedicalTranscriptionJob object to delete a transcription job.
         public let medicalTranscriptionJobName: String
 
@@ -449,6 +460,7 @@ extension TranscribeService {
     }
 
     public struct DeleteMedicalVocabularyRequest: AWSEncodableShape {
+
         /// The name of the vocabulary that you want to delete.
         public let vocabularyName: String
 
@@ -468,6 +480,7 @@ extension TranscribeService {
     }
 
     public struct DeleteTranscriptionJobRequest: AWSEncodableShape {
+
         /// The name of the transcription job to be deleted.
         public let transcriptionJobName: String
 
@@ -487,6 +500,7 @@ extension TranscribeService {
     }
 
     public struct DeleteVocabularyFilterRequest: AWSEncodableShape {
+
         /// The name of the vocabulary filter to remove.
         public let vocabularyFilterName: String
 
@@ -506,6 +520,7 @@ extension TranscribeService {
     }
 
     public struct DeleteVocabularyRequest: AWSEncodableShape {
+
         /// The name of the vocabulary to delete.
         public let vocabularyName: String
 
@@ -525,6 +540,7 @@ extension TranscribeService {
     }
 
     public struct DescribeLanguageModelRequest: AWSEncodableShape {
+
         /// The name of the custom language model you submit to get more information.
         public let modelName: String
 
@@ -544,6 +560,7 @@ extension TranscribeService {
     }
 
     public struct DescribeLanguageModelResponse: AWSDecodableShape {
+
         /// The name of the custom language model you requested more information about.
         public let languageModel: LanguageModel?
 
@@ -557,6 +574,7 @@ extension TranscribeService {
     }
 
     public struct GetMedicalTranscriptionJobRequest: AWSEncodableShape {
+
         /// The name of the medical transcription job.
         public let medicalTranscriptionJobName: String
 
@@ -576,6 +594,7 @@ extension TranscribeService {
     }
 
     public struct GetMedicalTranscriptionJobResponse: AWSDecodableShape {
+
         /// An object that contains the results of the medical transcription job.
         public let medicalTranscriptionJob: MedicalTranscriptionJob?
 
@@ -589,6 +608,7 @@ extension TranscribeService {
     }
 
     public struct GetMedicalVocabularyRequest: AWSEncodableShape {
+
         /// The name of the vocabulary that you want information about. The value is case sensitive.
         public let vocabularyName: String
 
@@ -608,6 +628,7 @@ extension TranscribeService {
     }
 
     public struct GetMedicalVocabularyResponse: AWSDecodableShape {
+
         /// The location in Amazon S3 where the vocabulary is stored. Use this URI to get the contents of the vocabulary. You can download your vocabulary from the URI for a limited time.
         public let downloadUri: String?
         /// If the VocabularyState is FAILED, this field contains information about why the job failed.
@@ -641,6 +662,7 @@ extension TranscribeService {
     }
 
     public struct GetTranscriptionJobRequest: AWSEncodableShape {
+
         /// The name of the job.
         public let transcriptionJobName: String
 
@@ -660,6 +682,7 @@ extension TranscribeService {
     }
 
     public struct GetTranscriptionJobResponse: AWSDecodableShape {
+
         /// An object that contains the results of the transcription job.
         public let transcriptionJob: TranscriptionJob?
 
@@ -673,6 +696,7 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyFilterRequest: AWSEncodableShape {
+
         /// The name of the vocabulary filter for which to return information.
         public let vocabularyFilterName: String
 
@@ -692,6 +716,7 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyFilterResponse: AWSDecodableShape {
+
         /// The URI of the list of words in the vocabulary filter. You can use this URI to get the list of words.
         public let downloadUri: String?
         /// The language code of the words in the vocabulary filter.
@@ -717,6 +742,7 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyRequest: AWSEncodableShape {
+
         /// The name of the vocabulary to return information about. The name is case sensitive.
         public let vocabularyName: String
 
@@ -736,6 +762,7 @@ extension TranscribeService {
     }
 
     public struct GetVocabularyResponse: AWSDecodableShape {
+
         /// The S3 location where the vocabulary is stored. Use this URI to get the contents of the vocabulary. The URI is available for a limited time.
         public let downloadUri: String?
         /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
@@ -769,6 +796,7 @@ extension TranscribeService {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that uniquely identifies the permissions you've given Amazon Transcribe to access your Amazon S3 buckets containing your media files or text data.
         public let dataAccessRoleArn: String
         /// The Amazon S3 prefix you specify to access the plain text files that you use to train your custom language model.
@@ -802,6 +830,7 @@ extension TranscribeService {
     }
 
     public struct JobExecutionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit is exceeded. When the AllowDeferredExecution field is true, jobs are queued and executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
         public let allowDeferredExecution: Bool?
         /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket that contains the input files. Amazon Transcribe assumes this role to read queued media files. If you have specified an output S3 bucket for the transcription results, this role should have access to the output bucket as well. If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
@@ -825,6 +854,7 @@ extension TranscribeService {
     }
 
     public struct LanguageModel: AWSDecodableShape {
+
         /// The Amazon Transcribe standard language model, or base model used to create the custom language model.
         public let baseModelName: BaseModelName?
         /// The time the custom language model was created.
@@ -870,6 +900,7 @@ extension TranscribeService {
     }
 
     public struct ListLanguageModelsRequest: AWSEncodableShape {
+
         /// The maximum number of language models to return in the response. If there are fewer results in the list, the response contains only the actual results.
         public let maxResults: Int?
         /// When specified, the custom language model names returned contain the substring you've specified.
@@ -905,6 +936,7 @@ extension TranscribeService {
     }
 
     public struct ListLanguageModelsResponse: AWSDecodableShape {
+
         /// A list of objects containing information about custom language models.
         public let models: [LanguageModel]?
         /// The operation returns a page of jobs at a time. The maximum size of the list is set by the MaxResults parameter. If there are more language models in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the operation to return the next page of language models.
@@ -922,6 +954,7 @@ extension TranscribeService {
     }
 
     public struct ListMedicalTranscriptionJobsRequest: AWSEncodableShape {
+
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
         public let jobNameContains: String?
         /// The maximum number of medical transcription jobs to return in the response. IF there are fewer results in the list, this response contains only the actual results.
@@ -957,6 +990,7 @@ extension TranscribeService {
     }
 
     public struct ListMedicalTranscriptionJobsResponse: AWSDecodableShape {
+
         /// A list of objects containing summary information for a transcription job.
         public let medicalTranscriptionJobSummaries: [MedicalTranscriptionJobSummary]?
         /// The ListMedicalTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If the number of jobs exceeds what can fit on a page, Amazon Transcribe Medical returns the NextPage token. Include the token in the next request to the ListMedicalTranscriptionJobs operation to return in the next page of jobs.
@@ -978,6 +1012,7 @@ extension TranscribeService {
     }
 
     public struct ListMedicalVocabulariesRequest: AWSEncodableShape {
+
         /// The maximum number of vocabularies to return in the response.
         public let maxResults: Int?
         /// Returns vocabularies whose names contain the specified string. The search is not case sensitive. ListMedicalVocabularies returns both "vocabularyname" and "VocabularyName".
@@ -1013,6 +1048,7 @@ extension TranscribeService {
     }
 
     public struct ListMedicalVocabulariesResponse: AWSDecodableShape {
+
         /// The ListMedicalVocabularies operation returns a page of vocabularies at a time. You set the maximum number of vocabularies to return on a page with the MaxResults parameter. If there are more jobs in the list will fit on a page, Amazon Transcribe Medical returns the NextPage token. To return the next page of vocabularies, include the token in the next request to the ListMedicalVocabularies operation .
         public let nextToken: String?
         /// The requested vocabulary state.
@@ -1034,6 +1070,7 @@ extension TranscribeService {
     }
 
     public struct ListTranscriptionJobsRequest: AWSEncodableShape {
+
         /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
         public let jobNameContains: String?
         /// The maximum number of jobs to return in the response. If there are fewer results in the list, this response contains only the actual results.
@@ -1069,6 +1106,7 @@ extension TranscribeService {
     }
 
     public struct ListTranscriptionJobsResponse: AWSDecodableShape {
+
         /// The ListTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListTranscriptionJobs operation to return in the next page of jobs.
         public let nextToken: String?
         /// The requested status of the jobs returned.
@@ -1090,6 +1128,7 @@ extension TranscribeService {
     }
 
     public struct ListVocabulariesRequest: AWSEncodableShape {
+
         /// The maximum number of vocabularies to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
         /// When specified, the vocabularies returned in the list are limited to vocabularies whose name contains the specified string. The search is not case sensitive, ListVocabularies returns both "vocabularyname" and "VocabularyName" in the response list.
@@ -1125,6 +1164,7 @@ extension TranscribeService {
     }
 
     public struct ListVocabulariesResponse: AWSDecodableShape {
+
         /// The ListVocabularies operation returns a page of vocabularies at a time. The maximum size of the page is set in the MaxResults parameter. If there are more jobs in the list than will fit on the page, Amazon Transcribe returns the NextPage token. To return in the next page of jobs, include the token in the next request to the ListVocabularies operation.
         public let nextToken: String?
         /// The requested vocabulary state.
@@ -1146,6 +1186,7 @@ extension TranscribeService {
     }
 
     public struct ListVocabularyFiltersRequest: AWSEncodableShape {
+
         /// The maximum number of filters to return in the response. If there are fewer results in the list, this response contains only the actual results.
         public let maxResults: Int?
         /// Filters the response so that it only contains vocabulary filters whose name contains the specified string.
@@ -1177,6 +1218,7 @@ extension TranscribeService {
     }
 
     public struct ListVocabularyFiltersResponse: AWSDecodableShape {
+
         /// The ListVocabularyFilters operation returns a page of collections at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularyFilters operation to return in the next page of jobs.
         public let nextToken: String?
         /// The list of vocabulary filters. It contains at most MaxResults number of filters. If there are more filters, call the ListVocabularyFilters operation again with the NextToken parameter in the request set to the value of the NextToken field in the response.
@@ -1194,6 +1236,7 @@ extension TranscribeService {
     }
 
     public struct Media: AWSEncodableShape & AWSDecodableShape {
+
         /// The S3 object location of the input media file. The URI must be in the same region as the API endpoint that you are calling. The general form is: For example: For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
         public let mediaFileUri: String?
 
@@ -1213,6 +1256,7 @@ extension TranscribeService {
     }
 
     public struct MedicalTranscript: AWSDecodableShape {
+
         /// The S3 object location of the medical transcript. Use this URI to access the medical transcript. This URI points to the S3 bucket you created to store the medical transcript.
         public let transcriptFileUri: String?
 
@@ -1226,6 +1270,7 @@ extension TranscribeService {
     }
 
     public struct MedicalTranscriptionJob: AWSDecodableShape {
+
         /// A timestamp that shows when the job was completed.
         public let completionTime: Date?
         /// A timestamp that shows when the job was created.
@@ -1290,6 +1335,7 @@ extension TranscribeService {
     }
 
     public struct MedicalTranscriptionJobSummary: AWSDecodableShape {
+
         /// A timestamp that shows when the job was completed.
         public let completionTime: Date?
         /// A timestamp that shows when the medical transcription job was created.
@@ -1339,6 +1385,7 @@ extension TranscribeService {
     }
 
     public struct MedicalTranscriptionSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// Instructs Amazon Transcribe Medical to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of item. The alternative transcriptions also come with confidence scores provided by Amazon Transcribe Medical. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException
         public let channelIdentification: Bool?
         /// The maximum number of alternatives that you tell the service to return. If you specify the MaxAlternatives field, you must set the ShowAlternatives field to true.
@@ -1382,6 +1429,7 @@ extension TranscribeService {
     }
 
     public struct ModelSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of your custom language model.
         public let languageModelName: String?
 
@@ -1401,6 +1449,7 @@ extension TranscribeService {
     }
 
     public struct Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription.  Amazon Transcribe also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both ShowSpeakerLabels and ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let channelIdentification: Bool?
         /// The number of alternative transcriptions that the service should return. If you specify the MaxAlternatives field, you must set the ShowAlternatives field to true.
@@ -1455,6 +1504,7 @@ extension TranscribeService {
     }
 
     public struct StartMedicalTranscriptionJobRequest: AWSEncodableShape {
+
         /// The language code for the language spoken in the input media file. US English (en-US) is the valid value for medical transcription jobs. Any other value you enter for language code results in a BadRequestException error.
         public let languageCode: LanguageCode
         public let media: Media
@@ -1525,6 +1575,7 @@ extension TranscribeService {
     }
 
     public struct StartMedicalTranscriptionJobResponse: AWSDecodableShape {
+
         /// A batch job submitted to transcribe medical speech to text.
         public let medicalTranscriptionJob: MedicalTranscriptionJob?
 
@@ -1538,6 +1589,7 @@ extension TranscribeService {
     }
 
     public struct StartTranscriptionJobRequest: AWSEncodableShape {
+
         /// An object that contains the request parameters for content redaction.
         public let contentRedaction: ContentRedaction?
         /// Set this field to true to enable automatic language identification. Automatic language identification is disabled by default. You receive a BadRequestException error if you enter a value for a LanguageCode.
@@ -1624,6 +1676,7 @@ extension TranscribeService {
     }
 
     public struct StartTranscriptionJobResponse: AWSDecodableShape {
+
         /// An object containing details of the asynchronous transcription job.
         public let transcriptionJob: TranscriptionJob?
 
@@ -1637,6 +1690,7 @@ extension TranscribeService {
     }
 
     public struct Transcript: AWSDecodableShape {
+
         /// The S3 object location of the redacted transcript. Use this URI to access the redacted transcript. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
         public let redactedTranscriptFileUri: String?
         /// The S3 object location of the transcript. Use this URI to access the transcript. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides secure access to that location.
@@ -1654,6 +1708,7 @@ extension TranscribeService {
     }
 
     public struct TranscriptionJob: AWSDecodableShape {
+
         /// A timestamp that shows when the job was completed.
         public let completionTime: Date?
         /// An object that describes content redaction settings for the transcription job.
@@ -1735,6 +1790,7 @@ extension TranscribeService {
     }
 
     public struct TranscriptionJobSummary: AWSDecodableShape {
+
         /// A timestamp that shows when the job was completed.
         public let completionTime: Date?
         /// The content redaction settings of the transcription job.
@@ -1791,6 +1847,7 @@ extension TranscribeService {
     }
 
     public struct UpdateMedicalVocabularyRequest: AWSEncodableShape {
+
         /// The language code of the language used for the entries in the updated vocabulary. US English (en-US) is the only valid language code in Amazon Transcribe Medical.
         public let languageCode: LanguageCode
         /// The location in Amazon S3 of the text file that contains the you use for your custom vocabulary. The URI must be in the same AWS Region as the resource that you are calling. The following is the format for a URI:   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt  For more information about Amazon S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies in Amazon Transcribe Medical, see Medical Custom Vocabularies.
@@ -1821,6 +1878,7 @@ extension TranscribeService {
     }
 
     public struct UpdateMedicalVocabularyResponse: AWSDecodableShape {
+
         /// The language code for the language of the text file used to update the custom vocabulary. US English (en-US) is the only language supported in Amazon Transcribe Medical.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was updated.
@@ -1846,6 +1904,7 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyFilterRequest: AWSEncodableShape {
+
         /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
         public let vocabularyFilterFileUri: String?
         /// The name of the vocabulary filter to update. If you try to update a vocabulary filter with the same name as another vocabulary filter, you get a ConflictException error.
@@ -1881,6 +1940,7 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyFilterResponse: AWSDecodableShape {
+
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary filter was updated.
@@ -1902,6 +1962,7 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyRequest: AWSEncodableShape {
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode
         /// An array of strings containing the vocabulary entries.
@@ -1941,6 +2002,7 @@ extension TranscribeService {
     }
 
     public struct UpdateVocabularyResponse: AWSDecodableShape {
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was updated.
@@ -1966,6 +2028,7 @@ extension TranscribeService {
     }
 
     public struct VocabularyFilterInfo: AWSDecodableShape {
+
         /// The language code of the words in the vocabulary filter.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last updated.
@@ -1987,6 +2050,7 @@ extension TranscribeService {
     }
 
     public struct VocabularyInfo: AWSDecodableShape {
+
         /// The language code of the vocabulary entries.
         public let languageCode: LanguageCode?
         /// The date and time that the vocabulary was last modified.

@@ -78,23 +78,23 @@ extension SES {
     }
 
     public enum DsnAction: String, CustomStringConvertible, Codable {
-        case delayed
-        case delivered
-        case expanded
-        case failed
-        case relayed
+        case delayed = "delayed"
+        case delivered = "delivered"
+        case expanded = "expanded"
+        case failed = "failed"
+        case relayed = "relayed"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case bounce
-        case click
-        case complaint
-        case delivery
-        case open
-        case reject
+        case bounce = "bounce"
+        case click = "click"
+        case complaint = "complaint"
+        case delivery = "delivery"
+        case open = "open"
+        case reject = "reject"
         case renderingfailure = "renderingFailure"
-        case send
+        case send = "send"
         public var description: String { return self.rawValue }
     }
 
@@ -152,6 +152,7 @@ extension SES {
     // MARK: Shapes
 
     public struct AddHeaderAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public let headerName: String
         /// Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
@@ -169,6 +170,7 @@ extension SES {
     }
 
     public struct Body: AWSEncodableShape {
+
         /// The content of the message, in HTML format. Use this for email clients that can process HTML. You can include clickable links, formatted text, and much more in an HTML message.
         public let html: Content?
         /// The content of the message, in text format. Use this for text-based email clients, or clients on high-latency networks (such as mobile devices).
@@ -186,6 +188,7 @@ extension SES {
     }
 
     public struct BounceAction: AWSEncodableShape & AWSDecodableShape {
+
         /// Human-readable text to include in the bounce message.
         public let message: String
         /// The email address of the sender of the bounced email. This is the address from which the bounce message will be sent.
@@ -215,6 +218,7 @@ extension SES {
     }
 
     public struct BouncedRecipientInfo: AWSEncodableShape {
+
         /// The reason for the bounce. You must provide either this parameter or RecipientDsnFields.
         public let bounceType: BounceType?
         /// The email address of the recipient of the bounced email.
@@ -240,6 +244,7 @@ extension SES {
     }
 
     public struct BulkEmailDestination: AWSEncodableShape {
+
         public let destination: Destination
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendBulkTemplatedEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -254,7 +259,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.replacementTemplateData, name: "replacementTemplateData", parent: name, max: 262_144)
+            try self.validate(self.replacementTemplateData, name: "replacementTemplateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -265,6 +270,7 @@ extension SES {
     }
 
     public struct BulkEmailDestinationStatus: AWSDecodableShape {
+
         /// A description of an error that prevented a message being sent using the SendBulkTemplatedEmail operation.
         public let error: String?
         /// The unique message identifier returned from the SendBulkTemplatedEmail operation.
@@ -286,6 +292,7 @@ extension SES {
     }
 
     public struct CloneReceiptRuleSetRequest: AWSEncodableShape {
+
         /// The name of the rule set to clone.
         public let originalRuleSetName: String
         /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
@@ -303,10 +310,15 @@ extension SES {
     }
 
     public struct CloneReceiptRuleSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CloudWatchDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
         @CustomCoding<StandardArrayCoder>
         public var dimensionConfigurations: [CloudWatchDimensionConfiguration]
@@ -321,6 +333,7 @@ extension SES {
     }
 
     public struct CloudWatchDimensionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
         public let defaultDimensionValue: String
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
@@ -342,6 +355,7 @@ extension SES {
     }
 
     public struct ConfigurationSet: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the configuration set. The name must meet the following requirements:   Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain 64 characters or fewer.
         public let name: String
 
@@ -355,6 +369,7 @@ extension SES {
     }
 
     public struct Content: AWSEncodableShape {
+
         /// The character set of the content.
         public let charset: String?
         /// The textual data of the content.
@@ -372,6 +387,7 @@ extension SES {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
+
         /// The name of the configuration set that the event destination should be associated with.
         public let configurationSetName: String
         /// An object that describes the AWS service that email sending event information will be published to.
@@ -389,10 +405,15 @@ extension SES {
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateConfigurationSetRequest: AWSEncodableShape {
+
         /// A data structure that contains the name of the configuration set.
         public let configurationSet: ConfigurationSet
 
@@ -406,10 +427,15 @@ extension SES {
     }
 
     public struct CreateConfigurationSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
+
         /// The name of the configuration set that the tracking options should be associated with.
         public let configurationSetName: String
         public let trackingOptions: TrackingOptions
@@ -426,10 +452,15 @@ extension SES {
     }
 
     public struct CreateConfigurationSetTrackingOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateCustomVerificationEmailTemplateRequest: AWSEncodableShape {
+
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String
         /// The email address that the custom verification email is sent from.
@@ -463,6 +494,7 @@ extension SES {
     }
 
     public struct CreateReceiptFilterRequest: AWSEncodableShape {
+
         /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
         public let filter: ReceiptFilter
 
@@ -476,10 +508,15 @@ extension SES {
     }
 
     public struct CreateReceiptFilterResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateReceiptRuleRequest: AWSEncodableShape {
+
         /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
         public let after: String?
         /// A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
@@ -501,10 +538,15 @@ extension SES {
     }
 
     public struct CreateReceiptRuleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateReceiptRuleSetRequest: AWSEncodableShape {
+
         /// The name of the rule set to create. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
         public let ruleSetName: String
 
@@ -518,10 +560,15 @@ extension SES {
     }
 
     public struct CreateReceiptRuleSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateTemplateRequest: AWSEncodableShape {
+
         /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
         public let template: Template
 
@@ -535,10 +582,15 @@ extension SES {
     }
 
     public struct CreateTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CustomVerificationEmailTemplate: AWSDecodableShape {
+
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
         /// The email address that the custom verification email is sent from.
@@ -568,6 +620,7 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
+
         /// The name of the configuration set from which to delete the event destination.
         public let configurationSetName: String
         /// The name of the event destination to delete.
@@ -585,10 +638,15 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
+
         /// The name of the configuration set to delete.
         public let configurationSetName: String
 
@@ -602,10 +660,15 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
+
         /// The name of the configuration set from which you want to delete the tracking options.
         public let configurationSetName: String
 
@@ -619,10 +682,15 @@ extension SES {
     }
 
     public struct DeleteConfigurationSetTrackingOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteCustomVerificationEmailTemplateRequest: AWSEncodableShape {
+
         /// The name of the custom verification email template that you want to delete.
         public let templateName: String
 
@@ -636,6 +704,7 @@ extension SES {
     }
 
     public struct DeleteIdentityPolicyRequest: AWSEncodableShape {
+
         /// The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
         /// The name of the policy to be deleted.
@@ -658,10 +727,15 @@ extension SES {
     }
 
     public struct DeleteIdentityPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteIdentityRequest: AWSEncodableShape {
+
         /// The identity to be removed from the list of identities for the AWS Account.
         public let identity: String
 
@@ -675,10 +749,15 @@ extension SES {
     }
 
     public struct DeleteIdentityResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReceiptFilterRequest: AWSEncodableShape {
+
         /// The name of the IP address filter to delete.
         public let filterName: String
 
@@ -692,10 +771,15 @@ extension SES {
     }
 
     public struct DeleteReceiptFilterResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReceiptRuleRequest: AWSEncodableShape {
+
         /// The name of the receipt rule to delete.
         public let ruleName: String
         /// The name of the receipt rule set that contains the receipt rule to delete.
@@ -713,10 +797,15 @@ extension SES {
     }
 
     public struct DeleteReceiptRuleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReceiptRuleSetRequest: AWSEncodableShape {
+
         /// The name of the receipt rule set to delete.
         public let ruleSetName: String
 
@@ -730,10 +819,15 @@ extension SES {
     }
 
     public struct DeleteReceiptRuleSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTemplateRequest: AWSEncodableShape {
+
         /// The name of the template to be deleted.
         public let templateName: String
 
@@ -747,10 +841,15 @@ extension SES {
     }
 
     public struct DeleteTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteVerifiedEmailAddressRequest: AWSEncodableShape {
+
         /// An email address to be removed from the list of verified addresses.
         public let emailAddress: String
 
@@ -764,6 +863,7 @@ extension SES {
     }
 
     public struct DeliveryOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public let tlsPolicy: TlsPolicy?
 
@@ -777,10 +877,15 @@ extension SES {
     }
 
     public struct DescribeActiveReceiptRuleSetRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeActiveReceiptRuleSetResponse: AWSDecodableShape {
+
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
         /// The receipt rules that belong to the active rule set.
@@ -799,6 +904,7 @@ extension SES {
     }
 
     public struct DescribeConfigurationSetRequest: AWSEncodableShape {
+
         /// A list of configuration set attributes to return.
         @OptionalCustomCoding<StandardArrayCoder>
         public var configurationSetAttributeNames: [ConfigurationSetAttribute]?
@@ -817,6 +923,7 @@ extension SES {
     }
 
     public struct DescribeConfigurationSetResponse: AWSDecodableShape {
+
         /// The configuration set object associated with the specified configuration set.
         public let configurationSet: ConfigurationSet?
         public let deliveryOptions: DeliveryOptions?
@@ -846,6 +953,7 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleRequest: AWSEncodableShape {
+
         /// The name of the receipt rule.
         public let ruleName: String
         /// The name of the receipt rule set that the receipt rule belongs to.
@@ -863,6 +971,7 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleResponse: AWSDecodableShape {
+
         /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
         public let rule: ReceiptRule?
 
@@ -876,6 +985,7 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleSetRequest: AWSEncodableShape {
+
         /// The name of the receipt rule set to describe.
         public let ruleSetName: String
 
@@ -889,6 +999,7 @@ extension SES {
     }
 
     public struct DescribeReceiptRuleSetResponse: AWSDecodableShape {
+
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
         /// A list of the receipt rules that belong to the specified receipt rule set.
@@ -907,6 +1018,7 @@ extension SES {
     }
 
     public struct Destination: AWSEncodableShape {
+
         /// The recipients to place on the BCC: line of the message.
         @OptionalCustomCoding<StandardArrayCoder>
         public var bccAddresses: [String]?
@@ -931,6 +1043,7 @@ extension SES {
     }
 
     public struct EventDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public let cloudWatchDestination: CloudWatchDestination?
         /// Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false.
@@ -965,6 +1078,7 @@ extension SES {
     }
 
     public struct ExtensionField: AWSEncodableShape {
+
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public let name: String
         /// The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
@@ -982,6 +1096,7 @@ extension SES {
     }
 
     public struct GetAccountSendingEnabledResponse: AWSDecodableShape {
+
         /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
         public let enabled: Bool?
 
@@ -995,6 +1110,7 @@ extension SES {
     }
 
     public struct GetCustomVerificationEmailTemplateRequest: AWSEncodableShape {
+
         /// The name of the custom verification email template that you want to retrieve.
         public let templateName: String
 
@@ -1008,6 +1124,7 @@ extension SES {
     }
 
     public struct GetCustomVerificationEmailTemplateResponse: AWSDecodableShape {
+
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
         /// The email address that the custom verification email is sent from.
@@ -1041,6 +1158,7 @@ extension SES {
     }
 
     public struct GetIdentityDkimAttributesRequest: AWSEncodableShape {
+
         /// A list of one or more verified identities - email addresses, domains, or both.
         @CustomCoding<StandardArrayCoder>
         public var identities: [String]
@@ -1055,6 +1173,7 @@ extension SES {
     }
 
     public struct GetIdentityDkimAttributesResponse: AWSDecodableShape {
+
         /// The DKIM attributes for an email address or a domain.
         @CustomCoding<StandardDictionaryCoder>
         public var dkimAttributes: [String: IdentityDkimAttributes]
@@ -1069,6 +1188,7 @@ extension SES {
     }
 
     public struct GetIdentityMailFromDomainAttributesRequest: AWSEncodableShape {
+
         /// A list of one or more identities.
         @CustomCoding<StandardArrayCoder>
         public var identities: [String]
@@ -1083,6 +1203,7 @@ extension SES {
     }
 
     public struct GetIdentityMailFromDomainAttributesResponse: AWSDecodableShape {
+
         /// A map of identities to custom MAIL FROM attributes.
         @CustomCoding<StandardDictionaryCoder>
         public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
@@ -1097,6 +1218,7 @@ extension SES {
     }
 
     public struct GetIdentityNotificationAttributesRequest: AWSEncodableShape {
+
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         @CustomCoding<StandardArrayCoder>
         public var identities: [String]
@@ -1111,6 +1233,7 @@ extension SES {
     }
 
     public struct GetIdentityNotificationAttributesResponse: AWSDecodableShape {
+
         /// A map of Identity to IdentityNotificationAttributes.
         @CustomCoding<StandardDictionaryCoder>
         public var notificationAttributes: [String: IdentityNotificationAttributes]
@@ -1125,6 +1248,7 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesRequest: AWSEncodableShape {
+
         /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
         /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
@@ -1150,6 +1274,7 @@ extension SES {
     }
 
     public struct GetIdentityPoliciesResponse: AWSDecodableShape {
+
         /// A map of policy names to policies.
         @CustomCoding<StandardDictionaryCoder>
         public var policies: [String: String]
@@ -1164,6 +1289,7 @@ extension SES {
     }
 
     public struct GetIdentityVerificationAttributesRequest: AWSEncodableShape {
+
         /// A list of identities.
         @CustomCoding<StandardArrayCoder>
         public var identities: [String]
@@ -1178,6 +1304,7 @@ extension SES {
     }
 
     public struct GetIdentityVerificationAttributesResponse: AWSDecodableShape {
+
         /// A map of Identities to IdentityVerificationAttributes objects.
         @CustomCoding<StandardDictionaryCoder>
         public var verificationAttributes: [String: IdentityVerificationAttributes]
@@ -1192,6 +1319,7 @@ extension SES {
     }
 
     public struct GetSendQuotaResponse: AWSDecodableShape {
+
         /// The maximum number of emails the user is allowed to send in a 24-hour interval. A value of -1 signifies an unlimited quota.
         public let max24HourSend: Double?
         /// The maximum number of emails that Amazon SES can accept from the user's account per second.  The rate at which Amazon SES accepts the user's messages might be less than the maximum send rate.
@@ -1213,6 +1341,7 @@ extension SES {
     }
 
     public struct GetSendStatisticsResponse: AWSDecodableShape {
+
         /// A list of data points, each of which represents 15 minutes of activity.
         @OptionalCustomCoding<StandardArrayCoder>
         public var sendDataPoints: [SendDataPoint]?
@@ -1227,6 +1356,7 @@ extension SES {
     }
 
     public struct GetTemplateRequest: AWSEncodableShape {
+
         /// The name of the template you want to retrieve.
         public let templateName: String
 
@@ -1240,6 +1370,7 @@ extension SES {
     }
 
     public struct GetTemplateResponse: AWSDecodableShape {
+
         public let template: Template?
 
         public init(template: Template? = nil) {
@@ -1252,6 +1383,7 @@ extension SES {
     }
 
     public struct IdentityDkimAttributes: AWSDecodableShape {
+
         /// Is true if DKIM signing is enabled for email sent from the identity. It's false otherwise. The default value is true.
         public let dkimEnabled: Bool
         /// A set of character strings that represent the domain's identity. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
@@ -1274,6 +1406,7 @@ extension SES {
     }
 
     public struct IdentityMailFromDomainAttributes: AWSDecodableShape {
+
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
         public let behaviorOnMXFailure: BehaviorOnMXFailure
         /// The custom MAIL FROM domain that the identity is configured to use.
@@ -1295,6 +1428,7 @@ extension SES {
     }
 
     public struct IdentityNotificationAttributes: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish bounce notifications.
         public let bounceTopic: String
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish complaint notifications.
@@ -1332,6 +1466,7 @@ extension SES {
     }
 
     public struct IdentityVerificationAttributes: AWSDecodableShape {
+
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
         public let verificationStatus: VerificationStatus
         /// The verification token for a domain identity. Null for email address identities.
@@ -1349,6 +1484,7 @@ extension SES {
     }
 
     public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
         public let deliveryStreamARN: String
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
@@ -1366,6 +1502,7 @@ extension SES {
     }
 
     public struct LambdaAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the AWS Lambda Developer Guide.
         public let functionArn: String
         /// The invocation type of the AWS Lambda function. An invocation type of RequestResponse means that the execution of the function will immediately result in a response, and a value of Event means that the function will be invoked asynchronously. The default value is Event. For information about AWS Lambda invocation types, see the AWS Lambda Developer Guide.  There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
@@ -1387,6 +1524,7 @@ extension SES {
     }
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
+
         /// The number of configuration sets to return.
         public let maxItems: Int?
         /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
@@ -1404,6 +1542,7 @@ extension SES {
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
+
         /// A list of configuration sets.
         @OptionalCustomCoding<StandardArrayCoder>
         public var configurationSets: [ConfigurationSet]?
@@ -1422,6 +1561,7 @@ extension SES {
     }
 
     public struct ListCustomVerificationEmailTemplatesRequest: AWSEncodableShape {
+
         /// The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
         public let maxResults: Int?
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
@@ -1444,6 +1584,7 @@ extension SES {
     }
 
     public struct ListCustomVerificationEmailTemplatesResponse: AWSDecodableShape {
+
         /// A list of the custom verification email templates that exist in your account.
         @OptionalCustomCoding<StandardArrayCoder>
         public var customVerificationEmailTemplates: [CustomVerificationEmailTemplate]?
@@ -1462,6 +1603,7 @@ extension SES {
     }
 
     public struct ListIdentitiesRequest: AWSEncodableShape {
+
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
         public let identityType: IdentityType?
         /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
@@ -1483,6 +1625,7 @@ extension SES {
     }
 
     public struct ListIdentitiesResponse: AWSDecodableShape {
+
         /// A list of identities.
         @CustomCoding<StandardArrayCoder>
         public var identities: [String]
@@ -1501,6 +1644,7 @@ extension SES {
     }
 
     public struct ListIdentityPoliciesRequest: AWSEncodableShape {
+
         /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
 
@@ -1514,6 +1658,7 @@ extension SES {
     }
 
     public struct ListIdentityPoliciesResponse: AWSDecodableShape {
+
         /// A list of names of policies that apply to the specified identity.
         @CustomCoding<StandardArrayCoder>
         public var policyNames: [String]
@@ -1528,10 +1673,15 @@ extension SES {
     }
 
     public struct ListReceiptFiltersRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ListReceiptFiltersResponse: AWSDecodableShape {
+
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
         @OptionalCustomCoding<StandardArrayCoder>
         public var filters: [ReceiptFilter]?
@@ -1546,6 +1696,7 @@ extension SES {
     }
 
     public struct ListReceiptRuleSetsRequest: AWSEncodableShape {
+
         /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
         public let nextToken: String?
 
@@ -1559,6 +1710,7 @@ extension SES {
     }
 
     public struct ListReceiptRuleSetsResponse: AWSDecodableShape {
+
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
         public let nextToken: String?
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and the timestamp of when the rule set was created.
@@ -1577,6 +1729,7 @@ extension SES {
     }
 
     public struct ListTemplatesRequest: AWSEncodableShape {
+
         /// The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
         public let maxItems: Int?
         /// A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
@@ -1594,6 +1747,7 @@ extension SES {
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape {
+
         /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent call to ListTemplates to retrieve the next 50 email templates.
         public let nextToken: String?
         /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
@@ -1612,6 +1766,7 @@ extension SES {
     }
 
     public struct ListVerifiedEmailAddressesResponse: AWSDecodableShape {
+
         /// A list of email addresses that have been verified.
         @OptionalCustomCoding<StandardArrayCoder>
         public var verifiedEmailAddresses: [String]?
@@ -1626,6 +1781,7 @@ extension SES {
     }
 
     public struct Message: AWSEncodableShape {
+
         /// The message body.
         public let body: Body
         /// The subject of the message: A short summary of the content, which will appear in the recipient's inbox.
@@ -1643,6 +1799,7 @@ extension SES {
     }
 
     public struct MessageDsn: AWSEncodableShape {
+
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
         public let arrivalDate: Date?
         /// Additional X-headers to include in the DSN.
@@ -1665,6 +1822,7 @@ extension SES {
     }
 
     public struct MessageTag: AWSEncodableShape {
+
         /// The name of the tag. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
         public let name: String
         /// The value of the tag. The value must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.
@@ -1682,6 +1840,7 @@ extension SES {
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
+
         /// The name of the configuration set that you want to specify the delivery options for.
         public let configurationSetName: String
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS).
@@ -1699,10 +1858,15 @@ extension SES {
     }
 
     public struct PutConfigurationSetDeliveryOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutIdentityPolicyRequest: AWSEncodableShape {
+
         /// The identity that the policy will apply to. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public let identity: String
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
@@ -1730,10 +1894,15 @@ extension SES {
     }
 
     public struct PutIdentityPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RawMessage: AWSEncodableShape {
+
         /// The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an AWS SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide.
         public let data: Data
 
@@ -1747,6 +1916,7 @@ extension SES {
     }
 
     public struct ReceiptAction: AWSEncodableShape & AWSDecodableShape {
+
         /// Adds a header to the received email.
         public let addHeaderAction: AddHeaderAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
@@ -1784,6 +1954,7 @@ extension SES {
     }
 
     public struct ReceiptFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
         public let ipFilter: ReceiptIpFilter
         /// The name of the IP address filter. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
@@ -1801,6 +1972,7 @@ extension SES {
     }
 
     public struct ReceiptIpFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
         public let cidr: String
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
@@ -1818,6 +1990,7 @@ extension SES {
     }
 
     public struct ReceiptRule: AWSEncodableShape & AWSDecodableShape {
+
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
         @OptionalCustomCoding<StandardArrayCoder>
         public var actions: [ReceiptAction]?
@@ -1853,6 +2026,7 @@ extension SES {
     }
 
     public struct ReceiptRuleSetMetadata: AWSDecodableShape {
+
         /// The date and time the receipt rule set was created.
         public let createdTimestamp: Date?
         /// The name of the receipt rule set. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.
@@ -1870,6 +2044,7 @@ extension SES {
     }
 
     public struct RecipientDsnFields: AWSEncodableShape {
+
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464.
         public let action: DsnAction
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
@@ -1908,6 +2083,7 @@ extension SES {
     }
 
     public struct ReorderReceiptRuleSetRequest: AWSEncodableShape {
+
         /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
         @CustomCoding<StandardArrayCoder>
         public var ruleNames: [String]
@@ -1926,10 +2102,15 @@ extension SES {
     }
 
     public struct ReorderReceiptRuleSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ReputationOptions: AWSDecodableShape {
+
         /// The date and time at which the reputation metrics for the configuration set were last reset. Resetting these metrics is known as a fresh start. When you disable email sending for a configuration set using UpdateConfigurationSetSendingEnabled and later re-enable it, the reputation metrics for the configuration set (but not for the entire Amazon SES account) are reset. If email sending for the configuration set has never been disabled and later re-enabled, the value of this attribute is null.
         public let lastFreshStart: Date?
         /// Describes whether or not Amazon SES publishes reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch. If the value is true, reputation metrics are published. If the value is false, reputation metrics are not published. The default value is false.
@@ -1951,6 +2132,7 @@ extension SES {
     }
 
     public struct S3Action: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the Amazon S3 bucket that incoming email will be saved to.
         public let bucketName: String
         /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key you created in AWS KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the AWS KMS Developer Guide. If you do not specify a master key, Amazon SES will not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your AWS KMS keys for decryption. This encryption client is currently available with the AWS SDK for Java and AWS SDK for Ruby only. For more information about client-side encryption using AWS KMS master keys, see the Amazon S3 Developer Guide.
@@ -1976,6 +2158,7 @@ extension SES {
     }
 
     public struct SNSAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public let encoding: SNSActionEncoding?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
@@ -1993,6 +2176,7 @@ extension SES {
     }
 
     public struct SNSDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Amazon SNS topic that email sending events will be published to. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public let topicARN: String
 
@@ -2006,6 +2190,7 @@ extension SES {
     }
 
     public struct SendBounceRequest: AWSEncodableShape {
+
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
         @CustomCoding<StandardArrayCoder>
         public var bouncedRecipientInfoList: [BouncedRecipientInfo]
@@ -2040,6 +2225,7 @@ extension SES {
     }
 
     public struct SendBounceResponse: AWSDecodableShape {
+
         /// The message ID of the bounce message.
         public let messageId: String?
 
@@ -2053,6 +2239,7 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailRequest: AWSEncodableShape {
+
         /// The name of the configuration set to use when you send an email using SendBulkTemplatedEmail.
         public let configurationSetName: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail.
@@ -2094,7 +2281,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.defaultTemplateData, name: "defaultTemplateData", parent: name, max: 262_144)
+            try self.validate(self.defaultTemplateData, name: "defaultTemplateData", parent: name, max: 262144)
             try self.destinations.forEach {
                 try $0.validate(name: "\(name).destinations[]")
             }
@@ -2116,6 +2303,7 @@ extension SES {
     }
 
     public struct SendBulkTemplatedEmailResponse: AWSDecodableShape {
+
         /// The unique message identifier returned from the SendBulkTemplatedEmail action.
         @CustomCoding<StandardArrayCoder>
         public var status: [BulkEmailDestinationStatus]
@@ -2130,6 +2318,7 @@ extension SES {
     }
 
     public struct SendCustomVerificationEmailRequest: AWSEncodableShape {
+
         /// Name of a configuration set to use when sending the verification email.
         public let configurationSetName: String?
         /// The email address to verify.
@@ -2151,6 +2340,7 @@ extension SES {
     }
 
     public struct SendCustomVerificationEmailResponse: AWSDecodableShape {
+
         /// The unique message identifier returned from the SendCustomVerificationEmail operation.
         public let messageId: String?
 
@@ -2164,6 +2354,7 @@ extension SES {
     }
 
     public struct SendDataPoint: AWSDecodableShape {
+
         /// Number of emails that have bounced.
         public let bounces: Int64?
         /// Number of unwanted emails that were rejected by recipients.
@@ -2193,6 +2384,7 @@ extension SES {
     }
 
     public struct SendEmailRequest: AWSEncodableShape {
+
         /// The name of the configuration set to use when you send an email using SendEmail.
         public let configurationSetName: String?
         /// The destination for this email, composed of To:, CC:, and BCC: fields.
@@ -2240,6 +2432,7 @@ extension SES {
     }
 
     public struct SendEmailResponse: AWSDecodableShape {
+
         /// The unique message identifier returned from the SendEmail action.
         public let messageId: String
 
@@ -2253,6 +2446,7 @@ extension SES {
     }
 
     public struct SendRawEmailRequest: AWSEncodableShape {
+
         /// The name of the configuration set to use when you send an email using SendRawEmail.
         public let configurationSetName: String?
         /// A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
@@ -2296,6 +2490,7 @@ extension SES {
     }
 
     public struct SendRawEmailResponse: AWSDecodableShape {
+
         /// The unique message identifier returned from the SendRawEmail action.
         public let messageId: String
 
@@ -2309,6 +2504,7 @@ extension SES {
     }
 
     public struct SendTemplatedEmailRequest: AWSEncodableShape {
+
         /// The name of the configuration set to use when you send an email using SendTemplatedEmail.
         public let configurationSetName: String?
         /// The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
@@ -2349,7 +2545,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2368,6 +2564,7 @@ extension SES {
     }
 
     public struct SendTemplatedEmailResponse: AWSDecodableShape {
+
         /// The unique message identifier returned from the SendTemplatedEmail action.
         public let messageId: String
 
@@ -2381,6 +2578,7 @@ extension SES {
     }
 
     public struct SetActiveReceiptRuleSetRequest: AWSEncodableShape {
+
         /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
         public let ruleSetName: String?
 
@@ -2394,10 +2592,15 @@ extension SES {
     }
 
     public struct SetActiveReceiptRuleSetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetIdentityDkimEnabledRequest: AWSEncodableShape {
+
         /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it.
         public let dkimEnabled: Bool
         /// The identity for which DKIM signing should be enabled or disabled.
@@ -2415,10 +2618,15 @@ extension SES {
     }
 
     public struct SetIdentityDkimEnabledResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetIdentityFeedbackForwardingEnabledRequest: AWSEncodableShape {
+
         /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
         public let forwardingEnabled: Bool
         /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
@@ -2436,10 +2644,15 @@ extension SES {
     }
 
     public struct SetIdentityFeedbackForwardingEnabledResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledRequest: AWSEncodableShape {
+
         /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
         public let enabled: Bool
         /// The identity for which to enable or disable headers in notifications. Examples: user@example.com, example.com.
@@ -2461,10 +2674,15 @@ extension SES {
     }
 
     public struct SetIdentityHeadersInNotificationsEnabledResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetIdentityMailFromDomainRequest: AWSEncodableShape {
+
         /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMXFailure: BehaviorOnMXFailure?
         /// The verified identity for which you want to enable or disable the specified custom MAIL FROM domain.
@@ -2486,10 +2704,15 @@ extension SES {
     }
 
     public struct SetIdentityMailFromDomainResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetIdentityNotificationTopicRequest: AWSEncodableShape {
+
         /// The identity (email address or domain) that you want to set the Amazon SNS topic for.  You can only specify a verified identity for this parameter.  You can specify an identity by using its name or by using its Amazon Resource Name (ARN). The following examples are all valid identities: sender@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         public let identity: String
         /// The type of notifications that will be published to the specified Amazon SNS topic.
@@ -2511,10 +2734,15 @@ extension SES {
     }
 
     public struct SetIdentityNotificationTopicResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetReceiptRulePositionRequest: AWSEncodableShape {
+
         /// The name of the receipt rule after which to place the specified receipt rule.
         public let after: String?
         /// The name of the receipt rule to reposition.
@@ -2536,10 +2764,15 @@ extension SES {
     }
 
     public struct SetReceiptRulePositionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The scope of the StopAction. The only acceptable value is RuleSet.
         public let scope: StopScope
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
@@ -2557,6 +2790,7 @@ extension SES {
     }
 
     public struct Template: AWSEncodableShape & AWSDecodableShape {
+
         /// The HTML body of the email.
         public let htmlPart: String?
         /// The subject line of the email.
@@ -2582,6 +2816,7 @@ extension SES {
     }
 
     public struct TemplateMetadata: AWSDecodableShape {
+
         /// The time and date the template was created.
         public let createdTimestamp: Date?
         /// The name of the template.
@@ -2599,6 +2834,7 @@ extension SES {
     }
 
     public struct TestRenderTemplateRequest: AWSEncodableShape {
+
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public let templateData: String
         /// The name of the template that you want to render.
@@ -2610,7 +2846,7 @@ extension SES {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.templateData, name: "templateData", parent: name, max: 262_144)
+            try self.validate(self.templateData, name: "templateData", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2620,6 +2856,7 @@ extension SES {
     }
 
     public struct TestRenderTemplateResponse: AWSDecodableShape {
+
         /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
         public let renderedTemplate: String?
 
@@ -2633,6 +2870,7 @@ extension SES {
     }
 
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// The custom subdomain that will be used to redirect email recipients to the Amazon SES event tracking domain.
         public let customRedirectDomain: String?
 
@@ -2646,6 +2884,7 @@ extension SES {
     }
 
     public struct UpdateAccountSendingEnabledRequest: AWSEncodableShape {
+
         /// Describes whether email sending is enabled or disabled for your Amazon SES account in the current AWS Region.
         public let enabled: Bool?
 
@@ -2659,6 +2898,7 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
+
         /// The name of the configuration set that contains the event destination that you want to update.
         public let configurationSetName: String
         /// The event destination object that you want to apply to the specified configuration set.
@@ -2676,10 +2916,15 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateConfigurationSetReputationMetricsEnabledRequest: AWSEncodableShape {
+
         /// The name of the configuration set that you want to update.
         public let configurationSetName: String
         /// Describes whether or not Amazon SES will publish reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
@@ -2697,6 +2942,7 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetSendingEnabledRequest: AWSEncodableShape {
+
         /// The name of the configuration set that you want to update.
         public let configurationSetName: String
         /// Describes whether email sending is enabled or disabled for the configuration set.
@@ -2714,6 +2960,7 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
+
         /// The name of the configuration set for which you want to update the custom tracking domain.
         public let configurationSetName: String
         public let trackingOptions: TrackingOptions
@@ -2730,10 +2977,15 @@ extension SES {
     }
 
     public struct UpdateConfigurationSetTrackingOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateCustomVerificationEmailTemplateRequest: AWSEncodableShape {
+
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public let failureRedirectionURL: String?
         /// The email address that the custom verification email is sent from.
@@ -2767,6 +3019,7 @@ extension SES {
     }
 
     public struct UpdateReceiptRuleRequest: AWSEncodableShape {
+
         /// A data structure that contains the updated receipt rule information.
         public let rule: ReceiptRule
         /// The name of the receipt rule set that the receipt rule belongs to.
@@ -2784,10 +3037,15 @@ extension SES {
     }
 
     public struct UpdateReceiptRuleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateTemplateRequest: AWSEncodableShape {
+
         public let template: Template
 
         public init(template: Template) {
@@ -2800,10 +3058,15 @@ extension SES {
     }
 
     public struct UpdateTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VerifyDomainDkimRequest: AWSEncodableShape {
+
         /// The name of the domain to be verified for Easy DKIM signing.
         public let domain: String
 
@@ -2817,6 +3080,7 @@ extension SES {
     }
 
     public struct VerifyDomainDkimResponse: AWSDecodableShape {
+
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you need to create DNS CNAME records that point to DKIM public keys that are hosted by Amazon SES. Amazon Web Services eventually detects that you've updated your DNS records. This detection process might take up to 72 hours. After successful detection, Amazon SES is able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, see the Amazon SES Developer Guide.
         @CustomCoding<StandardArrayCoder>
         public var dkimTokens: [String]
@@ -2831,6 +3095,7 @@ extension SES {
     }
 
     public struct VerifyDomainIdentityRequest: AWSEncodableShape {
+
         /// The domain to be verified.
         public let domain: String
 
@@ -2844,6 +3109,7 @@ extension SES {
     }
 
     public struct VerifyDomainIdentityResponse: AWSDecodableShape {
+
         /// A TXT record that you must place in the DNS settings of the domain to complete domain verification with Amazon SES. As Amazon SES searches for the TXT record, the domain's verification status is "Pending". When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning.
         public let verificationToken: String
 
@@ -2857,6 +3123,7 @@ extension SES {
     }
 
     public struct VerifyEmailAddressRequest: AWSEncodableShape {
+
         /// The email address to be verified.
         public let emailAddress: String
 
@@ -2870,6 +3137,7 @@ extension SES {
     }
 
     public struct VerifyEmailIdentityRequest: AWSEncodableShape {
+
         /// The email address to be verified.
         public let emailAddress: String
 
@@ -2883,10 +3151,15 @@ extension SES {
     }
 
     public struct VerifyEmailIdentityResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct WorkmailAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Amazon WorkMail organization. An example of an Amazon WorkMail organization ARN is arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7. For information about Amazon WorkMail organizations, see the Amazon WorkMail Administrator Guide.
         public let organizationArn: String
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.

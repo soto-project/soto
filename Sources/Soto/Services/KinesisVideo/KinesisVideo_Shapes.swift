@@ -70,6 +70,7 @@ extension KinesisVideo {
     // MARK: Shapes
 
     public struct ChannelInfo: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the signaling channel.
         public let channelARN: String?
         /// The name of the signaling channel.
@@ -107,6 +108,7 @@ extension KinesisVideo {
     }
 
     public struct ChannelNameCondition: AWSEncodableShape {
+
         /// A comparison operator. Currently, you can only specify the BEGINS_WITH operator, which finds signaling channels whose names begin with a given prefix.
         public let comparisonOperator: ComparisonOperator?
         /// A value to compare.
@@ -130,6 +132,7 @@ extension KinesisVideo {
     }
 
     public struct CreateSignalingChannelInput: AWSEncodableShape {
+
         /// A name for the signaling channel that you are creating. It must be unique for each AWS account and AWS Region.
         public let channelName: String
         /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type.
@@ -167,6 +170,7 @@ extension KinesisVideo {
     }
 
     public struct CreateSignalingChannelOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the created channel.
         public let channelARN: String?
 
@@ -180,6 +184,7 @@ extension KinesisVideo {
     }
 
     public struct CreateStreamInput: AWSEncodableShape {
+
         /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
         public let dataRetentionInHours: Int?
         /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name.
@@ -237,6 +242,7 @@ extension KinesisVideo {
     }
 
     public struct CreateStreamOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
 
@@ -250,6 +256,7 @@ extension KinesisVideo {
     }
 
     public struct DeleteSignalingChannelInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the signaling channel that you want to delete.
         public let channelARN: String
         /// The current version of the signaling channel that you want to delete. You can obtain the current version by invoking the DescribeSignalingChannel or ListSignalingChannels API operations.
@@ -276,10 +283,15 @@ extension KinesisVideo {
     }
 
     public struct DeleteSignalingChannelOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteStreamInput: AWSEncodableShape {
+
         /// Optional: The version of the stream that you want to delete.  Specify the version as a safeguard to ensure that your are deleting the correct stream. To get the stream version, use the DescribeStream API. If not specified, only the CreationTime is checked before deleting the stream.
         public let currentVersion: String?
         /// The Amazon Resource Name (ARN) of the stream that you want to delete.
@@ -306,10 +318,15 @@ extension KinesisVideo {
     }
 
     public struct DeleteStreamOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeSignalingChannelInput: AWSEncodableShape {
+
         /// The ARN of the signaling channel that you want to describe.
         public let channelARN: String?
         /// The name of the signaling channel that you want to describe.
@@ -336,6 +353,7 @@ extension KinesisVideo {
     }
 
     public struct DescribeSignalingChannelOutput: AWSDecodableShape {
+
         /// A structure that encapsulates the specified signaling channel's metadata and properties.
         public let channelInfo: ChannelInfo?
 
@@ -349,6 +367,7 @@ extension KinesisVideo {
     }
 
     public struct DescribeStreamInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the stream.
         public let streamARN: String?
         /// The name of the stream.
@@ -375,6 +394,7 @@ extension KinesisVideo {
     }
 
     public struct DescribeStreamOutput: AWSDecodableShape {
+
         /// An object that describes the stream.
         public let streamInfo: StreamInfo?
 
@@ -388,6 +408,7 @@ extension KinesisVideo {
     }
 
     public struct GetDataEndpointInput: AWSEncodableShape {
+
         /// The name of the API action for which to get an endpoint.
         public let aPIName: APIName
         /// The Amazon Resource Name (ARN) of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamName in the request.
@@ -418,6 +439,7 @@ extension KinesisVideo {
     }
 
     public struct GetDataEndpointOutput: AWSDecodableShape {
+
         /// The endpoint value. To read data from the stream or to write data to it, specify this endpoint in your application.
         public let dataEndpoint: String?
 
@@ -431,6 +453,7 @@ extension KinesisVideo {
     }
 
     public struct GetSignalingChannelEndpointInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint.
         public let channelARN: String
         /// A structure containing the endpoint configuration for the SINGLE_MASTER channel type.
@@ -455,6 +478,7 @@ extension KinesisVideo {
     }
 
     public struct GetSignalingChannelEndpointOutput: AWSDecodableShape {
+
         /// A list of endpoints for the specified signaling channel.
         public let resourceEndpointList: [ResourceEndpointListItem]?
 
@@ -468,6 +492,7 @@ extension KinesisVideo {
     }
 
     public struct ListSignalingChannelsInput: AWSEncodableShape {
+
         /// Optional: Returns only the channels that satisfy a specific condition.
         public let channelNameCondition: ChannelNameCondition?
         /// The maximum number of channels to return in the response. The default is 500.
@@ -498,6 +523,7 @@ extension KinesisVideo {
     }
 
     public struct ListSignalingChannelsOutput: AWSDecodableShape {
+
         /// An array of ChannelInfo objects.
         public let channelInfoList: [ChannelInfo]?
         /// If the response is truncated, the call returns this element with a token. To get the next batch of streams, use this token in your next request.
@@ -515,6 +541,7 @@ extension KinesisVideo {
     }
 
     public struct ListStreamsInput: AWSEncodableShape {
+
         /// The maximum number of streams to return in the response. The default is 10,000.
         public let maxResults: Int?
         /// If you specify this parameter, when the result of a ListStreams operation is truncated, the call returns the NextToken in the response. To get another batch of streams, provide this token in your next request.
@@ -545,6 +572,7 @@ extension KinesisVideo {
     }
 
     public struct ListStreamsOutput: AWSDecodableShape {
+
         /// If the response is truncated, the call returns this element with a token. To get the next batch of streams, use this token in your next request.
         public let nextToken: String?
         /// An array of StreamInfo objects.
@@ -562,6 +590,7 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
+
         /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the signaling channel for which you want to list tags.
@@ -588,6 +617,7 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next set of tags.
         public let nextToken: String?
         /// A map of tag keys and values associated with the specified signaling channel.
@@ -605,6 +635,7 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForStreamInput: AWSEncodableShape {
+
         /// If you specify this parameter and the result of a ListTagsForStream call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the stream that you want to list tags for.
@@ -638,6 +669,7 @@ extension KinesisVideo {
     }
 
     public struct ListTagsForStreamOutput: AWSDecodableShape {
+
         /// If you specify this parameter and the result of a ListTags call is truncated, the response includes a token that you can use in the next request to fetch the next set of tags.
         public let nextToken: String?
         /// A map of tag keys and values associated with the specified stream.
@@ -655,6 +687,7 @@ extension KinesisVideo {
     }
 
     public struct ResourceEndpointListItem: AWSDecodableShape {
+
         /// The protocol of the signaling channel returned by the GetSignalingChannelEndpoint API.
         public let `protocol`: ChannelProtocol?
         /// The endpoint of the signaling channel returned by the GetSignalingChannelEndpoint API.
@@ -672,6 +705,7 @@ extension KinesisVideo {
     }
 
     public struct SingleMasterChannelEndpointConfiguration: AWSEncodableShape {
+
         /// This property is used to determine the nature of communication over this SINGLE_MASTER signaling channel. If WSS is specified, this API returns a websocket endpoint. If HTTPS is specified, this API returns an HTTPS endpoint.
         public let protocols: [ChannelProtocol]?
         /// This property is used to determine messaging permissions in this SINGLE_MASTER signaling channel. If MASTER is specified, this API returns an endpoint that a client can use to receive offers from and send answers to any of the viewers on this signaling channel. If VIEWER is specified, this API returns an endpoint that a client can use only to send offers to another MASTER client on this signaling channel.
@@ -694,6 +728,7 @@ extension KinesisVideo {
     }
 
     public struct SingleMasterConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The period of time a signaling channel retains underlivered messages before they are discarded.
         public let messageTtlSeconds: Int?
 
@@ -712,6 +747,7 @@ extension KinesisVideo {
     }
 
     public struct StreamInfo: AWSDecodableShape {
+
         /// A time stamp that indicates when the stream was created.
         public let creationTime: Date?
         /// How long the stream retains data, in hours.
@@ -757,6 +793,7 @@ extension KinesisVideo {
     }
 
     public struct StreamNameCondition: AWSEncodableShape {
+
         /// A comparison operator. Currently, you can specify only the BEGINS_WITH operator, which finds streams whose names start with a given prefix.
         public let comparisonOperator: ComparisonOperator?
         /// A value to compare.
@@ -780,6 +817,7 @@ extension KinesisVideo {
     }
 
     public struct Tag: AWSEncodableShape {
+
         /// The key of the tag that is associated with the specified signaling channel.
         public let key: String
         /// The value of the tag that is associated with the specified signaling channel.
@@ -806,6 +844,7 @@ extension KinesisVideo {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the signaling channel to which you want to add tags.
         public let resourceARN: String
         /// A list of tags to associate with the specified signaling channel. Each tag is a key-value pair.
@@ -834,10 +873,15 @@ extension KinesisVideo {
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TagStreamInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to add the tag or tags to.
         public let streamARN: String?
         /// The name of the stream that you want to add the tag or tags to.
@@ -876,10 +920,15 @@ extension KinesisVideo {
     }
 
     public struct TagStreamOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the signaling channel from which you want to remove tags.
         public let resourceARN: String
         /// A list of the keys of the tags that you want to remove.
@@ -910,10 +959,15 @@ extension KinesisVideo {
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagStreamInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the stream that you want to remove tags from.
         public let streamARN: String?
         /// The name of the stream that you want to remove tags from.
@@ -951,10 +1005,15 @@ extension KinesisVideo {
     }
 
     public struct UntagStreamOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDataRetentionInput: AWSEncodableShape {
+
         /// The version of the stream whose retention period you want to change. To get the version, call either the DescribeStream or the ListStreams API.
         public let currentVersion: String
         /// The retention period, in hours. The value you specify replaces the current value. The maximum value for this parameter is 87600 (ten years).
@@ -997,10 +1056,15 @@ extension KinesisVideo {
     }
 
     public struct UpdateDataRetentionOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateSignalingChannelInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the signaling channel that you want to update.
         public let channelARN: String
         /// The current version of the signaling channel that you want to update.
@@ -1032,10 +1096,15 @@ extension KinesisVideo {
     }
 
     public struct UpdateSignalingChannelOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateStreamInput: AWSEncodableShape {
+
         /// The version of the stream whose metadata you want to update.
         public let currentVersion: String
         /// The name of the device that is writing to the stream.    In the current implementation, Kinesis Video Streams does not use this name.
@@ -1083,6 +1152,10 @@ extension KinesisVideo {
     }
 
     public struct UpdateStreamOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

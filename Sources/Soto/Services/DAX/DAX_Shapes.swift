@@ -57,6 +57,7 @@ extension DAX {
     // MARK: Shapes
 
     public struct Cluster: AWSDecodableShape {
+
         /// The number of nodes in the cluster that are active (i.e., capable of serving requests).
         public let activeNodes: Int?
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -134,6 +135,7 @@ extension DAX {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
+
         /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availability Zones for the highest availability.
         public let availabilityZones: [String]?
         /// The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
@@ -195,6 +197,7 @@ extension DAX {
     }
 
     public struct CreateClusterResponse: AWSDecodableShape {
+
         /// A description of the DAX cluster that you have created.
         public let cluster: Cluster?
 
@@ -208,6 +211,7 @@ extension DAX {
     }
 
     public struct CreateParameterGroupRequest: AWSEncodableShape {
+
         /// A description of the parameter group.
         public let description: String?
         /// The name of the parameter group to apply to all of the clusters in this replication group.
@@ -225,6 +229,7 @@ extension DAX {
     }
 
     public struct CreateParameterGroupResponse: AWSDecodableShape {
+
         /// Represents the output of a CreateParameterGroup action.
         public let parameterGroup: ParameterGroup?
 
@@ -238,6 +243,7 @@ extension DAX {
     }
 
     public struct CreateSubnetGroupRequest: AWSEncodableShape {
+
         /// A description for the subnet group
         public let description: String?
         /// A name for the subnet group. This value is stored as a lowercase string.
@@ -259,6 +265,7 @@ extension DAX {
     }
 
     public struct CreateSubnetGroupResponse: AWSDecodableShape {
+
         /// Represents the output of a CreateSubnetGroup operation.
         public let subnetGroup: SubnetGroup?
 
@@ -272,6 +279,7 @@ extension DAX {
     }
 
     public struct DecreaseReplicationFactorRequest: AWSEncodableShape {
+
         /// The Availability Zone(s) from which to remove nodes.
         public let availabilityZones: [String]?
         /// The name of the DAX cluster from which you want to remove nodes.
@@ -297,6 +305,7 @@ extension DAX {
     }
 
     public struct DecreaseReplicationFactorResponse: AWSDecodableShape {
+
         /// A description of the DAX cluster, after you have decreased its replication factor.
         public let cluster: Cluster?
 
@@ -310,6 +319,7 @@ extension DAX {
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
+
         /// The name of the cluster to be deleted.
         public let clusterName: String
 
@@ -323,6 +333,7 @@ extension DAX {
     }
 
     public struct DeleteClusterResponse: AWSDecodableShape {
+
         /// A description of the DAX cluster that is being deleted.
         public let cluster: Cluster?
 
@@ -336,6 +347,7 @@ extension DAX {
     }
 
     public struct DeleteParameterGroupRequest: AWSEncodableShape {
+
         /// The name of the parameter group to delete.
         public let parameterGroupName: String
 
@@ -349,6 +361,7 @@ extension DAX {
     }
 
     public struct DeleteParameterGroupResponse: AWSDecodableShape {
+
         /// A user-specified message for this action (i.e., a reason for deleting the parameter group).
         public let deletionMessage: String?
 
@@ -362,6 +375,7 @@ extension DAX {
     }
 
     public struct DeleteSubnetGroupRequest: AWSEncodableShape {
+
         /// The name of the subnet group to delete.
         public let subnetGroupName: String
 
@@ -375,6 +389,7 @@ extension DAX {
     }
 
     public struct DeleteSubnetGroupResponse: AWSDecodableShape {
+
         /// A user-specified message for this action (i.e., a reason for deleting the subnet group).
         public let deletionMessage: String?
 
@@ -388,6 +403,7 @@ extension DAX {
     }
 
     public struct DescribeClustersRequest: AWSEncodableShape {
+
         /// The names of the DAX clusters being described.
         public let clusterNames: [String]?
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
@@ -409,6 +425,7 @@ extension DAX {
     }
 
     public struct DescribeClustersResponse: AWSDecodableShape {
+
         /// The descriptions of your DAX clusters, in response to a DescribeClusters request.
         public let clusters: [Cluster]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -426,6 +443,7 @@ extension DAX {
     }
 
     public struct DescribeDefaultParametersRequest: AWSEncodableShape {
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -443,6 +461,7 @@ extension DAX {
     }
 
     public struct DescribeDefaultParametersResponse: AWSDecodableShape {
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// A list of parameters. Each element in the list represents one parameter.
@@ -460,6 +479,7 @@ extension DAX {
     }
 
     public struct DescribeEventsRequest: AWSEncodableShape {
+
         /// The number of minutes' worth of events to retrieve.
         public let duration: Int?
         /// The end of the time interval for which to retrieve events, specified in ISO 8601 format.
@@ -497,6 +517,7 @@ extension DAX {
     }
 
     public struct DescribeEventsResponse: AWSDecodableShape {
+
         /// An array of events. Each element in the array represents one event.
         public let events: [Event]?
         /// Provides an identifier to allow retrieval of paginated results.
@@ -514,6 +535,7 @@ extension DAX {
     }
 
     public struct DescribeParameterGroupsRequest: AWSEncodableShape {
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -535,6 +557,7 @@ extension DAX {
     }
 
     public struct DescribeParameterGroupsResponse: AWSDecodableShape {
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// An array of parameter groups. Each element in the array represents one parameter group.
@@ -552,6 +575,7 @@ extension DAX {
     }
 
     public struct DescribeParametersRequest: AWSEncodableShape {
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -577,6 +601,7 @@ extension DAX {
     }
 
     public struct DescribeParametersResponse: AWSDecodableShape {
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// A list of parameters within a parameter group. Each element in the list represents one parameter.
@@ -594,6 +619,7 @@ extension DAX {
     }
 
     public struct DescribeSubnetGroupsRequest: AWSEncodableShape {
+
         /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. The value for MaxResults must be between 20 and 100.
         public let maxResults: Int?
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -615,6 +641,7 @@ extension DAX {
     }
 
     public struct DescribeSubnetGroupsResponse: AWSDecodableShape {
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// An array of subnet groups. Each element in the array represents a single subnet group.
@@ -632,6 +659,7 @@ extension DAX {
     }
 
     public struct Endpoint: AWSDecodableShape {
+
         /// The DNS hostname of the endpoint.
         public let address: String?
         /// The port number that applications should use to connect to the endpoint.
@@ -649,6 +677,7 @@ extension DAX {
     }
 
     public struct Event: AWSDecodableShape {
+
         /// The date and time when the event occurred.
         public let date: Date?
         /// A user-defined message associated with the event.
@@ -674,6 +703,7 @@ extension DAX {
     }
 
     public struct IncreaseReplicationFactorRequest: AWSEncodableShape {
+
         /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
         public let availabilityZones: [String]?
         /// The name of the DAX cluster that will receive additional nodes.
@@ -695,6 +725,7 @@ extension DAX {
     }
 
     public struct IncreaseReplicationFactorResponse: AWSDecodableShape {
+
         /// A description of the DAX cluster. with its new replication factor.
         public let cluster: Cluster?
 
@@ -708,6 +739,7 @@ extension DAX {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
+
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token.
         public let nextToken: String?
         /// The name of the DAX resource to which the tags belong.
@@ -725,6 +757,7 @@ extension DAX {
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
+
         /// If this value is present, there are additional results to be displayed. To retrieve them, call ListTags again, with NextToken set to this value.
         public let nextToken: String?
         /// A list of tags currently associated with the DAX cluster.
@@ -742,6 +775,7 @@ extension DAX {
     }
 
     public struct Node: AWSDecodableShape {
+
         /// The Availability Zone (AZ) in which the node has been deployed.
         public let availabilityZone: String?
         /// The endpoint for the node, consisting of a DNS name and a port number. Client applications can connect directly to a node endpoint, if desired (as an alternative to allowing DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
@@ -775,6 +809,7 @@ extension DAX {
     }
 
     public struct NodeTypeSpecificValue: AWSDecodableShape {
+
         /// A node type to which the parameter value applies.
         public let nodeType: String?
         /// The parameter value for this node type.
@@ -792,6 +827,7 @@ extension DAX {
     }
 
     public struct NotificationConfiguration: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the topic.
         public let topicArn: String?
         /// The current state of the topic.
@@ -809,6 +845,7 @@ extension DAX {
     }
 
     public struct Parameter: AWSDecodableShape {
+
         /// A range of values within which the parameter can be set.
         public let allowedValues: String?
         /// The conditions under which changes to this parameter can be applied. For example, requires-reboot indicates that a new value for this parameter will only take effect if a node is rebooted.
@@ -858,6 +895,7 @@ extension DAX {
     }
 
     public struct ParameterGroup: AWSDecodableShape {
+
         /// A description of the parameter group.
         public let description: String?
         /// The name of the parameter group.
@@ -875,6 +913,7 @@ extension DAX {
     }
 
     public struct ParameterGroupStatus: AWSDecodableShape {
+
         /// The node IDs of one or more nodes to be rebooted.
         public let nodeIdsToReboot: [String]?
         /// The status of parameter updates.
@@ -896,6 +935,7 @@ extension DAX {
     }
 
     public struct ParameterNameValue: AWSEncodableShape {
+
         /// The name of the parameter.
         public let parameterName: String?
         /// The value of the parameter.
@@ -913,6 +953,7 @@ extension DAX {
     }
 
     public struct RebootNodeRequest: AWSEncodableShape {
+
         /// The name of the DAX cluster containing the node to be rebooted.
         public let clusterName: String
         /// The system-assigned ID of the node to be rebooted.
@@ -930,6 +971,7 @@ extension DAX {
     }
 
     public struct RebootNodeResponse: AWSDecodableShape {
+
         /// A description of the DAX cluster after a node has been rebooted.
         public let cluster: Cluster?
 
@@ -943,6 +985,7 @@ extension DAX {
     }
 
     public struct SSEDescription: AWSDecodableShape {
+
         /// The current state of server-side encryption:    ENABLING - Server-side encryption is being enabled.    ENABLED - Server-side encryption is enabled.    DISABLING - Server-side encryption is being disabled.    DISABLED - Server-side encryption is disabled.
         public let status: SSEStatus?
 
@@ -956,6 +999,7 @@ extension DAX {
     }
 
     public struct SSESpecification: AWSEncodableShape {
+
         /// Indicates whether server-side encryption is enabled (true) or disabled (false) on the cluster.
         public let enabled: Bool
 
@@ -969,6 +1013,7 @@ extension DAX {
     }
 
     public struct SecurityGroupMembership: AWSDecodableShape {
+
         /// The unique ID for this security group.
         public let securityGroupIdentifier: String?
         /// The status of this security group.
@@ -986,6 +1031,7 @@ extension DAX {
     }
 
     public struct Subnet: AWSDecodableShape {
+
         /// The Availability Zone (AZ) for the subnet.
         public let subnetAvailabilityZone: String?
         /// The system-assigned identifier for the subnet.
@@ -1003,6 +1049,7 @@ extension DAX {
     }
 
     public struct SubnetGroup: AWSDecodableShape {
+
         /// The description of the subnet group.
         public let description: String?
         /// The name of the subnet group.
@@ -1028,6 +1075,7 @@ extension DAX {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         public let key: String?
         /// The value of the tag. Tag values are case-sensitive and can be null.
@@ -1045,6 +1093,7 @@ extension DAX {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The name of the DAX resource to which tags should be added.
         public let resourceName: String
         /// The tags to be assigned to the DAX resource.
@@ -1062,6 +1111,7 @@ extension DAX {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
+
         /// The list of tags that are associated with the DAX resource.
         public let tags: [Tag]?
 
@@ -1075,6 +1125,7 @@ extension DAX {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The name of the DAX resource from which the tags should be removed.
         public let resourceName: String
         /// A list of tag keys. If the DAX cluster has any tags with these keys, then the tags are removed from the cluster.
@@ -1092,6 +1143,7 @@ extension DAX {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+
         /// The tag keys that have been removed from the cluster.
         public let tags: [Tag]?
 
@@ -1105,6 +1157,7 @@ extension DAX {
     }
 
     public struct UpdateClusterRequest: AWSEncodableShape {
+
         /// The name of the DAX cluster to be modified.
         public let clusterName: String
         /// A description of the changes being made to the cluster.
@@ -1142,6 +1195,7 @@ extension DAX {
     }
 
     public struct UpdateClusterResponse: AWSDecodableShape {
+
         /// A description of the DAX cluster, after it has been modified.
         public let cluster: Cluster?
 
@@ -1155,6 +1209,7 @@ extension DAX {
     }
 
     public struct UpdateParameterGroupRequest: AWSEncodableShape {
+
         /// The name of the parameter group.
         public let parameterGroupName: String
         /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
@@ -1172,6 +1227,7 @@ extension DAX {
     }
 
     public struct UpdateParameterGroupResponse: AWSDecodableShape {
+
         /// The parameter group that has been modified.
         public let parameterGroup: ParameterGroup?
 
@@ -1185,6 +1241,7 @@ extension DAX {
     }
 
     public struct UpdateSubnetGroupRequest: AWSEncodableShape {
+
         /// A description of the subnet group.
         public let description: String?
         /// The name of the subnet group.
@@ -1206,6 +1263,7 @@ extension DAX {
     }
 
     public struct UpdateSubnetGroupResponse: AWSDecodableShape {
+
         /// The subnet group that has been modified.
         public let subnetGroup: SubnetGroup?
 

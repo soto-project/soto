@@ -195,6 +195,7 @@ extension Route53Resolver {
     // MARK: Shapes
 
     public struct AssociateFirewallRuleGroupRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// The unique identifier of the firewall rule group.
@@ -247,6 +248,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateFirewallRuleGroupResponse: AWSDecodableShape {
+
         /// The association that you just created. The association has an Id that you can use to identify it in other requests, like update and delete.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
@@ -260,6 +262,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverEndpointIpAddressRequest: AWSEncodableShape {
+
         /// Either the IPv4 address that you want to add to a Resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
         public let ipAddress: IpAddressUpdate
         /// The ID of the Resolver endpoint that you want to associate IP addresses with.
@@ -283,6 +286,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverEndpointIpAddressResponse: AWSDecodableShape {
+
         /// The response to an AssociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
 
@@ -296,6 +300,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverQueryLogConfigRequest: AWSEncodableShape {
+
         /// The ID of the query logging configuration that you want to associate a VPC with.
         public let resolverQueryLogConfigId: String
         /// The ID of an Amazon VPC that you want this query logging configuration to log queries for.  The VPCs and the query logging configuration must be in the same Region.
@@ -320,6 +325,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverQueryLogConfigResponse: AWSDecodableShape {
+
         /// A complex type that contains settings for a specified association between an Amazon VPC and a query logging configuration.
         public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
 
@@ -333,6 +339,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverRuleRequest: AWSEncodableShape {
+
         /// A name for the association that you're creating between a Resolver rule and a VPC.
         public let name: String?
         /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules.
@@ -363,6 +370,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverRuleResponse: AWSDecodableShape {
+
         /// Information about the AssociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
@@ -376,6 +384,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallDomainListRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows you to retry failed requests without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// A name that lets you identify the domain list to manage and use it.
@@ -408,6 +417,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallDomainListResponse: AWSDecodableShape {
+
         /// The domain list that you just created.
         public let firewallDomainList: FirewallDomainList?
 
@@ -421,6 +431,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallRuleGroupRequest: AWSEncodableShape {
+
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String
         /// A name that lets you identify the rule group, to manage and use it.
@@ -453,6 +464,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallRuleGroupResponse: AWSDecodableShape {
+
         /// A collection of rules used to filter DNS network traffic.
         public let firewallRuleGroup: FirewallRuleGroup?
 
@@ -466,6 +478,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallRuleRequest: AWSEncodableShape {
+
         /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and log to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
         public let action: Action
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
@@ -503,7 +516,7 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604_800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
             try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
@@ -530,6 +543,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallRuleResponse: AWSDecodableShape {
+
         /// The firewall rule that you just created.
         public let firewallRule: FirewallRule?
 
@@ -543,6 +557,7 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverEndpointRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network
@@ -596,6 +611,7 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverEndpointResponse: AWSDecodableShape {
+
         /// Information about the CreateResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
 
@@ -609,6 +625,7 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverQueryLogConfigRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:    S3 bucket:   arn:aws:s3:::examplebucket  You can optionally append a file prefix to the end of the ARN.  arn:aws:s3:::examplebucket/development/     CloudWatch Logs log group:   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name
@@ -648,6 +665,7 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverQueryLogConfigResponse: AWSDecodableShape {
+
         /// Information about the CreateResolverQueryLogConfig request, including the status of the request.
         public let resolverQueryLogConfig: ResolverQueryLogConfig?
 
@@ -661,6 +679,7 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverRuleRequest: AWSEncodableShape {
+
         /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
@@ -717,6 +736,7 @@ extension Route53Resolver {
     }
 
     public struct CreateResolverRuleResponse: AWSDecodableShape {
+
         /// Information about the CreateResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
 
@@ -730,6 +750,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteFirewallDomainListRequest: AWSEncodableShape {
+
         /// The ID of the domain list that you want to delete.
         public let firewallDomainListId: String
 
@@ -748,6 +769,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteFirewallDomainListResponse: AWSDecodableShape {
+
         /// The domain list that you just deleted.
         public let firewallDomainList: FirewallDomainList?
 
@@ -761,6 +783,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteFirewallRuleGroupRequest: AWSEncodableShape {
+
         /// The unique identifier of the firewall rule group that you want to delete.
         public let firewallRuleGroupId: String
 
@@ -779,6 +802,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteFirewallRuleGroupResponse: AWSDecodableShape {
+
         /// A collection of rules used to filter DNS network traffic.
         public let firewallRuleGroup: FirewallRuleGroup?
 
@@ -792,6 +816,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteFirewallRuleRequest: AWSEncodableShape {
+
         /// The ID of the domain list that's used in the rule.
         public let firewallDomainListId: String
         /// The unique identifier of the firewall rule group that you want to delete the rule from.
@@ -816,6 +841,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteFirewallRuleResponse: AWSDecodableShape {
+
         /// The specification for the firewall rule that you just deleted.
         public let firewallRule: FirewallRule?
 
@@ -829,6 +855,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverEndpointRequest: AWSEncodableShape {
+
         /// The ID of the Resolver endpoint that you want to delete.
         public let resolverEndpointId: String
 
@@ -847,6 +874,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverEndpointResponse: AWSDecodableShape {
+
         /// Information about the DeleteResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
 
@@ -860,6 +888,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverQueryLogConfigRequest: AWSEncodableShape {
+
         /// The ID of the query logging configuration that you want to delete.
         public let resolverQueryLogConfigId: String
 
@@ -878,6 +907,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverQueryLogConfigResponse: AWSDecodableShape {
+
         /// Information about the query logging configuration that you deleted, including the status of the request.
         public let resolverQueryLogConfig: ResolverQueryLogConfig?
 
@@ -891,6 +921,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverRuleRequest: AWSEncodableShape {
+
         /// The ID of the Resolver rule that you want to delete.
         public let resolverRuleId: String
 
@@ -909,6 +940,7 @@ extension Route53Resolver {
     }
 
     public struct DeleteResolverRuleResponse: AWSDecodableShape {
+
         /// Information about the DeleteResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
 
@@ -922,6 +954,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateFirewallRuleGroupRequest: AWSEncodableShape {
+
         /// The identifier of the FirewallRuleGroupAssociation.
         public let firewallRuleGroupAssociationId: String
 
@@ -940,6 +973,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateFirewallRuleGroupResponse: AWSDecodableShape {
+
         /// The firewall rule group association that you just removed.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
@@ -953,6 +987,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverEndpointIpAddressRequest: AWSEncodableShape {
+
         /// The IPv4 address that you want to remove from a Resolver endpoint.
         public let ipAddress: IpAddressUpdate
         /// The ID of the Resolver endpoint that you want to disassociate an IP address from.
@@ -976,6 +1011,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverEndpointIpAddressResponse: AWSDecodableShape {
+
         /// The response to an DisassociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
 
@@ -989,6 +1025,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverQueryLogConfigRequest: AWSEncodableShape {
+
         /// The ID of the query logging configuration that you want to disassociate a specified VPC from.
         public let resolverQueryLogConfigId: String
         /// The ID of the Amazon VPC that you want to disassociate from a specified query logging configuration.
@@ -1013,6 +1050,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverQueryLogConfigResponse: AWSDecodableShape {
+
         /// A complex type that contains settings for the association that you deleted between an Amazon VPC and a query logging configuration.
         public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
 
@@ -1026,6 +1064,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverRuleRequest: AWSEncodableShape {
+
         /// The ID of the Resolver rule that you want to disassociate from the specified VPC.
         public let resolverRuleId: String
         /// The ID of the VPC that you want to disassociate the Resolver rule from.
@@ -1050,6 +1089,7 @@ extension Route53Resolver {
     }
 
     public struct DisassociateResolverRuleResponse: AWSDecodableShape {
+
         /// Information about the DisassociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
@@ -1063,6 +1103,7 @@ extension Route53Resolver {
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// The name of the parameter that you want to use to filter objects. The valid values for Name depend on the action that you're including the filter in, ListResolverEndpoints, ListResolverRules, ListResolverRuleAssociations, ListResolverQueryLogConfigs, or ListResolverQueryLogConfigAssociations.  In early versions of Resolver, values for Name were listed as uppercase, with underscore (_) delimiters. For example, CreatorRequestId was originally listed as CREATOR_REQUEST_ID. Uppercase values for Name are still supported.   ListResolverEndpoints  Valid values for Name include the following:    CreatorRequestId: The value that you specified when you created the Resolver endpoint.    Direction: Whether you want to return inbound or outbound Resolver endpoints. If you specify DIRECTION for Name, specify INBOUND or OUTBOUND for Values.    HostVpcId: The ID of the VPC that inbound DNS queries pass through on the way from your network to your VPCs in a region, or the VPC that outbound queries pass through on the way from your VPCs to your network. In a CreateResolverEndpoint request, SubnetId indirectly identifies the VPC. In a GetResolverEndpoint request, the VPC ID for a Resolver endpoint is returned in the HostVPCId element.     IpAddressCount: The number of IP addresses that you have associated with the Resolver endpoint.    Name: The name of the Resolver endpoint.    SecurityGroupIds: The IDs of the VPC security groups that you specified when you created the Resolver endpoint.    Status: The status of the Resolver endpoint. If you specify Status for Name, specify one of the following status codes for Values: CREATING, OPERATIONAL, UPDATING, AUTO_RECOVERING, ACTION_NEEDED, or DELETING. For more information, see Status in ResolverEndpoint.    ListResolverRules  Valid values for Name include the following:    CreatorRequestId: The value that you specified when you created the Resolver rule.    DomainName: The domain name for which Resolver is forwarding DNS queries to your network. In the value that you specify for Values, include a trailing dot (.) after the domain name. For example, if the domain name is example.com, specify the following value. Note the "." after com:  example.com.     Name: The name of the Resolver rule.    ResolverEndpointId: The ID of the Resolver endpoint that the Resolver rule is associated with.  You can filter on the Resolver endpoint only for rules that have a value of FORWARD for RuleType.     Status: The status of the Resolver rule. If you specify Status for Name, specify one of the following status codes for Values: COMPLETE, DELETING, UPDATING, or FAILED.    Type: The type of the Resolver rule. If you specify TYPE for Name, specify FORWARD or SYSTEM for Values.    ListResolverRuleAssociations  Valid values for Name include the following:    Name: The name of the Resolver rule association.    ResolverRuleId: The ID of the Resolver rule that is associated with one or more VPCs.    Status: The status of the Resolver rule association. If you specify Status for Name, specify one of the following status codes for Values: CREATING, COMPLETE, DELETING, or FAILED.    VPCId: The ID of the VPC that the Resolver rule is associated with.    ListResolverQueryLogConfigs  Valid values for Name include the following:    Arn: The ARN for the query logging configuration.    AssociationCount: The number of VPCs that are associated with the query logging configuration.    CreationTime: The date and time that the query logging configuration was created, in Unix time format and Coordinated Universal Time (UTC).     CreatorRequestId: A unique string that identifies the request that created the query logging configuration.    Destination: The AWS service that you want to forward query logs to. Valid values include the following:    S3     CloudWatchLogs     KinesisFirehose       DestinationArn: The ARN of the location that Resolver is sending query logs to. This value can be the ARN for an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream.    Id: The ID of the query logging configuration    Name: The name of the query logging configuration    OwnerId: The AWS account ID for the account that created the query logging configuration.    ShareStatus: An indication of whether the query logging configuration is shared with other AWS accounts, or was shared with the current account by another AWS account. Valid values include: NOT_SHARED, SHARED_WITH_ME, or SHARED_BY_ME.    Status: The status of the query logging configuration. If you specify Status for Name, specify the applicable status code for Values: CREATING, CREATED, DELETING, or FAILED. For more information, see Status.     ListResolverQueryLogConfigAssociations  Valid values for Name include the following:    CreationTime: The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).    Error: If the value of Status is FAILED, specify the cause: DESTINATION_NOT_FOUND or ACCESS_DENIED.    Id: The ID of the query logging association.    ResolverQueryLogConfigId: The ID of the query logging configuration that a VPC is associated with.    ResourceId: The ID of the Amazon VPC that is associated with the query logging configuration.    Status: The status of the query logging association. If you specify Status for Name, specify the applicable status code for Values: CREATING, CREATED, DELETING, or FAILED. For more information, see Status.
         public let name: String?
         /// When you're using a List operation and you want the operation to return a subset of objects, such as Resolver endpoints or Resolver rules, the value of the parameter that you want to use to filter objects. For example, to list only inbound Resolver endpoints, specify Direction for Name and specify INBOUND for Values.
@@ -1089,6 +1130,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallConfig: AWSDecodableShape {
+
         /// Determines how DNS Firewall operates during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall returns a failure error when it is unable to properly evaluate a query.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
         public let firewallFailOpen: FirewallFailOpenStatus?
         /// The Id of the firewall configuration.
@@ -1114,6 +1156,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallDomainList: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall domain list.
         public let arn: String?
         /// The date and time that the domain list was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -1163,6 +1206,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallDomainListMetadata: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall domain list metadata.
         public let arn: String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
@@ -1192,6 +1236,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallRule: AWSDecodableShape {
+
         /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
         public let action: Action?
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
@@ -1249,6 +1294,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallRuleGroup: AWSDecodableShape {
+
         /// The ARN (Amazon Resource Name) of the rule group.
         public let arn: String?
         /// The date and time that the rule group was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -1302,6 +1348,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallRuleGroupAssociation: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall rule group association.
         public let arn: String?
         /// The date and time that the association was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -1363,6 +1410,7 @@ extension Route53Resolver {
     }
 
     public struct FirewallRuleGroupMetadata: AWSDecodableShape {
+
         /// The ARN (Amazon Resource Name) of the rule group.
         public let arn: String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
@@ -1396,6 +1444,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallConfigRequest: AWSEncodableShape {
+
         /// The ID of the Amazon virtual private cloud (VPC) that the configuration is for.
         public let resourceId: String
 
@@ -1414,6 +1463,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallConfigResponse: AWSDecodableShape {
+
         /// Configuration of the firewall behavior provided by DNS Firewall for a single Amazon virtual private cloud (VPC).
         public let firewallConfig: FirewallConfig?
 
@@ -1427,6 +1477,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallDomainListRequest: AWSEncodableShape {
+
         /// The ID of the domain list.
         public let firewallDomainListId: String
 
@@ -1445,6 +1496,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallDomainListResponse: AWSDecodableShape {
+
         /// The domain list that you requested.
         public let firewallDomainList: FirewallDomainList?
 
@@ -1458,6 +1510,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallRuleGroupAssociationRequest: AWSEncodableShape {
+
         /// The identifier of the FirewallRuleGroupAssociation.
         public let firewallRuleGroupAssociationId: String
 
@@ -1476,6 +1529,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallRuleGroupAssociationResponse: AWSDecodableShape {
+
         /// The association that you requested.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
@@ -1489,6 +1543,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallRuleGroupPolicyRequest: AWSEncodableShape {
+
         /// The ARN (Amazon Resource Name) for the rule group.
         public let arn: String
 
@@ -1507,6 +1562,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallRuleGroupPolicyResponse: AWSDecodableShape {
+
         /// The AWS Identity and Access Management (AWS IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using AWS Resource Access Manager (RAM).
         public let firewallRuleGroupPolicy: String?
 
@@ -1520,6 +1576,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallRuleGroupRequest: AWSEncodableShape {
+
         /// The unique identifier of the firewall rule group.
         public let firewallRuleGroupId: String
 
@@ -1538,6 +1595,7 @@ extension Route53Resolver {
     }
 
     public struct GetFirewallRuleGroupResponse: AWSDecodableShape {
+
         /// A collection of rules used to filter DNS network traffic.
         public let firewallRuleGroup: FirewallRuleGroup?
 
@@ -1551,6 +1609,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverDnssecConfigRequest: AWSEncodableShape {
+
         /// The ID of the virtual private cloud (VPC) for the DNSSEC validation status.
         public let resourceId: String
 
@@ -1569,6 +1628,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverDnssecConfigResponse: AWSDecodableShape {
+
         /// The information about a configuration for DNSSEC validation.
         public let resolverDNSSECConfig: ResolverDnssecConfig?
 
@@ -1582,6 +1642,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverEndpointRequest: AWSEncodableShape {
+
         /// The ID of the Resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
 
@@ -1600,6 +1661,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverEndpointResponse: AWSDecodableShape {
+
         /// Information about the Resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
 
@@ -1613,6 +1675,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverQueryLogConfigAssociationRequest: AWSEncodableShape {
+
         /// The ID of the Resolver query logging configuration association that you want to get information about.
         public let resolverQueryLogConfigAssociationId: String
 
@@ -1631,6 +1694,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverQueryLogConfigAssociationResponse: AWSDecodableShape {
+
         /// Information about the Resolver query logging configuration association that you specified in a GetQueryLogConfigAssociation request.
         public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
 
@@ -1644,6 +1708,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverQueryLogConfigPolicyRequest: AWSEncodableShape {
+
         /// The ARN of the query logging configuration that you want to get the query logging policy for.
         public let arn: String
 
@@ -1662,6 +1727,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverQueryLogConfigPolicyResponse: AWSDecodableShape {
+
         /// Information about the query logging policy for the query logging configuration that you specified in a GetResolverQueryLogConfigPolicy request.
         public let resolverQueryLogConfigPolicy: String?
 
@@ -1675,6 +1741,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverQueryLogConfigRequest: AWSEncodableShape {
+
         /// The ID of the Resolver query logging configuration that you want to get information about.
         public let resolverQueryLogConfigId: String
 
@@ -1693,6 +1760,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverQueryLogConfigResponse: AWSDecodableShape {
+
         /// Information about the Resolver query logging configuration that you specified in a GetQueryLogConfig request.
         public let resolverQueryLogConfig: ResolverQueryLogConfig?
 
@@ -1706,6 +1774,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleAssociationRequest: AWSEncodableShape {
+
         /// The ID of the Resolver rule association that you want to get information about.
         public let resolverRuleAssociationId: String
 
@@ -1724,6 +1793,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleAssociationResponse: AWSDecodableShape {
+
         /// Information about the Resolver rule association that you specified in a GetResolverRuleAssociation request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
@@ -1737,6 +1807,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRulePolicyRequest: AWSEncodableShape {
+
         /// The ID of the Resolver rule that you want to get the Resolver rule policy for.
         public let arn: String
 
@@ -1755,6 +1826,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRulePolicyResponse: AWSDecodableShape {
+
         /// The Resolver rule policy for the rule that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
 
@@ -1768,6 +1840,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleRequest: AWSEncodableShape {
+
         /// The ID of the Resolver rule that you want to get information about.
         public let resolverRuleId: String
 
@@ -1786,6 +1859,7 @@ extension Route53Resolver {
     }
 
     public struct GetResolverRuleResponse: AWSDecodableShape {
+
         /// Information about the Resolver rule that you specified in a GetResolverRule request.
         public let resolverRule: ResolverRule?
 
@@ -1799,6 +1873,7 @@ extension Route53Resolver {
     }
 
     public struct ImportFirewallDomainsRequest: AWSEncodableShape {
+
         /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line.
         public let domainFileUrl: String
         /// The ID of the domain list that you want to modify with the import operation.
@@ -1827,6 +1902,7 @@ extension Route53Resolver {
     }
 
     public struct ImportFirewallDomainsResponse: AWSDecodableShape {
+
         /// The Id of the firewall domain list that DNS Firewall just updated.
         public let id: String?
         /// The name of the domain list.
@@ -1851,6 +1927,7 @@ extension Route53Resolver {
     }
 
     public struct IpAddressRequest: AWSEncodableShape {
+
         /// The IP address that you want to use for DNS queries.
         public let ip: String?
         /// The ID of the subnet that contains the IP address.
@@ -1875,6 +1952,7 @@ extension Route53Resolver {
     }
 
     public struct IpAddressResponse: AWSDecodableShape {
+
         /// The date and time that the IP address was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
         /// One IP address that the Resolver endpoint uses for DNS queries.
@@ -1912,6 +1990,7 @@ extension Route53Resolver {
     }
 
     public struct IpAddressUpdate: AWSEncodableShape {
+
         /// The new IP address.
         public let ip: String?
         ///  Only when removing an IP address from a Resolver endpoint: The ID of the IP address that you want to remove. To get this ID, use GetResolverEndpoint.
@@ -1942,6 +2021,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallConfigsRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
         public let maxResults: Int?
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -1964,6 +2044,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallConfigsResponse: AWSDecodableShape {
+
         /// The configurations for the firewall behavior provided by DNS Firewall for Amazon virtual private clouds (VPC).
         public let firewallConfigs: [FirewallConfig]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -1981,6 +2062,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallDomainListsRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
         public let maxResults: Int?
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -2003,6 +2085,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallDomainListsResponse: AWSDecodableShape {
+
         /// A list of the domain lists that you have defined.  This might be a parital list of the domain lists that you've defined. For information, see MaxResults.
         public let firewallDomainLists: [FirewallDomainListMetadata]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -2020,6 +2103,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallDomainsRequest: AWSEncodableShape {
+
         /// The ID of the domain list whose domains you want to retrieve.
         public let firewallDomainListId: String
         /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
@@ -2048,6 +2132,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallDomainsResponse: AWSDecodableShape {
+
         /// A list of the domains in the firewall domain list.  This might be a parital list of the domains that you've defined in the domain list. For information, see MaxResults.
         public let domains: [String]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -2065,6 +2150,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRuleGroupAssociationsRequest: AWSEncodableShape {
+
         /// The unique identifier of the firewall rule group that you want to retrieve the associations for. Leave this blank to retrieve associations for any rule group.
         public let firewallRuleGroupId: String?
         /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
@@ -2107,6 +2193,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRuleGroupAssociationsResponse: AWSDecodableShape {
+
         /// A list of your firewall rule group associations. This might be a partial list of the associations that you have defined. For information, see MaxResults.
         public let firewallRuleGroupAssociations: [FirewallRuleGroupAssociation]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -2124,6 +2211,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRuleGroupsRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects. If you don't specify a value for MaxResults, Resolver returns up to 100 objects.
         public let maxResults: Int?
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
@@ -2146,6 +2234,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRuleGroupsResponse: AWSDecodableShape {
+
         /// A list of your firewall rule groups. This might be a partial list of the rule groups that you have defined. For information, see MaxResults.
         public let firewallRuleGroups: [FirewallRuleGroupMetadata]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -2163,6 +2252,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRulesRequest: AWSEncodableShape {
+
         /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
         public let action: Action?
         /// The unique identifier of the firewall rule group that you want to retrieve the rules for.
@@ -2199,6 +2289,7 @@ extension Route53Resolver {
     }
 
     public struct ListFirewallRulesResponse: AWSDecodableShape {
+
         /// A list of the rules that you have defined.  This might be a parital list of the firewall rules that you've defined. For information, see MaxResults.
         public let firewallRules: [FirewallRule]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
@@ -2216,6 +2307,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverDnssecConfigsRequest: AWSEncodableShape {
+
         /// An optional specification to return a subset of objects.
         public let filters: [Filter]?
         ///  Optional: An integer that specifies the maximum number of DNSSEC configuration results that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53 returns up to 100 configuration per page.
@@ -2245,6 +2337,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverDnssecConfigsResponse: AWSDecodableShape {
+
         /// If a response includes the last of the DNSSEC configurations that are associated with the current AWS account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another ListResolverDnssecConfigs request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
         public let nextToken: String?
         /// An array that contains one ResolverDnssecConfig element for each configuration for DNSSEC validation that is associated with the current AWS account.
@@ -2262,6 +2355,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointIpAddressesRequest: AWSEncodableShape {
+
         /// The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses.
         public let maxResults: Int?
         /// For the first ListResolverEndpointIpAddresses request, omit this value. If the specified Resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response.
@@ -2290,6 +2384,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointIpAddressesResponse: AWSDecodableShape {
+
         /// Information about the IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints).
         public let ipAddresses: [IpAddressResponse]?
         /// The value that you specified for MaxResults in the request.
@@ -2311,6 +2406,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointsRequest: AWSEncodableShape {
+
         /// An optional specification to return a subset of Resolver endpoints, such as all inbound Resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
         public let filters: [Filter]?
         /// The maximum number of Resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver endpoints.
@@ -2340,6 +2436,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverEndpointsResponse: AWSDecodableShape {
+
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
         /// If more than MaxResults IP addresses match the specified criteria, you can submit another ListResolverEndpoint request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
@@ -2361,6 +2458,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverQueryLogConfigAssociationsRequest: AWSEncodableShape {
+
         /// An optional specification to return a subset of query logging associations.  If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
         public let filters: [Filter]?
         /// The maximum number of query logging associations that you want to return in the response to a ListResolverQueryLogConfigAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging associations.
@@ -2400,6 +2498,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverQueryLogConfigAssociationsResponse: AWSDecodableShape {
+
         /// If there are more than MaxResults query logging associations, you can submit another ListResolverQueryLogConfigAssociations request to get the next group of associations. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
         /// A list that contains one ResolverQueryLogConfigAssociations element for each query logging association that matches the values that you specified for Filter.
@@ -2425,6 +2524,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverQueryLogConfigsRequest: AWSEncodableShape {
+
         /// An optional specification to return a subset of query logging configurations.  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
         public let filters: [Filter]?
         /// The maximum number of query logging configurations that you want to return in the response to a ListResolverQueryLogConfigs request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging configurations.
@@ -2464,6 +2564,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverQueryLogConfigsResponse: AWSDecodableShape {
+
         /// If there are more than MaxResults query logging configurations, you can submit another ListResolverQueryLogConfigs request to get the next group of configurations. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
         /// A list that contains one ResolverQueryLogConfig element for each query logging configuration that matches the values that you specified for Filter.
@@ -2489,6 +2590,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRuleAssociationsRequest: AWSEncodableShape {
+
         /// An optional specification to return a subset of Resolver rules, such as Resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
         public let filters: [Filter]?
         /// The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations.
@@ -2518,6 +2620,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRuleAssociationsResponse: AWSDecodableShape {
+
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
         /// If more than MaxResults rule associations match the specified criteria, you can submit another ListResolverRuleAssociation request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
@@ -2539,6 +2642,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRulesRequest: AWSEncodableShape {
+
         /// An optional specification to return a subset of Resolver rules, such as all Resolver rules that are associated with the same Resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request.
         public let filters: [Filter]?
         /// The maximum number of Resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver rules.
@@ -2568,6 +2672,7 @@ extension Route53Resolver {
     }
 
     public struct ListResolverRulesResponse: AWSDecodableShape {
+
         /// The value that you specified for MaxResults in the request.
         public let maxResults: Int?
         /// If more than MaxResults Resolver rules match the specified criteria, you can submit another ListResolverRules request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
@@ -2589,6 +2694,7 @@ extension Route53Resolver {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
         public let maxResults: Int?
         /// For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response.
@@ -2617,6 +2723,7 @@ extension Route53Resolver {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// If more than MaxResults tags match the specified criteria, you can submit another ListTagsForResource request to get the next group of results. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
         /// The tags that are associated with the resource that you specified in the ListTagsForResource request.
@@ -2634,6 +2741,7 @@ extension Route53Resolver {
     }
 
     public struct PutFirewallRuleGroupPolicyRequest: AWSEncodableShape {
+
         /// The ARN (Amazon Resource Name) for the rule group that you want to share.
         public let arn: String
         /// The AWS Identity and Access Management (AWS IAM) policy to attach to the rule group.
@@ -2657,6 +2765,7 @@ extension Route53Resolver {
     }
 
     public struct PutFirewallRuleGroupPolicyResponse: AWSDecodableShape {
+
         public let returnValue: Bool?
 
         public init(returnValue: Bool? = nil) {
@@ -2669,6 +2778,7 @@ extension Route53Resolver {
     }
 
     public struct PutResolverQueryLogConfigPolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the account that you want to share rules with.
         public let arn: String
         /// An AWS Identity and Access Management policy statement that lists the query logging configurations that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement:    route53resolver:AssociateResolverQueryLogConfig     route53resolver:DisassociateResolverQueryLogConfig     route53resolver:ListResolverQueryLogConfigAssociations     route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in Arn.
@@ -2692,6 +2802,7 @@ extension Route53Resolver {
     }
 
     public struct PutResolverQueryLogConfigPolicyResponse: AWSDecodableShape {
+
         /// Whether the PutResolverQueryLogConfigPolicy request was successful.
         public let returnValue: Bool?
 
@@ -2705,6 +2816,7 @@ extension Route53Resolver {
     }
 
     public struct PutResolverRulePolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule that you want to share with another account.
         public let arn: String
         /// An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Action section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn.
@@ -2728,6 +2840,7 @@ extension Route53Resolver {
     }
 
     public struct PutResolverRulePolicyResponse: AWSDecodableShape {
+
         /// Whether the PutResolverRulePolicy request was successful.
         public let returnValue: Bool?
 
@@ -2741,6 +2854,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverDnssecConfig: AWSDecodableShape {
+
         /// The ID for a configuration for DNSSEC validation.
         public let id: String?
         /// The owner account ID of the virtual private cloud (VPC) for a configuration for DNSSEC validation.
@@ -2766,6 +2880,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverEndpoint: AWSDecodableShape {
+
         /// The ARN (Amazon Resource Name) for the Resolver endpoint.
         public let arn: String?
         /// The date and time that the endpoint was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -2823,6 +2938,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverQueryLogConfig: AWSDecodableShape {
+
         /// The ARN for the query logging configuration.
         public let arn: String?
         /// The number of VPCs that are associated with the query logging configuration.
@@ -2872,6 +2988,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverQueryLogConfigAssociation: AWSDecodableShape {
+
         /// The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
         /// If the value of Status is FAILED, the value of Error indicates the cause:    DESTINATION_NOT_FOUND: The specified destination (for example, an Amazon S3 bucket) was deleted.    ACCESS_DENIED: Permissions don't allow sending logs to the destination.   If the value of Status is a value other than FAILED, Error is null.
@@ -2909,6 +3026,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverRule: AWSDecodableShape {
+
         /// The ARN (Amazon Resource Name) for the Resolver rule specified by Id.
         public let arn: String?
         /// The date and time that the Resolver rule was created, in Unix time format and Coordinated Universal Time (UTC).
@@ -2974,6 +3092,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverRuleAssociation: AWSDecodableShape {
+
         /// The ID of the association between a Resolver rule and a VPC. Resolver assigns this value when you submit an AssociateResolverRule request.
         public let id: String?
         /// The name of an association between a Resolver rule and a VPC.
@@ -3007,6 +3126,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverRuleConfig: AWSEncodableShape {
+
         /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console.
         public let name: String?
         /// The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
@@ -3039,6 +3159,7 @@ extension Route53Resolver {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes, the value of Key might be account-id.
         public let key: String
         /// The value for the tag. For example, if Key is account-id, then Value might be the ID of the customer account that you're creating the resource for.
@@ -3063,6 +3184,7 @@ extension Route53Resolver {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules
         public let resourceArn: String
         /// The tags that you want to add to the specified resource.
@@ -3089,10 +3211,15 @@ extension Route53Resolver {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TargetAddress: AWSEncodableShape & AWSDecodableShape {
+
         /// One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.
         public let ip: String
         /// The port at Ip that you want to forward DNS queries to.
@@ -3117,6 +3244,7 @@ extension Route53Resolver {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules
         public let resourceArn: String
         /// The tags that you want to remove to the specified resource.
@@ -3144,10 +3272,15 @@ extension Route53Resolver {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFirewallConfigRequest: AWSEncodableShape {
+
         /// Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
         public let firewallFailOpen: FirewallFailOpenStatus
         /// The ID of the Amazon virtual private cloud (VPC) that the configuration is for.
@@ -3170,6 +3303,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallConfigResponse: AWSDecodableShape {
+
         /// Configuration of the firewall behavior provided by DNS Firewall for a single Amazon virtual private cloud (VPC).
         public let firewallConfig: FirewallConfig?
 
@@ -3183,6 +3317,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallDomainsRequest: AWSEncodableShape {
+
         /// A list of domains to use in the update operation. Each domain specification in your domain list must satisfy the following requirements:    It can optionally start with * (asterisk).   With the exception of the optional starting asterisk, it must only contain the following characters: A-Z, a-z, 0-9, - (hyphen).   It must be from 1-255 characters in length.
         public let domains: [String]
         /// The ID of the domain list whose domains you want to update.
@@ -3213,6 +3348,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallDomainsResponse: AWSDecodableShape {
+
         /// The Id of the firewall domain list that DNS Firewall just updated.
         public let id: String?
         /// The name of the domain list.
@@ -3237,6 +3373,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallRuleGroupAssociationRequest: AWSEncodableShape {
+
         /// The identifier of the FirewallRuleGroupAssociation.
         public let firewallRuleGroupAssociationId: String
         /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections.
@@ -3269,6 +3406,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallRuleGroupAssociationResponse: AWSDecodableShape {
+
         /// The association that you just updated.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
@@ -3282,6 +3420,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallRuleRequest: AWSEncodableShape {
+
         /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
         public let action: Action?
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
@@ -3316,7 +3455,7 @@ extension Route53Resolver {
         public func validate(name: String) throws {
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
             try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
-            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604_800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
             try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
@@ -3340,6 +3479,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateFirewallRuleResponse: AWSDecodableShape {
+
         /// The firewall rule that you just updated.
         public let firewallRule: FirewallRule?
 
@@ -3353,6 +3493,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverDnssecConfigRequest: AWSEncodableShape {
+
         /// The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for.
         public let resourceId: String
         /// The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE. Be aware that it can take time for a validation status change to be completed.
@@ -3375,6 +3516,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverDnssecConfigResponse: AWSDecodableShape {
+
         /// A complex type that contains settings for the specified DNSSEC configuration.
         public let resolverDNSSECConfig: ResolverDnssecConfig?
 
@@ -3388,6 +3530,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverEndpointRequest: AWSEncodableShape {
+
         /// The name of the Resolver endpoint that you want to update.
         public let name: String?
         /// The ID of the Resolver endpoint that you want to update.
@@ -3412,6 +3555,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverEndpointResponse: AWSDecodableShape {
+
         /// The response to an UpdateResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
 
@@ -3425,6 +3569,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverRuleRequest: AWSEncodableShape {
+
         /// The new settings for the Resolver rule.
         public let config: ResolverRuleConfig
         /// The ID of the Resolver rule that you want to update.
@@ -3448,6 +3593,7 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverRuleResponse: AWSDecodableShape {
+
         /// The response to an UpdateResolverRule request.
         public let resolverRule: ResolverRule?
 

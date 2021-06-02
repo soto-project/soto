@@ -21,12 +21,12 @@ extension EFS {
     // MARK: Enums
 
     public enum LifeCycleState: String, CustomStringConvertible, Codable {
-        case available
-        case creating
-        case deleted
-        case deleting
-        case error
-        case updating
+        case available = "available"
+        case creating = "creating"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case error = "error"
+        case updating = "updating"
         public var description: String { return self.rawValue }
     }
 
@@ -45,8 +45,8 @@ extension EFS {
     }
 
     public enum ThroughputMode: String, CustomStringConvertible, Codable {
-        case bursting
-        case provisioned
+        case bursting = "bursting"
+        case provisioned = "provisioned"
         public var description: String { return self.rawValue }
     }
 
@@ -62,6 +62,7 @@ extension EFS {
     // MARK: Shapes
 
     public struct AccessPointDescription: AWSDecodableShape {
+
         /// The unique Amazon Resource Name (ARN) associated with the access point.
         public let accessPointArn: String?
         /// The ID of the access point, assigned by Amazon EFS.
@@ -111,6 +112,7 @@ extension EFS {
     }
 
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// Describes the status of the file system's backup policy.     ENABLED  - EFS is automatically backing up the file system.&gt;     ENABLING  - EFS is turning on automatic backups for the file system.     DISABLED  - automatic back ups are turned off for the file system.     DISABLING  - EFS is turning off automatic backups for the file system.
         public let status: Status
 
@@ -124,6 +126,7 @@ extension EFS {
     }
 
     public struct BackupPolicyDescription: AWSDecodableShape {
+
         /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off..
         public let backupPolicy: BackupPolicy?
 
@@ -137,6 +140,7 @@ extension EFS {
     }
 
     public struct CreateAccessPointRequest: AWSEncodableShape {
+
         /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
         public let clientToken: String
         /// The ID of the EFS file system that the access point provides access to.
@@ -179,6 +183,7 @@ extension EFS {
     }
 
     public struct CreateFileSystemRequest: AWSEncodableShape {
+
         /// Used to create a file system that uses One Zone storage classes. It specifies the AWS Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone storage classes are not available in all Availability Zones in AWS Regions where Amazon EFS is available.
         public let availabilityZoneName: String?
         /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a file system that uses One Zone storage classes, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName, the default is true.  AWS Backup is not available in all AWS Regions where Amazon EFS is available.
@@ -239,6 +244,7 @@ extension EFS {
     }
 
     public struct CreateMountTargetRequest: AWSEncodableShape {
+
         /// The ID of the file system for which to create the mount target.
         public let fileSystemId: String
         /// Valid IPv4 address within the address range of the specified subnet.
@@ -309,6 +315,7 @@ extension EFS {
     }
 
     public struct CreationInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the POSIX group ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
         public let ownerGid: Int64
         /// Specifies the POSIX user ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
@@ -323,9 +330,9 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4_294_967_295)
+            try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4294967295)
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, min: 0)
-            try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4_294_967_295)
+            try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4294967295)
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, min: 0)
             try self.validate(self.permissions, name: "permissions", parent: name, max: 4)
             try self.validate(self.permissions, name: "permissions", parent: name, min: 3)
@@ -454,9 +461,9 @@ extension EFS {
 
     public struct DescribeAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")), 
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -491,6 +498,7 @@ extension EFS {
     }
 
     public struct DescribeAccessPointsResponse: AWSDecodableShape {
+
         /// An array of access point descriptions.
         public let accessPoints: [AccessPointDescription]?
         /// Present if there are more access points than returned in the response. You can use the NextMarker in the subsequent request to fetch the additional descriptions.
@@ -549,9 +557,9 @@ extension EFS {
 
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "creationToken", location: .querystring(locationName: "CreationToken")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "creationToken", location: .querystring(locationName: "CreationToken")), 
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -587,6 +595,7 @@ extension EFS {
     }
 
     public struct DescribeFileSystemsResponse: AWSDecodableShape {
+
         /// An array of file system descriptions.
         public let fileSystems: [FileSystemDescription]?
         /// Present if provided by caller in the request (String).
@@ -649,6 +658,7 @@ extension EFS {
     }
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSDecodableShape {
+
         /// An array of security groups.
         public let securityGroups: [String]
 
@@ -663,10 +673,10 @@ extension EFS {
 
     public struct DescribeMountTargetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")),
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")),
+            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")), 
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")), 
             AWSMemberEncoding(label: "mountTargetId", location: .querystring(locationName: "MountTargetId"))
         ]
 
@@ -707,6 +717,7 @@ extension EFS {
     }
 
     public struct DescribeMountTargetsResponse: AWSDecodableShape {
+
         /// If the request included the Marker, the response returns that value in this field.
         public let marker: String?
         /// Returns the file system's mount targets as an array of MountTargetDescription objects.
@@ -729,8 +740,8 @@ extension EFS {
 
     public struct DescribeTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -760,6 +771,7 @@ extension EFS {
     }
 
     public struct DescribeTagsResponse: AWSDecodableShape {
+
         /// If the request included a Marker, the response returns that value in this field.
         public let marker: String?
         /// If a value is present, there are more tags to return. In a subsequent request, you can provide the value of NextMarker as the value of the Marker parameter in your next request to retrieve the next set of tags.
@@ -781,6 +793,7 @@ extension EFS {
     }
 
     public struct FileSystemDescription: AWSDecodableShape {
+
         /// The unique and consistent identifier of the Availability Zone in which the file system's One Zone storage classes exist. For example, use1-az1 is an Availability Zone ID for the us-east-1 AWS Region, and it has the same location in every AWS account.
         public let availabilityZoneId: String?
         /// Describes the AWS Availability Zone in which the file system is located, and is valid only for file systems using One Zone storage classes. For more information, see Using EFS storage classes in the Amazon EFS User Guide.
@@ -858,6 +871,7 @@ extension EFS {
     }
 
     public struct FileSystemPolicyDescription: AWSDecodableShape {
+
         /// Specifies the EFS file system to which the FileSystemPolicy applies.
         public let fileSystemId: String?
         /// The JSON formatted FileSystemPolicy for the EFS file system.
@@ -875,6 +889,7 @@ extension EFS {
     }
 
     public struct FileSystemSize: AWSDecodableShape {
+
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public let timestamp: Date?
         /// The latest known metered size (in bytes) of data stored in the file system.
@@ -900,6 +915,7 @@ extension EFS {
     }
 
     public struct LifecycleConfigurationDescription: AWSDecodableShape {
+
         /// An array of lifecycle management policies. Currently, EFS supports a maximum of one policy per file system.
         public let lifecyclePolicies: [LifecyclePolicy]?
 
@@ -913,6 +929,7 @@ extension EFS {
     }
 
     public struct LifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
+
         ///  A value that describes the period of time that a file is not accessed, after which it transitions to the IA storage class. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
 
@@ -927,8 +944,8 @@ extension EFS {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -958,6 +975,7 @@ extension EFS {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         ///  NextToken is present if the response payload is paginated. You can use NextToken in a subsequent request to fetch the next page of access point descriptions.
         public let nextToken: String?
         /// An array of the tags for the specified EFS resource.
@@ -1007,6 +1025,7 @@ extension EFS {
     }
 
     public struct MountTargetDescription: AWSDecodableShape {
+
         /// The unique and consistent identifier of the Availability Zone that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every AWS account.
         public let availabilityZoneId: String?
         /// The name of the Availability Zone in which the mount target is located. Availability Zones are independently mapped to names for each AWS account. For example, the Availability Zone us-east-1a for your AWS account might not be the same location as us-east-1a for another AWS account.
@@ -1056,6 +1075,7 @@ extension EFS {
     }
 
     public struct PosixUser: AWSEncodableShape & AWSDecodableShape {
+
         /// The POSIX group ID used for all file system operations using this access point.
         public let gid: Int64
         /// Secondary POSIX group IDs used for all file system operations using this access point.
@@ -1070,15 +1090,15 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
+            try self.validate(self.gid, name: "gid", parent: name, max: 4294967295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
-                try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
-            try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4294967295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
 
@@ -1172,6 +1192,7 @@ extension EFS {
     }
 
     public struct RootDirectory: AWSEncodableShape & AWSDecodableShape {
+
         /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory &gt; Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory &gt; Path does not exist, attempts to mount the file system using the access point will fail.
         public let creationInfo: CreationInfo?
         /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide the CreationInfo.
@@ -1196,6 +1217,7 @@ extension EFS {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag key (String). The key can't start with aws:.
         public let key: String
         /// The value of the tag key.
@@ -1249,7 +1271,7 @@ extension EFS {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 

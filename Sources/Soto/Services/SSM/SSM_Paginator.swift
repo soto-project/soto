@@ -27,14 +27,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeActivationsPaginator<Result>(
         _ input: DescribeActivationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeActivationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension SSM {
             command: describeActivations,
             inputKey: \DescribeActivationsRequest.nextToken,
             outputKey: \DescribeActivationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeActivationsPaginator(
         _ input: DescribeActivationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeActivationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension SSM {
             command: describeActivations,
             inputKey: \DescribeActivationsRequest.nextToken,
             outputKey: \DescribeActivationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeAssociationExecutionTargetsPaginator<Result>(
         _ input: DescribeAssociationExecutionTargetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeAssociationExecutionTargetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension SSM {
             command: describeAssociationExecutionTargets,
             inputKey: \DescribeAssociationExecutionTargetsRequest.nextToken,
             outputKey: \DescribeAssociationExecutionTargetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAssociationExecutionTargetsPaginator(
         _ input: DescribeAssociationExecutionTargetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAssociationExecutionTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension SSM {
             command: describeAssociationExecutionTargets,
             inputKey: \DescribeAssociationExecutionTargetsRequest.nextToken,
             outputKey: \DescribeAssociationExecutionTargetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeAssociationExecutionsPaginator<Result>(
         _ input: DescribeAssociationExecutionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeAssociationExecutionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension SSM {
             command: describeAssociationExecutions,
             inputKey: \DescribeAssociationExecutionsRequest.nextToken,
             outputKey: \DescribeAssociationExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAssociationExecutionsPaginator(
         _ input: DescribeAssociationExecutionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAssociationExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension SSM {
             command: describeAssociationExecutions,
             inputKey: \DescribeAssociationExecutionsRequest.nextToken,
             outputKey: \DescribeAssociationExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeAutomationExecutionsPaginator<Result>(
         _ input: DescribeAutomationExecutionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeAutomationExecutionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension SSM {
             command: describeAutomationExecutions,
             inputKey: \DescribeAutomationExecutionsRequest.nextToken,
             outputKey: \DescribeAutomationExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAutomationExecutionsPaginator(
         _ input: DescribeAutomationExecutionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAutomationExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension SSM {
             command: describeAutomationExecutions,
             inputKey: \DescribeAutomationExecutionsRequest.nextToken,
             outputKey: \DescribeAutomationExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeAutomationStepExecutionsPaginator<Result>(
         _ input: DescribeAutomationStepExecutionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeAutomationStepExecutionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension SSM {
             command: describeAutomationStepExecutions,
             inputKey: \DescribeAutomationStepExecutionsRequest.nextToken,
             outputKey: \DescribeAutomationStepExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAutomationStepExecutionsPaginator(
         _ input: DescribeAutomationStepExecutionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAutomationStepExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension SSM {
             command: describeAutomationStepExecutions,
             inputKey: \DescribeAutomationStepExecutionsRequest.nextToken,
             outputKey: \DescribeAutomationStepExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeAvailablePatchesPaginator<Result>(
         _ input: DescribeAvailablePatchesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeAvailablePatchesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension SSM {
             command: describeAvailablePatches,
             inputKey: \DescribeAvailablePatchesRequest.nextToken,
             outputKey: \DescribeAvailablePatchesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAvailablePatchesPaginator(
         _ input: DescribeAvailablePatchesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeAvailablePatchesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension SSM {
             command: describeAvailablePatches,
             inputKey: \DescribeAvailablePatchesRequest.nextToken,
             outputKey: \DescribeAvailablePatchesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeEffectiveInstanceAssociationsPaginator<Result>(
         _ input: DescribeEffectiveInstanceAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeEffectiveInstanceAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension SSM {
             command: describeEffectiveInstanceAssociations,
             inputKey: \DescribeEffectiveInstanceAssociationsRequest.nextToken,
             outputKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEffectiveInstanceAssociationsPaginator(
         _ input: DescribeEffectiveInstanceAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeEffectiveInstanceAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension SSM {
             command: describeEffectiveInstanceAssociations,
             inputKey: \DescribeEffectiveInstanceAssociationsRequest.nextToken,
             outputKey: \DescribeEffectiveInstanceAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeEffectivePatchesForPatchBaselinePaginator<Result>(
         _ input: DescribeEffectivePatchesForPatchBaselineRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeEffectivePatchesForPatchBaselineResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension SSM {
             command: describeEffectivePatchesForPatchBaseline,
             inputKey: \DescribeEffectivePatchesForPatchBaselineRequest.nextToken,
             outputKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEffectivePatchesForPatchBaselinePaginator(
         _ input: DescribeEffectivePatchesForPatchBaselineRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeEffectivePatchesForPatchBaselineResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension SSM {
             command: describeEffectivePatchesForPatchBaseline,
             inputKey: \DescribeEffectivePatchesForPatchBaselineRequest.nextToken,
             outputKey: \DescribeEffectivePatchesForPatchBaselineResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstanceAssociationsStatusPaginator<Result>(
         _ input: DescribeInstanceAssociationsStatusRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstanceAssociationsStatusResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension SSM {
             command: describeInstanceAssociationsStatus,
             inputKey: \DescribeInstanceAssociationsStatusRequest.nextToken,
             outputKey: \DescribeInstanceAssociationsStatusResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstanceAssociationsStatusPaginator(
         _ input: DescribeInstanceAssociationsStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstanceAssociationsStatusResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension SSM {
             command: describeInstanceAssociationsStatus,
             inputKey: \DescribeInstanceAssociationsStatusRequest.nextToken,
             outputKey: \DescribeInstanceAssociationsStatusResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstanceInformationPaginator<Result>(
         _ input: DescribeInstanceInformationRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstanceInformationResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension SSM {
             command: describeInstanceInformation,
             inputKey: \DescribeInstanceInformationRequest.nextToken,
             outputKey: \DescribeInstanceInformationResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstanceInformationPaginator(
         _ input: DescribeInstanceInformationRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstanceInformationResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension SSM {
             command: describeInstanceInformation,
             inputKey: \DescribeInstanceInformationRequest.nextToken,
             outputKey: \DescribeInstanceInformationResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstancePatchStatesPaginator<Result>(
         _ input: DescribeInstancePatchStatesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstancePatchStatesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension SSM {
             command: describeInstancePatchStates,
             inputKey: \DescribeInstancePatchStatesRequest.nextToken,
             outputKey: \DescribeInstancePatchStatesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstancePatchStatesPaginator(
         _ input: DescribeInstancePatchStatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstancePatchStatesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension SSM {
             command: describeInstancePatchStates,
             inputKey: \DescribeInstancePatchStatesRequest.nextToken,
             outputKey: \DescribeInstancePatchStatesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstancePatchStatesForPatchGroupPaginator<Result>(
         _ input: DescribeInstancePatchStatesForPatchGroupRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstancePatchStatesForPatchGroupResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension SSM {
             command: describeInstancePatchStatesForPatchGroup,
             inputKey: \DescribeInstancePatchStatesForPatchGroupRequest.nextToken,
             outputKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstancePatchStatesForPatchGroupPaginator(
         _ input: DescribeInstancePatchStatesForPatchGroupRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstancePatchStatesForPatchGroupResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension SSM {
             command: describeInstancePatchStatesForPatchGroup,
             inputKey: \DescribeInstancePatchStatesForPatchGroupRequest.nextToken,
             outputKey: \DescribeInstancePatchStatesForPatchGroupResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -663,14 +687,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstancePatchesPaginator<Result>(
         _ input: DescribeInstancePatchesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInstancePatchesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -680,6 +704,7 @@ extension SSM {
             command: describeInstancePatches,
             inputKey: \DescribeInstancePatchesRequest.nextToken,
             outputKey: \DescribeInstancePatchesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -689,12 +714,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstancePatchesPaginator(
         _ input: DescribeInstancePatchesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInstancePatchesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -703,6 +728,7 @@ extension SSM {
             command: describeInstancePatches,
             inputKey: \DescribeInstancePatchesRequest.nextToken,
             outputKey: \DescribeInstancePatchesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -716,14 +742,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInventoryDeletionsPaginator<Result>(
         _ input: DescribeInventoryDeletionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeInventoryDeletionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -733,6 +759,7 @@ extension SSM {
             command: describeInventoryDeletions,
             inputKey: \DescribeInventoryDeletionsRequest.nextToken,
             outputKey: \DescribeInventoryDeletionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -742,12 +769,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInventoryDeletionsPaginator(
         _ input: DescribeInventoryDeletionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeInventoryDeletionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -756,6 +783,7 @@ extension SSM {
             command: describeInventoryDeletions,
             inputKey: \DescribeInventoryDeletionsRequest.nextToken,
             outputKey: \DescribeInventoryDeletionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -769,14 +797,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowExecutionTaskInvocationsPaginator<Result>(
         _ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowExecutionTaskInvocationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -786,6 +814,7 @@ extension SSM {
             command: describeMaintenanceWindowExecutionTaskInvocations,
             inputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -795,12 +824,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowExecutionTaskInvocationsPaginator(
         _ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowExecutionTaskInvocationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -809,6 +838,7 @@ extension SSM {
             command: describeMaintenanceWindowExecutionTaskInvocations,
             inputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -822,14 +852,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowExecutionTasksPaginator<Result>(
         _ input: DescribeMaintenanceWindowExecutionTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowExecutionTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -839,6 +869,7 @@ extension SSM {
             command: describeMaintenanceWindowExecutionTasks,
             inputKey: \DescribeMaintenanceWindowExecutionTasksRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -848,12 +879,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowExecutionTasksPaginator(
         _ input: DescribeMaintenanceWindowExecutionTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowExecutionTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -862,6 +893,7 @@ extension SSM {
             command: describeMaintenanceWindowExecutionTasks,
             inputKey: \DescribeMaintenanceWindowExecutionTasksRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowExecutionTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -875,14 +907,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowExecutionsPaginator<Result>(
         _ input: DescribeMaintenanceWindowExecutionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowExecutionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -892,6 +924,7 @@ extension SSM {
             command: describeMaintenanceWindowExecutions,
             inputKey: \DescribeMaintenanceWindowExecutionsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -901,12 +934,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowExecutionsPaginator(
         _ input: DescribeMaintenanceWindowExecutionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowExecutionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -915,6 +948,7 @@ extension SSM {
             command: describeMaintenanceWindowExecutions,
             inputKey: \DescribeMaintenanceWindowExecutionsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowExecutionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -928,14 +962,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowSchedulePaginator<Result>(
         _ input: DescribeMaintenanceWindowScheduleRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowScheduleResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -945,6 +979,7 @@ extension SSM {
             command: describeMaintenanceWindowSchedule,
             inputKey: \DescribeMaintenanceWindowScheduleRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -954,12 +989,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowSchedulePaginator(
         _ input: DescribeMaintenanceWindowScheduleRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowScheduleResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -968,6 +1003,7 @@ extension SSM {
             command: describeMaintenanceWindowSchedule,
             inputKey: \DescribeMaintenanceWindowScheduleRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowScheduleResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -981,14 +1017,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowTargetsPaginator<Result>(
         _ input: DescribeMaintenanceWindowTargetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowTargetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -998,6 +1034,7 @@ extension SSM {
             command: describeMaintenanceWindowTargets,
             inputKey: \DescribeMaintenanceWindowTargetsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1007,12 +1044,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowTargetsPaginator(
         _ input: DescribeMaintenanceWindowTargetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowTargetsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1021,6 +1058,7 @@ extension SSM {
             command: describeMaintenanceWindowTargets,
             inputKey: \DescribeMaintenanceWindowTargetsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowTargetsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1034,14 +1072,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowTasksPaginator<Result>(
         _ input: DescribeMaintenanceWindowTasksRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowTasksResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1051,6 +1089,7 @@ extension SSM {
             command: describeMaintenanceWindowTasks,
             inputKey: \DescribeMaintenanceWindowTasksRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1060,12 +1099,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowTasksPaginator(
         _ input: DescribeMaintenanceWindowTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowTasksResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1074,6 +1113,7 @@ extension SSM {
             command: describeMaintenanceWindowTasks,
             inputKey: \DescribeMaintenanceWindowTasksRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowTasksResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1087,14 +1127,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowsPaginator<Result>(
         _ input: DescribeMaintenanceWindowsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1104,6 +1144,7 @@ extension SSM {
             command: describeMaintenanceWindows,
             inputKey: \DescribeMaintenanceWindowsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,12 +1154,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowsPaginator(
         _ input: DescribeMaintenanceWindowsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1127,6 +1168,7 @@ extension SSM {
             command: describeMaintenanceWindows,
             inputKey: \DescribeMaintenanceWindowsRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1140,14 +1182,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeMaintenanceWindowsForTargetPaginator<Result>(
         _ input: DescribeMaintenanceWindowsForTargetRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeMaintenanceWindowsForTargetResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1157,6 +1199,7 @@ extension SSM {
             command: describeMaintenanceWindowsForTarget,
             inputKey: \DescribeMaintenanceWindowsForTargetRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1166,12 +1209,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMaintenanceWindowsForTargetPaginator(
         _ input: DescribeMaintenanceWindowsForTargetRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeMaintenanceWindowsForTargetResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1180,6 +1223,7 @@ extension SSM {
             command: describeMaintenanceWindowsForTarget,
             inputKey: \DescribeMaintenanceWindowsForTargetRequest.nextToken,
             outputKey: \DescribeMaintenanceWindowsForTargetResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1193,14 +1237,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeOpsItemsPaginator<Result>(
         _ input: DescribeOpsItemsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeOpsItemsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1210,6 +1254,7 @@ extension SSM {
             command: describeOpsItems,
             inputKey: \DescribeOpsItemsRequest.nextToken,
             outputKey: \DescribeOpsItemsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1219,12 +1264,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOpsItemsPaginator(
         _ input: DescribeOpsItemsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeOpsItemsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1233,6 +1278,7 @@ extension SSM {
             command: describeOpsItems,
             inputKey: \DescribeOpsItemsRequest.nextToken,
             outputKey: \DescribeOpsItemsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1246,14 +1292,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeParametersPaginator<Result>(
         _ input: DescribeParametersRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeParametersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1263,6 +1309,7 @@ extension SSM {
             command: describeParameters,
             inputKey: \DescribeParametersRequest.nextToken,
             outputKey: \DescribeParametersResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1272,12 +1319,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeParametersPaginator(
         _ input: DescribeParametersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1286,6 +1333,7 @@ extension SSM {
             command: describeParameters,
             inputKey: \DescribeParametersRequest.nextToken,
             outputKey: \DescribeParametersResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1299,14 +1347,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePatchBaselinesPaginator<Result>(
         _ input: DescribePatchBaselinesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePatchBaselinesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1316,6 +1364,7 @@ extension SSM {
             command: describePatchBaselines,
             inputKey: \DescribePatchBaselinesRequest.nextToken,
             outputKey: \DescribePatchBaselinesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1325,12 +1374,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePatchBaselinesPaginator(
         _ input: DescribePatchBaselinesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePatchBaselinesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1339,6 +1388,7 @@ extension SSM {
             command: describePatchBaselines,
             inputKey: \DescribePatchBaselinesRequest.nextToken,
             outputKey: \DescribePatchBaselinesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1352,14 +1402,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePatchGroupsPaginator<Result>(
         _ input: DescribePatchGroupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePatchGroupsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1369,6 +1419,7 @@ extension SSM {
             command: describePatchGroups,
             inputKey: \DescribePatchGroupsRequest.nextToken,
             outputKey: \DescribePatchGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1378,12 +1429,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePatchGroupsPaginator(
         _ input: DescribePatchGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePatchGroupsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1392,6 +1443,7 @@ extension SSM {
             command: describePatchGroups,
             inputKey: \DescribePatchGroupsRequest.nextToken,
             outputKey: \DescribePatchGroupsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1405,14 +1457,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePatchPropertiesPaginator<Result>(
         _ input: DescribePatchPropertiesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribePatchPropertiesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1422,6 +1474,7 @@ extension SSM {
             command: describePatchProperties,
             inputKey: \DescribePatchPropertiesRequest.nextToken,
             outputKey: \DescribePatchPropertiesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1431,12 +1484,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePatchPropertiesPaginator(
         _ input: DescribePatchPropertiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribePatchPropertiesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1445,6 +1498,7 @@ extension SSM {
             command: describePatchProperties,
             inputKey: \DescribePatchPropertiesRequest.nextToken,
             outputKey: \DescribePatchPropertiesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1458,14 +1512,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSessionsPaginator<Result>(
         _ input: DescribeSessionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1475,6 +1529,7 @@ extension SSM {
             command: describeSessions,
             inputKey: \DescribeSessionsRequest.nextToken,
             outputKey: \DescribeSessionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1484,12 +1539,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSessionsPaginator(
         _ input: DescribeSessionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1498,6 +1553,7 @@ extension SSM {
             command: describeSessions,
             inputKey: \DescribeSessionsRequest.nextToken,
             outputKey: \DescribeSessionsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1511,14 +1567,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getInventoryPaginator<Result>(
         _ input: GetInventoryRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetInventoryResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1528,6 +1584,7 @@ extension SSM {
             command: getInventory,
             inputKey: \GetInventoryRequest.nextToken,
             outputKey: \GetInventoryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1537,12 +1594,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getInventoryPaginator(
         _ input: GetInventoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetInventoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1551,6 +1608,7 @@ extension SSM {
             command: getInventory,
             inputKey: \GetInventoryRequest.nextToken,
             outputKey: \GetInventoryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1564,14 +1622,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getInventorySchemaPaginator<Result>(
         _ input: GetInventorySchemaRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetInventorySchemaResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1581,6 +1639,7 @@ extension SSM {
             command: getInventorySchema,
             inputKey: \GetInventorySchemaRequest.nextToken,
             outputKey: \GetInventorySchemaResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1590,12 +1649,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getInventorySchemaPaginator(
         _ input: GetInventorySchemaRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetInventorySchemaResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1604,6 +1663,7 @@ extension SSM {
             command: getInventorySchema,
             inputKey: \GetInventorySchemaRequest.nextToken,
             outputKey: \GetInventorySchemaResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1617,14 +1677,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getOpsSummaryPaginator<Result>(
         _ input: GetOpsSummaryRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetOpsSummaryResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1634,6 +1694,7 @@ extension SSM {
             command: getOpsSummary,
             inputKey: \GetOpsSummaryRequest.nextToken,
             outputKey: \GetOpsSummaryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1643,12 +1704,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getOpsSummaryPaginator(
         _ input: GetOpsSummaryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetOpsSummaryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1657,6 +1718,7 @@ extension SSM {
             command: getOpsSummary,
             inputKey: \GetOpsSummaryRequest.nextToken,
             outputKey: \GetOpsSummaryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1670,14 +1732,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getParameterHistoryPaginator<Result>(
         _ input: GetParameterHistoryRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetParameterHistoryResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1687,6 +1749,7 @@ extension SSM {
             command: getParameterHistory,
             inputKey: \GetParameterHistoryRequest.nextToken,
             outputKey: \GetParameterHistoryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,12 +1759,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getParameterHistoryPaginator(
         _ input: GetParameterHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetParameterHistoryResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1710,6 +1773,7 @@ extension SSM {
             command: getParameterHistory,
             inputKey: \GetParameterHistoryRequest.nextToken,
             outputKey: \GetParameterHistoryResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1723,14 +1787,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getParametersByPathPaginator<Result>(
         _ input: GetParametersByPathRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetParametersByPathResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1740,6 +1804,7 @@ extension SSM {
             command: getParametersByPath,
             inputKey: \GetParametersByPathRequest.nextToken,
             outputKey: \GetParametersByPathResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1749,12 +1814,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getParametersByPathPaginator(
         _ input: GetParametersByPathRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetParametersByPathResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1763,6 +1828,7 @@ extension SSM {
             command: getParametersByPath,
             inputKey: \GetParametersByPathRequest.nextToken,
             outputKey: \GetParametersByPathResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1776,14 +1842,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listAssociationVersionsPaginator<Result>(
         _ input: ListAssociationVersionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListAssociationVersionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1793,6 +1859,7 @@ extension SSM {
             command: listAssociationVersions,
             inputKey: \ListAssociationVersionsRequest.nextToken,
             outputKey: \ListAssociationVersionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1802,12 +1869,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAssociationVersionsPaginator(
         _ input: ListAssociationVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListAssociationVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1816,6 +1883,7 @@ extension SSM {
             command: listAssociationVersions,
             inputKey: \ListAssociationVersionsRequest.nextToken,
             outputKey: \ListAssociationVersionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1829,14 +1897,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listAssociationsPaginator<Result>(
         _ input: ListAssociationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListAssociationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1846,6 +1914,7 @@ extension SSM {
             command: listAssociations,
             inputKey: \ListAssociationsRequest.nextToken,
             outputKey: \ListAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1855,12 +1924,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAssociationsPaginator(
         _ input: ListAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListAssociationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1869,6 +1938,7 @@ extension SSM {
             command: listAssociations,
             inputKey: \ListAssociationsRequest.nextToken,
             outputKey: \ListAssociationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1882,14 +1952,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listCommandInvocationsPaginator<Result>(
         _ input: ListCommandInvocationsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListCommandInvocationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1899,6 +1969,7 @@ extension SSM {
             command: listCommandInvocations,
             inputKey: \ListCommandInvocationsRequest.nextToken,
             outputKey: \ListCommandInvocationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1908,12 +1979,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCommandInvocationsPaginator(
         _ input: ListCommandInvocationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCommandInvocationsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1922,6 +1993,7 @@ extension SSM {
             command: listCommandInvocations,
             inputKey: \ListCommandInvocationsRequest.nextToken,
             outputKey: \ListCommandInvocationsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1935,14 +2007,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listCommandsPaginator<Result>(
         _ input: ListCommandsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListCommandsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1952,6 +2024,7 @@ extension SSM {
             command: listCommands,
             inputKey: \ListCommandsRequest.nextToken,
             outputKey: \ListCommandsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1961,12 +2034,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCommandsPaginator(
         _ input: ListCommandsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCommandsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1975,6 +2048,7 @@ extension SSM {
             command: listCommands,
             inputKey: \ListCommandsRequest.nextToken,
             outputKey: \ListCommandsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1988,14 +2062,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listComplianceItemsPaginator<Result>(
         _ input: ListComplianceItemsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListComplianceItemsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2005,6 +2079,7 @@ extension SSM {
             command: listComplianceItems,
             inputKey: \ListComplianceItemsRequest.nextToken,
             outputKey: \ListComplianceItemsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2014,12 +2089,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listComplianceItemsPaginator(
         _ input: ListComplianceItemsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListComplianceItemsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2028,6 +2103,7 @@ extension SSM {
             command: listComplianceItems,
             inputKey: \ListComplianceItemsRequest.nextToken,
             outputKey: \ListComplianceItemsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2041,14 +2117,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listComplianceSummariesPaginator<Result>(
         _ input: ListComplianceSummariesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListComplianceSummariesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2058,6 +2134,7 @@ extension SSM {
             command: listComplianceSummaries,
             inputKey: \ListComplianceSummariesRequest.nextToken,
             outputKey: \ListComplianceSummariesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2067,12 +2144,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listComplianceSummariesPaginator(
         _ input: ListComplianceSummariesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListComplianceSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2081,6 +2158,7 @@ extension SSM {
             command: listComplianceSummaries,
             inputKey: \ListComplianceSummariesRequest.nextToken,
             outputKey: \ListComplianceSummariesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2094,14 +2172,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDocumentVersionsPaginator<Result>(
         _ input: ListDocumentVersionsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDocumentVersionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2111,6 +2189,7 @@ extension SSM {
             command: listDocumentVersions,
             inputKey: \ListDocumentVersionsRequest.nextToken,
             outputKey: \ListDocumentVersionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2120,12 +2199,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDocumentVersionsPaginator(
         _ input: ListDocumentVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDocumentVersionsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2134,6 +2213,7 @@ extension SSM {
             command: listDocumentVersions,
             inputKey: \ListDocumentVersionsRequest.nextToken,
             outputKey: \ListDocumentVersionsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2147,14 +2227,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDocumentsPaginator<Result>(
         _ input: ListDocumentsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDocumentsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2164,6 +2244,7 @@ extension SSM {
             command: listDocuments,
             inputKey: \ListDocumentsRequest.nextToken,
             outputKey: \ListDocumentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2173,12 +2254,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDocumentsPaginator(
         _ input: ListDocumentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDocumentsResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2187,6 +2268,7 @@ extension SSM {
             command: listDocuments,
             inputKey: \ListDocumentsRequest.nextToken,
             outputKey: \ListDocumentsResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2200,14 +2282,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listOpsItemEventsPaginator<Result>(
         _ input: ListOpsItemEventsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListOpsItemEventsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2217,6 +2299,7 @@ extension SSM {
             command: listOpsItemEvents,
             inputKey: \ListOpsItemEventsRequest.nextToken,
             outputKey: \ListOpsItemEventsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2226,12 +2309,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOpsItemEventsPaginator(
         _ input: ListOpsItemEventsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOpsItemEventsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2240,6 +2323,7 @@ extension SSM {
             command: listOpsItemEvents,
             inputKey: \ListOpsItemEventsRequest.nextToken,
             outputKey: \ListOpsItemEventsResponse.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2253,14 +2337,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listOpsMetadataPaginator<Result>(
         _ input: ListOpsMetadataRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListOpsMetadataResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2270,6 +2354,7 @@ extension SSM {
             command: listOpsMetadata,
             inputKey: \ListOpsMetadataRequest.nextToken,
             outputKey: \ListOpsMetadataResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2279,12 +2364,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOpsMetadataPaginator(
         _ input: ListOpsMetadataRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOpsMetadataResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2293,6 +2378,7 @@ extension SSM {
             command: listOpsMetadata,
             inputKey: \ListOpsMetadataRequest.nextToken,
             outputKey: \ListOpsMetadataResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2306,14 +2392,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listResourceComplianceSummariesPaginator<Result>(
         _ input: ListResourceComplianceSummariesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListResourceComplianceSummariesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2323,6 +2409,7 @@ extension SSM {
             command: listResourceComplianceSummaries,
             inputKey: \ListResourceComplianceSummariesRequest.nextToken,
             outputKey: \ListResourceComplianceSummariesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2332,12 +2419,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listResourceComplianceSummariesPaginator(
         _ input: ListResourceComplianceSummariesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResourceComplianceSummariesResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2346,6 +2433,7 @@ extension SSM {
             command: listResourceComplianceSummaries,
             inputKey: \ListResourceComplianceSummariesRequest.nextToken,
             outputKey: \ListResourceComplianceSummariesResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2359,14 +2447,14 @@ extension SSM {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listResourceDataSyncPaginator<Result>(
         _ input: ListResourceDataSyncRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListResourceDataSyncResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -2376,6 +2464,7 @@ extension SSM {
             command: listResourceDataSync,
             inputKey: \ListResourceDataSyncRequest.nextToken,
             outputKey: \ListResourceDataSyncResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -2385,12 +2474,12 @@ extension SSM {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listResourceDataSyncPaginator(
         _ input: ListResourceDataSyncRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListResourceDataSyncResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -2399,6 +2488,7 @@ extension SSM {
             command: listResourceDataSync,
             inputKey: \ListResourceDataSyncRequest.nextToken,
             outputKey: \ListResourceDataSyncResult.nextToken,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

@@ -27,14 +27,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeCertificatesPaginator<Result>(
         _ input: DescribeCertificatesMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, CertificateMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -44,6 +44,7 @@ extension RDS {
             command: describeCertificates,
             inputKey: \DescribeCertificatesMessage.marker,
             outputKey: \CertificateMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -53,12 +54,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeCertificatesPaginator(
         _ input: DescribeCertificatesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (CertificateMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -67,6 +68,7 @@ extension RDS {
             command: describeCertificates,
             inputKey: \DescribeCertificatesMessage.marker,
             outputKey: \CertificateMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -80,14 +82,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeCustomAvailabilityZonesPaginator<Result>(
         _ input: DescribeCustomAvailabilityZonesMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -97,6 +99,7 @@ extension RDS {
             command: describeCustomAvailabilityZones,
             inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
             outputKey: \CustomAvailabilityZoneMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -106,12 +109,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeCustomAvailabilityZonesPaginator(
         _ input: DescribeCustomAvailabilityZonesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -120,6 +123,7 @@ extension RDS {
             command: describeCustomAvailabilityZones,
             inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
             outputKey: \CustomAvailabilityZoneMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -133,14 +137,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBClusterBacktracksPaginator<Result>(
         _ input: DescribeDBClusterBacktracksMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBClusterBacktrackMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -150,6 +154,7 @@ extension RDS {
             command: describeDBClusterBacktracks,
             inputKey: \DescribeDBClusterBacktracksMessage.marker,
             outputKey: \DBClusterBacktrackMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -159,12 +164,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBClusterBacktracksPaginator(
         _ input: DescribeDBClusterBacktracksMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterBacktrackMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -173,6 +178,7 @@ extension RDS {
             command: describeDBClusterBacktracks,
             inputKey: \DescribeDBClusterBacktracksMessage.marker,
             outputKey: \DBClusterBacktrackMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -186,14 +192,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBClusterEndpointsPaginator<Result>(
         _ input: DescribeDBClusterEndpointsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBClusterEndpointMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -203,6 +209,7 @@ extension RDS {
             command: describeDBClusterEndpoints,
             inputKey: \DescribeDBClusterEndpointsMessage.marker,
             outputKey: \DBClusterEndpointMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -212,12 +219,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBClusterEndpointsPaginator(
         _ input: DescribeDBClusterEndpointsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterEndpointMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -226,6 +233,7 @@ extension RDS {
             command: describeDBClusterEndpoints,
             inputKey: \DescribeDBClusterEndpointsMessage.marker,
             outputKey: \DBClusterEndpointMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -239,14 +247,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBClusterParameterGroupsPaginator<Result>(
         _ input: DescribeDBClusterParameterGroupsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -256,6 +264,7 @@ extension RDS {
             command: describeDBClusterParameterGroups,
             inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
             outputKey: \DBClusterParameterGroupsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -265,12 +274,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBClusterParameterGroupsPaginator(
         _ input: DescribeDBClusterParameterGroupsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -279,6 +288,7 @@ extension RDS {
             command: describeDBClusterParameterGroups,
             inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
             outputKey: \DBClusterParameterGroupsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -292,14 +302,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBClusterParametersPaginator<Result>(
         _ input: DescribeDBClusterParametersMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -309,6 +319,7 @@ extension RDS {
             command: describeDBClusterParameters,
             inputKey: \DescribeDBClusterParametersMessage.marker,
             outputKey: \DBClusterParameterGroupDetails.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -318,12 +329,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBClusterParametersPaginator(
         _ input: DescribeDBClusterParametersMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -332,6 +343,7 @@ extension RDS {
             command: describeDBClusterParameters,
             inputKey: \DescribeDBClusterParametersMessage.marker,
             outputKey: \DBClusterParameterGroupDetails.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -345,14 +357,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBClusterSnapshotsPaginator<Result>(
         _ input: DescribeDBClusterSnapshotsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBClusterSnapshotMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -362,6 +374,7 @@ extension RDS {
             command: describeDBClusterSnapshots,
             inputKey: \DescribeDBClusterSnapshotsMessage.marker,
             outputKey: \DBClusterSnapshotMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -371,12 +384,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBClusterSnapshotsPaginator(
         _ input: DescribeDBClusterSnapshotsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -385,6 +398,7 @@ extension RDS {
             command: describeDBClusterSnapshots,
             inputKey: \DescribeDBClusterSnapshotsMessage.marker,
             outputKey: \DBClusterSnapshotMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -398,14 +412,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBClustersPaginator<Result>(
         _ input: DescribeDBClustersMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBClusterMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -415,6 +429,7 @@ extension RDS {
             command: describeDBClusters,
             inputKey: \DescribeDBClustersMessage.marker,
             outputKey: \DBClusterMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -424,12 +439,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBClustersPaginator(
         _ input: DescribeDBClustersMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBClusterMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -438,6 +453,7 @@ extension RDS {
             command: describeDBClusters,
             inputKey: \DescribeDBClustersMessage.marker,
             outputKey: \DBClusterMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -451,14 +467,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBEngineVersionsPaginator<Result>(
         _ input: DescribeDBEngineVersionsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBEngineVersionMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -468,6 +484,7 @@ extension RDS {
             command: describeDBEngineVersions,
             inputKey: \DescribeDBEngineVersionsMessage.marker,
             outputKey: \DBEngineVersionMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -477,12 +494,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBEngineVersionsPaginator(
         _ input: DescribeDBEngineVersionsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBEngineVersionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -491,6 +508,7 @@ extension RDS {
             command: describeDBEngineVersions,
             inputKey: \DescribeDBEngineVersionsMessage.marker,
             outputKey: \DBEngineVersionMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -504,14 +522,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBInstanceAutomatedBackupsPaginator<Result>(
         _ input: DescribeDBInstanceAutomatedBackupsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBInstanceAutomatedBackupMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -521,6 +539,7 @@ extension RDS {
             command: describeDBInstanceAutomatedBackups,
             inputKey: \DescribeDBInstanceAutomatedBackupsMessage.marker,
             outputKey: \DBInstanceAutomatedBackupMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -530,12 +549,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBInstanceAutomatedBackupsPaginator(
         _ input: DescribeDBInstanceAutomatedBackupsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBInstanceAutomatedBackupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -544,6 +563,7 @@ extension RDS {
             command: describeDBInstanceAutomatedBackups,
             inputKey: \DescribeDBInstanceAutomatedBackupsMessage.marker,
             outputKey: \DBInstanceAutomatedBackupMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -557,14 +577,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBInstancesPaginator<Result>(
         _ input: DescribeDBInstancesMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBInstanceMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -574,6 +594,7 @@ extension RDS {
             command: describeDBInstances,
             inputKey: \DescribeDBInstancesMessage.marker,
             outputKey: \DBInstanceMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -583,12 +604,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBInstancesPaginator(
         _ input: DescribeDBInstancesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -597,6 +618,7 @@ extension RDS {
             command: describeDBInstances,
             inputKey: \DescribeDBInstancesMessage.marker,
             outputKey: \DBInstanceMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -610,14 +632,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBLogFilesPaginator<Result>(
         _ input: DescribeDBLogFilesMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDBLogFilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -627,6 +649,7 @@ extension RDS {
             command: describeDBLogFiles,
             inputKey: \DescribeDBLogFilesMessage.marker,
             outputKey: \DescribeDBLogFilesResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -636,12 +659,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBLogFilesPaginator(
         _ input: DescribeDBLogFilesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDBLogFilesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -650,6 +673,7 @@ extension RDS {
             command: describeDBLogFiles,
             inputKey: \DescribeDBLogFilesMessage.marker,
             outputKey: \DescribeDBLogFilesResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -663,14 +687,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBParameterGroupsPaginator<Result>(
         _ input: DescribeDBParameterGroupsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBParameterGroupsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -680,6 +704,7 @@ extension RDS {
             command: describeDBParameterGroups,
             inputKey: \DescribeDBParameterGroupsMessage.marker,
             outputKey: \DBParameterGroupsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -689,12 +714,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBParameterGroupsPaginator(
         _ input: DescribeDBParameterGroupsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -703,6 +728,7 @@ extension RDS {
             command: describeDBParameterGroups,
             inputKey: \DescribeDBParameterGroupsMessage.marker,
             outputKey: \DBParameterGroupsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -716,14 +742,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBParametersPaginator<Result>(
         _ input: DescribeDBParametersMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBParameterGroupDetails, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -733,6 +759,7 @@ extension RDS {
             command: describeDBParameters,
             inputKey: \DescribeDBParametersMessage.marker,
             outputKey: \DBParameterGroupDetails.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -742,12 +769,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBParametersPaginator(
         _ input: DescribeDBParametersMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -756,6 +783,7 @@ extension RDS {
             command: describeDBParameters,
             inputKey: \DescribeDBParametersMessage.marker,
             outputKey: \DBParameterGroupDetails.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -769,14 +797,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBProxiesPaginator<Result>(
         _ input: DescribeDBProxiesRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDBProxiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -786,6 +814,7 @@ extension RDS {
             command: describeDBProxies,
             inputKey: \DescribeDBProxiesRequest.marker,
             outputKey: \DescribeDBProxiesResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -795,12 +824,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBProxiesPaginator(
         _ input: DescribeDBProxiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDBProxiesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -809,6 +838,7 @@ extension RDS {
             command: describeDBProxies,
             inputKey: \DescribeDBProxiesRequest.marker,
             outputKey: \DescribeDBProxiesResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -822,14 +852,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBProxyEndpointsPaginator<Result>(
         _ input: DescribeDBProxyEndpointsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDBProxyEndpointsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -839,6 +869,7 @@ extension RDS {
             command: describeDBProxyEndpoints,
             inputKey: \DescribeDBProxyEndpointsRequest.marker,
             outputKey: \DescribeDBProxyEndpointsResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -848,12 +879,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBProxyEndpointsPaginator(
         _ input: DescribeDBProxyEndpointsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDBProxyEndpointsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -862,6 +893,7 @@ extension RDS {
             command: describeDBProxyEndpoints,
             inputKey: \DescribeDBProxyEndpointsRequest.marker,
             outputKey: \DescribeDBProxyEndpointsResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -875,14 +907,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBProxyTargetGroupsPaginator<Result>(
         _ input: DescribeDBProxyTargetGroupsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDBProxyTargetGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -892,6 +924,7 @@ extension RDS {
             command: describeDBProxyTargetGroups,
             inputKey: \DescribeDBProxyTargetGroupsRequest.marker,
             outputKey: \DescribeDBProxyTargetGroupsResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -901,12 +934,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBProxyTargetGroupsPaginator(
         _ input: DescribeDBProxyTargetGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDBProxyTargetGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -915,6 +948,7 @@ extension RDS {
             command: describeDBProxyTargetGroups,
             inputKey: \DescribeDBProxyTargetGroupsRequest.marker,
             outputKey: \DescribeDBProxyTargetGroupsResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -928,14 +962,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBProxyTargetsPaginator<Result>(
         _ input: DescribeDBProxyTargetsRequest,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeDBProxyTargetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -945,6 +979,7 @@ extension RDS {
             command: describeDBProxyTargets,
             inputKey: \DescribeDBProxyTargetsRequest.marker,
             outputKey: \DescribeDBProxyTargetsResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -954,12 +989,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBProxyTargetsPaginator(
         _ input: DescribeDBProxyTargetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeDBProxyTargetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -968,6 +1003,7 @@ extension RDS {
             command: describeDBProxyTargets,
             inputKey: \DescribeDBProxyTargetsRequest.marker,
             outputKey: \DescribeDBProxyTargetsResponse.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -981,14 +1017,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBSecurityGroupsPaginator<Result>(
         _ input: DescribeDBSecurityGroupsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBSecurityGroupMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -998,6 +1034,7 @@ extension RDS {
             command: describeDBSecurityGroups,
             inputKey: \DescribeDBSecurityGroupsMessage.marker,
             outputKey: \DBSecurityGroupMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1007,12 +1044,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBSecurityGroupsPaginator(
         _ input: DescribeDBSecurityGroupsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBSecurityGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1021,6 +1058,7 @@ extension RDS {
             command: describeDBSecurityGroups,
             inputKey: \DescribeDBSecurityGroupsMessage.marker,
             outputKey: \DBSecurityGroupMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1034,14 +1072,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBSnapshotsPaginator<Result>(
         _ input: DescribeDBSnapshotsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBSnapshotMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1051,6 +1089,7 @@ extension RDS {
             command: describeDBSnapshots,
             inputKey: \DescribeDBSnapshotsMessage.marker,
             outputKey: \DBSnapshotMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1060,12 +1099,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBSnapshotsPaginator(
         _ input: DescribeDBSnapshotsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1074,6 +1113,7 @@ extension RDS {
             command: describeDBSnapshots,
             inputKey: \DescribeDBSnapshotsMessage.marker,
             outputKey: \DBSnapshotMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1087,14 +1127,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeDBSubnetGroupsPaginator<Result>(
         _ input: DescribeDBSubnetGroupsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1104,6 +1144,7 @@ extension RDS {
             command: describeDBSubnetGroups,
             inputKey: \DescribeDBSubnetGroupsMessage.marker,
             outputKey: \DBSubnetGroupMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1113,12 +1154,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeDBSubnetGroupsPaginator(
         _ input: DescribeDBSubnetGroupsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DBSubnetGroupMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1127,6 +1168,7 @@ extension RDS {
             command: describeDBSubnetGroups,
             inputKey: \DescribeDBSubnetGroupsMessage.marker,
             outputKey: \DBSubnetGroupMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1140,14 +1182,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeEngineDefaultParametersPaginator<Result>(
         _ input: DescribeEngineDefaultParametersMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1157,6 +1199,7 @@ extension RDS {
             command: describeEngineDefaultParameters,
             inputKey: \DescribeEngineDefaultParametersMessage.marker,
             outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1166,12 +1209,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEngineDefaultParametersPaginator(
         _ input: DescribeEngineDefaultParametersMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeEngineDefaultParametersResult, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1180,6 +1223,7 @@ extension RDS {
             command: describeEngineDefaultParameters,
             inputKey: \DescribeEngineDefaultParametersMessage.marker,
             outputKey: \DescribeEngineDefaultParametersResult.engineDefaults?.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1193,14 +1237,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeEventSubscriptionsPaginator<Result>(
         _ input: DescribeEventSubscriptionsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1210,6 +1254,7 @@ extension RDS {
             command: describeEventSubscriptions,
             inputKey: \DescribeEventSubscriptionsMessage.marker,
             outputKey: \EventSubscriptionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1219,12 +1264,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEventSubscriptionsPaginator(
         _ input: DescribeEventSubscriptionsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (EventSubscriptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1233,6 +1278,7 @@ extension RDS {
             command: describeEventSubscriptions,
             inputKey: \DescribeEventSubscriptionsMessage.marker,
             outputKey: \EventSubscriptionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1246,14 +1292,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeEventsPaginator<Result>(
         _ input: DescribeEventsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, EventsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1263,6 +1309,7 @@ extension RDS {
             command: describeEvents,
             inputKey: \DescribeEventsMessage.marker,
             outputKey: \EventsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1272,12 +1319,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeEventsPaginator(
         _ input: DescribeEventsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (EventsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1286,6 +1333,7 @@ extension RDS {
             command: describeEvents,
             inputKey: \DescribeEventsMessage.marker,
             outputKey: \EventsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1299,14 +1347,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeExportTasksPaginator<Result>(
         _ input: DescribeExportTasksMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ExportTasksMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1316,6 +1364,7 @@ extension RDS {
             command: describeExportTasks,
             inputKey: \DescribeExportTasksMessage.marker,
             outputKey: \ExportTasksMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1325,12 +1374,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeExportTasksPaginator(
         _ input: DescribeExportTasksMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ExportTasksMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1339,6 +1388,7 @@ extension RDS {
             command: describeExportTasks,
             inputKey: \DescribeExportTasksMessage.marker,
             outputKey: \ExportTasksMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1352,14 +1402,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeGlobalClustersPaginator<Result>(
         _ input: DescribeGlobalClustersMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GlobalClustersMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1369,6 +1419,7 @@ extension RDS {
             command: describeGlobalClusters,
             inputKey: \DescribeGlobalClustersMessage.marker,
             outputKey: \GlobalClustersMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1378,12 +1429,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGlobalClustersPaginator(
         _ input: DescribeGlobalClustersMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (GlobalClustersMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1392,6 +1443,7 @@ extension RDS {
             command: describeGlobalClusters,
             inputKey: \DescribeGlobalClustersMessage.marker,
             outputKey: \GlobalClustersMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1405,14 +1457,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeInstallationMediaPaginator<Result>(
         _ input: DescribeInstallationMediaMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, InstallationMediaMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1422,6 +1474,7 @@ extension RDS {
             command: describeInstallationMedia,
             inputKey: \DescribeInstallationMediaMessage.marker,
             outputKey: \InstallationMediaMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1431,12 +1484,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeInstallationMediaPaginator(
         _ input: DescribeInstallationMediaMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (InstallationMediaMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1445,6 +1498,7 @@ extension RDS {
             command: describeInstallationMedia,
             inputKey: \DescribeInstallationMediaMessage.marker,
             outputKey: \InstallationMediaMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1458,14 +1512,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeOptionGroupOptionsPaginator<Result>(
         _ input: DescribeOptionGroupOptionsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, OptionGroupOptionsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1475,6 +1529,7 @@ extension RDS {
             command: describeOptionGroupOptions,
             inputKey: \DescribeOptionGroupOptionsMessage.marker,
             outputKey: \OptionGroupOptionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1484,12 +1539,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOptionGroupOptionsPaginator(
         _ input: DescribeOptionGroupOptionsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (OptionGroupOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1498,6 +1553,7 @@ extension RDS {
             command: describeOptionGroupOptions,
             inputKey: \DescribeOptionGroupOptionsMessage.marker,
             outputKey: \OptionGroupOptionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1511,14 +1567,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeOptionGroupsPaginator<Result>(
         _ input: DescribeOptionGroupsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, OptionGroups, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1528,6 +1584,7 @@ extension RDS {
             command: describeOptionGroups,
             inputKey: \DescribeOptionGroupsMessage.marker,
             outputKey: \OptionGroups.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1537,12 +1594,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOptionGroupsPaginator(
         _ input: DescribeOptionGroupsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (OptionGroups, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1551,6 +1608,7 @@ extension RDS {
             command: describeOptionGroups,
             inputKey: \DescribeOptionGroupsMessage.marker,
             outputKey: \OptionGroups.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1564,14 +1622,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeOrderableDBInstanceOptionsPaginator<Result>(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1581,6 +1639,7 @@ extension RDS {
             command: describeOrderableDBInstanceOptions,
             inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
             outputKey: \OrderableDBInstanceOptionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1590,12 +1649,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrderableDBInstanceOptionsPaginator(
         _ input: DescribeOrderableDBInstanceOptionsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (OrderableDBInstanceOptionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1604,6 +1663,7 @@ extension RDS {
             command: describeOrderableDBInstanceOptions,
             inputKey: \DescribeOrderableDBInstanceOptionsMessage.marker,
             outputKey: \OrderableDBInstanceOptionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1617,14 +1677,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describePendingMaintenanceActionsPaginator<Result>(
         _ input: DescribePendingMaintenanceActionsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, PendingMaintenanceActionsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1634,6 +1694,7 @@ extension RDS {
             command: describePendingMaintenanceActions,
             inputKey: \DescribePendingMaintenanceActionsMessage.marker,
             outputKey: \PendingMaintenanceActionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1643,12 +1704,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePendingMaintenanceActionsPaginator(
         _ input: DescribePendingMaintenanceActionsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (PendingMaintenanceActionsMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1657,6 +1718,7 @@ extension RDS {
             command: describePendingMaintenanceActions,
             inputKey: \DescribePendingMaintenanceActionsMessage.marker,
             outputKey: \PendingMaintenanceActionsMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1670,14 +1732,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReservedDBInstancesPaginator<Result>(
         _ input: DescribeReservedDBInstancesMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ReservedDBInstanceMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1687,6 +1749,7 @@ extension RDS {
             command: describeReservedDBInstances,
             inputKey: \DescribeReservedDBInstancesMessage.marker,
             outputKey: \ReservedDBInstanceMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1696,12 +1759,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedDBInstancesPaginator(
         _ input: DescribeReservedDBInstancesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ReservedDBInstanceMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1710,6 +1773,7 @@ extension RDS {
             command: describeReservedDBInstances,
             inputKey: \DescribeReservedDBInstancesMessage.marker,
             outputKey: \ReservedDBInstanceMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1723,14 +1787,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeReservedDBInstancesOfferingsPaginator<Result>(
         _ input: DescribeReservedDBInstancesOfferingsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ReservedDBInstancesOfferingMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1740,6 +1804,7 @@ extension RDS {
             command: describeReservedDBInstancesOfferings,
             inputKey: \DescribeReservedDBInstancesOfferingsMessage.marker,
             outputKey: \ReservedDBInstancesOfferingMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1749,12 +1814,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeReservedDBInstancesOfferingsPaginator(
         _ input: DescribeReservedDBInstancesOfferingsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (ReservedDBInstancesOfferingMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1763,6 +1828,7 @@ extension RDS {
             command: describeReservedDBInstancesOfferings,
             inputKey: \DescribeReservedDBInstancesOfferingsMessage.marker,
             outputKey: \ReservedDBInstancesOfferingMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1776,14 +1842,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeSourceRegionsPaginator<Result>(
         _ input: DescribeSourceRegionsMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, SourceRegionMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1793,6 +1859,7 @@ extension RDS {
             command: describeSourceRegions,
             inputKey: \DescribeSourceRegionsMessage.marker,
             outputKey: \SourceRegionMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1802,12 +1869,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeSourceRegionsPaginator(
         _ input: DescribeSourceRegionsMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (SourceRegionMessage, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1816,6 +1883,7 @@ extension RDS {
             command: describeSourceRegions,
             inputKey: \DescribeSourceRegionsMessage.marker,
             outputKey: \SourceRegionMessage.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1829,14 +1897,14 @@ extension RDS {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func downloadDBLogFilePortionPaginator<Result>(
         _ input: DownloadDBLogFilePortionMessage,
         _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DownloadDBLogFilePortionDetails, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
@@ -1846,6 +1914,7 @@ extension RDS {
             command: downloadDBLogFilePortion,
             inputKey: \DownloadDBLogFilePortionMessage.marker,
             outputKey: \DownloadDBLogFilePortionDetails.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )
@@ -1855,12 +1924,12 @@ extension RDS {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - logger: Logger used flot logging
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func downloadDBLogFilePortionPaginator(
         _ input: DownloadDBLogFilePortionMessage,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil,
         onPage: @escaping (DownloadDBLogFilePortionDetails, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
@@ -1869,6 +1938,7 @@ extension RDS {
             command: downloadDBLogFilePortion,
             inputKey: \DownloadDBLogFilePortionMessage.marker,
             outputKey: \DownloadDBLogFilePortionDetails.marker,
+            context: context,
             on: eventLoop,
             onPage: onPage
         )

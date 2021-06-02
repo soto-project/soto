@@ -117,6 +117,7 @@ extension ApiGatewayV2 {
     // MARK: Shapes
 
     public struct AccessLogSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the CloudWatch Logs log group to receive access logs.
         public let destinationArn: String?
         /// A single line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
@@ -128,12 +129,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationArn
-            case format
+            case destinationArn = "destinationArn"
+            case format = "format"
         }
     }
 
     public struct Api: AWSDecodableShape {
+
         /// The URI of the API, of the form {api-id}.execute-api.{region}.amazonaws.com. The stage name is typically appended to this URI to form a complete path to a deployed API stage.
         public let apiEndpoint: String?
         /// Specifies whether an API is managed by API Gateway. You can't update or delete a managed API by using API Gateway. A managed API can be deleted only through the tooling or service that created it.
@@ -188,26 +190,27 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
     public struct ApiMapping: AWSDecodableShape {
+
         /// The API identifier.
         public let apiId: String
         /// The API mapping identifier.
@@ -225,14 +228,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
     public struct Authorizer: AWSDecodableShape {
+
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, don't specify this parameter. Supported only for REQUEST authorizers.
         public let authorizerCredentialsArn: String?
         /// The authorizer identifier.
@@ -272,21 +276,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
     public struct Cors: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether credentials are included in the CORS request. Supported only for HTTP APIs.
         public let allowCredentials: Bool?
         /// Represents a collection of allowed headers. Supported only for HTTP APIs.
@@ -315,12 +320,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowCredentials
-            case allowHeaders
-            case allowMethods
-            case allowOrigins
-            case exposeHeaders
-            case maxAge
+            case allowCredentials = "allowCredentials"
+            case allowHeaders = "allowHeaders"
+            case allowMethods = "allowMethods"
+            case allowOrigins = "allowOrigins"
+            case exposeHeaders = "exposeHeaders"
+            case maxAge = "maxAge"
         }
     }
 
@@ -342,13 +347,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
     public struct CreateApiMappingResponse: AWSDecodableShape {
+
         public let apiId: String?
         public let apiMappingId: String?
         public let apiMappingKey: String?
@@ -362,14 +368,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
     public struct CreateApiRequest: AWSEncodableShape {
+
         public let apiKeySelectionExpression: String?
         public let corsConfiguration: Cors?
         public let credentialsArn: String?
@@ -405,23 +412,24 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case credentialsArn
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case name
-            case protocolType
-            case routeKey
-            case routeSelectionExpression
-            case tags
-            case target
-            case version
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeKey = "routeKey"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case target = "target"
+            case version = "version"
         }
     }
 
     public struct CreateApiResponse: AWSDecodableShape {
+
         public let apiEndpoint: String?
         public let apiGatewayManaged: Bool?
         public let apiId: String?
@@ -460,22 +468,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
@@ -516,20 +524,21 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
     public struct CreateAuthorizerResponse: AWSDecodableShape {
+
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
         public let authorizerPayloadFormatVersion: String?
@@ -557,17 +566,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
@@ -587,12 +596,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case stageName
+            case description = "description"
+            case stageName = "stageName"
         }
     }
 
     public struct CreateDeploymentResponse: AWSDecodableShape {
+
         public let autoDeployed: Bool?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
@@ -611,16 +621,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
     public struct CreateDomainNameRequest: AWSEncodableShape {
+
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
@@ -634,14 +645,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
     public struct CreateDomainNameResponse: AWSDecodableShape {
+
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -657,11 +669,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
@@ -716,29 +728,29 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationMethod
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationMethod = "integrationMethod"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
     public struct CreateIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
         ]
 
@@ -761,15 +773,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
     public struct CreateIntegrationResponseResponse: AWSDecodableShape {
+
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
         public let integrationResponseKey: String?
@@ -787,16 +800,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
     public struct CreateIntegrationResult: AWSDecodableShape {
+
         public let apiGatewayManaged: Bool?
         public let connectionId: String?
         public let connectionType: ConnectionType?
@@ -842,26 +856,26 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
@@ -885,14 +899,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
     public struct CreateModelResponse: AWSDecodableShape {
+
         public let contentType: String?
         public let description: String?
         public let modelId: String?
@@ -908,11 +923,11 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
@@ -950,23 +965,23 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
     public struct CreateRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
         ]
 
@@ -987,14 +1002,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
     public struct CreateRouteResponseResponse: AWSDecodableShape {
+
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
         public let responseParameters: [String: ParameterConstraints]?
@@ -1010,15 +1026,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
     public struct CreateRouteResult: AWSDecodableShape {
+
         public let apiGatewayManaged: Bool?
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
@@ -1050,19 +1067,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
@@ -1098,20 +1115,21 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case autoDeploy
-            case clientCertificateId
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
     public struct CreateStageResponse: AWSDecodableShape {
+
         public let accessLogSettings: AccessLogSettings?
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
@@ -1147,24 +1165,25 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
     public struct CreateVpcLinkRequest: AWSEncodableShape {
+
         public let name: String
         public let securityGroupIds: [String]?
         public let subnetIds: [String]
@@ -1178,14 +1197,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
         }
     }
 
     public struct CreateVpcLinkResponse: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let name: String?
@@ -1210,21 +1230,21 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 
     public struct DeleteAccessLogSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
         ]
 
@@ -1241,7 +1261,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")),
+            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
@@ -1272,7 +1292,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
@@ -1303,7 +1323,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
@@ -1334,7 +1354,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
         ]
 
@@ -1351,8 +1371,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
             AWSMemberEncoding(label: "integrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
@@ -1371,7 +1391,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
         ]
 
@@ -1388,7 +1408,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
         ]
 
@@ -1405,8 +1425,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteRequestParameterRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "requestParameterKey", location: .uri(locationName: "requestParameterKey")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "requestParameterKey", location: .uri(locationName: "requestParameterKey")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
         ]
 
@@ -1425,8 +1445,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")), 
             AWSMemberEncoding(label: "routeResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
@@ -1445,8 +1465,8 @@ extension ApiGatewayV2 {
 
     public struct DeleteRouteSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "routeKey", location: .uri(locationName: "routeKey")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "routeKey", location: .uri(locationName: "routeKey")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
         ]
 
@@ -1465,7 +1485,7 @@ extension ApiGatewayV2 {
 
     public struct DeleteStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
         ]
 
@@ -1495,10 +1515,15 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteVpcLinkResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Deployment: AWSDecodableShape {
+
         /// Specifies whether a deployment was automatically released.
         public let autoDeployed: Bool?
         /// The date and time when the Deployment resource was created.
@@ -1523,16 +1548,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
     public struct DomainName: AWSDecodableShape {
+
         /// The API mapping selection expression.
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
@@ -1553,15 +1579,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
     public struct DomainNameConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A domain name for the API.
         public let apiGatewayDomainName: String?
         /// An AWS-managed certificate that will be used by the edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
@@ -1595,25 +1622,25 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayDomainName
-            case certificateArn
-            case certificateName
-            case certificateUploadDate
-            case domainNameStatus
-            case domainNameStatusMessage
-            case endpointType
-            case hostedZoneId
-            case securityPolicy
+            case apiGatewayDomainName = "apiGatewayDomainName"
+            case certificateArn = "certificateArn"
+            case certificateName = "certificateName"
+            case certificateUploadDate = "certificateUploadDate"
+            case domainNameStatus = "domainNameStatus"
+            case domainNameStatusMessage = "domainNameStatusMessage"
+            case endpointType = "endpointType"
+            case hostedZoneId = "hostedZoneId"
+            case securityPolicy = "securityPolicy"
         }
     }
 
     public struct ExportApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "exportVersion", location: .querystring(locationName: "exportVersion")),
-            AWSMemberEncoding(label: "includeExtensions", location: .querystring(locationName: "includeExtensions")),
-            AWSMemberEncoding(label: "outputType", location: .querystring(locationName: "outputType")),
-            AWSMemberEncoding(label: "specification", location: .uri(locationName: "specification")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "exportVersion", location: .querystring(locationName: "exportVersion")), 
+            AWSMemberEncoding(label: "includeExtensions", location: .querystring(locationName: "includeExtensions")), 
+            AWSMemberEncoding(label: "outputType", location: .querystring(locationName: "outputType")), 
+            AWSMemberEncoding(label: "specification", location: .uri(locationName: "specification")), 
             AWSMemberEncoding(label: "stageName", location: .querystring(locationName: "stageName"))
         ]
 
@@ -1648,13 +1675,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
     public struct GetApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")),
+            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
@@ -1670,6 +1697,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiMappingResponse: AWSDecodableShape {
+
         public let apiId: String?
         public let apiMappingId: String?
         public let apiMappingKey: String?
@@ -1683,17 +1711,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
     public struct GetApiMappingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1711,6 +1739,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiMappingsResponse: AWSDecodableShape {
+
         public let items: [ApiMapping]?
         public let nextToken: String?
 
@@ -1720,8 +1749,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1740,6 +1769,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiResponse: AWSDecodableShape {
+
         public let apiEndpoint: String?
         public let apiGatewayManaged: Bool?
         public let apiId: String?
@@ -1778,28 +1808,28 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
     public struct GetApisRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1815,6 +1845,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApisResponse: AWSDecodableShape {
+
         public let items: [Api]?
         public let nextToken: String?
 
@@ -1824,14 +1855,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
@@ -1847,6 +1878,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetAuthorizerResponse: AWSDecodableShape {
+
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
         public let authorizerPayloadFormatVersion: String?
@@ -1874,24 +1906,24 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
     public struct GetAuthorizersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1909,6 +1941,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetAuthorizersResponse: AWSDecodableShape {
+
         public let items: [Authorizer]?
         public let nextToken: String?
 
@@ -1918,14 +1951,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
@@ -1941,6 +1974,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDeploymentResponse: AWSDecodableShape {
+
         public let autoDeployed: Bool?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
@@ -1959,19 +1993,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
     public struct GetDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1989,6 +2023,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDeploymentsResponse: AWSDecodableShape {
+
         public let items: [Deployment]?
         public let nextToken: String?
 
@@ -1998,8 +2033,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2018,6 +2053,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDomainNameResponse: AWSDecodableShape {
+
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -2033,17 +2069,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
     public struct GetDomainNamesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2059,6 +2095,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDomainNamesResponse: AWSDecodableShape {
+
         public let items: [DomainName]?
         public let nextToken: String?
 
@@ -2068,14 +2105,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
         ]
 
@@ -2092,8 +2129,8 @@ extension ApiGatewayV2 {
 
     public struct GetIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
             AWSMemberEncoding(label: "integrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
@@ -2111,6 +2148,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationResponseResponse: AWSDecodableShape {
+
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
         public let integrationResponseKey: String?
@@ -2128,20 +2166,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
     public struct GetIntegrationResponsesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2161,6 +2199,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationResponsesResponse: AWSDecodableShape {
+
         public let items: [IntegrationResponse]?
         public let nextToken: String?
 
@@ -2170,12 +2209,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetIntegrationResult: AWSDecodableShape {
+
         public let apiGatewayManaged: Bool?
         public let connectionId: String?
         public let connectionType: ConnectionType?
@@ -2221,33 +2261,33 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
     public struct GetIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2265,6 +2305,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationsResponse: AWSDecodableShape {
+
         public let items: [Integration]?
         public let nextToken: String?
 
@@ -2274,14 +2315,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
         ]
 
@@ -2297,6 +2338,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelResponse: AWSDecodableShape {
+
         public let contentType: String?
         public let description: String?
         public let modelId: String?
@@ -2312,17 +2354,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
     public struct GetModelTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
         ]
 
@@ -2338,6 +2380,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelTemplateResponse: AWSDecodableShape {
+
         public let value: String?
 
         public init(value: String? = nil) {
@@ -2345,14 +2388,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
     public struct GetModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2370,6 +2413,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelsResponse: AWSDecodableShape {
+
         public let items: [Model]?
         public let nextToken: String?
 
@@ -2379,14 +2423,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
         ]
 
@@ -2403,8 +2447,8 @@ extension ApiGatewayV2 {
 
     public struct GetRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")), 
             AWSMemberEncoding(label: "routeResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
@@ -2422,6 +2466,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteResponseResponse: AWSDecodableShape {
+
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
         public let responseParameters: [String: ParameterConstraints]?
@@ -2437,19 +2482,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
     public struct GetRouteResponsesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
         ]
 
@@ -2469,6 +2514,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteResponsesResponse: AWSDecodableShape {
+
         public let items: [RouteResponse]?
         public let nextToken: String?
 
@@ -2478,12 +2524,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetRouteResult: AWSDecodableShape {
+
         public let apiGatewayManaged: Bool?
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
@@ -2515,26 +2562,26 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
     public struct GetRoutesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2552,6 +2599,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRoutesResponse: AWSDecodableShape {
+
         public let items: [Route]?
         public let nextToken: String?
 
@@ -2561,14 +2609,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
         ]
 
@@ -2584,6 +2632,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetStageResponse: AWSDecodableShape {
+
         public let accessLogSettings: AccessLogSettings?
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
@@ -2619,27 +2668,27 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
     public struct GetStagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2657,6 +2706,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetStagesResponse: AWSDecodableShape {
+
         public let items: [Stage]?
         public let nextToken: String?
 
@@ -2666,8 +2716,8 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2686,6 +2736,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetTagsResponse: AWSDecodableShape {
+
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2693,7 +2744,7 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -2712,6 +2763,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetVpcLinkResponse: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let name: String?
@@ -2736,21 +2788,21 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 
     public struct GetVpcLinksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2766,6 +2818,7 @@ extension ApiGatewayV2 {
     }
 
     public struct GetVpcLinksResponse: AWSDecodableShape {
+
         public let items: [VpcLink]?
         public let nextToken: String?
 
@@ -2775,14 +2828,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case items
-            case nextToken
+            case items = "items"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ImportApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")),
+            AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failOnWarnings"))
         ]
 
@@ -2797,11 +2850,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
     public struct ImportApiResponse: AWSDecodableShape {
+
         public let apiEndpoint: String?
         public let apiGatewayManaged: Bool?
         public let apiId: String?
@@ -2840,26 +2894,27 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
     public struct Integration: AWSDecodableShape {
+
         /// Specifies whether an integration is managed by API Gateway. If you created an API using using quick create, the resulting integration is managed by API Gateway. You can update a managed integration, but you can't delete it.
         public let apiGatewayManaged: Bool?
         /// The ID of the VPC link for a private integration. Supported only for HTTP APIs.
@@ -2889,9 +2944,9 @@ extension ApiGatewayV2 {
         /// Specifies the format of the payload sent to an integration. Required for HTTP APIs.
         public let payloadFormatVersion: String?
         /// For WebSocket APIs, a key-value map specifying request parameters that are passed from the method request to the backend. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the backend. The method request parameter value must match the pattern of method.request.{location}.{name}
-        ///           , where
+        ///           , where 
         ///             {location}
-        ///            is querystring, path, or header; and
+        ///            is querystring, path, or header; and 
         ///             {name}
         ///            must be a valid and unique method request parameter name. For HTTP API integrations with a specified integrationSubtype, request parameters are a key-value map specifying parameters that are passed to AWS_PROXY integrations. You can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Working with AWS service integrations for HTTP APIs. For HTTP API itegrations, without a specified integrationSubtype request parameters are a key-value map specifying how to transform HTTP requests before sending them to backend integrations. The key should follow the pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The action can be append, overwrite or remove. For values, you can provide static values, or map request data, stage variables, or context variables that are evaluated at runtime. To learn more, see Transforming API requests and responses.
         public let requestParameters: [String: String]?
@@ -2930,30 +2985,31 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
     public struct IntegrationResponse: AWSDecodableShape {
+
         /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification.
         public let contentHandlingStrategy: ContentHandlingStrategy?
         /// The integration response ID.
@@ -2977,16 +3033,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
     public struct JWTConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of the intended recipients of the JWT. A valid JWT must provide an aud that matches at least one entry in this list. See RFC 7519. Supported only for HTTP APIs.
         public let audience: [String]?
         /// The base domain of the identity provider that issues JSON Web Tokens. For example, an Amazon Cognito user pool has the following format: https://cognito-idp.{region}.amazonaws.com/{userPoolId}
@@ -2999,12 +3056,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audience
-            case issuer
+            case audience = "audience"
+            case issuer = "issuer"
         }
     }
 
     public struct Model: AWSDecodableShape {
+
         /// The content-type for the model, for example, "application/json".
         public let contentType: String?
         /// The description of the model.
@@ -3025,15 +3083,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
     public struct MutualTlsAuthentication: AWSDecodableShape {
+
         /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name
         ///                . The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public let truststoreUri: String?
@@ -3049,13 +3108,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truststoreUri
-            case truststoreVersion
-            case truststoreWarnings
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
+            case truststoreWarnings = "truststoreWarnings"
         }
     }
 
     public struct MutualTlsAuthenticationInput: AWSEncodableShape {
+
         /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name
         ///                . The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public let truststoreUri: String?
@@ -3068,12 +3128,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truststoreUri
-            case truststoreVersion
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
         }
     }
 
     public struct ParameterConstraints: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether or not the parameter is required.
         public let required: Bool?
 
@@ -3082,14 +3143,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case required
+            case required = "required"
         }
     }
 
     public struct ReimportApiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "basepath", location: .querystring(locationName: "basepath")), 
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring(locationName: "failOnWarnings"))
         ]
 
@@ -3106,11 +3167,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body
+            case body = "body"
         }
     }
 
     public struct ReimportApiResponse: AWSDecodableShape {
+
         public let apiEndpoint: String?
         public let apiGatewayManaged: Bool?
         public let apiId: String?
@@ -3149,28 +3211,28 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
     public struct ResetAuthorizersCacheRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
         ]
 
@@ -3186,6 +3248,7 @@ extension ApiGatewayV2 {
     }
 
     public struct Route: AWSDecodableShape {
+
         /// Specifies whether a route is managed by API Gateway. If you created an API using quick create, the $default route is managed by API Gateway. You can't modify the $default route key.
         public let apiGatewayManaged: Bool?
         /// Specifies whether an API key is required for this route. Supported only for WebSocket APIs.
@@ -3230,23 +3293,24 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
     public struct RouteResponse: AWSDecodableShape {
+
         /// Represents the model selection expression of a route response. Supported only for WebSocket APIs.
         public let modelSelectionExpression: String?
         /// Represents the response models of a route response.
@@ -3267,15 +3331,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
     public struct RouteSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether (true) or not (false) data trace logging is enabled for this route. This property affects the log entries pushed to Amazon CloudWatch Logs. Supported only for WebSocket APIs.
         public let dataTraceEnabled: Bool?
         /// Specifies whether detailed metrics are enabled.
@@ -3296,15 +3361,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTraceEnabled
-            case detailedMetricsEnabled
-            case loggingLevel
-            case throttlingBurstLimit
-            case throttlingRateLimit
+            case dataTraceEnabled = "dataTraceEnabled"
+            case detailedMetricsEnabled = "detailedMetricsEnabled"
+            case loggingLevel = "loggingLevel"
+            case throttlingBurstLimit = "throttlingBurstLimit"
+            case throttlingRateLimit = "throttlingRateLimit"
         }
     }
 
     public struct Stage: AWSDecodableShape {
+
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// Specifies whether a stage is managed by API Gateway. If you created an API using quick create, the $default stage is managed by API Gateway. You can't modify the $default stage.
@@ -3354,20 +3420,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -3385,15 +3451,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TlsConfig: AWSDecodableShape {
+
         /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
         public let serverNameToVerify: String?
 
@@ -3402,11 +3473,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverNameToVerify
+            case serverNameToVerify = "serverNameToVerify"
         }
     }
 
     public struct TlsConfigInput: AWSEncodableShape {
+
         /// If you specify a server name, API Gateway uses it to verify the hostname on the integration's certificate. The server name is also included in the TLS handshake to support Server Name Indication (SNI) or virtual hosting.
         public let serverNameToVerify: String?
 
@@ -3415,13 +3487,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverNameToVerify
+            case serverNameToVerify = "serverNameToVerify"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -3438,7 +3510,7 @@ extension ApiGatewayV2 {
 
     public struct UpdateApiMappingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")),
+            AWSMemberEncoding(label: "apiMappingId", location: .uri(locationName: "apiMappingId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
@@ -3457,13 +3529,14 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
     public struct UpdateApiMappingResponse: AWSDecodableShape {
+
         public let apiId: String?
         public let apiMappingId: String?
         public let apiMappingKey: String?
@@ -3477,10 +3550,10 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiId
-            case apiMappingId
-            case apiMappingKey
-            case stage
+            case apiId = "apiId"
+            case apiMappingId = "apiMappingId"
+            case apiMappingKey = "apiMappingKey"
+            case stage = "stage"
         }
     }
 
@@ -3522,21 +3595,22 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case credentialsArn
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case name
-            case routeKey
-            case routeSelectionExpression
-            case target
-            case version
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case name = "name"
+            case routeKey = "routeKey"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case target = "target"
+            case version = "version"
         }
     }
 
     public struct UpdateApiResponse: AWSDecodableShape {
+
         public let apiEndpoint: String?
         public let apiGatewayManaged: Bool?
         public let apiId: String?
@@ -3575,28 +3649,28 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiEndpoint
-            case apiGatewayManaged
-            case apiId
-            case apiKeySelectionExpression
-            case corsConfiguration
-            case createdDate
-            case description
-            case disableExecuteApiEndpoint
-            case disableSchemaValidation
-            case importInfo
-            case name
-            case protocolType
-            case routeSelectionExpression
-            case tags
-            case version
-            case warnings
+            case apiEndpoint = "apiEndpoint"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiId = "apiId"
+            case apiKeySelectionExpression = "apiKeySelectionExpression"
+            case corsConfiguration = "corsConfiguration"
+            case createdDate = "createdDate"
+            case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case disableSchemaValidation = "disableSchemaValidation"
+            case importInfo = "importInfo"
+            case name = "name"
+            case protocolType = "protocolType"
+            case routeSelectionExpression = "routeSelectionExpression"
+            case tags = "tags"
+            case version = "version"
+            case warnings = "warnings"
         }
     }
 
     public struct UpdateAuthorizerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "authorizerId", location: .uri(locationName: "authorizerId"))
         ]
 
@@ -3634,20 +3708,21 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
     public struct UpdateAuthorizerResponse: AWSDecodableShape {
+
         public let authorizerCredentialsArn: String?
         public let authorizerId: String?
         public let authorizerPayloadFormatVersion: String?
@@ -3675,23 +3750,23 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizerCredentialsArn
-            case authorizerId
-            case authorizerPayloadFormatVersion
-            case authorizerResultTtlInSeconds
-            case authorizerType
-            case authorizerUri
-            case enableSimpleResponses
-            case identitySource
-            case identityValidationExpression
-            case jwtConfiguration
-            case name
+            case authorizerCredentialsArn = "authorizerCredentialsArn"
+            case authorizerId = "authorizerId"
+            case authorizerPayloadFormatVersion = "authorizerPayloadFormatVersion"
+            case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
+            case authorizerType = "authorizerType"
+            case authorizerUri = "authorizerUri"
+            case enableSimpleResponses = "enableSimpleResponses"
+            case identitySource = "identitySource"
+            case identityValidationExpression = "identityValidationExpression"
+            case jwtConfiguration = "jwtConfiguration"
+            case name = "name"
         }
     }
 
     public struct UpdateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
         ]
 
@@ -3706,11 +3781,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
+            case description = "description"
         }
     }
 
     public struct UpdateDeploymentResponse: AWSDecodableShape {
+
         public let autoDeployed: Bool?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
@@ -3729,12 +3805,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoDeployed
-            case createdDate
-            case deploymentId
-            case deploymentStatus
-            case deploymentStatusMessage
-            case description
+            case autoDeployed = "autoDeployed"
+            case createdDate = "createdDate"
+            case deploymentId = "deploymentId"
+            case deploymentStatus = "deploymentStatus"
+            case deploymentStatusMessage = "deploymentStatusMessage"
+            case description = "description"
         }
     }
 
@@ -3754,12 +3830,13 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainNameConfigurations
-            case mutualTlsAuthentication
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
         }
     }
 
     public struct UpdateDomainNameResponse: AWSDecodableShape {
+
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -3775,17 +3852,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiMappingSelectionExpression
-            case domainName
-            case domainNameConfigurations
-            case mutualTlsAuthentication
-            case tags
+            case apiMappingSelectionExpression = "apiMappingSelectionExpression"
+            case domainName = "domainName"
+            case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
+            case tags = "tags"
         }
     }
 
     public struct UpdateIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId"))
         ]
 
@@ -3837,30 +3914,30 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationMethod
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationMethod = "integrationMethod"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
     public struct UpdateIntegrationResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "integrationId", location: .uri(locationName: "integrationId")), 
             AWSMemberEncoding(label: "integrationResponseId", location: .uri(locationName: "integrationResponseId"))
         ]
 
@@ -3885,15 +3962,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
     public struct UpdateIntegrationResponseResponse: AWSDecodableShape {
+
         public let contentHandlingStrategy: ContentHandlingStrategy?
         public let integrationResponseId: String?
         public let integrationResponseKey: String?
@@ -3911,16 +3989,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentHandlingStrategy
-            case integrationResponseId
-            case integrationResponseKey
-            case responseParameters
-            case responseTemplates
-            case templateSelectionExpression
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case integrationResponseId = "integrationResponseId"
+            case integrationResponseKey = "integrationResponseKey"
+            case responseParameters = "responseParameters"
+            case responseTemplates = "responseTemplates"
+            case templateSelectionExpression = "templateSelectionExpression"
         }
     }
 
     public struct UpdateIntegrationResult: AWSDecodableShape {
+
         public let apiGatewayManaged: Bool?
         public let connectionId: String?
         public let connectionType: ConnectionType?
@@ -3966,32 +4045,32 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case connectionId
-            case connectionType
-            case contentHandlingStrategy
-            case credentialsArn
-            case description
-            case integrationId
-            case integrationMethod
-            case integrationResponseSelectionExpression
-            case integrationSubtype
-            case integrationType
-            case integrationUri
-            case passthroughBehavior
-            case payloadFormatVersion
-            case requestParameters
-            case requestTemplates
-            case responseParameters
-            case templateSelectionExpression
-            case timeoutInMillis
-            case tlsConfig
+            case apiGatewayManaged = "apiGatewayManaged"
+            case connectionId = "connectionId"
+            case connectionType = "connectionType"
+            case contentHandlingStrategy = "contentHandlingStrategy"
+            case credentialsArn = "credentialsArn"
+            case description = "description"
+            case integrationId = "integrationId"
+            case integrationMethod = "integrationMethod"
+            case integrationResponseSelectionExpression = "integrationResponseSelectionExpression"
+            case integrationSubtype = "integrationSubtype"
+            case integrationType = "integrationType"
+            case integrationUri = "integrationUri"
+            case passthroughBehavior = "passthroughBehavior"
+            case payloadFormatVersion = "payloadFormatVersion"
+            case requestParameters = "requestParameters"
+            case requestTemplates = "requestTemplates"
+            case responseParameters = "responseParameters"
+            case templateSelectionExpression = "templateSelectionExpression"
+            case timeoutInMillis = "timeoutInMillis"
+            case tlsConfig = "tlsConfig"
         }
     }
 
     public struct UpdateModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "modelId", location: .uri(locationName: "modelId"))
         ]
 
@@ -4012,14 +4091,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
     public struct UpdateModelResponse: AWSDecodableShape {
+
         public let contentType: String?
         public let description: String?
         public let modelId: String?
@@ -4035,17 +4115,17 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case description
-            case modelId
-            case name
-            case schema
+            case contentType = "contentType"
+            case description = "description"
+            case modelId = "modelId"
+            case name = "name"
+            case schema = "schema"
         }
     }
 
     public struct UpdateRouteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId"))
         ]
 
@@ -4080,24 +4160,24 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
     public struct UpdateRouteResponseRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
+            AWSMemberEncoding(label: "routeId", location: .uri(locationName: "routeId")), 
             AWSMemberEncoding(label: "routeResponseId", location: .uri(locationName: "routeResponseId"))
         ]
 
@@ -4120,14 +4200,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
     public struct UpdateRouteResponseResponse: AWSDecodableShape {
+
         public let modelSelectionExpression: String?
         public let responseModels: [String: String]?
         public let responseParameters: [String: ParameterConstraints]?
@@ -4143,15 +4224,16 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case modelSelectionExpression
-            case responseModels
-            case responseParameters
-            case routeResponseId
-            case routeResponseKey
+            case modelSelectionExpression = "modelSelectionExpression"
+            case responseModels = "responseModels"
+            case responseParameters = "responseParameters"
+            case routeResponseId = "routeResponseId"
+            case routeResponseKey = "routeResponseKey"
         }
     }
 
     public struct UpdateRouteResult: AWSDecodableShape {
+
         public let apiGatewayManaged: Bool?
         public let apiKeyRequired: Bool?
         public let authorizationScopes: [String]?
@@ -4183,25 +4265,25 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apiGatewayManaged
-            case apiKeyRequired
-            case authorizationScopes
-            case authorizationType
-            case authorizerId
-            case modelSelectionExpression
-            case operationName
-            case requestModels
-            case requestParameters
-            case routeId
-            case routeKey
-            case routeResponseSelectionExpression
-            case target
+            case apiGatewayManaged = "apiGatewayManaged"
+            case apiKeyRequired = "apiKeyRequired"
+            case authorizationScopes = "authorizationScopes"
+            case authorizationType = "authorizationType"
+            case authorizerId = "authorizerId"
+            case modelSelectionExpression = "modelSelectionExpression"
+            case operationName = "operationName"
+            case requestModels = "requestModels"
+            case requestParameters = "requestParameters"
+            case routeId = "routeId"
+            case routeKey = "routeKey"
+            case routeResponseSelectionExpression = "routeResponseSelectionExpression"
+            case target = "target"
         }
     }
 
     public struct UpdateStageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")),
+            AWSMemberEncoding(label: "apiId", location: .uri(locationName: "apiId")), 
             AWSMemberEncoding(label: "stageName", location: .uri(locationName: "stageName"))
         ]
 
@@ -4230,18 +4312,19 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case autoDeploy
-            case clientCertificateId
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case routeSettings
-            case stageVariables
+            case accessLogSettings = "accessLogSettings"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case routeSettings = "routeSettings"
+            case stageVariables = "stageVariables"
         }
     }
 
     public struct UpdateStageResponse: AWSDecodableShape {
+
         public let accessLogSettings: AccessLogSettings?
         public let apiGatewayManaged: Bool?
         public let autoDeploy: Bool?
@@ -4277,20 +4360,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessLogSettings
-            case apiGatewayManaged
-            case autoDeploy
-            case clientCertificateId
-            case createdDate
-            case defaultRouteSettings
-            case deploymentId
-            case description
-            case lastDeploymentStatusMessage
-            case lastUpdatedDate
-            case routeSettings
-            case stageName
-            case stageVariables
-            case tags
+            case accessLogSettings = "accessLogSettings"
+            case apiGatewayManaged = "apiGatewayManaged"
+            case autoDeploy = "autoDeploy"
+            case clientCertificateId = "clientCertificateId"
+            case createdDate = "createdDate"
+            case defaultRouteSettings = "defaultRouteSettings"
+            case deploymentId = "deploymentId"
+            case description = "description"
+            case lastDeploymentStatusMessage = "lastDeploymentStatusMessage"
+            case lastUpdatedDate = "lastUpdatedDate"
+            case routeSettings = "routeSettings"
+            case stageName = "stageName"
+            case stageVariables = "stageVariables"
+            case tags = "tags"
         }
     }
 
@@ -4308,11 +4391,12 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct UpdateVpcLinkResponse: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
         public let name: String?
@@ -4337,19 +4421,20 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 
     public struct VpcLink: AWSDecodableShape {
+
         /// The timestamp when the VPC link was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
@@ -4383,15 +4468,15 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdDate
-            case name
-            case securityGroupIds
-            case subnetIds
-            case tags
-            case vpcLinkId
-            case vpcLinkStatus
-            case vpcLinkStatusMessage
-            case vpcLinkVersion
+            case createdDate = "createdDate"
+            case name = "name"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case vpcLinkId = "vpcLinkId"
+            case vpcLinkStatus = "vpcLinkStatus"
+            case vpcLinkStatusMessage = "vpcLinkStatusMessage"
+            case vpcLinkVersion = "vpcLinkVersion"
         }
     }
 }

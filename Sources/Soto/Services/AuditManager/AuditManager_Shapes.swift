@@ -152,6 +152,7 @@ extension AuditManager {
     // MARK: Shapes
 
     public struct AWSAccount: AWSEncodableShape & AWSDecodableShape {
+
         ///  The email address associated with the specified AWS account.
         public let emailAddress: String?
         ///  The identifier for the specified AWS account.
@@ -178,13 +179,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case emailAddress
-            case id
-            case name
+            case emailAddress = "emailAddress"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct AWSService: AWSEncodableShape & AWSDecodableShape {
+
         ///  The name of the AWS service.
         public let serviceName: String?
 
@@ -199,11 +201,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
     public struct Assessment: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the assessment.
         public let arn: String?
         ///  The AWS account associated with the assessment.
@@ -224,15 +227,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case awsAccount
-            case framework
-            case metadata
-            case tags
+            case arn = "arn"
+            case awsAccount = "awsAccount"
+            case framework = "framework"
+            case metadata = "metadata"
+            case tags = "tags"
         }
     }
 
     public struct AssessmentControl: AWSDecodableShape {
+
         ///  The amount of evidence in the assessment report.
         public let assessmentReportEvidenceCount: Int?
         ///  The list of comments attached to the specified control.
@@ -265,19 +269,20 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportEvidenceCount
-            case comments
-            case description
-            case evidenceCount
-            case evidenceSources
-            case id
-            case name
-            case response
-            case status
+            case assessmentReportEvidenceCount = "assessmentReportEvidenceCount"
+            case comments = "comments"
+            case description = "description"
+            case evidenceCount = "evidenceCount"
+            case evidenceSources = "evidenceSources"
+            case id = "id"
+            case name = "name"
+            case response = "response"
+            case status = "status"
         }
     }
 
     public struct AssessmentControlSet: AWSDecodableShape {
+
         ///  The list of controls contained with the control set.
         public let controls: [AssessmentControl]?
         ///  The delegations associated with the control set.
@@ -307,18 +312,19 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case delegations
-            case description
-            case id
-            case manualEvidenceCount
-            case roles
-            case status
-            case systemEvidenceCount
+            case controls = "controls"
+            case delegations = "delegations"
+            case description = "description"
+            case id = "id"
+            case manualEvidenceCount = "manualEvidenceCount"
+            case roles = "roles"
+            case status = "status"
+            case systemEvidenceCount = "systemEvidenceCount"
         }
     }
 
     public struct AssessmentEvidenceFolder: AWSDecodableShape {
+
         ///  The identifier for the specified assessment.
         public let assessmentId: String?
         ///  The total count of evidence included in the assessment report.
@@ -378,28 +384,29 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentReportSelectionCount
-            case author
-            case controlId
-            case controlName
-            case controlSetId
-            case dataSource
-            case date
-            case evidenceAwsServiceSourceCount
-            case evidenceByTypeComplianceCheckCount
-            case evidenceByTypeComplianceCheckIssuesCount
-            case evidenceByTypeConfigurationDataCount
-            case evidenceByTypeManualCount
-            case evidenceByTypeUserActivityCount
-            case evidenceResourcesIncludedCount
-            case id
-            case name
-            case totalEvidence
+            case assessmentId = "assessmentId"
+            case assessmentReportSelectionCount = "assessmentReportSelectionCount"
+            case author = "author"
+            case controlId = "controlId"
+            case controlName = "controlName"
+            case controlSetId = "controlSetId"
+            case dataSource = "dataSource"
+            case date = "date"
+            case evidenceAwsServiceSourceCount = "evidenceAwsServiceSourceCount"
+            case evidenceByTypeComplianceCheckCount = "evidenceByTypeComplianceCheckCount"
+            case evidenceByTypeComplianceCheckIssuesCount = "evidenceByTypeComplianceCheckIssuesCount"
+            case evidenceByTypeConfigurationDataCount = "evidenceByTypeConfigurationDataCount"
+            case evidenceByTypeManualCount = "evidenceByTypeManualCount"
+            case evidenceByTypeUserActivityCount = "evidenceByTypeUserActivityCount"
+            case evidenceResourcesIncludedCount = "evidenceResourcesIncludedCount"
+            case id = "id"
+            case name = "name"
+            case totalEvidence = "totalEvidence"
         }
     }
 
     public struct AssessmentFramework: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the specified framework.
         public let arn: String?
         ///  The control sets associated with the framework.
@@ -416,14 +423,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case controlSets
-            case id
-            case metadata
+            case arn = "arn"
+            case controlSets = "controlSets"
+            case id = "id"
+            case metadata = "metadata"
         }
     }
 
     public struct AssessmentFrameworkMetadata: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the framework.
         public let arn: String?
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
@@ -462,21 +470,22 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case complianceType
-            case controlsCount
-            case controlSetsCount
-            case createdAt
-            case description
-            case id
-            case lastUpdatedAt
-            case logo
-            case name
-            case type
+            case arn = "arn"
+            case complianceType = "complianceType"
+            case controlsCount = "controlsCount"
+            case controlSetsCount = "controlSetsCount"
+            case createdAt = "createdAt"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case logo = "logo"
+            case name = "name"
+            case type = "type"
         }
     }
 
     public struct AssessmentMetadata: AWSDecodableShape {
+
         ///  The destination in which evidence reports are stored for the specified assessment.
         public let assessmentReportsDestination: AssessmentReportsDestination?
         ///  The name of a compliance standard related to the assessment, such as PCI-DSS.
@@ -515,21 +524,22 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportsDestination
-            case complianceType
-            case creationTime
-            case delegations
-            case description
-            case id
-            case lastUpdated
-            case name
-            case roles
-            case scope
-            case status
+            case assessmentReportsDestination = "assessmentReportsDestination"
+            case complianceType = "complianceType"
+            case creationTime = "creationTime"
+            case delegations = "delegations"
+            case description = "description"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case roles = "roles"
+            case scope = "scope"
+            case status = "status"
         }
     }
 
     public struct AssessmentMetadataItem: AWSDecodableShape {
+
         ///  The name of the compliance standard related to the assessment, such as PCI-DSS.
         public let complianceType: String?
         ///  Specifies when the assessment was created.
@@ -559,18 +569,19 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case creationTime
-            case delegations
-            case id
-            case lastUpdated
-            case name
-            case roles
-            case status
+            case complianceType = "complianceType"
+            case creationTime = "creationTime"
+            case delegations = "delegations"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case roles = "roles"
+            case status = "status"
         }
     }
 
     public struct AssessmentReport: AWSDecodableShape {
+
         ///  The identifier for the specified assessment.
         public let assessmentId: String?
         ///  The name of the associated assessment.
@@ -603,19 +614,20 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case author
-            case awsAccountId
-            case creationTime
-            case description
-            case id
-            case name
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case author = "author"
+            case awsAccountId = "awsAccountId"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct AssessmentReportEvidenceError: AWSDecodableShape {
+
         ///  The error code returned by the AssessmentReportEvidence API.
         public let errorCode: String?
         ///  The error message returned by the AssessmentReportEvidence API.
@@ -630,13 +642,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case evidenceId
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case evidenceId = "evidenceId"
         }
     }
 
     public struct AssessmentReportMetadata: AWSDecodableShape {
+
         ///  The unique identifier for the associated assessment.
         public let assessmentId: String?
         /// The name of the associated assessment.
@@ -666,18 +679,19 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case author
-            case creationTime
-            case description
-            case id
-            case name
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case author = "author"
+            case creationTime = "creationTime"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct AssessmentReportsDestination: AWSEncodableShape & AWSDecodableShape {
+
         ///  The destination of the assessment report.
         public let destination: String?
         ///  The destination type, such as Amazon S3.
@@ -695,8 +709,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case destinationType
+            case destination = "destination"
+            case destinationType = "destinationType"
         }
     }
 
@@ -725,12 +739,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
+            case evidenceFolderId = "evidenceFolderId"
         }
     }
 
     public struct AssociateAssessmentReportEvidenceFolderResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct BatchAssociateAssessmentReportEvidenceRequest: AWSEncodableShape {
@@ -768,12 +786,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
-            case evidenceIds
+            case evidenceFolderId = "evidenceFolderId"
+            case evidenceIds = "evidenceIds"
         }
     }
 
     public struct BatchAssociateAssessmentReportEvidenceResponse: AWSDecodableShape {
+
         ///  A list of errors returned by the BatchAssociateAssessmentReportEvidence API.
         public let errors: [AssessmentReportEvidenceError]?
         ///  The identifier for the evidence.
@@ -785,12 +804,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case evidenceIds
+            case errors = "errors"
+            case evidenceIds = "evidenceIds"
         }
     }
 
     public struct BatchCreateDelegationByAssessmentError: AWSDecodableShape {
+
         ///  The API request to batch create delegations in AWS Audit Manager.
         public let createDelegationRequest: CreateDelegationRequest?
         ///  The error code returned by the BatchCreateDelegationByAssessment API.
@@ -805,9 +825,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDelegationRequest
-            case errorCode
-            case errorMessage
+            case createDelegationRequest = "createDelegationRequest"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -838,11 +858,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createDelegationRequests
+            case createDelegationRequests = "createDelegationRequests"
         }
     }
 
     public struct BatchCreateDelegationByAssessmentResponse: AWSDecodableShape {
+
         ///  The delegations associated with the assessment.
         public let delegations: [Delegation]?
         ///  A list of errors returned by the BatchCreateDelegationByAssessment API.
@@ -854,12 +875,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegations
-            case errors
+            case delegations = "delegations"
+            case errors = "errors"
         }
     }
 
     public struct BatchDeleteDelegationByAssessmentError: AWSDecodableShape {
+
         ///  The identifier for the specified delegation.
         public let delegationId: String?
         ///  The error code returned by the BatchDeleteDelegationByAssessment API.
@@ -874,9 +896,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegationId
-            case errorCode
-            case errorMessage
+            case delegationId = "delegationId"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -909,11 +931,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegationIds
+            case delegationIds = "delegationIds"
         }
     }
 
     public struct BatchDeleteDelegationByAssessmentResponse: AWSDecodableShape {
+
         ///  A list of errors returned by the BatchDeleteDelegationByAssessment API.
         public let errors: [BatchDeleteDelegationByAssessmentError]?
 
@@ -922,7 +945,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -961,12 +984,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
-            case evidenceIds
+            case evidenceFolderId = "evidenceFolderId"
+            case evidenceIds = "evidenceIds"
         }
     }
 
     public struct BatchDisassociateAssessmentReportEvidenceResponse: AWSDecodableShape {
+
         ///  A list of errors returned by the BatchDisassociateAssessmentReportEvidence API.
         public let errors: [AssessmentReportEvidenceError]?
         ///  The identifier for the evidence.
@@ -978,12 +1002,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case evidenceIds
+            case errors = "errors"
+            case evidenceIds = "evidenceIds"
         }
     }
 
     public struct BatchImportEvidenceToAssessmentControlError: AWSDecodableShape {
+
         ///  The error code returned by the BatchImportEvidenceToAssessmentControl API.
         public let errorCode: String?
         ///  The error message returned by the BatchImportEvidenceToAssessmentControl API.
@@ -998,16 +1023,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case manualEvidence
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case manualEvidence = "manualEvidence"
         }
     }
 
     public struct BatchImportEvidenceToAssessmentControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")), 
             AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId"))
         ]
 
@@ -1045,11 +1070,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manualEvidence
+            case manualEvidence = "manualEvidence"
         }
     }
 
     public struct BatchImportEvidenceToAssessmentControlResponse: AWSDecodableShape {
+
         ///  A list of errors returned by the BatchImportEvidenceToAssessmentControl API.
         public let errors: [BatchImportEvidenceToAssessmentControlError]?
 
@@ -1058,11 +1084,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
     public struct ChangeLog: AWSDecodableShape {
+
         ///  The action performed.
         public let action: ActionEnum?
         ///  The time of creation for the changelog object.
@@ -1083,15 +1110,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case createdAt
-            case createdBy
-            case objectName
-            case objectType
+            case action = "action"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case objectName = "objectName"
+            case objectType = "objectType"
         }
     }
 
     public struct Control: AWSDecodableShape {
+
         ///  The recommended actions to carry out if the control is not fulfilled.
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
@@ -1142,25 +1170,26 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionPlanInstructions
-            case actionPlanTitle
-            case arn
-            case controlMappingSources
-            case controlSources
-            case createdAt
-            case createdBy
-            case description
-            case id
-            case lastUpdatedAt
-            case lastUpdatedBy
-            case name
-            case tags
-            case testingInformation
-            case type
+            case actionPlanInstructions = "actionPlanInstructions"
+            case actionPlanTitle = "actionPlanTitle"
+            case arn = "arn"
+            case controlMappingSources = "controlMappingSources"
+            case controlSources = "controlSources"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case name = "name"
+            case tags = "tags"
+            case testingInformation = "testingInformation"
+            case type = "type"
         }
     }
 
     public struct ControlComment: AWSDecodableShape {
+
         ///  The name of the user who authored the comment.
         public let authorName: String?
         ///  The body text of a control comment.
@@ -1175,13 +1204,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorName
-            case commentBody
-            case postedDate
+            case authorName = "authorName"
+            case commentBody = "commentBody"
+            case postedDate = "postedDate"
         }
     }
 
     public struct ControlMappingSource: AWSEncodableShape & AWSDecodableShape {
+
         ///  The description of the specified source.
         public let sourceDescription: String?
         ///  The frequency of evidence collection for the specified control mapping source.
@@ -1223,18 +1253,19 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceDescription
-            case sourceFrequency
-            case sourceId
-            case sourceKeyword
-            case sourceName
-            case sourceSetUpOption
-            case sourceType
-            case troubleshootingText
+            case sourceDescription = "sourceDescription"
+            case sourceFrequency = "sourceFrequency"
+            case sourceId = "sourceId"
+            case sourceKeyword = "sourceKeyword"
+            case sourceName = "sourceName"
+            case sourceSetUpOption = "sourceSetUpOption"
+            case sourceType = "sourceType"
+            case troubleshootingText = "troubleshootingText"
         }
     }
 
     public struct ControlMetadata: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the specified control.
         public let arn: String?
         ///  The data source that determines from where AWS Audit Manager collects evidence for the control.
@@ -1258,16 +1289,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case controlSources
-            case createdAt
-            case id
-            case lastUpdatedAt
-            case name
+            case arn = "arn"
+            case controlSources = "controlSources"
+            case createdAt = "createdAt"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
         }
     }
 
     public struct ControlSet: AWSDecodableShape {
+
         ///  The list of controls within the control set.
         public let controls: [Control]?
         ///  The identifier of the control set in the assessment. This is the control set name in a plain string format.
@@ -1282,13 +1314,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case id
-            case name
+            case controls = "controls"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct CreateAssessmentFrameworkControl: AWSEncodableShape {
+
         ///  The unique identifier of the control.
         public let id: String?
 
@@ -1303,11 +1336,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct CreateAssessmentFrameworkControlSet: AWSEncodableShape {
+
         ///  The list of controls within the control set. This does not contain the control set ID.
         public let controls: [CreateAssessmentFrameworkControl]?
         ///  The name of the specified control set.
@@ -1329,12 +1363,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case name
+            case controls = "controls"
+            case name = "name"
         }
     }
 
     public struct CreateAssessmentFrameworkRequest: AWSEncodableShape {
+
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
         public let complianceType: String?
         ///  The control sets to be associated with the framework.
@@ -1378,15 +1413,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case controlSets
-            case description
-            case name
-            case tags
+            case complianceType = "complianceType"
+            case controlSets = "controlSets"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateAssessmentFrameworkResponse: AWSDecodableShape {
+
         ///  The name of the new framework returned by the CreateAssessmentFramework API.
         public let framework: Framework?
 
@@ -1395,7 +1431,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framework
+            case framework = "framework"
         }
     }
 
@@ -1429,12 +1465,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct CreateAssessmentReportResponse: AWSDecodableShape {
+
         ///  The new assessment report returned by the CreateAssessmentReport API.
         public let assessmentReport: AssessmentReport?
 
@@ -1443,11 +1480,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReport
+            case assessmentReport = "assessmentReport"
         }
     }
 
     public struct CreateAssessmentRequest: AWSEncodableShape {
+
         ///  The assessment report storage destination for the specified assessment that is being created.
         public let assessmentReportsDestination: AssessmentReportsDestination
         ///  The optional description of the assessment to be created.
@@ -1497,17 +1535,18 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportsDestination
-            case description
-            case frameworkId
-            case name
-            case roles
-            case scope
-            case tags
+            case assessmentReportsDestination = "assessmentReportsDestination"
+            case description = "description"
+            case frameworkId = "frameworkId"
+            case name = "name"
+            case roles = "roles"
+            case scope = "scope"
+            case tags = "tags"
         }
     }
 
     public struct CreateAssessmentResponse: AWSDecodableShape {
+
         public let assessment: Assessment?
 
         public init(assessment: Assessment? = nil) {
@@ -1515,11 +1554,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
     public struct CreateControlMappingSource: AWSEncodableShape {
+
         ///  The description of the data source that determines from where AWS Audit Manager collects evidence for the control.
         public let sourceDescription: String?
         ///  The frequency of evidence collection for the specified control mapping source.
@@ -1555,17 +1595,18 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceDescription
-            case sourceFrequency
-            case sourceKeyword
-            case sourceName
-            case sourceSetUpOption
-            case sourceType
-            case troubleshootingText
+            case sourceDescription = "sourceDescription"
+            case sourceFrequency = "sourceFrequency"
+            case sourceKeyword = "sourceKeyword"
+            case sourceName = "sourceName"
+            case sourceSetUpOption = "sourceSetUpOption"
+            case sourceType = "sourceType"
+            case troubleshootingText = "troubleshootingText"
         }
     }
 
     public struct CreateControlRequest: AWSEncodableShape {
+
         ///  The recommended actions to carry out if the control is not fulfilled.
         public let actionPlanInstructions: String?
         ///  The title of the action plan for remediating the control.
@@ -1618,17 +1659,18 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionPlanInstructions
-            case actionPlanTitle
-            case controlMappingSources
-            case description
-            case name
-            case tags
-            case testingInformation
+            case actionPlanInstructions = "actionPlanInstructions"
+            case actionPlanTitle = "actionPlanTitle"
+            case controlMappingSources = "controlMappingSources"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+            case testingInformation = "testingInformation"
         }
     }
 
     public struct CreateControlResponse: AWSDecodableShape {
+
         ///  The new control returned by the CreateControl API.
         public let control: Control?
 
@@ -1637,11 +1679,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
     public struct CreateDelegationRequest: AWSEncodableShape & AWSDecodableShape {
+
         ///  A comment related to the delegation request.
         public let comment: String?
         ///  The unique identifier for the control set.
@@ -1670,14 +1713,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case controlSetId
-            case roleArn
-            case roleType
+            case comment = "comment"
+            case controlSetId = "controlSetId"
+            case roleArn = "roleArn"
+            case roleType = "roleType"
         }
     }
 
     public struct Delegation: AWSDecodableShape {
+
         ///  The identifier for the associated assessment.
         public let assessmentId: String?
         ///  The name of the associated assessment.
@@ -1716,21 +1760,22 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case comment
-            case controlSetId
-            case createdBy
-            case creationTime
-            case id
-            case lastUpdated
-            case roleArn
-            case roleType
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case comment = "comment"
+            case controlSetId = "controlSetId"
+            case createdBy = "createdBy"
+            case creationTime = "creationTime"
+            case id = "id"
+            case lastUpdated = "lastUpdated"
+            case roleArn = "roleArn"
+            case roleType = "roleType"
+            case status = "status"
         }
     }
 
     public struct DelegationMetadata: AWSDecodableShape {
+
         ///  The unique identifier for the specified assessment.
         public let assessmentId: String?
         ///  The name of the associated assessment.
@@ -1757,13 +1802,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case controlSetName
-            case creationTime
-            case id
-            case roleArn
-            case status
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case controlSetName = "controlSetName"
+            case creationTime = "creationTime"
+            case id = "id"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
@@ -1789,12 +1834,16 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentFrameworkResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAssessmentReportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
             AWSMemberEncoding(label: "assessmentReportId", location: .uri(locationName: "assessmentReportId"))
         ]
 
@@ -1821,7 +1870,11 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentReportResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAssessmentRequest: AWSEncodableShape {
@@ -1846,7 +1899,11 @@ extension AuditManager {
     }
 
     public struct DeleteAssessmentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteControlRequest: AWSEncodableShape {
@@ -1871,14 +1928,23 @@ extension AuditManager {
     }
 
     public struct DeleteControlResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeregisterAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeregisterAccountResponse: AWSDecodableShape {
+
         ///  The registration status of the account.
         public let status: AccountStatus?
 
@@ -1887,11 +1953,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct DeregisterOrganizationAdminAccountRequest: AWSEncodableShape {
+
         ///  The identifier for the specified administrator account.
         public let adminAccountId: String?
 
@@ -1906,12 +1973,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
+            case adminAccountId = "adminAccountId"
         }
     }
 
     public struct DeregisterOrganizationAdminAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateAssessmentReportEvidenceFolderRequest: AWSEncodableShape {
@@ -1939,15 +2010,20 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolderId
+            case evidenceFolderId = "evidenceFolderId"
         }
     }
 
     public struct DisassociateAssessmentReportEvidenceFolderResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Evidence: AWSDecodableShape {
+
         ///  Specifies whether the evidence is inclded in the assessment report.
         public let assessmentReportSelection: String?
         ///  The names and values used by the evidence event, including an attribute name (such as allowUsersToChangePassword) and value (such as true or false).
@@ -1998,25 +2074,26 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReportSelection
-            case attributes
-            case awsAccountId
-            case awsOrganization
-            case complianceCheck
-            case dataSource
-            case eventName
-            case eventSource
-            case evidenceAwsAccountId
-            case evidenceByType
-            case evidenceFolderId
-            case iamId
-            case id
-            case resourcesIncluded
-            case time
+            case assessmentReportSelection = "assessmentReportSelection"
+            case attributes = "attributes"
+            case awsAccountId = "awsAccountId"
+            case awsOrganization = "awsOrganization"
+            case complianceCheck = "complianceCheck"
+            case dataSource = "dataSource"
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case evidenceAwsAccountId = "evidenceAwsAccountId"
+            case evidenceByType = "evidenceByType"
+            case evidenceFolderId = "evidenceFolderId"
+            case iamId = "iamId"
+            case id = "id"
+            case resourcesIncluded = "resourcesIncluded"
+            case time = "time"
         }
     }
 
     public struct Framework: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the specified framework.
         public let arn: String?
         ///  The compliance type that the new custom framework supports, such as CIS or HIPAA.
@@ -2064,24 +2141,25 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case complianceType
-            case controlSets
-            case controlSources
-            case createdAt
-            case createdBy
-            case description
-            case id
-            case lastUpdatedAt
-            case lastUpdatedBy
-            case logo
-            case name
-            case tags
-            case type
+            case arn = "arn"
+            case complianceType = "complianceType"
+            case controlSets = "controlSets"
+            case controlSources = "controlSources"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case id = "id"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case logo = "logo"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
     public struct FrameworkMetadata: AWSDecodableShape {
+
         ///  The compliance standard associated with the framework, such as PCI-DSS or HIPAA.
         public let complianceType: String?
         ///  The description of the framework.
@@ -2099,18 +2177,23 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case description
-            case logo
-            case name
+            case complianceType = "complianceType"
+            case description = "description"
+            case logo = "logo"
+            case name = "name"
         }
     }
 
     public struct GetAccountStatusRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAccountStatusResponse: AWSDecodableShape {
+
         ///  The status of the specified AWS account.
         public let status: AccountStatus?
 
@@ -2119,7 +2202,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
@@ -2145,6 +2228,7 @@ extension AuditManager {
     }
 
     public struct GetAssessmentFrameworkResponse: AWSDecodableShape {
+
         ///  The framework returned by the GetAssessmentFramework API.
         public let framework: Framework?
 
@@ -2153,13 +2237,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framework
+            case framework = "framework"
         }
     }
 
     public struct GetAssessmentReportUrlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
             AWSMemberEncoding(label: "assessmentReportId", location: .uri(locationName: "assessmentReportId"))
         ]
 
@@ -2186,6 +2270,7 @@ extension AuditManager {
     }
 
     public struct GetAssessmentReportUrlResponse: AWSDecodableShape {
+
         public let preSignedUrl: URL?
 
         public init(preSignedUrl: URL? = nil) {
@@ -2193,7 +2278,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preSignedUrl
+            case preSignedUrl = "preSignedUrl"
         }
     }
 
@@ -2219,6 +2304,7 @@ extension AuditManager {
     }
 
     public struct GetAssessmentResponse: AWSDecodableShape {
+
         public let assessment: Assessment?
         public let userRole: Role?
 
@@ -2228,17 +2314,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
-            case userRole
+            case assessment = "assessment"
+            case userRole = "userRole"
         }
     }
 
     public struct GetChangeLogsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .querystring(locationName: "controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .querystring(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlId", location: .querystring(locationName: "controlId")), 
+            AWSMemberEncoding(label: "controlSetId", location: .querystring(locationName: "controlSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2282,6 +2368,7 @@ extension AuditManager {
     }
 
     public struct GetChangeLogsResponse: AWSDecodableShape {
+
         ///  The list of user activity for the control.
         public let changeLogs: [ChangeLog]?
         ///  The pagination token used to fetch the next set of results.
@@ -2293,8 +2380,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeLogs
-            case nextToken
+            case changeLogs = "changeLogs"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2320,6 +2407,7 @@ extension AuditManager {
     }
 
     public struct GetControlResponse: AWSDecodableShape {
+
         ///  The name of the control returned by the GetControl API.
         public let control: Control?
 
@@ -2328,13 +2416,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
     public struct GetDelegationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2360,6 +2448,7 @@ extension AuditManager {
     }
 
     public struct GetDelegationsResponse: AWSDecodableShape {
+
         ///  The list of delegations returned by the GetDelegations API.
         public let delegations: [DelegationMetadata]?
         ///  The pagination token used to fetch the next set of results.
@@ -2371,17 +2460,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegations
-            case nextToken
+            case delegations = "delegations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEvidenceByEvidenceFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")), 
+            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2425,6 +2514,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceByEvidenceFolderResponse: AWSDecodableShape {
+
         ///  The list of evidence returned by the GetEvidenceByEvidenceFolder API.
         public let evidence: [Evidence]?
         ///  The pagination token used to fetch the next set of results.
@@ -2436,15 +2526,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidence
-            case nextToken
+            case evidence = "evidence"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEvidenceFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")), 
             AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId"))
         ]
 
@@ -2477,6 +2567,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFolderResponse: AWSDecodableShape {
+
         ///  The folder in which evidence is stored.
         public let evidenceFolder: AssessmentEvidenceFolder?
 
@@ -2485,16 +2576,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolder
+            case evidenceFolder = "evidenceFolder"
         }
     }
 
     public struct GetEvidenceFoldersByAssessmentControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")), 
+            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2538,6 +2629,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFoldersByAssessmentControlResponse: AWSDecodableShape {
+
         ///  The list of evidence folders returned by the GetEvidenceFoldersByAssessmentControl API.
         public let evidenceFolders: [AssessmentEvidenceFolder]?
         ///  The pagination token used to fetch the next set of results.
@@ -2549,15 +2641,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolders
-            case nextToken
+            case evidenceFolders = "evidenceFolders"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEvidenceFoldersByAssessmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2589,6 +2681,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceFoldersByAssessmentResponse: AWSDecodableShape {
+
         ///  The list of evidence folders returned by the GetEvidenceFoldersByAssessment API.
         public let evidenceFolders: [AssessmentEvidenceFolder]?
         ///  The pagination token used to fetch the next set of results.
@@ -2600,16 +2693,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidenceFolders
-            case nextToken
+            case evidenceFolders = "evidenceFolders"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEvidenceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")),
-            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId")), 
+            AWSMemberEncoding(label: "evidenceFolderId", location: .uri(locationName: "evidenceFolderId")), 
             AWSMemberEncoding(label: "evidenceId", location: .uri(locationName: "evidenceId"))
         ]
 
@@ -2648,6 +2741,7 @@ extension AuditManager {
     }
 
     public struct GetEvidenceResponse: AWSDecodableShape {
+
         ///  The evidence returned by the GetEvidenceResponse API.
         public let evidence: Evidence?
 
@@ -2656,15 +2750,20 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case evidence
+            case evidence = "evidence"
         }
     }
 
     public struct GetOrganizationAdminAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetOrganizationAdminAccountResponse: AWSDecodableShape {
+
         ///  The identifier for the specified administrator account.
         public let adminAccountId: String?
         ///  The identifier for the specified organization.
@@ -2676,16 +2775,21 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case organizationId
+            case adminAccountId = "adminAccountId"
+            case organizationId = "organizationId"
         }
     }
 
     public struct GetServicesInScopeRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetServicesInScopeResponse: AWSDecodableShape {
+
         ///  The metadata associated with the aAWS service.
         public let serviceMetadata: [ServiceMetadata]?
 
@@ -2694,7 +2798,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceMetadata
+            case serviceMetadata = "serviceMetadata"
         }
     }
 
@@ -2714,6 +2818,7 @@ extension AuditManager {
     }
 
     public struct GetSettingsResponse: AWSDecodableShape {
+
         ///  The settings object that holds all supported AWS Audit Manager settings.
         public let settings: Settings?
 
@@ -2722,14 +2827,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case settings
+            case settings = "settings"
         }
     }
 
     public struct ListAssessmentFrameworksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "frameworkType", location: .querystring(locationName: "frameworkType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "frameworkType", location: .querystring(locationName: "frameworkType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2758,6 +2863,7 @@ extension AuditManager {
     }
 
     public struct ListAssessmentFrameworksResponse: AWSDecodableShape {
+
         ///  The list of metadata objects for the specified framework.
         public let frameworkMetadataList: [AssessmentFrameworkMetadata]?
         ///  The pagination token used to fetch the next set of results.
@@ -2769,14 +2875,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameworkMetadataList
-            case nextToken
+            case frameworkMetadataList = "frameworkMetadataList"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAssessmentReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2802,6 +2908,7 @@ extension AuditManager {
     }
 
     public struct ListAssessmentReportsResponse: AWSDecodableShape {
+
         ///  The list of assessment reports returned by the ListAssessmentReports API.
         public let assessmentReports: [AssessmentReportMetadata]?
         ///  The pagination token used to fetch the next set of results.
@@ -2813,14 +2920,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentReports
-            case nextToken
+            case assessmentReports = "assessmentReports"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAssessmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2846,6 +2953,7 @@ extension AuditManager {
     }
 
     public struct ListAssessmentsResponse: AWSDecodableShape {
+
         ///  The metadata associated with the assessment.
         public let assessmentMetadata: [AssessmentMetadataItem]?
         ///  The pagination token used to fetch the next set of results.
@@ -2857,15 +2965,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentMetadata
-            case nextToken
+            case assessmentMetadata = "assessmentMetadata"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListControlsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "controlType", location: .querystring(locationName: "controlType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "controlType", location: .querystring(locationName: "controlType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2894,6 +3002,7 @@ extension AuditManager {
     }
 
     public struct ListControlsResponse: AWSDecodableShape {
+
         ///  The list of control metadata objects returned by the ListControls API.
         public let controlMetadataList: [ControlMetadata]?
         ///  The pagination token used to fetch the next set of results.
@@ -2905,15 +3014,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlMetadataList
-            case nextToken
+            case controlMetadataList = "controlMetadataList"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListKeywordsForDataSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "source", location: .querystring(locationName: "source"))
         ]
 
@@ -2942,6 +3051,7 @@ extension AuditManager {
     }
 
     public struct ListKeywordsForDataSourceResponse: AWSDecodableShape {
+
         ///  The list of keywords for the specified event mapping source.
         public let keywords: [String]?
         ///  The pagination token used to fetch the next set of results.
@@ -2953,14 +3063,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keywords
-            case nextToken
+            case keywords = "keywords"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListNotificationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2986,6 +3096,7 @@ extension AuditManager {
     }
 
     public struct ListNotificationsResponse: AWSDecodableShape {
+
         ///  The pagination token used to fetch the next set of results.
         public let nextToken: String?
         ///  The returned list of notifications.
@@ -2997,8 +3108,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case notifications
+            case nextToken = "nextToken"
+            case notifications = "notifications"
         }
     }
 
@@ -3024,6 +3135,7 @@ extension AuditManager {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         ///  The list of tags returned by the ListTagsForResource API.
         public let tags: [String: String]?
 
@@ -3032,11 +3144,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ManualEvidence: AWSEncodableShape & AWSDecodableShape {
+
         ///  The Amazon S3 URL that points to a manual evidence object.
         public let s3ResourcePath: String?
 
@@ -3051,11 +3164,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3ResourcePath
+            case s3ResourcePath = "s3ResourcePath"
         }
     }
 
     public struct Notification: AWSDecodableShape {
+
         ///  The identifier for the specified assessment.
         public let assessmentId: String?
         ///  The name of the related assessment.
@@ -3085,18 +3199,19 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentId
-            case assessmentName
-            case controlSetId
-            case controlSetName
-            case description
-            case eventTime
-            case id
-            case source
+            case assessmentId = "assessmentId"
+            case assessmentName = "assessmentName"
+            case controlSetId = "controlSetId"
+            case controlSetName = "controlSetName"
+            case description = "description"
+            case eventTime = "eventTime"
+            case id = "id"
+            case source = "source"
         }
     }
 
     public struct RegisterAccountRequest: AWSEncodableShape {
+
         ///  The delegated administrator account for AWS Audit Manager.
         public let delegatedAdminAccount: String?
         ///  The AWS KMS key details.
@@ -3117,12 +3232,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delegatedAdminAccount
-            case kmsKey
+            case delegatedAdminAccount = "delegatedAdminAccount"
+            case kmsKey = "kmsKey"
         }
     }
 
     public struct RegisterAccountResponse: AWSDecodableShape {
+
         ///  The status of the account registration request.
         public let status: AccountStatus?
 
@@ -3131,11 +3247,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct RegisterOrganizationAdminAccountRequest: AWSEncodableShape {
+
         ///  The identifier for the specified delegated administrator account.
         public let adminAccountId: String
 
@@ -3150,11 +3267,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
+            case adminAccountId = "adminAccountId"
         }
     }
 
     public struct RegisterOrganizationAdminAccountResponse: AWSDecodableShape {
+
         ///  The identifier for the specified delegated administrator account.
         public let adminAccountId: String?
         ///  The identifier for the specified AWS organization.
@@ -3166,12 +3284,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adminAccountId
-            case organizationId
+            case adminAccountId = "adminAccountId"
+            case organizationId = "organizationId"
         }
     }
 
     public struct Resource: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) for the specified resource.
         public let arn: String?
         ///  The value of the specified resource.
@@ -3183,12 +3302,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case value
+            case arn = "arn"
+            case value = "value"
         }
     }
 
     public struct Role: AWSEncodableShape & AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String?
         ///  The type of customer persona.   In CreateAssessment, roleType can only be PROCESS_OWNER.  In UpdateSettings, roleType can only be PROCESS_OWNER. In BatchCreateDelegationByAssessment, roleType can only be RESOURCE_OWNER.
@@ -3206,12 +3326,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn
-            case roleType
+            case roleArn = "roleArn"
+            case roleType = "roleType"
         }
     }
 
     public struct Scope: AWSEncodableShape & AWSDecodableShape {
+
         ///  The AWS accounts included in the scope of the assessment.
         public let awsAccounts: [AWSAccount]?
         ///  The AWS services included in the scope of the assessment.
@@ -3232,12 +3353,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccounts
-            case awsServices
+            case awsAccounts = "awsAccounts"
+            case awsServices = "awsServices"
         }
     }
 
     public struct ServiceMetadata: AWSDecodableShape {
+
         ///  The category in which the AWS service belongs, such as compute, storage, database, and so on.
         public let category: String?
         ///  The description of the specified AWS service.
@@ -3255,14 +3377,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case displayName
-            case name
+            case category = "category"
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
         }
     }
 
     public struct Settings: AWSDecodableShape {
+
         ///  The default storage destination for assessment reports.
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  The designated default audit owners.
@@ -3283,15 +3406,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultAssessmentReportsDestination
-            case defaultProcessOwners
-            case isAwsOrgEnabled
-            case kmsKey
-            case snsTopic
+            case defaultAssessmentReportsDestination = "defaultAssessmentReportsDestination"
+            case defaultProcessOwners = "defaultProcessOwners"
+            case isAwsOrgEnabled = "isAwsOrgEnabled"
+            case kmsKey = "kmsKey"
+            case snsTopic = "snsTopic"
         }
     }
 
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
+
         ///  The method of input for the specified keyword.
         public let keywordInputType: KeywordInputType?
         ///  The value of the keyword used to search AWS CloudTrail logs, AWS Config rules, AWS Security Hub checks, and AWS API names when mapping a control data source.
@@ -3309,8 +3433,8 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keywordInputType
-            case keywordValue
+            case keywordInputType = "keywordInputType"
+            case keywordValue = "keywordValue"
         }
     }
 
@@ -3344,15 +3468,20 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct URL: AWSDecodableShape {
+
         ///  The name or word used as a hyperlink to the URL.
         public let hyperlinkName: String?
         ///  The unique identifier for the internet resource.
@@ -3364,14 +3493,14 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hyperlinkName
-            case link
+            case hyperlinkName = "hyperlinkName"
+            case link = "link"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -3402,13 +3531,17 @@ extension AuditManager {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAssessmentControlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
-            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
+            AWSMemberEncoding(label: "controlId", location: .uri(locationName: "controlId")), 
             AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId"))
         ]
 
@@ -3446,12 +3579,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commentBody
-            case controlStatus
+            case commentBody = "commentBody"
+            case controlStatus = "controlStatus"
         }
     }
 
     public struct UpdateAssessmentControlResponse: AWSDecodableShape {
+
         ///  The name of the updated control set returned by the UpdateAssessmentControl API.
         public let control: AssessmentControl?
 
@@ -3460,13 +3594,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
     public struct UpdateAssessmentControlSetStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")),
+            AWSMemberEncoding(label: "assessmentId", location: .uri(locationName: "assessmentId")), 
             AWSMemberEncoding(label: "controlSetId", location: .uri(locationName: "controlSetId"))
         ]
 
@@ -3498,12 +3632,13 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case status
+            case comment = "comment"
+            case status = "status"
         }
     }
 
     public struct UpdateAssessmentControlSetStatusResponse: AWSDecodableShape {
+
         ///  The name of the updated control set returned by the UpdateAssessmentControlSetStatus API.
         public let controlSet: AssessmentControlSet?
 
@@ -3512,11 +3647,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controlSet
+            case controlSet = "controlSet"
         }
     }
 
     public struct UpdateAssessmentFrameworkControlSet: AWSEncodableShape {
+
         ///  The list of controls contained within the control set.
         public let controls: [CreateAssessmentFrameworkControl]?
         ///  The unique identifier for the control set.
@@ -3544,9 +3680,9 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case controls
-            case id
-            case name
+            case controls = "controls"
+            case id = "id"
+            case name = "name"
         }
     }
 
@@ -3592,14 +3728,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case complianceType
-            case controlSets
-            case description
-            case name
+            case complianceType = "complianceType"
+            case controlSets = "controlSets"
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct UpdateAssessmentFrameworkResponse: AWSDecodableShape {
+
         ///  The name of the specified framework.
         public let framework: Framework?
 
@@ -3608,7 +3745,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framework
+            case framework = "framework"
         }
     }
 
@@ -3656,15 +3793,16 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessmentDescription
-            case assessmentName
-            case assessmentReportsDestination
-            case roles
-            case scope
+            case assessmentDescription = "assessmentDescription"
+            case assessmentName = "assessmentName"
+            case assessmentReportsDestination = "assessmentReportsDestination"
+            case roles = "roles"
+            case scope = "scope"
         }
     }
 
     public struct UpdateAssessmentResponse: AWSDecodableShape {
+
         ///  The response object (name of the updated assessment) for the UpdateAssessmentRequest API.
         public let assessment: Assessment?
 
@@ -3673,7 +3811,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -3699,11 +3837,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct UpdateAssessmentStatusResponse: AWSDecodableShape {
+
         ///  The name of the updated assessment returned by the UpdateAssessmentStatus API.
         public let assessment: Assessment?
 
@@ -3712,7 +3851,7 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assessment
+            case assessment = "assessment"
         }
     }
 
@@ -3768,16 +3907,17 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionPlanInstructions
-            case actionPlanTitle
-            case controlMappingSources
-            case description
-            case name
-            case testingInformation
+            case actionPlanInstructions = "actionPlanInstructions"
+            case actionPlanTitle = "actionPlanTitle"
+            case controlMappingSources = "controlMappingSources"
+            case description = "description"
+            case name = "name"
+            case testingInformation = "testingInformation"
         }
     }
 
     public struct UpdateControlResponse: AWSDecodableShape {
+
         ///  The name of the updated control set returned by the UpdateControl API.
         public let control: Control?
 
@@ -3786,11 +3926,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case control
+            case control = "control"
         }
     }
 
     public struct UpdateSettingsRequest: AWSEncodableShape {
+
         ///  The default storage destination for assessment reports.
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  A list of the default audit owners.
@@ -3821,14 +3962,15 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultAssessmentReportsDestination
-            case defaultProcessOwners
-            case kmsKey
-            case snsTopic
+            case defaultAssessmentReportsDestination = "defaultAssessmentReportsDestination"
+            case defaultProcessOwners = "defaultProcessOwners"
+            case kmsKey = "kmsKey"
+            case snsTopic = "snsTopic"
         }
     }
 
     public struct UpdateSettingsResponse: AWSDecodableShape {
+
         ///  The current list of settings.
         public let settings: Settings?
 
@@ -3837,11 +3979,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case settings
+            case settings = "settings"
         }
     }
 
     public struct ValidateAssessmentReportIntegrityRequest: AWSEncodableShape {
+
         ///  The relative path of the specified Amazon S3 bucket in which the assessment report is stored.
         public let s3RelativePath: String
 
@@ -3856,11 +3999,12 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3RelativePath
+            case s3RelativePath = "s3RelativePath"
         }
     }
 
     public struct ValidateAssessmentReportIntegrityResponse: AWSDecodableShape {
+
         ///  The signature algorithm used to code sign the assessment report file.
         public let signatureAlgorithm: String?
         ///  The date and time signature that specifies when the assessment report was created.
@@ -3881,11 +4025,11 @@ extension AuditManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case signatureAlgorithm
-            case signatureDateTime
-            case signatureKeyId
-            case signatureValid
-            case validationErrors
+            case signatureAlgorithm = "signatureAlgorithm"
+            case signatureDateTime = "signatureDateTime"
+            case signatureKeyId = "signatureKeyId"
+            case signatureValid = "signatureValid"
+            case validationErrors = "validationErrors"
         }
     }
 }

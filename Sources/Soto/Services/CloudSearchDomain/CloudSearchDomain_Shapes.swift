@@ -27,16 +27,17 @@ extension CloudSearchDomain {
     }
 
     public enum QueryParser: String, CustomStringConvertible, Codable {
-        case dismax
-        case lucene
-        case simple
-        case structured
+        case dismax = "dismax"
+        case lucene = "lucene"
+        case simple = "simple"
+        case structured = "structured"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Bucket: AWSDecodableShape {
+
         /// The number of hits that contain the facet value in the specified facet field.
         public let count: Int64?
         /// The facet value being counted.
@@ -48,12 +49,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case value
+            case count = "count"
+            case value = "value"
         }
     }
 
     public struct BucketInfo: AWSDecodableShape {
+
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
 
@@ -62,11 +64,12 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buckets
+            case buckets = "buckets"
         }
     }
 
     public struct DocumentServiceWarning: AWSDecodableShape {
+
         /// The description for a warning returned by the document service.
         public let message: String?
 
@@ -75,11 +78,12 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct FieldStats: AWSDecodableShape {
+
         /// The number of documents that contain a value in the specified field in the result set.
         public let count: Int64?
         /// The maximum value found in the specified field in the result set. If the field is numeric (int, int-array, double, or double-array), max is the string representation of a double-precision 64-bit floating point value. If the field is date or date-array, max is the string representation of a date with the format specified in IETF RFC3339: yyyy-mm-ddTHH:mm:ss.SSSZ.
@@ -109,18 +113,19 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case max
-            case mean
-            case min
-            case missing
-            case stddev
-            case sum
-            case sumOfSquares
+            case count = "count"
+            case max = "max"
+            case mean = "mean"
+            case min = "min"
+            case missing = "missing"
+            case stddev = "stddev"
+            case sum = "sum"
+            case sumOfSquares = "sumOfSquares"
         }
     }
 
     public struct Hit: AWSDecodableShape {
+
         /// The expressions returned from a document that matches the search request.
         public let exprs: [String: String]?
         /// The fields returned from a document that matches the search request.
@@ -138,14 +143,15 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exprs
-            case fields
-            case highlights
-            case id
+            case exprs = "exprs"
+            case fields = "fields"
+            case highlights = "highlights"
+            case id = "id"
         }
     }
 
     public struct Hits: AWSDecodableShape {
+
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
         public let cursor: String?
         /// The total number of documents that match the search request.
@@ -163,28 +169,28 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cursor
-            case found
-            case hit
-            case start
+            case cursor = "cursor"
+            case found = "found"
+            case hit = "hit"
+            case start = "start"
         }
     }
 
     public struct SearchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")),
-            AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")),
-            AWSMemberEncoding(label: "facet", location: .querystring(locationName: "facet")),
-            AWSMemberEncoding(label: "filterQuery", location: .querystring(locationName: "fq")),
-            AWSMemberEncoding(label: "highlight", location: .querystring(locationName: "highlight")),
-            AWSMemberEncoding(label: "partial", location: .querystring(locationName: "partial")),
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")),
-            AWSMemberEncoding(label: "queryOptions", location: .querystring(locationName: "q.options")),
-            AWSMemberEncoding(label: "queryParser", location: .querystring(locationName: "q.parser")),
-            AWSMemberEncoding(label: "return", location: .querystring(locationName: "return")),
-            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")),
-            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")),
-            AWSMemberEncoding(label: "start", location: .querystring(locationName: "start")),
+            AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")), 
+            AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")), 
+            AWSMemberEncoding(label: "facet", location: .querystring(locationName: "facet")), 
+            AWSMemberEncoding(label: "filterQuery", location: .querystring(locationName: "fq")), 
+            AWSMemberEncoding(label: "highlight", location: .querystring(locationName: "highlight")), 
+            AWSMemberEncoding(label: "partial", location: .querystring(locationName: "partial")), 
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
+            AWSMemberEncoding(label: "queryOptions", location: .querystring(locationName: "q.options")), 
+            AWSMemberEncoding(label: "queryParser", location: .querystring(locationName: "q.parser")), 
+            AWSMemberEncoding(label: "return", location: .querystring(locationName: "return")), 
+            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "start", location: .querystring(locationName: "start")), 
             AWSMemberEncoding(label: "stats", location: .querystring(locationName: "stats"))
         ]
 
@@ -238,6 +244,7 @@ extension CloudSearchDomain {
     }
 
     public struct SearchResponse: AWSDecodableShape {
+
         /// The requested facet information.
         public let facets: [String: BucketInfo]?
         /// The documents that match the search criteria.
@@ -255,14 +262,15 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case facets
-            case hits
-            case stats
-            case status
+            case facets = "facets"
+            case hits = "hits"
+            case stats = "stats"
+            case status = "status"
         }
     }
 
     public struct SearchStatus: AWSDecodableShape {
+
         /// The encrypted resource ID for the request.
         public let rid: String?
         /// How long it took to process the request, in milliseconds.
@@ -274,12 +282,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rid
-            case timems
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
     public struct SuggestModel: AWSDecodableShape {
+
         /// The number of documents that were found to match the query string.
         public let found: Int64?
         /// The query string specified in the suggest request.
@@ -294,16 +303,16 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case found
-            case query
-            case suggestions
+            case found = "found"
+            case query = "query"
+            case suggestions = "suggestions"
         }
     }
 
     public struct SuggestRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")),
-            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")),
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
+            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
             AWSMemberEncoding(label: "suggester", location: .querystring(locationName: "suggester"))
         ]
 
@@ -324,6 +333,7 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestResponse: AWSDecodableShape {
+
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
         /// Container for the matching search suggestion information.
@@ -335,12 +345,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case suggest
+            case status = "status"
+            case suggest = "suggest"
         }
     }
 
     public struct SuggestStatus: AWSDecodableShape {
+
         /// The encrypted resource ID for the request.
         public let rid: String?
         /// How long it took to process the request, in milliseconds.
@@ -352,12 +363,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rid
-            case timems
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
     public struct SuggestionMatch: AWSDecodableShape {
+
         /// The document ID of the suggested document.
         public let id: String?
         /// The relevance score of a suggested match.
@@ -372,9 +384,9 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case score
-            case suggestion
+            case id = "id"
+            case score = "score"
+            case suggestion = "suggestion"
         }
     }
 
@@ -400,6 +412,7 @@ extension CloudSearchDomain {
     }
 
     public struct UploadDocumentsResponse: AWSDecodableShape {
+
         /// The number of documents that were added to the search domain.
         public let adds: Int64?
         /// The number of documents that were deleted from the search domain.
@@ -417,10 +430,10 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adds
-            case deletes
-            case status
-            case warnings
+            case adds = "adds"
+            case deletes = "deletes"
+            case status = "status"
+            case warnings = "warnings"
         }
     }
 }

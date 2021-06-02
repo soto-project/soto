@@ -68,6 +68,7 @@ extension Amplify {
     // MARK: Shapes
 
     public struct App: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the Amplify app.
         public let appArn: String
         ///  The unique ID of the Amplify app.
@@ -142,33 +143,34 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case appId
-            case autoBranchCreationConfig
-            case autoBranchCreationPatterns
-            case basicAuthCredentials
-            case buildSpec
-            case createTime
-            case customHeaders
-            case customRules
-            case defaultDomain
-            case description
-            case enableAutoBranchCreation
-            case enableBasicAuth
-            case enableBranchAutoBuild
-            case enableBranchAutoDeletion
-            case environmentVariables
-            case iamServiceRoleArn
-            case name
-            case platform
-            case productionBranch
-            case repository
-            case tags
-            case updateTime
+            case appArn = "appArn"
+            case appId = "appId"
+            case autoBranchCreationConfig = "autoBranchCreationConfig"
+            case autoBranchCreationPatterns = "autoBranchCreationPatterns"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case buildSpec = "buildSpec"
+            case createTime = "createTime"
+            case customHeaders = "customHeaders"
+            case customRules = "customRules"
+            case defaultDomain = "defaultDomain"
+            case description = "description"
+            case enableAutoBranchCreation = "enableAutoBranchCreation"
+            case enableBasicAuth = "enableBasicAuth"
+            case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBranchAutoDeletion = "enableBranchAutoDeletion"
+            case environmentVariables = "environmentVariables"
+            case iamServiceRoleArn = "iamServiceRoleArn"
+            case name = "name"
+            case platform = "platform"
+            case productionBranch = "productionBranch"
+            case repository = "repository"
+            case tags = "tags"
+            case updateTime = "updateTime"
         }
     }
 
     public struct Artifact: AWSDecodableShape {
+
         ///  The file name for the artifact.
         public let artifactFileName: String
         ///  The unique ID for the artifact.
@@ -180,12 +182,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactFileName
-            case artifactId
+            case artifactFileName = "artifactFileName"
+            case artifactId = "artifactId"
         }
     }
 
     public struct AutoBranchCreationConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  The basic authorization credentials for the autocreated branch.
         public let basicAuthCredentials: String?
         ///  The build specification (build spec) for the autocreated branch.
@@ -233,20 +236,21 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case basicAuthCredentials
-            case buildSpec
-            case enableAutoBuild
-            case enableBasicAuth
-            case enablePerformanceMode
-            case enablePullRequestPreview
-            case environmentVariables
-            case framework
-            case pullRequestEnvironmentName
-            case stage
+            case basicAuthCredentials = "basicAuthCredentials"
+            case buildSpec = "buildSpec"
+            case enableAutoBuild = "enableAutoBuild"
+            case enableBasicAuth = "enableBasicAuth"
+            case enablePerformanceMode = "enablePerformanceMode"
+            case enablePullRequestPreview = "enablePullRequestPreview"
+            case environmentVariables = "environmentVariables"
+            case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
+            case stage = "stage"
         }
     }
 
     public struct BackendEnvironment: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public let backendEnvironmentArn: String
         ///  The creation date and time for a backend environment that is part of an Amplify app.
@@ -270,16 +274,17 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentArn
-            case createTime
-            case deploymentArtifacts
-            case environmentName
-            case stackName
-            case updateTime
+            case backendEnvironmentArn = "backendEnvironmentArn"
+            case createTime = "createTime"
+            case deploymentArtifacts = "deploymentArtifacts"
+            case environmentName = "environmentName"
+            case stackName = "stackName"
+            case updateTime = "updateTime"
         }
     }
 
     public struct Branch: AWSDecodableShape {
+
         ///  The ID of the active job for a branch of an Amplify app.
         public let activeJobId: String
         ///  A list of custom resources that are linked to this branch.
@@ -366,37 +371,38 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeJobId
-            case associatedResources
-            case backendEnvironmentArn
-            case basicAuthCredentials
-            case branchArn
-            case branchName
-            case buildSpec
-            case createTime
-            case customDomains
-            case description
-            case destinationBranch
-            case displayName
-            case enableAutoBuild
-            case enableBasicAuth
-            case enableNotification
-            case enablePerformanceMode
-            case enablePullRequestPreview
-            case environmentVariables
-            case framework
-            case pullRequestEnvironmentName
-            case sourceBranch
-            case stage
-            case tags
-            case thumbnailUrl
-            case totalNumberOfJobs
-            case ttl
-            case updateTime
+            case activeJobId = "activeJobId"
+            case associatedResources = "associatedResources"
+            case backendEnvironmentArn = "backendEnvironmentArn"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case branchArn = "branchArn"
+            case branchName = "branchName"
+            case buildSpec = "buildSpec"
+            case createTime = "createTime"
+            case customDomains = "customDomains"
+            case description = "description"
+            case destinationBranch = "destinationBranch"
+            case displayName = "displayName"
+            case enableAutoBuild = "enableAutoBuild"
+            case enableBasicAuth = "enableBasicAuth"
+            case enableNotification = "enableNotification"
+            case enablePerformanceMode = "enablePerformanceMode"
+            case enablePullRequestPreview = "enablePullRequestPreview"
+            case environmentVariables = "environmentVariables"
+            case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
+            case sourceBranch = "sourceBranch"
+            case stage = "stage"
+            case tags = "tags"
+            case thumbnailUrl = "thumbnailUrl"
+            case totalNumberOfJobs = "totalNumberOfJobs"
+            case ttl = "ttl"
+            case updateTime = "updateTime"
         }
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
+
         ///  The personal access token for a third-party source control system for an Amplify app. The personal access token is used to create a webhook and a read-only deploy key. The token is not stored.
         public let accessToken: String?
         ///  The automated branch creation configuration for an Amplify app.
@@ -494,29 +500,30 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case autoBranchCreationConfig
-            case autoBranchCreationPatterns
-            case basicAuthCredentials
-            case buildSpec
-            case customHeaders
-            case customRules
-            case description
-            case enableAutoBranchCreation
-            case enableBasicAuth
-            case enableBranchAutoBuild
-            case enableBranchAutoDeletion
-            case environmentVariables
-            case iamServiceRoleArn
-            case name
-            case oauthToken
-            case platform
-            case repository
-            case tags
+            case accessToken = "accessToken"
+            case autoBranchCreationConfig = "autoBranchCreationConfig"
+            case autoBranchCreationPatterns = "autoBranchCreationPatterns"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case buildSpec = "buildSpec"
+            case customHeaders = "customHeaders"
+            case customRules = "customRules"
+            case description = "description"
+            case enableAutoBranchCreation = "enableAutoBranchCreation"
+            case enableBasicAuth = "enableBasicAuth"
+            case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBranchAutoDeletion = "enableBranchAutoDeletion"
+            case environmentVariables = "environmentVariables"
+            case iamServiceRoleArn = "iamServiceRoleArn"
+            case name = "name"
+            case oauthToken = "oauthToken"
+            case platform = "platform"
+            case repository = "repository"
+            case tags = "tags"
         }
     }
 
     public struct CreateAppResult: AWSDecodableShape {
+
         public let app: App
 
         public init(app: App) {
@@ -524,7 +531,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
@@ -562,13 +569,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentArtifacts
-            case environmentName
-            case stackName
+            case deploymentArtifacts = "deploymentArtifacts"
+            case environmentName = "environmentName"
+            case stackName = "stackName"
         }
     }
 
     public struct CreateBackendEnvironmentResult: AWSDecodableShape {
+
         ///  Describes the backend environment for an Amplify app.
         public let backendEnvironment: BackendEnvironment
 
@@ -577,7 +585,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironment
+            case backendEnvironment = "backendEnvironment"
         }
     }
 
@@ -672,27 +680,28 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentArn
-            case basicAuthCredentials
-            case branchName
-            case buildSpec
-            case description
-            case displayName
-            case enableAutoBuild
-            case enableBasicAuth
-            case enableNotification
-            case enablePerformanceMode
-            case enablePullRequestPreview
-            case environmentVariables
-            case framework
-            case pullRequestEnvironmentName
-            case stage
-            case tags
-            case ttl
+            case backendEnvironmentArn = "backendEnvironmentArn"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case branchName = "branchName"
+            case buildSpec = "buildSpec"
+            case description = "description"
+            case displayName = "displayName"
+            case enableAutoBuild = "enableAutoBuild"
+            case enableBasicAuth = "enableBasicAuth"
+            case enableNotification = "enableNotification"
+            case enablePerformanceMode = "enablePerformanceMode"
+            case enablePullRequestPreview = "enablePullRequestPreview"
+            case environmentVariables = "environmentVariables"
+            case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
+            case stage = "stage"
+            case tags = "tags"
+            case ttl = "ttl"
         }
     }
 
     public struct CreateBranchResult: AWSDecodableShape {
+
         ///  Describes the branch for an Amplify app, which maps to a third-party repository branch.
         public let branch: Branch
 
@@ -701,13 +710,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
+            case branch = "branch"
         }
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
@@ -737,11 +746,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileMap
+            case fileMap = "fileMap"
         }
     }
 
     public struct CreateDeploymentResult: AWSDecodableShape {
+
         ///  When the fileMap argument is provided in the request, fileUploadUrls will contain a map of file names to upload URLs.
         public let fileUploadUrls: [String: String]
         ///  The job ID for this deployment. will supply to start deployment api.
@@ -756,9 +766,9 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fileUploadUrls
-            case jobId
-            case zipUploadUrl
+            case fileUploadUrls = "fileUploadUrls"
+            case jobId = "jobId"
+            case zipUploadUrl = "zipUploadUrl"
         }
     }
 
@@ -807,15 +817,16 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoSubDomainCreationPatterns
-            case autoSubDomainIAMRole
-            case domainName
-            case enableAutoSubDomain
-            case subDomainSettings
+            case autoSubDomainCreationPatterns = "autoSubDomainCreationPatterns"
+            case autoSubDomainIAMRole = "autoSubDomainIAMRole"
+            case domainName = "domainName"
+            case enableAutoSubDomain = "enableAutoSubDomain"
+            case subDomainSettings = "subDomainSettings"
         }
     }
 
     public struct CreateDomainAssociationResult: AWSDecodableShape {
+
         ///  Describes the structure of a domain association, which associates a custom domain with an Amplify app.
         public let domainAssociation: DomainAssociation
 
@@ -824,7 +835,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainAssociation
+            case domainAssociation = "domainAssociation"
         }
     }
 
@@ -856,12 +867,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case description
+            case branchName = "branchName"
+            case description = "description"
         }
     }
 
     public struct CreateWebhookResult: AWSDecodableShape {
+
         ///  Describes a webhook that connects repository events to an Amplify app.
         public let webhook: Webhook
 
@@ -870,11 +882,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct CustomRule: AWSEncodableShape & AWSDecodableShape {
+
         ///  The condition for a URL rewrite or redirect rule, such as a country code.
         public let condition: String?
         ///  The source pattern for a URL rewrite or redirect rule.
@@ -903,10 +916,10 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case source
-            case status
-            case target
+            case condition = "condition"
+            case source = "source"
+            case status = "status"
+            case target = "target"
         }
     }
 
@@ -932,6 +945,7 @@ extension Amplify {
     }
 
     public struct DeleteAppResult: AWSDecodableShape {
+
         public let app: App
 
         public init(app: App) {
@@ -939,13 +953,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
     public struct DeleteBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
@@ -971,6 +985,7 @@ extension Amplify {
     }
 
     public struct DeleteBackendEnvironmentResult: AWSDecodableShape {
+
         ///  Describes the backend environment for an Amplify app.
         public let backendEnvironment: BackendEnvironment
 
@@ -979,13 +994,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironment
+            case backendEnvironment = "backendEnvironment"
         }
     }
 
     public struct DeleteBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
@@ -1011,6 +1026,7 @@ extension Amplify {
     }
 
     public struct DeleteBranchResult: AWSDecodableShape {
+
         ///  The branch for an Amplify app, which maps to a third-party repository branch.
         public let branch: Branch
 
@@ -1019,13 +1035,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
+            case branch = "branch"
         }
     }
 
     public struct DeleteDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
@@ -1050,6 +1066,7 @@ extension Amplify {
     }
 
     public struct DeleteDomainAssociationResult: AWSDecodableShape {
+
         public let domainAssociation: DomainAssociation
 
         public init(domainAssociation: DomainAssociation) {
@@ -1057,14 +1074,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainAssociation
+            case domainAssociation = "domainAssociation"
         }
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
@@ -1094,6 +1111,7 @@ extension Amplify {
     }
 
     public struct DeleteJobResult: AWSDecodableShape {
+
         public let jobSummary: JobSummary
 
         public init(jobSummary: JobSummary) {
@@ -1101,7 +1119,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummary
+            case jobSummary = "jobSummary"
         }
     }
 
@@ -1125,6 +1143,7 @@ extension Amplify {
     }
 
     public struct DeleteWebhookResult: AWSDecodableShape {
+
         ///  Describes a webhook that connects repository events to an Amplify app.
         public let webhook: Webhook
 
@@ -1133,11 +1152,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct DomainAssociation: AWSDecodableShape {
+
         ///  Sets branch patterns for automatic subdomain creation.
         public let autoSubDomainCreationPatterns: [String]?
         ///  The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
@@ -1170,15 +1190,15 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoSubDomainCreationPatterns
-            case autoSubDomainIAMRole
-            case certificateVerificationDNSRecord
-            case domainAssociationArn
-            case domainName
-            case domainStatus
-            case enableAutoSubDomain
-            case statusReason
-            case subDomains
+            case autoSubDomainCreationPatterns = "autoSubDomainCreationPatterns"
+            case autoSubDomainIAMRole = "autoSubDomainIAMRole"
+            case certificateVerificationDNSRecord = "certificateVerificationDNSRecord"
+            case domainAssociationArn = "domainAssociationArn"
+            case domainName = "domainName"
+            case domainStatus = "domainStatus"
+            case enableAutoSubDomain = "enableAutoSubDomain"
+            case statusReason = "statusReason"
+            case subDomains = "subDomains"
         }
     }
 
@@ -1211,13 +1231,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case endTime
-            case startTime
+            case domainName = "domainName"
+            case endTime = "endTime"
+            case startTime = "startTime"
         }
     }
 
     public struct GenerateAccessLogsResult: AWSDecodableShape {
+
         ///  The pre-signed URL for the requested access logs.
         public let logUrl: String?
 
@@ -1226,7 +1247,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logUrl
+            case logUrl = "logUrl"
         }
     }
 
@@ -1252,6 +1273,7 @@ extension Amplify {
     }
 
     public struct GetAppResult: AWSDecodableShape {
+
         public let app: App
 
         public init(app: App) {
@@ -1259,7 +1281,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
@@ -1283,6 +1305,7 @@ extension Amplify {
     }
 
     public struct GetArtifactUrlResult: AWSDecodableShape {
+
         ///  The unique ID for an artifact.
         public let artifactId: String
         ///  The presigned URL for the artifact.
@@ -1294,14 +1317,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactId
-            case artifactUrl
+            case artifactId = "artifactId"
+            case artifactUrl = "artifactUrl"
         }
     }
 
     public struct GetBackendEnvironmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "environmentName", location: .uri(locationName: "environmentName"))
         ]
 
@@ -1327,6 +1350,7 @@ extension Amplify {
     }
 
     public struct GetBackendEnvironmentResult: AWSDecodableShape {
+
         ///  Describes the backend environment for an Amplify app.
         public let backendEnvironment: BackendEnvironment
 
@@ -1335,13 +1359,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironment
+            case backendEnvironment = "backendEnvironment"
         }
     }
 
     public struct GetBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
@@ -1367,6 +1391,7 @@ extension Amplify {
     }
 
     public struct GetBranchResult: AWSDecodableShape {
+
         public let branch: Branch
 
         public init(branch: Branch) {
@@ -1374,13 +1399,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
+            case branch = "branch"
         }
     }
 
     public struct GetDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
@@ -1405,6 +1430,7 @@ extension Amplify {
     }
 
     public struct GetDomainAssociationResult: AWSDecodableShape {
+
         ///  Describes the structure of a domain association, which associates a custom domain with an Amplify app.
         public let domainAssociation: DomainAssociation
 
@@ -1413,14 +1439,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainAssociation
+            case domainAssociation = "domainAssociation"
         }
     }
 
     public struct GetJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
@@ -1450,6 +1476,7 @@ extension Amplify {
     }
 
     public struct GetJobResult: AWSDecodableShape {
+
         public let job: Job
 
         public init(job: Job) {
@@ -1457,7 +1484,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -1481,6 +1508,7 @@ extension Amplify {
     }
 
     public struct GetWebhookResult: AWSDecodableShape {
+
         ///  Describes the structure of a webhook.
         public let webhook: Webhook
 
@@ -1489,11 +1517,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct Job: AWSDecodableShape {
+
         ///  The execution steps for an execution job, for an Amplify app.
         public let steps: [Step]
         ///  Describes the summary for an execution job for an Amplify app.
@@ -1505,12 +1534,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case steps
-            case summary
+            case steps = "steps"
+            case summary = "summary"
         }
     }
 
     public struct JobSummary: AWSDecodableShape {
+
         ///  The commit ID from a third-party repository provider for the job.
         public let commitId: String
         ///  The commit message from a third-party repository provider for the job.
@@ -1543,21 +1573,21 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case commitMessage
-            case commitTime
-            case endTime
-            case jobArn
-            case jobId
-            case jobType
-            case startTime
-            case status
+            case commitId = "commitId"
+            case commitMessage = "commitMessage"
+            case commitTime = "commitTime"
+            case endTime = "endTime"
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobType = "jobType"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
     public struct ListAppsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1581,6 +1611,7 @@ extension Amplify {
     }
 
     public struct ListAppsResult: AWSDecodableShape {
+
         ///  A list of Amplify apps.
         public let apps: [App]
         ///  A pagination token. Set to null to start listing apps from start. If non-null, the pagination token is returned in a result. Pass its value in here to list more projects.
@@ -1592,17 +1623,17 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apps
-            case nextToken
+            case apps = "apps"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListArtifactsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1641,6 +1672,7 @@ extension Amplify {
     }
 
     public struct ListArtifactsResult: AWSDecodableShape {
+
         ///  A list of artifacts.
         public let artifacts: [Artifact]
         ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries.
@@ -1652,16 +1684,16 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case nextToken
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBackendEnvironmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "environmentName", location: .querystring(locationName: "environmentName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "environmentName", location: .querystring(locationName: "environmentName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1696,6 +1728,7 @@ extension Amplify {
     }
 
     public struct ListBackendEnvironmentsResult: AWSDecodableShape {
+
         ///  The list of backend environments for an Amplify app.
         public let backendEnvironments: [BackendEnvironment]
         ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries.
@@ -1707,15 +1740,15 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironments
-            case nextToken
+            case backendEnvironments = "backendEnvironments"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBranchesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1745,6 +1778,7 @@ extension Amplify {
     }
 
     public struct ListBranchesResult: AWSDecodableShape {
+
         ///  A list of branches for an Amplify app.
         public let branches: [Branch]
         ///  A pagination token. If a non-null pagination token is returned in a result, pass its value in another request to retrieve more entries.
@@ -1756,15 +1790,15 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branches
-            case nextToken
+            case branches = "branches"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDomainAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1794,6 +1828,7 @@ extension Amplify {
     }
 
     public struct ListDomainAssociationsResult: AWSDecodableShape {
+
         ///  A list of domain associations.
         public let domainAssociations: [DomainAssociation]
         ///  A pagination token. If non-null, a pagination token is returned in a result. Pass its value in another request to retrieve more entries.
@@ -1805,16 +1840,16 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainAssociations
-            case nextToken
+            case domainAssociations = "domainAssociations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1849,6 +1884,7 @@ extension Amplify {
     }
 
     public struct ListJobsResult: AWSDecodableShape {
+
         ///  The result structure for the list job result request.
         public let jobSummaries: [JobSummary]
         ///  A pagination token. If non-null the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
@@ -1860,8 +1896,8 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummaries
-            case nextToken
+            case jobSummaries = "jobSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -1885,6 +1921,7 @@ extension Amplify {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         ///  A list of tags for the specified The Amazon Resource Name (ARN).
         public let tags: [String: String]?
 
@@ -1893,14 +1930,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListWebhooksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1930,6 +1967,7 @@ extension Amplify {
     }
 
     public struct ListWebhooksResult: AWSDecodableShape {
+
         ///  A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
         public let nextToken: String?
         ///  A list of webhooks.
@@ -1941,12 +1979,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case webhooks
+            case nextToken = "nextToken"
+            case webhooks = "webhooks"
         }
     }
 
     public struct ProductionBranch: AWSDecodableShape {
+
         ///  The branch name for the production branch.
         public let branchName: String?
         ///  The last deploy time of the production branch.
@@ -1964,16 +2003,16 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case lastDeployTime
-            case status
-            case thumbnailUrl
+            case branchName = "branchName"
+            case lastDeployTime = "lastDeployTime"
+            case status = "status"
+            case thumbnailUrl = "thumbnailUrl"
         }
     }
 
     public struct StartDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
@@ -2004,12 +2043,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case sourceUrl
+            case jobId = "jobId"
+            case sourceUrl = "sourceUrl"
         }
     }
 
     public struct StartDeploymentResult: AWSDecodableShape {
+
         ///  The summary for the job.
         public let jobSummary: JobSummary
 
@@ -2018,13 +2058,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummary
+            case jobSummary = "jobSummary"
         }
     }
 
     public struct StartJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
@@ -2069,16 +2109,17 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case commitMessage
-            case commitTime
-            case jobId
-            case jobReason
-            case jobType
+            case commitId = "commitId"
+            case commitMessage = "commitMessage"
+            case commitTime = "commitTime"
+            case jobId = "jobId"
+            case jobReason = "jobReason"
+            case jobType = "jobType"
         }
     }
 
     public struct StartJobResult: AWSDecodableShape {
+
         ///  The summary for the job.
         public let jobSummary: JobSummary
 
@@ -2087,11 +2128,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummary
+            case jobSummary = "jobSummary"
         }
     }
 
     public struct Step: AWSDecodableShape {
+
         ///  The URL to the artifact for the execution step.
         public let artifactsUrl: String?
         ///  The context for the current step. Includes a build image if the step is build.
@@ -2130,24 +2172,24 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactsUrl
-            case context
-            case endTime
-            case logUrl
-            case screenshots
-            case startTime
-            case status
-            case statusReason
-            case stepName
-            case testArtifactsUrl
-            case testConfigUrl
+            case artifactsUrl = "artifactsUrl"
+            case context = "context"
+            case endTime = "endTime"
+            case logUrl = "logUrl"
+            case screenshots = "screenshots"
+            case startTime = "startTime"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stepName = "stepName"
+            case testArtifactsUrl = "testArtifactsUrl"
+            case testConfigUrl = "testConfigUrl"
         }
     }
 
     public struct StopJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId"))
         ]
 
@@ -2177,6 +2219,7 @@ extension Amplify {
     }
 
     public struct StopJobResult: AWSDecodableShape {
+
         ///  The summary for the job.
         public let jobSummary: JobSummary
 
@@ -2185,11 +2228,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobSummary
+            case jobSummary = "jobSummary"
         }
     }
 
     public struct SubDomain: AWSDecodableShape {
+
         ///  The DNS record for the subdomain.
         public let dnsRecord: String
         ///  Describes the settings for the subdomain.
@@ -2204,13 +2248,14 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dnsRecord
-            case subDomainSetting
-            case verified
+            case dnsRecord = "dnsRecord"
+            case subDomainSetting = "subDomainSetting"
+            case verified = "verified"
         }
     }
 
     public struct SubDomainSetting: AWSEncodableShape & AWSDecodableShape {
+
         ///  The branch name setting for the subdomain.
         public let branchName: String
         ///  The prefix setting for the subdomain.
@@ -2228,8 +2273,8 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case prefix
+            case branchName = "branchName"
+            case prefix = "prefix"
         }
     }
 
@@ -2259,17 +2304,21 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -2298,7 +2347,11 @@ extension Amplify {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAppRequest: AWSEncodableShape {
@@ -2400,28 +2453,29 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken
-            case autoBranchCreationConfig
-            case autoBranchCreationPatterns
-            case basicAuthCredentials
-            case buildSpec
-            case customHeaders
-            case customRules
-            case description
-            case enableAutoBranchCreation
-            case enableBasicAuth
-            case enableBranchAutoBuild
-            case enableBranchAutoDeletion
-            case environmentVariables
-            case iamServiceRoleArn
-            case name
-            case oauthToken
-            case platform
-            case repository
+            case accessToken = "accessToken"
+            case autoBranchCreationConfig = "autoBranchCreationConfig"
+            case autoBranchCreationPatterns = "autoBranchCreationPatterns"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case buildSpec = "buildSpec"
+            case customHeaders = "customHeaders"
+            case customRules = "customRules"
+            case description = "description"
+            case enableAutoBranchCreation = "enableAutoBranchCreation"
+            case enableBasicAuth = "enableBasicAuth"
+            case enableBranchAutoBuild = "enableBranchAutoBuild"
+            case enableBranchAutoDeletion = "enableBranchAutoDeletion"
+            case environmentVariables = "environmentVariables"
+            case iamServiceRoleArn = "iamServiceRoleArn"
+            case name = "name"
+            case oauthToken = "oauthToken"
+            case platform = "platform"
+            case repository = "repository"
         }
     }
 
     public struct UpdateAppResult: AWSDecodableShape {
+
         ///  Represents the updated Amplify app.
         public let app: App
 
@@ -2430,13 +2484,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case app
+            case app = "app"
         }
     }
 
     public struct UpdateBranchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "branchName", location: .uri(locationName: "branchName"))
         ]
 
@@ -2517,25 +2571,26 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backendEnvironmentArn
-            case basicAuthCredentials
-            case buildSpec
-            case description
-            case displayName
-            case enableAutoBuild
-            case enableBasicAuth
-            case enableNotification
-            case enablePerformanceMode
-            case enablePullRequestPreview
-            case environmentVariables
-            case framework
-            case pullRequestEnvironmentName
-            case stage
-            case ttl
+            case backendEnvironmentArn = "backendEnvironmentArn"
+            case basicAuthCredentials = "basicAuthCredentials"
+            case buildSpec = "buildSpec"
+            case description = "description"
+            case displayName = "displayName"
+            case enableAutoBuild = "enableAutoBuild"
+            case enableBasicAuth = "enableBasicAuth"
+            case enableNotification = "enableNotification"
+            case enablePerformanceMode = "enablePerformanceMode"
+            case enablePullRequestPreview = "enablePullRequestPreview"
+            case environmentVariables = "environmentVariables"
+            case framework = "framework"
+            case pullRequestEnvironmentName = "pullRequestEnvironmentName"
+            case stage = "stage"
+            case ttl = "ttl"
         }
     }
 
     public struct UpdateBranchResult: AWSDecodableShape {
+
         ///  The branch for an Amplify app, which maps to a third-party repository branch.
         public let branch: Branch
 
@@ -2544,13 +2599,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branch
+            case branch = "branch"
         }
     }
 
     public struct UpdateDomainAssociationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
             AWSMemberEncoding(label: "domainName", location: .uri(locationName: "domainName"))
         ]
 
@@ -2594,14 +2649,15 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoSubDomainCreationPatterns
-            case autoSubDomainIAMRole
-            case enableAutoSubDomain
-            case subDomainSettings
+            case autoSubDomainCreationPatterns = "autoSubDomainCreationPatterns"
+            case autoSubDomainIAMRole = "autoSubDomainIAMRole"
+            case enableAutoSubDomain = "enableAutoSubDomain"
+            case subDomainSettings = "subDomainSettings"
         }
     }
 
     public struct UpdateDomainAssociationResult: AWSDecodableShape {
+
         ///  Describes a domain association, which associates a custom domain with an Amplify app.
         public let domainAssociation: DomainAssociation
 
@@ -2610,7 +2666,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainAssociation
+            case domainAssociation = "domainAssociation"
         }
     }
 
@@ -2640,12 +2696,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case description
+            case branchName = "branchName"
+            case description = "description"
         }
     }
 
     public struct UpdateWebhookResult: AWSDecodableShape {
+
         ///  Describes a webhook that connects repository events to an Amplify app.
         public let webhook: Webhook
 
@@ -2654,11 +2711,12 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct Webhook: AWSDecodableShape {
+
         ///  The name for a branch that is part of an Amplify app.
         public let branchName: String
         ///  The create date and time for a webhook.
@@ -2685,13 +2743,13 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchName
-            case createTime
-            case description
-            case updateTime
-            case webhookArn
-            case webhookId
-            case webhookUrl
+            case branchName = "branchName"
+            case createTime = "createTime"
+            case description = "description"
+            case updateTime = "updateTime"
+            case webhookArn = "webhookArn"
+            case webhookId = "webhookId"
+            case webhookUrl = "webhookUrl"
         }
     }
 }

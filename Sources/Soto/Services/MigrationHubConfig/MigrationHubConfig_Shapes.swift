@@ -28,6 +28,7 @@ extension MigrationHubConfig {
     // MARK: Shapes
 
     public struct CreateHomeRegionControlRequest: AWSEncodableShape {
+
         /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
         public let dryRun: Bool?
         /// The name of the home region of the calling account.
@@ -56,6 +57,7 @@ extension MigrationHubConfig {
     }
 
     public struct CreateHomeRegionControlResult: AWSDecodableShape {
+
         /// This object is the HomeRegionControl object that's returned by a successful call to CreateHomeRegionControl.
         public let homeRegionControl: HomeRegionControl?
 
@@ -69,6 +71,7 @@ extension MigrationHubConfig {
     }
 
     public struct DescribeHomeRegionControlsRequest: AWSEncodableShape {
+
         /// The ControlID is a unique identifier string of your HomeRegionControl object.
         public let controlId: String?
         /// The name of the home region you'd like to view.
@@ -113,6 +116,7 @@ extension MigrationHubConfig {
     }
 
     public struct DescribeHomeRegionControlsResult: AWSDecodableShape {
+
         /// An array that contains your HomeRegionControl objects.
         public let homeRegionControls: [HomeRegionControl]?
         /// If a NextToken was returned by a previous call, more results are available. To retrieve the next page of results, make the call again using the returned token in NextToken.
@@ -130,10 +134,15 @@ extension MigrationHubConfig {
     }
 
     public struct GetHomeRegionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetHomeRegionResult: AWSDecodableShape {
+
         /// The name of the home region of the calling account.
         public let homeRegion: String?
 
@@ -147,6 +156,7 @@ extension MigrationHubConfig {
     }
 
     public struct HomeRegionControl: AWSDecodableShape {
+
         /// A unique identifier that's generated for each home region control. It's always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
         public let controlId: String?
         /// The AWS Region that's been set as home region. For example, "us-west-2" or "eu-central-1" are valid home regions.
@@ -172,6 +182,7 @@ extension MigrationHubConfig {
     }
 
     public struct Target: AWSEncodableShape & AWSDecodableShape {
+
         /// The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.)
         public let id: String?
         /// The target type is always an ACCOUNT.

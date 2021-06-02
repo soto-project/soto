@@ -30,6 +30,7 @@ extension ConnectContactLens {
     // MARK: Shapes
 
     public struct Categories: AWSDecodableShape {
+
         /// The category rules that have been matched in the analyzed segment.
         public let matchedCategories: [String]
         /// The category rule that was matched and when it occurred in the transcript.
@@ -47,6 +48,7 @@ extension ConnectContactLens {
     }
 
     public struct CategoryDetails: AWSDecodableShape {
+
         /// The section of audio where the category rule was detected.
         public let pointsOfInterest: [PointOfInterest]
 
@@ -60,6 +62,7 @@ extension ConnectContactLens {
     }
 
     public struct CharacterOffsets: AWSDecodableShape {
+
         /// The beginning of the issue.
         public let beginOffsetChar: Int
         /// The end of the issue.
@@ -77,6 +80,7 @@ extension ConnectContactLens {
     }
 
     public struct IssueDetected: AWSDecodableShape {
+
         /// The offset for when the issue was detected in the segment.
         public let characterOffsets: CharacterOffsets
 
@@ -90,6 +94,7 @@ extension ConnectContactLens {
     }
 
     public struct ListRealtimeContactAnalysisSegmentsRequest: AWSEncodableShape {
+
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the Amazon Connect instance.
@@ -115,7 +120,7 @@ extension ConnectContactLens {
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131_070)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131070)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
         }
@@ -129,6 +134,7 @@ extension ConnectContactLens {
     }
 
     public struct ListRealtimeContactAnalysisSegmentsResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results. If response includes nextToken there are two possible scenarios:   There are more segments so another call is required to get them.   There are no more segments at this time, but more may be available later (real-time analysis is in progress) so the client should call the operation again to get new segments.   If response does not include nextToken, the analysis is completed (successfully or failed) and there are no more segments to retrieve.
         public let nextToken: String?
         /// An analyzed transcript or category.
@@ -146,6 +152,7 @@ extension ConnectContactLens {
     }
 
     public struct PointOfInterest: AWSDecodableShape {
+
         /// The beginning offset in milliseconds where the category rule was detected.
         public let beginOffsetMillis: Int
         /// The ending offset in milliseconds where the category rule was detected.
@@ -163,6 +170,7 @@ extension ConnectContactLens {
     }
 
     public struct RealtimeContactAnalysisSegment: AWSDecodableShape {
+
         /// The matched category rules.
         public let categories: Categories?
         /// The analyzed transcript.
@@ -180,6 +188,7 @@ extension ConnectContactLens {
     }
 
     public struct Transcript: AWSDecodableShape {
+
         /// The beginning offset in the contact for this transcript.
         public let beginOffsetMillis: Int
         /// The content of the transcript.

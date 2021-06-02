@@ -64,463 +64,463 @@ public struct Greengrass: AWSService {
     // MARK: API Calls
 
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
-    public func associateRoleToGroup(_ input: AssociateRoleToGroupRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateRoleToGroupResponse> {
-        return self.client.execute(operation: "AssociateRoleToGroup", path: "/greengrass/groups/{GroupId}/role", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func associateRoleToGroup(_ input: AssociateRoleToGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateRoleToGroupResponse> {
+        return self.client.execute(operation: "AssociateRoleToGroup", path: "/greengrass/groups/{GroupId}/role", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
-    public func associateServiceRoleToAccount(_ input: AssociateServiceRoleToAccountRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateServiceRoleToAccountResponse> {
-        return self.client.execute(operation: "AssociateServiceRoleToAccount", path: "/greengrass/servicerole", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func associateServiceRoleToAccount(_ input: AssociateServiceRoleToAccountRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateServiceRoleToAccountResponse> {
+        return self.client.execute(operation: "AssociateServiceRoleToAccount", path: "/greengrass/servicerole", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
-    public func createConnectorDefinition(_ input: CreateConnectorDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectorDefinitionResponse> {
-        return self.client.execute(operation: "CreateConnectorDefinition", path: "/greengrass/definition/connectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createConnectorDefinition(_ input: CreateConnectorDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectorDefinitionResponse> {
+        return self.client.execute(operation: "CreateConnectorDefinition", path: "/greengrass/definition/connectors", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a connector definition which has already been defined.
-    public func createConnectorDefinitionVersion(_ input: CreateConnectorDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectorDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateConnectorDefinitionVersion", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createConnectorDefinitionVersion(_ input: CreateConnectorDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectorDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateConnectorDefinitionVersion", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
-    public func createCoreDefinition(_ input: CreateCoreDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCoreDefinitionResponse> {
-        return self.client.execute(operation: "CreateCoreDefinition", path: "/greengrass/definition/cores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createCoreDefinition(_ input: CreateCoreDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCoreDefinitionResponse> {
+        return self.client.execute(operation: "CreateCoreDefinition", path: "/greengrass/definition/cores", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
-    public func createCoreDefinitionVersion(_ input: CreateCoreDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCoreDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateCoreDefinitionVersion", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createCoreDefinitionVersion(_ input: CreateCoreDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCoreDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateCoreDefinitionVersion", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
-    public func createDeployment(_ input: CreateDeploymentRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentResponse> {
-        return self.client.execute(operation: "CreateDeployment", path: "/greengrass/groups/{GroupId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDeployment(_ input: CreateDeploymentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeploymentResponse> {
+        return self.client.execute(operation: "CreateDeployment", path: "/greengrass/groups/{GroupId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
-    public func createDeviceDefinition(_ input: CreateDeviceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceDefinitionResponse> {
-        return self.client.execute(operation: "CreateDeviceDefinition", path: "/greengrass/definition/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDeviceDefinition(_ input: CreateDeviceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceDefinitionResponse> {
+        return self.client.execute(operation: "CreateDeviceDefinition", path: "/greengrass/definition/devices", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a device definition that has already been defined.
-    public func createDeviceDefinitionVersion(_ input: CreateDeviceDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateDeviceDefinitionVersion", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDeviceDefinitionVersion(_ input: CreateDeviceDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateDeviceDefinitionVersion", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
-    public func createFunctionDefinition(_ input: CreateFunctionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionDefinitionResponse> {
-        return self.client.execute(operation: "CreateFunctionDefinition", path: "/greengrass/definition/functions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createFunctionDefinition(_ input: CreateFunctionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionDefinitionResponse> {
+        return self.client.execute(operation: "CreateFunctionDefinition", path: "/greengrass/definition/functions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a Lambda function definition that has already been defined.
-    public func createFunctionDefinitionVersion(_ input: CreateFunctionDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateFunctionDefinitionVersion", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createFunctionDefinitionVersion(_ input: CreateFunctionDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateFunctionDefinitionVersion", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
-    public func createGroup(_ input: CreateGroupRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupResponse> {
-        return self.client.execute(operation: "CreateGroup", path: "/greengrass/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createGroup(_ input: CreateGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupResponse> {
+        return self.client.execute(operation: "CreateGroup", path: "/greengrass/groups", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
-    public func createGroupCertificateAuthority(_ input: CreateGroupCertificateAuthorityRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupCertificateAuthorityResponse> {
-        return self.client.execute(operation: "CreateGroupCertificateAuthority", path: "/greengrass/groups/{GroupId}/certificateauthorities", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createGroupCertificateAuthority(_ input: CreateGroupCertificateAuthorityRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupCertificateAuthorityResponse> {
+        return self.client.execute(operation: "CreateGroupCertificateAuthority", path: "/greengrass/groups/{GroupId}/certificateauthorities", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a group which has already been defined.
-    public func createGroupVersion(_ input: CreateGroupVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupVersionResponse> {
-        return self.client.execute(operation: "CreateGroupVersion", path: "/greengrass/groups/{GroupId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createGroupVersion(_ input: CreateGroupVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupVersionResponse> {
+        return self.client.execute(operation: "CreateGroupVersion", path: "/greengrass/groups/{GroupId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
-    public func createLoggerDefinition(_ input: CreateLoggerDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLoggerDefinitionResponse> {
-        return self.client.execute(operation: "CreateLoggerDefinition", path: "/greengrass/definition/loggers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createLoggerDefinition(_ input: CreateLoggerDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLoggerDefinitionResponse> {
+        return self.client.execute(operation: "CreateLoggerDefinition", path: "/greengrass/definition/loggers", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a logger definition that has already been defined.
-    public func createLoggerDefinitionVersion(_ input: CreateLoggerDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLoggerDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateLoggerDefinitionVersion", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createLoggerDefinitionVersion(_ input: CreateLoggerDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLoggerDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateLoggerDefinitionVersion", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
-    public func createResourceDefinition(_ input: CreateResourceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceDefinitionResponse> {
-        return self.client.execute(operation: "CreateResourceDefinition", path: "/greengrass/definition/resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createResourceDefinition(_ input: CreateResourceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceDefinitionResponse> {
+        return self.client.execute(operation: "CreateResourceDefinition", path: "/greengrass/definition/resources", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a resource definition that has already been defined.
-    public func createResourceDefinitionVersion(_ input: CreateResourceDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateResourceDefinitionVersion", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createResourceDefinitionVersion(_ input: CreateResourceDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateResourceDefinitionVersion", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
-    public func createSoftwareUpdateJob(_ input: CreateSoftwareUpdateJobRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSoftwareUpdateJobResponse> {
-        return self.client.execute(operation: "CreateSoftwareUpdateJob", path: "/greengrass/updates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createSoftwareUpdateJob(_ input: CreateSoftwareUpdateJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSoftwareUpdateJobResponse> {
+        return self.client.execute(operation: "CreateSoftwareUpdateJob", path: "/greengrass/updates", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
-    public func createSubscriptionDefinition(_ input: CreateSubscriptionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriptionDefinitionResponse> {
-        return self.client.execute(operation: "CreateSubscriptionDefinition", path: "/greengrass/definition/subscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createSubscriptionDefinition(_ input: CreateSubscriptionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriptionDefinitionResponse> {
+        return self.client.execute(operation: "CreateSubscriptionDefinition", path: "/greengrass/definition/subscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a version of a subscription definition which has already been defined.
-    public func createSubscriptionDefinitionVersion(_ input: CreateSubscriptionDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriptionDefinitionVersionResponse> {
-        return self.client.execute(operation: "CreateSubscriptionDefinitionVersion", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createSubscriptionDefinitionVersion(_ input: CreateSubscriptionDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriptionDefinitionVersionResponse> {
+        return self.client.execute(operation: "CreateSubscriptionDefinitionVersion", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a connector definition.
-    public func deleteConnectorDefinition(_ input: DeleteConnectorDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectorDefinitionResponse> {
-        return self.client.execute(operation: "DeleteConnectorDefinition", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteConnectorDefinition(_ input: DeleteConnectorDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectorDefinitionResponse> {
+        return self.client.execute(operation: "DeleteConnectorDefinition", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a core definition.
-    public func deleteCoreDefinition(_ input: DeleteCoreDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCoreDefinitionResponse> {
-        return self.client.execute(operation: "DeleteCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteCoreDefinition(_ input: DeleteCoreDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCoreDefinitionResponse> {
+        return self.client.execute(operation: "DeleteCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a device definition.
-    public func deleteDeviceDefinition(_ input: DeleteDeviceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceDefinitionResponse> {
-        return self.client.execute(operation: "DeleteDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteDeviceDefinition(_ input: DeleteDeviceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceDefinitionResponse> {
+        return self.client.execute(operation: "DeleteDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a Lambda function definition.
-    public func deleteFunctionDefinition(_ input: DeleteFunctionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFunctionDefinitionResponse> {
-        return self.client.execute(operation: "DeleteFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteFunctionDefinition(_ input: DeleteFunctionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFunctionDefinitionResponse> {
+        return self.client.execute(operation: "DeleteFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a group.
-    public func deleteGroup(_ input: DeleteGroupRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGroupResponse> {
-        return self.client.execute(operation: "DeleteGroup", path: "/greengrass/groups/{GroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteGroup(_ input: DeleteGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGroupResponse> {
+        return self.client.execute(operation: "DeleteGroup", path: "/greengrass/groups/{GroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a logger definition.
-    public func deleteLoggerDefinition(_ input: DeleteLoggerDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLoggerDefinitionResponse> {
-        return self.client.execute(operation: "DeleteLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteLoggerDefinition(_ input: DeleteLoggerDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLoggerDefinitionResponse> {
+        return self.client.execute(operation: "DeleteLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a resource definition.
-    public func deleteResourceDefinition(_ input: DeleteResourceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourceDefinitionResponse> {
-        return self.client.execute(operation: "DeleteResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteResourceDefinition(_ input: DeleteResourceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourceDefinitionResponse> {
+        return self.client.execute(operation: "DeleteResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a subscription definition.
-    public func deleteSubscriptionDefinition(_ input: DeleteSubscriptionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSubscriptionDefinitionResponse> {
-        return self.client.execute(operation: "DeleteSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteSubscriptionDefinition(_ input: DeleteSubscriptionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSubscriptionDefinitionResponse> {
+        return self.client.execute(operation: "DeleteSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Disassociates the role from a group.
-    public func disassociateRoleFromGroup(_ input: DisassociateRoleFromGroupRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateRoleFromGroupResponse> {
-        return self.client.execute(operation: "DisassociateRoleFromGroup", path: "/greengrass/groups/{GroupId}/role", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func disassociateRoleFromGroup(_ input: DisassociateRoleFromGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateRoleFromGroupResponse> {
+        return self.client.execute(operation: "DisassociateRoleFromGroup", path: "/greengrass/groups/{GroupId}/role", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
-    public func disassociateServiceRoleFromAccount(_ input: DisassociateServiceRoleFromAccountRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateServiceRoleFromAccountResponse> {
-        return self.client.execute(operation: "DisassociateServiceRoleFromAccount", path: "/greengrass/servicerole", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func disassociateServiceRoleFromAccount(_ input: DisassociateServiceRoleFromAccountRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateServiceRoleFromAccountResponse> {
+        return self.client.execute(operation: "DisassociateServiceRoleFromAccount", path: "/greengrass/servicerole", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the role associated with a particular group.
-    public func getAssociatedRole(_ input: GetAssociatedRoleRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAssociatedRoleResponse> {
-        return self.client.execute(operation: "GetAssociatedRole", path: "/greengrass/groups/{GroupId}/role", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getAssociatedRole(_ input: GetAssociatedRoleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAssociatedRoleResponse> {
+        return self.client.execute(operation: "GetAssociatedRole", path: "/greengrass/groups/{GroupId}/role", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the status of a bulk deployment.
-    public func getBulkDeploymentStatus(_ input: GetBulkDeploymentStatusRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBulkDeploymentStatusResponse> {
-        return self.client.execute(operation: "GetBulkDeploymentStatus", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBulkDeploymentStatus(_ input: GetBulkDeploymentStatusRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBulkDeploymentStatusResponse> {
+        return self.client.execute(operation: "GetBulkDeploymentStatus", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the connectivity information for a core.
-    public func getConnectivityInfo(_ input: GetConnectivityInfoRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectivityInfoResponse> {
-        return self.client.execute(operation: "GetConnectivityInfo", path: "/greengrass/things/{ThingName}/connectivityInfo", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getConnectivityInfo(_ input: GetConnectivityInfoRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectivityInfoResponse> {
+        return self.client.execute(operation: "GetConnectivityInfo", path: "/greengrass/things/{ThingName}/connectivityInfo", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a connector definition.
-    public func getConnectorDefinition(_ input: GetConnectorDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectorDefinitionResponse> {
-        return self.client.execute(operation: "GetConnectorDefinition", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getConnectorDefinition(_ input: GetConnectorDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectorDefinitionResponse> {
+        return self.client.execute(operation: "GetConnectorDefinition", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
-    public func getConnectorDefinitionVersion(_ input: GetConnectorDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectorDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetConnectorDefinitionVersion", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions/{ConnectorDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getConnectorDefinitionVersion(_ input: GetConnectorDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectorDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetConnectorDefinitionVersion", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions/{ConnectorDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a core definition version.
-    public func getCoreDefinition(_ input: GetCoreDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreDefinitionResponse> {
-        return self.client.execute(operation: "GetCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getCoreDefinition(_ input: GetCoreDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreDefinitionResponse> {
+        return self.client.execute(operation: "GetCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a core definition version.
-    public func getCoreDefinitionVersion(_ input: GetCoreDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetCoreDefinitionVersion", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getCoreDefinitionVersion(_ input: GetCoreDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetCoreDefinitionVersion", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the status of a deployment.
-    public func getDeploymentStatus(_ input: GetDeploymentStatusRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentStatusResponse> {
-        return self.client.execute(operation: "GetDeploymentStatus", path: "/greengrass/groups/{GroupId}/deployments/{DeploymentId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getDeploymentStatus(_ input: GetDeploymentStatusRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeploymentStatusResponse> {
+        return self.client.execute(operation: "GetDeploymentStatus", path: "/greengrass/groups/{GroupId}/deployments/{DeploymentId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a device definition.
-    public func getDeviceDefinition(_ input: GetDeviceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceDefinitionResponse> {
-        return self.client.execute(operation: "GetDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getDeviceDefinition(_ input: GetDeviceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceDefinitionResponse> {
+        return self.client.execute(operation: "GetDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a device definition version.
-    public func getDeviceDefinitionVersion(_ input: GetDeviceDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetDeviceDefinitionVersion", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions/{DeviceDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getDeviceDefinitionVersion(_ input: GetDeviceDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetDeviceDefinitionVersion", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions/{DeviceDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
-    public func getFunctionDefinition(_ input: GetFunctionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionDefinitionResponse> {
-        return self.client.execute(operation: "GetFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getFunctionDefinition(_ input: GetFunctionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionDefinitionResponse> {
+        return self.client.execute(operation: "GetFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
-    public func getFunctionDefinitionVersion(_ input: GetFunctionDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetFunctionDefinitionVersion", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions/{FunctionDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getFunctionDefinitionVersion(_ input: GetFunctionDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetFunctionDefinitionVersion", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions/{FunctionDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a group.
-    public func getGroup(_ input: GetGroupRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupResponse> {
-        return self.client.execute(operation: "GetGroup", path: "/greengrass/groups/{GroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroup(_ input: GetGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupResponse> {
+        return self.client.execute(operation: "GetGroup", path: "/greengrass/groups/{GroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retreives the CA associated with a group. Returns the public key of the CA.
-    public func getGroupCertificateAuthority(_ input: GetGroupCertificateAuthorityRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupCertificateAuthorityResponse> {
-        return self.client.execute(operation: "GetGroupCertificateAuthority", path: "/greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroupCertificateAuthority(_ input: GetGroupCertificateAuthorityRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupCertificateAuthorityResponse> {
+        return self.client.execute(operation: "GetGroupCertificateAuthority", path: "/greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the current configuration for the CA used by the group.
-    public func getGroupCertificateConfiguration(_ input: GetGroupCertificateConfigurationRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupCertificateConfigurationResponse> {
-        return self.client.execute(operation: "GetGroupCertificateConfiguration", path: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroupCertificateConfiguration(_ input: GetGroupCertificateConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupCertificateConfigurationResponse> {
+        return self.client.execute(operation: "GetGroupCertificateConfiguration", path: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a group version.
-    public func getGroupVersion(_ input: GetGroupVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupVersionResponse> {
-        return self.client.execute(operation: "GetGroupVersion", path: "/greengrass/groups/{GroupId}/versions/{GroupVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroupVersion(_ input: GetGroupVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupVersionResponse> {
+        return self.client.execute(operation: "GetGroupVersion", path: "/greengrass/groups/{GroupId}/versions/{GroupVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a logger definition.
-    public func getLoggerDefinition(_ input: GetLoggerDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLoggerDefinitionResponse> {
-        return self.client.execute(operation: "GetLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getLoggerDefinition(_ input: GetLoggerDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLoggerDefinitionResponse> {
+        return self.client.execute(operation: "GetLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a logger definition version.
-    public func getLoggerDefinitionVersion(_ input: GetLoggerDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLoggerDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetLoggerDefinitionVersion", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions/{LoggerDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getLoggerDefinitionVersion(_ input: GetLoggerDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLoggerDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetLoggerDefinitionVersion", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions/{LoggerDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a resource definition, including its creation time and latest version.
-    public func getResourceDefinition(_ input: GetResourceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceDefinitionResponse> {
-        return self.client.execute(operation: "GetResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getResourceDefinition(_ input: GetResourceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceDefinitionResponse> {
+        return self.client.execute(operation: "GetResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a resource definition version, including which resources are included in the version.
-    public func getResourceDefinitionVersion(_ input: GetResourceDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetResourceDefinitionVersion", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions/{ResourceDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getResourceDefinitionVersion(_ input: GetResourceDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetResourceDefinitionVersion", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions/{ResourceDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the service role that is attached to your account.
-    public func getServiceRoleForAccount(_ input: GetServiceRoleForAccountRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceRoleForAccountResponse> {
-        return self.client.execute(operation: "GetServiceRoleForAccount", path: "/greengrass/servicerole", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getServiceRoleForAccount(_ input: GetServiceRoleForAccountRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceRoleForAccountResponse> {
+        return self.client.execute(operation: "GetServiceRoleForAccount", path: "/greengrass/servicerole", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a subscription definition.
-    public func getSubscriptionDefinition(_ input: GetSubscriptionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSubscriptionDefinitionResponse> {
-        return self.client.execute(operation: "GetSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getSubscriptionDefinition(_ input: GetSubscriptionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSubscriptionDefinitionResponse> {
+        return self.client.execute(operation: "GetSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a subscription definition version.
-    public func getSubscriptionDefinitionVersion(_ input: GetSubscriptionDefinitionVersionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSubscriptionDefinitionVersionResponse> {
-        return self.client.execute(operation: "GetSubscriptionDefinitionVersion", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getSubscriptionDefinitionVersion(_ input: GetSubscriptionDefinitionVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSubscriptionDefinitionVersionResponse> {
+        return self.client.execute(operation: "GetSubscriptionDefinitionVersion", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get the runtime configuration of a thing.
-    public func getThingRuntimeConfiguration(_ input: GetThingRuntimeConfigurationRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThingRuntimeConfigurationResponse> {
-        return self.client.execute(operation: "GetThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getThingRuntimeConfiguration(_ input: GetThingRuntimeConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThingRuntimeConfigurationResponse> {
+        return self.client.execute(operation: "GetThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
-    public func listBulkDeploymentDetailedReports(_ input: ListBulkDeploymentDetailedReportsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBulkDeploymentDetailedReportsResponse> {
-        return self.client.execute(operation: "ListBulkDeploymentDetailedReports", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listBulkDeploymentDetailedReports(_ input: ListBulkDeploymentDetailedReportsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBulkDeploymentDetailedReportsResponse> {
+        return self.client.execute(operation: "ListBulkDeploymentDetailedReports", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of bulk deployments.
-    public func listBulkDeployments(_ input: ListBulkDeploymentsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBulkDeploymentsResponse> {
-        return self.client.execute(operation: "ListBulkDeployments", path: "/greengrass/bulk/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listBulkDeployments(_ input: ListBulkDeploymentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBulkDeploymentsResponse> {
+        return self.client.execute(operation: "ListBulkDeployments", path: "/greengrass/bulk/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
-    public func listConnectorDefinitionVersions(_ input: ListConnectorDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectorDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListConnectorDefinitionVersions", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listConnectorDefinitionVersions(_ input: ListConnectorDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectorDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListConnectorDefinitionVersions", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of connector definitions.
-    public func listConnectorDefinitions(_ input: ListConnectorDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectorDefinitionsResponse> {
-        return self.client.execute(operation: "ListConnectorDefinitions", path: "/greengrass/definition/connectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listConnectorDefinitions(_ input: ListConnectorDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectorDefinitionsResponse> {
+        return self.client.execute(operation: "ListConnectorDefinitions", path: "/greengrass/definition/connectors", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a core definition.
-    public func listCoreDefinitionVersions(_ input: ListCoreDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoreDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListCoreDefinitionVersions", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listCoreDefinitionVersions(_ input: ListCoreDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoreDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListCoreDefinitionVersions", path: "/greengrass/definition/cores/{CoreDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of core definitions.
-    public func listCoreDefinitions(_ input: ListCoreDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoreDefinitionsResponse> {
-        return self.client.execute(operation: "ListCoreDefinitions", path: "/greengrass/definition/cores", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listCoreDefinitions(_ input: ListCoreDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoreDefinitionsResponse> {
+        return self.client.execute(operation: "ListCoreDefinitions", path: "/greengrass/definition/cores", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a history of deployments for the group.
-    public func listDeployments(_ input: ListDeploymentsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentsResponse> {
-        return self.client.execute(operation: "ListDeployments", path: "/greengrass/groups/{GroupId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDeployments(_ input: ListDeploymentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeploymentsResponse> {
+        return self.client.execute(operation: "ListDeployments", path: "/greengrass/groups/{GroupId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a device definition.
-    public func listDeviceDefinitionVersions(_ input: ListDeviceDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListDeviceDefinitionVersions", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDeviceDefinitionVersions(_ input: ListDeviceDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListDeviceDefinitionVersions", path: "/greengrass/definition/devices/{DeviceDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of device definitions.
-    public func listDeviceDefinitions(_ input: ListDeviceDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceDefinitionsResponse> {
-        return self.client.execute(operation: "ListDeviceDefinitions", path: "/greengrass/definition/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDeviceDefinitions(_ input: ListDeviceDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceDefinitionsResponse> {
+        return self.client.execute(operation: "ListDeviceDefinitions", path: "/greengrass/definition/devices", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a Lambda function definition.
-    public func listFunctionDefinitionVersions(_ input: ListFunctionDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListFunctionDefinitionVersions", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listFunctionDefinitionVersions(_ input: ListFunctionDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListFunctionDefinitionVersions", path: "/greengrass/definition/functions/{FunctionDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of Lambda function definitions.
-    public func listFunctionDefinitions(_ input: ListFunctionDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionDefinitionsResponse> {
-        return self.client.execute(operation: "ListFunctionDefinitions", path: "/greengrass/definition/functions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listFunctionDefinitions(_ input: ListFunctionDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionDefinitionsResponse> {
+        return self.client.execute(operation: "ListFunctionDefinitions", path: "/greengrass/definition/functions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the current CAs for a group.
-    public func listGroupCertificateAuthorities(_ input: ListGroupCertificateAuthoritiesRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupCertificateAuthoritiesResponse> {
-        return self.client.execute(operation: "ListGroupCertificateAuthorities", path: "/greengrass/groups/{GroupId}/certificateauthorities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listGroupCertificateAuthorities(_ input: ListGroupCertificateAuthoritiesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupCertificateAuthoritiesResponse> {
+        return self.client.execute(operation: "ListGroupCertificateAuthorities", path: "/greengrass/groups/{GroupId}/certificateauthorities", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a group.
-    public func listGroupVersions(_ input: ListGroupVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupVersionsResponse> {
-        return self.client.execute(operation: "ListGroupVersions", path: "/greengrass/groups/{GroupId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listGroupVersions(_ input: ListGroupVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupVersionsResponse> {
+        return self.client.execute(operation: "ListGroupVersions", path: "/greengrass/groups/{GroupId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of groups.
-    public func listGroups(_ input: ListGroupsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsResponse> {
-        return self.client.execute(operation: "ListGroups", path: "/greengrass/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listGroups(_ input: ListGroupsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsResponse> {
+        return self.client.execute(operation: "ListGroups", path: "/greengrass/groups", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a logger definition.
-    public func listLoggerDefinitionVersions(_ input: ListLoggerDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLoggerDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListLoggerDefinitionVersions", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listLoggerDefinitionVersions(_ input: ListLoggerDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLoggerDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListLoggerDefinitionVersions", path: "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of logger definitions.
-    public func listLoggerDefinitions(_ input: ListLoggerDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLoggerDefinitionsResponse> {
-        return self.client.execute(operation: "ListLoggerDefinitions", path: "/greengrass/definition/loggers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listLoggerDefinitions(_ input: ListLoggerDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLoggerDefinitionsResponse> {
+        return self.client.execute(operation: "ListLoggerDefinitions", path: "/greengrass/definition/loggers", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a resource definition.
-    public func listResourceDefinitionVersions(_ input: ListResourceDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListResourceDefinitionVersions", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listResourceDefinitionVersions(_ input: ListResourceDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListResourceDefinitionVersions", path: "/greengrass/definition/resources/{ResourceDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of resource definitions.
-    public func listResourceDefinitions(_ input: ListResourceDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceDefinitionsResponse> {
-        return self.client.execute(operation: "ListResourceDefinitions", path: "/greengrass/definition/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listResourceDefinitions(_ input: ListResourceDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceDefinitionsResponse> {
+        return self.client.execute(operation: "ListResourceDefinitions", path: "/greengrass/definition/resources", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a subscription definition.
-    public func listSubscriptionDefinitionVersions(_ input: ListSubscriptionDefinitionVersionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSubscriptionDefinitionVersionsResponse> {
-        return self.client.execute(operation: "ListSubscriptionDefinitionVersions", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listSubscriptionDefinitionVersions(_ input: ListSubscriptionDefinitionVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSubscriptionDefinitionVersionsResponse> {
+        return self.client.execute(operation: "ListSubscriptionDefinitionVersions", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of subscription definitions.
-    public func listSubscriptionDefinitions(_ input: ListSubscriptionDefinitionsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSubscriptionDefinitionsResponse> {
-        return self.client.execute(operation: "ListSubscriptionDefinitions", path: "/greengrass/definition/subscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listSubscriptionDefinitions(_ input: ListSubscriptionDefinitionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSubscriptionDefinitionsResponse> {
+        return self.client.execute(operation: "ListSubscriptionDefinitions", path: "/greengrass/definition/subscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of resource tags for a resource arn.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Resets a group's deployments.
-    public func resetDeployments(_ input: ResetDeploymentsRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetDeploymentsResponse> {
-        return self.client.execute(operation: "ResetDeployments", path: "/greengrass/groups/{GroupId}/deployments/$reset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func resetDeployments(_ input: ResetDeploymentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetDeploymentsResponse> {
+        return self.client.execute(operation: "ResetDeployments", path: "/greengrass/groups/{GroupId}/deployments/$reset", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
-    public func startBulkDeployment(_ input: StartBulkDeploymentRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartBulkDeploymentResponse> {
-        return self.client.execute(operation: "StartBulkDeployment", path: "/greengrass/bulk/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startBulkDeployment(_ input: StartBulkDeploymentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartBulkDeploymentResponse> {
+        return self.client.execute(operation: "StartBulkDeployment", path: "/greengrass/bulk/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
-    public func stopBulkDeployment(_ input: StopBulkDeploymentRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopBulkDeploymentResponse> {
-        return self.client.execute(operation: "StopBulkDeployment", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/$stop", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func stopBulkDeployment(_ input: StopBulkDeploymentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopBulkDeploymentResponse> {
+        return self.client.execute(operation: "StopBulkDeployment", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/$stop", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{resource-arn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Remove resource tags from a Greengrass Resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resource-arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
-    public func updateConnectivityInfo(_ input: UpdateConnectivityInfoRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectivityInfoResponse> {
-        return self.client.execute(operation: "UpdateConnectivityInfo", path: "/greengrass/things/{ThingName}/connectivityInfo", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateConnectivityInfo(_ input: UpdateConnectivityInfoRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectivityInfoResponse> {
+        return self.client.execute(operation: "UpdateConnectivityInfo", path: "/greengrass/things/{ThingName}/connectivityInfo", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a connector definition.
-    public func updateConnectorDefinition(_ input: UpdateConnectorDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectorDefinitionResponse> {
-        return self.client.execute(operation: "UpdateConnectorDefinition", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateConnectorDefinition(_ input: UpdateConnectorDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectorDefinitionResponse> {
+        return self.client.execute(operation: "UpdateConnectorDefinition", path: "/greengrass/definition/connectors/{ConnectorDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a core definition.
-    public func updateCoreDefinition(_ input: UpdateCoreDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCoreDefinitionResponse> {
-        return self.client.execute(operation: "UpdateCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateCoreDefinition(_ input: UpdateCoreDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCoreDefinitionResponse> {
+        return self.client.execute(operation: "UpdateCoreDefinition", path: "/greengrass/definition/cores/{CoreDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a device definition.
-    public func updateDeviceDefinition(_ input: UpdateDeviceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeviceDefinitionResponse> {
-        return self.client.execute(operation: "UpdateDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateDeviceDefinition(_ input: UpdateDeviceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeviceDefinitionResponse> {
+        return self.client.execute(operation: "UpdateDeviceDefinition", path: "/greengrass/definition/devices/{DeviceDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a Lambda function definition.
-    public func updateFunctionDefinition(_ input: UpdateFunctionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionDefinitionResponse> {
-        return self.client.execute(operation: "UpdateFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateFunctionDefinition(_ input: UpdateFunctionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionDefinitionResponse> {
+        return self.client.execute(operation: "UpdateFunctionDefinition", path: "/greengrass/definition/functions/{FunctionDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a group.
-    public func updateGroup(_ input: UpdateGroupRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupResponse> {
-        return self.client.execute(operation: "UpdateGroup", path: "/greengrass/groups/{GroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateGroup(_ input: UpdateGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupResponse> {
+        return self.client.execute(operation: "UpdateGroup", path: "/greengrass/groups/{GroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the Certificate expiry time for a group.
-    public func updateGroupCertificateConfiguration(_ input: UpdateGroupCertificateConfigurationRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupCertificateConfigurationResponse> {
-        return self.client.execute(operation: "UpdateGroupCertificateConfiguration", path: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateGroupCertificateConfiguration(_ input: UpdateGroupCertificateConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupCertificateConfigurationResponse> {
+        return self.client.execute(operation: "UpdateGroupCertificateConfiguration", path: "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a logger definition.
-    public func updateLoggerDefinition(_ input: UpdateLoggerDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLoggerDefinitionResponse> {
-        return self.client.execute(operation: "UpdateLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateLoggerDefinition(_ input: UpdateLoggerDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLoggerDefinitionResponse> {
+        return self.client.execute(operation: "UpdateLoggerDefinition", path: "/greengrass/definition/loggers/{LoggerDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a resource definition.
-    public func updateResourceDefinition(_ input: UpdateResourceDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceDefinitionResponse> {
-        return self.client.execute(operation: "UpdateResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateResourceDefinition(_ input: UpdateResourceDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceDefinitionResponse> {
+        return self.client.execute(operation: "UpdateResourceDefinition", path: "/greengrass/definition/resources/{ResourceDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a subscription definition.
-    public func updateSubscriptionDefinition(_ input: UpdateSubscriptionDefinitionRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSubscriptionDefinitionResponse> {
-        return self.client.execute(operation: "UpdateSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateSubscriptionDefinition(_ input: UpdateSubscriptionDefinitionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSubscriptionDefinitionResponse> {
+        return self.client.execute(operation: "UpdateSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the runtime configuration of a thing.
-    public func updateThingRuntimeConfiguration(_ input: UpdateThingRuntimeConfigurationRequest, logger: Logging.Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingRuntimeConfigurationResponse> {
-        return self.client.execute(operation: "UpdateThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateThingRuntimeConfiguration(_ input: UpdateThingRuntimeConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThingRuntimeConfigurationResponse> {
+        return self.client.execute(operation: "UpdateThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

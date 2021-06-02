@@ -38,6 +38,7 @@ extension TimestreamQuery {
     // MARK: Shapes
 
     public struct CancelQueryRequest: AWSEncodableShape {
+
         ///  The id of the query that needs to be cancelled. QueryID is returned as part of QueryResult.
         public let queryId: String
 
@@ -57,6 +58,7 @@ extension TimestreamQuery {
     }
 
     public struct CancelQueryResponse: AWSDecodableShape {
+
         ///  A CancellationMessage is returned when a CancelQuery request for the query specified by QueryId has already been issued.
         public let cancellationMessage: String?
 
@@ -70,6 +72,7 @@ extension TimestreamQuery {
     }
 
     public class ColumnInfo: AWSDecodableShape {
+
         ///  The name of the result set column. The name of the result set is available for columns of all data types except for arrays.
         public let name: String?
         ///  The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, booleans, and others. Complex data types are types such as arrays, rows, and others.
@@ -87,6 +90,7 @@ extension TimestreamQuery {
     }
 
     public class Datum: AWSDecodableShape {
+
         ///  Indicates if the data point is an array.
         public let arrayValue: [Datum]?
         ///  Indicates if the data point is null.
@@ -116,10 +120,15 @@ extension TimestreamQuery {
     }
 
     public struct DescribeEndpointsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeEndpointsResponse: AWSDecodableShape {
+
         /// An Endpoints object is returned when a DescribeEndpoints request is made.
         public let endpoints: [Endpoint]
 
@@ -133,6 +142,7 @@ extension TimestreamQuery {
     }
 
     public struct Endpoint: AWSDecodableShape {
+
         /// An endpoint address.
         public let address: String
         /// The TTL for the endpoint, in minutes.
@@ -150,6 +160,7 @@ extension TimestreamQuery {
     }
 
     public struct QueryRequest: AWSEncodableShape {
+
         ///  Unique, case-sensitive string of up to 64 ASCII characters that you specify when you make a Query request. Providing a ClientToken makes the call to Query idempotent, meaning that multiple identical calls have the same effect as one single call.  Your query request will fail in the following cases:    If you submit a request with the same client token outside the 5-minute idepotency window.     If you submit a request with the same client token but a change in other parameters within the 5-minute idempotency window.     After 4 hours, any request with the same client token is treated as a new request.
         public let clientToken: String?
         ///  The total number of rows to return in the output. If the total number of rows available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command.
@@ -182,6 +193,7 @@ extension TimestreamQuery {
     }
 
     public struct QueryResponse: AWSDecodableShape {
+
         ///  The column data types of the returned result set.
         public let columnInfo: [ColumnInfo]
         ///  A pagination token that can be used again on a Query call to get the next set of results.
@@ -211,6 +223,7 @@ extension TimestreamQuery {
     }
 
     public struct QueryStatus: AWSDecodableShape {
+
         /// The amount of data scanned by the query in bytes that you will be charged for. This is a cumulative sum and represents the total amount of data that you will be charged for since the query was started. The charge is applied only once and is either applied when the query completes execution or when the query is cancelled.
         public let cumulativeBytesMetered: Int64?
         /// The amount of data scanned by the query in bytes. This is a cumulative sum and represents the total amount of bytes scanned since the query was started.
@@ -232,6 +245,7 @@ extension TimestreamQuery {
     }
 
     public struct Row: AWSDecodableShape {
+
         /// List of data points in a single row of the result set.
         public let data: [Datum]
 
@@ -245,6 +259,7 @@ extension TimestreamQuery {
     }
 
     public struct TimeSeriesDataPoint: AWSDecodableShape {
+
         /// The timestamp when the measure value was collected.
         public let time: String
         /// The measure value for the data point.
@@ -262,6 +277,7 @@ extension TimestreamQuery {
     }
 
     public class `Type`: AWSDecodableShape {
+
         /// Indicates if the column is an array.
         public let arrayColumnInfo: ColumnInfo?
         /// Indicates if the column is a row.

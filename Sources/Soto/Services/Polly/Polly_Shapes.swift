@@ -21,8 +21,8 @@ extension Polly {
     // MARK: Enums
 
     public enum Engine: String, CustomStringConvertible, Codable {
-        case neural
-        case standard
+        case neural = "neural"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -33,7 +33,7 @@ extension Polly {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case arb
+        case arb = "arb"
         case cmnCn = "cmn-CN"
         case cyGb = "cy-GB"
         case daDk = "da-DK"
@@ -66,32 +66,32 @@ extension Polly {
     }
 
     public enum OutputFormat: String, CustomStringConvertible, Codable {
-        case json
-        case mp3
+        case json = "json"
+        case mp3 = "mp3"
         case oggVorbis = "ogg_vorbis"
-        case pcm
+        case pcm = "pcm"
         public var description: String { return self.rawValue }
     }
 
     public enum SpeechMarkType: String, CustomStringConvertible, Codable {
-        case sentence
-        case ssml
-        case viseme
-        case word
+        case sentence = "sentence"
+        case ssml = "ssml"
+        case viseme = "viseme"
+        case word = "word"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case completed
-        case failed
+        case completed = "completed"
+        case failed = "failed"
         case inprogress = "inProgress"
-        case scheduled
+        case scheduled = "scheduled"
         public var description: String { return self.rawValue }
     }
 
     public enum TextType: String, CustomStringConvertible, Codable {
-        case ssml
-        case text
+        case ssml = "ssml"
+        case text = "text"
         public var description: String { return self.rawValue }
     }
 
@@ -183,14 +183,18 @@ extension Polly {
     }
 
     public struct DeleteLexiconOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeVoicesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")),
-            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")),
-            AWSMemberEncoding(label: "languageCode", location: .querystring(locationName: "LanguageCode")),
+            AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")), 
+            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")), 
+            AWSMemberEncoding(label: "languageCode", location: .querystring(locationName: "LanguageCode")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -219,6 +223,7 @@ extension Polly {
     }
 
     public struct DescribeVoicesOutput: AWSDecodableShape {
+
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
         public let nextToken: String?
         /// A list of voices with their properties.
@@ -255,6 +260,7 @@ extension Polly {
     }
 
     public struct GetLexiconOutput: AWSDecodableShape {
+
         /// Lexicon object that provides name and the string content of the lexicon.
         public let lexicon: Lexicon?
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
@@ -291,6 +297,7 @@ extension Polly {
     }
 
     public struct GetSpeechSynthesisTaskOutput: AWSDecodableShape {
+
         /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
         public let synthesisTask: SynthesisTask?
 
@@ -304,6 +311,7 @@ extension Polly {
     }
 
     public struct Lexicon: AWSDecodableShape {
+
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
         /// Name of the lexicon.
@@ -321,6 +329,7 @@ extension Polly {
     }
 
     public struct LexiconAttributes: AWSDecodableShape {
+
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
         public let alphabet: String?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
@@ -354,6 +363,7 @@ extension Polly {
     }
 
     public struct LexiconDescription: AWSDecodableShape {
+
         /// Provides lexicon metadata.
         public let attributes: LexiconAttributes?
         /// Name of the lexicon.
@@ -391,6 +401,7 @@ extension Polly {
     }
 
     public struct ListLexiconsOutput: AWSDecodableShape {
+
         /// A list of lexicon names and attributes.
         public let lexicons: [LexiconDescription]?
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
@@ -409,8 +420,8 @@ extension Polly {
 
     public struct ListSpeechSynthesisTasksInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
         ]
 
@@ -438,6 +449,7 @@ extension Polly {
     }
 
     public struct ListSpeechSynthesisTasksOutput: AWSDecodableShape {
+
         /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
         public let nextToken: String?
         /// List of SynthesisTask objects that provides information from the specified task in the list request, including output format, creation time, task status, and so on.
@@ -479,10 +491,15 @@ extension Polly {
     }
 
     public struct PutLexiconOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartSpeechSynthesisTaskInput: AWSEncodableShape {
+
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
@@ -551,6 +568,7 @@ extension Polly {
     }
 
     public struct StartSpeechSynthesisTaskOutput: AWSDecodableShape {
+
         /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
         public let synthesisTask: SynthesisTask?
 
@@ -564,6 +582,7 @@ extension Polly {
     }
 
     public struct SynthesisTask: AWSDecodableShape {
+
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: Date?
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
@@ -633,6 +652,7 @@ extension Polly {
     }
 
     public struct SynthesizeSpeechInput: AWSEncodableShape {
+
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. For information on Amazon Polly voices and which voices are available in standard-only, NTTS-only, and both standard and NTTS formats, see Available Voices.  NTTS-only voices  When using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to neural. If the engine is not specified, or is set to standard, this will result in an error.  Type: String Valid Values: standard | neural  Required: Yes  Standard voices  For standard voices, this is not required; the engine parameter defaults to standard. If the engine is not specified, or is set to standard and an NTTS-only voice is selected, this will result in an error.
         public let engine: Engine?
         /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
@@ -690,8 +710,8 @@ extension Polly {
         public static let _payloadPath: String = "audioStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "requestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"))
         ]
 
@@ -716,6 +736,7 @@ extension Polly {
     }
 
     public struct Voice: AWSDecodableShape {
+
         /// Additional codes for languages available for the specified voice in addition to its default language.  For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
         public let additionalLanguageCodes: [LanguageCode]?
         /// Gender of the voice.

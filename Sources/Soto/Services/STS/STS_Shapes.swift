@@ -23,6 +23,7 @@ extension STS {
     // MARK: Shapes
 
     public struct AssumeRoleRequest: AWSEncodableShape {
+
         /// The duration, in seconds, of the role session. The value specified can can range from 900 seconds (15 minutes) up to the maximum session duration that is set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide.
         public let durationSeconds: Int?
         /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see How to Use an External ID When Granting Access to Your AWS Resources to a Third Party in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
@@ -118,6 +119,7 @@ extension STS {
     }
 
     public struct AssumeRoleResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
         public let assumedRoleUser: AssumedRoleUser?
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
@@ -143,6 +145,7 @@ extension STS {
     }
 
     public struct AssumeRoleWithSAMLRequest: AWSEncodableShape {
+
         /// The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide.
         public let durationSeconds: Int?
         /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent AWS API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.  The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  An AWS conversion compresses the passed session policies and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
@@ -181,7 +184,7 @@ extension STS {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+")
-            try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, max: 100_000)
+            try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, max: 100000)
             try self.validate(self.sAMLAssertion, name: "sAMLAssertion", parent: name, min: 4)
         }
 
@@ -196,6 +199,7 @@ extension STS {
     }
 
     public struct AssumeRoleWithSAMLResponse: AWSDecodableShape {
+
         /// The identifiers for the temporary security credentials that the operation returns.
         public let assumedRoleUser: AssumedRoleUser?
         ///  The value of the Recipient attribute of the SubjectConfirmationData element of the SAML assertion.
@@ -241,6 +245,7 @@ extension STS {
     }
 
     public struct AssumeRoleWithWebIdentityRequest: AWSEncodableShape {
+
         /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the AWS Management Console in the IAM User Guide.
         public let durationSeconds: Int?
         /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent AWS API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  An AWS conversion compresses the passed session policies and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
@@ -300,6 +305,7 @@ extension STS {
     }
 
     public struct AssumeRoleWithWebIdentityResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
         public let assumedRoleUser: AssumedRoleUser?
         /// The intended audience (also known as client ID) of the web identity token. This is traditionally the client identifier issued to the application that requested the web identity token.
@@ -337,6 +343,7 @@ extension STS {
     }
 
     public struct AssumedRoleUser: AWSDecodableShape {
+
         /// The ARN of the temporary security credentials that are returned from the AssumeRole action. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
         /// A unique identifier that contains the role ID and the role session name of the role that is being assumed. The role ID is generated by AWS when the role is created.
@@ -354,6 +361,7 @@ extension STS {
     }
 
     public struct Credentials: AWSDecodableShape {
+
         /// The access key ID that identifies the temporary security credentials.
         public let accessKeyId: String
         /// The date on which the current credentials expire.
@@ -379,6 +387,7 @@ extension STS {
     }
 
     public struct DecodeAuthorizationMessageRequest: AWSEncodableShape {
+
         /// The encoded message that was returned with the response.
         public let encodedMessage: String
 
@@ -397,6 +406,7 @@ extension STS {
     }
 
     public struct DecodeAuthorizationMessageResponse: AWSDecodableShape {
+
         /// An XML document that contains the decoded message.
         public let decodedMessage: String?
 
@@ -410,6 +420,7 @@ extension STS {
     }
 
     public struct FederatedUser: AWSDecodableShape {
+
         /// The ARN that specifies the federated user that is associated with the credentials. For more information about ARNs and how to use them in policies, see IAM Identifiers in the IAM User Guide.
         public let arn: String
         /// The string that identifies the federated user associated with the credentials, similar to the unique ID of an IAM user.
@@ -427,6 +438,7 @@ extension STS {
     }
 
     public struct GetAccessKeyInfoRequest: AWSEncodableShape {
+
         /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
         public let accessKeyId: String
 
@@ -446,6 +458,7 @@ extension STS {
     }
 
     public struct GetAccessKeyInfoResponse: AWSDecodableShape {
+
         /// The number used to identify the AWS account.
         public let account: String?
 
@@ -459,10 +472,15 @@ extension STS {
     }
 
     public struct GetCallerIdentityRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetCallerIdentityResponse: AWSDecodableShape {
+
         /// The AWS account ID number of the account that owns or contains the calling entity.
         public let account: String?
         /// The AWS ARN associated with the calling entity.
@@ -484,6 +502,7 @@ extension STS {
     }
 
     public struct GetFederationTokenRequest: AWSEncodableShape {
+
         /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using AWS account root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
         public let durationSeconds: Int?
         /// The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
@@ -506,7 +525,7 @@ extension STS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 129_600)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 129600)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
             try self.validate(self.name, name: "name", parent: name, max: 32)
             try self.validate(self.name, name: "name", parent: name, min: 2)
@@ -533,6 +552,7 @@ extension STS {
     }
 
     public struct GetFederationTokenResponse: AWSDecodableShape {
+
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
         public let credentials: Credentials?
         /// Identifiers for the federated user associated with the credentials (such as arn:aws:sts::123456789012:federated-user/Bob or 123456789012:Bob). You can use the federated user's ARN in your resource-based policies, such as an Amazon S3 bucket policy.
@@ -554,6 +574,7 @@ extension STS {
     }
 
     public struct GetSessionTokenRequest: AWSEncodableShape {
+
         /// The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for AWS account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for AWS account owners defaults to one hour.
         public let durationSeconds: Int?
         /// The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM user by going to the AWS Management Console and viewing the user's security credentials.  The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
@@ -568,7 +589,7 @@ extension STS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 129_600)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 129600)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
             try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 9)
@@ -586,6 +607,7 @@ extension STS {
     }
 
     public struct GetSessionTokenResponse: AWSDecodableShape {
+
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
         public let credentials: Credentials?
 
@@ -599,6 +621,7 @@ extension STS {
     }
 
     public struct PolicyDescriptorType: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let arn: String?
 
@@ -613,11 +636,12 @@ extension STS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct Tag: AWSEncodableShape {
+
         /// The key for a session tag. You can pass up to 50 session tags. The plain text session tag keys can’t exceed 128 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide.
         public let key: String
         /// The value for a session tag. You can pass up to 50 session tags. The plain text session tag values can’t exceed 256 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide.

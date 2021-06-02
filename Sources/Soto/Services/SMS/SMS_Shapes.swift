@@ -186,6 +186,7 @@ extension SMS {
     // MARK: Shapes
 
     public struct AppSummary: AWSDecodableShape {
+
         /// The unique ID of the application.
         public let appId: String?
         /// The creation time of the application.
@@ -248,29 +249,30 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case creationTime
-            case description
-            case importedAppId
-            case lastModified
-            case latestReplicationTime
-            case launchConfigurationStatus
-            case launchDetails
-            case launchStatus
-            case launchStatusMessage
-            case name
-            case replicationConfigurationStatus
-            case replicationStatus
-            case replicationStatusMessage
-            case roleName
-            case status
-            case statusMessage
-            case totalServerGroups
-            case totalServers
+            case appId = "appId"
+            case creationTime = "creationTime"
+            case description = "description"
+            case importedAppId = "importedAppId"
+            case lastModified = "lastModified"
+            case latestReplicationTime = "latestReplicationTime"
+            case launchConfigurationStatus = "launchConfigurationStatus"
+            case launchDetails = "launchDetails"
+            case launchStatus = "launchStatus"
+            case launchStatusMessage = "launchStatusMessage"
+            case name = "name"
+            case replicationConfigurationStatus = "replicationConfigurationStatus"
+            case replicationStatus = "replicationStatus"
+            case replicationStatusMessage = "replicationStatusMessage"
+            case roleName = "roleName"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case totalServerGroups = "totalServerGroups"
+            case totalServers = "totalServers"
         }
     }
 
     public struct AppValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The validation strategy.
         public let appValidationStrategy: AppValidationStrategy?
         /// The name of the configuration.
@@ -296,14 +298,15 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appValidationStrategy
-            case name
-            case ssmValidationParameters
-            case validationId
+            case appValidationStrategy = "appValidationStrategy"
+            case name = "name"
+            case ssmValidationParameters = "ssmValidationParameters"
+            case validationId = "validationId"
         }
     }
 
     public struct AppValidationOutput: AWSDecodableShape {
+
         /// Output from using SSM to validate the application.
         public let ssmOutput: SSMOutput?
 
@@ -312,11 +315,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ssmOutput
+            case ssmOutput = "ssmOutput"
         }
     }
 
     public struct Connector: AWSDecodableShape {
+
         /// The time the connector was associated.
         public let associatedOn: Date?
         /// The capabilities of the connector.
@@ -352,20 +356,21 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedOn
-            case capabilityList
-            case connectorId
-            case ipAddress
-            case macAddress
-            case status
-            case version
-            case vmManagerId
-            case vmManagerName
-            case vmManagerType
+            case associatedOn = "associatedOn"
+            case capabilityList = "capabilityList"
+            case connectorId = "connectorId"
+            case ipAddress = "ipAddress"
+            case macAddress = "macAddress"
+            case status = "status"
+            case version = "version"
+            case vmManagerId = "vmManagerId"
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
         }
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
+
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of application creation.
         public let clientToken: String?
         /// The description of the new application
@@ -389,16 +394,17 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case description
-            case name
-            case roleName
-            case serverGroups
-            case tags
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case roleName = "roleName"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
     public struct CreateAppResponse: AWSDecodableShape {
+
         /// A summary description of the application.
         public let appSummary: AppSummary?
         /// The server groups included in the application.
@@ -413,13 +419,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary
-            case serverGroups
-            case tags
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
     public struct CreateReplicationJobRequest: AWSEncodableShape {
+
         /// The description of the replication job.
         public let description: String?
         /// Indicates whether the replication job produces encrypted AMIs.
@@ -455,20 +462,21 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case licenseType
-            case numberOfRecentAmisToKeep
-            case roleName
-            case runOnce
-            case seedReplicationTime
-            case serverId
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case roleName = "roleName"
+            case runOnce = "runOnce"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverId = "serverId"
         }
     }
 
     public struct CreateReplicationJobResponse: AWSDecodableShape {
+
         /// The unique identifier of the replication job.
         public let replicationJobId: String?
 
@@ -477,11 +485,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationJobId
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct DeleteAppLaunchConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -490,15 +499,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct DeleteAppLaunchConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAppReplicationConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -507,15 +521,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct DeleteAppReplicationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAppRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
         /// Indicates whether to stop all replication jobs corresponding to the servers in the application while deleting the application.
@@ -530,17 +549,22 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case forceStopAppReplication
-            case forceTerminateApp
+            case appId = "appId"
+            case forceStopAppReplication = "forceStopAppReplication"
+            case forceTerminateApp = "forceTerminateApp"
         }
     }
 
     public struct DeleteAppResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAppValidationConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String
 
@@ -553,15 +577,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct DeleteAppValidationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReplicationJobRequest: AWSEncodableShape {
+
         /// The ID of the replication job.
         public let replicationJobId: String
 
@@ -570,23 +599,36 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationJobId
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct DeleteReplicationJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteServerCatalogRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteServerCatalogResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateConnectorRequest: AWSEncodableShape {
+
         /// The ID of the connector.
         public let connectorId: String
 
@@ -595,15 +637,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorId
+            case connectorId = "connectorId"
         }
     }
 
     public struct DisassociateConnectorResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GenerateChangeSetRequest: AWSEncodableShape {
+
         /// The ID of the application associated with the change set.
         public let appId: String?
         /// The format for the change set.
@@ -615,12 +662,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case changesetFormat
+            case appId = "appId"
+            case changesetFormat = "changesetFormat"
         }
     }
 
     public struct GenerateChangeSetResponse: AWSDecodableShape {
+
         /// The location of the Amazon S3 object.
         public let s3Location: S3Location?
 
@@ -629,11 +677,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
     public struct GenerateTemplateRequest: AWSEncodableShape {
+
         /// The ID of the application associated with the AWS CloudFormation template.
         public let appId: String?
         /// The format for generating the AWS CloudFormation template.
@@ -645,12 +694,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case templateFormat
+            case appId = "appId"
+            case templateFormat = "templateFormat"
         }
     }
 
     public struct GenerateTemplateResponse: AWSDecodableShape {
+
         /// The location of the Amazon S3 object.
         public let s3Location: S3Location?
 
@@ -659,11 +709,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
     public struct GetAppLaunchConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -672,11 +723,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct GetAppLaunchConfigurationResponse: AWSDecodableShape {
+
         /// The ID of the application.
         public let appId: String?
         /// Indicates whether the application is configured to launch automatically after replication is complete.
@@ -694,14 +746,15 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case autoLaunch
-            case roleName
-            case serverGroupLaunchConfigurations
+            case appId = "appId"
+            case autoLaunch = "autoLaunch"
+            case roleName = "roleName"
+            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
     }
 
     public struct GetAppReplicationConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -710,11 +763,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct GetAppReplicationConfigurationResponse: AWSDecodableShape {
+
         /// The replication configurations associated with server groups in this application.
         public let serverGroupReplicationConfigurations: [ServerGroupReplicationConfiguration]?
 
@@ -723,11 +777,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupReplicationConfigurations
+            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
         }
     }
 
     public struct GetAppRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -736,11 +791,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct GetAppResponse: AWSDecodableShape {
+
         /// Information about the application.
         public let appSummary: AppSummary?
         /// The server groups that belong to the application.
@@ -755,13 +811,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary
-            case serverGroups
-            case tags
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
     public struct GetAppValidationConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String
 
@@ -774,11 +831,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct GetAppValidationConfigurationResponse: AWSDecodableShape {
+
         /// The configuration for application validation.
         public let appValidationConfigurations: [AppValidationConfiguration]?
         /// The configuration for instance validation.
@@ -790,12 +848,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appValidationConfigurations
-            case serverGroupValidationConfigurations
+            case appValidationConfigurations = "appValidationConfigurations"
+            case serverGroupValidationConfigurations = "serverGroupValidationConfigurations"
         }
     }
 
     public struct GetAppValidationOutputRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String
 
@@ -808,11 +867,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct GetAppValidationOutputResponse: AWSDecodableShape {
+
         /// The validation output.
         public let validationOutputList: [ValidationOutput]?
 
@@ -821,11 +881,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case validationOutputList
+            case validationOutputList = "validationOutputList"
         }
     }
 
     public struct GetConnectorsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -837,12 +898,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetConnectorsResponse: AWSDecodableShape {
+
         /// Information about the registered connectors.
         public let connectorList: [Connector]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -854,12 +916,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectorList
-            case nextToken
+            case connectorList = "connectorList"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetReplicationJobsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -874,13 +937,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case replicationJobId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct GetReplicationJobsResponse: AWSDecodableShape {
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the replication jobs.
@@ -892,12 +956,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case replicationJobList
+            case nextToken = "nextToken"
+            case replicationJobList = "replicationJobList"
         }
     }
 
     public struct GetReplicationRunsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -912,13 +977,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case replicationJobId
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct GetReplicationRunsResponse: AWSDecodableShape {
+
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// Information about the replication job.
@@ -933,13 +999,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case replicationJob
-            case replicationRunList
+            case nextToken = "nextToken"
+            case replicationJob = "replicationJob"
+            case replicationRunList = "replicationRunList"
         }
     }
 
     public struct GetServersRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -954,13 +1021,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case vmServerAddressList
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case vmServerAddressList = "vmServerAddressList"
         }
     }
 
     public struct GetServersResponse: AWSDecodableShape {
+
         /// The time when the server was last modified.
         public let lastModifiedOn: Date?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -978,14 +1046,15 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModifiedOn
-            case nextToken
-            case serverCatalogStatus
-            case serverList
+            case lastModifiedOn = "lastModifiedOn"
+            case nextToken = "nextToken"
+            case serverCatalogStatus = "serverCatalogStatus"
+            case serverList = "serverList"
         }
     }
 
     public struct ImportAppCatalogRequest: AWSEncodableShape {
+
         /// The name of the service role. If you omit this parameter, we create a service-linked role for AWS Migration Hub in your account. Otherwise, the role that you provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
         public let roleName: String?
 
@@ -994,23 +1063,36 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleName
+            case roleName = "roleName"
         }
     }
 
     public struct ImportAppCatalogResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ImportServerCatalogRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ImportServerCatalogResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct LaunchAppRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -1019,15 +1101,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct LaunchAppResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct LaunchDetails: AWSDecodableShape {
+
         /// The latest time that this application was launched successfully.
         public let latestLaunchTime: Date?
         /// The ID of the latest stack launched for this application.
@@ -1042,13 +1129,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestLaunchTime
-            case stackId
-            case stackName
+            case latestLaunchTime = "latestLaunchTime"
+            case stackId = "stackId"
+            case stackName = "stackName"
         }
     }
 
     public struct ListAppsRequest: AWSEncodableShape {
+
         /// The unique application IDs.
         public let appIds: [String]?
         /// The maximum number of results to return in a single call. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1063,13 +1151,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appIds
-            case maxResults
-            case nextToken
+            case appIds = "appIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAppsResponse: AWSDecodableShape {
+
         /// The application summaries.
         public let apps: [AppSummary]?
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
@@ -1081,12 +1170,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case apps
-            case nextToken
+            case apps = "apps"
+            case nextToken = "nextToken"
         }
     }
 
     public struct NotificationContext: AWSEncodableShape {
+
         /// The status of the validation.
         public let status: ValidationStatus?
         /// The status message.
@@ -1106,13 +1196,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusMessage
-            case validationId
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case validationId = "validationId"
         }
     }
 
     public struct NotifyAppValidationOutputRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String
         /// The notification information.
@@ -1129,16 +1220,21 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case notificationContext
+            case appId = "appId"
+            case notificationContext = "notificationContext"
         }
     }
 
     public struct NotifyAppValidationOutputResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutAppLaunchConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
         /// Indicates whether the application is configured to launch automatically after replication is complete.
@@ -1162,18 +1258,23 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case autoLaunch
-            case roleName
-            case serverGroupLaunchConfigurations
+            case appId = "appId"
+            case autoLaunch = "autoLaunch"
+            case roleName = "roleName"
+            case serverGroupLaunchConfigurations = "serverGroupLaunchConfigurations"
         }
     }
 
     public struct PutAppLaunchConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutAppReplicationConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
         /// Information about the replication configurations for server groups in the application.
@@ -1185,16 +1286,21 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case serverGroupReplicationConfigurations
+            case appId = "appId"
+            case serverGroupReplicationConfigurations = "serverGroupReplicationConfigurations"
         }
     }
 
     public struct PutAppReplicationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutAppValidationConfigurationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String
         /// The configuration for application validation.
@@ -1219,17 +1325,22 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case appValidationConfigurations
-            case serverGroupValidationConfigurations
+            case appId = "appId"
+            case appValidationConfigurations = "appValidationConfigurations"
+            case serverGroupValidationConfigurations = "serverGroupValidationConfigurations"
         }
     }
 
     public struct PutAppValidationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ReplicationJob: AWSDecodableShape {
+
         /// The description of the replication job.
         public let description: String?
         /// Indicates whether the replication job should produce encrypted AMIs.
@@ -1289,28 +1400,29 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case latestAmiId
-            case licenseType
-            case nextReplicationRunStartTime
-            case numberOfRecentAmisToKeep
-            case replicationJobId
-            case replicationRunList
-            case roleName
-            case runOnce
-            case seedReplicationTime
-            case serverId
-            case serverType
-            case state
-            case statusMessage
-            case vmServer
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case latestAmiId = "latestAmiId"
+            case licenseType = "licenseType"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case replicationJobId = "replicationJobId"
+            case replicationRunList = "replicationRunList"
+            case roleName = "roleName"
+            case runOnce = "runOnce"
+            case seedReplicationTime = "seedReplicationTime"
+            case serverId = "serverId"
+            case serverType = "serverType"
+            case state = "state"
+            case statusMessage = "statusMessage"
+            case vmServer = "vmServer"
         }
     }
 
     public struct ReplicationRun: AWSDecodableShape {
+
         /// The ID of the Amazon Machine Image (AMI) from the replication run.
         public let amiId: String?
         /// The completion time of the last replication run.
@@ -1349,21 +1461,22 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiId
-            case completedTime
-            case description
-            case encrypted
-            case kmsKeyId
-            case replicationRunId
-            case scheduledStartTime
-            case stageDetails
-            case state
-            case statusMessage
-            case type
+            case amiId = "amiId"
+            case completedTime = "completedTime"
+            case description = "description"
+            case encrypted = "encrypted"
+            case kmsKeyId = "kmsKeyId"
+            case replicationRunId = "replicationRunId"
+            case scheduledStartTime = "scheduledStartTime"
+            case stageDetails = "stageDetails"
+            case state = "state"
+            case statusMessage = "statusMessage"
+            case type = "type"
         }
     }
 
     public struct ReplicationRunStageDetails: AWSDecodableShape {
+
         /// The current stage of a replication run.
         public let stage: String?
         /// The progress of the current stage of a replication run.
@@ -1375,12 +1488,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stage
-            case stageProgress
+            case stage = "stage"
+            case stageProgress = "stageProgress"
         }
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket name.
         public let bucket: String?
         /// The Amazon S3 bucket key.
@@ -1398,12 +1512,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
     public struct SSMOutput: AWSDecodableShape {
+
         public let s3Location: S3Location?
 
         public init(s3Location: S3Location? = nil) {
@@ -1411,11 +1526,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
     public struct SSMValidationParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The command to run the validation script
         public let command: String?
         /// The timeout interval, in seconds.
@@ -1448,16 +1564,17 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case executionTimeoutSeconds
-            case instanceId
-            case outputS3BucketName
-            case scriptType
-            case source
+            case command = "command"
+            case executionTimeoutSeconds = "executionTimeoutSeconds"
+            case instanceId = "instanceId"
+            case outputS3BucketName = "outputS3BucketName"
+            case scriptType = "scriptType"
+            case source = "source"
         }
     }
 
     public struct Server: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the replication job.
         public let replicationJobId: String?
         /// Indicates whether the replication job is deleted or failed.
@@ -1478,15 +1595,16 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationJobId
-            case replicationJobTerminated
-            case serverId
-            case serverType
-            case vmServer
+            case replicationJobId = "replicationJobId"
+            case replicationJobTerminated = "replicationJobTerminated"
+            case serverId = "serverId"
+            case serverType = "serverType"
+            case vmServer = "vmServer"
         }
     }
 
     public struct ServerGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of a server group.
         public let name: String?
         /// The ID of a server group.
@@ -1501,13 +1619,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case serverGroupId
-            case serverList
+            case name = "name"
+            case serverGroupId = "serverGroupId"
+            case serverList = "serverList"
         }
     }
 
     public struct ServerGroupLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The launch order of servers in the server group.
         public let launchOrder: Int?
         /// The ID of the server group with which the launch configuration is associated.
@@ -1528,13 +1647,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case launchOrder
-            case serverGroupId
-            case serverLaunchConfigurations
+            case launchOrder = "launchOrder"
+            case serverGroupId = "serverGroupId"
+            case serverLaunchConfigurations = "serverLaunchConfigurations"
         }
     }
 
     public struct ServerGroupReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the server group with which this replication configuration is associated.
         public let serverGroupId: String?
         /// The replication configuration for servers in the server group.
@@ -1546,12 +1666,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupId
-            case serverReplicationConfigurations
+            case serverGroupId = "serverGroupId"
+            case serverReplicationConfigurations = "serverReplicationConfigurations"
         }
     }
 
     public struct ServerGroupValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the server group.
         public let serverGroupId: String?
         /// The validation configuration.
@@ -1569,12 +1690,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serverGroupId
-            case serverValidationConfigurations
+            case serverGroupId = "serverGroupId"
+            case serverValidationConfigurations = "serverValidationConfigurations"
         }
     }
 
     public struct ServerLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether a publicly accessible IP address is created when launching the server.
         public let associatePublicIpAddress: Bool?
         public let configureScript: S3Location?
@@ -1620,22 +1742,23 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatePublicIpAddress
-            case configureScript
-            case configureScriptType
-            case ec2KeyName
-            case iamInstanceProfileName
-            case instanceType
-            case logicalId
-            case securityGroup
-            case server
-            case subnet
-            case userData
-            case vpc
+            case associatePublicIpAddress = "associatePublicIpAddress"
+            case configureScript = "configureScript"
+            case configureScriptType = "configureScriptType"
+            case ec2KeyName = "ec2KeyName"
+            case iamInstanceProfileName = "iamInstanceProfileName"
+            case instanceType = "instanceType"
+            case logicalId = "logicalId"
+            case securityGroup = "securityGroup"
+            case server = "server"
+            case subnet = "subnet"
+            case userData = "userData"
+            case vpc = "vpc"
         }
     }
 
     public struct ServerReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the server with which this replication configuration is associated.
         public let server: Server?
         /// The parameters for replicating the server.
@@ -1647,12 +1770,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case server
-            case serverReplicationParameters
+            case server = "server"
+            case serverReplicationParameters = "serverReplicationParameters"
         }
     }
 
     public struct ServerReplicationParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether the replication job produces encrypted AMIs.
         public let encrypted: Bool?
         /// The frequency of creating replication jobs for the server.
@@ -1679,17 +1803,18 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case licenseType
-            case numberOfRecentAmisToKeep
-            case runOnce
-            case seedTime
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case runOnce = "runOnce"
+            case seedTime = "seedTime"
         }
     }
 
     public struct ServerValidationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the configuration.
         public let name: String?
         public let server: Server?
@@ -1717,15 +1842,16 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case server
-            case serverValidationStrategy
-            case userDataValidationParameters
-            case validationId
+            case name = "name"
+            case server = "server"
+            case serverValidationStrategy = "serverValidationStrategy"
+            case userDataValidationParameters = "userDataValidationParameters"
+            case validationId = "validationId"
         }
     }
 
     public struct ServerValidationOutput: AWSDecodableShape {
+
         public let server: Server?
 
         public init(server: Server? = nil) {
@@ -1733,11 +1859,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case server
+            case server = "server"
         }
     }
 
     public struct Source: AWSEncodableShape & AWSDecodableShape {
+
         public let s3Location: S3Location?
 
         public init(s3Location: S3Location? = nil) {
@@ -1749,11 +1876,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
     public struct StartAppReplicationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -1762,15 +1890,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct StartAppReplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartOnDemandAppReplicationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String
         /// The description of the replication run.
@@ -1782,16 +1915,21 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case description
+            case appId = "appId"
+            case description = "description"
         }
     }
 
     public struct StartOnDemandAppReplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartOnDemandReplicationRunRequest: AWSEncodableShape {
+
         /// The description of the replication run.
         public let description: String?
         /// The ID of the replication job.
@@ -1803,12 +1941,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case replicationJobId
+            case description = "description"
+            case replicationJobId = "replicationJobId"
         }
     }
 
     public struct StartOnDemandReplicationRunResponse: AWSDecodableShape {
+
         /// The ID of the replication run.
         public let replicationRunId: String?
 
@@ -1817,11 +1956,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case replicationRunId
+            case replicationRunId = "replicationRunId"
         }
     }
 
     public struct StopAppReplicationRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -1830,15 +1970,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct StopAppReplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag key.
         public let key: String?
         /// The tag value.
@@ -1850,12 +1995,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TerminateAppRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
 
@@ -1864,15 +2010,20 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
+            case appId = "appId"
         }
     }
 
     public struct TerminateAppResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAppRequest: AWSEncodableShape {
+
         /// The ID of the application.
         public let appId: String?
         /// The new description of the application.
@@ -1896,16 +2047,17 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case description
-            case name
-            case roleName
-            case serverGroups
-            case tags
+            case appId = "appId"
+            case description = "description"
+            case name = "name"
+            case roleName = "roleName"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
     public struct UpdateAppResponse: AWSDecodableShape {
+
         /// A summary description of the application.
         public let appSummary: AppSummary?
         /// The updated server groups in the application.
@@ -1920,13 +2072,14 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSummary
-            case serverGroups
-            case tags
+            case appSummary = "appSummary"
+            case serverGroups = "serverGroups"
+            case tags = "tags"
         }
     }
 
     public struct UpdateReplicationJobRequest: AWSEncodableShape {
+
         /// The description of the replication job.
         public let description: String?
         /// When true, the replication job produces encrypted AMIs. For more information, KmsKeyId.
@@ -1959,23 +2112,28 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encrypted
-            case frequency
-            case kmsKeyId
-            case licenseType
-            case nextReplicationRunStartTime
-            case numberOfRecentAmisToKeep
-            case replicationJobId
-            case roleName
+            case description = "description"
+            case encrypted = "encrypted"
+            case frequency = "frequency"
+            case kmsKeyId = "kmsKeyId"
+            case licenseType = "licenseType"
+            case nextReplicationRunStartTime = "nextReplicationRunStartTime"
+            case numberOfRecentAmisToKeep = "numberOfRecentAmisToKeep"
+            case replicationJobId = "replicationJobId"
+            case roleName = "roleName"
         }
     }
 
     public struct UpdateReplicationJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UserData: AWSEncodableShape & AWSDecodableShape {
+
         /// Amazon S3 location of the user-data script.
         public let s3Location: S3Location?
 
@@ -1988,11 +2146,12 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
+            case s3Location = "s3Location"
         }
     }
 
     public struct UserDataValidationParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of validation script.
         public let scriptType: ScriptType?
         /// The location of the validation script.
@@ -2008,12 +2167,13 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scriptType
-            case source
+            case scriptType = "scriptType"
+            case source = "source"
         }
     }
 
     public struct ValidationOutput: AWSDecodableShape {
+
         /// The output from validating an application.
         public let appValidationOutput: AppValidationOutput?
         /// The latest time that the validation was performed.
@@ -2040,17 +2200,18 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appValidationOutput
-            case latestValidationTime
-            case name
-            case serverValidationOutput
-            case status
-            case statusMessage
-            case validationId
+            case appValidationOutput = "appValidationOutput"
+            case latestValidationTime = "latestValidationTime"
+            case name = "name"
+            case serverValidationOutput = "serverValidationOutput"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case validationId = "validationId"
         }
     }
 
     public struct VmServer: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the VM manager.
         public let vmManagerName: String?
         /// The type of VM management product.
@@ -2071,15 +2232,16 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vmManagerName
-            case vmManagerType
-            case vmName
-            case vmPath
-            case vmServerAddress
+            case vmManagerName = "vmManagerName"
+            case vmManagerType = "vmManagerType"
+            case vmName = "vmName"
+            case vmPath = "vmPath"
+            case vmServerAddress = "vmServerAddress"
         }
     }
 
     public struct VmServerAddress: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the VM.
         public let vmId: String?
         /// The ID of the VM manager.
@@ -2091,8 +2253,8 @@ extension SMS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vmId
-            case vmManagerId
+            case vmId = "vmId"
+            case vmManagerId = "vmManagerId"
         }
     }
 }

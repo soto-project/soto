@@ -297,6 +297,7 @@ extension CodeBuild {
     // MARK: Shapes
 
     public struct BatchDeleteBuildsInput: AWSEncodableShape {
+
         /// The IDs of the builds to delete.
         public let ids: [String]
 
@@ -313,11 +314,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
     public struct BatchDeleteBuildsOutput: AWSDecodableShape {
+
         /// The IDs of the builds that were successfully deleted.
         public let buildsDeleted: [String]?
         /// Information about any builds that could not be successfully deleted.
@@ -329,12 +331,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildsDeleted
-            case buildsNotDeleted
+            case buildsDeleted = "buildsDeleted"
+            case buildsNotDeleted = "buildsNotDeleted"
         }
     }
 
     public struct BatchGetBuildBatchesInput: AWSEncodableShape {
+
         /// An array that contains the batch build identifiers to retrieve.
         public let ids: [String]
 
@@ -351,11 +354,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
     public struct BatchGetBuildBatchesOutput: AWSDecodableShape {
+
         /// An array of BuildBatch objects that represent the retrieved batch builds.
         public let buildBatches: [BuildBatch]?
         /// An array that contains the identifiers of any batch builds that are not found.
@@ -367,12 +371,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatches
-            case buildBatchesNotFound
+            case buildBatches = "buildBatches"
+            case buildBatchesNotFound = "buildBatchesNotFound"
         }
     }
 
     public struct BatchGetBuildsInput: AWSEncodableShape {
+
         /// The IDs of the builds.
         public let ids: [String]
 
@@ -389,11 +394,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
+            case ids = "ids"
         }
     }
 
     public struct BatchGetBuildsOutput: AWSDecodableShape {
+
         /// Information about the requested builds.
         public let builds: [Build]?
         /// The IDs of builds for which information could not be found.
@@ -405,12 +411,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builds
-            case buildsNotFound
+            case builds = "builds"
+            case buildsNotFound = "buildsNotFound"
         }
     }
 
     public struct BatchGetProjectsInput: AWSEncodableShape {
+
         /// The names or ARNs of the build projects. To get information about a project shared with your AWS account, its ARN must be specified. You cannot specify a shared project using its name.
         public let names: [String]
 
@@ -427,11 +434,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case names
+            case names = "names"
         }
     }
 
     public struct BatchGetProjectsOutput: AWSDecodableShape {
+
         /// Information about the requested build projects.
         public let projects: [Project]?
         /// The names of build projects for which information could not be found.
@@ -443,12 +451,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projects
-            case projectsNotFound
+            case projects = "projects"
+            case projectsNotFound = "projectsNotFound"
         }
     }
 
     public struct BatchGetReportGroupsInput: AWSEncodableShape {
+
         ///  An array of report group ARNs that identify the report groups to return.
         public let reportGroupArns: [String]
 
@@ -465,11 +474,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroupArns
+            case reportGroupArns = "reportGroupArns"
         }
     }
 
     public struct BatchGetReportGroupsOutput: AWSDecodableShape {
+
         ///  The array of report groups returned by BatchGetReportGroups.
         public let reportGroups: [ReportGroup]?
         ///  An array of ARNs passed to BatchGetReportGroups that are not associated with a ReportGroup.
@@ -481,12 +491,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroups
-            case reportGroupsNotFound
+            case reportGroups = "reportGroups"
+            case reportGroupsNotFound = "reportGroupsNotFound"
         }
     }
 
     public struct BatchGetReportsInput: AWSEncodableShape {
+
         ///  An array of ARNs that identify the Report objects to return.
         public let reportArns: [String]
 
@@ -503,11 +514,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportArns
+            case reportArns = "reportArns"
         }
     }
 
     public struct BatchGetReportsOutput: AWSDecodableShape {
+
         ///  The array of Report objects returned by BatchGetReports.
         public let reports: [Report]?
         ///  An array of ARNs passed to BatchGetReportGroups that are not associated with a Report.
@@ -519,12 +531,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reports
-            case reportsNotFound
+            case reports = "reports"
+            case reportsNotFound = "reportsNotFound"
         }
     }
 
     public struct BatchRestrictions: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of strings that specify the compute types that are allowed for the batch build. See Build environment compute types in the AWS CodeBuild User Guide for these values.
         public let computeTypesAllowed: [String]?
         /// Specifies the maximum number of builds allowed.
@@ -542,12 +555,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computeTypesAllowed
-            case maximumBuildsAllowed
+            case computeTypesAllowed = "computeTypesAllowed"
+            case maximumBuildsAllowed = "maximumBuildsAllowed"
         }
     }
 
     public struct Build: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the build.
         public let arn: String?
         /// Information about the output artifacts for the build.
@@ -649,42 +663,43 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case artifacts
-            case buildBatchArn
-            case buildComplete
-            case buildNumber
-            case buildStatus
-            case cache
-            case currentPhase
-            case debugSession
-            case encryptionKey
-            case endTime
-            case environment
-            case exportedEnvironmentVariables
-            case fileSystemLocations
-            case id
-            case initiator
-            case logs
-            case networkInterface
-            case phases
-            case projectName
-            case queuedTimeoutInMinutes
-            case reportArns
-            case resolvedSourceVersion
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case startTime
-            case timeoutInMinutes
-            case vpcConfig
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case buildBatchArn = "buildBatchArn"
+            case buildComplete = "buildComplete"
+            case buildNumber = "buildNumber"
+            case buildStatus = "buildStatus"
+            case cache = "cache"
+            case currentPhase = "currentPhase"
+            case debugSession = "debugSession"
+            case encryptionKey = "encryptionKey"
+            case endTime = "endTime"
+            case environment = "environment"
+            case exportedEnvironmentVariables = "exportedEnvironmentVariables"
+            case fileSystemLocations = "fileSystemLocations"
+            case id = "id"
+            case initiator = "initiator"
+            case logs = "logs"
+            case networkInterface = "networkInterface"
+            case phases = "phases"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case reportArns = "reportArns"
+            case resolvedSourceVersion = "resolvedSourceVersion"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case startTime = "startTime"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct BuildArtifacts: AWSDecodableShape {
+
         ///  An identifier for this artifact definition.
         public let artifactIdentifier: String?
         public let bucketOwnerAccess: BucketOwnerAccess?
@@ -710,17 +725,18 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactIdentifier
-            case bucketOwnerAccess
-            case encryptionDisabled
-            case location
-            case md5sum
-            case overrideArtifactName
-            case sha256sum
+            case artifactIdentifier = "artifactIdentifier"
+            case bucketOwnerAccess = "bucketOwnerAccess"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case md5sum = "md5sum"
+            case overrideArtifactName = "overrideArtifactName"
+            case sha256sum = "sha256sum"
         }
     }
 
     public struct BuildBatch: AWSDecodableShape {
+
         /// The ARN of the batch build.
         public let arn: String?
         /// A BuildArtifacts object the defines the build artifacts for this batch build.
@@ -810,40 +826,41 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case artifacts
-            case buildBatchConfig
-            case buildBatchNumber
-            case buildBatchStatus
-            case buildGroups
-            case buildTimeoutInMinutes
-            case cache
-            case complete
-            case currentPhase
-            case debugSessionEnabled
-            case encryptionKey
-            case endTime
-            case environment
-            case fileSystemLocations
-            case id
-            case initiator
-            case logConfig
-            case phases
-            case projectName
-            case queuedTimeoutInMinutes
-            case resolvedSourceVersion
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case startTime
-            case vpcConfig
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case buildBatchConfig = "buildBatchConfig"
+            case buildBatchNumber = "buildBatchNumber"
+            case buildBatchStatus = "buildBatchStatus"
+            case buildGroups = "buildGroups"
+            case buildTimeoutInMinutes = "buildTimeoutInMinutes"
+            case cache = "cache"
+            case complete = "complete"
+            case currentPhase = "currentPhase"
+            case debugSessionEnabled = "debugSessionEnabled"
+            case encryptionKey = "encryptionKey"
+            case endTime = "endTime"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case id = "id"
+            case initiator = "initiator"
+            case logConfig = "logConfig"
+            case phases = "phases"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case resolvedSourceVersion = "resolvedSourceVersion"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case startTime = "startTime"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct BuildBatchFilter: AWSEncodableShape {
+
         /// The status of the batch builds to retrieve. Only batch builds that have this status will be retrieved.
         public let status: StatusType?
 
@@ -852,11 +869,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct BuildBatchPhase: AWSDecodableShape {
+
         /// Additional information about the batch build phase. Especially to help troubleshoot a failed batch build.
         public let contexts: [PhaseContext]?
         /// How long, in seconds, between the starting and ending times of the batch build's phase.
@@ -880,16 +898,17 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contexts
-            case durationInSeconds
-            case endTime
-            case phaseStatus
-            case phaseType
-            case startTime
+            case contexts = "contexts"
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
+            case startTime = "startTime"
         }
     }
 
     public struct BuildGroup: AWSDecodableShape {
+
         /// A BuildSummary object that contains a summary of the current build group.
         public let currentBuildSummary: BuildSummary?
         /// An array of strings that contain the identifiers of the build groups that this build group depends on.
@@ -910,15 +929,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentBuildSummary
-            case dependsOn
-            case identifier
-            case ignoreFailure
-            case priorBuildSummaryList
+            case currentBuildSummary = "currentBuildSummary"
+            case dependsOn = "dependsOn"
+            case identifier = "identifier"
+            case ignoreFailure = "ignoreFailure"
+            case priorBuildSummaryList = "priorBuildSummaryList"
         }
     }
 
     public struct BuildNotDeleted: AWSDecodableShape {
+
         /// The ID of the build that could not be successfully deleted.
         public let id: String?
         /// Additional information about the build that could not be successfully deleted.
@@ -930,12 +950,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case statusCode
+            case id = "id"
+            case statusCode = "statusCode"
         }
     }
 
     public struct BuildPhase: AWSDecodableShape {
+
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public let contexts: [PhaseContext]?
         /// How long, in seconds, between the starting and ending times of the build's phase.
@@ -959,16 +980,17 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contexts
-            case durationInSeconds
-            case endTime
-            case phaseStatus
-            case phaseType
-            case startTime
+            case contexts = "contexts"
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
+            case startTime = "startTime"
         }
     }
 
     public struct BuildStatusConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the context of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider.  Bitbucket  This parameter is used for the name parameter in the Bitbucket commit status. For more information, see build in the Bitbucket API documentation.  GitHub/GitHub Enterprise Server  This parameter is used for the context parameter in the GitHub commit status. For more information, see Create a commit status in the GitHub developer guide.
         public let context: String?
         /// Specifies the target url of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider.  Bitbucket  This parameter is used for the url parameter in the Bitbucket commit status. For more information, see build in the Bitbucket API documentation.  GitHub/GitHub Enterprise Server  This parameter is used for the target_url parameter in the GitHub commit status. For more information, see Create a commit status in the GitHub developer guide.
@@ -980,12 +1002,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case context
-            case targetUrl
+            case context = "context"
+            case targetUrl = "targetUrl"
         }
     }
 
     public struct BuildSummary: AWSDecodableShape {
+
         /// The batch build ARN.
         public let arn: String?
         /// The status of the build group.  FAILED  The build group failed.  FAULT  The build group faulted.  IN_PROGRESS  The build group is still in progress.  STOPPED  The build group stopped.  SUCCEEDED  The build group succeeded.  TIMED_OUT  The build group timed out.
@@ -1006,15 +1029,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case buildStatus
-            case primaryArtifact
-            case requestedOn
-            case secondaryArtifacts
+            case arn = "arn"
+            case buildStatus = "buildStatus"
+            case primaryArtifact = "primaryArtifact"
+            case requestedOn = "requestedOn"
+            case secondaryArtifacts = "secondaryArtifacts"
         }
     }
 
     public struct CloudWatchLogsConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  The group name of the logs in Amazon CloudWatch Logs. For more information, see Working with Log Groups and Log Streams.
         public let groupName: String?
         /// The current status of the logs in Amazon CloudWatch Logs for a build project. Valid values are:    ENABLED: Amazon CloudWatch Logs are enabled for this build project.    DISABLED: Amazon CloudWatch Logs are not enabled for this build project.
@@ -1029,13 +1053,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupName
-            case status
-            case streamName
+            case groupName = "groupName"
+            case status = "status"
+            case streamName = "streamName"
         }
     }
 
     public struct CodeCoverage: AWSDecodableShape {
+
         /// The percentage of branches that are covered by your tests.
         public let branchCoveragePercentage: Double?
         /// The number of conditional branches that are covered by your tests.
@@ -1071,20 +1096,21 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchCoveragePercentage
-            case branchesCovered
-            case branchesMissed
-            case expired
-            case filePath
-            case id
-            case lineCoveragePercentage
-            case linesCovered
-            case linesMissed
-            case reportARN
+            case branchCoveragePercentage = "branchCoveragePercentage"
+            case branchesCovered = "branchesCovered"
+            case branchesMissed = "branchesMissed"
+            case expired = "expired"
+            case filePath = "filePath"
+            case id = "id"
+            case lineCoveragePercentage = "lineCoveragePercentage"
+            case linesCovered = "linesCovered"
+            case linesMissed = "linesMissed"
+            case reportARN = "reportARN"
         }
     }
 
     public struct CodeCoverageReportSummary: AWSDecodableShape {
+
         /// The percentage of branches that are covered by your tests.
         public let branchCoveragePercentage: Double?
         /// The number of conditional branches that are covered by your tests.
@@ -1108,16 +1134,17 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchCoveragePercentage
-            case branchesCovered
-            case branchesMissed
-            case lineCoveragePercentage
-            case linesCovered
-            case linesMissed
+            case branchCoveragePercentage = "branchCoveragePercentage"
+            case branchesCovered = "branchesCovered"
+            case branchesMissed = "branchesMissed"
+            case lineCoveragePercentage = "lineCoveragePercentage"
+            case linesCovered = "linesCovered"
+            case linesMissed = "linesMissed"
         }
     }
 
     public struct CreateProjectInput: AWSEncodableShape {
+
         /// Information about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
@@ -1218,31 +1245,32 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case badgeEnabled
-            case buildBatchConfig
-            case cache
-            case concurrentBuildLimit
-            case description
-            case encryptionKey
-            case environment
-            case fileSystemLocations
-            case logsConfig
-            case name
-            case queuedTimeoutInMinutes
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case tags
-            case timeoutInMinutes
-            case vpcConfig
+            case artifacts = "artifacts"
+            case badgeEnabled = "badgeEnabled"
+            case buildBatchConfig = "buildBatchConfig"
+            case cache = "cache"
+            case concurrentBuildLimit = "concurrentBuildLimit"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct CreateProjectOutput: AWSDecodableShape {
+
         /// Information about the build project that was created.
         public let project: Project?
 
@@ -1251,11 +1279,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
     public struct CreateReportGroupInput: AWSEncodableShape {
+
         ///  A ReportExportConfig object that contains information about where the report group test results are exported.
         public let exportConfig: ReportExportConfig
         ///  The name of the report group.
@@ -1284,14 +1313,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportConfig
-            case name
-            case tags
-            case type
+            case exportConfig = "exportConfig"
+            case name = "name"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
     public struct CreateReportGroupOutput: AWSDecodableShape {
+
         ///  Information about the report group that was created.
         public let reportGroup: ReportGroup?
 
@@ -1300,11 +1330,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroup
+            case reportGroup = "reportGroup"
         }
     }
 
     public struct CreateWebhookInput: AWSEncodableShape {
+
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.  It is recommended that you use filterGroups instead of branchFilter.
         public let branchFilter: String?
         /// Specifies the type of build this webhook will trigger.
@@ -1328,14 +1359,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchFilter
-            case buildType
-            case filterGroups
-            case projectName
+            case branchFilter = "branchFilter"
+            case buildType = "buildType"
+            case filterGroups = "filterGroups"
+            case projectName = "projectName"
         }
     }
 
     public struct CreateWebhookOutput: AWSDecodableShape {
+
         /// Information about a webhook that connects repository events to a build project in AWS CodeBuild.
         public let webhook: Webhook?
 
@@ -1344,11 +1376,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct DebugSession: AWSDecodableShape {
+
         /// Specifies if session debugging is enabled for this build.
         public let sessionEnabled: Bool?
         /// Contains the identifier of the Session Manager session used for the build. To work with the paused build, you open this session to examine, control, and resume the build.
@@ -1360,12 +1393,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionEnabled
-            case sessionTarget
+            case sessionEnabled = "sessionEnabled"
+            case sessionTarget = "sessionTarget"
         }
     }
 
     public struct DeleteBuildBatchInput: AWSEncodableShape {
+
         /// The identifier of the batch build to delete.
         public let id: String
 
@@ -1378,11 +1412,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DeleteBuildBatchOutput: AWSDecodableShape {
+
         /// An array of strings that contain the identifiers of the builds that were deleted.
         public let buildsDeleted: [String]?
         /// An array of BuildNotDeleted objects that specify the builds that could not be deleted.
@@ -1397,13 +1432,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildsDeleted
-            case buildsNotDeleted
-            case statusCode
+            case buildsDeleted = "buildsDeleted"
+            case buildsNotDeleted = "buildsNotDeleted"
+            case statusCode = "statusCode"
         }
     }
 
     public struct DeleteProjectInput: AWSEncodableShape {
+
         /// The name of the build project.
         public let name: String
 
@@ -1416,15 +1452,20 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct DeleteProjectOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReportGroupInput: AWSEncodableShape {
+
         /// The ARN of the report group to delete.
         public let arn: String
         /// If true, deletes any reports that belong to a report group before deleting the report group.  If false, you must delete any reports in the report group. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown.
@@ -1440,16 +1481,21 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case deleteReports
+            case arn = "arn"
+            case deleteReports = "deleteReports"
         }
     }
 
     public struct DeleteReportGroupOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteReportInput: AWSEncodableShape {
+
         ///  The ARN of the report to delete.
         public let arn: String
 
@@ -1462,15 +1508,20 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteReportOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteResourcePolicyInput: AWSEncodableShape {
+
         ///  The ARN of the resource that is associated with the resource policy.
         public let resourceArn: String
 
@@ -1483,15 +1534,20 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct DeleteResourcePolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSourceCredentialsInput: AWSEncodableShape {
+
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String
 
@@ -1504,11 +1560,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteSourceCredentialsOutput: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String?
 
@@ -1517,11 +1574,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteWebhookInput: AWSEncodableShape {
+
         /// The name of the AWS CodeBuild project.
         public let projectName: String
 
@@ -1536,15 +1594,20 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectName
+            case projectName = "projectName"
         }
     }
 
     public struct DeleteWebhookOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeCodeCoveragesInput: AWSEncodableShape {
+
         /// The maximum line coverage percentage to report.
         public let maxLineCoveragePercentage: Double?
         /// The maximum number of results to return.
@@ -1581,17 +1644,18 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxLineCoveragePercentage
-            case maxResults
-            case minLineCoveragePercentage
-            case nextToken
-            case reportArn
-            case sortBy
-            case sortOrder
+            case maxLineCoveragePercentage = "maxLineCoveragePercentage"
+            case maxResults = "maxResults"
+            case minLineCoveragePercentage = "minLineCoveragePercentage"
+            case nextToken = "nextToken"
+            case reportArn = "reportArn"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct DescribeCodeCoveragesOutput: AWSDecodableShape {
+
         /// An array of CodeCoverage objects that contain the results.
         public let codeCoverages: [CodeCoverage]?
         /// If there are more items to return, this contains a token that is passed to a subsequent call to DescribeCodeCoverages to retrieve the next set of items.
@@ -1603,12 +1667,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeCoverages
-            case nextToken
+            case codeCoverages = "codeCoverages"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeTestCasesInput: AWSEncodableShape {
+
         ///  A TestCaseFilter object used to filter the returned reports.
         public let filter: TestCaseFilter?
         ///  The maximum number of paginated test cases returned per response. Use nextToken to iterate pages in the list of returned TestCase objects. The default value is 100.
@@ -1631,14 +1696,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case reportArn
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reportArn = "reportArn"
         }
     }
 
     public struct DescribeTestCasesOutput: AWSDecodableShape {
+
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         ///  The returned list of test cases.
@@ -1650,12 +1716,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testCases
+            case nextToken = "nextToken"
+            case testCases = "testCases"
         }
     }
 
     public struct EnvironmentImage: AWSDecodableShape {
+
         /// The description of the Docker image.
         public let description: String?
         /// The name of the Docker image.
@@ -1670,13 +1737,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case versions
+            case description = "description"
+            case name = "name"
+            case versions = "versions"
         }
     }
 
     public struct EnvironmentLanguage: AWSDecodableShape {
+
         /// The list of Docker images that are related by the specified programming language.
         public let images: [EnvironmentImage]?
         /// The programming language for the Docker images.
@@ -1688,12 +1756,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case images
-            case language
+            case images = "images"
+            case language = "language"
         }
     }
 
     public struct EnvironmentPlatform: AWSDecodableShape {
+
         /// The list of programming languages that are available for the specified platform.
         public let languages: [EnvironmentLanguage]?
         /// The platform's name.
@@ -1705,12 +1774,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case languages
-            case platform
+            case languages = "languages"
+            case platform = "platform"
         }
     }
 
     public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
+
         /// The name or key of the environment variable.
         public let name: String
         /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store. To learn how to specify a parameter store environment variable, see env/parameter-store in the AWS CodeBuild User Guide.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in AWS Secrets Manager. To learn how to specify a secrets manager environment variable, see env/secrets-manager in the AWS CodeBuild User Guide.
@@ -1729,13 +1799,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
-            case value
+            case name = "name"
+            case type = "type"
+            case value = "value"
         }
     }
 
     public struct ExportedEnvironmentVariable: AWSDecodableShape {
+
         /// The name of the exported environment variable.
         public let name: String?
         /// The value assigned to the exported environment variable.
@@ -1747,12 +1818,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct GetReportGroupTrendInput: AWSEncodableShape {
+
         /// The number of reports to analyze. This operation always retrieves the most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
         public let numOfReports: Int?
         /// The ARN of the report group that contains the reports to analyze.
@@ -1773,13 +1845,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numOfReports
-            case reportGroupArn
-            case trendField
+            case numOfReports = "numOfReports"
+            case reportGroupArn = "reportGroupArn"
+            case trendField = "trendField"
         }
     }
 
     public struct GetReportGroupTrendOutput: AWSDecodableShape {
+
         /// An array that contains the raw data for each report.
         public let rawData: [ReportWithRawData]?
         /// Contains the accumulated trend data.
@@ -1791,12 +1864,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rawData
-            case stats
+            case rawData = "rawData"
+            case stats = "stats"
         }
     }
 
     public struct GetResourcePolicyInput: AWSEncodableShape {
+
         ///  The ARN of the resource that is associated with the resource policy.
         public let resourceArn: String
 
@@ -1809,11 +1883,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct GetResourcePolicyOutput: AWSDecodableShape {
+
         ///  The resource policy for the resource identified by the input ARN parameter.
         public let policy: String?
 
@@ -1822,11 +1897,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct GitSubmodulesConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  Set to true to fetch Git submodules for your AWS CodeBuild build project.
         public let fetchSubmodules: Bool
 
@@ -1835,11 +1911,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fetchSubmodules
+            case fetchSubmodules = "fetchSubmodules"
         }
     }
 
     public struct ImportSourceCredentialsInput: AWSEncodableShape {
+
         ///  The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the AWS CodeBuild console.
         public let authType: AuthType
         ///  The source provider used for this project.
@@ -1865,15 +1942,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authType
-            case serverType
-            case shouldOverwrite
-            case token
-            case username
+            case authType = "authType"
+            case serverType = "serverType"
+            case shouldOverwrite = "shouldOverwrite"
+            case token = "token"
+            case username = "username"
         }
     }
 
     public struct ImportSourceCredentialsOutput: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String?
 
@@ -1882,11 +1960,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct InvalidateProjectCacheInput: AWSEncodableShape {
+
         /// The name of the AWS CodeBuild build project that the cache is reset for.
         public let projectName: String
 
@@ -1899,15 +1978,20 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectName
+            case projectName = "projectName"
         }
     }
 
     public struct InvalidateProjectCacheOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ListBuildBatchesForProjectInput: AWSEncodableShape {
+
         /// A BuildBatchFilter object that specifies the filters for the search.
         public let filter: BuildBatchFilter?
         /// The maximum number of results to return.
@@ -1934,15 +2018,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case projectName
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case projectName = "projectName"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListBuildBatchesForProjectOutput: AWSDecodableShape {
+
         /// An array of strings that contains the batch build identifiers.
         public let ids: [String]?
         /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatchesForProject to retrieve the next set of items.
@@ -1954,12 +2039,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBuildBatchesInput: AWSEncodableShape {
+
         /// A BuildBatchFilter object that specifies the filters for the search.
         public let filter: BuildBatchFilter?
         /// The maximum number of results to return.
@@ -1982,14 +2068,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListBuildBatchesOutput: AWSDecodableShape {
+
         /// An array of strings that contains the batch build identifiers.
         public let ids: [String]?
         /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatches to retrieve the next set of items.
@@ -2001,12 +2088,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBuildsForProjectInput: AWSEncodableShape {
+
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The name of the AWS CodeBuild project.
@@ -2025,13 +2113,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projectName
-            case sortOrder
+            case nextToken = "nextToken"
+            case projectName = "projectName"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListBuildsForProjectOutput: AWSDecodableShape {
+
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -2043,12 +2132,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBuildsInput: AWSEncodableShape {
+
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.
@@ -2060,12 +2150,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sortOrder
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListBuildsOutput: AWSDecodableShape {
+
         /// A list of build IDs, with each build ID representing a single build.
         public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -2077,16 +2168,21 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ids
-            case nextToken
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListCuratedEnvironmentImagesInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ListCuratedEnvironmentImagesOutput: AWSDecodableShape {
+
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public let platforms: [EnvironmentPlatform]?
 
@@ -2095,11 +2191,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case platforms
+            case platforms = "platforms"
         }
     }
 
     public struct ListProjectsInput: AWSEncodableShape {
+
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List based on when each build project was created.    LAST_MODIFIED_TIME: List based on when information about each build project was last changed.    NAME: List based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
@@ -2118,13 +2215,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case sortBy
-            case sortOrder
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListProjectsOutput: AWSDecodableShape {
+
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
         /// The list of build project names, with each build project name representing a single build project.
@@ -2136,12 +2234,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
     public struct ListReportGroupsInput: AWSEncodableShape {
+
         ///  The maximum number of paginated report groups returned per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100.
         public let maxResults: Int?
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -2164,14 +2263,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListReportGroupsOutput: AWSDecodableShape {
+
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         ///  The list of ARNs for the report groups in the current AWS account.
@@ -2183,12 +2283,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportGroups
+            case nextToken = "nextToken"
+            case reportGroups = "reportGroups"
         }
     }
 
     public struct ListReportsForReportGroupInput: AWSEncodableShape {
+
         ///  A ReportFilter object used to filter the returned reports.
         public let filter: ReportFilter?
         ///  The maximum number of paginated reports in this report group returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100.
@@ -2214,15 +2315,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case reportGroupArn
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reportGroupArn = "reportGroupArn"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListReportsForReportGroupOutput: AWSDecodableShape {
+
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         ///  The list of report ARNs.
@@ -2234,12 +2336,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reports
+            case nextToken = "nextToken"
+            case reports = "reports"
         }
     }
 
     public struct ListReportsInput: AWSEncodableShape {
+
         ///  A ReportFilter object used to filter the returned reports.
         public let filter: ReportFilter?
         ///  The maximum number of paginated reports returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100.
@@ -2262,14 +2365,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case sortOrder
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListReportsOutput: AWSDecodableShape {
+
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         ///  The list of returned ARNs for the reports in the current AWS account.
@@ -2281,12 +2385,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reports
+            case nextToken = "nextToken"
+            case reports = "reports"
         }
     }
 
     public struct ListSharedProjectsInput: AWSEncodableShape {
+
         ///  The maximum number of paginated shared build projects returned per response. Use nextToken to iterate pages in the list of returned Project objects. The default value is 100.
         public let maxResults: Int?
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -2310,14 +2415,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListSharedProjectsOutput: AWSDecodableShape {
+
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         ///  The list of ARNs for the build projects shared with the current AWS account or user.
@@ -2329,12 +2435,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
     public struct ListSharedReportGroupsInput: AWSEncodableShape {
+
         ///  The maximum number of paginated shared report groups per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100.
         public let maxResults: Int?
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -2357,14 +2464,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
-            case sortOrder
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListSharedReportGroupsOutput: AWSDecodableShape {
+
         ///  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
         ///  The list of ARNs for the report groups shared with the current AWS account or user.
@@ -2376,16 +2484,21 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportGroups
+            case nextToken = "nextToken"
+            case reportGroups = "reportGroups"
         }
     }
 
     public struct ListSourceCredentialsInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ListSourceCredentialsOutput: AWSDecodableShape {
+
         ///  A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials.
         public let sourceCredentialsInfos: [SourceCredentialsInfo]?
 
@@ -2394,11 +2507,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceCredentialsInfos
+            case sourceCredentialsInfos = "sourceCredentialsInfos"
         }
     }
 
     public struct LogsConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  Information about Amazon CloudWatch Logs for a build project. Amazon CloudWatch Logs are enabled by default.
         public let cloudWatchLogs: CloudWatchLogsConfig?
         ///  Information about logs built to an S3 bucket for a build project. S3 logs are not enabled by default.
@@ -2410,12 +2524,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case s3Logs
+            case cloudWatchLogs = "cloudWatchLogs"
+            case s3Logs = "s3Logs"
         }
     }
 
     public struct LogsLocation: AWSDecodableShape {
+
         ///  Information about Amazon CloudWatch Logs for a build project.
         public let cloudWatchLogs: CloudWatchLogsConfig?
         ///  The ARN of Amazon CloudWatch Logs for a build project. Its format is arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}. For more information, see Resources Defined by Amazon CloudWatch Logs.
@@ -2445,18 +2560,19 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogs
-            case cloudWatchLogsArn
-            case deepLink
-            case groupName
-            case s3DeepLink
-            case s3Logs
-            case s3LogsArn
-            case streamName
+            case cloudWatchLogs = "cloudWatchLogs"
+            case cloudWatchLogsArn = "cloudWatchLogsArn"
+            case deepLink = "deepLink"
+            case groupName = "groupName"
+            case s3DeepLink = "s3DeepLink"
+            case s3Logs = "s3Logs"
+            case s3LogsArn = "s3LogsArn"
+            case streamName = "streamName"
         }
     }
 
     public struct NetworkInterface: AWSDecodableShape {
+
         /// The ID of the network interface.
         public let networkInterfaceId: String?
         /// The ID of the subnet.
@@ -2468,12 +2584,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkInterfaceId
-            case subnetId
+            case networkInterfaceId = "networkInterfaceId"
+            case subnetId = "subnetId"
         }
     }
 
     public struct PhaseContext: AWSDecodableShape {
+
         /// An explanation of the build phase's context. This might include a command ID and an exit code.
         public let message: String?
         /// The status code for the context of the build phase.
@@ -2485,12 +2602,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case statusCode
+            case message = "message"
+            case statusCode = "statusCode"
         }
     }
 
     public struct Project: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the build project.
         public let arn: String?
         /// Information about the build output artifacts for the build project.
@@ -2571,35 +2689,36 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case artifacts
-            case badge
-            case buildBatchConfig
-            case cache
-            case concurrentBuildLimit
-            case created
-            case description
-            case encryptionKey
-            case environment
-            case fileSystemLocations
-            case lastModified
-            case logsConfig
-            case name
-            case queuedTimeoutInMinutes
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case tags
-            case timeoutInMinutes
-            case vpcConfig
-            case webhook
+            case arn = "arn"
+            case artifacts = "artifacts"
+            case badge = "badge"
+            case buildBatchConfig = "buildBatchConfig"
+            case cache = "cache"
+            case concurrentBuildLimit = "concurrentBuildLimit"
+            case created = "created"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case lastModified = "lastModified"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
+            case webhook = "webhook"
         }
     }
 
     public struct ProjectArtifacts: AWSEncodableShape & AWSDecodableShape {
+
         ///  An identifier for this artifact definition.
         public let artifactIdentifier: String?
         public let bucketOwnerAccess: BucketOwnerAccess?
@@ -2634,20 +2753,21 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactIdentifier
-            case bucketOwnerAccess
-            case encryptionDisabled
-            case location
-            case name
-            case namespaceType
-            case overrideArtifactName
-            case packaging
-            case path
-            case type
+            case artifactIdentifier = "artifactIdentifier"
+            case bucketOwnerAccess = "bucketOwnerAccess"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case name = "name"
+            case namespaceType = "namespaceType"
+            case overrideArtifactName = "overrideArtifactName"
+            case packaging = "packaging"
+            case path = "path"
+            case type = "type"
         }
     }
 
     public struct ProjectBadge: AWSDecodableShape {
+
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public let badgeEnabled: Bool?
         /// The publicly-accessible URL through which you can access the build badge for your project.
@@ -2659,12 +2779,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case badgeEnabled
-            case badgeRequestUrl
+            case badgeEnabled = "badgeEnabled"
+            case badgeRequestUrl = "badgeRequestUrl"
         }
     }
 
     public struct ProjectBuildBatchConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies if the build artifacts for the batch build should be combined into a single artifact location.
         public let combineArtifacts: Bool?
         /// A BatchRestrictions object that specifies the restrictions for the batch build.
@@ -2687,14 +2808,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case combineArtifacts
-            case restrictions
-            case serviceRole
-            case timeoutInMins
+            case combineArtifacts = "combineArtifacts"
+            case restrictions = "restrictions"
+            case serviceRole = "serviceRole"
+            case timeoutInMins = "timeoutInMins"
         }
     }
 
     public struct ProjectCache: AWSEncodableShape & AWSDecodableShape {
+
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.
         public let location: String?
         /// An array of strings that specify the local cache modes. You can use one or more local cache modes at the same time. This is only used for LOCAL cache types. Possible values are:  LOCAL_SOURCE_CACHE  Caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.   LOCAL_DOCKER_LAYER_CACHE  Caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.     You can use a Docker layer cache in the Linux environment only.    The privileged flag must be set so that your project has the required Docker permissions.    You should consider the security implications before you use a Docker layer cache.      LOCAL_CUSTOM_CACHE  Caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:    Only directories can be specified for caching. You cannot specify individual files.    Symlinks are used to reference cached directories.    Cached directories are linked to your build before it downloads its project sources. Cached items are overridden if a source item has the same name. Directories are specified using cache paths in the buildspec file.
@@ -2709,13 +2831,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location
-            case modes
-            case type
+            case location = "location"
+            case modes = "modes"
+            case type = "type"
         }
     }
 
     public struct ProjectEnvironment: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Amazon S3 bucket, path prefix, and object key that contains the PEM-encoded certificate for the build project. For more information, see certificate in the AWS CodeBuild User Guide.
         public let certificate: String?
         /// Information about the compute resources the build project uses. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.    If you use BUILD_GENERAL1_LARGE:     For environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.     For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.    For environment type ARM_CONTAINER, you can use up to 16 GB memory and 8 vCPUs on ARM-based processors for builds.    For more information, see Build Environment Compute Types in the AWS CodeBuild User Guide.
@@ -2753,18 +2876,19 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case computeType
-            case environmentVariables
-            case image
-            case imagePullCredentialsType
-            case privilegedMode
-            case registryCredential
-            case type
+            case certificate = "certificate"
+            case computeType = "computeType"
+            case environmentVariables = "environmentVariables"
+            case image = "image"
+            case imagePullCredentialsType = "imagePullCredentialsType"
+            case privilegedMode = "privilegedMode"
+            case registryCredential = "registryCredential"
+            case type = "type"
         }
     }
 
     public struct ProjectFileSystemLocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The name used to access a file system created by Amazon EFS. CodeBuild creates an environment variable by appending the identifier in all capital letters to CODEBUILD_. For example, if you specify my_efs for identifier, a new environment variable is create named CODEBUILD_MY_EFS.   The identifier is used to mount your file system.
         public let identifier: String?
         /// A string that specifies the location of the file system created by Amazon EFS. Its format is efs-dns-name:/directory-path. You can find the DNS name of file system when you view it in the AWS EFS console. The directory path is a path to a directory in the file system that CodeBuild mounts. For example, if the DNS name of a file system is fs-abcd1234.efs.us-west-2.amazonaws.com, and its mount directory is my-efs-mount-directory, then the location is fs-abcd1234.efs.us-west-2.amazonaws.com:/my-efs-mount-directory.  The directory path in the format efs-dns-name:/directory-path is optional. If you do not specify a directory path, the location is only the DNS name and CodeBuild mounts the entire file system.
@@ -2785,15 +2909,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case location
-            case mountOptions
-            case mountPoint
-            case type
+            case identifier = "identifier"
+            case location = "location"
+            case mountOptions = "mountOptions"
+            case mountPoint = "mountPoint"
+            case type = "type"
         }
     }
 
     public struct ProjectSource: AWSEncodableShape & AWSDecodableShape {
+
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly.
         public let auth: SourceAuth?
         /// The buildspec file declaration to use for the builds in this build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
@@ -2833,20 +2958,21 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auth
-            case buildspec
-            case buildStatusConfig
-            case gitCloneDepth
-            case gitSubmodulesConfig
-            case insecureSsl
-            case location
-            case reportBuildStatus
-            case sourceIdentifier
-            case type
+            case auth = "auth"
+            case buildspec = "buildspec"
+            case buildStatusConfig = "buildStatusConfig"
+            case gitCloneDepth = "gitCloneDepth"
+            case gitSubmodulesConfig = "gitSubmodulesConfig"
+            case insecureSsl = "insecureSsl"
+            case location = "location"
+            case reportBuildStatus = "reportBuildStatus"
+            case sourceIdentifier = "sourceIdentifier"
+            case type = "type"
         }
     }
 
     public struct ProjectSourceVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// An identifier for a source in the build project. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
         public let sourceIdentifier: String
         /// The source version for the corresponding source identifier. If specified, must be one of:   For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of the object that represents the build input ZIP file to use.    For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide.
@@ -2858,12 +2984,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIdentifier
-            case sourceVersion
+            case sourceIdentifier = "sourceIdentifier"
+            case sourceVersion = "sourceVersion"
         }
     }
 
     public struct PutResourcePolicyInput: AWSEncodableShape {
+
         ///  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the AWS CodeBuild User Guide.
         public let policy: String
         ///  The ARN of the Project or ReportGroup resource you want to associate with a resource policy.
@@ -2880,12 +3007,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case resourceArn
+            case policy = "policy"
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct PutResourcePolicyOutput: AWSDecodableShape {
+
         ///  The ARN of the Project or ReportGroup resource that is associated with a resource policy.
         public let resourceArn: String?
 
@@ -2894,11 +3022,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct RegistryCredential: AWSEncodableShape & AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.    The credential can use the name of the credentials only if they exist in your current AWS Region.
         public let credential: String
         ///  The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager.
@@ -2914,12 +3043,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credential
-            case credentialProvider
+            case credential = "credential"
+            case credentialProvider = "credentialProvider"
         }
     }
 
     public struct Report: AWSDecodableShape {
+
         ///  The ARN of the report run.
         public let arn: String?
         /// A CodeCoverageReportSummary object that contains a code coverage summary for this report.
@@ -2961,22 +3091,23 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case codeCoverageSummary
-            case created
-            case executionId
-            case expired
-            case exportConfig
-            case name
-            case reportGroupArn
-            case status
-            case testSummary
-            case truncated
-            case type
+            case arn = "arn"
+            case codeCoverageSummary = "codeCoverageSummary"
+            case created = "created"
+            case executionId = "executionId"
+            case expired = "expired"
+            case exportConfig = "exportConfig"
+            case name = "name"
+            case reportGroupArn = "reportGroupArn"
+            case status = "status"
+            case testSummary = "testSummary"
+            case truncated = "truncated"
+            case type = "type"
         }
     }
 
     public struct ReportExportConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  The export configuration type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.
         public let exportConfigType: ReportExportConfigType?
         ///  A S3ReportExportConfig object that contains information about the S3 bucket where the run of a report is exported.
@@ -2992,12 +3123,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportConfigType
-            case s3Destination
+            case exportConfigType = "exportConfigType"
+            case s3Destination = "s3Destination"
         }
     }
 
     public struct ReportFilter: AWSEncodableShape {
+
         ///  The status used to filter reports. You can filter using one status only.
         public let status: ReportStatusType?
 
@@ -3006,11 +3138,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct ReportGroup: AWSDecodableShape {
+
         /// The ARN of the ReportGroup.
         public let arn: String?
         /// The date and time this ReportGroup was created.
@@ -3040,18 +3173,19 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case exportConfig
-            case lastModified
-            case name
-            case status
-            case tags
-            case type
+            case arn = "arn"
+            case created = "created"
+            case exportConfig = "exportConfig"
+            case lastModified = "lastModified"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
     public struct ReportGroupTrendStats: AWSDecodableShape {
+
         /// Contains the average of all values analyzed.
         public let average: String?
         /// Contains the maximum value analyzed.
@@ -3066,13 +3200,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case average
-            case max
-            case min
+            case average = "average"
+            case max = "max"
+            case min = "min"
         }
     }
 
     public struct ReportWithRawData: AWSDecodableShape {
+
         /// The value of the requested data field from the report.
         public let data: String?
         /// The ARN of the report.
@@ -3084,12 +3219,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case reportArn
+            case data = "data"
+            case reportArn = "reportArn"
         }
     }
 
     public struct ResolvedArtifact: AWSDecodableShape {
+
         /// The identifier of the artifact.
         public let identifier: String?
         /// The location of the artifact.
@@ -3104,13 +3240,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case identifier
-            case location
-            case type
+            case identifier = "identifier"
+            case location = "location"
+            case type = "type"
         }
     }
 
     public struct RetryBuildBatchInput: AWSEncodableShape {
+
         /// Specifies the identifier of the batch build to restart.
         public let id: String?
         /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch request and is valid for five minutes. If you repeat the RetryBuildBatch request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
@@ -3129,13 +3266,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case idempotencyToken
-            case retryType
+            case id = "id"
+            case idempotencyToken = "idempotencyToken"
+            case retryType = "retryType"
         }
     }
 
     public struct RetryBuildBatchOutput: AWSDecodableShape {
+
         public let buildBatch: BuildBatch?
 
         public init(buildBatch: BuildBatch? = nil) {
@@ -3143,11 +3281,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatch
+            case buildBatch = "buildBatch"
         }
     }
 
     public struct RetryBuildInput: AWSEncodableShape {
+
         /// Specifies the identifier of the build to restart.
         public let id: String?
         /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
@@ -3163,12 +3302,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case idempotencyToken
+            case id = "id"
+            case idempotencyToken = "idempotencyToken"
         }
     }
 
     public struct RetryBuildOutput: AWSDecodableShape {
+
         public let build: Build?
 
         public init(build: Build? = nil) {
@@ -3176,11 +3316,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case build
+            case build = "build"
         }
     }
 
     public struct S3LogsConfig: AWSEncodableShape & AWSDecodableShape {
+
         public let bucketOwnerAccess: BucketOwnerAccess?
         ///  Set to true if you do not want your S3 build log output encrypted. By default S3 build logs are encrypted.
         public let encryptionDisabled: Bool?
@@ -3197,14 +3338,15 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketOwnerAccess
-            case encryptionDisabled
-            case location
-            case status
+            case bucketOwnerAccess = "bucketOwnerAccess"
+            case encryptionDisabled = "encryptionDisabled"
+            case location = "location"
+            case status = "status"
         }
     }
 
     public struct S3ReportExportConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  The name of the S3 bucket where the raw data of a report are exported.
         public let bucket: String?
         /// The AWS account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build.
@@ -3233,16 +3375,17 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case bucketOwner
-            case encryptionDisabled
-            case encryptionKey
-            case packaging
-            case path
+            case bucket = "bucket"
+            case bucketOwner = "bucketOwner"
+            case encryptionDisabled = "encryptionDisabled"
+            case encryptionKey = "encryptionKey"
+            case packaging = "packaging"
+            case path = "path"
         }
     }
 
     public struct SourceAuth: AWSEncodableShape & AWSDecodableShape {
+
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
         ///   This data type is deprecated and is no longer accurate or used.   The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
@@ -3254,12 +3397,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
-            case type
+            case resource = "resource"
+            case type = "type"
         }
     }
 
     public struct SourceCredentialsInfo: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the token.
         public let arn: String?
         ///  The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, or PERSONAL_ACCESS_TOKEN.
@@ -3274,13 +3418,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case authType
-            case serverType
+            case arn = "arn"
+            case authType = "authType"
+            case serverType = "serverType"
         }
     }
 
     public struct StartBuildBatchInput: AWSEncodableShape {
+
         /// An array of ProjectArtifacts objects that contains information about the build output artifact overrides for the build project.
         public let artifactsOverride: ProjectArtifacts?
         /// A BuildBatchConfigOverride object that contains batch build configuration overrides.
@@ -3405,41 +3550,42 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactsOverride
-            case buildBatchConfigOverride
-            case buildspecOverride
-            case buildTimeoutInMinutesOverride
-            case cacheOverride
-            case certificateOverride
-            case computeTypeOverride
-            case debugSessionEnabled
-            case encryptionKeyOverride
-            case environmentTypeOverride
-            case environmentVariablesOverride
-            case gitCloneDepthOverride
-            case gitSubmodulesConfigOverride
-            case idempotencyToken
-            case imageOverride
-            case imagePullCredentialsTypeOverride
-            case insecureSslOverride
-            case logsConfigOverride
-            case privilegedModeOverride
-            case projectName
-            case queuedTimeoutInMinutesOverride
-            case registryCredentialOverride
-            case reportBuildBatchStatusOverride
-            case secondaryArtifactsOverride
-            case secondarySourcesOverride
-            case secondarySourcesVersionOverride
-            case serviceRoleOverride
-            case sourceAuthOverride
-            case sourceLocationOverride
-            case sourceTypeOverride
-            case sourceVersion
+            case artifactsOverride = "artifactsOverride"
+            case buildBatchConfigOverride = "buildBatchConfigOverride"
+            case buildspecOverride = "buildspecOverride"
+            case buildTimeoutInMinutesOverride = "buildTimeoutInMinutesOverride"
+            case cacheOverride = "cacheOverride"
+            case certificateOverride = "certificateOverride"
+            case computeTypeOverride = "computeTypeOverride"
+            case debugSessionEnabled = "debugSessionEnabled"
+            case encryptionKeyOverride = "encryptionKeyOverride"
+            case environmentTypeOverride = "environmentTypeOverride"
+            case environmentVariablesOverride = "environmentVariablesOverride"
+            case gitCloneDepthOverride = "gitCloneDepthOverride"
+            case gitSubmodulesConfigOverride = "gitSubmodulesConfigOverride"
+            case idempotencyToken = "idempotencyToken"
+            case imageOverride = "imageOverride"
+            case imagePullCredentialsTypeOverride = "imagePullCredentialsTypeOverride"
+            case insecureSslOverride = "insecureSslOverride"
+            case logsConfigOverride = "logsConfigOverride"
+            case privilegedModeOverride = "privilegedModeOverride"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutesOverride = "queuedTimeoutInMinutesOverride"
+            case registryCredentialOverride = "registryCredentialOverride"
+            case reportBuildBatchStatusOverride = "reportBuildBatchStatusOverride"
+            case secondaryArtifactsOverride = "secondaryArtifactsOverride"
+            case secondarySourcesOverride = "secondarySourcesOverride"
+            case secondarySourcesVersionOverride = "secondarySourcesVersionOverride"
+            case serviceRoleOverride = "serviceRoleOverride"
+            case sourceAuthOverride = "sourceAuthOverride"
+            case sourceLocationOverride = "sourceLocationOverride"
+            case sourceTypeOverride = "sourceTypeOverride"
+            case sourceVersion = "sourceVersion"
         }
     }
 
     public struct StartBuildBatchOutput: AWSDecodableShape {
+
         /// A BuildBatch object that contains information about the batch build.
         public let buildBatch: BuildBatch?
 
@@ -3448,11 +3594,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatch
+            case buildBatch = "buildBatch"
         }
     }
 
     public struct StartBuildInput: AWSEncodableShape {
+
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
         public let artifactsOverride: ProjectArtifacts?
         /// A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location.
@@ -3576,41 +3723,42 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactsOverride
-            case buildspecOverride
-            case buildStatusConfigOverride
-            case cacheOverride
-            case certificateOverride
-            case computeTypeOverride
-            case debugSessionEnabled
-            case encryptionKeyOverride
-            case environmentTypeOverride
-            case environmentVariablesOverride
-            case gitCloneDepthOverride
-            case gitSubmodulesConfigOverride
-            case idempotencyToken
-            case imageOverride
-            case imagePullCredentialsTypeOverride
-            case insecureSslOverride
-            case logsConfigOverride
-            case privilegedModeOverride
-            case projectName
-            case queuedTimeoutInMinutesOverride
-            case registryCredentialOverride
-            case reportBuildStatusOverride
-            case secondaryArtifactsOverride
-            case secondarySourcesOverride
-            case secondarySourcesVersionOverride
-            case serviceRoleOverride
-            case sourceAuthOverride
-            case sourceLocationOverride
-            case sourceTypeOverride
-            case sourceVersion
-            case timeoutInMinutesOverride
+            case artifactsOverride = "artifactsOverride"
+            case buildspecOverride = "buildspecOverride"
+            case buildStatusConfigOverride = "buildStatusConfigOverride"
+            case cacheOverride = "cacheOverride"
+            case certificateOverride = "certificateOverride"
+            case computeTypeOverride = "computeTypeOverride"
+            case debugSessionEnabled = "debugSessionEnabled"
+            case encryptionKeyOverride = "encryptionKeyOverride"
+            case environmentTypeOverride = "environmentTypeOverride"
+            case environmentVariablesOverride = "environmentVariablesOverride"
+            case gitCloneDepthOverride = "gitCloneDepthOverride"
+            case gitSubmodulesConfigOverride = "gitSubmodulesConfigOverride"
+            case idempotencyToken = "idempotencyToken"
+            case imageOverride = "imageOverride"
+            case imagePullCredentialsTypeOverride = "imagePullCredentialsTypeOverride"
+            case insecureSslOverride = "insecureSslOverride"
+            case logsConfigOverride = "logsConfigOverride"
+            case privilegedModeOverride = "privilegedModeOverride"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutesOverride = "queuedTimeoutInMinutesOverride"
+            case registryCredentialOverride = "registryCredentialOverride"
+            case reportBuildStatusOverride = "reportBuildStatusOverride"
+            case secondaryArtifactsOverride = "secondaryArtifactsOverride"
+            case secondarySourcesOverride = "secondarySourcesOverride"
+            case secondarySourcesVersionOverride = "secondarySourcesVersionOverride"
+            case serviceRoleOverride = "serviceRoleOverride"
+            case sourceAuthOverride = "sourceAuthOverride"
+            case sourceLocationOverride = "sourceLocationOverride"
+            case sourceTypeOverride = "sourceTypeOverride"
+            case sourceVersion = "sourceVersion"
+            case timeoutInMinutesOverride = "timeoutInMinutesOverride"
         }
     }
 
     public struct StartBuildOutput: AWSDecodableShape {
+
         /// Information about the build to be run.
         public let build: Build?
 
@@ -3619,11 +3767,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case build
+            case build = "build"
         }
     }
 
     public struct StopBuildBatchInput: AWSEncodableShape {
+
         /// The identifier of the batch build to stop.
         public let id: String
 
@@ -3636,11 +3785,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct StopBuildBatchOutput: AWSDecodableShape {
+
         public let buildBatch: BuildBatch?
 
         public init(buildBatch: BuildBatch? = nil) {
@@ -3648,11 +3798,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buildBatch
+            case buildBatch = "buildBatch"
         }
     }
 
     public struct StopBuildInput: AWSEncodableShape {
+
         /// The ID of the build.
         public let id: String
 
@@ -3665,11 +3816,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct StopBuildOutput: AWSDecodableShape {
+
         /// Information about the build.
         public let build: Build?
 
@@ -3678,11 +3830,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case build
+            case build = "build"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag's key.
         public let key: String?
         /// The tag's value.
@@ -3703,12 +3856,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TestCase: AWSDecodableShape {
+
         ///  The number of nanoseconds it took to run this test case.
         public let durationInNanoSeconds: Int64?
         ///  The date and time a test case expires. A test case expires 30 days after it is created. An expired test case is not available to view in CodeBuild.
@@ -3738,18 +3892,19 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInNanoSeconds
-            case expired
-            case message
-            case name
-            case prefix
-            case reportArn
-            case status
-            case testRawDataPath
+            case durationInNanoSeconds = "durationInNanoSeconds"
+            case expired = "expired"
+            case message = "message"
+            case name = "name"
+            case prefix = "prefix"
+            case reportArn = "reportArn"
+            case status = "status"
+            case testRawDataPath = "testRawDataPath"
         }
     }
 
     public struct TestCaseFilter: AWSEncodableShape {
+
         /// A keyword that is used to filter on the name or the prefix of the test cases. Only test cases where the keyword is a substring of the name or the prefix will be returned.
         public let keyword: String?
         /// The status used to filter test cases. A TestCaseFilter can have one status. Valid values are:    SUCCEEDED     FAILED     ERROR     SKIPPED     UNKNOWN
@@ -3761,12 +3916,13 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyword
-            case status
+            case keyword = "keyword"
+            case status = "status"
         }
     }
 
     public struct TestReportSummary: AWSDecodableShape {
+
         ///  The number of nanoseconds it took to run all of the test cases in this report.
         public let durationInNanoSeconds: Int64
         ///  A map that contains the number of each type of status returned by the test results in this TestReportSummary.
@@ -3781,13 +3937,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInNanoSeconds
-            case statusCounts
-            case total
+            case durationInNanoSeconds = "durationInNanoSeconds"
+            case statusCounts = "statusCounts"
+            case total = "total"
         }
     }
 
     public struct UpdateProjectInput: AWSEncodableShape {
+
         /// Information to be changed about the build output artifacts for the build project.
         public let artifacts: ProjectArtifacts?
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
@@ -3885,31 +4042,32 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case badgeEnabled
-            case buildBatchConfig
-            case cache
-            case concurrentBuildLimit
-            case description
-            case encryptionKey
-            case environment
-            case fileSystemLocations
-            case logsConfig
-            case name
-            case queuedTimeoutInMinutes
-            case secondaryArtifacts
-            case secondarySources
-            case secondarySourceVersions
-            case serviceRole
-            case source
-            case sourceVersion
-            case tags
-            case timeoutInMinutes
-            case vpcConfig
+            case artifacts = "artifacts"
+            case badgeEnabled = "badgeEnabled"
+            case buildBatchConfig = "buildBatchConfig"
+            case cache = "cache"
+            case concurrentBuildLimit = "concurrentBuildLimit"
+            case description = "description"
+            case encryptionKey = "encryptionKey"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case logsConfig = "logsConfig"
+            case name = "name"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case secondaryArtifacts = "secondaryArtifacts"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case tags = "tags"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct UpdateProjectOutput: AWSDecodableShape {
+
         /// Information about the build project that was changed.
         public let project: Project?
 
@@ -3918,11 +4076,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
     public struct UpdateReportGroupInput: AWSEncodableShape {
+
         ///  The ARN of the report group to update.
         public let arn: String
         ///  Used to specify an updated export type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.
@@ -3947,13 +4106,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case exportConfig
-            case tags
+            case arn = "arn"
+            case exportConfig = "exportConfig"
+            case tags = "tags"
         }
     }
 
     public struct UpdateReportGroupOutput: AWSDecodableShape {
+
         ///  Information about the updated report group.
         public let reportGroup: ReportGroup?
 
@@ -3962,11 +4122,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reportGroup
+            case reportGroup = "reportGroup"
         }
     }
 
     public struct UpdateWebhookInput: AWSEncodableShape {
+
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.
         public let branchFilter: String?
         /// Specifies the type of build this webhook will trigger.
@@ -3993,15 +4154,16 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchFilter
-            case buildType
-            case filterGroups
-            case projectName
-            case rotateSecret
+            case branchFilter = "branchFilter"
+            case buildType = "buildType"
+            case filterGroups = "filterGroups"
+            case projectName = "projectName"
+            case rotateSecret = "rotateSecret"
         }
     }
 
     public struct UpdateWebhookOutput: AWSDecodableShape {
+
         ///  Information about a repository's webhook that is associated with a project in AWS CodeBuild.
         public let webhook: Webhook?
 
@@ -4010,11 +4172,12 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of one or more security groups IDs in your Amazon VPC.
         public let securityGroupIds: [String]?
         /// A list of one or more subnet IDs in your Amazon VPC.
@@ -4041,13 +4204,14 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case securityGroupIds
-            case subnets
-            case vpcId
+            case securityGroupIds = "securityGroupIds"
+            case subnets = "subnets"
+            case vpcId = "vpcId"
         }
     }
 
     public struct Webhook: AWSDecodableShape {
+
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.  It is recommended that you use filterGroups instead of branchFilter.
         public let branchFilter: String?
         /// Specifies the type of build this webhook will trigger.
@@ -4074,17 +4238,18 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case branchFilter
-            case buildType
-            case filterGroups
-            case lastModifiedSecret
-            case payloadUrl
-            case secret
-            case url
+            case branchFilter = "branchFilter"
+            case buildType = "buildType"
+            case filterGroups = "filterGroups"
+            case lastModifiedSecret = "lastModifiedSecret"
+            case payloadUrl = "payloadUrl"
+            case secret = "secret"
+            case url = "url"
         }
     }
 
     public struct WebhookFilter: AWSEncodableShape & AWSDecodableShape {
+
         ///  Used to indicate that the pattern determines which webhook events do not trigger a build. If true, then a webhook event that does not match the pattern triggers a build. If false, then a webhook event that matches the pattern triggers a build.
         public let excludeMatchedPattern: Bool?
         ///  For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build.   For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.
@@ -4099,9 +4264,9 @@ extension CodeBuild {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case excludeMatchedPattern
-            case pattern
-            case type
+            case excludeMatchedPattern = "excludeMatchedPattern"
+            case pattern = "pattern"
+            case type = "type"
         }
     }
 }

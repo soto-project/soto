@@ -63,123 +63,123 @@ public struct AmplifyBackend: AWSService {
     // MARK: API Calls
 
     /// This operation clones an existing backend.
-    public func cloneBackend(_ input: CloneBackendRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CloneBackendResponse> {
-        return self.client.execute(operation: "CloneBackend", path: "/backend/{appId}/environments/{backendEnvironmentName}/clone", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func cloneBackend(_ input: CloneBackendRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CloneBackendResponse> {
+        return self.client.execute(operation: "CloneBackend", path: "/backend/{appId}/environments/{backendEnvironmentName}/clone", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
-    public func createBackend(_ input: CreateBackendRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendResponse> {
-        return self.client.execute(operation: "CreateBackend", path: "/backend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createBackend(_ input: CreateBackendRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendResponse> {
+        return self.client.execute(operation: "CreateBackend", path: "/backend", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new backend API resource.
-    public func createBackendAPI(_ input: CreateBackendAPIRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendAPIResponse> {
-        return self.client.execute(operation: "CreateBackendAPI", path: "/backend/{appId}/api", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createBackendAPI(_ input: CreateBackendAPIRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendAPIResponse> {
+        return self.client.execute(operation: "CreateBackendAPI", path: "/backend/{appId}/api", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new backend authentication resource.
-    public func createBackendAuth(_ input: CreateBackendAuthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendAuthResponse> {
-        return self.client.execute(operation: "CreateBackendAuth", path: "/backend/{appId}/auth", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createBackendAuth(_ input: CreateBackendAuthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendAuthResponse> {
+        return self.client.execute(operation: "CreateBackendAuth", path: "/backend/{appId}/auth", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a config object for a backend.
-    public func createBackendConfig(_ input: CreateBackendConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendConfigResponse> {
-        return self.client.execute(operation: "CreateBackendConfig", path: "/backend/{appId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createBackendConfig(_ input: CreateBackendConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBackendConfigResponse> {
+        return self.client.execute(operation: "CreateBackendConfig", path: "/backend/{appId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
-    public func createToken(_ input: CreateTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
-        return self.client.execute(operation: "CreateToken", path: "/backend/{appId}/challenge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createToken(_ input: CreateTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTokenResponse> {
+        return self.client.execute(operation: "CreateToken", path: "/backend/{appId}/challenge", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes an existing environment from your Amplify project.
-    public func deleteBackend(_ input: DeleteBackendRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendResponse> {
-        return self.client.execute(operation: "DeleteBackend", path: "/backend/{appId}/environments/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteBackend(_ input: DeleteBackendRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendResponse> {
+        return self.client.execute(operation: "DeleteBackend", path: "/backend/{appId}/environments/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes an existing backend API resource.
-    public func deleteBackendAPI(_ input: DeleteBackendAPIRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendAPIResponse> {
-        return self.client.execute(operation: "DeleteBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteBackendAPI(_ input: DeleteBackendAPIRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendAPIResponse> {
+        return self.client.execute(operation: "DeleteBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes an existing backend authentication resource.
-    public func deleteBackendAuth(_ input: DeleteBackendAuthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendAuthResponse> {
-        return self.client.execute(operation: "DeleteBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteBackendAuth(_ input: DeleteBackendAuthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBackendAuthResponse> {
+        return self.client.execute(operation: "DeleteBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the challenge token based on the given appId and sessionId.
-    public func deleteToken(_ input: DeleteTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTokenResponse> {
-        return self.client.execute(operation: "DeleteToken", path: "/backend/{appId}/challenge/{sessionId}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteToken(_ input: DeleteTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTokenResponse> {
+        return self.client.execute(operation: "DeleteToken", path: "/backend/{appId}/challenge/{sessionId}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Generates a model schema for an existing backend API resource.
-    public func generateBackendAPIModels(_ input: GenerateBackendAPIModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateBackendAPIModelsResponse> {
-        return self.client.execute(operation: "GenerateBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/generateModels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func generateBackendAPIModels(_ input: GenerateBackendAPIModelsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateBackendAPIModelsResponse> {
+        return self.client.execute(operation: "GenerateBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/generateModels", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides project-level details for your Amplify UI project.
-    public func getBackend(_ input: GetBackendRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendResponse> {
-        return self.client.execute(operation: "GetBackend", path: "/backend/{appId}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBackend(_ input: GetBackendRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendResponse> {
+        return self.client.execute(operation: "GetBackend", path: "/backend/{appId}/details", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets the details for a backend API.
-    public func getBackendAPI(_ input: GetBackendAPIRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAPIResponse> {
-        return self.client.execute(operation: "GetBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBackendAPI(_ input: GetBackendAPIRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAPIResponse> {
+        return self.client.execute(operation: "GetBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Generates a model schema for existing backend API resource.
-    public func getBackendAPIModels(_ input: GetBackendAPIModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAPIModelsResponse> {
-        return self.client.execute(operation: "GetBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/getModels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBackendAPIModels(_ input: GetBackendAPIModelsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAPIModelsResponse> {
+        return self.client.execute(operation: "GetBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/getModels", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets backend auth details.
-    public func getBackendAuth(_ input: GetBackendAuthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAuthResponse> {
-        return self.client.execute(operation: "GetBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBackendAuth(_ input: GetBackendAuthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAuthResponse> {
+        return self.client.execute(operation: "GetBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about a specific job.
-    public func getBackendJob(_ input: GetBackendJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendJobResponse> {
-        return self.client.execute(operation: "GetBackendJob", path: "/backend/{appId}/job/{backendEnvironmentName}/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getBackendJob(_ input: GetBackendJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendJobResponse> {
+        return self.client.execute(operation: "GetBackendJob", path: "/backend/{appId}/job/{backendEnvironmentName}/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets the challenge token based on the given appId and sessionId.
-    public func getToken(_ input: GetTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTokenResponse> {
-        return self.client.execute(operation: "GetToken", path: "/backend/{appId}/challenge/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getToken(_ input: GetTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTokenResponse> {
+        return self.client.execute(operation: "GetToken", path: "/backend/{appId}/challenge/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the jobs for the backend of an Amplify app.
-    public func listBackendJobs(_ input: ListBackendJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackendJobsResponse> {
-        return self.client.execute(operation: "ListBackendJobs", path: "/backend/{appId}/job/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listBackendJobs(_ input: ListBackendJobsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackendJobsResponse> {
+        return self.client.execute(operation: "ListBackendJobs", path: "/backend/{appId}/job/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes all backend environments from your Amplify project.
-    public func removeAllBackends(_ input: RemoveAllBackendsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveAllBackendsResponse> {
-        return self.client.execute(operation: "RemoveAllBackends", path: "/backend/{appId}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func removeAllBackends(_ input: RemoveAllBackendsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveAllBackendsResponse> {
+        return self.client.execute(operation: "RemoveAllBackends", path: "/backend/{appId}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes the AWS resources that are required to access the Amplify Admin UI.
-    public func removeBackendConfig(_ input: RemoveBackendConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveBackendConfigResponse> {
-        return self.client.execute(operation: "RemoveBackendConfig", path: "/backend/{appId}/config/remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func removeBackendConfig(_ input: RemoveBackendConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveBackendConfigResponse> {
+        return self.client.execute(operation: "RemoveBackendConfig", path: "/backend/{appId}/config/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates an existing backend API resource.
-    public func updateBackendAPI(_ input: UpdateBackendAPIRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendAPIResponse> {
-        return self.client.execute(operation: "UpdateBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBackendAPI(_ input: UpdateBackendAPIRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendAPIResponse> {
+        return self.client.execute(operation: "UpdateBackendAPI", path: "/backend/{appId}/api/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates an existing backend authentication resource.
-    public func updateBackendAuth(_ input: UpdateBackendAuthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendAuthResponse> {
-        return self.client.execute(operation: "UpdateBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBackendAuth(_ input: UpdateBackendAuthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendAuthResponse> {
+        return self.client.execute(operation: "UpdateBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the AWS resources that are required to access the Amplify Admin UI.
-    public func updateBackendConfig(_ input: UpdateBackendConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendConfigResponse> {
-        return self.client.execute(operation: "UpdateBackendConfig", path: "/backend/{appId}/config/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBackendConfig(_ input: UpdateBackendConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendConfigResponse> {
+        return self.client.execute(operation: "UpdateBackendConfig", path: "/backend/{appId}/config/update", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a specific job.
-    public func updateBackendJob(_ input: UpdateBackendJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendJobResponse> {
-        return self.client.execute(operation: "UpdateBackendJob", path: "/backend/{appId}/job/{backendEnvironmentName}/{jobId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateBackendJob(_ input: UpdateBackendJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendJobResponse> {
+        return self.client.execute(operation: "UpdateBackendJob", path: "/backend/{appId}/job/{backendEnvironmentName}/{jobId}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

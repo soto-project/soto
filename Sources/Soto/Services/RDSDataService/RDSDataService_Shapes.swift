@@ -39,6 +39,7 @@ extension RDSDataService {
     // MARK: Shapes
 
     public class ArrayValue: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of arrays.
         public let arrayValues: [ArrayValue]?
         /// An array of Boolean values.
@@ -59,15 +60,16 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayValues
-            case booleanValues
-            case doubleValues
-            case longValues
-            case stringValues
+            case arrayValues = "arrayValues"
+            case booleanValues = "booleanValues"
+            case doubleValues = "doubleValues"
+            case longValues = "longValues"
+            case stringValues = "stringValues"
         }
     }
 
     public struct BatchExecuteStatementRequest: AWSEncodableShape {
+
         /// The name of the database.
         public let database: String?
         /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided. To execute a SQL statement with no parameters, use one of the following options:   Specify one or more empty parameter sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.    Array parameters are not supported.
@@ -109,17 +111,18 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case database
-            case parameterSets
-            case resourceArn
-            case schema
-            case secretArn
-            case sql
-            case transactionId
+            case database = "database"
+            case parameterSets = "parameterSets"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
+            case sql = "sql"
+            case transactionId = "transactionId"
         }
     }
 
     public struct BatchExecuteStatementResponse: AWSDecodableShape {
+
         /// The execution results of each batch entry.
         public let updateResults: [UpdateResult]?
 
@@ -128,11 +131,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateResults
+            case updateResults = "updateResults"
         }
     }
 
     public struct BeginTransactionRequest: AWSEncodableShape {
+
         /// The name of the database.
         public let database: String?
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -161,14 +165,15 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case database
-            case resourceArn
-            case schema
-            case secretArn
+            case database = "database"
+            case resourceArn = "resourceArn"
+            case schema = "schema"
+            case secretArn = "secretArn"
         }
     }
 
     public struct BeginTransactionResponse: AWSDecodableShape {
+
         /// The transaction ID of the transaction started by the call.
         public let transactionId: String?
 
@@ -177,11 +182,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transactionId
+            case transactionId = "transactionId"
         }
     }
 
     public struct ColumnMetadata: AWSDecodableShape {
+
         /// The type of the column.
         public let arrayBaseColumnType: Int?
         /// A value that indicates whether the column increments automatically.
@@ -229,24 +235,25 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayBaseColumnType
-            case isAutoIncrement
-            case isCaseSensitive
-            case isCurrency
-            case isSigned
-            case label
-            case name
-            case nullable
-            case precision
-            case scale
-            case schemaName
-            case tableName
-            case type
-            case typeName
+            case arrayBaseColumnType = "arrayBaseColumnType"
+            case isAutoIncrement = "isAutoIncrement"
+            case isCaseSensitive = "isCaseSensitive"
+            case isCurrency = "isCurrency"
+            case isSigned = "isSigned"
+            case label = "label"
+            case name = "name"
+            case nullable = "nullable"
+            case precision = "precision"
+            case scale = "scale"
+            case schemaName = "schemaName"
+            case tableName = "tableName"
+            case type = "type"
+            case typeName = "typeName"
         }
     }
 
     public struct CommitTransactionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
         /// The name or ARN of the secret that enables access to the DB cluster.
@@ -270,13 +277,14 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case secretArn
-            case transactionId
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+            case transactionId = "transactionId"
         }
     }
 
     public struct CommitTransactionResponse: AWSDecodableShape {
+
         /// The status of the commit operation.
         public let transactionStatus: String?
 
@@ -285,11 +293,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transactionStatus
+            case transactionStatus = "transactionStatus"
         }
     }
 
     public struct ExecuteSqlRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster.
         public let awsSecretStoreArn: String
         /// The name of the database.
@@ -323,15 +332,16 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsSecretStoreArn
-            case database
-            case dbClusterOrInstanceArn
-            case schema
-            case sqlStatements
+            case awsSecretStoreArn = "awsSecretStoreArn"
+            case database = "database"
+            case dbClusterOrInstanceArn = "dbClusterOrInstanceArn"
+            case schema = "schema"
+            case sqlStatements = "sqlStatements"
         }
     }
 
     public struct ExecuteSqlResponse: AWSDecodableShape {
+
         /// The results of the SQL statement or statements.
         public let sqlStatementResults: [SqlStatementResult]?
 
@@ -340,11 +350,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sqlStatementResults
+            case sqlStatementResults = "sqlStatementResults"
         }
     }
 
     public struct ExecuteStatementRequest: AWSEncodableShape {
+
         /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out.  For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
         public let continueAfterTimeout: Bool?
         /// The name of the database.
@@ -395,20 +406,21 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continueAfterTimeout
-            case database
-            case includeResultMetadata
-            case parameters
-            case resourceArn
-            case resultSetOptions
-            case schema
-            case secretArn
-            case sql
-            case transactionId
+            case continueAfterTimeout = "continueAfterTimeout"
+            case database = "database"
+            case includeResultMetadata = "includeResultMetadata"
+            case parameters = "parameters"
+            case resourceArn = "resourceArn"
+            case resultSetOptions = "resultSetOptions"
+            case schema = "schema"
+            case secretArn = "secretArn"
+            case sql = "sql"
+            case transactionId = "transactionId"
         }
     }
 
     public struct ExecuteStatementResponse: AWSDecodableShape {
+
         /// Metadata for the columns included in the results.
         public let columnMetadata: [ColumnMetadata]?
         /// Values for fields generated during the request.  &lt;note&gt; &lt;p&gt;The &lt;code&gt;generatedFields&lt;/code&gt; data isn't supported by Aurora PostgreSQL. To get the values of generated fields, use the &lt;code&gt;RETURNING&lt;/code&gt; clause. For more information, see &lt;a href=&quot;https://www.postgresql.org/docs/10/dml-returning.html&quot;&gt;Returning Data From Modified Rows&lt;/a&gt; in the PostgreSQL documentation.&lt;/p&gt; &lt;/note&gt;
@@ -426,14 +438,15 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnMetadata
-            case generatedFields
-            case numberOfRecordsUpdated
-            case records
+            case columnMetadata = "columnMetadata"
+            case generatedFields = "generatedFields"
+            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
+            case records = "records"
         }
     }
 
     public struct Field: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of values.
         public let arrayValue: ArrayValue?
         /// A value of BLOB data type.
@@ -460,17 +473,18 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayValue
-            case blobValue
-            case booleanValue
-            case doubleValue
-            case isNull
-            case longValue
-            case stringValue
+            case arrayValue = "arrayValue"
+            case blobValue = "blobValue"
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case isNull = "isNull"
+            case longValue = "longValue"
+            case stringValue = "stringValue"
         }
     }
 
     public struct Record: AWSDecodableShape {
+
         /// The values returned in the record.
         public let values: [Value]?
 
@@ -479,11 +493,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case values
+            case values = "values"
         }
     }
 
     public struct ResultFrame: AWSDecodableShape {
+
         /// The records in the result set.
         public let records: [Record]?
         /// The result-set metadata in the result set.
@@ -495,12 +510,13 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case records
-            case resultSetMetadata
+            case records = "records"
+            case resultSetMetadata = "resultSetMetadata"
         }
     }
 
     public struct ResultSetMetadata: AWSDecodableShape {
+
         /// The number of columns in the result set.
         public let columnCount: Int64?
         /// The metadata of the columns in the result set.
@@ -512,12 +528,13 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnCount
-            case columnMetadata
+            case columnCount = "columnCount"
+            case columnMetadata = "columnMetadata"
         }
     }
 
     public struct ResultSetOptions: AWSEncodableShape {
+
         /// A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING, the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise.  Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values.
         public let decimalReturnType: DecimalReturnType?
 
@@ -526,11 +543,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decimalReturnType
+            case decimalReturnType = "decimalReturnType"
         }
     }
 
     public struct RollbackTransactionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
         public let resourceArn: String
         /// The name or ARN of the secret that enables access to the DB cluster.
@@ -554,13 +572,14 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case secretArn
-            case transactionId
+            case resourceArn = "resourceArn"
+            case secretArn = "secretArn"
+            case transactionId = "transactionId"
         }
     }
 
     public struct RollbackTransactionResponse: AWSDecodableShape {
+
         /// The status of the rollback operation.
         public let transactionStatus: String?
 
@@ -569,11 +588,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case transactionStatus
+            case transactionStatus = "transactionStatus"
         }
     }
 
     public struct SqlParameter: AWSEncodableShape {
+
         /// The name of the parameter.
         public let name: String?
         /// A hint that specifies the correct object type for data type mapping. Possible values are as follows:    DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD.    DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database.    JSON - The corresponding String parameter value is sent as an object of JSON type to the database.    TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF].    TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF].    UUID - The corresponding String parameter value is sent as an object of UUID type to the database.
@@ -588,13 +608,14 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case typeHint
-            case value
+            case name = "name"
+            case typeHint = "typeHint"
+            case value = "value"
         }
     }
 
     public struct SqlStatementResult: AWSDecodableShape {
+
         /// The number of records updated by a SQL statement.
         public let numberOfRecordsUpdated: Int64?
         /// The result set of the SQL statement.
@@ -606,12 +627,13 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case numberOfRecordsUpdated
-            case resultFrame
+            case numberOfRecordsUpdated = "numberOfRecordsUpdated"
+            case resultFrame = "resultFrame"
         }
     }
 
     public struct StructValue: AWSDecodableShape {
+
         /// The attributes returned in the record.
         public let attributes: [Value]?
 
@@ -620,11 +642,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
     public struct UpdateResult: AWSDecodableShape {
+
         /// Values for fields generated during the request.
         public let generatedFields: [Field]?
 
@@ -633,11 +656,12 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generatedFields
+            case generatedFields = "generatedFields"
         }
     }
 
     public class Value: AWSDecodableShape {
+
         /// An array of column values.
         public let arrayValues: [Value]?
         /// A value for a column of big integer data type.
@@ -673,16 +697,16 @@ extension RDSDataService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arrayValues
-            case bigIntValue
-            case bitValue
-            case blobValue
-            case doubleValue
-            case intValue
-            case isNull
-            case realValue
-            case stringValue
-            case structValue
+            case arrayValues = "arrayValues"
+            case bigIntValue = "bigIntValue"
+            case bitValue = "bitValue"
+            case blobValue = "blobValue"
+            case doubleValue = "doubleValue"
+            case intValue = "intValue"
+            case isNull = "isNull"
+            case realValue = "realValue"
+            case stringValue = "stringValue"
+            case structValue = "structValue"
         }
     }
 }

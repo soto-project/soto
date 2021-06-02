@@ -96,6 +96,7 @@ extension NetworkManager {
     // MARK: Shapes
 
     public struct AWSLocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the subnet the device is located in.
         public let subnetArn: String?
         /// The Zone the device is located in. This can be the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
@@ -141,6 +142,7 @@ extension NetworkManager {
     }
 
     public struct AssociateCustomerGatewayResponse: AWSDecodableShape {
+
         /// The customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
 
@@ -178,6 +180,7 @@ extension NetworkManager {
     }
 
     public struct AssociateLinkResponse: AWSDecodableShape {
+
         /// The link association.
         public let linkAssociation: LinkAssociation?
 
@@ -219,6 +222,7 @@ extension NetworkManager {
     }
 
     public struct AssociateTransitGatewayConnectPeerResponse: AWSDecodableShape {
+
         /// The transit gateway Connect peer association.
         public let transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation?
 
@@ -232,6 +236,7 @@ extension NetworkManager {
     }
 
     public struct Bandwidth: AWSEncodableShape & AWSDecodableShape {
+
         /// Download speed in Mbps.
         public let downloadSpeed: Int?
         /// Upload speed in Mbps.
@@ -249,6 +254,7 @@ extension NetworkManager {
     }
 
     public struct Connection: AWSDecodableShape {
+
         /// The ID of the second device in the connection.
         public let connectedDeviceId: String?
         /// The ID of the link for the second device in the connection.
@@ -342,6 +348,7 @@ extension NetworkManager {
     }
 
     public struct CreateConnectionResponse: AWSDecodableShape {
+
         /// Information about the connection.
         public let connection: Connection?
 
@@ -407,6 +414,7 @@ extension NetworkManager {
     }
 
     public struct CreateDeviceResponse: AWSDecodableShape {
+
         /// Information about the device.
         public let device: Device?
 
@@ -420,6 +428,7 @@ extension NetworkManager {
     }
 
     public struct CreateGlobalNetworkRequest: AWSEncodableShape {
+
         /// A description of the global network. Length Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The tags to apply to the resource during creation.
@@ -437,6 +446,7 @@ extension NetworkManager {
     }
 
     public struct CreateGlobalNetworkResponse: AWSDecodableShape {
+
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
 
@@ -490,6 +500,7 @@ extension NetworkManager {
     }
 
     public struct CreateLinkResponse: AWSDecodableShape {
+
         /// Information about the link.
         public let link: Link?
 
@@ -531,6 +542,7 @@ extension NetworkManager {
     }
 
     public struct CreateSiteResponse: AWSDecodableShape {
+
         /// Information about the site.
         public let site: Site?
 
@@ -544,6 +556,7 @@ extension NetworkManager {
     }
 
     public struct CustomerGatewayAssociation: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the customer gateway.
         public let customerGatewayArn: String?
         /// The ID of the device.
@@ -574,7 +587,7 @@ extension NetworkManager {
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")),
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
@@ -592,6 +605,7 @@ extension NetworkManager {
     }
 
     public struct DeleteConnectionResponse: AWSDecodableShape {
+
         /// Information about the connection.
         public let connection: Connection?
 
@@ -606,7 +620,7 @@ extension NetworkManager {
 
     public struct DeleteDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")),
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
@@ -624,6 +638,7 @@ extension NetworkManager {
     }
 
     public struct DeleteDeviceResponse: AWSDecodableShape {
+
         /// Information about the device.
         public let device: Device?
 
@@ -652,6 +667,7 @@ extension NetworkManager {
     }
 
     public struct DeleteGlobalNetworkResponse: AWSDecodableShape {
+
         /// Information about the global network.
         public let globalNetwork: GlobalNetwork?
 
@@ -666,7 +682,7 @@ extension NetworkManager {
 
     public struct DeleteLinkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
         ]
 
@@ -684,6 +700,7 @@ extension NetworkManager {
     }
 
     public struct DeleteLinkResponse: AWSDecodableShape {
+
         /// Information about the link.
         public let link: Link?
 
@@ -698,7 +715,7 @@ extension NetworkManager {
 
     public struct DeleteSiteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
         ]
 
@@ -716,6 +733,7 @@ extension NetworkManager {
     }
 
     public struct DeleteSiteResponse: AWSDecodableShape {
+
         /// Information about the site.
         public let site: Site?
 
@@ -730,7 +748,7 @@ extension NetworkManager {
 
     public struct DeregisterTransitGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "transitGatewayArn", location: .uri(locationName: "transitGatewayArn"))
         ]
 
@@ -748,6 +766,7 @@ extension NetworkManager {
     }
 
     public struct DeregisterTransitGatewayResponse: AWSDecodableShape {
+
         /// The transit gateway registration information.
         public let transitGatewayRegistration: TransitGatewayRegistration?
 
@@ -762,8 +781,8 @@ extension NetworkManager {
 
     public struct DescribeGlobalNetworksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkIds", location: .querystring(locationName: "globalNetworkIds")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "globalNetworkIds", location: .querystring(locationName: "globalNetworkIds")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -789,6 +808,7 @@ extension NetworkManager {
     }
 
     public struct DescribeGlobalNetworksResponse: AWSDecodableShape {
+
         /// Information about the global networks.
         public let globalNetworks: [GlobalNetwork]?
         /// The token for the next page of results.
@@ -806,6 +826,7 @@ extension NetworkManager {
     }
 
     public struct Device: AWSDecodableShape {
+
         /// The AWS location of the device.
         public let aWSLocation: AWSLocation?
         /// The date and time that the site was created.
@@ -872,7 +893,7 @@ extension NetworkManager {
 
     public struct DisassociateCustomerGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "customerGatewayArn", location: .uri(locationName: "customerGatewayArn")),
+            AWSMemberEncoding(label: "customerGatewayArn", location: .uri(locationName: "customerGatewayArn")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
@@ -890,6 +911,7 @@ extension NetworkManager {
     }
 
     public struct DisassociateCustomerGatewayResponse: AWSDecodableShape {
+
         /// Information about the customer gateway association.
         public let customerGatewayAssociation: CustomerGatewayAssociation?
 
@@ -904,8 +926,8 @@ extension NetworkManager {
 
     public struct DisassociateLinkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId"))
         ]
 
@@ -926,6 +948,7 @@ extension NetworkManager {
     }
 
     public struct DisassociateLinkResponse: AWSDecodableShape {
+
         /// Information about the link association.
         public let linkAssociation: LinkAssociation?
 
@@ -940,7 +963,7 @@ extension NetworkManager {
 
     public struct DisassociateTransitGatewayConnectPeerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "transitGatewayConnectPeerArn", location: .uri(locationName: "transitGatewayConnectPeerArn"))
         ]
 
@@ -958,6 +981,7 @@ extension NetworkManager {
     }
 
     public struct DisassociateTransitGatewayConnectPeerResponse: AWSDecodableShape {
+
         /// The transit gateway Connect peer association.
         public let transitGatewayConnectPeerAssociation: TransitGatewayConnectPeerAssociation?
 
@@ -972,10 +996,10 @@ extension NetworkManager {
 
     public struct GetConnectionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionIds", location: .querystring(locationName: "connectionIds")),
-            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "connectionIds", location: .querystring(locationName: "connectionIds")), 
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1007,6 +1031,7 @@ extension NetworkManager {
     }
 
     public struct GetConnectionsResponse: AWSDecodableShape {
+
         /// Information about the connections.
         public let connections: [Connection]?
         /// The token to use for the next page of results.
@@ -1025,9 +1050,9 @@ extension NetworkManager {
 
     public struct GetCustomerGatewayAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "customerGatewayArns", location: .querystring(locationName: "customerGatewayArns")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "customerGatewayArns", location: .querystring(locationName: "customerGatewayArns")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1056,6 +1081,7 @@ extension NetworkManager {
     }
 
     public struct GetCustomerGatewayAssociationsResponse: AWSDecodableShape {
+
         /// The customer gateway associations.
         public let customerGatewayAssociations: [CustomerGatewayAssociation]?
         /// The token for the next page of results.
@@ -1074,10 +1100,10 @@ extension NetworkManager {
 
     public struct GetDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceIds", location: .querystring(locationName: "deviceIds")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "deviceIds", location: .querystring(locationName: "deviceIds")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId"))
         ]
 
@@ -1109,6 +1135,7 @@ extension NetworkManager {
     }
 
     public struct GetDevicesResponse: AWSDecodableShape {
+
         /// The devices.
         public let devices: [Device]?
         /// The token for the next page of results.
@@ -1127,10 +1154,10 @@ extension NetworkManager {
 
     public struct GetLinkAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")),
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "deviceId", location: .querystring(locationName: "deviceId")), 
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkId", location: .querystring(locationName: "linkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1162,6 +1189,7 @@ extension NetworkManager {
     }
 
     public struct GetLinkAssociationsResponse: AWSDecodableShape {
+
         /// The link associations.
         public let linkAssociations: [LinkAssociation]?
         /// The token for the next page of results.
@@ -1180,12 +1208,12 @@ extension NetworkManager {
 
     public struct GetLinksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "linkIds", location: .querystring(locationName: "linkIds")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "provider", location: .querystring(locationName: "provider")),
-            AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "linkIds", location: .querystring(locationName: "linkIds")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "provider", location: .querystring(locationName: "provider")), 
+            AWSMemberEncoding(label: "siteId", location: .querystring(locationName: "siteId")), 
             AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
@@ -1223,6 +1251,7 @@ extension NetworkManager {
     }
 
     public struct GetLinksResponse: AWSDecodableShape {
+
         /// The links.
         public let links: [Link]?
         /// The token for the next page of results.
@@ -1241,9 +1270,9 @@ extension NetworkManager {
 
     public struct GetSitesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "siteIds", location: .querystring(locationName: "siteIds"))
         ]
 
@@ -1272,6 +1301,7 @@ extension NetworkManager {
     }
 
     public struct GetSitesResponse: AWSDecodableShape {
+
         /// The token for the next page of results.
         public let nextToken: String?
         /// The sites.
@@ -1290,9 +1320,9 @@ extension NetworkManager {
 
     public struct GetTransitGatewayConnectPeerAssociationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "transitGatewayConnectPeerArns", location: .querystring(locationName: "transitGatewayConnectPeerArns"))
         ]
 
@@ -1321,6 +1351,7 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayConnectPeerAssociationsResponse: AWSDecodableShape {
+
         /// The token to use for the next page of results.
         public let nextToken: String?
         /// Information about the transit gateway Connect peer associations.
@@ -1339,9 +1370,9 @@ extension NetworkManager {
 
     public struct GetTransitGatewayRegistrationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "transitGatewayArns", location: .querystring(locationName: "transitGatewayArns"))
         ]
 
@@ -1370,6 +1401,7 @@ extension NetworkManager {
     }
 
     public struct GetTransitGatewayRegistrationsResponse: AWSDecodableShape {
+
         /// The token for the next page of results.
         public let nextToken: String?
         /// The transit gateway registrations.
@@ -1387,6 +1419,7 @@ extension NetworkManager {
     }
 
     public struct GlobalNetwork: AWSDecodableShape {
+
         /// The date and time that the global network was created.
         public let createdAt: Date?
         /// The description of the global network.
@@ -1420,6 +1453,7 @@ extension NetworkManager {
     }
 
     public struct Link: AWSDecodableShape {
+
         /// The bandwidth for the link.
         public let bandwidth: Bandwidth?
         /// The date and time that the link was created.
@@ -1473,6 +1507,7 @@ extension NetworkManager {
     }
 
     public struct LinkAssociation: AWSDecodableShape {
+
         /// The device ID for the link association.
         public let deviceId: String?
         /// The ID of the global network.
@@ -1513,6 +1548,7 @@ extension NetworkManager {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The list of tags.
         public let tagList: [Tag]?
 
@@ -1526,6 +1562,7 @@ extension NetworkManager {
     }
 
     public struct Location: AWSEncodableShape & AWSDecodableShape {
+
         /// The physical address.
         public let address: String?
         /// The latitude.
@@ -1567,6 +1604,7 @@ extension NetworkManager {
     }
 
     public struct RegisterTransitGatewayResponse: AWSDecodableShape {
+
         /// Information about the transit gateway registration.
         public let transitGatewayRegistration: TransitGatewayRegistration?
 
@@ -1580,6 +1618,7 @@ extension NetworkManager {
     }
 
     public struct Site: AWSDecodableShape {
+
         /// The date and time that the site was created.
         public let createdAt: Date?
         /// The description of the site.
@@ -1621,6 +1660,7 @@ extension NetworkManager {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag key. Length Constraints: Maximum length of 128 characters.
         public let key: String?
         /// The tag value. Length Constraints: Maximum length of 256 characters.
@@ -1658,10 +1698,15 @@ extension NetworkManager {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TransitGatewayConnectPeerAssociation: AWSDecodableShape {
+
         /// The ID of the device.
         public let deviceId: String?
         /// The ID of the global network.
@@ -1691,6 +1736,7 @@ extension NetworkManager {
     }
 
     public struct TransitGatewayRegistration: AWSDecodableShape {
+
         /// The ID of the global network.
         public let globalNetworkId: String?
         /// The state of the transit gateway registration.
@@ -1712,6 +1758,7 @@ extension NetworkManager {
     }
 
     public struct TransitGatewayRegistrationStateReason: AWSDecodableShape {
+
         /// The code for the state reason.
         public let code: TransitGatewayRegistrationState?
         /// The message for the state reason.
@@ -1730,7 +1777,7 @@ extension NetworkManager {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1748,12 +1795,16 @@ extension NetworkManager {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")),
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
@@ -1784,6 +1835,7 @@ extension NetworkManager {
     }
 
     public struct UpdateConnectionResponse: AWSDecodableShape {
+
         /// Information about the connection.
         public let connection: Connection?
 
@@ -1798,7 +1850,7 @@ extension NetworkManager {
 
     public struct UpdateDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")),
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
         ]
 
@@ -1848,6 +1900,7 @@ extension NetworkManager {
     }
 
     public struct UpdateDeviceResponse: AWSDecodableShape {
+
         /// Information about the device.
         public let device: Device?
 
@@ -1881,6 +1934,7 @@ extension NetworkManager {
     }
 
     public struct UpdateGlobalNetworkResponse: AWSDecodableShape {
+
         /// Information about the global network object.
         public let globalNetwork: GlobalNetwork?
 
@@ -1895,7 +1949,7 @@ extension NetworkManager {
 
     public struct UpdateLinkRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "linkId", location: .uri(locationName: "linkId"))
         ]
 
@@ -1930,6 +1984,7 @@ extension NetworkManager {
     }
 
     public struct UpdateLinkResponse: AWSDecodableShape {
+
         /// Information about the link.
         public let link: Link?
 
@@ -1944,7 +1999,7 @@ extension NetworkManager {
 
     public struct UpdateSiteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")), 
             AWSMemberEncoding(label: "siteId", location: .uri(locationName: "siteId"))
         ]
 
@@ -1971,6 +2026,7 @@ extension NetworkManager {
     }
 
     public struct UpdateSiteResponse: AWSDecodableShape {
+
         /// Information about the site.
         public let site: Site?
 
