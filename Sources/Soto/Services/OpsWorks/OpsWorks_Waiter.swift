@@ -46,8 +46,8 @@ extension OpsWorks {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeDeploymentsResult.deployments, elementPath: \Deployment.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeDeploymentsResult.deployments, elementPath: \Deployment.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("deployments[].status", expected: "successful")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("deployments[].status", expected: "failed")),
             ],
             minDelayTime: .seconds(15),
             command: describeDeployments
@@ -63,15 +63,15 @@ extension OpsWorks {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instances[].status", expected: "online")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "setup_failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "shutting_down")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "start_failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stopping")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "terminating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "terminated")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stop_failed")),
             ],
             minDelayTime: .seconds(15),
             command: describeInstances
@@ -87,14 +87,14 @@ extension OpsWorks {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instances[].status", expected: "registered")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "setup_failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "shutting_down")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stopping")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "terminating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "terminated")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stop_failed")),
             ],
             minDelayTime: .seconds(15),
             command: describeInstances
@@ -110,15 +110,15 @@ extension OpsWorks {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instances[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "booting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "pending")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "requested")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "running_setup")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "setup_failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "start_failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "stop_failed")),
             ],
             minDelayTime: .seconds(15),
             command: describeInstances
@@ -134,16 +134,16 @@ extension OpsWorks {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instances[].status", expected: "terminated")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeInstancesResult.instances, elementPath: \Instance.status, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "booting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "online")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "pending")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "rebooting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "requested")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "running_setup")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "setup_failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("instances[].status", expected: "start_failed")),
             ],
             minDelayTime: .seconds(15),
             command: describeInstances

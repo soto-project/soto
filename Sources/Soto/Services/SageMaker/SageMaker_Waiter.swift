@@ -30,7 +30,7 @@ extension SageMaker {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ValidationException")),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeEndpointOutput.endpointStatus, expected: .failed)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("endpointStatus", expected: "Failed")),
             ],
             minDelayTime: .seconds(30),
             command: describeEndpoint
@@ -46,8 +46,8 @@ extension SageMaker {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeEndpointOutput.endpointStatus, expected: .inservice)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeEndpointOutput.endpointStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("endpointStatus", expected: "InService")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("endpointStatus", expected: "Failed")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
             minDelayTime: .seconds(30),
@@ -65,7 +65,7 @@ extension SageMaker {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ValidationException")),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .failed)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("notebookInstanceStatus", expected: "Failed")),
             ],
             minDelayTime: .seconds(30),
             command: describeNotebookInstance
@@ -81,8 +81,8 @@ extension SageMaker {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .inservice)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("notebookInstanceStatus", expected: "InService")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("notebookInstanceStatus", expected: "Failed")),
             ],
             minDelayTime: .seconds(30),
             command: describeNotebookInstance
@@ -98,8 +98,8 @@ extension SageMaker {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .stopped)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNotebookInstanceOutput.notebookInstanceStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("notebookInstanceStatus", expected: "Stopped")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("notebookInstanceStatus", expected: "Failed")),
             ],
             minDelayTime: .seconds(30),
             command: describeNotebookInstance
@@ -115,9 +115,9 @@ extension SageMaker {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeProcessingJobResponse.processingJobStatus, expected: .completed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeProcessingJobResponse.processingJobStatus, expected: .stopped)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeProcessingJobResponse.processingJobStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("processingJobStatus", expected: "Completed")),
+                .init(state: .success, matcher: try! JMESPathMatcher("processingJobStatus", expected: "Stopped")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("processingJobStatus", expected: "Failed")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
             minDelayTime: .seconds(60),
@@ -134,9 +134,9 @@ extension SageMaker {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTrainingJobResponse.trainingJobStatus, expected: .completed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTrainingJobResponse.trainingJobStatus, expected: .stopped)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeTrainingJobResponse.trainingJobStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("trainingJobStatus", expected: "Completed")),
+                .init(state: .success, matcher: try! JMESPathMatcher("trainingJobStatus", expected: "Stopped")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("trainingJobStatus", expected: "Failed")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
             minDelayTime: .seconds(120),
@@ -153,9 +153,9 @@ extension SageMaker {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTransformJobResponse.transformJobStatus, expected: .completed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTransformJobResponse.transformJobStatus, expected: .stopped)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeTransformJobResponse.transformJobStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("transformJobStatus", expected: "Completed")),
+                .init(state: .success, matcher: try! JMESPathMatcher("transformJobStatus", expected: "Stopped")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("transformJobStatus", expected: "Failed")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationException")),
             ],
             minDelayTime: .seconds(60),

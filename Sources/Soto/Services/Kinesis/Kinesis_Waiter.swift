@@ -29,7 +29,7 @@ extension Kinesis {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeStreamOutput.streamDescription.streamStatus, expected: .active)),
+                .init(state: .success, matcher: try! JMESPathMatcher("streamDescription.streamStatus", expected: "ACTIVE")),
             ],
             minDelayTime: .seconds(10),
             command: describeStream

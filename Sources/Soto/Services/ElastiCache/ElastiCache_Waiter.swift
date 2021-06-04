@@ -29,11 +29,11 @@ extension ElastiCache {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("cacheClusters[].cacheClusterStatus", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "incompatible-network")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "restore-failed")),
             ],
             minDelayTime: .seconds(15),
             command: describeCacheClusters
@@ -49,14 +49,14 @@ extension ElastiCache {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("cacheClusters[].cacheClusterStatus", expected: "deleted")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("CacheClusterNotFound")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \CacheClusterMessage.cacheClusters, elementPath: \CacheCluster.cacheClusterStatus, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "incompatible-network")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "restore-failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("cacheClusters[].cacheClusterStatus", expected: "snapshotting")),
             ],
             minDelayTime: .seconds(15),
             command: describeCacheClusters
@@ -72,8 +72,8 @@ extension ElastiCache {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("replicationGroups[].status", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationGroups[].status", expected: "deleted")),
             ],
             minDelayTime: .seconds(15),
             command: describeReplicationGroups
@@ -89,8 +89,8 @@ extension ElastiCache {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ReplicationGroupMessage.replicationGroups, elementPath: \ReplicationGroup.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("replicationGroups[].status", expected: "deleted")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationGroups[].status", expected: "available")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ReplicationGroupNotFoundFault")),
             ],
             minDelayTime: .seconds(15),

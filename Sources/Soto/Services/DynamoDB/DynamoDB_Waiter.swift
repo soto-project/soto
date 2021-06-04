@@ -29,7 +29,7 @@ extension DynamoDB {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTableOutput.table?.tableStatus, expected: .active)),
+                .init(state: .success, matcher: try! JMESPathMatcher("table.tableStatus", expected: "ACTIVE")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(20),

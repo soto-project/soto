@@ -29,8 +29,8 @@ extension Redshift {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("clusters[].clusterStatus", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("clusters[].clusterStatus", expected: "deleting")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ClusterNotFound")),
             ],
             minDelayTime: .seconds(60),
@@ -48,8 +48,8 @@ extension Redshift {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ClusterNotFound")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("clusters[].clusterStatus", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("clusters[].clusterStatus", expected: "modifying")),
             ],
             minDelayTime: .seconds(60),
             command: describeClusters
@@ -65,8 +65,8 @@ extension Redshift {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.restoreStatus?.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \ClustersMessage.clusters, elementPath: \Cluster.clusterStatus, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("clusters[].restoreStatus.status", expected: "completed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("clusters[].clusterStatus", expected: "deleting")),
             ],
             minDelayTime: .seconds(60),
             command: describeClusters
@@ -82,9 +82,9 @@ extension Redshift {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \SnapshotMessage.snapshots, elementPath: \Snapshot.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("snapshots[].status", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("snapshots[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("snapshots[].status", expected: "deleted")),
             ],
             minDelayTime: .seconds(15),
             command: describeClusterSnapshots

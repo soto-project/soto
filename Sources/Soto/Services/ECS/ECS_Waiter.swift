@@ -29,8 +29,27 @@ extension ECS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeServicesResponse.failures, elementPath: \Failure.reason, expected: "string")),
-                .init(state: .success, matcher: AWSAnyPathMatcher(arrayPath: \DescribeServicesResponse.services, elementPath: \Service.status, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
+                .init(state: .success, matcher: try! JMESAnyPathMatcher("services[].status", expected: "INACTIVE")),
+            ],
+            minDelayTime: .seconds(15),
+            command: describeServices
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilServicesStable(
+        _ input: DescribeServicesRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("services[].status", expected: "DRAINING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("services[].status", expected: "INACTIVE")),
+                .init(state: .success, matcher: try! JMESPathMatcher("length(services[?!(length(deployments) == `1` && runningCount == desiredCount)]) == `0`", expected: true)),
             ],
             minDelayTime: .seconds(15),
             command: describeServices
@@ -46,9 +65,9 @@ extension ECS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeTasksResponse.failures, elementPath: \Failure.reason, expected: "string")),
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("tasks[].lastStatus", expected: "STOPPED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("tasks[].lastStatus", expected: "RUNNING")),
             ],
             minDelayTime: .seconds(6),
             command: describeTasks
@@ -64,7 +83,7 @@ extension ECS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTasksResponse.tasks, elementPath: \Task.lastStatus, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("tasks[].lastStatus", expected: "STOPPED")),
             ],
             minDelayTime: .seconds(6),
             command: describeTasks

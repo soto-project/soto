@@ -20,4 +20,36 @@ import SotoCore
 
 // MARK: Waiters
 
-extension CloudWatch {}
+extension CloudWatch {
+    public func waitUntilAlarmExists(
+        _ input: DescribeAlarmsInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(metricAlarms[]) > `0`", expected: true)),
+            ],
+            minDelayTime: .seconds(5),
+            command: describeAlarms
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilCompositeAlarmExists(
+        _ input: DescribeAlarmsInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(compositeAlarms[]) > `0`", expected: true)),
+            ],
+            minDelayTime: .seconds(5),
+            command: describeAlarms
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

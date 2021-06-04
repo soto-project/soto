@@ -29,9 +29,9 @@ extension Schemas {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeCodeBindingResponse.status, expected: .createComplete)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeCodeBindingResponse.status, expected: .createInProgress)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCodeBindingResponse.status, expected: .createFailed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CREATE_COMPLETE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "CREATE_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CREATE_FAILED")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("NotFoundException")),
             ],
             minDelayTime: .seconds(2),

@@ -29,7 +29,7 @@ extension ElasticLoadBalancing {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
+                .init(state: .success, matcher: try! JMESAnyPathMatcher("instanceStates[].state", expected: "InService")),
             ],
             minDelayTime: .seconds(15),
             command: describeInstanceHealth
@@ -45,7 +45,7 @@ extension ElasticLoadBalancing {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instanceStates[].state", expected: "OutOfService")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidInstance")),
             ],
             minDelayTime: .seconds(15),
@@ -62,7 +62,7 @@ extension ElasticLoadBalancing {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEndPointStateOutput.instanceStates, elementPath: \InstanceState.state, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("instanceStates[].state", expected: "InService")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
             ],
             minDelayTime: .seconds(15),

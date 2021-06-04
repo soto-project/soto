@@ -29,9 +29,9 @@ extension Lambda {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \FunctionConfiguration.state, expected: .active)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \FunctionConfiguration.state, expected: .failed)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \FunctionConfiguration.state, expected: .pending)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "Active")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("state", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "Pending")),
             ],
             minDelayTime: .seconds(5),
             command: getFunctionConfiguration
@@ -64,9 +64,9 @@ extension Lambda {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \FunctionConfiguration.lastUpdateStatus, expected: .successful)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \FunctionConfiguration.lastUpdateStatus, expected: .failed)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \FunctionConfiguration.lastUpdateStatus, expected: .inprogress)),
+                .init(state: .success, matcher: try! JMESPathMatcher("lastUpdateStatus", expected: "Successful")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("lastUpdateStatus", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("lastUpdateStatus", expected: "InProgress")),
             ],
             minDelayTime: .seconds(5),
             command: getFunctionConfiguration

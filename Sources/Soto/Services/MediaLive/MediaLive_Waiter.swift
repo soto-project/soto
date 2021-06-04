@@ -29,10 +29,10 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .idle)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .creating)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "CREATING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .createFailed)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("state", expected: "CREATE_FAILED")),
             ],
             minDelayTime: .seconds(3),
             command: describeChannel
@@ -48,8 +48,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .deleted)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .deleting)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -66,8 +66,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .running)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .starting)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "RUNNING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "STARTING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -84,8 +84,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .idle)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeChannelResponse.state, expected: .stopping)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "STOPPING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -102,8 +102,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .attached)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .detached)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "ATTACHED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DETACHED")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -120,8 +120,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .deleted)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .deleting)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -138,9 +138,9 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .detached)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .creating)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeInputResponse.state, expected: .attached)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DETACHED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "CREATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "ATTACHED")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -157,10 +157,10 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .idle)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .creating)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "CREATING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .createFailed)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("state", expected: "CREATE_FAILED")),
             ],
             minDelayTime: .seconds(3),
             command: describeMultiplex
@@ -176,8 +176,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .deleted)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .deleting)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -194,8 +194,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .running)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .starting)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "RUNNING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "STARTING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),
@@ -212,8 +212,8 @@ extension MediaLive {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .idle)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeMultiplexResponse.state, expected: .stopping)),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "STOPPING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
             ],
             minDelayTime: .seconds(5),

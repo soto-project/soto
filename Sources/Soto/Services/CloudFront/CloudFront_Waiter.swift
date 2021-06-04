@@ -29,7 +29,7 @@ extension CloudFront {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetDistributionResult.distribution?.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESPathMatcher("distribution.status", expected: "Deployed")),
             ],
             minDelayTime: .seconds(60),
             command: getDistribution
@@ -45,7 +45,7 @@ extension CloudFront {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetInvalidationResult.invalidation?.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESPathMatcher("invalidation.status", expected: "Completed")),
             ],
             minDelayTime: .seconds(20),
             command: getInvalidation
@@ -61,7 +61,7 @@ extension CloudFront {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetStreamingDistributionResult.streamingDistribution?.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESPathMatcher("streamingDistribution.status", expected: "Deployed")),
             ],
             minDelayTime: .seconds(60),
             command: getStreamingDistribution

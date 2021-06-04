@@ -30,8 +30,8 @@ extension DatabaseMigrationService {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndpointsResponse.endpoints, elementPath: \Endpoint.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEndpointsResponse.endpoints, elementPath: \Endpoint.status, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("endpoints[].status", expected: "active")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("endpoints[].status", expected: "creating")),
             ],
             minDelayTime: .seconds(5),
             command: describeEndpoints
@@ -47,11 +47,11 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("replicationInstances[].replicationInstanceStatus", expected: "available")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationInstances[].replicationInstanceStatus", expected: "deleting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationInstances[].replicationInstanceStatus", expected: "incompatible-credentials")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationInstances[].replicationInstanceStatus", expected: "incompatible-network")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationInstances[].replicationInstanceStatus", expected: "inaccessible-encryption-credentials")),
             ],
             minDelayTime: .seconds(60),
             command: describeReplicationInstances
@@ -67,7 +67,7 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationInstancesResponse.replicationInstances, elementPath: \ReplicationInstance.replicationInstanceStatus, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationInstances[].replicationInstanceStatus", expected: "available")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
             ],
             minDelayTime: .seconds(15),
@@ -84,11 +84,11 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "ready")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "running")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "failed")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundFault")),
             ],
             minDelayTime: .seconds(15),
@@ -105,15 +105,15 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("replicationTasks[].status", expected: "ready")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "starting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "running")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "stopping")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "testing")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "deleting")),
             ],
             minDelayTime: .seconds(15),
             command: describeReplicationTasks
@@ -129,15 +129,15 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("replicationTasks[].status", expected: "running")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "ready")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "stopping")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "testing")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "deleting")),
             ],
             minDelayTime: .seconds(15),
             command: describeReplicationTasks
@@ -153,14 +153,14 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeReplicationTasksResponse.replicationTasks, elementPath: \ReplicationTask.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("replicationTasks[].status", expected: "stopped")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "ready")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "creating")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "starting")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "failed")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "modifying")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "testing")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("replicationTasks[].status", expected: "deleting")),
             ],
             minDelayTime: .seconds(15),
             command: describeReplicationTasks
@@ -176,8 +176,8 @@ extension DatabaseMigrationService {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeConnectionsResponse.connections, elementPath: \Connection.status, expected: "string")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeConnectionsResponse.connections, elementPath: \Connection.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("connections[].status", expected: "successful")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("connections[].status", expected: "failed")),
             ],
             minDelayTime: .seconds(5),
             command: describeConnections

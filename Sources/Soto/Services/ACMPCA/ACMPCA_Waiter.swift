@@ -29,8 +29,8 @@ extension ACMPCA {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeCertificateAuthorityAuditReportResponse.auditReportStatus, expected: .success)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCertificateAuthorityAuditReportResponse.auditReportStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("auditReportStatus", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("auditReportStatus", expected: "FAILED")),
             ],
             minDelayTime: .seconds(3),
             command: describeCertificateAuthorityAuditReport

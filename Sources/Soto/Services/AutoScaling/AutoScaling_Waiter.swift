@@ -20,4 +20,55 @@ import SotoCore
 
 // MARK: Waiters
 
-extension AutoScaling {}
+extension AutoScaling {
+    public func waitUntilGroupExists(
+        _ input: AutoScalingGroupNamesType,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(autoScalingGroups) > `0`", expected: true)),
+                .init(state: .retry, matcher: try! JMESPathMatcher("length(autoScalingGroups) > `0`", expected: false)),
+            ],
+            minDelayTime: .seconds(5),
+            command: describeAutoScalingGroups
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilGroupInService(
+        _ input: AutoScalingGroupNamesType,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("contains(autoScalingGroups[].[length(instances[?lifecycleState=='inService']) >= minSize][], `false`)", expected: false)),
+                .init(state: .retry, matcher: try! JMESPathMatcher("contains(autoScalingGroups[].[length(instances[?lifecycleState=='inService']) >= minSize][], `false`)", expected: true)),
+            ],
+            minDelayTime: .seconds(15),
+            command: describeAutoScalingGroups
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilGroupNotExists(
+        _ input: AutoScalingGroupNamesType,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(autoScalingGroups) > `0`", expected: false)),
+                .init(state: .retry, matcher: try! JMESPathMatcher("length(autoScalingGroups) > `0`", expected: true)),
+            ],
+            minDelayTime: .seconds(15),
+            command: describeAutoScalingGroups
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+}

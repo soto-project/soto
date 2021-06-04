@@ -29,11 +29,11 @@ extension EMR {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .running)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .waiting)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminating)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminated)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminatedWithErrors)),
+                .init(state: .success, matcher: try! JMESPathMatcher("cluster.status.state", expected: "RUNNING")),
+                .init(state: .success, matcher: try! JMESPathMatcher("cluster.status.state", expected: "WAITING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status.state", expected: "TERMINATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status.state", expected: "TERMINATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status.state", expected: "TERMINATED_WITH_ERRORS")),
             ],
             minDelayTime: .seconds(30),
             command: describeCluster
@@ -49,8 +49,8 @@ extension EMR {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminated)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterOutput.cluster?.status?.state, expected: .terminatedWithErrors)),
+                .init(state: .success, matcher: try! JMESPathMatcher("cluster.status.state", expected: "TERMINATED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status.state", expected: "TERMINATED_WITH_ERRORS")),
             ],
             minDelayTime: .seconds(30),
             command: describeCluster
@@ -66,9 +66,9 @@ extension EMR {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeStepOutput.step?.status?.state, expected: .completed)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeStepOutput.step?.status?.state, expected: .failed)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeStepOutput.step?.status?.state, expected: .cancelled)),
+                .init(state: .success, matcher: try! JMESPathMatcher("step.status.state", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("step.status.state", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("step.status.state", expected: "CANCELLED")),
             ],
             minDelayTime: .seconds(30),
             command: describeStep

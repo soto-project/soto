@@ -33,6 +33,9 @@ extension AWSService {
         case path(path: String, expected: String)
         case anyPath(arrayPath: String, elementPath: String, expected: String)
         case allPath(arrayPath: String, elementPath: String, expected: String)
+        case jmesPath(path: String, expected: String)
+        case jmesAnyPath(path: String, expected: String)
+        case jmesAllPath(path: String, expected: String)
         case error(String)
         case errorStatus(Int)
         case success(Int) // success requires a associated value, so a mustache context is created for the value
@@ -94,60 +97,65 @@ extension AWSService {
             }
 
         case .path(let argument, let expected):
-            if argument.firstIndex(of: "(") == nil {
-                guard case .structure(let structure) = shape.type else { throw Error.matcherInvalidType }
-                let keyPath = try toKeyPath(token: argument, shape: shape, type: structure)
-                let value: String
-                switch expected {
-                case .string(let string):
-                    // assume is enum
-                    if case .enum = keyPath.shape.type {
-                        let enumContext = generateEnumMemberContext(string, shapeName: "")
-                        value = ".\(enumContext.case)"
-                    } else if case .string = keyPath.shape.type {
-                        value = "\"string\""
-                    } else {
-                        throw Error.matcherInvalidType
-                    }
-                case .integer(let integer):
-                    value = String(describing: integer)
-                case .bool(let boolean):
-                    value = String(describing: boolean)
-                }
-                return .init(state: acceptor.state.rawValue, matcher: .path(path: keyPath.keyPath, expected: value))
-            }
+            let expected = try generateExpectedValue(expected: expected)
+            let path = generatePathArgument(argument: argument)
+            return .init(state: acceptor.state.rawValue, matcher: .jmesPath(path: path, expected: expected))
 
         case .anyPath(let argument, let expected):
-            if argument.firstIndex(of: "(") == nil {
-                guard let args = try generateAnyAllPathContext(shape, argument: argument, expected: expected) else {
-                    return nil
-                }
-                return .init(
-                    state: acceptor.state.rawValue,
-                    matcher: .anyPath(
-                        arrayPath: args.path,
-                        elementPath: args.elementPath,
-                        expected: args.expected
-                    )
-                )
-            }
+            let expected = try generateExpectedValue(expected: expected)
+            let path = generatePathArgument(argument: argument)
+            return .init(state: acceptor.state.rawValue, matcher: .jmesAnyPath(path: path, expected: expected))
 
         case .allPath(let argument, let expected):
-            if argument.firstIndex(of: "(") == nil {
-                guard let args = try generateAnyAllPathContext(shape, argument: argument, expected: expected) else {
-                    return nil
-                }
-                return .init(
-                    state: acceptor.state.rawValue,
-                    matcher: .allPath(
-                        arrayPath: args.path,
-                        elementPath: args.elementPath,
-                        expected: args.expected
-                    )
-                )
-            }
+            let expected = try generateExpectedValue(expected: expected)
+            let path = generatePathArgument(argument: argument)
+            return .init(state: acceptor.state.rawValue, matcher: .jmesAllPath(path: path, expected: expected))
         }
-        return nil
+    }
+
+    /// parse JMESPath to make it work with Soto structs instead of the output JSON
+    /// Basically convert all fields into format used for variables. ie lowercase first character
+    func generatePathArgument(argument: String) -> String {
+        // a field is any series of letters that don't end with a (
+        var output: String = ""
+        var index = argument.startIndex
+        var fieldStartIndex: String.Index? = nil
+        while index != argument.endIndex {
+            if argument[index].isLetter {
+                if fieldStartIndex == nil {
+                    fieldStartIndex = index
+                }
+            } else {
+                if let startIndex = fieldStartIndex {
+                    fieldStartIndex = nil
+                    if argument[index] != "(" {
+                        output += argument[startIndex].lowercased()
+                    } else {
+                        output.append(argument[startIndex])
+                    }
+                    output += argument[argument.index(after: startIndex)...index]
+                } else {
+                    output.append(argument[index])
+                }
+            }
+            index = argument.index(after: index)
+        }
+        if let startIndex = fieldStartIndex {
+            output += argument[startIndex].lowercased()
+            output += argument[argument.index(after: startIndex)...]
+        }
+        return output
+    }
+
+    func generateExpectedValue(expected: Waiters.Waiter.MatcherValue) throws -> String {
+        switch expected {
+        case .string(let string):
+            return "\"\(string)\""
+        case .integer(let integer):
+            return String(describing: integer)
+        case .bool(let boolean):
+            return String(describing: boolean)
+        }
     }
 
     func generateAnyAllPathContext(

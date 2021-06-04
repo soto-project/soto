@@ -29,8 +29,8 @@ extension EKS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAddonResponse.addon?.status, expected: .createFailed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeAddonResponse.addon?.status, expected: .active)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("addon.status", expected: "CREATE_FAILED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("addon.status", expected: "ACTIVE")),
             ],
             minDelayTime: .seconds(10),
             command: describeAddon
@@ -46,7 +46,7 @@ extension EKS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAddonResponse.addon?.status, expected: .deleteFailed)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("addon.status", expected: "DELETE_FAILED")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(10),
@@ -63,9 +63,9 @@ extension EKS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .deleting)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .failed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .active)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "DELETING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "FAILED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("cluster.status", expected: "ACTIVE")),
             ],
             minDelayTime: .seconds(30),
             command: describeCluster
@@ -81,8 +81,8 @@ extension EKS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .active)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeClusterResponse.cluster?.status, expected: .creating)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("cluster.status", expected: "CREATING")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(30),
@@ -99,8 +99,8 @@ extension EKS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNodegroupResponse.nodegroup?.status, expected: .createFailed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNodegroupResponse.nodegroup?.status, expected: .active)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("nodegroup.status", expected: "CREATE_FAILED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("nodegroup.status", expected: "ACTIVE")),
             ],
             minDelayTime: .seconds(30),
             command: describeNodegroup
@@ -116,7 +116,7 @@ extension EKS {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNodegroupResponse.nodegroup?.status, expected: .deleteFailed)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("nodegroup.status", expected: "DELETE_FAILED")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(30),

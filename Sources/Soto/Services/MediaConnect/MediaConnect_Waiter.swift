@@ -29,12 +29,12 @@ extension MediaConnect {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .active)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .starting)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .updating)),
+                .init(state: .success, matcher: try! JMESPathMatcher("flow.status", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("flow.status", expected: "STARTING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("flow.status", expected: "UPDATING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("flow.status", expected: "ERROR")),
             ],
             minDelayTime: .seconds(3),
             command: describeFlow
@@ -51,10 +51,10 @@ extension MediaConnect {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSErrorStatusMatcher(404)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .deleting)),
+                .init(state: .retry, matcher: try! JMESPathMatcher("flow.status", expected: "DELETING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("flow.status", expected: "ERROR")),
             ],
             minDelayTime: .seconds(3),
             command: describeFlow
@@ -70,11 +70,11 @@ extension MediaConnect {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .standby)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .stopping)),
+                .init(state: .success, matcher: try! JMESPathMatcher("flow.status", expected: "STANDBY")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("flow.status", expected: "STOPPING")),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(500)),
                 .init(state: .retry, matcher: AWSErrorStatusMatcher(503)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeFlowResponse.flow?.status, expected: .error)),
+                .init(state: .failure, matcher: try! JMESPathMatcher("flow.status", expected: "ERROR")),
             ],
             minDelayTime: .seconds(3),
             command: describeFlow

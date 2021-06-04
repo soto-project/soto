@@ -29,8 +29,8 @@ extension Signer {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeSigningJobResponse.status, expected: .succeeded)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeSigningJobResponse.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "Succeeded")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Failed")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(20),

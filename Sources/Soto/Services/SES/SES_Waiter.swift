@@ -29,7 +29,7 @@ extension SES {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \GetIdentityVerificationAttributesResponse.verificationAttributes.values, elementPath: \IdentityVerificationAttributes.verificationStatus, expected: .success)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("verificationAttributes.*.verificationStatus", expected: "Success")),
             ],
             minDelayTime: .seconds(3),
             command: getIdentityVerificationAttributes

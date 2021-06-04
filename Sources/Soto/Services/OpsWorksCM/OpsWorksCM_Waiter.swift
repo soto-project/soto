@@ -29,8 +29,8 @@ extension OpsWorksCM {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeNodeAssociationStatusResponse.nodeAssociationStatus, expected: .success)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeNodeAssociationStatusResponse.nodeAssociationStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("nodeAssociationStatus", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("nodeAssociationStatus", expected: "FAILED")),
             ],
             minDelayTime: .seconds(15),
             command: describeNodeAssociationStatus

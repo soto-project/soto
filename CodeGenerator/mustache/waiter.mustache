@@ -27,6 +27,15 @@ extension {{name}} {
 {{#matcher.allPath}}
                 .init(state: .{{state}}, matcher: AWSAllPathMatcher(arrayPath: \{{operation.outputShape}}.{{arrayPath}}, elementPath: \{{elementPath}}, expected: {{expected}})),
 {{/matcher.allPath}}
+{{#matcher.jmesPath}}
+                .init(state: .{{state}}, matcher: try! JMESPathMatcher("{{path}}", expected: {{expected}})),
+{{/matcher.jmesPath}}
+{{#matcher.jmesAnyPath}}
+                .init(state: .{{state}}, matcher: try! JMESAnyPathMatcher("{{path}}", expected: {{expected}})),
+{{/matcher.jmesAnyPath}}
+{{#matcher.jmesAllPath}}
+                .init(state: .{{state}}, matcher: try! JMESAllPathMatcher("{{path}}", expected: {{expected}})),
+{{/matcher.jmesAllPath}}
 {{#matcher.error}}
                 .init(state: .{{state}}, matcher: AWSErrorCodeMatcher("{{.}}")),
 {{/matcher.error}}

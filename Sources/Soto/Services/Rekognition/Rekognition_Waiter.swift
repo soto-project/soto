@@ -29,8 +29,8 @@ extension Rekognition {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .running)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("projectVersionDescriptions[].status", expected: "RUNNING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("projectVersionDescriptions[].status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(30),
             command: describeProjectVersions
@@ -46,8 +46,8 @@ extension Rekognition {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .trainingCompleted)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeProjectVersionsResponse.projectVersionDescriptions, elementPath: \ProjectVersionDescription.status, expected: .trainingFailed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("projectVersionDescriptions[].status", expected: "TRAINING_COMPLETED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("projectVersionDescriptions[].status", expected: "TRAINING_FAILED")),
             ],
             minDelayTime: .seconds(120),
             command: describeProjectVersions

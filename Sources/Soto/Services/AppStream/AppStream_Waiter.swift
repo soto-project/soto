@@ -29,9 +29,9 @@ extension AppStream {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .running)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopping)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopped)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("fleets[].state", expected: "RUNNING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "STOPPING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "STOPPED")),
             ],
             minDelayTime: .seconds(30),
             command: describeFleets
@@ -47,9 +47,9 @@ extension AppStream {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .stopped)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .starting)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeFleetsResult.fleets, elementPath: \Fleet.state, expected: .running)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("fleets[].state", expected: "STOPPED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "STARTING")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("fleets[].state", expected: "RUNNING")),
             ],
             minDelayTime: .seconds(30),
             command: describeFleets

@@ -29,8 +29,8 @@ extension ElasticBeanstalk {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .ready)),
-                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .launching)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("environments[].status", expected: "Ready")),
+                .init(state: .retry, matcher: try! JMESAllPathMatcher("environments[].status", expected: "Launching")),
             ],
             minDelayTime: .seconds(20),
             command: describeEnvironments
@@ -46,8 +46,8 @@ extension ElasticBeanstalk {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .terminated)),
-                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .terminating)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("environments[].status", expected: "Terminated")),
+                .init(state: .retry, matcher: try! JMESAllPathMatcher("environments[].status", expected: "Terminating")),
             ],
             minDelayTime: .seconds(20),
             command: describeEnvironments
@@ -63,8 +63,8 @@ extension ElasticBeanstalk {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .ready)),
-                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \EnvironmentDescriptionsMessage.environments, elementPath: \EnvironmentDescription.status, expected: .updating)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("environments[].status", expected: "Ready")),
+                .init(state: .retry, matcher: try! JMESAllPathMatcher("environments[].status", expected: "Updating")),
             ],
             minDelayTime: .seconds(20),
             command: describeEnvironments

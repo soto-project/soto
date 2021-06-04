@@ -29,7 +29,7 @@ extension Route53 {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetChangeResponse.changeInfo.status, expected: .insync)),
+                .init(state: .success, matcher: try! JMESPathMatcher("changeInfo.status", expected: "INSYNC")),
             ],
             minDelayTime: .seconds(30),
             command: getChange

@@ -29,8 +29,8 @@ extension ECR {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeImageScanFindingsResponse.imageScanStatus?.status, expected: .complete)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeImageScanFindingsResponse.imageScanStatus?.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("imageScanStatus.status", expected: "COMPLETE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("imageScanStatus.status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(5),
             command: describeImageScanFindings
@@ -46,8 +46,8 @@ extension ECR {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetLifecyclePolicyPreviewResponse.status, expected: .complete)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetLifecyclePolicyPreviewResponse.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "COMPLETE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(5),
             command: getLifecyclePolicyPreview

@@ -29,8 +29,8 @@ extension IoTSiteWise {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeAssetResponse.assetStatus.state, expected: .active)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAssetResponse.assetStatus.state, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("assetStatus.state", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("assetStatus.state", expected: "FAILED")),
             ],
             minDelayTime: .seconds(3),
             command: describeAsset
@@ -46,8 +46,8 @@ extension IoTSiteWise {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeAssetModelResponse.assetModelStatus.state, expected: .active)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeAssetModelResponse.assetModelStatus.state, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("assetModelStatus.state", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("assetModelStatus.state", expected: "FAILED")),
             ],
             minDelayTime: .seconds(3),
             command: describeAssetModel
@@ -95,7 +95,7 @@ extension IoTSiteWise {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribePortalResponse.portalStatus.state, expected: .active)),
+                .init(state: .success, matcher: try! JMESPathMatcher("portalStatus.state", expected: "ACTIVE")),
             ],
             minDelayTime: .seconds(3),
             command: describePortal

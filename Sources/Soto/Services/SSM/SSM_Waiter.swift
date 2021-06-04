@@ -29,14 +29,14 @@ extension SSM {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .retry, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .pending)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .inprogress)),
-                .init(state: .retry, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .delayed)),
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .success)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .cancelled)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .timedout)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .failed)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetCommandInvocationResult.status, expected: .cancelling)),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "Pending")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "InProgress")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "Delayed")),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "Success")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Cancelled")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "TimedOut")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Failed")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Cancelling")),
             ],
             minDelayTime: .seconds(5),
             command: getCommandInvocation

@@ -29,9 +29,9 @@ extension ElasticTranscoder {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \ReadJobResponse.job?.status, expected: "string")),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \ReadJobResponse.job?.status, expected: "string")),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \ReadJobResponse.job?.status, expected: "string")),
+                .init(state: .success, matcher: try! JMESPathMatcher("job.status", expected: "Complete")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("job.status", expected: "Canceled")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("job.status", expected: "Error")),
             ],
             minDelayTime: .seconds(30),
             command: readJob

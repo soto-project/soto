@@ -29,8 +29,8 @@ extension MachineLearning {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeBatchPredictionsOutput.results, elementPath: \BatchPrediction.status, expected: .completed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeBatchPredictionsOutput.results, elementPath: \BatchPrediction.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("results[].status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(30),
             command: describeBatchPredictions
@@ -46,8 +46,8 @@ extension MachineLearning {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeDataSourcesOutput.results, elementPath: \DataSource.status, expected: .completed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeDataSourcesOutput.results, elementPath: \DataSource.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("results[].status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(30),
             command: describeDataSources
@@ -63,8 +63,8 @@ extension MachineLearning {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeEvaluationsOutput.results, elementPath: \Evaluation.status, expected: .completed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeEvaluationsOutput.results, elementPath: \Evaluation.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("results[].status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(30),
             command: describeEvaluations
@@ -80,8 +80,8 @@ extension MachineLearning {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeMLModelsOutput.results, elementPath: \MLModel.status, expected: .completed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeMLModelsOutput.results, elementPath: \MLModel.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("results[].status", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("results[].status", expected: "FAILED")),
             ],
             minDelayTime: .seconds(30),
             command: describeMLModels

@@ -29,8 +29,8 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeChangeSetOutput.status, expected: .createComplete)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeChangeSetOutput.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CREATE_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "FAILED")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
             minDelayTime: .seconds(30),
@@ -47,12 +47,12 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .createComplete)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .createFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteComplete)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackComplete)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "CREATE_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "DELETE_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "DELETE_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "ROLLBACK_COMPLETE")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
             minDelayTime: .seconds(30),
@@ -69,14 +69,14 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteComplete)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "DELETE_COMPLETE")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("ValidationError")),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .createFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackInProgress)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "DELETE_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE")),
             ],
             minDelayTime: .seconds(30),
             command: describeStacks
@@ -109,12 +109,12 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importComplete)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackComplete)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .rollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackInProgress)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .importRollbackComplete)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "IMPORT_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "ROLLBACK_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "IMPORT_ROLLBACK_IN_PROGRESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "IMPORT_ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "IMPORT_ROLLBACK_COMPLETE")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
             minDelayTime: .seconds(30),
@@ -131,10 +131,10 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .deleteFailed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "DELETE_FAILED")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
             minDelayTime: .seconds(30),
@@ -151,10 +151,10 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateComplete)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackFailed)),
-                .init(state: .failure, matcher: AWSAnyPathMatcher(arrayPath: \DescribeStacksOutput.stacks, elementPath: \Stack.stackStatus, expected: .updateRollbackComplete)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("stacks[].stackStatus", expected: "UPDATE_COMPLETE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_FAILED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("stacks[].stackStatus", expected: "UPDATE_ROLLBACK_COMPLETE")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ValidationError")),
             ],
             minDelayTime: .seconds(30),
@@ -171,8 +171,8 @@ extension CloudFormation {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \DescribeTypeRegistrationOutput.progressStatus, expected: .complete)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeTypeRegistrationOutput.progressStatus, expected: .failed)),
+                .init(state: .success, matcher: try! JMESPathMatcher("progressStatus", expected: "COMPLETE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("progressStatus", expected: "FAILED")),
             ],
             minDelayTime: .seconds(30),
             command: describeTypeRegistration

@@ -29,8 +29,8 @@ extension ElasticLoadBalancingv2 {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .active)),
-                .init(state: .retry, matcher: AWSAnyPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .provisioning)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("loadBalancers[].state.code", expected: "active")),
+                .init(state: .retry, matcher: try! JMESAnyPathMatcher("loadBalancers[].state.code", expected: "provisioning")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
             ],
             minDelayTime: .seconds(15),
@@ -64,7 +64,7 @@ extension ElasticLoadBalancingv2 {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .retry, matcher: AWSAllPathMatcher(arrayPath: \DescribeLoadBalancersOutput.loadBalancers, elementPath: \LoadBalancer.state?.code, expected: .active)),
+                .init(state: .retry, matcher: try! JMESAllPathMatcher("loadBalancers[].state.code", expected: "active")),
                 .init(state: .success, matcher: AWSErrorCodeMatcher("LoadBalancerNotFound")),
             ],
             minDelayTime: .seconds(15),
@@ -82,7 +82,7 @@ extension ElasticLoadBalancingv2 {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSErrorCodeMatcher("InvalidTarget")),
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTargetHealthOutput.targetHealthDescriptions, elementPath: \TargetHealthDescription.targetHealth?.state, expected: .unused)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("targetHealthDescriptions[].targetHealth.state", expected: "unused")),
             ],
             minDelayTime: .seconds(15),
             command: describeTargetHealth
@@ -98,7 +98,7 @@ extension ElasticLoadBalancingv2 {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeTargetHealthOutput.targetHealthDescriptions, elementPath: \TargetHealthDescription.targetHealth?.state, expected: .healthy)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("targetHealthDescriptions[].targetHealth.state", expected: "healthy")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInstance")),
             ],
             minDelayTime: .seconds(15),

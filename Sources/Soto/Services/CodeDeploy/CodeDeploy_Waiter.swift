@@ -29,9 +29,9 @@ extension CodeDeploy {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSPathMatcher(path: \GetDeploymentOutput.deploymentInfo?.status, expected: .succeeded)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetDeploymentOutput.deploymentInfo?.status, expected: .failed)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \GetDeploymentOutput.deploymentInfo?.status, expected: .stopped)),
+                .init(state: .success, matcher: try! JMESPathMatcher("deploymentInfo.status", expected: "Succeeded")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("deploymentInfo.status", expected: "Failed")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("deploymentInfo.status", expected: "Stopped")),
             ],
             minDelayTime: .seconds(15),
             command: getDeployment

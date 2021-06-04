@@ -29,9 +29,9 @@ extension ACM {
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
             acceptors: [
-                .init(state: .success, matcher: AWSAllPathMatcher(arrayPath: \DescribeCertificateResponse.certificate?.domainValidationOptions, elementPath: \DomainValidation.validationStatus, expected: .success)),
-                .init(state: .retry, matcher: AWSAnyPathMatcher(arrayPath: \DescribeCertificateResponse.certificate?.domainValidationOptions, elementPath: \DomainValidation.validationStatus, expected: .pendingValidation)),
-                .init(state: .failure, matcher: AWSPathMatcher(path: \DescribeCertificateResponse.certificate?.status, expected: .failed)),
+                .init(state: .success, matcher: try! JMESAllPathMatcher("certificate.domainValidationOptions[].validationStatus", expected: "SUCCESS")),
+                .init(state: .retry, matcher: try! JMESAnyPathMatcher("certificate.domainValidationOptions[].validationStatus", expected: "PENDING_VALIDATION")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("certificate.status", expected: "FAILED")),
                 .init(state: .failure, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
             ],
             minDelayTime: .seconds(60),
