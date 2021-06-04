@@ -102,7 +102,7 @@ extension AWSService {
                 case .string(let string):
                     // assume is enum
                     if case .enum = keyPath.shape.type {
-                        let enumContext = generateEnumMemberContext(string, shapeName: "")
+                        let enumContext = generateEnumMemberContext(string, shapeName: keyPath.shape.name)
                         value = ".\(enumContext.case)"
                     } else if case .string = keyPath.shape.type {
                         value = "\"string\""
