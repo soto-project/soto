@@ -944,14 +944,17 @@ extension Connect {
         public let sourceApplicationUrl: String
         /// The type of the data source.
         public let sourceType: SourceType
+        /// One or more tags.
+        public let tags: [String: String]?
 
-        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String, sourceApplicationUrl: String, sourceType: SourceType) {
+        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String, sourceApplicationUrl: String, sourceType: SourceType, tags: [String: String]? = nil) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
             self.integrationType = integrationType
             self.sourceApplicationName = sourceApplicationName
             self.sourceApplicationUrl = sourceApplicationUrl
             self.sourceType = sourceType
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -962,6 +965,12 @@ extension Connect {
             try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, pattern: "^[a-zA-Z0-9_ -]+$")
             try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, max: 2000)
             try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -970,6 +979,7 @@ extension Connect {
             case sourceApplicationName = "SourceApplicationName"
             case sourceApplicationUrl = "SourceApplicationUrl"
             case sourceType = "SourceType"
+            case tags = "Tags"
         }
     }
 
@@ -1225,12 +1235,15 @@ extension Connect {
         public let instanceId: String
         /// The identifier for the AppIntegration association.
         public let integrationAssociationId: String
+        /// One or more tags.
+        public let tags: [String: String]?
         /// The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
         public let useCaseType: UseCaseType
 
-        public init(instanceId: String, integrationAssociationId: String, useCaseType: UseCaseType) {
+        public init(instanceId: String, integrationAssociationId: String, tags: [String: String]? = nil, useCaseType: UseCaseType) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
+            self.tags = tags
             self.useCaseType = useCaseType
         }
 
@@ -1239,9 +1252,16 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
             case useCaseType = "UseCaseType"
         }
     }
@@ -2432,11 +2452,11 @@ extension Connect {
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
         public let endTime: Date
-        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.  To filter by Queues, enter the queue ID/ARN, not the name of the queue.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
+        /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
-        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600
+        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").
         public let historicalMetrics: [HistoricalMetric]
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -4141,7 +4161,7 @@ extension Connect {
     public struct MediaConcurrency: AWSEncodableShape & AWSDecodableShape {
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         public let channel: Channel
-        /// The number of contacts an agent can have on a channel simultaneously.
+        /// The number of contacts an agent can have on a channel simultaneously. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 5. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
         public let concurrency: Int
 
         public init(channel: Channel, concurrency: Int) {

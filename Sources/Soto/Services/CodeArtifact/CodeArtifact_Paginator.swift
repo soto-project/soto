@@ -72,7 +72,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  AssetSummary  objects for assets in a package version.
+    ///   Returns a list of AssetSummary objects for assets in a package version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -125,7 +125,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
+    ///   Returns a list of PackageVersionSummary objects for package versions in a repository that match the request parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +178,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
+    ///   Returns a list of PackageSummary objects for packages in a repository that match the request parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input parameters.
+    ///   Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
+    ///   Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

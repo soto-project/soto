@@ -750,6 +750,13 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum DvbddsHandling: String, CustomStringConvertible, Codable {
+        case noDisplayWindow = "NO_DISPLAY_WINDOW"
+        case none = "NONE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable {
         case completeMain = "COMPLETE_MAIN"
         public var description: String { return self.rawValue }
@@ -1465,6 +1472,13 @@ extension MediaConvert {
         case degrees180 = "DEGREES_180"
         case degrees270 = "DEGREES_270"
         case degrees90 = "DEGREES_90"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InputSampleRange: String, CustomStringConvertible, Codable {
+        case follow = "FOLLOW"
+        case fullRange = "FULL_RANGE"
+        case limitedRange = "LIMITED_RANGE"
         public var description: String { return self.rawValue }
     }
 
@@ -4462,6 +4476,12 @@ extension MediaConvert {
         public let backgroundColor: DvbSubtitleBackgroundColor?
         /// Specifies the opacity of the background rectangle. 255 is opaque; 0 is transparent. Leaving this parameter blank is equivalent to setting it to 0 (transparent). All burn-in and DVB-Sub font settings must match.
         public let backgroundOpacity: Int?
+        /// Specify how MediaConvert handles the display definition segment (DDS). Keep the default, None (NONE), to exclude the DDS from this set of captions. Choose No display window (NO_DISPLAY_WINDOW) to have MediaConvert include the DDS but not include display window data. In this case, MediaConvert writes that information to the page composition segment (PCS) instead. Choose Specify (SPECIFIED) to have MediaConvert set up the display window based on the values that you specify in related job settings. For video resolutions that are 576 pixels or smaller in height, MediaConvert doesn't include the DDS, regardless of the value you choose for DDS handling (ddsHandling). In this case, it doesn't write the display window data to the PCS either. Related settings: Use the settings DDS x-coordinate (ddsXCoordinate) and DDS y-coordinate (ddsYCoordinate) to specify the offset between the top left corner of the display window and the top left corner of the video frame. All burn-in and DVB-Sub font settings must match.
+        public let ddsHandling: DvbddsHandling?
+        /// Use this setting, along with DDS y-coordinate (ddsYCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the left side of the frame and the left side of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
+        public let ddsXCoordinate: Int?
+        /// Use this setting, along with DDS x-coordinate (ddsXCoordinate), to specify the upper left corner of the display definition segment (DDS) display window. With this setting, specify the distance, in pixels, between the top of the frame and the top of the DDS display window. Keep the default value, 0, to have MediaConvert automatically choose this offset. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). MediaConvert uses these values to determine whether to write page position data to the DDS or to the page composition segment (PCS). All burn-in and DVB-Sub font settings must match.
+        public let ddsYCoordinate: Int?
         /// Specifies the color of the burned-in captions. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let fontColor: DvbSubtitleFontColor?
         /// Specifies the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
@@ -4474,6 +4494,8 @@ extension MediaConvert {
         public let fontScript: FontScript?
         /// A positive integer indicates the exact font size in points. Set to 0 for automatic font size selection. All burn-in and DVB-Sub font settings must match.
         public let fontSize: Int?
+        /// Specify the height, in pixels, of this set of DVB-Sub captions. The default value is 576 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
+        public let height: Int?
         /// Specifies font outline color. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let outlineColor: DvbSubtitleOutlineColor?
         /// Specifies font outline size in pixels. This option is not valid for source captions that are either 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -4491,20 +4513,26 @@ extension MediaConvert {
         public let subtitlingType: DvbSubtitlingType?
         /// Only applies to jobs with input captions in Teletext or STL formats. Specify whether the spacing between letters in your captions is set by the captions grid or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read if the captions are closed caption.
         public let teletextSpacing: DvbSubtitleTeletextSpacing?
+        /// Specify the width, in pixels, of this set of DVB-Sub captions. The default value is 720 pixels. Related setting: When you use this setting, you must set DDS handling (ddsHandling) to a value other than None (NONE). All burn-in and DVB-Sub font settings must match.
+        public let width: Int?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit x_position is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let xPosition: Int?
         /// Specifies the vertical position of the caption relative to the top of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the top of the output. If no explicit y_position is provided, the caption will be positioned towards the bottom of the output. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let yPosition: Int?
 
-        public init(alignment: DvbSubtitleAlignment? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: DvbSubtitleAlignment? = nil, backgroundColor: DvbSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, ddsHandling: DvbddsHandling? = nil, ddsXCoordinate: Int? = nil, ddsYCoordinate: Int? = nil, fontColor: DvbSubtitleFontColor? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, height: Int? = nil, outlineColor: DvbSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: DvbSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, subtitlingType: DvbSubtitlingType? = nil, teletextSpacing: DvbSubtitleTeletextSpacing? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.backgroundColor = backgroundColor
             self.backgroundOpacity = backgroundOpacity
+            self.ddsHandling = ddsHandling
+            self.ddsXCoordinate = ddsXCoordinate
+            self.ddsYCoordinate = ddsYCoordinate
             self.fontColor = fontColor
             self.fontOpacity = fontOpacity
             self.fontResolution = fontResolution
             self.fontScript = fontScript
             self.fontSize = fontSize
+            self.height = height
             self.outlineColor = outlineColor
             self.outlineSize = outlineSize
             self.shadowColor = shadowColor
@@ -4513,6 +4541,7 @@ extension MediaConvert {
             self.shadowYOffset = shadowYOffset
             self.subtitlingType = subtitlingType
             self.teletextSpacing = teletextSpacing
+            self.width = width
             self.xPosition = xPosition
             self.yPosition = yPosition
         }
@@ -4520,12 +4549,18 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
             try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
+            try self.validate(self.ddsXCoordinate, name: "ddsXCoordinate", parent: name, max: 2_147_483_647)
+            try self.validate(self.ddsXCoordinate, name: "ddsXCoordinate", parent: name, min: 0)
+            try self.validate(self.ddsYCoordinate, name: "ddsYCoordinate", parent: name, max: 2_147_483_647)
+            try self.validate(self.ddsYCoordinate, name: "ddsYCoordinate", parent: name, min: 0)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
             try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
             try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
             try self.validate(self.fontSize, name: "fontSize", parent: name, max: 96)
             try self.validate(self.fontSize, name: "fontSize", parent: name, min: 0)
+            try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
+            try self.validate(self.height, name: "height", parent: name, min: 1)
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
@@ -4534,6 +4569,8 @@ extension MediaConvert {
             try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2_147_483_648)
             try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2_147_483_647)
             try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2_147_483_648)
+            try self.validate(self.width, name: "width", parent: name, max: 2_147_483_647)
+            try self.validate(self.width, name: "width", parent: name, min: 1)
             try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2_147_483_647)
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
             try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2_147_483_647)
@@ -4544,11 +4581,15 @@ extension MediaConvert {
             case alignment
             case backgroundColor
             case backgroundOpacity
+            case ddsHandling
+            case ddsXCoordinate
+            case ddsYCoordinate
             case fontColor
             case fontOpacity
             case fontResolution
             case fontScript
             case fontSize
+            case height
             case outlineColor
             case outlineSize
             case shadowColor
@@ -4557,6 +4598,7 @@ extension MediaConvert {
             case shadowYOffset
             case subtitlingType
             case teletextSpacing
+            case width
             case xPosition
             case yPosition
         }
@@ -6520,6 +6562,8 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// Use Inputs (inputs) to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
+        /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
+        public let kantarWatermark: KantarWatermarkSettings?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
         public let motionImageInserter: MotionImageInserter?
         /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all outputs in the job. To enable Nielsen configuration programmatically, include an instance of nielsenConfiguration in your JSON job specification. Even if you don't include any children of nielsenConfiguration, you still enable the setting.
@@ -6533,11 +6577,12 @@ extension MediaConvert {
         /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags in any HLS outputs. To include timed metadata, you must enable it here, enable it in each output container, and specify tags and timecodes in ID3 insertion (Id3Insertion) objects.
         public let timedMetadataInsertion: TimedMetadataInsertion?
 
-        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [Input]? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
+        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [Input]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.esam = esam
             self.inputs = inputs
+            self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
             self.nielsenConfiguration = nielsenConfiguration
             self.nielsenNonLinearWatermark = nielsenNonLinearWatermark
@@ -6554,6 +6599,7 @@ extension MediaConvert {
             try self.inputs?.forEach {
                 try $0.validate(name: "\(name).inputs[]")
             }
+            try self.kantarWatermark?.validate(name: "\(name).kantarWatermark")
             try self.motionImageInserter?.validate(name: "\(name).motionImageInserter")
             try self.nielsenConfiguration?.validate(name: "\(name).nielsenConfiguration")
             try self.nielsenNonLinearWatermark?.validate(name: "\(name).nielsenNonLinearWatermark")
@@ -6569,6 +6615,7 @@ extension MediaConvert {
             case availBlanking
             case esam
             case inputs
+            case kantarWatermark
             case motionImageInserter
             case nielsenConfiguration
             case nielsenNonLinearWatermark
@@ -6650,6 +6697,8 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// Use Inputs (inputs) to define the source file used in the transcode job. There can only be one input in a job template.  Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
+        /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
+        public let kantarWatermark: KantarWatermarkSettings?
         /// Overlay motion graphics on top of your video. The motion graphics that you specify here appear on all outputs in all output groups. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/motion-graphic-overlay.html.
         public let motionImageInserter: MotionImageInserter?
         /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all outputs in the job. To enable Nielsen configuration programmatically, include an instance of nielsenConfiguration in your JSON job specification. Even if you don't include any children of nielsenConfiguration, you still enable the setting.
@@ -6663,11 +6712,12 @@ extension MediaConvert {
         /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags in any HLS outputs. To include timed metadata, you must enable it here, enable it in each output container, and specify tags and timecodes in ID3 insertion (Id3Insertion) objects.
         public let timedMetadataInsertion: TimedMetadataInsertion?
 
-        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [InputTemplate]? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
+        public init(adAvailOffset: Int? = nil, availBlanking: AvailBlanking? = nil, esam: EsamSettings? = nil, inputs: [InputTemplate]? = nil, kantarWatermark: KantarWatermarkSettings? = nil, motionImageInserter: MotionImageInserter? = nil, nielsenConfiguration: NielsenConfiguration? = nil, nielsenNonLinearWatermark: NielsenNonLinearWatermarkSettings? = nil, outputGroups: [OutputGroup]? = nil, timecodeConfig: TimecodeConfig? = nil, timedMetadataInsertion: TimedMetadataInsertion? = nil) {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
             self.esam = esam
             self.inputs = inputs
+            self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
             self.nielsenConfiguration = nielsenConfiguration
             self.nielsenNonLinearWatermark = nielsenNonLinearWatermark
@@ -6684,6 +6734,7 @@ extension MediaConvert {
             try self.inputs?.forEach {
                 try $0.validate(name: "\(name).inputs[]")
             }
+            try self.kantarWatermark?.validate(name: "\(name).kantarWatermark")
             try self.motionImageInserter?.validate(name: "\(name).motionImageInserter")
             try self.nielsenConfiguration?.validate(name: "\(name).nielsenConfiguration")
             try self.nielsenNonLinearWatermark?.validate(name: "\(name).nielsenNonLinearWatermark")
@@ -6699,12 +6750,101 @@ extension MediaConvert {
             case availBlanking
             case esam
             case inputs
+            case kantarWatermark
             case motionImageInserter
             case nielsenConfiguration
             case nielsenNonLinearWatermark
             case outputGroups
             case timecodeConfig
             case timedMetadataInsertion
+        }
+    }
+
+    public struct KantarWatermarkSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Provide an audio channel name from your Kantar audio license.
+        public let channelName: String?
+        /// Specify a unique identifier for Kantar to use for this piece of content.
+        public let contentReference: String?
+        /// Provide the name of the AWS Secrets Manager secret where your Kantar credentials are stored. Note that your MediaConvert service role must provide access to this secret. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/granting-permissions-for-mediaconvert-to-access-secrets-manager-secret.html. For instructions on creating a secret, see https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html, in the AWS Secrets Manager User Guide.
+        public let credentialsSecretName: String?
+        /// Optional. Specify an offset, in whole seconds, from the start of your output and the beginning of the watermarking. When you don't specify an offset, Kantar defaults to zero.
+        public let fileOffset: Double?
+        /// Provide your Kantar license ID number. You should get this number from Kantar.
+        public let kantarLicenseId: Int?
+        /// Provide the HTTPS endpoint to the Kantar server. You should get this endpoint from Kantar.
+        public let kantarServerUrl: String?
+        /// Optional. Specify the Amazon S3 bucket where you want MediaConvert to store your Kantar watermark XML logs. When you don't specify a bucket, MediaConvert doesn't save these logs. Note that your MediaConvert service role must provide access to this location. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
+        public let logDestination: String?
+        /// You can optionally use this field to specify the first timestamp that Kantar embeds during watermarking. Kantar suggests that you be very cautious when using this Kantar feature, and that you use it only on channels that are managed specifically for use with this feature by your Audience Measurement Operator. For more information about this feature, contact Kantar technical support.
+        public let metadata3: String?
+        /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50 characters.
+        public let metadata4: String?
+        /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50 characters.
+        public let metadata5: String?
+        /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50 characters.
+        public let metadata6: String?
+        /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50 characters.
+        public let metadata7: String?
+        /// Additional metadata that MediaConvert sends to Kantar. Maximum length is 50 characters.
+        public let metadata8: String?
+
+        public init(channelName: String? = nil, contentReference: String? = nil, credentialsSecretName: String? = nil, fileOffset: Double? = nil, kantarLicenseId: Int? = nil, kantarServerUrl: String? = nil, logDestination: String? = nil, metadata3: String? = nil, metadata4: String? = nil, metadata5: String? = nil, metadata6: String? = nil, metadata7: String? = nil, metadata8: String? = nil) {
+            self.channelName = channelName
+            self.contentReference = contentReference
+            self.credentialsSecretName = credentialsSecretName
+            self.fileOffset = fileOffset
+            self.kantarLicenseId = kantarLicenseId
+            self.kantarServerUrl = kantarServerUrl
+            self.logDestination = logDestination
+            self.metadata3 = metadata3
+            self.metadata4 = metadata4
+            self.metadata5 = metadata5
+            self.metadata6 = metadata6
+            self.metadata7 = metadata7
+            self.metadata8 = metadata8
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 20)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.contentReference, name: "contentReference", parent: name, max: 50)
+            try self.validate(self.contentReference, name: "contentReference", parent: name, min: 1)
+            try self.validate(self.contentReference, name: "contentReference", parent: name, pattern: "^[a-zA-Z0-9_\\/_+=.@-]*$")
+            try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, max: 512)
+            try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, min: 1)
+            try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, pattern: "^[a-zA-Z0-9_\\/_+=.@-]*$")
+            try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, max: 2_147_483_647)
+            try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, min: 0)
+            try self.validate(self.kantarServerUrl, name: "kantarServerUrl", parent: name, pattern: "^https:\\/\\/.*.kantarmedia.com$")
+            try self.validate(self.logDestination, name: "logDestination", parent: name, pattern: "^s3:\\/\\/")
+            try self.validate(self.metadata3, name: "metadata3", parent: name, max: 50)
+            try self.validate(self.metadata3, name: "metadata3", parent: name, min: 1)
+            try self.validate(self.metadata4, name: "metadata4", parent: name, max: 50)
+            try self.validate(self.metadata4, name: "metadata4", parent: name, min: 1)
+            try self.validate(self.metadata5, name: "metadata5", parent: name, max: 50)
+            try self.validate(self.metadata5, name: "metadata5", parent: name, min: 1)
+            try self.validate(self.metadata6, name: "metadata6", parent: name, max: 50)
+            try self.validate(self.metadata6, name: "metadata6", parent: name, min: 1)
+            try self.validate(self.metadata7, name: "metadata7", parent: name, max: 50)
+            try self.validate(self.metadata7, name: "metadata7", parent: name, min: 1)
+            try self.validate(self.metadata8, name: "metadata8", parent: name, max: 50)
+            try self.validate(self.metadata8, name: "metadata8", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName
+            case contentReference
+            case credentialsSecretName
+            case fileOffset
+            case kantarLicenseId
+            case kantarServerUrl
+            case logDestination
+            case metadata3
+            case metadata4
+            case metadata5
+            case metadata6
+            case metadata7
+            case metadata8
         }
     }
 
@@ -7171,6 +7311,8 @@ extension MediaConvert {
         public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
         public let audioPids: [Int]?
+        /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
+        public let maxPcrInterval: Int?
         /// If INSERT, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
         public let nielsenId3: M3u8NielsenId3?
         /// The number of milliseconds between instances of this table in the output transport stream.
@@ -7200,10 +7342,11 @@ extension MediaConvert {
         /// Packet Identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.maxPcrInterval = maxPcrInterval
             self.nielsenId3 = nielsenId3
             self.patInterval = patInterval
             self.pcrControl = pcrControl
@@ -7227,6 +7370,8 @@ extension MediaConvert {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
                 try validate($0, name: "audioPids[]", parent: name, min: 32)
             }
+            try self.validate(self.maxPcrInterval, name: "maxPcrInterval", parent: name, max: 500)
+            try self.validate(self.maxPcrInterval, name: "maxPcrInterval", parent: name, min: 0)
             try self.validate(self.patInterval, name: "patInterval", parent: name, max: 1000)
             try self.validate(self.patInterval, name: "patInterval", parent: name, min: 0)
             try self.validate(self.pcrPid, name: "pcrPid", parent: name, max: 8182)
@@ -7253,6 +7398,7 @@ extension MediaConvert {
             case audioDuration
             case audioFramesPerPes
             case audioPids
+            case maxPcrInterval
             case nielsenId3
             case patInterval
             case pcrControl
@@ -8079,7 +8225,7 @@ extension MediaConvert {
         public let outputSettings: OutputSettings?
         /// Use Preset (Preset) to specify a preset for your transcoding settings. Provide the system or custom preset name. You can specify either Preset (Preset) or Container settings (ContainerSettings), but not both.
         public let preset: String?
-        /// VideoDescription contains a group of video encoding settings. The specific video settings depend on the video codec that you choose for the property codec. Include one instance of  VideoDescription per output.
+        /// VideoDescription contains a group of video encoding settings. The specific video settings depend on the video codec that you choose for the property codec. Include one instance of VideoDescription per output.
         public let videoDescription: VideoDescription?
 
         public init(audioDescriptions: [AudioDescription]? = nil, captionDescriptions: [CaptionDescription]? = nil, containerSettings: ContainerSettings? = nil, extension: String? = nil, nameModifier: String? = nil, outputSettings: OutputSettings? = nil, preset: String? = nil, videoDescription: VideoDescription? = nil) {
@@ -8121,7 +8267,7 @@ extension MediaConvert {
     public struct OutputChannelMapping: AWSEncodableShape & AWSDecodableShape {
         /// Use this setting to specify your remix values when they are integers, such as -10, 0, or 4.
         public let inputChannels: [Int]?
-        /// Use this setting to specify your remix values when they have a decimal component, such as  -10.312, 0.08, or 4.9. MediaConvert rounds your remixing values to the nearest thousandth.
+        /// Use this setting to specify your remix values when they have a decimal component, such as -10.312, 0.08, or 4.9. MediaConvert rounds your remixing values to the nearest thousandth.
         public let inputChannelsFineTune: [Double]?
 
         public init(inputChannels: [Int]? = nil, inputChannelsFineTune: [Double]? = nil) {
@@ -8330,7 +8476,7 @@ extension MediaConvert {
         public let captionDescriptions: [CaptionDescriptionPreset]?
         /// Container specific settings.
         public let containerSettings: ContainerSettings?
-        /// VideoDescription contains a group of video encoding settings. The specific video settings depend on the video codec that you choose for the property codec. Include one instance of  VideoDescription per output.
+        /// VideoDescription contains a group of video encoding settings. The specific video settings depend on the video codec that you choose for the property codec. Include one instance of VideoDescription per output.
         public let videoDescription: VideoDescription?
 
         public init(audioDescriptions: [AudioDescription]? = nil, captionDescriptions: [CaptionDescriptionPreset]? = nil, containerSettings: ContainerSettings? = nil, videoDescription: VideoDescription? = nil) {
@@ -9475,8 +9621,10 @@ extension MediaConvert {
         public let programNumber: Int?
         /// Use Rotate (InputRotate) to specify how the service rotates your video. You can choose automatic rotation or specify a rotation. You can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If your input video container is .mov or .mp4 and your input has rotation metadata, you can choose Automatic to have the service rotate your video according to the rotation specified in the metadata. The rotation must be within one degree of 90, 180, or 270 degrees. If the rotation metadata specifies any other rotation, the service will default to no rotation. By default, the service does no rotation, even if your input video has rotation metadata. The service doesn't pass through rotation metadata.
         public let rotate: InputRotate?
+        /// Use this setting when your input video codec is AVC-Intra. Ignore this setting for all other inputs. If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
+        public let sampleRange: InputSampleRange?
 
-        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil) {
+        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil) {
             self.alphaBehavior = alphaBehavior
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
@@ -9484,6 +9632,7 @@ extension MediaConvert {
             self.pid = pid
             self.programNumber = programNumber
             self.rotate = rotate
+            self.sampleRange = sampleRange
         }
 
         public func validate(name: String) throws {
@@ -9502,6 +9651,7 @@ extension MediaConvert {
             case pid
             case programNumber
             case rotate
+            case sampleRange
         }
     }
 

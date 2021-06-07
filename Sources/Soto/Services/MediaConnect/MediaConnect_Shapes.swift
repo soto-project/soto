@@ -27,8 +27,33 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum Colorimetry: String, CustomStringConvertible, Codable {
+        case bt2020 = "BT2020"
+        case bt2100 = "BT2100"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case st20651 = "ST2065-1"
+        case st20653 = "ST2065-3"
+        case xyz = "XYZ"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DurationUnits: String, CustomStringConvertible, Codable {
         case months = "MONTHS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncoderProfile: String, CustomStringConvertible, Codable {
+        case high
+        case main
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncodingName: String, CustomStringConvertible, Codable {
+        case jxsv
+        case pcm
+        case raw
+        case smpte291
         public var description: String { return self.rawValue }
     }
 
@@ -45,18 +70,40 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum MediaStreamType: String, CustomStringConvertible, Codable {
+        case ancillaryData = "ancillary-data"
+        case audio
+        case video
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkInterfaceType: String, CustomStringConvertible, Codable {
+        case efa
+        case ena
+        public var description: String { return self.rawValue }
+    }
+
     public enum PriceUnits: String, CustomStringConvertible, Codable {
         case hourly = "HOURLY"
         public var description: String { return self.rawValue }
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable {
+        case cdi
         case rist
         case rtp
         case rtpFec = "rtp-fec"
         case srtListener = "srt-listener"
+        case st2110Jpegxs = "st2110-jpegxs"
         case zixiPull = "zixi-pull"
         case zixiPush = "zixi-push"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Range: String, CustomStringConvertible, Codable {
+        case full = "FULL"
+        case fullprotect = "FULLPROTECT"
+        case narrow = "NARROW"
         public var description: String { return self.rawValue }
     }
 
@@ -70,6 +117,13 @@ extension MediaConnect {
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case mbpsOutboundBandwidth = "Mbps_Outbound_Bandwidth"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanMode: String, CustomStringConvertible, Codable {
+        case interlace
+        case progressive
+        case progressiveSegmentedFrame = "progressive-segmented-frame"
         public var description: String { return self.rawValue }
     }
 
@@ -96,7 +150,56 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum Tcs: String, CustomStringConvertible, Codable {
+        case bt2100linhlg = "BT2100LINHLG"
+        case bt2100linpq = "BT2100LINPQ"
+        case density = "DENSITY"
+        case hlg = "HLG"
+        case linear = "LINEAR"
+        case pq = "PQ"
+        case sdr = "SDR"
+        case st20651 = "ST2065-1"
+        case st4281 = "ST428-1"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AddFlowMediaStreamsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
+        ]
+
+        public let flowArn: String
+        /// The media streams that you want to add to the flow.
+        public let mediaStreams: [AddMediaStreamRequest]
+
+        public init(flowArn: String, mediaStreams: [AddMediaStreamRequest]) {
+            self.flowArn = flowArn
+            self.mediaStreams = mediaStreams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaStreams
+        }
+    }
+
+    public struct AddFlowMediaStreamsResponse: AWSDecodableShape {
+        /// The ARN of the flow that you added media streams to.
+        public let flowArn: String?
+        /// The media streams that you added to the flow.
+        public let mediaStreams: [MediaStream]?
+
+        public init(flowArn: String? = nil, mediaStreams: [MediaStream]? = nil) {
+            self.flowArn = flowArn
+            self.mediaStreams = mediaStreams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn
+            case mediaStreams
+        }
+    }
 
     public struct AddFlowOutputsRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -206,6 +309,43 @@ extension MediaConnect {
         }
     }
 
+    public struct AddMediaStreamRequest: AWSEncodableShape {
+        /// The attributes that you want to assign to the new media stream.
+        public let attributes: MediaStreamAttributesRequest?
+        /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
+        public let clockRate: Int?
+        /// A description that can help you quickly identify what your media stream is used for.
+        public let description: String?
+        /// A unique identifier for the media stream.
+        public let mediaStreamId: Int
+        /// A name that helps you distinguish one media stream from another.
+        public let mediaStreamName: String
+        /// The type of media stream.
+        public let mediaStreamType: MediaStreamType
+        /// The resolution of the video.
+        public let videoFormat: String?
+
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
+            self.attributes = attributes
+            self.clockRate = clockRate
+            self.description = description
+            self.mediaStreamId = mediaStreamId
+            self.mediaStreamName = mediaStreamName
+            self.mediaStreamType = mediaStreamType
+            self.videoFormat = videoFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes
+            case clockRate
+            case description
+            case mediaStreamId
+            case mediaStreamName
+            case mediaStreamType
+            case videoFormat
+        }
+    }
+
     public struct AddOutputRequest: AWSEncodableShape {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
@@ -217,6 +357,8 @@ extension MediaConnect {
         public let encryption: Encryption?
         /// The maximum latency in milliseconds for Zixi-based streams.
         public let maxLatency: Int?
+        /// The media streams that are associated with the output, and the parameters for those associations.
+        public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
         /// The name of the output. This value must be unique within the current flow.
@@ -234,12 +376,13 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
             self.encryption = encryption
             self.maxLatency = maxLatency
+            self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
             self.port = port
@@ -256,6 +399,7 @@ extension MediaConnect {
             case destination
             case encryption
             case maxLatency
+            case mediaStreamOutputConfigurations
             case minLatency
             case name
             case port
@@ -272,6 +416,8 @@ extension MediaConnect {
         public let availabilityZone: String?
         /// The entitlements that you want to grant on a flow.
         public let entitlements: [GrantEntitlementRequest]?
+        /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
+        public let mediaStreams: [AddMediaStreamRequest]?
         /// The name of the flow.
         public let name: String
         /// The outputs that you want to add to this flow.
@@ -282,9 +428,10 @@ extension MediaConnect {
         /// The VPC interfaces you want on the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
+            self.mediaStreams = mediaStreams
             self.name = name
             self.outputs = outputs
             self.source = source
@@ -296,6 +443,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case availabilityZone
             case entitlements
+            case mediaStreams
             case name
             case outputs
             case source
@@ -429,6 +577,86 @@ extension MediaConnect {
         }
     }
 
+    public struct DestinationConfiguration: AWSDecodableShape {
+        /// The IP address where contents of the media stream will be sent.
+        public let destinationIp: String
+        /// The port to use when the content of the media stream is distributed to the output.
+        public let destinationPort: Int
+        /// The VPC interface that is used for the media stream associated with the output.
+        public let interface: Interface
+        /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS protocol.
+        public let outboundIp: String
+
+        public init(destinationIp: String, destinationPort: Int, interface: Interface, outboundIp: String) {
+            self.destinationIp = destinationIp
+            self.destinationPort = destinationPort
+            self.interface = interface
+            self.outboundIp = outboundIp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationIp
+            case destinationPort
+            case interface
+            case outboundIp
+        }
+    }
+
+    public struct DestinationConfigurationRequest: AWSEncodableShape {
+        /// The IP address where you want MediaConnect to send contents of the media stream.
+        public let destinationIp: String
+        /// The port that you want MediaConnect to use when it distributes the media stream to the output.
+        public let destinationPort: Int
+        /// The VPC interface that you want to use for the media stream associated with the output.
+        public let interface: InterfaceRequest
+
+        public init(destinationIp: String, destinationPort: Int, interface: InterfaceRequest) {
+            self.destinationIp = destinationIp
+            self.destinationPort = destinationPort
+            self.interface = interface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationIp
+            case destinationPort
+            case interface
+        }
+    }
+
+    public struct EncodingParameters: AWSDecodableShape {
+        /// A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
+        public let compressionFactor: Double
+        /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol.
+        public let encoderProfile: EncoderProfile
+
+        public init(compressionFactor: Double, encoderProfile: EncoderProfile) {
+            self.compressionFactor = compressionFactor
+            self.encoderProfile = encoderProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionFactor
+            case encoderProfile
+        }
+    }
+
+    public struct EncodingParametersRequest: AWSEncodableShape {
+        /// A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
+        public let compressionFactor: Double
+        /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol.
+        public let encoderProfile: EncoderProfile
+
+        public init(compressionFactor: Double, encoderProfile: EncoderProfile) {
+            self.compressionFactor = compressionFactor
+            self.encoderProfile = encoderProfile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionFactor
+            case encoderProfile
+        }
+    }
+
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
@@ -538,6 +766,8 @@ extension MediaConnect {
         public let entitlements: [Entitlement]
         /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.
         public let flowArn: String
+        /// The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
+        public let mediaStreams: [MediaStream]?
         /// The name of the flow.
         public let name: String
         /// The outputs in this flow.
@@ -550,12 +780,13 @@ extension MediaConnect {
         /// The VPC Interfaces for this flow.
         public let vpcInterfaces: [VpcInterface]?
 
-        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status, vpcInterfaces: [VpcInterface]? = nil) {
+        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, mediaStreams: [MediaStream]? = nil, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
             self.entitlements = entitlements
             self.flowArn = flowArn
+            self.mediaStreams = mediaStreams
             self.name = name
             self.outputs = outputs
             self.source = source
@@ -571,6 +802,7 @@ extension MediaConnect {
             case egressIp
             case entitlements
             case flowArn
+            case mediaStreams
             case name
             case outputs
             case source
@@ -578,6 +810,80 @@ extension MediaConnect {
             case sources
             case status
             case vpcInterfaces
+        }
+    }
+
+    public struct Fmtp: AWSDecodableShape {
+        /// The format of the audio channel.
+        public let channelOrder: String?
+        /// The format that is used for the representation of color.
+        public let colorimetry: Colorimetry?
+        /// The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1. For example, if you specify 60, MediaConnect uses 60/1 as the exactFramerate.
+        public let exactFramerate: String?
+        /// The pixel aspect ratio (PAR) of the video.
+        public let par: String?
+        /// The encoding range of the video.
+        public let range: Range?
+        /// The type of compression that was used to smooth the video’s appearance
+        public let scanMode: ScanMode?
+        /// The transfer characteristic system (TCS) that is used in the video.
+        public let tcs: Tcs?
+
+        public init(channelOrder: String? = nil, colorimetry: Colorimetry? = nil, exactFramerate: String? = nil, par: String? = nil, range: Range? = nil, scanMode: ScanMode? = nil, tcs: Tcs? = nil) {
+            self.channelOrder = channelOrder
+            self.colorimetry = colorimetry
+            self.exactFramerate = exactFramerate
+            self.par = par
+            self.range = range
+            self.scanMode = scanMode
+            self.tcs = tcs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelOrder
+            case colorimetry
+            case exactFramerate
+            case par
+            case range
+            case scanMode
+            case tcs
+        }
+    }
+
+    public struct FmtpRequest: AWSEncodableShape {
+        /// The format of the audio channel.
+        public let channelOrder: String?
+        /// The format that is used for the representation of color.
+        public let colorimetry: Colorimetry?
+        /// The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1. For example, if you specify 60, MediaConnect uses 60/1 as the exactFramerate.
+        public let exactFramerate: String?
+        /// The pixel aspect ratio (PAR) of the video.
+        public let par: String?
+        /// The encoding range of the video.
+        public let range: Range?
+        /// The type of compression that was used to smooth the video’s appearance.
+        public let scanMode: ScanMode?
+        /// The transfer characteristic system (TCS) that is used in the video.
+        public let tcs: Tcs?
+
+        public init(channelOrder: String? = nil, colorimetry: Colorimetry? = nil, exactFramerate: String? = nil, par: String? = nil, range: Range? = nil, scanMode: ScanMode? = nil, tcs: Tcs? = nil) {
+            self.channelOrder = channelOrder
+            self.colorimetry = colorimetry
+            self.exactFramerate = exactFramerate
+            self.par = par
+            self.range = range
+            self.scanMode = scanMode
+            self.tcs = tcs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelOrder
+            case colorimetry
+            case exactFramerate
+            case par
+            case range
+            case scanMode
+            case tcs
         }
     }
 
@@ -647,6 +953,70 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case entitlements
             case flowArn
+        }
+    }
+
+    public struct InputConfiguration: AWSDecodableShape {
+        /// The IP address that the flow listens on for incoming content for a media stream.
+        public let inputIp: String
+        /// The port that the flow listens on for an incoming media stream.
+        public let inputPort: Int
+        /// The VPC interface where the media stream comes in from.
+        public let interface: Interface
+
+        public init(inputIp: String, inputPort: Int, interface: Interface) {
+            self.inputIp = inputIp
+            self.inputPort = inputPort
+            self.interface = interface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputIp
+            case inputPort
+            case interface
+        }
+    }
+
+    public struct InputConfigurationRequest: AWSEncodableShape {
+        /// The port that you want the flow to listen on for an incoming media stream.
+        public let inputPort: Int
+        /// The VPC interface that you want to use for the incoming media stream.
+        public let interface: InterfaceRequest
+
+        public init(inputPort: Int, interface: InterfaceRequest) {
+            self.inputPort = inputPort
+            self.interface = interface
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputPort
+            case interface
+        }
+    }
+
+    public struct Interface: AWSDecodableShape {
+        /// The name of the VPC interface.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct InterfaceRequest: AWSEncodableShape {
+        /// The name of the VPC interface.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
         }
     }
 
@@ -887,6 +1257,173 @@ extension MediaConnect {
         }
     }
 
+    public struct MediaStream: AWSDecodableShape {
+        /// Attributes that are related to the media stream.
+        public let attributes: MediaStreamAttributes?
+        /// The sample rate for the stream. This value is measured in Hz.
+        public let clockRate: Int?
+        /// A description that can help you quickly identify what your media stream is used for.
+        public let description: String?
+        /// The format type number (sometimes referred to as RTP payload type) of the media stream. MediaConnect assigns this value to the media stream. For ST 2110 JPEG XS outputs, you need to provide this value to the receiver.
+        public let fmt: Int
+        /// A unique identifier for the media stream.
+        public let mediaStreamId: Int
+        /// A name that helps you distinguish one media stream from another.
+        public let mediaStreamName: String
+        /// The type of media stream.
+        public let mediaStreamType: MediaStreamType
+        /// The resolution of the video.
+        public let videoFormat: String?
+
+        public init(attributes: MediaStreamAttributes? = nil, clockRate: Int? = nil, description: String? = nil, fmt: Int, mediaStreamId: Int, mediaStreamName: String, mediaStreamType: MediaStreamType, videoFormat: String? = nil) {
+            self.attributes = attributes
+            self.clockRate = clockRate
+            self.description = description
+            self.fmt = fmt
+            self.mediaStreamId = mediaStreamId
+            self.mediaStreamName = mediaStreamName
+            self.mediaStreamType = mediaStreamType
+            self.videoFormat = videoFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes
+            case clockRate
+            case description
+            case fmt
+            case mediaStreamId
+            case mediaStreamName
+            case mediaStreamType
+            case videoFormat
+        }
+    }
+
+    public struct MediaStreamAttributes: AWSDecodableShape {
+        /// A set of parameters that define the media stream.
+        public let fmtp: Fmtp
+        /// The audio language, in a format that is recognized by the receiver.
+        public let lang: String?
+
+        public init(fmtp: Fmtp, lang: String? = nil) {
+            self.fmtp = fmtp
+            self.lang = lang
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fmtp
+            case lang
+        }
+    }
+
+    public struct MediaStreamAttributesRequest: AWSEncodableShape {
+        /// The settings that you want to use to define the media stream.
+        public let fmtp: FmtpRequest?
+        /// The audio language, in a format that is recognized by the receiver.
+        public let lang: String?
+
+        public init(fmtp: FmtpRequest? = nil, lang: String? = nil) {
+            self.fmtp = fmtp
+            self.lang = lang
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fmtp
+            case lang
+        }
+    }
+
+    public struct MediaStreamOutputConfiguration: AWSDecodableShape {
+        /// The transport parameters that are associated with each outbound media stream.
+        public let destinationConfigurations: [DestinationConfiguration]?
+        /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        public let encodingName: EncodingName
+        /// Encoding parameters
+        public let encodingParameters: EncodingParameters?
+        /// The name of the media stream.
+        public let mediaStreamName: String
+
+        public init(destinationConfigurations: [DestinationConfiguration]? = nil, encodingName: EncodingName, encodingParameters: EncodingParameters? = nil, mediaStreamName: String) {
+            self.destinationConfigurations = destinationConfigurations
+            self.encodingName = encodingName
+            self.encodingParameters = encodingParameters
+            self.mediaStreamName = mediaStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfigurations
+            case encodingName
+            case encodingParameters
+            case mediaStreamName
+        }
+    }
+
+    public struct MediaStreamOutputConfigurationRequest: AWSEncodableShape {
+        /// The transport parameters that you want to associate with the media stream.
+        public let destinationConfigurations: [DestinationConfigurationRequest]?
+        /// The format that will be used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        public let encodingName: EncodingName
+        /// A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source.
+        public let encodingParameters: EncodingParametersRequest?
+        /// The name of the media stream that is associated with the output.
+        public let mediaStreamName: String
+
+        public init(destinationConfigurations: [DestinationConfigurationRequest]? = nil, encodingName: EncodingName, encodingParameters: EncodingParametersRequest? = nil, mediaStreamName: String) {
+            self.destinationConfigurations = destinationConfigurations
+            self.encodingName = encodingName
+            self.encodingParameters = encodingParameters
+            self.mediaStreamName = mediaStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfigurations
+            case encodingName
+            case encodingParameters
+            case mediaStreamName
+        }
+    }
+
+    public struct MediaStreamSourceConfiguration: AWSDecodableShape {
+        /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        public let encodingName: EncodingName
+        /// The transport parameters that are associated with an incoming media stream.
+        public let inputConfigurations: [InputConfiguration]?
+        /// The name of the media stream.
+        public let mediaStreamName: String
+
+        public init(encodingName: EncodingName, inputConfigurations: [InputConfiguration]? = nil, mediaStreamName: String) {
+            self.encodingName = encodingName
+            self.inputConfigurations = inputConfigurations
+            self.mediaStreamName = mediaStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encodingName
+            case inputConfigurations
+            case mediaStreamName
+        }
+    }
+
+    public struct MediaStreamSourceConfigurationRequest: AWSEncodableShape {
+        /// The format you want to use to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        public let encodingName: EncodingName
+        /// The transport parameters that you want to associate with the media stream.
+        public let inputConfigurations: [InputConfigurationRequest]?
+        /// The name of the media stream.
+        public let mediaStreamName: String
+
+        public init(encodingName: EncodingName, inputConfigurations: [InputConfigurationRequest]? = nil, mediaStreamName: String) {
+            self.encodingName = encodingName
+            self.inputConfigurations = inputConfigurations
+            self.mediaStreamName = mediaStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encodingName
+            case inputConfigurations
+            case mediaStreamName
+        }
+    }
+
     public struct Messages: AWSDecodableShape {
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]
@@ -956,6 +1493,8 @@ extension MediaConnect {
         public let listenerAddress: String?
         /// The input ARN of the AWS Elemental MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
         public let mediaLiveInputArn: String?
+        /// The configuration for each media stream that is associated with the output.
+        public let mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]?
         /// The name of the output. This value must be unique within the current flow.
         public let name: String
         /// The ARN of the output.
@@ -967,7 +1506,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String, outputArn: String, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
@@ -975,6 +1514,7 @@ extension MediaConnect {
             self.entitlementArn = entitlementArn
             self.listenerAddress = listenerAddress
             self.mediaLiveInputArn = mediaLiveInputArn
+            self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.name = name
             self.outputArn = outputArn
             self.port = port
@@ -990,6 +1530,7 @@ extension MediaConnect {
             case entitlementArn
             case listenerAddress
             case mediaLiveInputArn
+            case mediaStreamOutputConfigurations
             case name
             case outputArn
             case port
@@ -1030,6 +1571,40 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case reservation
+        }
+    }
+
+    public struct RemoveFlowMediaStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "mediaStreamName", location: .uri(locationName: "mediaStreamName"))
+        ]
+
+        public let flowArn: String
+        public let mediaStreamName: String
+
+        public init(flowArn: String, mediaStreamName: String) {
+            self.flowArn = flowArn
+            self.mediaStreamName = mediaStreamName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RemoveFlowMediaStreamResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let flowArn: String?
+        /// The name of the media stream that was removed.
+        public let mediaStreamName: String?
+
+        public init(flowArn: String? = nil, mediaStreamName: String? = nil) {
+            self.flowArn = flowArn
+            self.mediaStreamName = mediaStreamName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn
+            case mediaStreamName
         }
     }
 
@@ -1264,6 +1839,10 @@ extension MediaConnect {
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
+        /// The size of the buffer (in milliseconds) to use to sync incoming source data.
+        public let maxSyncBuffer: Int?
+        /// The media streams that are associated with the source, and the parameters for those associations.
+        public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
         /// The name of the source.
@@ -1277,13 +1856,15 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: Protocol? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
+            self.maxSyncBuffer = maxSyncBuffer
+            self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
             self.name = name
             self.`protocol` = `protocol`
@@ -1299,6 +1880,8 @@ extension MediaConnect {
             case ingestPort
             case maxBitrate
             case maxLatency
+            case maxSyncBuffer
+            case mediaStreamSourceConfigurations
             case minLatency
             case name
             case `protocol`
@@ -1321,24 +1904,27 @@ extension MediaConnect {
         public let ingestIp: String?
         /// The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
+        /// The media streams that are associated with the source, and the parameters for those associations.
+        public let mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]?
         /// The name of the source.
         public let name: String
         /// The ARN of the source.
         public let sourceArn: String
         /// Attributes related to the transport stream that are used in the source.
         public let transport: Transport?
-        /// The name of the VPC Interface this Source is configured with.
+        /// The name of the VPC interface that is used for this source.
         public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, name: String, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
             self.ingestIp = ingestIp
             self.ingestPort = ingestPort
+            self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.name = name
             self.sourceArn = sourceArn
             self.transport = transport
@@ -1353,6 +1939,7 @@ extension MediaConnect {
             case entitlementArn
             case ingestIp
             case ingestPort
+            case mediaStreamSourceConfigurations
             case name
             case sourceArn
             case transport
@@ -1449,6 +2036,8 @@ extension MediaConnect {
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
+        /// The size of the buffer (in milliseconds) to use to sync incoming source data.
+        public let maxSyncBuffer: Int?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
         /// The protocol that is used by the source or output.
@@ -1460,10 +2049,11 @@ extension MediaConnect {
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
 
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: Protocol, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
+            self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -1475,6 +2065,7 @@ extension MediaConnect {
             case cidrAllowList
             case maxBitrate
             case maxLatency
+            case maxSyncBuffer
             case minLatency
             case `protocol`
             case remoteId
@@ -1612,6 +2203,61 @@ extension MediaConnect {
         }
     }
 
+    public struct UpdateFlowMediaStreamRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "mediaStreamName", location: .uri(locationName: "mediaStreamName"))
+        ]
+
+        /// The attributes that you want to assign to the media stream.
+        public let attributes: MediaStreamAttributesRequest?
+        /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
+        public let clockRate: Int?
+        /// Description
+        public let description: String?
+        public let flowArn: String
+        public let mediaStreamName: String
+        /// The type of media stream.
+        public let mediaStreamType: MediaStreamType?
+        /// The resolution of the video.
+        public let videoFormat: String?
+
+        public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, flowArn: String, mediaStreamName: String, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
+            self.attributes = attributes
+            self.clockRate = clockRate
+            self.description = description
+            self.flowArn = flowArn
+            self.mediaStreamName = mediaStreamName
+            self.mediaStreamType = mediaStreamType
+            self.videoFormat = videoFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes
+            case clockRate
+            case description
+            case mediaStreamType
+            case videoFormat
+        }
+    }
+
+    public struct UpdateFlowMediaStreamResponse: AWSDecodableShape {
+        /// The ARN of the flow that is associated with the media stream that you updated.
+        public let flowArn: String?
+        /// The media stream that you updated.
+        public let mediaStream: MediaStream?
+
+        public init(flowArn: String? = nil, mediaStream: MediaStream? = nil) {
+            self.flowArn = flowArn
+            self.mediaStream = mediaStream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowArn
+            case mediaStream
+        }
+    }
+
     public struct UpdateFlowOutputRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
@@ -1629,6 +2275,8 @@ extension MediaConnect {
         public let flowArn: String
         /// The maximum latency in milliseconds for Zixi-based streams.
         public let maxLatency: Int?
+        /// The media streams that are associated with the output, and the parameters for those associations.
+        public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
         public let outputArn: String
@@ -1645,13 +2293,14 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: Protocol? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
             self.encryption = encryption
             self.flowArn = flowArn
             self.maxLatency = maxLatency
+            self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.outputArn = outputArn
             self.port = port
@@ -1668,6 +2317,7 @@ extension MediaConnect {
             case destination
             case encryption
             case maxLatency
+            case mediaStreamOutputConfigurations
             case minLatency
             case port
             case `protocol`
@@ -1744,6 +2394,10 @@ extension MediaConnect {
         public let maxBitrate: Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
+        /// The size of the buffer (in milliseconds) to use to sync incoming source data.
+        public let maxSyncBuffer: Int?
+        /// The media streams that are associated with the source, and the parameters for those associations.
+        public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
         /// The protocol that is used by the source.
@@ -1751,12 +2405,12 @@ extension MediaConnect {
         public let sourceArn: String
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
-        /// The name of the VPC Interface to configure this Source with.
+        /// The name of the VPC interface to use for this source.
         public let vpcInterfaceName: String?
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, minLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: Protocol? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -1764,6 +2418,8 @@ extension MediaConnect {
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
+            self.maxSyncBuffer = maxSyncBuffer
+            self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
             self.`protocol` = `protocol`
             self.sourceArn = sourceArn
@@ -1779,6 +2435,8 @@ extension MediaConnect {
             case ingestPort
             case maxBitrate
             case maxLatency
+            case maxSyncBuffer
+            case mediaStreamSourceConfigurations
             case minLatency
             case `protocol`
             case streamId
@@ -1809,6 +2467,8 @@ extension MediaConnect {
         public let name: String
         /// IDs of the network interfaces created in customer's account by MediaConnect.
         public let networkInterfaceIds: [String]
+        /// The type of network interface.
+        public let networkInterfaceType: NetworkInterfaceType
         /// Role Arn MediaConnect can assumes to create ENIs in customer's account
         public let roleArn: String
         /// Security Group IDs to be used on ENI.
@@ -1816,9 +2476,10 @@ extension MediaConnect {
         /// Subnet must be in the AZ of the Flow
         public let subnetId: String
 
-        public init(name: String, networkInterfaceIds: [String], roleArn: String, securityGroupIds: [String], subnetId: String) {
+        public init(name: String, networkInterfaceIds: [String], networkInterfaceType: NetworkInterfaceType, roleArn: String, securityGroupIds: [String], subnetId: String) {
             self.name = name
             self.networkInterfaceIds = networkInterfaceIds
+            self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
@@ -1827,6 +2488,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case name
             case networkInterfaceIds
+            case networkInterfaceType
             case roleArn
             case securityGroupIds
             case subnetId
@@ -1849,6 +2511,8 @@ extension MediaConnect {
     public struct VpcInterfaceRequest: AWSEncodableShape {
         /// The name of the VPC Interface. This value must be unique within the current flow.
         public let name: String
+        /// The type of network interface. If this value is not included in the request, MediaConnect uses ENA as the networkInterfaceType.
+        public let networkInterfaceType: NetworkInterfaceType?
         /// Role Arn MediaConnect can assumes to create ENIs in customer's account
         public let roleArn: String
         /// Security Group IDs to be used on ENI.
@@ -1856,8 +2520,9 @@ extension MediaConnect {
         /// Subnet must be in the AZ of the Flow
         public let subnetId: String
 
-        public init(name: String, roleArn: String, securityGroupIds: [String], subnetId: String) {
+        public init(name: String, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String, securityGroupIds: [String], subnetId: String) {
             self.name = name
+            self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
@@ -1865,6 +2530,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case name
+            case networkInterfaceType
             case roleArn
             case securityGroupIds
             case subnetId

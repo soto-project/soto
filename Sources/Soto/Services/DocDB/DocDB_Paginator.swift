@@ -549,6 +549,59 @@ extension DocDB {
         )
     }
 
+    ///  Returns information about Amazon DocumentDB global clusters. This API supports pagination.  This action only applies to Amazon DocumentDB clusters.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeGlobalClustersPaginator<Result>(
+        _ input: DescribeGlobalClustersMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GlobalClustersMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeGlobalClusters,
+            inputKey: \DescribeGlobalClustersMessage.marker,
+            outputKey: \GlobalClustersMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeGlobalClustersPaginator(
+        _ input: DescribeGlobalClustersMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GlobalClustersMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeGlobalClusters,
+            inputKey: \DescribeGlobalClustersMessage.marker,
+            outputKey: \GlobalClustersMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of orderable instance options for the specified engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -777,6 +830,17 @@ extension DocDB.DescribeEventsMessage: AWSPaginateToken {
             sourceIdentifier: self.sourceIdentifier,
             sourceType: self.sourceType,
             startTime: self.startTime
+        )
+    }
+}
+
+extension DocDB.DescribeGlobalClustersMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeGlobalClustersMessage {
+        return .init(
+            filters: self.filters,
+            globalClusterIdentifier: self.globalClusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

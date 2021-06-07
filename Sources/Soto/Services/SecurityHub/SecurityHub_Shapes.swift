@@ -2506,6 +2506,126 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsEc2NetworkAclAssociation: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the association between the network ACL and the subnet.
+        public let networkAclAssociationId: String?
+        /// The identifier of the network ACL.
+        public let networkAclId: String?
+        /// The identifier of the subnet that is associated with the network ACL.
+        public let subnetId: String?
+
+        public init(networkAclAssociationId: String? = nil, networkAclId: String? = nil, subnetId: String? = nil) {
+            self.networkAclAssociationId = networkAclAssociationId
+            self.networkAclId = networkAclId
+            self.subnetId = subnetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkAclAssociationId, name: "networkAclAssociationId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.networkAclId, name: "networkAclId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkAclAssociationId = "NetworkAclAssociationId"
+            case networkAclId = "NetworkAclId"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct AwsEc2NetworkAclDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Associations between the network ACL and subnets.
+        public let associations: [AwsEc2NetworkAclAssociation]?
+        /// The set of rules in the network ACL.
+        public let entries: [AwsEc2NetworkAclEntry]?
+        /// Whether this is the default network ACL for the VPC.
+        public let isDefault: Bool?
+        /// The identifier of the network ACL.
+        public let networkAclId: String?
+        /// The identifier of the AWS account that owns the network ACL.
+        public let ownerId: String?
+        /// The identifier of the VPC for the network ACL.
+        public let vpcId: String?
+
+        public init(associations: [AwsEc2NetworkAclAssociation]? = nil, entries: [AwsEc2NetworkAclEntry]? = nil, isDefault: Bool? = nil, networkAclId: String? = nil, ownerId: String? = nil, vpcId: String? = nil) {
+            self.associations = associations
+            self.entries = entries
+            self.isDefault = isDefault
+            self.networkAclId = networkAclId
+            self.ownerId = ownerId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.associations?.forEach {
+                try $0.validate(name: "\(name).associations[]")
+            }
+            try self.entries?.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.networkAclId, name: "networkAclId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "Associations"
+            case entries = "Entries"
+            case isDefault = "IsDefault"
+            case networkAclId = "NetworkAclId"
+            case ownerId = "OwnerId"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsEc2NetworkAclEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The IPV4 network range for which to deny or allow access.
+        public let cidrBlock: String?
+        /// Whether the rule is an egress rule. An egress rule is a rule that applies to traffic that leaves the subnet.
+        public let egress: Bool?
+        /// The Internet Control Message Protocol (ICMP) type and code for which to deny or allow access.
+        public let icmpTypeCode: IcmpTypeCode?
+        /// The IPV6 network range for which to deny or allow access.
+        public let ipv6CidrBlock: String?
+        /// For TCP or UDP protocols, the range of ports that the rule applies to.
+        public let portRange: PortRangeFromTo?
+        /// The protocol that the rule applies to. To deny or allow access to all protocols, use the value -1.
+        public let `protocol`: String?
+        /// Whether the rule is used to allow access or deny access.
+        public let ruleAction: String?
+        /// The rule number. The rules are processed in order by their number.
+        public let ruleNumber: Int?
+
+        public init(cidrBlock: String? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, portRange: PortRangeFromTo? = nil, protocol: String? = nil, ruleAction: String? = nil, ruleNumber: Int? = nil) {
+            self.cidrBlock = cidrBlock
+            self.egress = egress
+            self.icmpTypeCode = icmpTypeCode
+            self.ipv6CidrBlock = ipv6CidrBlock
+            self.portRange = portRange
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipv6CidrBlock, name: "ipv6CidrBlock", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.`protocol`, name: "`protocol`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleAction, name: "ruleAction", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "CidrBlock"
+            case egress = "Egress"
+            case icmpTypeCode = "IcmpTypeCode"
+            case ipv6CidrBlock = "Ipv6CidrBlock"
+            case portRange = "PortRange"
+            case `protocol` = "Protocol"
+            case ruleAction = "RuleAction"
+            case ruleNumber = "RuleNumber"
+        }
+    }
+
     public struct AwsEc2NetworkInterfaceAttachment: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the network interface attachment
         public let attachmentId: String?
@@ -2861,6 +2981,81 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsEc2SubnetDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to assign an IPV6 address to a network interface that is created in this subnet.
+        public let assignIpv6AddressOnCreation: Bool?
+        /// The Availability Zone for the subnet.
+        public let availabilityZone: String?
+        /// The identifier of the Availability Zone for the subnet.
+        public let availabilityZoneId: String?
+        /// The number of available IPV4 addresses in the subnet. Does not include addresses for stopped instances.
+        public let availableIpAddressCount: Int?
+        /// The IPV4 CIDR block that is assigned to the subnet.
+        public let cidrBlock: String?
+        /// Whether this subnet is the default subnet for the Availability Zone.
+        public let defaultForAz: Bool?
+        /// The IPV6 CIDR blocks that are associated with the subnet.
+        public let ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]?
+        /// Whether instances in this subnet receive a public IP address.
+        public let mapPublicIpOnLaunch: Bool?
+        /// The identifier of the AWS account that owns the subnet.
+        public let ownerId: String?
+        /// The current state of the subnet.
+        public let state: String?
+        /// The ARN of the subnet.
+        public let subnetArn: String?
+        /// The identifier of the subnet.
+        public let subnetId: String?
+        /// The identifier of the VPC that contains the subnet.
+        public let vpcId: String?
+
+        public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, defaultForAz: Bool? = nil, ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]? = nil, mapPublicIpOnLaunch: Bool? = nil, ownerId: String? = nil, state: String? = nil, subnetArn: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
+            self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.availableIpAddressCount = availableIpAddressCount
+            self.cidrBlock = cidrBlock
+            self.defaultForAz = defaultForAz
+            self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
+            self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
+            self.ownerId = ownerId
+            self.state = state
+            self.subnetArn = subnetArn
+            self.subnetId = subnetId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: ".*\\S.*")
+            try self.ipv6CidrBlockAssociationSet?.forEach {
+                try $0.validate(name: "\(name).ipv6CidrBlockAssociationSet[]")
+            }
+            try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.state, name: "state", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assignIpv6AddressOnCreation = "AssignIpv6AddressOnCreation"
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case availableIpAddressCount = "AvailableIpAddressCount"
+            case cidrBlock = "CidrBlock"
+            case defaultForAz = "DefaultForAz"
+            case ipv6CidrBlockAssociationSet = "Ipv6CidrBlockAssociationSet"
+            case mapPublicIpOnLaunch = "MapPublicIpOnLaunch"
+            case ownerId = "OwnerId"
+            case state = "State"
+            case subnetArn = "SubnetArn"
+            case subnetId = "SubnetId"
+            case vpcId = "VpcId"
+        }
+    }
+
     public struct AwsEc2VolumeAttachment: AWSEncodableShape & AWSDecodableShape {
         /// The datetime when the attachment initiated.
         public let attachTime: String?
@@ -2972,6 +3167,183 @@ extension SecurityHub {
             case dhcpOptionsId = "DhcpOptionsId"
             case ipv6CidrBlockAssociationSet = "Ipv6CidrBlockAssociationSet"
             case state = "State"
+        }
+    }
+
+    public struct AwsElasticBeanstalkEnvironmentDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the application that is associated with the environment.
+        public let applicationName: String?
+        /// The URL to the CNAME for this environment.
+        public let cname: String?
+        /// The creation date for this environment.
+        public let dateCreated: String?
+        /// The date when this environment was last modified.
+        public let dateUpdated: String?
+        /// A description of the environment.
+        public let description: String?
+        /// For load-balanced, autoscaling environments, the URL to the load balancer. For single-instance environments, the IP address of the instance.
+        public let endpointUrl: String?
+        /// The ARN of the environment.
+        public let environmentArn: String?
+        /// The identifier of the environment.
+        public let environmentId: String?
+        /// Links to other environments in the same group.
+        public let environmentLinks: [AwsElasticBeanstalkEnvironmentEnvironmentLink]?
+        /// The name of the environment.
+        public let environmentName: String?
+        /// The configuration setting for the environment.
+        public let optionSettings: [AwsElasticBeanstalkEnvironmentOptionSetting]?
+        /// The ARN of the platform version for the environment.
+        public let platformArn: String?
+        /// The name of the solution stack that is deployed with the environment.
+        public let solutionStackName: String?
+        /// The current operational status of the environment.
+        public let status: String?
+        /// The tier of the environment.
+        public let tier: AwsElasticBeanstalkEnvironmentTier?
+        /// The application version of the environment.
+        public let versionLabel: String?
+
+        public init(applicationName: String? = nil, cname: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, endpointUrl: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentLinks: [AwsElasticBeanstalkEnvironmentEnvironmentLink]? = nil, environmentName: String? = nil, optionSettings: [AwsElasticBeanstalkEnvironmentOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, status: String? = nil, tier: AwsElasticBeanstalkEnvironmentTier? = nil, versionLabel: String? = nil) {
+            self.applicationName = applicationName
+            self.cname = cname
+            self.dateCreated = dateCreated
+            self.dateUpdated = dateUpdated
+            self.description = description
+            self.endpointUrl = endpointUrl
+            self.environmentArn = environmentArn
+            self.environmentId = environmentId
+            self.environmentLinks = environmentLinks
+            self.environmentName = environmentName
+            self.optionSettings = optionSettings
+            self.platformArn = platformArn
+            self.solutionStackName = solutionStackName
+            self.status = status
+            self.tier = tier
+            self.versionLabel = versionLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.cname, name: "cname", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.dateCreated, name: "dateCreated", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.dateUpdated, name: "dateUpdated", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.endpointUrl, name: "endpointUrl", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.environmentArn, name: "environmentArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: ".*\\S.*")
+            try self.environmentLinks?.forEach {
+                try $0.validate(name: "\(name).environmentLinks[]")
+            }
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: ".*\\S.*")
+            try self.optionSettings?.forEach {
+                try $0.validate(name: "\(name).optionSettings[]")
+            }
+            try self.validate(self.platformArn, name: "platformArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.solutionStackName, name: "solutionStackName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.status, name: "status", parent: name, pattern: ".*\\S.*")
+            try self.tier?.validate(name: "\(name).tier")
+            try self.validate(self.versionLabel, name: "versionLabel", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case cname = "Cname"
+            case dateCreated = "DateCreated"
+            case dateUpdated = "DateUpdated"
+            case description = "Description"
+            case endpointUrl = "EndpointUrl"
+            case environmentArn = "EnvironmentArn"
+            case environmentId = "EnvironmentId"
+            case environmentLinks = "EnvironmentLinks"
+            case environmentName = "EnvironmentName"
+            case optionSettings = "OptionSettings"
+            case platformArn = "PlatformArn"
+            case solutionStackName = "SolutionStackName"
+            case status = "Status"
+            case tier = "Tier"
+            case versionLabel = "VersionLabel"
+        }
+    }
+
+    public struct AwsElasticBeanstalkEnvironmentEnvironmentLink: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the linked environment.
+        public let environmentName: String?
+        /// The name of the environment link.
+        public let linkName: String?
+
+        public init(environmentName: String? = nil, linkName: String? = nil) {
+            self.environmentName = environmentName
+            self.linkName = linkName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.linkName, name: "linkName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName = "EnvironmentName"
+            case linkName = "LinkName"
+        }
+    }
+
+    public struct AwsElasticBeanstalkEnvironmentOptionSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The type of resource that the configuration option is associated with.
+        public let namespace: String?
+        /// The name of the option.
+        public let optionName: String?
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The value of the configuration setting.
+        public let value: String?
+
+        public init(namespace: String? = nil, optionName: String? = nil, resourceName: String? = nil, value: String? = nil) {
+            self.namespace = namespace
+            self.optionName = optionName
+            self.resourceName = resourceName
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.optionName, name: "optionName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case optionName = "OptionName"
+            case resourceName = "ResourceName"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsElasticBeanstalkEnvironmentTier: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the environment tier.
+        public let name: String?
+        /// The type of environment tier.
+        public let type: String?
+        /// The version of the environment tier.
+        public let version: String?
+
+        public init(name: String? = nil, type: String? = nil, version: String? = nil) {
+            self.name = name
+            self.type = type
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.version, name: "version", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+            case version = "Version"
         }
     }
 
@@ -9402,6 +9774,23 @@ extension SecurityHub {
         }
     }
 
+    public struct IcmpTypeCode: AWSEncodableShape & AWSDecodableShape {
+        /// The ICMP code for which to deny or allow access. To deny or allow all codes, use the value -1.
+        public let code: Int?
+        /// The ICMP type for which to deny or allow access. To deny or allow all types, use the value -1.
+        public let type: Int?
+
+        public init(code: Int? = nil, type: Int? = nil) {
+            self.code = code
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case type = "Type"
+        }
+    }
+
     public struct ImportFindingsError: AWSDecodableShape {
         /// The code of the error returned by the BatchImportFindings operation.
         public let errorCode: String
@@ -10397,6 +10786,23 @@ extension SecurityHub {
         }
     }
 
+    public struct PortRangeFromTo: AWSEncodableShape & AWSDecodableShape {
+        /// The first port in the port range.
+        public let from: Int?
+        /// The last port in the port range.
+        public let to: Int?
+
+        public init(from: Int? = nil, to: Int? = nil) {
+            self.from = from
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case to = "To"
+        }
+    }
+
     public struct ProcessDetails: AWSEncodableShape & AWSDecodableShape {
         /// Indicates when the process was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
@@ -10664,14 +11070,20 @@ extension SecurityHub {
         public let awsEc2Eip: AwsEc2EipDetails?
         /// Details about an Amazon EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
+        /// Details about an EC2 network access control list (ACL).
+        public let awsEc2NetworkAcl: AwsEc2NetworkAclDetails?
         /// Details for an Amazon EC2 network interface.
         public let awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails?
         /// Details for an EC2 security group.
         public let awsEc2SecurityGroup: AwsEc2SecurityGroupDetails?
+        /// Details about a subnet in EC2.
+        public let awsEc2Subnet: AwsEc2SubnetDetails?
         /// Details for an EC2 volume.
         public let awsEc2Volume: AwsEc2VolumeDetails?
         /// Details for an EC2 VPC.
         public let awsEc2Vpc: AwsEc2VpcDetails?
+        /// Details about an Elastic Beanstalk environment.
+        public let awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails?
         /// Details for an Elasticsearch domain.
         public let awsElasticsearchDomain: AwsElasticsearchDomainDetails?
         /// contains details about a Classic Load Balancer.
@@ -10725,7 +11137,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -10738,10 +11150,13 @@ extension SecurityHub {
             self.awsDynamoDbTable = awsDynamoDbTable
             self.awsEc2Eip = awsEc2Eip
             self.awsEc2Instance = awsEc2Instance
+            self.awsEc2NetworkAcl = awsEc2NetworkAcl
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
+            self.awsEc2Subnet = awsEc2Subnet
             self.awsEc2Volume = awsEc2Volume
             self.awsEc2Vpc = awsEc2Vpc
+            self.awsElasticBeanstalkEnvironment = awsElasticBeanstalkEnvironment
             self.awsElasticsearchDomain = awsElasticsearchDomain
             self.awsElbLoadBalancer = awsElbLoadBalancer
             self.awsElbv2LoadBalancer = awsElbv2LoadBalancer
@@ -10783,10 +11198,13 @@ extension SecurityHub {
             try self.awsDynamoDbTable?.validate(name: "\(name).awsDynamoDbTable")
             try self.awsEc2Eip?.validate(name: "\(name).awsEc2Eip")
             try self.awsEc2Instance?.validate(name: "\(name).awsEc2Instance")
+            try self.awsEc2NetworkAcl?.validate(name: "\(name).awsEc2NetworkAcl")
             try self.awsEc2NetworkInterface?.validate(name: "\(name).awsEc2NetworkInterface")
             try self.awsEc2SecurityGroup?.validate(name: "\(name).awsEc2SecurityGroup")
+            try self.awsEc2Subnet?.validate(name: "\(name).awsEc2Subnet")
             try self.awsEc2Volume?.validate(name: "\(name).awsEc2Volume")
             try self.awsEc2Vpc?.validate(name: "\(name).awsEc2Vpc")
+            try self.awsElasticBeanstalkEnvironment?.validate(name: "\(name).awsElasticBeanstalkEnvironment")
             try self.awsElasticsearchDomain?.validate(name: "\(name).awsElasticsearchDomain")
             try self.awsElbLoadBalancer?.validate(name: "\(name).awsElbLoadBalancer")
             try self.awsElbv2LoadBalancer?.validate(name: "\(name).awsElbv2LoadBalancer")
@@ -10830,10 +11248,13 @@ extension SecurityHub {
             case awsDynamoDbTable = "AwsDynamoDbTable"
             case awsEc2Eip = "AwsEc2Eip"
             case awsEc2Instance = "AwsEc2Instance"
+            case awsEc2NetworkAcl = "AwsEc2NetworkAcl"
             case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
             case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
+            case awsEc2Subnet = "AwsEc2Subnet"
             case awsEc2Volume = "AwsEc2Volume"
             case awsEc2Vpc = "AwsEc2Vpc"
+            case awsElasticBeanstalkEnvironment = "AwsElasticBeanstalkEnvironment"
             case awsElasticsearchDomain = "AwsElasticsearchDomain"
             case awsElbLoadBalancer = "AwsElbLoadBalancer"
             case awsElbv2LoadBalancer = "AwsElbv2LoadBalancer"
@@ -11222,7 +11643,7 @@ extension SecurityHub {
 
         /// The ARN of the resource to apply the tags to.
         public let resourceArn: String
-        /// The tags to add to the resource.
+        /// The tags to add to the resource. You can add up to 50 tags at a time. The tag keys can be no longer than 128 characters. The tag values can be no longer than 256 characters.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -11297,7 +11718,7 @@ extension SecurityHub {
 
         /// The ARN of the resource to remove the tags from.
         public let resourceArn: String
-        /// The tag keys associated with the tags to remove from the resource.
+        /// The tag keys associated with the tags to remove from the resource. You can remove up to 50 tags at a time.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

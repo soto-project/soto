@@ -1185,6 +1185,59 @@ extension IAM {
         )
     }
 
+    ///  Lists the tags that are attached to the specified IAM user. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listUserTagsPaginator<Result>(
+        _ input: ListUserTagsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListUserTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listUserTags,
+            inputKey: \ListUserTagsRequest.marker,
+            outputKey: \ListUserTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listUserTagsPaginator(
+        _ input: ListUserTagsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListUserTagsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listUserTags,
+            inputKey: \ListUserTagsRequest.marker,
+            outputKey: \ListUserTagsResponse.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the AWS account. If there are none, the operation returns an empty list.  IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a user, see GetUser.  You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1618,6 +1671,16 @@ extension IAM.ListSigningCertificatesRequest: AWSPaginateToken {
 
 extension IAM.ListUserPoliciesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IAM.ListUserPoliciesRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            userName: self.userName
+        )
+    }
+}
+
+extension IAM.ListUserTagsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IAM.ListUserTagsRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems,

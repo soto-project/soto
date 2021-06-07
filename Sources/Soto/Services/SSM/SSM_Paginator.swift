@@ -2245,6 +2245,59 @@ extension SSM {
         )
     }
 
+    ///  Lists all related-item resources associated with an OpsItem.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listOpsItemRelatedItemsPaginator<Result>(
+        _ input: ListOpsItemRelatedItemsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListOpsItemRelatedItemsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listOpsItemRelatedItems,
+            inputKey: \ListOpsItemRelatedItemsRequest.nextToken,
+            outputKey: \ListOpsItemRelatedItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listOpsItemRelatedItemsPaginator(
+        _ input: ListOpsItemRelatedItemsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListOpsItemRelatedItemsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listOpsItemRelatedItems,
+            inputKey: \ListOpsItemRelatedItemsRequest.nextToken,
+            outputKey: \ListOpsItemRelatedItemsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Systems Manager calls this API action when displaying all Application Manager OpsMetadata objects or blobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -2862,6 +2915,17 @@ extension SSM.ListOpsItemEventsRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SSM.ListOpsItemRelatedItemsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SSM.ListOpsItemRelatedItemsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            opsItemId: self.opsItemId
         )
     }
 }

@@ -1029,6 +1029,10 @@ extension Kafka {
     public struct GetBootstrapBrokersResponse: AWSDecodableShape {
         /// A string containing one or more hostname:port pairs.
         public let bootstrapBrokerString: String?
+        /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs. The following is an example. {
+        ///     "BootstrapBrokerStringSaslIam": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9098,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9098,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9098"
+        /// }
+        public let bootstrapBrokerStringSaslIam: String?
         /// A string containing one or more DNS names (or IP) and SASL SCRAM port pairs. The following is an example. {
         ///     "BootstrapBrokerStringSaslScram": "b-3.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096,b-1.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096,b-2.exampleClusterName.abcde.c2.kafka.us-east-1.amazonaws.com:9096"
         /// }
@@ -1038,14 +1042,16 @@ extension Kafka {
         /// }
         public let bootstrapBrokerStringTls: String?
 
-        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil) {
+        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringSaslIam: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil) {
             self.bootstrapBrokerString = bootstrapBrokerString
+            self.bootstrapBrokerStringSaslIam = bootstrapBrokerStringSaslIam
             self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
             self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
         }
 
         private enum CodingKeys: String, CodingKey {
             case bootstrapBrokerString
+            case bootstrapBrokerStringSaslIam
             case bootstrapBrokerStringSaslScram
             case bootstrapBrokerStringTls
         }
@@ -1075,6 +1081,18 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case compatibleKafkaVersions
+        }
+    }
+
+    public struct Iam: AWSEncodableShape & AWSDecodableShape {
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
         }
     }
 
@@ -1666,13 +1684,16 @@ extension Kafka {
     }
 
     public struct Sasl: AWSEncodableShape & AWSDecodableShape {
+        public let iam: Iam?
         public let scram: Scram?
 
-        public init(scram: Scram? = nil) {
+        public init(iam: Iam? = nil, scram: Scram? = nil) {
+            self.iam = iam
             self.scram = scram
         }
 
         private enum CodingKeys: String, CodingKey {
+            case iam
             case scram
         }
     }

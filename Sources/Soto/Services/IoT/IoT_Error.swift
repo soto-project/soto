@@ -22,6 +22,7 @@ public struct IoTErrorType: AWSErrorType {
         case certificateConflictException = "CertificateConflictException"
         case certificateStateException = "CertificateStateException"
         case certificateValidationException = "CertificateValidationException"
+        case conflictException = "ConflictException"
         case conflictingResourceUpdateException = "ConflictingResourceUpdateException"
         case deleteConflictException = "DeleteConflictException"
         case indexNotReadyException = "IndexNotReadyException"
@@ -74,6 +75,8 @@ public struct IoTErrorType: AWSErrorType {
     public static var certificateStateException: Self { .init(.certificateStateException) }
     /// The certificate is invalid.
     public static var certificateValidationException: Self { .init(.certificateValidationException) }
+    /// A resource with the same name already exists.
+    public static var conflictException: Self { .init(.conflictException) }
     /// A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
     public static var conflictingResourceUpdateException: Self { .init(.conflictingResourceUpdateException) }
     /// You can't delete the resource because it is attached to one or more resources.

@@ -73,6 +73,11 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Clears existing query suggestions from an index. This deletes existing suggestions only, not the queries in the query log. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. If you do not see any new suggestions, then please allow Amazon Kendra to collect enough queries to learn new suggestions.
+    @discardableResult public func clearQuerySuggestions(_ input: ClearQuerySuggestionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "ClearQuerySuggestions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a data source that you use to with an Amazon Kendra index.  You specify a name, data source connector type and description for your data source. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataSourceResponse> {
         return self.client.execute(operation: "CreateDataSource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -86,6 +91,11 @@ public struct Kendra: AWSService {
     /// Creates a new Amazon Kendra index. Index creation is an asynchronous operation. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the BatchPutDocument operation or using one of the supported data sources.
     public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIndexResponse> {
         return self.client.execute(operation: "CreateIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a block list to exlcude certain queries from suggestions. Any query that contains words or phrases specified in the block list is blocked or filtered out from being shown as a suggestion. You need to provide the file location of your block list text file in your S3 bucket. In your text file, enter each block word or phrase on a separate line. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+    public func createQuerySuggestionsBlockList(_ input: CreateQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateQuerySuggestionsBlockListResponse> {
+        return self.client.execute(operation: "CreateQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format.
@@ -108,6 +118,11 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "DeleteIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a block list used for query suggestions for an index. A deleted block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to add back the queries that were previously blocked.
+    @discardableResult public func deleteQuerySuggestionsBlockList(_ input: DeleteQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an existing Amazon Kendra thesaurus.
     @discardableResult public func deleteThesaurus(_ input: DeleteThesaurusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -128,9 +143,24 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes a block list used for query suggestions for an index. This is used to check the current settings that are applied to a block list.
+    public func describeQuerySuggestionsBlockList(_ input: DescribeQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeQuerySuggestionsBlockListResponse> {
+        return self.client.execute(operation: "DescribeQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the settings of query suggestions for an index. This is used to check the current settings applied to query suggestions.
+    public func describeQuerySuggestionsConfig(_ input: DescribeQuerySuggestionsConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeQuerySuggestionsConfigResponse> {
+        return self.client.execute(operation: "DescribeQuerySuggestionsConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes an existing Amazon Kendra thesaurus.
     public func describeThesaurus(_ input: DescribeThesaurusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeThesaurusResponse> {
         return self.client.execute(operation: "DescribeThesaurus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Fetches the queries that are suggested to your users.
+    public func getQuerySuggestions(_ input: GetQuerySuggestionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetQuerySuggestionsResponse> {
+        return self.client.execute(operation: "GetQuerySuggestions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets statistics about synchronizing Amazon Kendra with a data source.
@@ -151,6 +181,11 @@ public struct Kendra: AWSService {
     /// Lists the Amazon Kendra indexes that you have created.
     public func listIndices(_ input: ListIndicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIndicesResponse> {
         return self.client.execute(operation: "ListIndices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the block lists used for query suggestions for an index. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+    public func listQuerySuggestionsBlockLists(_ input: ListQuerySuggestionsBlockListsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQuerySuggestionsBlockListsResponse> {
+        return self.client.execute(operation: "ListQuerySuggestionsBlockLists", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources can have tags associated with them.
@@ -201,6 +236,16 @@ public struct Kendra: AWSService {
     /// Updates an existing Amazon Kendra index.
     @discardableResult public func updateIndex(_ input: UpdateIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a block list used for query suggestions for an index. Updates to a block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to apply any updates to the block list. Other changes not related to the block list apply immediately. If a block list is updating, then you need to wait for the first update to finish before submitting another update. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update.
+    @discardableResult public func updateQuerySuggestionsBlockList(_ input: UpdateQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the settings of query suggestions for an index. Amazon Kendra supports partial updates, so you only need to provide the fields you want to update. If an update is currently processing (i.e. 'happening'), you need to wait for the update to finish before making another update. Updates to query suggestions settings might not take effect right away. The time for your updated settings to take effect depends on the updates made and the number of search queries in your index. You can still enable/disable query suggestions at any time.
+    @discardableResult public func updateQuerySuggestionsConfig(_ input: UpdateQuerySuggestionsConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateQuerySuggestionsConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a thesaurus file associated with an index.

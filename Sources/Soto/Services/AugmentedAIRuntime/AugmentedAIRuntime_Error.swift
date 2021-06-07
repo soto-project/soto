@@ -49,9 +49,9 @@ public struct AugmentedAIRuntimeErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// We couldn't process your request because of an issue with the server. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// We couldn't find the requested resource.
+    /// We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// You exceeded your service quota. Delete some resources or request an increase in your service quota.
+    /// You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your AWS account. For a list of Amazon A2I service quotes, see Amazon Augmented AI Service Quotes. Delete some resources or request an increase in your service quota. You can request a quota increase using Service Quotas or the AWS Support Center. To request an increase, see AWS Service Quotas in the AWS General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// You exceeded the maximum number of requests.
     public static var throttlingException: Self { .init(.throttlingException) }

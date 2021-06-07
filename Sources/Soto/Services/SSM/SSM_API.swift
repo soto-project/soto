@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS SSM service.
 ///
-/// AWS Systems Manager AWS Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon Elastic Compute Cloud instance (EC2 instance), or any on-premises server or virtual machine (VM) in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the AWS Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Setting up AWS Systems Manager in the AWS Systems Manager User Guide. For information about other API actions you can perform on EC2 instances, see the Amazon EC2 API Reference. For information about how to use a Query API, see Making API requests.
+/// AWS Systems Manager AWS Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon Elastic Compute Cloud instance (EC2 instance), or any on-premises server or virtual machine (VM) in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the AWS Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Setting up AWS Systems Manager in the AWS Systems Manager User Guide.  Related resources    For information about how to use a Query API, see Making API requests.    For information about other API actions you can perform on EC2 instances, see the Amazon EC2 API Reference.   For information about AWS AppConfig, a capability of Systems Manager, see the AWS AppConfig User Guide and the AWS AppConfig API Reference.   For information about AWS Incident Manager, a capability of Systems Manager, see the AWS Incident Manager User Guide and the AWS Incident Manager API Reference.
 public struct SSM: AWSService {
     // MARK: Member variables
 
@@ -66,6 +66,11 @@ public struct SSM: AWSService {
     /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 50 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters.  For more information about using tags with EC2 instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
     public func addTagsToResource(_ input: AddTagsToResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsToResourceResult> {
         return self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Associates a related resource to a Systems Manager OpsCenter OpsItem. For example, you can associate an Incident Manager incident or analysis with an OpsItem. Incident Manager is a capability of AWS Systems Manager.
+    public func associateOpsItemRelatedItem(_ input: AssociateOpsItemRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateOpsItemRelatedItemResponse> {
+        return self.client.execute(operation: "AssociateOpsItemRelatedItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped.
@@ -353,6 +358,11 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the association between an OpsItem and a related resource. For example, this API action can delete an Incident Manager incident from an OpsItem. Incident Manager is a capability of AWS Systems Manager.
+    public func disassociateOpsItemRelatedItem(_ input: DisassociateOpsItemRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateOpsItemRelatedItemResponse> {
+        return self.client.execute(operation: "DisassociateOpsItemRelatedItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get detailed information about a particular Automation execution.
     public func getAutomationExecution(_ input: GetAutomationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAutomationExecutionResult> {
         return self.client.execute(operation: "GetAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -531,6 +541,11 @@ public struct SSM: AWSService {
     /// Returns a list of all OpsItem events in the current AWS account and Region. You can limit the results to events associated with specific OpsItems by specifying a filter.
     public func listOpsItemEvents(_ input: ListOpsItemEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOpsItemEventsResponse> {
         return self.client.execute(operation: "ListOpsItemEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all related-item resources associated with an OpsItem.
+    public func listOpsItemRelatedItems(_ input: ListOpsItemRelatedItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOpsItemRelatedItemsResponse> {
+        return self.client.execute(operation: "ListOpsItemRelatedItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Systems Manager calls this API action when displaying all Application Manager OpsMetadata objects or blobs.

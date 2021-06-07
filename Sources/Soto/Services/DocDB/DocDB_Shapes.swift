@@ -318,12 +318,14 @@ extension DocDB {
         public let engine: String
         /// The version number of the database engine to use. The --engine-version will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
         public let engineVersion: String?
+        /// The cluster identifier of the new global cluster.
+        public let globalClusterIdentifier: String?
         /// The AWS KMS key identifier for an encrypted cluster. The AWS KMS key identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are creating a cluster using the same AWS account that owns the AWS KMS encryption key that is used to encrypt the new cluster, you can use the AWS KMS key alias instead of the ARN for the AWS KMS encryption key. If an encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.    AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
         /// The name of the master user for the cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.
-        public let masterUsername: String
+        public let masterUsername: String?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
-        public let masterUserPassword: String
+        public let masterUserPassword: String?
         /// The port number on which the instances in the cluster accept connections.
         public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must be at least 30 minutes.
@@ -341,7 +343,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String, masterUserPassword: String, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -351,6 +353,7 @@ extension DocDB {
             self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
             self.engine = engine
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.kmsKeyId = kmsKeyId
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
@@ -363,6 +366,12 @@ extension DocDB {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case backupRetentionPeriod = "BackupRetentionPeriod"
@@ -373,6 +382,7 @@ extension DocDB {
             case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
             case kmsKeyId = "KmsKeyId"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
@@ -632,10 +642,66 @@ extension DocDB {
         }
     }
 
+    public struct CreateGlobalClusterMessage: AWSEncodableShape {
+        /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon DocumentDB will not create a database in the global cluster you are creating.
+        public let databaseName: String?
+        /// The deletion protection setting for the new global cluster. The global cluster can't be deleted when deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// The name of the database engine to be used for this cluster.
+        public let engine: String?
+        /// The engine version of the global cluster.
+        public let engineVersion: String?
+        /// The cluster identifier of the new global cluster.
+        public let globalClusterIdentifier: String
+        /// The Amazon Resource Name (ARN) to use as the primary cluster of the global cluster. This parameter is optional.
+        public let sourceDBClusterIdentifier: String?
+        /// The storage encryption setting for the new global cluster.
+        public let storageEncrypted: Bool?
+
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
+            self.databaseName = databaseName
+            self.deletionProtection = deletionProtection
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+            self.storageEncrypted = storageEncrypted
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case deletionProtection = "DeletionProtection"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+            case storageEncrypted = "StorageEncrypted"
+        }
+    }
+
+    public struct CreateGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct DBCluster: AWSDecodableShape {
         public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBClusterRole" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
         public struct _DBClusterMembersEncoding: ArrayCoderProperties { public static let member = "DBClusterMember" }
+        public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaIdentifier" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
 
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the cluster. IAM roles that are associated with a cluster grant permission for the cluster to access other AWS services on your behalf.
@@ -694,6 +760,11 @@ extension DocDB {
         public let preferredMaintenanceWindow: String?
         /// The reader endpoint for the cluster. The reader endpoint for a cluster load balances connections across the Amazon DocumentDB replicas that are available in a cluster. As clients request new connections to the reader endpoint, Amazon DocumentDB distributes the connection requests among the Amazon DocumentDB replicas in the cluster. This functionality can help balance your read workload across multiple Amazon DocumentDB replicas in your cluster.  If a failover occurs, and the Amazon DocumentDB replica that you are connected to is promoted to be the primary instance, your connection is dropped. To continue sending your read workload to other Amazon DocumentDB replicas in the cluster, you can then reconnect to the reader endpoint.
         public let readerEndpoint: String?
+        /// Contains one or more identifiers of the secondary clusters that are associated with this cluster.
+        @OptionalCustomCoding<ArrayCoder<_ReadReplicaIdentifiersEncoding, String>>
+        public var readReplicaIdentifiers: [String]?
+        /// Contains the identifier of the source cluster if this cluster is a secondary cluster.
+        public let replicationSourceIdentifier: String?
         /// Specifies the current state of this cluster.
         public let status: String?
         /// Specifies whether the cluster is encrypted.
@@ -702,7 +773,7 @@ extension DocDB {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: Date? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: Date? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -729,6 +800,8 @@ extension DocDB {
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.readerEndpoint = readerEndpoint
+            self.readReplicaIdentifiers = readReplicaIdentifiers
+            self.replicationSourceIdentifier = replicationSourceIdentifier
             self.status = status
             self.storageEncrypted = storageEncrypted
             self.vpcSecurityGroups = vpcSecurityGroups
@@ -761,6 +834,8 @@ extension DocDB {
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case readerEndpoint = "ReaderEndpoint"
+            case readReplicaIdentifiers = "ReadReplicaIdentifiers"
+            case replicationSourceIdentifier = "ReplicationSourceIdentifier"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
             case vpcSecurityGroups = "VpcSecurityGroups"
@@ -1466,6 +1541,37 @@ extension DocDB {
         }
     }
 
+    public struct DeleteGlobalClusterMessage: AWSEncodableShape {
+        /// The cluster identifier of the global cluster being deleted.
+        public let globalClusterIdentifier: String
+
+        public init(globalClusterIdentifier: String) {
+            self.globalClusterIdentifier = globalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+        }
+    }
+
+    public struct DeleteGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
+        }
+    }
+
     public struct DescribeCertificatesMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -1597,7 +1703,7 @@ extension DocDB {
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The type of cluster snapshots to be returned. You can specify one of the following values:    automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all cluster snapshots that you have manually created for your AWS account.    shared - Return all manual cluster snapshots that have been shared to your AWS account.    public - Return all cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual cluster snapshots are returned. You can include shared cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
+        /// The type of cluster snapshots to be returned. You can specify one of the following values:    automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all cluster snapshots that you have manually created for your AWS account.    shared - Return all manual cluster snapshots that have been shared to your AWS account.    public - Return all cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual cluster snapshots are returned. You can include shared cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public cluster snapshots with these results by setting theIncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
         public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
@@ -1890,6 +1996,40 @@ extension DocDB {
             case sourceIdentifier = "SourceIdentifier"
             case sourceType = "SourceType"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct DescribeGlobalClustersMessage: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A filter that specifies one or more global DB clusters to describe. Supported filters: db-cluster-id accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list will only include information about the clusters identified by these ARNs.
+        @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The user-supplied cluster identifier. If this parameter is specified, information from only the specific cluster is returned. This parameter isn't case-sensitive.
+        public let globalClusterIdentifier: String?
+        /// An optional pagination token provided by a previous DescribeGlobalClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
+        public let maxRecords: Int?
+
+        public init(filters: [Filter]? = nil, globalClusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.filters = filters
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
         }
     }
 
@@ -2225,6 +2365,98 @@ extension DocDB {
         }
     }
 
+    public struct GlobalCluster: AWSDecodableShape {
+        public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+
+        /// The default database name within the new global cluster.
+        public let databaseName: String?
+        /// The deletion protection setting for the new global cluster.
+        public let deletionProtection: Bool?
+        /// The Amazon DocumentDB database engine used by the global cluster.
+        public let engine: String?
+        /// Indicates the database engine version.
+        public let engineVersion: String?
+        /// The Amazon Resource Name (ARN) for the global cluster.
+        public let globalClusterArn: String?
+        /// Contains a user-supplied global cluster identifier. This identifier is the unique key that identifies a global cluster.
+        public let globalClusterIdentifier: String?
+        /// The list of cluster IDs for secondary clusters within the global cluster. Currently limited to one item.
+        @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
+        public var globalClusterMembers: [GlobalClusterMember]?
+        /// The AWS Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS customer master key (CMK) for the cluster is accessed.
+        public let globalClusterResourceId: String?
+        /// Specifies the current state of this global cluster.
+        public let status: String?
+        /// The storage encryption setting for the global cluster.
+        public let storageEncrypted: Bool?
+
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
+            self.databaseName = databaseName
+            self.deletionProtection = deletionProtection
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.globalClusterArn = globalClusterArn
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.globalClusterMembers = globalClusterMembers
+            self.globalClusterResourceId = globalClusterResourceId
+            self.status = status
+            self.storageEncrypted = storageEncrypted
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case deletionProtection = "DeletionProtection"
+            case engine = "Engine"
+            case engineVersion = "EngineVersion"
+            case globalClusterArn = "GlobalClusterArn"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case globalClusterMembers = "GlobalClusterMembers"
+            case globalClusterResourceId = "GlobalClusterResourceId"
+            case status = "Status"
+            case storageEncrypted = "StorageEncrypted"
+        }
+    }
+
+    public struct GlobalClusterMember: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
+        public let dBClusterArn: String?
+        ///  Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
+        public let isWriter: Bool?
+        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var readers: [String]?
+
+        public init(dBClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
+            self.dBClusterArn = dBClusterArn
+            self.isWriter = isWriter
+            self.readers = readers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterArn = "DBClusterArn"
+            case isWriter = "IsWriter"
+            case readers = "Readers"
+        }
+    }
+
+    public struct GlobalClustersMessage: AWSDecodableShape {
+        public struct _GlobalClustersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+
+        @OptionalCustomCoding<ArrayCoder<_GlobalClustersEncoding, GlobalCluster>>
+        public var globalClusters: [GlobalCluster]?
+        public let marker: String?
+
+        public init(globalClusters: [GlobalCluster]? = nil, marker: String? = nil) {
+            self.globalClusters = globalClusters
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalClusters = "GlobalClusters"
+            case marker = "Marker"
+        }
+    }
+
     public struct ListTagsForResourceMessage: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -2260,7 +2492,7 @@ extension DocDB {
         public let dBClusterParameterGroupName: String?
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
-        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true.
+        /// The version number of the database engine to which you want to upgrade. Modifying engine version is not supported on Amazon DocumentDB.
         public let engineVersion: String?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
@@ -2513,6 +2745,48 @@ extension DocDB {
 
         private enum CodingKeys: String, CodingKey {
             case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct ModifyGlobalClusterMessage: AWSEncodableShape {
+        /// Indicates if the global cluster has deletion protection enabled. The global cluster can't be deleted when deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing global cluster.
+        public let globalClusterIdentifier: String
+        /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string.   Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
+        public let newGlobalClusterIdentifier: String?
+
+        public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String, newGlobalClusterIdentifier: String? = nil) {
+            self.deletionProtection = deletionProtection
+            self.globalClusterIdentifier = globalClusterIdentifier
+            self.newGlobalClusterIdentifier = newGlobalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.newGlobalClusterIdentifier, name: "newGlobalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "DeletionProtection"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+            case newGlobalClusterIdentifier = "NewGlobalClusterIdentifier"
+        }
+    }
+
+    public struct ModifyGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
         }
     }
 
@@ -2784,6 +3058,41 @@ extension DocDB {
 
         private enum CodingKeys: String, CodingKey {
             case dBInstance = "DBInstance"
+        }
+    }
+
+    public struct RemoveFromGlobalClusterMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) identifying the cluster that was detached from the Amazon DocumentDB global cluster.
+        public let dbClusterIdentifier: String
+        /// The cluster identifier to detach from the Amazon DocumentDB global cluster.
+        public let globalClusterIdentifier: String
+
+        public init(dbClusterIdentifier: String, globalClusterIdentifier: String) {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.globalClusterIdentifier = globalClusterIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, max: 255)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, min: 1)
+            try self.validate(self.globalClusterIdentifier, name: "globalClusterIdentifier", parent: name, pattern: "[A-Za-z][0-9A-Za-z-:._]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterIdentifier = "DbClusterIdentifier"
+            case globalClusterIdentifier = "GlobalClusterIdentifier"
+        }
+    }
+
+    public struct RemoveFromGlobalClusterResult: AWSDecodableShape {
+        public let globalCluster: GlobalCluster?
+
+        public init(globalCluster: GlobalCluster? = nil) {
+            self.globalCluster = globalCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case globalCluster = "GlobalCluster"
         }
     }
 

@@ -27,6 +27,14 @@ extension Personalize {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObjectiveSensitivity: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        case off = "OFF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecipeProvider: String, CustomStringConvertible, Codable {
         case service = "SERVICE"
         public var description: String { return self.rawValue }
@@ -2956,6 +2964,28 @@ extension Personalize {
         }
     }
 
+    public struct OptimizationObjective: AWSEncodableShape & AWSDecodableShape {
+        /// The numerical metadata column in an Items dataset related to the optimization objective. For example, VIDEO_LENGTH (to maximize streaming minutes), or PRICE (to maximize revenue).
+        public let itemAttribute: String?
+        /// Specifies how Amazon Personalize balances the importance of your optimization objective versus relevance.
+        public let objectiveSensitivity: ObjectiveSensitivity?
+
+        public init(itemAttribute: String? = nil, objectiveSensitivity: ObjectiveSensitivity? = nil) {
+            self.itemAttribute = itemAttribute
+            self.objectiveSensitivity = objectiveSensitivity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.itemAttribute, name: "itemAttribute", parent: name, max: 150)
+            try self.validate(self.itemAttribute, name: "itemAttribute", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case itemAttribute
+            case objectiveSensitivity
+        }
+    }
+
     public struct Recipe: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses to train the model.
         public let algorithmArn: String?
@@ -3123,13 +3153,16 @@ extension Personalize {
         public let featureTransformationParameters: [String: String]?
         /// Describes the properties for hyperparameter optimization (HPO).
         public let hpoConfig: HPOConfig?
+        /// Describes the additional objective for the solution, such as maximizing streaming minutes or increasing revenue. For more information see Optimizing a solution.
+        public let optimizationObjective: OptimizationObjective?
 
-        public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil) {
+        public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil, optimizationObjective: OptimizationObjective? = nil) {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
             self.eventValueThreshold = eventValueThreshold
             self.featureTransformationParameters = featureTransformationParameters
             self.hpoConfig = hpoConfig
+            self.optimizationObjective = optimizationObjective
         }
 
         public func validate(name: String) throws {
@@ -3144,6 +3177,7 @@ extension Personalize {
                 try validate($0.value, name: "featureTransformationParameters[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try self.hpoConfig?.validate(name: "\(name).hpoConfig")
+            try self.optimizationObjective?.validate(name: "\(name).optimizationObjective")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3152,6 +3186,7 @@ extension Personalize {
             case eventValueThreshold
             case featureTransformationParameters
             case hpoConfig
+            case optimizationObjective
         }
     }
 
@@ -3207,7 +3242,7 @@ extension Personalize {
         public let solutionConfig: SolutionConfig?
         /// The ARN of the solution version.
         public let solutionVersionArn: String?
-        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED
+        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED   CREATE STOPPING   CREATE STOPPED
         public let status: String?
         /// The time used to train the model. You are billed for the time it takes to train a model. This field is visible only after Amazon Personalize successfully trains a model.
         public let trainingHours: Double?
@@ -3279,6 +3314,24 @@ extension Personalize {
             case lastUpdatedDateTime
             case solutionVersionArn
             case status
+        }
+    }
+
+    public struct StopSolutionVersionCreationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the solution version you want to stop creating.
+        public let solutionVersionArn: String
+
+        public init(solutionVersionArn: String) {
+            self.solutionVersionArn = solutionVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
+            try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case solutionVersionArn
         }
     }
 

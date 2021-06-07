@@ -285,6 +285,32 @@ extension IoTSiteWise {
         }
     }
 
+    public struct Alarms: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IAM role that allows the alarm to perform actions and access AWS resources, including AWS IoT Events.
+        public let alarmRoleArn: String
+        /// The ARN of the AWS Lambda function that manages alarm notifications. For more information, see Managing alarm notifications in the AWS IoT Events Developer Guide.
+        public let notificationLambdaArn: String?
+
+        public init(alarmRoleArn: String, notificationLambdaArn: String? = nil) {
+            self.alarmRoleArn = alarmRoleArn
+            self.notificationLambdaArn = notificationLambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, max: 1600)
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, min: 1)
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: ".*")
+            try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, max: 1600)
+            try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, min: 1)
+            try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmRoleArn
+            case notificationLambdaArn
+        }
+    }
+
     public struct AssetCompositeModel: AWSDecodableShape {
         /// The description of the composite model.
         public let description: String?
@@ -1455,8 +1481,12 @@ extension IoTSiteWise {
     }
 
     public struct CreatePortalRequest: AWSEncodableShape {
+        /// Contains the configuration information of an alarm created in an AWS IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see .
+        public let alarms: Alarms?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The email address that sends alarm notifications.  If you use the AWS IoT Events managed AWS Lambda function to manage your emails, you must verify the sender email address in Amazon SES.
+        public let notificationSenderEmail: String?
         /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
         public let portalAuthMode: AuthMode?
         /// The AWS administrator's contact email address.
@@ -1472,8 +1502,10 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreatePortalRequest.idempotencyToken(), portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
+        public init(alarms: Alarms? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
+            self.alarms = alarms
             self.clientToken = clientToken
+            self.notificationSenderEmail = notificationSenderEmail
             self.portalAuthMode = portalAuthMode
             self.portalContactEmail = portalContactEmail
             self.portalDescription = portalDescription
@@ -1484,9 +1516,13 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.alarms?.validate(name: "\(name).alarms")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, max: 255)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, min: 1)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "[^@]+@[^@]+")
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "[^@]+@[^@]+")
@@ -1509,7 +1545,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarms
             case clientToken
+            case notificationSenderEmail
             case portalAuthMode
             case portalContactEmail
             case portalDescription
@@ -2377,6 +2415,10 @@ extension IoTSiteWise {
     }
 
     public struct DescribePortalResponse: AWSDecodableShape {
+        /// Contains the configuration information of an alarm created in a AWS IoT SiteWise Monitor portal.
+        public let alarms: Alarms?
+        /// The email address that sends alarm notifications.
+        public let notificationSenderEmail: String?
         /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}
         public let portalArn: String
         /// The service to use to authenticate users to the portal.
@@ -2404,7 +2446,9 @@ extension IoTSiteWise {
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String?
 
-        public init(portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+        public init(alarms: Alarms? = nil, notificationSenderEmail: String? = nil, portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+            self.alarms = alarms
+            self.notificationSenderEmail = notificationSenderEmail
             self.portalArn = portalArn
             self.portalAuthMode = portalAuthMode
             self.portalClientId = portalClientId
@@ -2421,6 +2465,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarms
+            case notificationSenderEmail
             case portalArn
             case portalAuthMode
             case portalClientId
@@ -4635,8 +4681,12 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId"))
         ]
 
+        /// Contains the configuration information of an alarm created in an AWS IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see .
+        public let alarms: Alarms?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The email address that sends alarm notifications.
+        public let notificationSenderEmail: String?
         /// The AWS administrator's contact email address.
         public let portalContactEmail: String
         /// A new description for the portal.
@@ -4649,8 +4699,10 @@ extension IoTSiteWise {
         /// The ARN of a service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String
 
-        public init(clientToken: String? = UpdatePortalRequest.idempotencyToken(), portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
+        public init(alarms: Alarms? = nil, clientToken: String? = UpdatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
+            self.alarms = alarms
             self.clientToken = clientToken
+            self.notificationSenderEmail = notificationSenderEmail
             self.portalContactEmail = portalContactEmail
             self.portalDescription = portalDescription
             self.portalId = portalId
@@ -4660,9 +4712,13 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.alarms?.validate(name: "\(name).alarms")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, max: 255)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, min: 1)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "[^@]+@[^@]+")
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "[^@]+@[^@]+")
@@ -4682,7 +4738,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarms
             case clientToken
+            case notificationSenderEmail
             case portalContactEmail
             case portalDescription
             case portalLogoImage

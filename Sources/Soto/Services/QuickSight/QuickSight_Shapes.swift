@@ -298,6 +298,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum RowLevelPermissionFormatVersion: String, CustomStringConvertible, Codable {
+        case version1 = "VERSION_1"
+        case version2 = "VERSION_2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable {
         case denyAccess = "DENY_ACCESS"
         case grantAccess = "GRANT_ACCESS"
@@ -7382,10 +7388,16 @@ extension QuickSight {
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+        public let customFederationProviderUrl: String?
         /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser  instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
+        /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated AWS Identity and Access Management (IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.
+        public let externalLoginFederationProviderType: String?
+        /// The identity ID for a user in the external login provider.
+        public let externalLoginId: String?
         /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
         public let iamArn: String?
         /// Amazon QuickSight supports several ways of managing the identity of users. This parameter accepts two values:    IAM: A user whose identity maps to an existing IAM user or role.     QUICKSIGHT: A user whose identity is owned and managed internally by Amazon QuickSight.
@@ -7399,10 +7411,13 @@ extension QuickSight {
         /// The Amazon QuickSight role for the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let userRole: UserRole
 
-        public init(awsAccountId: String, customPermissionsName: String? = nil, email: String, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
+        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
             self.awsAccountId = awsAccountId
+            self.customFederationProviderUrl = customFederationProviderUrl
             self.customPermissionsName = customPermissionsName
             self.email = email
+            self.externalLoginFederationProviderType = externalLoginFederationProviderType
+            self.externalLoginId = externalLoginId
             self.iamArn = iamArn
             self.identityType = identityType
             self.namespace = namespace
@@ -7428,8 +7443,11 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFederationProviderUrl = "CustomFederationProviderUrl"
             case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
+            case externalLoginFederationProviderType = "ExternalLoginFederationProviderType"
+            case externalLoginId = "ExternalLoginId"
             case iamArn = "IamArn"
             case identityType = "IdentityType"
             case sessionName = "SessionName"
@@ -7633,13 +7651,16 @@ extension QuickSight {
     public struct RowLevelPermissionDataSet: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the dataset that contains permissions for RLS.
         public let arn: String
+        /// The user or group rules associated with the dataset that contains permissions for RLS. By default, FormatVersion is VERSION_1. When FormatVersion is VERSION_1, UserName and GroupName are required. When FormatVersion is VERSION_2, UserARN and GroupARN are required, and Namespace must not exist.
+        public let formatVersion: RowLevelPermissionFormatVersion?
         /// The namespace associated with the dataset that contains permissions for RLS.
         public let namespace: String?
         /// The type of permissions to use when interpretting the permissions for RLS. DENY_ACCESS is included for backward compatibility only.
         public let permissionPolicy: RowLevelPermissionPolicy
 
-        public init(arn: String, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
+        public init(arn: String, formatVersion: RowLevelPermissionFormatVersion? = nil, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
             self.arn = arn
+            self.formatVersion = formatVersion
             self.namespace = namespace
             self.permissionPolicy = permissionPolicy
         }
@@ -7651,6 +7672,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case formatVersion = "FormatVersion"
             case namespace = "Namespace"
             case permissionPolicy = "PermissionPolicy"
         }
@@ -10313,10 +10335,16 @@ extension QuickSight {
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+        public let customFederationProviderUrl: String?
         /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
         public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String
+        /// The type of supported external login provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use  DescribeUser  API to check the external login information.
+        public let externalLoginFederationProviderType: String?
+        /// The identity ID for a user in the external login provider.
+        public let externalLoginId: String?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// The Amazon QuickSight role of the user. The role can be one of the following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.   The name of the QuickSight role is invisible to the user except for the console screens dealing with permissions.
@@ -10326,10 +10354,13 @@ extension QuickSight {
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
 
-        public init(awsAccountId: String, customPermissionsName: String? = nil, email: String, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
+        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
             self.awsAccountId = awsAccountId
+            self.customFederationProviderUrl = customFederationProviderUrl
             self.customPermissionsName = customPermissionsName
             self.email = email
+            self.externalLoginFederationProviderType = externalLoginFederationProviderType
+            self.externalLoginId = externalLoginId
             self.namespace = namespace
             self.role = role
             self.unapplyCustomPermissions = unapplyCustomPermissions
@@ -10350,8 +10381,11 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFederationProviderUrl = "CustomFederationProviderUrl"
             case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
+            case externalLoginFederationProviderType = "ExternalLoginFederationProviderType"
+            case externalLoginId = "ExternalLoginId"
             case role = "Role"
             case unapplyCustomPermissions = "UnapplyCustomPermissions"
         }
@@ -10426,6 +10460,12 @@ extension QuickSight {
         public let customPermissionsName: String?
         /// The user's email address.
         public let email: String?
+        /// The type of supported external login provider that provides identity to let the user federate into Amazon QuickSight with an associated IAM role. The type can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider.
+        public let externalLoginFederationProviderType: String?
+        /// The URL of the external login provider.
+        public let externalLoginFederationProviderUrl: String?
+        /// The identity ID for the user in the external login provider.
+        public let externalLoginId: String?
         /// The type of identity authentication used by the user.
         public let identityType: IdentityType?
         /// The principal ID of the user.
@@ -10435,11 +10475,14 @@ extension QuickSight {
         /// The user's user name.
         public let userName: String?
 
-        public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
+        public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, externalLoginFederationProviderType: String? = nil, externalLoginFederationProviderUrl: String? = nil, externalLoginId: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
             self.active = active
             self.arn = arn
             self.customPermissionsName = customPermissionsName
             self.email = email
+            self.externalLoginFederationProviderType = externalLoginFederationProviderType
+            self.externalLoginFederationProviderUrl = externalLoginFederationProviderUrl
+            self.externalLoginId = externalLoginId
             self.identityType = identityType
             self.principalId = principalId
             self.role = role
@@ -10451,6 +10494,9 @@ extension QuickSight {
             case arn = "Arn"
             case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
+            case externalLoginFederationProviderType = "ExternalLoginFederationProviderType"
+            case externalLoginFederationProviderUrl = "ExternalLoginFederationProviderUrl"
+            case externalLoginId = "ExternalLoginId"
             case identityType = "IdentityType"
             case principalId = "PrincipalId"
             case role = "Role"

@@ -5022,17 +5022,17 @@
     "AssociateSubnetCidrBlockRequest":{
       "type":"structure",
       "required":[
-        "SubnetId",
-        "Ipv6CidrBlock"
+        "Ipv6CidrBlock",
+        "SubnetId"
       ],
       "members":{
-        "SubnetId":{
-          "shape":"SubnetId",
-          "locationName":"subnetId"
-        },
         "Ipv6CidrBlock":{
           "shape":"String",
           "locationName":"ipv6CidrBlock"
+        },
+        "SubnetId":{
+          "shape":"SubnetId",
+          "locationName":"subnetId"
         }
       }
     },
@@ -6233,6 +6233,10 @@
         "Tags":{
           "shape":"TagList",
           "locationName":"tagSet"
+        },
+        "OutpostArn":{
+          "shape":"OutpostArn",
+          "locationName":"outpostArn"
         }
       }
     },
@@ -7353,7 +7357,8 @@
         "EndDateType":{"shape":"EndDateType"},
         "InstanceMatchCriteria":{"shape":"InstanceMatchCriteria"},
         "TagSpecifications":{"shape":"TagSpecificationList"},
-        "DryRun":{"shape":"Boolean"}
+        "DryRun":{"shape":"Boolean"},
+        "OutpostArn":{"shape":"OutpostArn"}
       }
     },
     "CreateCapacityReservationResult":{
@@ -8245,6 +8250,10 @@
         "TagSpecifications":{
           "shape":"TagSpecificationList",
           "locationName":"TagSpecification"
+        },
+        "ClientToken":{
+          "shape":"String",
+          "idempotencyToken":true
         }
       }
     },
@@ -8254,6 +8263,10 @@
         "NetworkInterface":{
           "shape":"NetworkInterface",
           "locationName":"networkInterface"
+        },
+        "ClientToken":{
+          "shape":"String",
+          "locationName":"clientToken"
         }
       }
     },
@@ -8595,8 +8608,8 @@
     "CreateSubnetRequest":{
       "type":"structure",
       "required":[
-        "VpcId",
-        "CidrBlock"
+        "CidrBlock",
+        "VpcId"
       ],
       "members":{
         "TagSpecifications":{
@@ -8605,14 +8618,14 @@
         },
         "AvailabilityZone":{"shape":"String"},
         "AvailabilityZoneId":{"shape":"String"},
+        "CidrBlock":{"shape":"String"},
         "Ipv6CidrBlock":{"shape":"String"},
         "OutpostArn":{"shape":"String"},
         "VpcId":{"shape":"VpcId"},
         "DryRun":{
           "shape":"Boolean",
           "locationName":"dryRun"
-        },
-        "CidrBlock":{"shape":"String"}
+        }
       }
     },
     "CreateSubnetResult":{
@@ -20478,6 +20491,10 @@
         "z1d.6xlarge",
         "z1d.12xlarge",
         "z1d.metal",
+        "u-6tb1.56xlarge",
+        "u-6tb1.112xlarge",
+        "u-9tb1.112xlarge",
+        "u-12tb1.112xlarge",
         "u-6tb1.metal",
         "u-9tb1.metal",
         "u-12tb1.metal",
@@ -24596,6 +24613,10 @@
         "add",
         "remove"
       ]
+    },
+    "OutpostArn":{
+      "type":"string",
+      "pattern":"^arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/op-[a-f0-9]{17}$"
     },
     "OwnerStringList":{
       "type":"list",

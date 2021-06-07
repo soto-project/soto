@@ -979,7 +979,7 @@ extension IoT {
 
         /// The name of the policy to attach.
         public let policyName: String
-        /// The identity to which the policy is attached.
+        /// The identity to which the policy is attached. For example, a thing group or a certificate.
         public let target: String
 
         public init(policyName: String, target: String) {
@@ -2909,14 +2909,16 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
         public let description: String?
-        /// The job document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
+        /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
-        /// An S3 link to the job document.
+        /// An S3 link to the job document. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
         public let documentSource: String?
         /// Allows you to create a staged rollout of the job.
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// A job identifier which must be unique for your AWS account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
         public let jobId: String
+        /// The ARN of the job template used to create the job.
+        public let jobTemplateArn: String?
         /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
         public let namespaceId: String?
         /// Configuration information for pre-signed S3 URLs.
@@ -2930,13 +2932,14 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
             self.documentSource = documentSource
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
+            self.jobTemplateArn = jobTemplateArn
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
             self.tags = tags
@@ -2956,6 +2959,9 @@ extension IoT {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.validate(self.jobTemplateArn, name: "jobTemplateArn", parent: name, max: 1600)
+            try self.validate(self.jobTemplateArn, name: "jobTemplateArn", parent: name, min: 1)
+            try self.validate(self.jobTemplateArn, name: "jobTemplateArn", parent: name, pattern: "^arn:[!-~]+$")
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, pattern: "[a-zA-Z0-9_-]+")
@@ -2975,6 +2981,7 @@ extension IoT {
             case document
             case documentSource
             case jobExecutionsRolloutConfig
+            case jobTemplateArn
             case namespaceId
             case presignedUrlConfig
             case tags
@@ -3002,6 +3009,88 @@ extension IoT {
             case description
             case jobArn
             case jobId
+        }
+    }
+
+    public struct CreateJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobTemplateId", location: .uri(locationName: "jobTemplateId"))
+        ]
+
+        public let abortConfig: AbortConfig?
+        /// A description of the job document.
+        public let description: String
+        /// The job document. Required if you don't specify a value for documentSource.
+        public let document: String?
+        /// An S3 link to the job document to use in the template. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
+        public let documentSource: String?
+        /// The ARN of the job to use as the basis for the job template.
+        public let jobArn: String?
+        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
+        /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric characters, "-", and "_" are valid for use here.
+        public let jobTemplateId: String
+        public let presignedUrlConfig: PresignedUrlConfig?
+        /// Metadata that can be used to manage the job template.
+        public let tags: [Tag]?
+        public let timeoutConfig: TimeoutConfig?
+
+        public init(abortConfig: AbortConfig? = nil, description: String, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
+            self.abortConfig = abortConfig
+            self.description = description
+            self.document = document
+            self.documentSource = documentSource
+            self.jobArn = jobArn
+            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
+            self.jobTemplateId = jobTemplateId
+            self.presignedUrlConfig = presignedUrlConfig
+            self.tags = tags
+            self.timeoutConfig = timeoutConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.abortConfig?.validate(name: "\(name).abortConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 2028)
+            try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
+            try self.validate(self.document, name: "document", parent: name, max: 32768)
+            try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
+            try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
+            try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, max: 64)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, min: 1)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try self.presignedUrlConfig?.validate(name: "\(name).presignedUrlConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortConfig
+            case description
+            case document
+            case documentSource
+            case jobArn
+            case jobExecutionsRolloutConfig
+            case presignedUrlConfig
+            case tags
+            case timeoutConfig
+        }
+    }
+
+    public struct CreateJobTemplateResponse: AWSDecodableShape {
+        /// The ARN of the job template.
+        public let jobTemplateArn: String?
+        /// The unique identifier of the job template.
+        public let jobTemplateId: String?
+
+        public init(jobTemplateArn: String? = nil, jobTemplateId: String? = nil) {
+            self.jobTemplateArn = jobTemplateArn
+            self.jobTemplateId = jobTemplateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTemplateArn
+            case jobTemplateId
         }
     }
 
@@ -4362,6 +4451,27 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobTemplateId", location: .uri(locationName: "jobTemplateId"))
+        ]
+
+        /// The unique identifier of the job template to delete.
+        public let jobTemplateId: String
+
+        public init(jobTemplateId: String) {
+            self.jobTemplateId = jobTemplateId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, max: 64)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, min: 1)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteMitigationActionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionName", location: .uri(locationName: "actionName"))
@@ -5601,6 +5711,72 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case documentSource
             case job
+        }
+    }
+
+    public struct DescribeJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobTemplateId", location: .uri(locationName: "jobTemplateId"))
+        ]
+
+        /// The unique identifier of the job template.
+        public let jobTemplateId: String
+
+        public init(jobTemplateId: String) {
+            self.jobTemplateId = jobTemplateId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, max: 64)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, min: 1)
+            try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, pattern: "[a-zA-Z0-9_-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeJobTemplateResponse: AWSDecodableShape {
+        public let abortConfig: AbortConfig?
+        /// The time, in seconds since the epoch, when the job template was created.
+        public let createdAt: Date?
+        /// A description of the job template.
+        public let description: String?
+        /// The job document.
+        public let document: String?
+        /// An S3 link to the job document.
+        public let documentSource: String?
+        public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
+        /// The ARN of the job template.
+        public let jobTemplateArn: String?
+        /// The unique identifier of the job template.
+        public let jobTemplateId: String?
+        public let presignedUrlConfig: PresignedUrlConfig?
+        public let timeoutConfig: TimeoutConfig?
+
+        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
+            self.abortConfig = abortConfig
+            self.createdAt = createdAt
+            self.description = description
+            self.document = document
+            self.documentSource = documentSource
+            self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
+            self.jobTemplateArn = jobTemplateArn
+            self.jobTemplateId = jobTemplateId
+            self.presignedUrlConfig = presignedUrlConfig
+            self.timeoutConfig = timeoutConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortConfig
+            case createdAt
+            case description
+            case document
+            case documentSource
+            case jobExecutionsRolloutConfig
+            case jobTemplateArn
+            case jobTemplateId
+            case presignedUrlConfig
+            case timeoutConfig
         }
     }
 
@@ -7693,6 +7869,8 @@ extension IoT {
         public let jobId: String?
         /// Details about the job process.
         public let jobProcessDetails: JobProcessDetails?
+        /// The ARN of the job template used to create the job.
+        public let jobTemplateArn: String?
         /// The time, in seconds since the epoch, when the job was last updated.
         public let lastUpdatedAt: Date?
         /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
@@ -7710,7 +7888,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -7721,6 +7899,7 @@ extension IoT {
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
             self.jobProcessDetails = jobProcessDetails
+            self.jobTemplateArn = jobTemplateArn
             self.lastUpdatedAt = lastUpdatedAt
             self.namespaceId = namespaceId
             self.presignedUrlConfig = presignedUrlConfig
@@ -7742,6 +7921,7 @@ extension IoT {
             case jobExecutionsRolloutConfig
             case jobId
             case jobProcessDetails
+            case jobTemplateArn
             case lastUpdatedAt
             case namespaceId
             case presignedUrlConfig
@@ -7895,7 +8075,6 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.exponentialRate?.validate(name: "\(name).exponentialRate")
-            try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, max: 1000)
             try self.validate(self.maximumPerMinute, name: "maximumPerMinute", parent: name, min: 1)
         }
 
@@ -7988,6 +8167,31 @@ extension IoT {
             case status
             case targetSelection
             case thingGroupId
+        }
+    }
+
+    public struct JobTemplateSummary: AWSDecodableShape {
+        /// The time, in seconds since the epoch, when the job template was created.
+        public let createdAt: Date?
+        /// A description of the job template.
+        public let description: String?
+        /// The ARN of the job template.
+        public let jobTemplateArn: String?
+        /// The unique identifier of the job template.
+        public let jobTemplateId: String?
+
+        public init(createdAt: Date? = nil, description: String? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.jobTemplateArn = jobTemplateArn
+            self.jobTemplateId = jobTemplateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case description
+            case jobTemplateArn
+            case jobTemplateId
         }
     }
 
@@ -9126,6 +9330,47 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case executionSummaries
+            case nextToken
+        }
+    }
+
+    public struct ListJobTemplatesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to return in the list.
+        public let maxResults: Int?
+        /// The token to use to return the next set of results in the list.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListJobTemplatesResponse: AWSDecodableShape {
+        /// A list of objects that contain information about the job templates.
+        public let jobTemplates: [JobTemplateSummary]?
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(jobTemplates: [JobTemplateSummary]? = nil, nextToken: String? = nil) {
+            self.jobTemplates = jobTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobTemplates
             case nextToken
         }
     }

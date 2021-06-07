@@ -62,6 +62,11 @@ public struct MediaConnect: AWSService {
 
     // MARK: API Calls
 
+    /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
+    public func addFlowMediaStreams(_ input: AddFlowMediaStreamsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddFlowMediaStreamsResponse> {
+        return self.client.execute(operation: "AddFlowMediaStreams", path: "/v1/flows/{flowArn}/mediaStreams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     public func addFlowOutputs(_ input: AddFlowOutputsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddFlowOutputsResponse> {
         return self.client.execute(operation: "AddFlowOutputs", path: "/v1/flows/{flowArn}/outputs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -137,6 +142,11 @@ public struct MediaConnect: AWSService {
         return self.client.execute(operation: "PurchaseOffering", path: "/v1/offerings/{offeringArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
+    public func removeFlowMediaStream(_ input: RemoveFlowMediaStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveFlowMediaStreamResponse> {
+        return self.client.execute(operation: "RemoveFlowMediaStream", path: "/v1/flows/{flowArn}/mediaStreams/{mediaStreamName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     public func removeFlowOutput(_ input: RemoveFlowOutputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveFlowOutputResponse> {
         return self.client.execute(operation: "RemoveFlowOutput", path: "/v1/flows/{flowArn}/outputs/{outputArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -185,6 +195,11 @@ public struct MediaConnect: AWSService {
     /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     public func updateFlowEntitlement(_ input: UpdateFlowEntitlementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFlowEntitlementResponse> {
         return self.client.execute(operation: "UpdateFlowEntitlement", path: "/v1/flows/{flowArn}/entitlements/{entitlementArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates an existing media stream.
+    public func updateFlowMediaStream(_ input: UpdateFlowMediaStreamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFlowMediaStreamResponse> {
+        return self.client.execute(operation: "UpdateFlowMediaStream", path: "/v1/flows/{flowArn}/mediaStreams/{mediaStreamName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates an existing flow output.

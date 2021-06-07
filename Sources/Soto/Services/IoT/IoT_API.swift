@@ -174,7 +174,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateDimension", path: "/dimensions/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change.
+    /// Creates a domain configuration.
     public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainConfigurationResponse> {
         return self.client.execute(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -187,6 +187,11 @@ public struct IoT: AWSService {
     /// Creates a job.
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResponse> {
         return self.client.execute(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a job template.
+    public func createJobTemplate(_ input: CreateJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobTemplateResponse> {
+        return self.client.execute(operation: "CreateJobTemplate", path: "/job-templates/{jobTemplateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
@@ -314,7 +319,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change.
+    /// Deletes the specified domain configuration.
     public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainConfigurationResponse> {
         return self.client.execute(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -332,6 +337,11 @@ public struct IoT: AWSService {
     /// Deletes a job execution.
     @discardableResult public func deleteJobExecution(_ input: DeleteJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified job template.
+    @discardableResult public func deleteJobTemplate(_ input: DeleteJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteJobTemplate", path: "/job-templates/{jobTemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a defined mitigation action from your AWS account.
@@ -489,7 +499,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeDimension", path: "/dimensions/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change.
+    /// Gets summary information about a domain configuration.
     public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainConfigurationResponse> {
         return self.client.execute(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -517,6 +527,11 @@ public struct IoT: AWSService {
     /// Describes a job execution.
     public func describeJobExecution(_ input: DescribeJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobExecutionResponse> {
         return self.client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about a job template.
+    public func describeJobTemplate(_ input: DescribeJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobTemplateResponse> {
+        return self.client.execute(operation: "DescribeJobTemplate", path: "/job-templates/{jobTemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets information about a mitigation action.
@@ -760,7 +775,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListDimensions", path: "/dimensions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change.
+    /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.
     public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainConfigurationsResponse> {
         return self.client.execute(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -778,6 +793,11 @@ public struct IoT: AWSService {
     /// Lists the job executions for the specified thing.
     public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobExecutionsForThingResponse> {
         return self.client.execute(operation: "ListJobExecutionsForThing", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of job templates.
+    public func listJobTemplates(_ input: ListJobTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobTemplatesResponse> {
+        return self.client.execute(operation: "ListJobTemplates", path: "/job-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists jobs.
@@ -1102,7 +1122,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change.
+    /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.
     public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDomainConfigurationResponse> {
         return self.client.execute(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

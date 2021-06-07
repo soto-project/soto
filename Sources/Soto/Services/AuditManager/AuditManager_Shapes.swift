@@ -1311,9 +1311,9 @@ extension AuditManager {
         ///  The list of controls within the control set. This does not contain the control set ID.
         public let controls: [CreateAssessmentFrameworkControl]?
         ///  The name of the specified control set.
-        public let name: String?
+        public let name: String
 
-        public init(controls: [CreateAssessmentFrameworkControl]? = nil, name: String? = nil) {
+        public init(controls: [CreateAssessmentFrameworkControl]? = nil, name: String) {
             self.controls = controls
             self.name = name
         }
@@ -1948,7 +1948,7 @@ extension AuditManager {
     }
 
     public struct Evidence: AWSDecodableShape {
-        ///  Specifies whether the evidence is inclded in the assessment report.
+        ///  Specifies whether the evidence is included in the assessment report.
         public let assessmentReportSelection: String?
         ///  The names and values used by the evidence event, including an attribute name (such as allowUsersToChangePassword) and value (such as true or false).
         public let attributes: [String: String]?
@@ -3522,9 +3522,9 @@ extension AuditManager {
         ///  The unique identifier for the control set.
         public let id: String?
         ///  The name of the control set.
-        public let name: String?
+        public let name: String
 
-        public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String? = nil) {
+        public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String) {
             self.controls = controls
             self.id = id
             self.name = name

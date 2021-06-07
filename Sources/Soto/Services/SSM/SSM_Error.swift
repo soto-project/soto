@@ -103,6 +103,8 @@ public struct SSMErrorType: AWSErrorType {
         case opsItemInvalidParameterException = "OpsItemInvalidParameterException"
         case opsItemLimitExceededException = "OpsItemLimitExceededException"
         case opsItemNotFoundException = "OpsItemNotFoundException"
+        case opsItemRelatedItemAlreadyExistsException = "OpsItemRelatedItemAlreadyExistsException"
+        case opsItemRelatedItemAssociationNotFoundException = "OpsItemRelatedItemAssociationNotFoundException"
         case opsMetadataAlreadyExistsException = "OpsMetadataAlreadyExistsException"
         case opsMetadataInvalidArgumentException = "OpsMetadataInvalidArgumentException"
         case opsMetadataKeyLimitExceededException = "OpsMetadataKeyLimitExceededException"
@@ -235,6 +237,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidAutomationSignalException: Self { .init(.invalidAutomationSignalException) }
     /// The specified update status operation is not valid.
     public static var invalidAutomationStatusUpdateException: Self { .init(.invalidAutomationStatusUpdateException) }
+    /// The specified command ID is not valid. Verify the ID and try again.
     public static var invalidCommandId: Self { .init(.invalidCommandId) }
     /// One or more of the parameters specified for the delete operation is not valid. Verify all parameters and try again.
     public static var invalidDeleteInventoryParametersException: Self { .init(.invalidDeleteInventoryParametersException) }
@@ -326,6 +329,10 @@ public struct SSMErrorType: AWSErrorType {
     public static var opsItemLimitExceededException: Self { .init(.opsItemLimitExceededException) }
     /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
     public static var opsItemNotFoundException: Self { .init(.opsItemNotFoundException) }
+    /// The Amazon Resource Name (ARN) is already associated with the OpsItem.
+    public static var opsItemRelatedItemAlreadyExistsException: Self { .init(.opsItemRelatedItemAlreadyExistsException) }
+    /// The association was not found using the parameters you specified in the call. Verify the information and try again.
+    public static var opsItemRelatedItemAssociationNotFoundException: Self { .init(.opsItemRelatedItemAssociationNotFoundException) }
     /// An OpsMetadata object already exists for the selected resource.
     public static var opsMetadataAlreadyExistsException: Self { .init(.opsMetadataAlreadyExistsException) }
     /// One of the arguments passed is invalid.
@@ -342,7 +349,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var parameterAlreadyExists: Self { .init(.parameterAlreadyExists) }
     /// You have exceeded the number of parameters for this AWS account. Delete one or more parameters and try again.
     public static var parameterLimitExceeded: Self { .init(.parameterLimitExceeded) }
-    /// Parameter Store retains the 100 most recently created versions of a parameter. After this number of versions has been created, Parameter Store deletes the oldest version when a new one is created. However, if the oldest version has a label attached to it, Parameter Store will not delete the version and instead presents this error message:  An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of parameter-name by calling the PutParameter API with the overwrite flag. Version version-number, the oldest version, can't be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again.  This safeguard is to prevent parameter versions with mission critical labels assigned to them from being deleted. To continue creating new parameters, first move the label from the oldest version of the parameter to a newer one for use in your operations. For information about moving parameter labels, see Move a parameter label (console) or Move a parameter label (CLI)  in the AWS Systems Manager User Guide.
+    /// Parameter Store retains the 100 most recently created versions of a parameter. After this number of versions has been created, Parameter Store deletes the oldest version when a new one is created. However, if the oldest version has a label attached to it, Parameter Store will not delete the version and instead presents this error message:  An error occurred (ParameterMaxVersionLimitExceeded) when calling the PutParameter operation: You attempted to create a new version of parameter-name by calling the PutParameter API with the overwrite flag. Version version-number, the oldest version, can't be deleted because it has a label associated with it. Move the label to another version of the parameter, and try again.  This safeguard is to prevent parameter versions with mission critical labels assigned to them from being deleted. To continue creating new parameters, first move the label from the oldest version of the parameter to a newer one for use in your operations. For information about moving parameter labels, see Move a parameter label (console) or Move a parameter label (CLI) in the AWS Systems Manager User Guide.
     public static var parameterMaxVersionLimitExceeded: Self { .init(.parameterMaxVersionLimitExceeded) }
     /// The parameter could not be found. Verify the name and try again.
     public static var parameterNotFound: Self { .init(.parameterNotFound) }

@@ -20,6 +20,14 @@ import SotoCore
 extension IoTEvents {
     // MARK: Enums
 
+    public enum AlarmModelVersionStatus: String, CustomStringConvertible, Codable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnalysisResultLevel: String, CustomStringConvertible, Codable {
         case error = "ERROR"
         case info = "INFO"
@@ -31,6 +39,16 @@ extension IoTEvents {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case equal = "EQUAL"
+        case greater = "GREATER"
+        case greaterOrEqual = "GREATER_OR_EQUAL"
+        case less = "LESS"
+        case lessOrEqual = "LESS_OR_EQUAL"
+        case notEqual = "NOT_EQUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -73,6 +91,19 @@ extension IoTEvents {
     }
 
     // MARK: Shapes
+
+    public struct AcknowledgeFlow: AWSEncodableShape & AWSDecodableShape {
+        /// The value must be TRUE or FALSE. If TRUE, you receive a notification when the alarm state changes. You must choose to acknowledge the notification before the alarm state can return to NORMAL. If FALSE, you won't receive notifications. The alarm automatically changes to the NORMAL state when the input property value returns to the specified range.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
+        }
+    }
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
         /// Information needed to clear the timer.
@@ -150,14 +181,196 @@ extension IoTEvents {
         }
     }
 
+    public struct AlarmAction: AWSEncodableShape & AWSDecodableShape {
+        public let dynamoDB: DynamoDBAction?
+        public let dynamoDBv2: DynamoDBv2Action?
+        public let firehose: FirehoseAction?
+        public let iotEvents: IotEventsAction?
+        public let iotSiteWise: IotSiteWiseAction?
+        public let iotTopicPublish: IotTopicPublishAction?
+        public let lambda: LambdaAction?
+        public let sns: SNSTopicPublishAction?
+        public let sqs: SqsAction?
+
+        public init(dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, firehose: FirehoseAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, iotTopicPublish: IotTopicPublishAction? = nil, lambda: LambdaAction? = nil, sns: SNSTopicPublishAction? = nil, sqs: SqsAction? = nil) {
+            self.dynamoDB = dynamoDB
+            self.dynamoDBv2 = dynamoDBv2
+            self.firehose = firehose
+            self.iotEvents = iotEvents
+            self.iotSiteWise = iotSiteWise
+            self.iotTopicPublish = iotTopicPublish
+            self.lambda = lambda
+            self.sns = sns
+            self.sqs = sqs
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamoDB?.validate(name: "\(name).dynamoDB")
+            try self.dynamoDBv2?.validate(name: "\(name).dynamoDBv2")
+            try self.firehose?.validate(name: "\(name).firehose")
+            try self.iotEvents?.validate(name: "\(name).iotEvents")
+            try self.iotTopicPublish?.validate(name: "\(name).iotTopicPublish")
+            try self.lambda?.validate(name: "\(name).lambda")
+            try self.sns?.validate(name: "\(name).sns")
+            try self.sqs?.validate(name: "\(name).sqs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamoDB
+            case dynamoDBv2
+            case firehose
+            case iotEvents
+            case iotSiteWise
+            case iotTopicPublish
+            case lambda
+            case sns
+            case sqs
+        }
+    }
+
+    public struct AlarmCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to get notified for alarm state changes.
+        public let acknowledgeFlow: AcknowledgeFlow?
+        /// Specifies the default alarm state. The configuration applies to all alarms that were created based on this alarm model.
+        public let initializationConfiguration: InitializationConfiguration?
+
+        public init(acknowledgeFlow: AcknowledgeFlow? = nil, initializationConfiguration: InitializationConfiguration? = nil) {
+            self.acknowledgeFlow = acknowledgeFlow
+            self.initializationConfiguration = initializationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgeFlow
+            case initializationConfiguration
+        }
+    }
+
+    public struct AlarmEventActions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies one or more supported actions to receive notifications when the alarm state changes.
+        public let alarmActions: [AlarmAction]?
+
+        public init(alarmActions: [AlarmAction]? = nil) {
+            self.alarmActions = alarmActions
+        }
+
+        public func validate(name: String) throws {
+            try self.alarmActions?.forEach {
+                try $0.validate(name: "\(name).alarmActions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmActions
+        }
+    }
+
+    public struct AlarmModelSummary: AWSDecodableShape {
+        /// The description of the alarm model.
+        public let alarmModelDescription: String?
+        /// The name of the alarm model.
+        public let alarmModelName: String?
+        /// The time the alarm model was created, in the Unix epoch format.
+        public let creationTime: Date?
+
+        public init(alarmModelDescription: String? = nil, alarmModelName: String? = nil, creationTime: Date? = nil) {
+            self.alarmModelDescription = alarmModelDescription
+            self.alarmModelName = alarmModelName
+            self.creationTime = creationTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelDescription
+            case alarmModelName
+            case creationTime
+        }
+    }
+
+    public struct AlarmModelVersionSummary: AWSDecodableShape {
+        /// The ARN of the alarm model. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let alarmModelArn: String?
+        /// The name of the alarm model.
+        public let alarmModelName: String?
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+        /// The time the alarm model was created, in the Unix epoch format.
+        public let creationTime: Date?
+        /// The time the alarm model was last updated, in the Unix epoch format.
+        public let lastUpdateTime: Date?
+        /// The ARN of the IAM role that allows the alarm to perform actions and access AWS resources. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let roleArn: String?
+        /// The status of the alarm model. The status can be one of the following values:    ACTIVE - The alarm model is active and it's ready to evaluate data.    ACTIVATING - AWS IoT Events is activating your alarm model. Activating an alarm model can take up to a few minutes.    INACTIVE - The alarm model is inactive, so it isn't ready to evaluate data. Check your alarm model information and update the alarm model.    FAILED - You couldn't create or update the alarm model. Check your alarm model information and try again.
+        public let status: AlarmModelVersionStatus?
+        ///  Contains information about the status of the alarm model version.
+        public let statusMessage: String?
+
+        public init(alarmModelArn: String? = nil, alarmModelName: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, status: AlarmModelVersionStatus? = nil, statusMessage: String? = nil) {
+            self.alarmModelArn = alarmModelArn
+            self.alarmModelName = alarmModelName
+            self.alarmModelVersion = alarmModelVersion
+            self.creationTime = creationTime
+            self.lastUpdateTime = lastUpdateTime
+            self.roleArn = roleArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelArn
+            case alarmModelName
+            case alarmModelVersion
+            case creationTime
+            case lastUpdateTime
+            case roleArn
+            case status
+            case statusMessage
+        }
+    }
+
+    public struct AlarmNotification: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the notification settings of an alarm model. The settings apply to all alarms that were created based on this alarm model.
+        public let notificationActions: [NotificationAction]?
+
+        public init(notificationActions: [NotificationAction]? = nil) {
+            self.notificationActions = notificationActions
+        }
+
+        public func validate(name: String) throws {
+            try self.notificationActions?.forEach {
+                try $0.validate(name: "\(name).notificationActions[]")
+            }
+            try self.validate(self.notificationActions, name: "notificationActions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationActions
+        }
+    }
+
+    public struct AlarmRule: AWSEncodableShape & AWSDecodableShape {
+        /// A rule that compares an input property value to a threshold value with a comparison operator.
+        public let simpleRule: SimpleRule?
+
+        public init(simpleRule: SimpleRule? = nil) {
+            self.simpleRule = simpleRule
+        }
+
+        public func validate(name: String) throws {
+            try self.simpleRule?.validate(name: "\(name).simpleRule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simpleRule
+        }
+    }
+
     public struct AnalysisResult: AWSDecodableShape {
-        /// The severity level of the analysis result. Analysis results fall into three general categories based on the severity level:    INFO - An information result informs you about a significant field in your detector model. This type of result usually doesn't require immediate action.    WARNING - A warning result draws special attention to fields that are potentially damaging to your detector model. We recommend that you review warnings and take necessary actions before you use your detetor model in production environments. Otherwise, the detector model may not fully function as expected.    ERROR - An error result notifies you about a problem found in your detector model. You must fix all errors before you can publish your detector model.
+        /// The severity level of the analysis result. Based on the severity level, analysis results fall into three general categories:    INFO - An information result tells you about a significant field in your detector model. This type of result usually doesn't require immediate action.    WARNING - A warning result draws special attention to fields that might cause issues for your detector model. We recommend that you review warnings and take necessary actions before you use your detector model in production environments. Otherwise, the detector model might not work as expected.    ERROR - An error result notifies you about a problem found in your detector model. You must fix all errors before you can publish your detector model.
         public let level: AnalysisResultLevel?
         /// Contains one or more locations that you can use to locate the fields in your detector model that the analysis result references.
         public let locations: [AnalysisResultLocation]?
         /// Contains additional information about the analysis result.
         public let message: String?
-        /// The type of the analysis result. Analyses fall into the following types based on the validators used to generate the analysis result:    supported-actions - You must specify AWS IoT Events supported actions that work with other AWS services in a supported AWS Region.    service-limits - Resources or operations can't exceed service limits. Update your detector model or request a limit adjust.    structure - The detector model must follow a structure that AWS IoT Events supports.     expression-syntax - Your expression must follow the required syntax.    data-type - Data types referenced in the detector model must be compatible.    referenced-data - You must define the data referenced in your detector model before you can use the data.    referenced-resource - Resources that the detector model uses must be available.   For more information, see Running detector model analyses in the AWS IoT Events Developer Guide.
+        /// The type of the analysis result. Analyses fall into the following types based on the validators used to generate the analysis result:    supported-actions - You must specify AWS IoT Events supported actions that work with other AWS services in a supported AWS Region.    service-limits - Resources or API operations can't exceed service quotas (also known as limits). Update your detector model or request a quota increase.    structure - The detector model must follow a structure that AWS IoT Events supports.     expression-syntax - Your expression must follow the required syntax.    data-type - Data types referenced in the detector model must be compatible.    referenced-data - You must define the data referenced in your detector model before you can use the data.    referenced-resource - Resources that the detector model uses must be available.   For more information, see Running detector model analyses in the AWS IoT Events Developer Guide.
         public let type: String?
 
         public init(level: AnalysisResultLevel? = nil, locations: [AnalysisResultLocation]? = nil, message: String? = nil, type: String? = nil) {
@@ -211,9 +424,9 @@ extension IoTEvents {
         /// The timestamp associated with the asset property value. The default is the current event time.
         public let timestamp: AssetPropertyTimestamp?
         /// The value to send to an asset property.
-        public let value: AssetPropertyVariant
+        public let value: AssetPropertyVariant?
 
-        public init(quality: String? = nil, timestamp: AssetPropertyTimestamp? = nil, value: AssetPropertyVariant) {
+        public init(quality: String? = nil, timestamp: AssetPropertyTimestamp? = nil, value: AssetPropertyVariant? = nil) {
             self.quality = quality
             self.timestamp = timestamp
             self.value = value
@@ -285,6 +498,104 @@ extension IoTEvents {
 
         private enum CodingKeys: String, CodingKey {
             case timerName
+        }
+    }
+
+    public struct CreateAlarmModelRequest: AWSEncodableShape {
+        /// Contains the configuration information of alarm state changes.
+        public let alarmCapabilities: AlarmCapabilities?
+        /// Contains information about one or more alarm actions.
+        public let alarmEventActions: AlarmEventActions?
+        /// A description that tells you what the alarm model detects.
+        public let alarmModelDescription: String?
+        /// A unique name that helps you identify the alarm model. You can't change this name after you create the alarm model.
+        public let alarmModelName: String
+        /// Contains information about one or more notification actions.
+        public let alarmNotification: AlarmNotification?
+        /// Defines when your alarm is invoked.
+        public let alarmRule: AlarmRule
+        /// An input attribute used as a key to create an alarm. AWS IoT Events routes inputs associated with this key to the alarm.
+        public let key: String?
+        /// The ARN of the IAM role that allows the alarm to perform actions and access AWS resources. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let roleArn: String
+        /// A non-negative integer that reflects the severity level of the alarm.
+        public let severity: Int?
+        /// A list of key-value pairs that contain metadata for the alarm model. The tags help you manage the alarm model. For more information, see Tagging your AWS IoT Events resources in the AWS IoT Events Developer Guide. You can create up to 50 tags for one alarm model.
+        public let tags: [Tag]?
+
+        public init(alarmCapabilities: AlarmCapabilities? = nil, alarmEventActions: AlarmEventActions? = nil, alarmModelDescription: String? = nil, alarmModelName: String, alarmNotification: AlarmNotification? = nil, alarmRule: AlarmRule, key: String? = nil, roleArn: String, severity: Int? = nil, tags: [Tag]? = nil) {
+            self.alarmCapabilities = alarmCapabilities
+            self.alarmEventActions = alarmEventActions
+            self.alarmModelDescription = alarmModelDescription
+            self.alarmModelName = alarmModelName
+            self.alarmNotification = alarmNotification
+            self.alarmRule = alarmRule
+            self.key = key
+            self.roleArn = roleArn
+            self.severity = severity
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.alarmEventActions?.validate(name: "\(name).alarmEventActions")
+            try self.validate(self.alarmModelDescription, name: "alarmModelDescription", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.alarmNotification?.validate(name: "\(name).alarmNotification")
+            try self.alarmRule.validate(name: "\(name).alarmRule")
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^((`[\\w\\- ]+`)|([\\w\\-]+))(\\.((`[\\w- ]+`)|([\\w\\-]+)))*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.severity, name: "severity", parent: name, max: 2_147_483_647)
+            try self.validate(self.severity, name: "severity", parent: name, min: 0)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmCapabilities
+            case alarmEventActions
+            case alarmModelDescription
+            case alarmModelName
+            case alarmNotification
+            case alarmRule
+            case key
+            case roleArn
+            case severity
+            case tags
+        }
+    }
+
+    public struct CreateAlarmModelResponse: AWSDecodableShape {
+        /// The ARN of the alarm model. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let alarmModelArn: String?
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+        /// The time the alarm model was created, in the Unix epoch format.
+        public let creationTime: Date?
+        /// The time the alarm model was last updated, in the Unix epoch format.
+        public let lastUpdateTime: Date?
+        /// The status of the alarm model. The status can be one of the following values:    ACTIVE - The alarm model is active and it's ready to evaluate data.    ACTIVATING - AWS IoT Events is activating your alarm model. Activating an alarm model can take up to a few minutes.    INACTIVE - The alarm model is inactive, so it isn't ready to evaluate data. Check your alarm model information and update the alarm model.    FAILED - You couldn't create or update the alarm model. Check your alarm model information and try again.
+        public let status: AlarmModelVersionStatus?
+
+        public init(alarmModelArn: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, status: AlarmModelVersionStatus? = nil) {
+            self.alarmModelArn = alarmModelArn
+            self.alarmModelVersion = alarmModelVersion
+            self.creationTime = creationTime
+            self.lastUpdateTime = lastUpdateTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelArn
+            case alarmModelVersion
+            case creationTime
+            case lastUpdateTime
+            case status
         }
     }
 
@@ -403,6 +714,31 @@ extension IoTEvents {
         }
     }
 
+    public struct DeleteAlarmModelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName"))
+        ]
+
+        /// The name of the alarm model.
+        public let alarmModelName: String
+
+        public init(alarmModelName: String) {
+            self.alarmModelName = alarmModelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAlarmModelResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDetectorModelRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName"))
@@ -453,6 +789,102 @@ extension IoTEvents {
         public init() {}
     }
 
+    public struct DescribeAlarmModelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
+            AWSMemberEncoding(label: "alarmModelVersion", location: .querystring(locationName: "version"))
+        ]
+
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+
+        public init(alarmModelName: String, alarmModelVersion: String? = nil) {
+            self.alarmModelName = alarmModelName
+            self.alarmModelVersion = alarmModelVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.alarmModelVersion, name: "alarmModelVersion", parent: name, max: 128)
+            try self.validate(self.alarmModelVersion, name: "alarmModelVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAlarmModelResponse: AWSDecodableShape {
+        /// Contains the configuration information of alarm state changes.
+        public let alarmCapabilities: AlarmCapabilities?
+        /// Contains information about one or more alarm actions.
+        public let alarmEventActions: AlarmEventActions?
+        /// The ARN of the alarm model. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let alarmModelArn: String?
+        /// The description of the alarm model.
+        public let alarmModelDescription: String?
+        /// The name of the alarm model.
+        public let alarmModelName: String?
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+        /// Contains information about one or more notification actions.
+        public let alarmNotification: AlarmNotification?
+        /// Defines when your alarm is invoked.
+        public let alarmRule: AlarmRule?
+        /// The time the alarm model was created, in the Unix epoch format.
+        public let creationTime: Date?
+        /// An input attribute used as a key to create an alarm. AWS IoT Events routes inputs associated with this key to the alarm.
+        public let key: String?
+        /// The time the alarm model was last updated, in the Unix epoch format.
+        public let lastUpdateTime: Date?
+        /// The ARN of the IAM role that allows the alarm to perform actions and access AWS resources. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let roleArn: String?
+        /// A non-negative integer that reflects the severity level of the alarm.
+        public let severity: Int?
+        /// The status of the alarm model. The status can be one of the following values:    ACTIVE - The alarm model is active and it's ready to evaluate data.    ACTIVATING - AWS IoT Events is activating your alarm model. Activating an alarm model can take up to a few minutes.    INACTIVE - The alarm model is inactive, so it isn't ready to evaluate data. Check your alarm model information and update the alarm model.    FAILED - You couldn't create or update the alarm model. Check your alarm model information and try again.
+        public let status: AlarmModelVersionStatus?
+        ///  Contains information about the status of the alarm model.
+        public let statusMessage: String?
+
+        public init(alarmCapabilities: AlarmCapabilities? = nil, alarmEventActions: AlarmEventActions? = nil, alarmModelArn: String? = nil, alarmModelDescription: String? = nil, alarmModelName: String? = nil, alarmModelVersion: String? = nil, alarmNotification: AlarmNotification? = nil, alarmRule: AlarmRule? = nil, creationTime: Date? = nil, key: String? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, severity: Int? = nil, status: AlarmModelVersionStatus? = nil, statusMessage: String? = nil) {
+            self.alarmCapabilities = alarmCapabilities
+            self.alarmEventActions = alarmEventActions
+            self.alarmModelArn = alarmModelArn
+            self.alarmModelDescription = alarmModelDescription
+            self.alarmModelName = alarmModelName
+            self.alarmModelVersion = alarmModelVersion
+            self.alarmNotification = alarmNotification
+            self.alarmRule = alarmRule
+            self.creationTime = creationTime
+            self.key = key
+            self.lastUpdateTime = lastUpdateTime
+            self.roleArn = roleArn
+            self.severity = severity
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmCapabilities
+            case alarmEventActions
+            case alarmModelArn
+            case alarmModelDescription
+            case alarmModelName
+            case alarmModelVersion
+            case alarmNotification
+            case alarmRule
+            case creationTime
+            case key
+            case lastUpdateTime
+            case roleArn
+            case severity
+            case status
+            case statusMessage
+        }
+    }
+
     public struct DescribeDetectorModelAnalysisRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "analysisId", location: .uri(locationName: "analysisId"))
@@ -469,7 +901,7 @@ extension IoTEvents {
     }
 
     public struct DescribeDetectorModelAnalysisResponse: AWSDecodableShape {
-        /// The status of the analysis activity. The status can be one of the following values:    RUNNING - AWS IoT Events is analyzing your detector model. This process can take several minutes to complete.    COMPLETE - AWS IoT Events finished analyzing your detector model .    FAILED - AWS IoT Events couldn't analyze your detector model. Try again later.
+        /// The status of the analysis activity. The status can be one of the following values:    RUNNING - AWS IoT Events is analyzing your detector model. This process can take several minutes to complete.    COMPLETE - AWS IoT Events finished analyzing your detector model.    FAILED - AWS IoT Events couldn't analyze your detector model. Try again later.
         public let status: AnalysisStatus?
 
         public init(status: AnalysisStatus? = nil) {
@@ -824,6 +1256,65 @@ extension IoTEvents {
         }
     }
 
+    public struct EmailConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the subject and message of an email.
+        public let content: EmailContent?
+        /// The email address that sends emails.  If you use the AWS IoT Events managed AWS Lambda function to manage your emails, you must verify the email address that sends emails in Amazon SES.
+        public let from: String
+        /// Contains the information of one or more recipients who receive the emails.  You must add the users that receive emails to your AWS SSO store.
+        public let recipients: EmailRecipients
+
+        public init(content: EmailContent? = nil, from: String, recipients: EmailRecipients) {
+            self.content = content
+            self.from = from
+            self.recipients = recipients
+        }
+
+        public func validate(name: String) throws {
+            try self.recipients.validate(name: "\(name).recipients")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content
+            case from
+            case recipients
+        }
+    }
+
+    public struct EmailContent: AWSEncodableShape & AWSDecodableShape {
+        /// The message that you want to send. The message can be up to 200 characters.
+        public let additionalMessage: String?
+        /// The subject of the email.
+        public let subject: String?
+
+        public init(additionalMessage: String? = nil, subject: String? = nil) {
+            self.additionalMessage = additionalMessage
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalMessage
+            case subject
+        }
+    }
+
+    public struct EmailRecipients: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies one or more recipients who receive the email.
+        public let to: [RecipientDetail]?
+
+        public init(to: [RecipientDetail]? = nil) {
+            self.to = to
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.to, name: "to", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case to
+        }
+    }
+
     public struct Event: AWSEncodableShape & AWSDecodableShape {
         /// The actions to be performed.
         public let actions: [Action]?
@@ -919,6 +1410,19 @@ extension IoTEvents {
         }
     }
 
+    public struct InitializationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The value must be TRUE or FALSE. If FALSE, all alarm instances created based on the alarm model are activated. The default value is TRUE.
+        public let disabledOnInitialization: Bool
+
+        public init(disabledOnInitialization: Bool) {
+            self.disabledOnInitialization = disabledOnInitialization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disabledOnInitialization
+        }
+    }
+
     public struct Input: AWSDecodableShape {
         /// Information about the configuration of an input.
         public let inputConfiguration: InputConfiguration?
@@ -990,6 +1494,27 @@ extension IoTEvents {
         }
     }
 
+    public struct InputIdentifier: AWSEncodableShape {
+        ///  The identifier of the input routed to AWS IoT Events.
+        public let iotEventsInputIdentifier: IotEventsInputIdentifier?
+        ///  The identifer of the input routed from AWS IoT SiteWise.
+        public let iotSiteWiseInputIdentifier: IotSiteWiseInputIdentifier?
+
+        public init(iotEventsInputIdentifier: IotEventsInputIdentifier? = nil, iotSiteWiseInputIdentifier: IotSiteWiseInputIdentifier? = nil) {
+            self.iotEventsInputIdentifier = iotEventsInputIdentifier
+            self.iotSiteWiseInputIdentifier = iotSiteWiseInputIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.iotEventsInputIdentifier?.validate(name: "\(name).iotEventsInputIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotEventsInputIdentifier
+            case iotSiteWiseInputIdentifier
+        }
+    }
+
     public struct InputSummary: AWSDecodableShape {
         /// The time the input was created.
         public let creationTime: Date?
@@ -1047,6 +1572,25 @@ extension IoTEvents {
         }
     }
 
+    public struct IotEventsInputIdentifier: AWSEncodableShape {
+        ///  The name of the input routed to AWS IoT Events.
+        public let inputName: String
+
+        public init(inputName: String) {
+            self.inputName = inputName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputName, name: "inputName", parent: name, max: 128)
+            try self.validate(self.inputName, name: "inputName", parent: name, min: 1)
+            try self.validate(self.inputName, name: "inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputName
+        }
+    }
+
     public struct IotSiteWiseAction: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the asset that has the specified property.
         public let assetId: String?
@@ -1057,9 +1601,9 @@ extension IoTEvents {
         /// The ID of the asset property.
         public let propertyId: String?
         /// The value to send to the asset property. This value contains timestamp, quality, and value (TQV) information.
-        public let propertyValue: AssetPropertyValue
+        public let propertyValue: AssetPropertyValue?
 
-        public init(assetId: String? = nil, entryId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, propertyValue: AssetPropertyValue) {
+        public init(assetId: String? = nil, entryId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, propertyValue: AssetPropertyValue? = nil) {
             self.assetId = assetId
             self.entryId = entryId
             self.propertyAlias = propertyAlias
@@ -1073,6 +1617,36 @@ extension IoTEvents {
             case propertyAlias
             case propertyId
             case propertyValue
+        }
+    }
+
+    public struct IotSiteWiseAssetModelPropertyIdentifier: AWSEncodableShape {
+        ///  The ID of the AWS IoT SiteWise asset model.
+        public let assetModelId: String
+        ///  The ID of the AWS IoT SiteWise asset property.
+        public let propertyId: String
+
+        public init(assetModelId: String, propertyId: String) {
+            self.assetModelId = assetModelId
+            self.propertyId = propertyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetModelId
+            case propertyId
+        }
+    }
+
+    public struct IotSiteWiseInputIdentifier: AWSEncodableShape {
+        ///  The identifier of the AWS IoT SiteWise asset model property.
+        public let iotSiteWiseAssetModelPropertyIdentifier: IotSiteWiseAssetModelPropertyIdentifier?
+
+        public init(iotSiteWiseAssetModelPropertyIdentifier: IotSiteWiseAssetModelPropertyIdentifier? = nil) {
+            self.iotSiteWiseAssetModelPropertyIdentifier = iotSiteWiseAssetModelPropertyIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iotSiteWiseAssetModelPropertyIdentifier
         }
     }
 
@@ -1119,6 +1693,95 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case functionArn
             case payload
+        }
+    }
+
+    public struct ListAlarmModelVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token that you can use to return the next set of results.
+        public let nextToken: String?
+
+        public init(alarmModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.alarmModelName = alarmModelName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAlarmModelVersionsResponse: AWSDecodableShape {
+        /// A list that summarizes each alarm model version.
+        public let alarmModelVersionSummaries: [AlarmModelVersionSummary]?
+        /// The token that you can use to return the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(alarmModelVersionSummaries: [AlarmModelVersionSummary]? = nil, nextToken: String? = nil) {
+            self.alarmModelVersionSummaries = alarmModelVersionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelVersionSummaries
+            case nextToken
+        }
+    }
+
+    public struct ListAlarmModelsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token that you can use to return the next set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAlarmModelsResponse: AWSDecodableShape {
+        /// A list that summarizes each alarm model.
+        public let alarmModelSummaries: [AlarmModelSummary]?
+        /// The token that you can use to return the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(alarmModelSummaries: [AlarmModelSummary]? = nil, nextToken: String? = nil) {
+            self.alarmModelSummaries = alarmModelSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelSummaries
+            case nextToken
         }
     }
 
@@ -1208,6 +1871,50 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case detectorModelSummaries
             case nextToken
+        }
+    }
+
+    public struct ListInputRoutingsRequest: AWSEncodableShape {
+        ///  The identifer of the routed input.
+        public let inputIdentifier: InputIdentifier
+        ///  The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        ///  The token that you can use to return the next set of results.
+        public let nextToken: String?
+
+        public init(inputIdentifier: InputIdentifier, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.inputIdentifier = inputIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.inputIdentifier.validate(name: "\(name).inputIdentifier")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputIdentifier
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListInputRoutingsResponse: AWSDecodableShape {
+        ///  The token that you can use to return the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        ///  Summary information about the routed resources.
+        public let routedResources: [RoutedResource]?
+
+        public init(nextToken: String? = nil, routedResources: [RoutedResource]? = nil) {
+            self.nextToken = nextToken
+            self.routedResources = routedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case routedResources
         }
     }
 
@@ -1319,6 +2026,55 @@ extension IoTEvents {
         }
     }
 
+    public struct NotificationAction: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies an AWS Lambda function to manage alarm notifications. You can create one or use the AWS Lambda function provided by AWS IoT Events.
+        public let action: NotificationTargetActions
+        /// Contains the configuration information of email notifications.
+        public let emailConfigurations: [EmailConfiguration]?
+        /// Contains the configuration information of SMS notifications.
+        public let smsConfigurations: [SMSConfiguration]?
+
+        public init(action: NotificationTargetActions, emailConfigurations: [EmailConfiguration]? = nil, smsConfigurations: [SMSConfiguration]? = nil) {
+            self.action = action
+            self.emailConfigurations = emailConfigurations
+            self.smsConfigurations = smsConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.action.validate(name: "\(name).action")
+            try self.emailConfigurations?.forEach {
+                try $0.validate(name: "\(name).emailConfigurations[]")
+            }
+            try self.validate(self.emailConfigurations, name: "emailConfigurations", parent: name, min: 1)
+            try self.smsConfigurations?.forEach {
+                try $0.validate(name: "\(name).smsConfigurations[]")
+            }
+            try self.validate(self.smsConfigurations, name: "smsConfigurations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action
+            case emailConfigurations
+            case smsConfigurations
+        }
+    }
+
+    public struct NotificationTargetActions: AWSEncodableShape & AWSDecodableShape {
+        public let lambdaAction: LambdaAction?
+
+        public init(lambdaAction: LambdaAction? = nil) {
+            self.lambdaAction = lambdaAction
+        }
+
+        public func validate(name: String) throws {
+            try self.lambdaAction?.validate(name: "\(name).lambdaAction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaAction
+        }
+    }
+
     public struct OnEnterLifecycle: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the actions that are performed when the state is entered and the condition is TRUE.
         public let events: [Event]?
@@ -1421,6 +2177,19 @@ extension IoTEvents {
         }
     }
 
+    public struct RecipientDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Single Sign-On (AWS SSO) authentication information.
+        public let ssoIdentity: SSOIdentity?
+
+        public init(ssoIdentity: SSOIdentity? = nil) {
+            self.ssoIdentity = ssoIdentity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssoIdentity
+        }
+    }
+
     public struct ResetTimerAction: AWSEncodableShape & AWSDecodableShape {
         /// The name of the timer to reset.
         public let timerName: String
@@ -1436,6 +2205,48 @@ extension IoTEvents {
 
         private enum CodingKeys: String, CodingKey {
             case timerName
+        }
+    }
+
+    public struct RoutedResource: AWSDecodableShape {
+        ///  The ARN of the routed resource. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let arn: String?
+        ///  The name of the routed resource.
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case name
+        }
+    }
+
+    public struct SMSConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The message that you want to send. The message can be up to 200 characters.
+        public let additionalMessage: String?
+        /// Specifies one or more recipients who receive the message.  You must add the users that receive SMS messages to your AWS SSO store.
+        public let recipients: [RecipientDetail]
+        /// The sender ID.
+        public let senderId: String?
+
+        public init(additionalMessage: String? = nil, recipients: [RecipientDetail], senderId: String? = nil) {
+            self.additionalMessage = additionalMessage
+            self.recipients = recipients
+            self.senderId = senderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recipients, name: "recipients", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalMessage
+            case recipients
+            case senderId
         }
     }
 
@@ -1459,6 +2270,23 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case payload
             case targetArn
+        }
+    }
+
+    public struct SSOIdentity: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the AWS SSO identity store.
+        public let identityStoreId: String
+        /// The user ID.
+        public let userId: String?
+
+        public init(identityStoreId: String, userId: String? = nil) {
+            self.identityStoreId = identityStoreId
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreId
+            case userId
         }
     }
 
@@ -1508,6 +2336,34 @@ extension IoTEvents {
         private enum CodingKeys: String, CodingKey {
             case value
             case variableName
+        }
+    }
+
+    public struct SimpleRule: AWSEncodableShape & AWSDecodableShape {
+        /// The comparison operator.
+        public let comparisonOperator: ComparisonOperator
+        /// The value on the left side of the comparison operator. You can specify an AWS IoT Events input attribute as an input property.
+        public let inputProperty: String
+        /// The value on the right side of the comparison operator. You can enter a number or specify an AWS IoT Events input attribute.
+        public let threshold: String
+
+        public init(comparisonOperator: ComparisonOperator, inputProperty: String, threshold: String) {
+            self.comparisonOperator = comparisonOperator
+            self.inputProperty = inputProperty
+            self.threshold = threshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputProperty, name: "inputProperty", parent: name, max: 512)
+            try self.validate(self.inputProperty, name: "inputProperty", parent: name, min: 1)
+            try self.validate(self.threshold, name: "threshold", parent: name, max: 512)
+            try self.validate(self.threshold, name: "threshold", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator
+            case inputProperty
+            case threshold
         }
     }
 
@@ -1719,6 +2575,93 @@ extension IoTEvents {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAlarmModelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName"))
+        ]
+
+        /// Contains the configuration information of alarm state changes.
+        public let alarmCapabilities: AlarmCapabilities?
+        /// Contains information about one or more alarm actions.
+        public let alarmEventActions: AlarmEventActions?
+        /// The description of the alarm model.
+        public let alarmModelDescription: String?
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// Contains information about one or more notification actions.
+        public let alarmNotification: AlarmNotification?
+        /// Defines when your alarm is invoked.
+        public let alarmRule: AlarmRule
+        /// The ARN of the IAM role that allows the alarm to perform actions and access AWS resources. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let roleArn: String
+        /// A non-negative integer that reflects the severity level of the alarm.
+        public let severity: Int?
+
+        public init(alarmCapabilities: AlarmCapabilities? = nil, alarmEventActions: AlarmEventActions? = nil, alarmModelDescription: String? = nil, alarmModelName: String, alarmNotification: AlarmNotification? = nil, alarmRule: AlarmRule, roleArn: String, severity: Int? = nil) {
+            self.alarmCapabilities = alarmCapabilities
+            self.alarmEventActions = alarmEventActions
+            self.alarmModelDescription = alarmModelDescription
+            self.alarmModelName = alarmModelName
+            self.alarmNotification = alarmNotification
+            self.alarmRule = alarmRule
+            self.roleArn = roleArn
+            self.severity = severity
+        }
+
+        public func validate(name: String) throws {
+            try self.alarmEventActions?.validate(name: "\(name).alarmEventActions")
+            try self.validate(self.alarmModelDescription, name: "alarmModelDescription", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.alarmNotification?.validate(name: "\(name).alarmNotification")
+            try self.alarmRule.validate(name: "\(name).alarmRule")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.severity, name: "severity", parent: name, max: 2_147_483_647)
+            try self.validate(self.severity, name: "severity", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmCapabilities
+            case alarmEventActions
+            case alarmModelDescription
+            case alarmNotification
+            case alarmRule
+            case roleArn
+            case severity
+        }
+    }
+
+    public struct UpdateAlarmModelResponse: AWSDecodableShape {
+        /// The ARN of the alarm model. For more information, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        public let alarmModelArn: String?
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+        /// The time the alarm model was created, in the Unix epoch format.
+        public let creationTime: Date?
+        /// The time the alarm model was last updated, in the Unix epoch format.
+        public let lastUpdateTime: Date?
+        /// The status of the alarm model. The status can be one of the following values:    ACTIVE - The alarm model is active and it's ready to evaluate data.    ACTIVATING - AWS IoT Events is activating your alarm model. Activating an alarm model can take up to a few minutes.    INACTIVE - The alarm model is inactive, so it isn't ready to evaluate data. Check your alarm model information and update the alarm model.    FAILED - You couldn't create or update the alarm model. Check your alarm model information and try again.
+        public let status: AlarmModelVersionStatus?
+
+        public init(alarmModelArn: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, status: AlarmModelVersionStatus? = nil) {
+            self.alarmModelArn = alarmModelArn
+            self.alarmModelVersion = alarmModelVersion
+            self.creationTime = creationTime
+            self.lastUpdateTime = lastUpdateTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelArn
+            case alarmModelVersion
+            case creationTime
+            case lastUpdateTime
+            case status
+        }
     }
 
     public struct UpdateDetectorModelRequest: AWSEncodableShape {

@@ -59,7 +59,7 @@ extension Support {
     public struct AddCommunicationToCaseRequest: AWSEncodableShape {
         /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
         public let attachmentSetId: String?
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
         /// The email addresses in the CC line of an email to be added to the support case.
         public let ccEmailAddresses: [String]?
@@ -136,9 +136,9 @@ extension Support {
     }
 
     public struct CaseDetails: AWSDecodableShape {
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
-        /// The category of problem for the AWS Support case.
+        /// The category of problem for the support case.
         public let categoryCode: String?
         /// The email addresses that receive copies of communication about the case.
         public let ccEmailAddresses: [String]?
@@ -214,9 +214,9 @@ extension Support {
         public let attachmentSet: [AttachmentDetails]?
         /// The text of the communication between the customer and AWS Support.
         public let body: String?
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
-        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) &lt;someone@example.com&gt;. Entries from the AWS Support team display "Amazon Web Services," and do not show an email address.
+        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) &lt;janedoe@example.com&gt;. Entries from the AWS Support team display "Amazon Web Services," and don't show an email address.
         public let submittedBy: String?
         /// The time the communication was created.
         public let timeCreated: String?
@@ -241,7 +241,7 @@ extension Support {
     public struct CreateCaseRequest: AWSEncodableShape {
         /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
         public let attachmentSetId: String?
-        /// The category of problem for the AWS Support case. You also use the DescribeServices operation to get the category code for a service. Each AWS service defines its own set of category codes.
+        /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each AWS service defines its own set of category codes.
         public let categoryCode: String?
         /// A list of email addresses that AWS Support copies on case correspondence. AWS Support identifies the account that creates the case when you specify your AWS credentials in an HTTP POST method or use the AWS SDKs.
         public let ccEmailAddresses: [String]?
@@ -255,7 +255,7 @@ extension Support {
         public let serviceCode: String?
         /// A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with AWS Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode.  For more information, see SeverityLevel and Choosing a Severity in the AWS Support User Guide.  The availability of severity levels depends on the support plan for the AWS account.
         public let severityCode: String?
-        /// The title of the AWS Support case. The title appears in the Subject field on the AWS Support Center Create Case page.
+        /// The title of the support case. The title appears in the Subject field on the AWS Support Center Create Case page.
         public let subject: String
 
         public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String) {
@@ -291,7 +291,7 @@ extension Support {
     }
 
     public struct CreateCaseResponse: AWSDecodableShape {
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
 
         public init(caseId: String? = nil) {
@@ -338,7 +338,7 @@ extension Support {
         public let caseIdList: [String]?
         /// The ID displayed for a case in the AWS Support Center user interface.
         public let displayId: String?
-        /// Specifies whether to include communications in the DescribeCases response. By default, communications are incuded.
+        /// Specifies whether to include communications in the DescribeCases response. By default, communications are included.
         public let includeCommunications: Bool?
         /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
         public let includeResolvedCases: Bool?
@@ -403,7 +403,7 @@ extension Support {
         public let afterTime: String?
         /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let beforeTime: String?
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String
         /// The maximum number of results to return before paginating.
         public let maxResults: Int?
@@ -511,7 +511,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSEncodableShape {
-        /// The IDs of the Trusted Advisor checks to get the status of.   If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error.
+        /// The IDs of the Trusted Advisor checks to get the status.  If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error.
         public let checkIds: [String]
 
         public init(checkIds: [String]) {
@@ -636,7 +636,7 @@ extension Support {
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSEncodableShape {
-        /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
+        /// The unique identifier for the Trusted Advisor check to refresh.  Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
 
         public init(checkId: String) {
@@ -662,7 +662,7 @@ extension Support {
     }
 
     public struct ResolveCaseRequest: AWSEncodableShape {
-        /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
 
         public init(caseId: String? = nil) {
@@ -715,7 +715,7 @@ extension Support {
     public struct SeverityLevel: AWSDecodableShape {
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical
         public let code: String?
-        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a severity in the AWS Support User Guide.
+        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API are different from the values that appear in the AWS Support Center. For example, the API uses the code low, but the name appears as General guidance in Support Center.  The following are the API code names and how they appear in the console:    low - General guidance    normal - System impaired    high - Production system impaired    urgent - Production system down    critical - Business-critical system down    For more information, see Choosing a severity in the AWS Support User Guide.
         public let name: String?
 
         public init(code: String? = nil, name: String? = nil) {
@@ -776,7 +776,7 @@ extension Support {
         public let checkId: String
         /// The amount of time, in milliseconds, until the Trusted Advisor check is eligible for refresh.
         public let millisUntilNextRefreshable: Int64
-        /// The status of the Trusted Advisor check for which a refresh has been requested:     none: The check is not refreshed or the non-success status exceeds the timeout    enqueued: The check refresh requests has entered the refresh queue    processing: The check refresh request is picked up by the rule processing engine    success: The check is successfully refreshed    abandoned: The check refresh has failed
+        /// The status of the Trusted Advisor check for which a refresh has been requested:     none - The check is not refreshed or the non-success status exceeds the timeout    enqueued - The check refresh requests has entered the refresh queue    processing - The check refresh request is picked up by the rule processing engine    success - The check is successfully refreshed    abandoned - The check refresh has failed
         public let status: String
 
         public init(checkId: String, millisUntilNextRefreshable: Int64, status: String) {
@@ -878,7 +878,7 @@ extension Support {
         public let isSuppressed: Bool?
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         public let metadata: [String]
-        /// The AWS region in which the identified resource is located.
+        /// The AWS Region in which the identified resource is located.
         public let region: String?
         /// The unique identifier for the identified resource.
         public let resourceId: String

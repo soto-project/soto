@@ -20,6 +20,12 @@ import SotoCore
 extension KinesisAnalyticsV2 {
     // MARK: Enums
 
+    public enum ApplicationMode: String, CustomStringConvertible, Codable {
+        case interactive = "INTERACTIVE"
+        case streaming = "STREAMING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationRestoreType: String, CustomStringConvertible, Codable {
         case restoreFromCustomSnapshot = "RESTORE_FROM_CUSTOM_SNAPSHOT"
         case restoreFromLatestSnapshot = "RESTORE_FROM_LATEST_SNAPSHOT"
@@ -33,10 +39,18 @@ extension KinesisAnalyticsV2 {
         case forceStopping = "FORCE_STOPPING"
         case maintenance = "MAINTENANCE"
         case ready = "READY"
+        case rolledBack = "ROLLED_BACK"
+        case rollingBack = "ROLLING_BACK"
         case running = "RUNNING"
         case starting = "STARTING"
         case stopping = "STOPPING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactType: String, CustomStringConvertible, Codable {
+        case dependencyJar = "DEPENDENCY_JAR"
+        case udf = "UDF"
         public var description: String { return self.rawValue }
     }
 
@@ -86,6 +100,7 @@ extension KinesisAnalyticsV2 {
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
         case sql10 = "SQL-1_0"
+        case zeppelinFlink10 = "ZEPPELIN-FLINK-1_0"
         public var description: String { return self.rawValue }
     }
 
@@ -99,6 +114,7 @@ extension KinesisAnalyticsV2 {
 
     public enum UrlType: String, CustomStringConvertible, Codable {
         case flinkDashboardUrl = "FLINK_DASHBOARD_URL"
+        case zeppelinUiUrl = "ZEPPELIN_UI_URL"
         public var description: String { return self.rawValue }
     }
 
@@ -109,12 +125,15 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// Provides the Amazon CloudWatch log stream Amazon Resource Name (ARN).
         public let cloudWatchLoggingOption: CloudWatchLoggingOption
-        /// The version ID of the Kinesis Data Analytics application. You can retrieve the application version ID using DescribeApplication.
-        public let currentApplicationVersionId: Int64
+        /// A value you use to implement strong concurrency for application updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get the application's current ConditionalToken using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let conditionalToken: String?
+        /// The version ID of the Kinesis Data Analytics application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application version ID using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let currentApplicationVersionId: Int64?
 
-        public init(applicationName: String, cloudWatchLoggingOption: CloudWatchLoggingOption, currentApplicationVersionId: Int64) {
+        public init(applicationName: String, cloudWatchLoggingOption: CloudWatchLoggingOption, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil) {
             self.applicationName = applicationName
             self.cloudWatchLoggingOption = cloudWatchLoggingOption
+            self.conditionalToken = conditionalToken
             self.currentApplicationVersionId = currentApplicationVersionId
         }
 
@@ -123,6 +142,9 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.cloudWatchLoggingOption.validate(name: "\(name).cloudWatchLoggingOption")
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, max: 512)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, min: 1)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, pattern: "[a-zA-Z0-9-_+/=]+")
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
@@ -130,6 +152,7 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case cloudWatchLoggingOption = "CloudWatchLoggingOption"
+            case conditionalToken = "ConditionalToken"
             case currentApplicationVersionId = "CurrentApplicationVersionId"
         }
     }
@@ -220,7 +243,7 @@ extension KinesisAnalyticsV2 {
     public struct AddApplicationInputRequest: AWSEncodableShape {
         /// The name of your existing application to which you want to add the streaming source.
         public let applicationName: String
-        /// The current version of your application. You can use the DescribeApplication operation to find the current application version.
+        /// The current version of your application. You must provide the ApplicationVersionID or the ConditionalToken.You can use the DescribeApplication operation to find the current application version.
         public let currentApplicationVersionId: Int64
         /// The Input to add.
         public let input: Input
@@ -373,13 +396,16 @@ extension KinesisAnalyticsV2 {
     public struct AddApplicationVpcConfigurationRequest: AWSEncodableShape {
         /// The name of an existing application.
         public let applicationName: String
-        /// The version of the application to which you want to add the VPC configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        public let currentApplicationVersionId: Int64
+        /// A value you use to implement strong concurrency for application updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the application's current ConditionalToken using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let conditionalToken: String?
+        /// The version of the application to which you want to add the VPC configuration. You must provide the CurrentApplicationVersionId or the ConditionalToken. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let currentApplicationVersionId: Int64?
         /// Description of the VPC to add to the application.
         public let vpcConfiguration: VpcConfiguration
 
-        public init(applicationName: String, currentApplicationVersionId: Int64, vpcConfiguration: VpcConfiguration) {
+        public init(applicationName: String, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil, vpcConfiguration: VpcConfiguration) {
             self.applicationName = applicationName
+            self.conditionalToken = conditionalToken
             self.currentApplicationVersionId = currentApplicationVersionId
             self.vpcConfiguration = vpcConfiguration
         }
@@ -388,6 +414,9 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, max: 512)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, min: 1)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, pattern: "[a-zA-Z0-9-_+/=]+")
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
@@ -395,6 +424,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
+            case conditionalToken = "ConditionalToken"
             case currentApplicationVersionId = "CurrentApplicationVersionId"
             case vpcConfiguration = "VpcConfiguration"
         }
@@ -482,7 +512,7 @@ extension KinesisAnalyticsV2 {
 
     public struct ApplicationConfiguration: AWSEncodableShape {
         /// The code location and type parameters for a Flink-based Kinesis Data Analytics application.
-        public let applicationCodeConfiguration: ApplicationCodeConfiguration
+        public let applicationCodeConfiguration: ApplicationCodeConfiguration?
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let applicationSnapshotConfiguration: ApplicationSnapshotConfiguration?
         /// Describes execution properties for a Flink-based Kinesis Data Analytics application.
@@ -493,24 +523,28 @@ extension KinesisAnalyticsV2 {
         public let sqlApplicationConfiguration: SqlApplicationConfiguration?
         /// The array of descriptions of VPC configurations available to the application.
         public let vpcConfigurations: [VpcConfiguration]?
+        /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
+        public let zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration?
 
-        public init(applicationCodeConfiguration: ApplicationCodeConfiguration, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil) {
+        public init(applicationCodeConfiguration: ApplicationCodeConfiguration? = nil, applicationSnapshotConfiguration: ApplicationSnapshotConfiguration? = nil, environmentProperties: EnvironmentProperties? = nil, flinkApplicationConfiguration: FlinkApplicationConfiguration? = nil, sqlApplicationConfiguration: SqlApplicationConfiguration? = nil, vpcConfigurations: [VpcConfiguration]? = nil, zeppelinApplicationConfiguration: ZeppelinApplicationConfiguration? = nil) {
             self.applicationCodeConfiguration = applicationCodeConfiguration
             self.applicationSnapshotConfiguration = applicationSnapshotConfiguration
             self.environmentProperties = environmentProperties
             self.flinkApplicationConfiguration = flinkApplicationConfiguration
             self.sqlApplicationConfiguration = sqlApplicationConfiguration
             self.vpcConfigurations = vpcConfigurations
+            self.zeppelinApplicationConfiguration = zeppelinApplicationConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.applicationCodeConfiguration.validate(name: "\(name).applicationCodeConfiguration")
+            try self.applicationCodeConfiguration?.validate(name: "\(name).applicationCodeConfiguration")
             try self.environmentProperties?.validate(name: "\(name).environmentProperties")
             try self.flinkApplicationConfiguration?.validate(name: "\(name).flinkApplicationConfiguration")
             try self.sqlApplicationConfiguration?.validate(name: "\(name).sqlApplicationConfiguration")
             try self.vpcConfigurations?.forEach {
                 try $0.validate(name: "\(name).vpcConfigurations[]")
             }
+            try self.zeppelinApplicationConfiguration?.validate(name: "\(name).zeppelinApplicationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,6 +554,7 @@ extension KinesisAnalyticsV2 {
             case flinkApplicationConfiguration = "FlinkApplicationConfiguration"
             case sqlApplicationConfiguration = "SqlApplicationConfiguration"
             case vpcConfigurations = "VpcConfigurations"
+            case zeppelinApplicationConfiguration = "ZeppelinApplicationConfiguration"
         }
     }
 
@@ -538,8 +573,10 @@ extension KinesisAnalyticsV2 {
         public let sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription?
         /// The array of descriptions of VPC configurations available to the application.
         public let vpcConfigurationDescriptions: [VpcConfigurationDescription]?
+        /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
+        public let zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription?
 
-        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil) {
+        public init(applicationCodeConfigurationDescription: ApplicationCodeConfigurationDescription? = nil, applicationSnapshotConfigurationDescription: ApplicationSnapshotConfigurationDescription? = nil, environmentPropertyDescriptions: EnvironmentPropertyDescriptions? = nil, flinkApplicationConfigurationDescription: FlinkApplicationConfigurationDescription? = nil, runConfigurationDescription: RunConfigurationDescription? = nil, sqlApplicationConfigurationDescription: SqlApplicationConfigurationDescription? = nil, vpcConfigurationDescriptions: [VpcConfigurationDescription]? = nil, zeppelinApplicationConfigurationDescription: ZeppelinApplicationConfigurationDescription? = nil) {
             self.applicationCodeConfigurationDescription = applicationCodeConfigurationDescription
             self.applicationSnapshotConfigurationDescription = applicationSnapshotConfigurationDescription
             self.environmentPropertyDescriptions = environmentPropertyDescriptions
@@ -547,6 +584,7 @@ extension KinesisAnalyticsV2 {
             self.runConfigurationDescription = runConfigurationDescription
             self.sqlApplicationConfigurationDescription = sqlApplicationConfigurationDescription
             self.vpcConfigurationDescriptions = vpcConfigurationDescriptions
+            self.zeppelinApplicationConfigurationDescription = zeppelinApplicationConfigurationDescription
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,11 +595,12 @@ extension KinesisAnalyticsV2 {
             case runConfigurationDescription = "RunConfigurationDescription"
             case sqlApplicationConfigurationDescription = "SqlApplicationConfigurationDescription"
             case vpcConfigurationDescriptions = "VpcConfigurationDescriptions"
+            case zeppelinApplicationConfigurationDescription = "ZeppelinApplicationConfigurationDescription"
         }
     }
 
     public struct ApplicationConfigurationUpdate: AWSEncodableShape {
-        /// Describes updates to a Flink-based Kinesis Data Analytics application's code configuration.
+        /// Describes updates to an application's code configuration.
         public let applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate?
         /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
         public let applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate?
@@ -573,14 +612,17 @@ extension KinesisAnalyticsV2 {
         public let sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate?
         /// Updates to the array of descriptions of VPC configurations available to the application.
         public let vpcConfigurationUpdates: [VpcConfigurationUpdate]?
+        /// Updates to the configuration of a Kinesis Data Analytics Studio notebook.
+        public let zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate?
 
-        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil) {
+        public init(applicationCodeConfigurationUpdate: ApplicationCodeConfigurationUpdate? = nil, applicationSnapshotConfigurationUpdate: ApplicationSnapshotConfigurationUpdate? = nil, environmentPropertyUpdates: EnvironmentPropertyUpdates? = nil, flinkApplicationConfigurationUpdate: FlinkApplicationConfigurationUpdate? = nil, sqlApplicationConfigurationUpdate: SqlApplicationConfigurationUpdate? = nil, vpcConfigurationUpdates: [VpcConfigurationUpdate]? = nil, zeppelinApplicationConfigurationUpdate: ZeppelinApplicationConfigurationUpdate? = nil) {
             self.applicationCodeConfigurationUpdate = applicationCodeConfigurationUpdate
             self.applicationSnapshotConfigurationUpdate = applicationSnapshotConfigurationUpdate
             self.environmentPropertyUpdates = environmentPropertyUpdates
             self.flinkApplicationConfigurationUpdate = flinkApplicationConfigurationUpdate
             self.sqlApplicationConfigurationUpdate = sqlApplicationConfigurationUpdate
             self.vpcConfigurationUpdates = vpcConfigurationUpdates
+            self.zeppelinApplicationConfigurationUpdate = zeppelinApplicationConfigurationUpdate
         }
 
         public func validate(name: String) throws {
@@ -591,6 +633,7 @@ extension KinesisAnalyticsV2 {
             try self.vpcConfigurationUpdates?.forEach {
                 try $0.validate(name: "\(name).vpcConfigurationUpdates[]")
             }
+            try self.zeppelinApplicationConfigurationUpdate?.validate(name: "\(name).zeppelinApplicationConfigurationUpdate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -600,26 +643,37 @@ extension KinesisAnalyticsV2 {
             case flinkApplicationConfigurationUpdate = "FlinkApplicationConfigurationUpdate"
             case sqlApplicationConfigurationUpdate = "SqlApplicationConfigurationUpdate"
             case vpcConfigurationUpdates = "VpcConfigurationUpdates"
+            case zeppelinApplicationConfigurationUpdate = "ZeppelinApplicationConfigurationUpdate"
         }
     }
 
     public struct ApplicationDetail: AWSDecodableShape {
         /// The ARN of the application.
         public let applicationARN: String
-        /// Provides details about the application's Java, SQL, or Scala code and starting parameters.
+        /// Describes details about the application code and starting parameters for a Kinesis Data Analytics application.
         public let applicationConfigurationDescription: ApplicationConfigurationDescription?
         /// The description of the application.
         public let applicationDescription: String?
-        /// Describes the time window for automatic application maintenance.
+        /// The details of the maintenance configuration for the application.
         public let applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription?
+        /// To create a Kinesis Data Analytics Studio notebook, you must set the mode to INTERACTIVE. However, for a Kinesis Data Analytics for Apache Flink application, the mode is optional.
+        public let applicationMode: ApplicationMode?
         /// The name of the application.
         public let applicationName: String
         /// The status of the application.
         public let applicationStatus: ApplicationStatus
         /// Provides the current application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application.
         public let applicationVersionId: Int64
+        /// If you reverted the application using RollbackApplication, the application version when RollbackApplication was called.
+        public let applicationVersionRolledBackFrom: Int64?
+        /// The version to which you want to roll back the application.
+        public let applicationVersionRolledBackTo: Int64?
+        /// The previous application version before the latest application update. RollbackApplication reverts the application to this version.
+        public let applicationVersionUpdatedFrom: Int64?
         /// Describes the application Amazon CloudWatch logging options.
         public let cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]?
+        /// A value you use to implement strong concurrency for application updates.
+        public let conditionalToken: String?
         /// The current timestamp when the application was created.
         public let createTimestamp: Date?
         /// The current timestamp when the application was last updated.
@@ -629,15 +683,20 @@ extension KinesisAnalyticsV2 {
         /// Specifies the IAM role that the application uses to access external resources.
         public let serviceExecutionRole: String?
 
-        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
+        public init(applicationARN: String, applicationConfigurationDescription: ApplicationConfigurationDescription? = nil, applicationDescription: String? = nil, applicationMaintenanceConfigurationDescription: ApplicationMaintenanceConfigurationDescription? = nil, applicationMode: ApplicationMode? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, applicationVersionRolledBackFrom: Int64? = nil, applicationVersionRolledBackTo: Int64? = nil, applicationVersionUpdatedFrom: Int64? = nil, cloudWatchLoggingOptionDescriptions: [CloudWatchLoggingOptionDescription]? = nil, conditionalToken: String? = nil, createTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String? = nil) {
             self.applicationARN = applicationARN
             self.applicationConfigurationDescription = applicationConfigurationDescription
             self.applicationDescription = applicationDescription
             self.applicationMaintenanceConfigurationDescription = applicationMaintenanceConfigurationDescription
+            self.applicationMode = applicationMode
             self.applicationName = applicationName
             self.applicationStatus = applicationStatus
             self.applicationVersionId = applicationVersionId
+            self.applicationVersionRolledBackFrom = applicationVersionRolledBackFrom
+            self.applicationVersionRolledBackTo = applicationVersionRolledBackTo
+            self.applicationVersionUpdatedFrom = applicationVersionUpdatedFrom
             self.cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions
+            self.conditionalToken = conditionalToken
             self.createTimestamp = createTimestamp
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.runtimeEnvironment = runtimeEnvironment
@@ -649,10 +708,15 @@ extension KinesisAnalyticsV2 {
             case applicationConfigurationDescription = "ApplicationConfigurationDescription"
             case applicationDescription = "ApplicationDescription"
             case applicationMaintenanceConfigurationDescription = "ApplicationMaintenanceConfigurationDescription"
+            case applicationMode = "ApplicationMode"
             case applicationName = "ApplicationName"
             case applicationStatus = "ApplicationStatus"
             case applicationVersionId = "ApplicationVersionId"
+            case applicationVersionRolledBackFrom = "ApplicationVersionRolledBackFrom"
+            case applicationVersionRolledBackTo = "ApplicationVersionRolledBackTo"
+            case applicationVersionUpdatedFrom = "ApplicationVersionUpdatedFrom"
             case cloudWatchLoggingOptionDescriptions = "CloudWatchLoggingOptionDescriptions"
+            case conditionalToken = "ConditionalToken"
             case createTimestamp = "CreateTimestamp"
             case lastUpdateTimestamp = "LastUpdateTimestamp"
             case runtimeEnvironment = "RuntimeEnvironment"
@@ -661,9 +725,9 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationMaintenanceConfigurationDescription: AWSDecodableShape {
-        /// The end time for the automatic maintenance window.
+        /// The end time for the maintenance window.
         public let applicationMaintenanceWindowEndTime: String
-        /// The start time for the automatic maintenance window.
+        /// The start time for the maintenance window.
         public let applicationMaintenanceWindowStartTime: String
 
         public init(applicationMaintenanceWindowEndTime: String, applicationMaintenanceWindowStartTime: String) {
@@ -678,7 +742,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationMaintenanceConfigurationUpdate: AWSEncodableShape {
-        /// The updated start time for the automatic maintenance window.
+        /// The updated start time for the maintenance window.
         public let applicationMaintenanceWindowStartTimeUpdate: String
 
         public init(applicationMaintenanceWindowStartTimeUpdate: String) {
@@ -746,7 +810,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ApplicationSnapshotConfigurationUpdate: AWSEncodableShape {
-        /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+        /// Describes updates to whether snapshots are enabled for an application.
         public let snapshotsEnabledUpdate: Bool
 
         public init(snapshotsEnabledUpdate: Bool) {
@@ -761,17 +825,20 @@ extension KinesisAnalyticsV2 {
     public struct ApplicationSummary: AWSDecodableShape {
         /// The ARN of the application.
         public let applicationARN: String
+        /// For a Kinesis Data Analytics for Apache Flink application, the mode is STREAMING. For a Kinesis Data Analytics Studio notebook, it is INTERACTIVE.
+        public let applicationMode: ApplicationMode?
         /// The name of the application.
         public let applicationName: String
         /// The status of the application.
         public let applicationStatus: ApplicationStatus
         /// Provides the current application version.
         public let applicationVersionId: Int64
-        /// The runtime environment for the application (SQL-1_0, FLINK-1_6, FLINK-1_8, or FLINK-1_11).
+        /// The runtime environment for the application.
         public let runtimeEnvironment: RuntimeEnvironment
 
-        public init(applicationARN: String, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment) {
+        public init(applicationARN: String, applicationMode: ApplicationMode? = nil, applicationName: String, applicationStatus: ApplicationStatus, applicationVersionId: Int64, runtimeEnvironment: RuntimeEnvironment) {
             self.applicationARN = applicationARN
+            self.applicationMode = applicationMode
             self.applicationName = applicationName
             self.applicationStatus = applicationStatus
             self.applicationVersionId = applicationVersionId
@@ -780,10 +847,28 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
+            case applicationMode = "ApplicationMode"
             case applicationName = "ApplicationName"
             case applicationStatus = "ApplicationStatus"
             case applicationVersionId = "ApplicationVersionId"
             case runtimeEnvironment = "RuntimeEnvironment"
+        }
+    }
+
+    public struct ApplicationVersionSummary: AWSDecodableShape {
+        /// The status of the application.
+        public let applicationStatus: ApplicationStatus
+        /// The ID of the application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application.
+        public let applicationVersionId: Int64
+
+        public init(applicationStatus: ApplicationStatus, applicationVersionId: Int64) {
+            self.applicationStatus = applicationStatus
+            self.applicationVersionId = applicationVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatus = "ApplicationStatus"
+            case applicationVersionId = "ApplicationVersionId"
         }
     }
 
@@ -808,6 +893,53 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case recordColumnDelimiter = "RecordColumnDelimiter"
             case recordRowDelimiter = "RecordRowDelimiter"
+        }
+    }
+
+    public struct CatalogConfiguration: AWSEncodableShape {
+        /// The configuration parameters for the default AWS Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Kinesis Data Analytics Studio notebook.
+        public let glueDataCatalogConfiguration: GlueDataCatalogConfiguration
+
+        public init(glueDataCatalogConfiguration: GlueDataCatalogConfiguration) {
+            self.glueDataCatalogConfiguration = glueDataCatalogConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.glueDataCatalogConfiguration.validate(name: "\(name).glueDataCatalogConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueDataCatalogConfiguration = "GlueDataCatalogConfiguration"
+        }
+    }
+
+    public struct CatalogConfigurationDescription: AWSDecodableShape {
+        /// The configuration parameters for the default AWS Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+        public let glueDataCatalogConfigurationDescription: GlueDataCatalogConfigurationDescription
+
+        public init(glueDataCatalogConfigurationDescription: GlueDataCatalogConfigurationDescription) {
+            self.glueDataCatalogConfigurationDescription = glueDataCatalogConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueDataCatalogConfigurationDescription = "GlueDataCatalogConfigurationDescription"
+        }
+    }
+
+    public struct CatalogConfigurationUpdate: AWSEncodableShape {
+        /// Updates to the configuration parameters for the default AWS Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+        public let glueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate
+
+        public init(glueDataCatalogConfigurationUpdate: GlueDataCatalogConfigurationUpdate) {
+            self.glueDataCatalogConfigurationUpdate = glueDataCatalogConfigurationUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.glueDataCatalogConfigurationUpdate.validate(name: "\(name).glueDataCatalogConfigurationUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glueDataCatalogConfigurationUpdate = "GlueDataCatalogConfigurationUpdate"
         }
     }
 
@@ -963,7 +1095,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct CodeContent: AWSEncodableShape {
-        /// Information about the Amazon S3 bucket containing the application code.
+        /// Information about the Amazon S3 bucket that contains the application code.
         public let s3ContentLocation: S3ContentLocation?
         /// The text-format code for a Flink-based Kinesis Data Analytics application.
         public let textContent: String?
@@ -1092,6 +1224,8 @@ extension KinesisAnalyticsV2 {
         public let applicationConfiguration: ApplicationConfiguration?
         /// A summary description of the application.
         public let applicationDescription: String?
+        /// Use the STREAMING mode to create a Kinesis Data Analytics Studio notebook. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
+        public let applicationMode: ApplicationMode?
         /// The name of your application (for example, sample-app).
         public let applicationName: String
         /// Use this parameter to configure an Amazon CloudWatch log stream to monitor application configuration errors.
@@ -1103,9 +1237,10 @@ extension KinesisAnalyticsV2 {
         /// A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
         public let tags: [Tag]?
 
-        public init(applicationConfiguration: ApplicationConfiguration? = nil, applicationDescription: String? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String, tags: [Tag]? = nil) {
+        public init(applicationConfiguration: ApplicationConfiguration? = nil, applicationDescription: String? = nil, applicationMode: ApplicationMode? = nil, applicationName: String, cloudWatchLoggingOptions: [CloudWatchLoggingOption]? = nil, runtimeEnvironment: RuntimeEnvironment, serviceExecutionRole: String, tags: [Tag]? = nil) {
             self.applicationConfiguration = applicationConfiguration
             self.applicationDescription = applicationDescription
+            self.applicationMode = applicationMode
             self.applicationName = applicationName
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.runtimeEnvironment = runtimeEnvironment
@@ -1136,6 +1271,7 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationConfiguration = "ApplicationConfiguration"
             case applicationDescription = "ApplicationDescription"
+            case applicationMode = "ApplicationMode"
             case applicationName = "ApplicationName"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
             case runtimeEnvironment = "RuntimeEnvironment"
@@ -1187,17 +1323,65 @@ extension KinesisAnalyticsV2 {
         public init() {}
     }
 
+    public struct CustomArtifactConfiguration: AWSEncodableShape {
+        ///  UDF stands for user-defined functions. This type of artifact must be in an S3 bucket. A DEPENDENCY_JAR can be in either Maven or an S3 bucket.
+        public let artifactType: ArtifactType
+        /// The parameters required to fully specify a Maven reference.
+        public let mavenReference: MavenReference?
+        public let s3ContentLocation: S3ContentLocation?
+
+        public init(artifactType: ArtifactType, mavenReference: MavenReference? = nil, s3ContentLocation: S3ContentLocation? = nil) {
+            self.artifactType = artifactType
+            self.mavenReference = mavenReference
+            self.s3ContentLocation = s3ContentLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.mavenReference?.validate(name: "\(name).mavenReference")
+            try self.s3ContentLocation?.validate(name: "\(name).s3ContentLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactType = "ArtifactType"
+            case mavenReference = "MavenReference"
+            case s3ContentLocation = "S3ContentLocation"
+        }
+    }
+
+    public struct CustomArtifactConfigurationDescription: AWSDecodableShape {
+        ///  UDF stands for user-defined functions. This type of artifact must be in an S3 bucket. A DEPENDENCY_JAR can be in either Maven or an S3 bucket.
+        public let artifactType: ArtifactType?
+        /// The parameters that are required to specify a Maven dependency.
+        public let mavenReferenceDescription: MavenReference?
+        public let s3ContentLocationDescription: S3ContentLocation?
+
+        public init(artifactType: ArtifactType? = nil, mavenReferenceDescription: MavenReference? = nil, s3ContentLocationDescription: S3ContentLocation? = nil) {
+            self.artifactType = artifactType
+            self.mavenReferenceDescription = mavenReferenceDescription
+            self.s3ContentLocationDescription = s3ContentLocationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactType = "ArtifactType"
+            case mavenReferenceDescription = "MavenReferenceDescription"
+            case s3ContentLocationDescription = "S3ContentLocationDescription"
+        }
+    }
+
     public struct DeleteApplicationCloudWatchLoggingOptionRequest: AWSEncodableShape {
         /// The application name.
         public let applicationName: String
         /// The CloudWatchLoggingOptionId of the Amazon CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation.
         public let cloudWatchLoggingOptionId: String
-        /// The version ID of the application. You can retrieve the application version ID using DescribeApplication.
-        public let currentApplicationVersionId: Int64
+        /// A value you use to implement strong concurrency for application updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get the application's current ConditionalToken using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let conditionalToken: String?
+        /// The version ID of the application. You must provide the CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application version ID using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let currentApplicationVersionId: Int64?
 
-        public init(applicationName: String, cloudWatchLoggingOptionId: String, currentApplicationVersionId: Int64) {
+        public init(applicationName: String, cloudWatchLoggingOptionId: String, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil) {
             self.applicationName = applicationName
             self.cloudWatchLoggingOptionId = cloudWatchLoggingOptionId
+            self.conditionalToken = conditionalToken
             self.currentApplicationVersionId = currentApplicationVersionId
         }
 
@@ -1208,6 +1392,9 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, max: 50)
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, min: 1)
             try self.validate(self.cloudWatchLoggingOptionId, name: "cloudWatchLoggingOptionId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, max: 512)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, min: 1)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, pattern: "[a-zA-Z0-9-_+/=]+")
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
         }
@@ -1215,6 +1402,7 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
             case cloudWatchLoggingOptionId = "CloudWatchLoggingOptionId"
+            case conditionalToken = "ConditionalToken"
             case currentApplicationVersionId = "CurrentApplicationVersionId"
         }
     }
@@ -1451,13 +1639,16 @@ extension KinesisAnalyticsV2 {
     public struct DeleteApplicationVpcConfigurationRequest: AWSEncodableShape {
         /// The name of an existing application.
         public let applicationName: String
-        /// The current application version ID. You can retrieve the application version ID using DescribeApplication.
-        public let currentApplicationVersionId: Int64
+        /// A value you use to implement strong concurrency for application updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get the application's current ConditionalToken using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let conditionalToken: String?
+        /// The current application version ID. You must provide the CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application version ID using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let currentApplicationVersionId: Int64?
         /// The ID of the VPC configuration to delete.
         public let vpcConfigurationId: String
 
-        public init(applicationName: String, currentApplicationVersionId: Int64, vpcConfigurationId: String) {
+        public init(applicationName: String, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil, vpcConfigurationId: String) {
             self.applicationName = applicationName
+            self.conditionalToken = conditionalToken
             self.currentApplicationVersionId = currentApplicationVersionId
             self.vpcConfigurationId = vpcConfigurationId
         }
@@ -1466,6 +1657,9 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, max: 512)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, min: 1)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, pattern: "[a-zA-Z0-9-_+/=]+")
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.validate(self.vpcConfigurationId, name: "vpcConfigurationId", parent: name, max: 50)
@@ -1475,6 +1669,7 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
+            case conditionalToken = "ConditionalToken"
             case currentApplicationVersionId = "CurrentApplicationVersionId"
             case vpcConfigurationId = "VpcConfigurationId"
         }
@@ -1494,6 +1689,53 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case applicationARN = "ApplicationARN"
             case applicationVersionId = "ApplicationVersionId"
+        }
+    }
+
+    public struct DeployAsApplicationConfiguration: AWSEncodableShape {
+        /// The description of an Amazon S3 object that contains the Amazon Data Analytics application, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
+        public let s3ContentLocation: S3ContentBaseLocation
+
+        public init(s3ContentLocation: S3ContentBaseLocation) {
+            self.s3ContentLocation = s3ContentLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.s3ContentLocation.validate(name: "\(name).s3ContentLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ContentLocation = "S3ContentLocation"
+        }
+    }
+
+    public struct DeployAsApplicationConfigurationDescription: AWSDecodableShape {
+        /// The location that holds the data required to specify an Amazon Data Analytics application.
+        public let s3ContentLocationDescription: S3ContentBaseLocationDescription
+
+        public init(s3ContentLocationDescription: S3ContentBaseLocationDescription) {
+            self.s3ContentLocationDescription = s3ContentLocationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ContentLocationDescription = "S3ContentLocationDescription"
+        }
+    }
+
+    public struct DeployAsApplicationConfigurationUpdate: AWSEncodableShape {
+        /// Updates to the location that holds the data required to specify an Amazon Data Analytics application.
+        public let s3ContentLocationUpdate: S3ContentBaseLocationUpdate
+
+        public init(s3ContentLocationUpdate: S3ContentBaseLocationUpdate) {
+            self.s3ContentLocationUpdate = s3ContentLocationUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.s3ContentLocationUpdate.validate(name: "\(name).s3ContentLocationUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3ContentLocationUpdate = "S3ContentLocationUpdate"
         }
     }
 
@@ -1569,6 +1811,43 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case snapshotDetails = "SnapshotDetails"
+        }
+    }
+
+    public struct DescribeApplicationVersionRequest: AWSEncodableShape {
+        /// The name of the application for which you want to get the version description.
+        public let applicationName: String
+        /// The ID of the application version for which you want to get the description.
+        public let applicationVersionId: Int64
+
+        public init(applicationName: String, applicationVersionId: Int64) {
+            self.applicationName = applicationName
+            self.applicationVersionId = applicationVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.applicationVersionId, name: "applicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.applicationVersionId, name: "applicationVersionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case applicationVersionId = "ApplicationVersionId"
+        }
+    }
+
+    public struct DescribeApplicationVersionResponse: AWSDecodableShape {
+        public let applicationVersionDetail: ApplicationDetail?
+
+        public init(applicationVersionDetail: ApplicationDetail? = nil) {
+            self.applicationVersionDetail = applicationVersionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationVersionDetail = "ApplicationVersionDetail"
         }
     }
 
@@ -1790,6 +2069,57 @@ extension KinesisAnalyticsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case allowNonRestoredState = "AllowNonRestoredState"
+        }
+    }
+
+    public struct GlueDataCatalogConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the database.
+        public let databaseARN: String
+
+        public init(databaseARN: String) {
+            self.databaseARN = databaseARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseARN, name: "databaseARN", parent: name, max: 2048)
+            try self.validate(self.databaseARN, name: "databaseARN", parent: name, min: 1)
+            try self.validate(self.databaseARN, name: "databaseARN", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseARN = "DatabaseARN"
+        }
+    }
+
+    public struct GlueDataCatalogConfigurationDescription: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the database.
+        public let databaseARN: String
+
+        public init(databaseARN: String) {
+            self.databaseARN = databaseARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseARN = "DatabaseARN"
+        }
+    }
+
+    public struct GlueDataCatalogConfigurationUpdate: AWSEncodableShape {
+        /// The updated Amazon Resource Name (ARN) of the database.
+        public let databaseARNUpdate: String?
+
+        public init(databaseARNUpdate: String? = nil) {
+            self.databaseARNUpdate = databaseARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseARNUpdate, name: "databaseARNUpdate", parent: name, max: 2048)
+            try self.validate(self.databaseARNUpdate, name: "databaseARNUpdate", parent: name, min: 1)
+            try self.validate(self.databaseARNUpdate, name: "databaseARNUpdate", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseARNUpdate = "DatabaseARNUpdate"
         }
     }
 
@@ -2459,6 +2789,54 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct ListApplicationVersionsRequest: AWSEncodableShape {
+        /// The name of the application for which you want to list all versions.
+        public let applicationName: String
+        /// The maximum number of versions to list in this invocation of the operation.
+        public let limit: Int?
+        /// If a previous invocation of this operation returned a pagination token, pass it into this value to retrieve the next set of results. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
+        public let nextToken: String?
+
+        public init(applicationName: String, limit: Int? = nil, nextToken: String? = nil) {
+            self.applicationName = applicationName
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 512)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case limit = "Limit"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListApplicationVersionsResponse: AWSDecodableShape {
+        /// A list of the application versions and the associated configuration summaries. The list includes application versions that were rolled back. To get the complete description of a specific application version, invoke the DescribeApplicationVersion operation.
+        public let applicationVersionSummaries: [ApplicationVersionSummary]?
+        /// The pagination token for the next set of results, or null if there are no additional results. To retrieve the next set of items, pass this token into a subsequent invocation of this operation. For more information about pagination, see Using the AWS Command Line Interface's Pagination Options.
+        public let nextToken: String?
+
+        public init(applicationVersionSummaries: [ApplicationVersionSummary]? = nil, nextToken: String? = nil) {
+            self.applicationVersionSummaries = applicationVersionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationVersionSummaries = "ApplicationVersionSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListApplicationsRequest: AWSEncodableShape {
         /// The maximum number of applications to list.
         public let limit: Int?
@@ -2552,6 +2930,39 @@ extension KinesisAnalyticsV2 {
         private enum CodingKeys: String, CodingKey {
             case cSVMappingParameters = "CSVMappingParameters"
             case jSONMappingParameters = "JSONMappingParameters"
+        }
+    }
+
+    public struct MavenReference: AWSEncodableShape & AWSDecodableShape {
+        /// The artifact ID of the Maven reference.
+        public let artifactId: String
+        /// The group ID of the Maven reference.
+        public let groupId: String
+        /// The version of the Maven reference.
+        public let version: String
+
+        public init(artifactId: String, groupId: String, version: String) {
+            self.artifactId = artifactId
+            self.groupId = groupId
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactId, name: "artifactId", parent: name, max: 256)
+            try self.validate(self.artifactId, name: "artifactId", parent: name, min: 1)
+            try self.validate(self.artifactId, name: "artifactId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 256)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.version, name: "version", parent: name, max: 256)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactId = "ArtifactId"
+            case groupId = "GroupId"
+            case version = "Version"
         }
     }
 
@@ -2794,7 +3205,7 @@ extension KinesisAnalyticsV2 {
     }
 
     public struct ParallelismConfigurationUpdate: AWSEncodableShape {
-        /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
+        /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of a Flink-based Kinesis Data Analytics application in response to increased throughput.
         public let autoScalingEnabledUpdate: Bool?
         /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         public let configurationTypeUpdate: ConfigurationType?
@@ -2992,6 +3403,43 @@ extension KinesisAnalyticsV2 {
         }
     }
 
+    public struct RollbackApplicationRequest: AWSEncodableShape {
+        /// The name of the application.
+        public let applicationName: String
+        /// The current application version ID. You can retrieve the application version ID using DescribeApplication.
+        public let currentApplicationVersionId: Int64
+
+        public init(applicationName: String, currentApplicationVersionId: Int64) {
+            self.applicationName = applicationName
+            self.currentApplicationVersionId = currentApplicationVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
+            try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "ApplicationName"
+            case currentApplicationVersionId = "CurrentApplicationVersionId"
+        }
+    }
+
+    public struct RollbackApplicationResponse: AWSDecodableShape {
+        public let applicationDetail: ApplicationDetail
+
+        public init(applicationDetail: ApplicationDetail) {
+            self.applicationDetail = applicationDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationDetail = "ApplicationDetail"
+        }
+    }
+
     public struct RunConfiguration: AWSEncodableShape {
         /// Describes the restore behavior of a restarting application.
         public let applicationRestoreConfiguration: ApplicationRestoreConfiguration?
@@ -3103,7 +3551,76 @@ extension KinesisAnalyticsV2 {
         }
     }
 
-    public struct S3ContentLocation: AWSEncodableShape {
+    public struct S3ContentBaseLocation: AWSEncodableShape {
+        /// The base path for the S3 bucket.
+        public let basePath: String?
+        /// The Amazon Resource Name (ARN) of the S3 bucket.
+        public let bucketARN: String
+
+        public init(basePath: String? = nil, bucketARN: String) {
+            self.basePath = basePath
+            self.bucketARN = bucketARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.basePath, name: "basePath", parent: name, max: 1024)
+            try self.validate(self.basePath, name: "basePath", parent: name, min: 1)
+            try self.validate(self.basePath, name: "basePath", parent: name, pattern: "[a-zA-Z0-9/!-_.*'()]+")
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basePath = "BasePath"
+            case bucketARN = "BucketARN"
+        }
+    }
+
+    public struct S3ContentBaseLocationDescription: AWSDecodableShape {
+        /// The base path for the S3 bucket.
+        public let basePath: String?
+        /// The Amazon Resource Name (ARN) of the S3 bucket.
+        public let bucketARN: String
+
+        public init(basePath: String? = nil, bucketARN: String) {
+            self.basePath = basePath
+            self.bucketARN = bucketARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basePath = "BasePath"
+            case bucketARN = "BucketARN"
+        }
+    }
+
+    public struct S3ContentBaseLocationUpdate: AWSEncodableShape {
+        /// The updated S3 bucket path.
+        public let basePathUpdate: String?
+        /// The updated Amazon Resource Name (ARN) of the S3 bucket.
+        public let bucketARNUpdate: String
+
+        public init(basePathUpdate: String? = nil, bucketARNUpdate: String) {
+            self.basePathUpdate = basePathUpdate
+            self.bucketARNUpdate = bucketARNUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.basePathUpdate, name: "basePathUpdate", parent: name, max: 1024)
+            try self.validate(self.basePathUpdate, name: "basePathUpdate", parent: name, min: 1)
+            try self.validate(self.basePathUpdate, name: "basePathUpdate", parent: name, pattern: "[a-zA-Z0-9/!-_.*'()]+")
+            try self.validate(self.bucketARNUpdate, name: "bucketARNUpdate", parent: name, max: 2048)
+            try self.validate(self.bucketARNUpdate, name: "bucketARNUpdate", parent: name, min: 1)
+            try self.validate(self.bucketARNUpdate, name: "bucketARNUpdate", parent: name, pattern: "arn:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basePathUpdate = "BasePathUpdate"
+            case bucketARNUpdate = "BucketARNUpdate"
+        }
+    }
+
+    public struct S3ContentLocation: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         public let bucketARN: String
         /// The file key for the object containing the application code.
@@ -3408,9 +3925,9 @@ extension KinesisAnalyticsV2 {
         /// The name of the application.
         public let applicationName: String
         /// Identifies the run configuration (start parameters) of a Kinesis Data Analytics application.
-        public let runConfiguration: RunConfiguration
+        public let runConfiguration: RunConfiguration?
 
-        public init(applicationName: String, runConfiguration: RunConfiguration) {
+        public init(applicationName: String, runConfiguration: RunConfiguration? = nil) {
             self.applicationName = applicationName
             self.runConfiguration = runConfiguration
         }
@@ -3419,7 +3936,7 @@ extension KinesisAnalyticsV2 {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 128)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
             try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.runConfiguration.validate(name: "\(name).runConfiguration")
+            try self.runConfiguration?.validate(name: "\(name).runConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3551,7 +4068,7 @@ extension KinesisAnalyticsV2 {
     public struct UpdateApplicationMaintenanceConfigurationRequest: AWSEncodableShape {
         /// Describes the application maintenance configuration update.
         public let applicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate
-        /// The name of the application for which you want to update the maintenance time window.
+        /// The name of the application for which you want to update the maintenance configuration.
         public let applicationName: String
 
         public init(applicationMaintenanceConfigurationUpdate: ApplicationMaintenanceConfigurationUpdate, applicationName: String) {
@@ -3596,17 +4113,20 @@ extension KinesisAnalyticsV2 {
         public let applicationName: String
         /// Describes application Amazon CloudWatch logging option updates. You can only update existing CloudWatch logging options with this action. To add a new CloudWatch logging option, use AddApplicationCloudWatchLoggingOption.
         public let cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]?
-        /// The current application version ID. You can retrieve the application version ID using DescribeApplication.
-        public let currentApplicationVersionId: Int64
+        /// A value you use to implement strong concurrency for application updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get the application's current ConditionalToken using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let conditionalToken: String?
+        /// The current application version ID. You must provide the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application version ID using DescribeApplication. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+        public let currentApplicationVersionId: Int64?
         /// Describes updates to the application's starting parameters.
         public let runConfigurationUpdate: RunConfigurationUpdate?
         /// Describes updates to the service execution role.
         public let serviceExecutionRoleUpdate: String?
 
-        public init(applicationConfigurationUpdate: ApplicationConfigurationUpdate? = nil, applicationName: String, cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]? = nil, currentApplicationVersionId: Int64, runConfigurationUpdate: RunConfigurationUpdate? = nil, serviceExecutionRoleUpdate: String? = nil) {
+        public init(applicationConfigurationUpdate: ApplicationConfigurationUpdate? = nil, applicationName: String, cloudWatchLoggingOptionUpdates: [CloudWatchLoggingOptionUpdate]? = nil, conditionalToken: String? = nil, currentApplicationVersionId: Int64? = nil, runConfigurationUpdate: RunConfigurationUpdate? = nil, serviceExecutionRoleUpdate: String? = nil) {
             self.applicationConfigurationUpdate = applicationConfigurationUpdate
             self.applicationName = applicationName
             self.cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates
+            self.conditionalToken = conditionalToken
             self.currentApplicationVersionId = currentApplicationVersionId
             self.runConfigurationUpdate = runConfigurationUpdate
             self.serviceExecutionRoleUpdate = serviceExecutionRoleUpdate
@@ -3620,6 +4140,9 @@ extension KinesisAnalyticsV2 {
             try self.cloudWatchLoggingOptionUpdates?.forEach {
                 try $0.validate(name: "\(name).cloudWatchLoggingOptionUpdates[]")
             }
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, max: 512)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, min: 1)
+            try self.validate(self.conditionalToken, name: "conditionalToken", parent: name, pattern: "[a-zA-Z0-9-_+/=]+")
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, max: 999_999_999)
             try self.validate(self.currentApplicationVersionId, name: "currentApplicationVersionId", parent: name, min: 1)
             try self.runConfigurationUpdate?.validate(name: "\(name).runConfigurationUpdate")
@@ -3632,6 +4155,7 @@ extension KinesisAnalyticsV2 {
             case applicationConfigurationUpdate = "ApplicationConfigurationUpdate"
             case applicationName = "ApplicationName"
             case cloudWatchLoggingOptionUpdates = "CloudWatchLoggingOptionUpdates"
+            case conditionalToken = "ConditionalToken"
             case currentApplicationVersionId = "CurrentApplicationVersionId"
             case runConfigurationUpdate = "RunConfigurationUpdate"
             case serviceExecutionRoleUpdate = "ServiceExecutionRoleUpdate"
@@ -3728,6 +4252,137 @@ extension KinesisAnalyticsV2 {
             case securityGroupIdUpdates = "SecurityGroupIdUpdates"
             case subnetIdUpdates = "SubnetIdUpdates"
             case vpcConfigurationId = "VpcConfigurationId"
+        }
+    }
+
+    public struct ZeppelinApplicationConfiguration: AWSEncodableShape {
+        /// The AWS Glue Data Catalog that you use in queries in a Kinesis Data Analytics Studio notebook.
+        public let catalogConfiguration: CatalogConfiguration?
+        /// Custom artifacts are dependency JARs and user-defined functions (UDF).
+        public let customArtifactsConfiguration: [CustomArtifactConfiguration]?
+        /// The information required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state..
+        public let deployAsApplicationConfiguration: DeployAsApplicationConfiguration?
+        /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
+        public let monitoringConfiguration: ZeppelinMonitoringConfiguration?
+
+        public init(catalogConfiguration: CatalogConfiguration? = nil, customArtifactsConfiguration: [CustomArtifactConfiguration]? = nil, deployAsApplicationConfiguration: DeployAsApplicationConfiguration? = nil, monitoringConfiguration: ZeppelinMonitoringConfiguration? = nil) {
+            self.catalogConfiguration = catalogConfiguration
+            self.customArtifactsConfiguration = customArtifactsConfiguration
+            self.deployAsApplicationConfiguration = deployAsApplicationConfiguration
+            self.monitoringConfiguration = monitoringConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogConfiguration?.validate(name: "\(name).catalogConfiguration")
+            try self.customArtifactsConfiguration?.forEach {
+                try $0.validate(name: "\(name).customArtifactsConfiguration[]")
+            }
+            try self.validate(self.customArtifactsConfiguration, name: "customArtifactsConfiguration", parent: name, max: 50)
+            try self.deployAsApplicationConfiguration?.validate(name: "\(name).deployAsApplicationConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogConfiguration = "CatalogConfiguration"
+            case customArtifactsConfiguration = "CustomArtifactsConfiguration"
+            case deployAsApplicationConfiguration = "DeployAsApplicationConfiguration"
+            case monitoringConfiguration = "MonitoringConfiguration"
+        }
+    }
+
+    public struct ZeppelinApplicationConfigurationDescription: AWSDecodableShape {
+        /// The AWS Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
+        public let catalogConfigurationDescription: CatalogConfigurationDescription?
+        /// Custom artifacts are dependency JARs and user-defined functions (UDF).
+        public let customArtifactsConfigurationDescription: [CustomArtifactConfigurationDescription]?
+        /// The parameters required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state..
+        public let deployAsApplicationConfigurationDescription: DeployAsApplicationConfigurationDescription?
+        /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
+        public let monitoringConfigurationDescription: ZeppelinMonitoringConfigurationDescription
+
+        public init(catalogConfigurationDescription: CatalogConfigurationDescription? = nil, customArtifactsConfigurationDescription: [CustomArtifactConfigurationDescription]? = nil, deployAsApplicationConfigurationDescription: DeployAsApplicationConfigurationDescription? = nil, monitoringConfigurationDescription: ZeppelinMonitoringConfigurationDescription) {
+            self.catalogConfigurationDescription = catalogConfigurationDescription
+            self.customArtifactsConfigurationDescription = customArtifactsConfigurationDescription
+            self.deployAsApplicationConfigurationDescription = deployAsApplicationConfigurationDescription
+            self.monitoringConfigurationDescription = monitoringConfigurationDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogConfigurationDescription = "CatalogConfigurationDescription"
+            case customArtifactsConfigurationDescription = "CustomArtifactsConfigurationDescription"
+            case deployAsApplicationConfigurationDescription = "DeployAsApplicationConfigurationDescription"
+            case monitoringConfigurationDescription = "MonitoringConfigurationDescription"
+        }
+    }
+
+    public struct ZeppelinApplicationConfigurationUpdate: AWSEncodableShape {
+        /// Updates to the configuration of the AWS Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
+        public let catalogConfigurationUpdate: CatalogConfigurationUpdate?
+        /// Updates to the customer artifacts. Custom artifacts are dependency JAR files and user-defined functions (UDF).
+        public let customArtifactsConfigurationUpdate: [CustomArtifactConfiguration]?
+        public let deployAsApplicationConfigurationUpdate: DeployAsApplicationConfigurationUpdate?
+        /// Updates to the monitoring configuration of a Kinesis Data Analytics Studio notebook.
+        public let monitoringConfigurationUpdate: ZeppelinMonitoringConfigurationUpdate?
+
+        public init(catalogConfigurationUpdate: CatalogConfigurationUpdate? = nil, customArtifactsConfigurationUpdate: [CustomArtifactConfiguration]? = nil, deployAsApplicationConfigurationUpdate: DeployAsApplicationConfigurationUpdate? = nil, monitoringConfigurationUpdate: ZeppelinMonitoringConfigurationUpdate? = nil) {
+            self.catalogConfigurationUpdate = catalogConfigurationUpdate
+            self.customArtifactsConfigurationUpdate = customArtifactsConfigurationUpdate
+            self.deployAsApplicationConfigurationUpdate = deployAsApplicationConfigurationUpdate
+            self.monitoringConfigurationUpdate = monitoringConfigurationUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.catalogConfigurationUpdate?.validate(name: "\(name).catalogConfigurationUpdate")
+            try self.customArtifactsConfigurationUpdate?.forEach {
+                try $0.validate(name: "\(name).customArtifactsConfigurationUpdate[]")
+            }
+            try self.validate(self.customArtifactsConfigurationUpdate, name: "customArtifactsConfigurationUpdate", parent: name, max: 50)
+            try self.deployAsApplicationConfigurationUpdate?.validate(name: "\(name).deployAsApplicationConfigurationUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogConfigurationUpdate = "CatalogConfigurationUpdate"
+            case customArtifactsConfigurationUpdate = "CustomArtifactsConfigurationUpdate"
+            case deployAsApplicationConfigurationUpdate = "DeployAsApplicationConfigurationUpdate"
+            case monitoringConfigurationUpdate = "MonitoringConfigurationUpdate"
+        }
+    }
+
+    public struct ZeppelinMonitoringConfiguration: AWSEncodableShape {
+        /// The verbosity of the CloudWatch Logs for an application.
+        public let logLevel: LogLevel
+
+        public init(logLevel: LogLevel) {
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "LogLevel"
+        }
+    }
+
+    public struct ZeppelinMonitoringConfigurationDescription: AWSDecodableShape {
+        /// Describes the verbosity of the CloudWatch Logs for an application.
+        public let logLevel: LogLevel?
+
+        public init(logLevel: LogLevel? = nil) {
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "LogLevel"
+        }
+    }
+
+    public struct ZeppelinMonitoringConfigurationUpdate: AWSEncodableShape {
+        /// Updates to the logging level for Apache Zeppelin within a Kinesis Data Analytics Studio notebook.
+        public let logLevelUpdate: LogLevel
+
+        public init(logLevelUpdate: LogLevel) {
+            self.logLevelUpdate = logLevelUpdate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevelUpdate = "LogLevelUpdate"
         }
     }
 }

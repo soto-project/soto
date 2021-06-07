@@ -53,6 +53,12 @@ extension Snowball {
         public var description: String { return self.rawValue }
     }
 
+    public enum LongTermPricingType: String, CustomStringConvertible, Codable {
+        case oneyear = "OneYear"
+        case threeyear = "ThreeYear"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShipmentState: String, CustomStringConvertible, Codable {
         case received = "RECEIVED"
         case returned = "RETURNED"
@@ -78,6 +84,7 @@ extension Snowball {
     public enum SnowballCapacity: String, CustomStringConvertible, Codable {
         case nopreference = "NoPreference"
         case t100 = "T100"
+        case t14 = "T14"
         case t42 = "T42"
         case t50 = "T50"
         case t8 = "T8"
@@ -92,6 +99,7 @@ extension Snowball {
         case edgeCg = "EDGE_CG"
         case edgeS = "EDGE_S"
         case snc1Hdd = "SNC1_HDD"
+        case snc1Ssd = "SNC1_SSD"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
@@ -149,17 +157,29 @@ extension Snowball {
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.city, name: "city", parent: name, max: 1024)
             try self.validate(self.city, name: "city", parent: name, min: 1)
+            try self.validate(self.company, name: "company", parent: name, max: 1024)
             try self.validate(self.company, name: "company", parent: name, min: 1)
+            try self.validate(self.country, name: "country", parent: name, max: 1024)
             try self.validate(self.country, name: "country", parent: name, min: 1)
+            try self.validate(self.landmark, name: "landmark", parent: name, max: 1024)
             try self.validate(self.landmark, name: "landmark", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 1024)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+            try self.validate(self.postalCode, name: "postalCode", parent: name, max: 1024)
             try self.validate(self.postalCode, name: "postalCode", parent: name, min: 1)
+            try self.validate(self.prefectureOrDistrict, name: "prefectureOrDistrict", parent: name, max: 1024)
             try self.validate(self.prefectureOrDistrict, name: "prefectureOrDistrict", parent: name, min: 1)
+            try self.validate(self.stateOrProvince, name: "stateOrProvince", parent: name, max: 1024)
             try self.validate(self.stateOrProvince, name: "stateOrProvince", parent: name, min: 1)
+            try self.validate(self.street1, name: "street1", parent: name, max: 1024)
             try self.validate(self.street1, name: "street1", parent: name, min: 1)
+            try self.validate(self.street2, name: "street2", parent: name, max: 1024)
             try self.validate(self.street2, name: "street2", parent: name, min: 1)
+            try self.validate(self.street3, name: "street3", parent: name, max: 1024)
             try self.validate(self.street3, name: "street3", parent: name, min: 1)
         }
 
@@ -371,7 +391,7 @@ extension Snowball {
         public let description: String?
         /// The forwarding address ID for a cluster. This field is not supported in most regions.
         public let forwardingAddressId: String?
-        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
+        /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let jobType: JobType
         /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS).
         public let kmsKeyARN: String?
@@ -383,12 +403,12 @@ extension Snowball {
         public let roleARN: String
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow device are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow device are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption
-        /// The type of AWS Snow Family device to use for this cluster.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.
-        public let snowballType: SnowballType?
+        /// The type of AWS Snow Family device to use for this cluster.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        public let snowballType: SnowballType
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.description = description
             self.forwardingAddressId = forwardingAddressId
@@ -406,6 +426,7 @@ extension Snowball {
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
@@ -454,7 +475,7 @@ extension Snowball {
         public let clusterId: String?
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
-        /// Defines the device configuration for an AWS Snowcone job.
+        /// Defines the device configuration for an AWS Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most regions.
         public let forwardingAddressId: String?
@@ -462,6 +483,8 @@ extension Snowball {
         public let jobType: JobType?
         /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
         public let kmsKeyARN: String?
+        /// The ID of the long term pricing type for the device.
+        public let longTermPricingId: String?
         /// Defines the Amazon Simple Notification Service (Amazon SNS) notification settings for this job.
         public let notification: Notification?
         /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
@@ -470,14 +493,14 @@ extension Snowball {
         public let roleARN: String?
         /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snow device, rather it represents how quickly the Snow device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
-        /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
+        /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of AWS Snow Family device to use for this job.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.  The type of AWS Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.
+        /// The type of AWS Snow Family device to use for this job.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.  The type of AWS Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType?
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.description = description
@@ -485,6 +508,7 @@ extension Snowball {
             self.forwardingAddressId = forwardingAddressId
             self.jobType = jobType
             self.kmsKeyARN = kmsKeyARN
+            self.longTermPricingId = longTermPricingId
             self.notification = notification
             self.resources = resources
             self.roleARN = roleARN
@@ -501,12 +525,16 @@ extension Snowball {
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.kmsKeyARN, name: "kmsKeyARN", parent: name, max: 255)
             try self.validate(self.kmsKeyARN, name: "kmsKeyARN", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
+            try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, max: 41)
+            try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, min: 41)
+            try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, pattern: "LTPID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.notification?.validate(name: "\(name).notification")
             try self.resources?.validate(name: "\(name).resources")
             try self.validate(self.roleARN, name: "roleARN", parent: name, max: 255)
@@ -522,6 +550,7 @@ extension Snowball {
             case forwardingAddressId = "ForwardingAddressId"
             case jobType = "JobType"
             case kmsKeyARN = "KmsKeyARN"
+            case longTermPricingId = "LongTermPricingId"
             case notification = "Notification"
             case resources = "Resources"
             case roleARN = "RoleARN"
@@ -542,6 +571,40 @@ extension Snowball {
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "JobId"
+        }
+    }
+
+    public struct CreateLongTermPricingRequest: AWSEncodableShape {
+        /// Specifies whether the current long term pricing type for the device should be renewed.
+        public let isLongTermPricingAutoRenew: Bool?
+        /// The type of long term pricing option you want for the device - one year or three year long term pricing.
+        public let longTermPricingType: LongTermPricingType
+        /// The type of AWS Snow Family device to use for the long term pricing job.
+        public let snowballType: SnowballType?
+
+        public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingType: LongTermPricingType, snowballType: SnowballType? = nil) {
+            self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
+            self.longTermPricingType = longTermPricingType
+            self.snowballType = snowballType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isLongTermPricingAutoRenew = "IsLongTermPricingAutoRenew"
+            case longTermPricingType = "LongTermPricingType"
+            case snowballType = "SnowballType"
+        }
+    }
+
+    public struct CreateLongTermPricingResult: AWSDecodableShape {
+        /// The ID of the long term pricing type for the device.
+        public let longTermPricingId: String?
+
+        public init(longTermPricingId: String? = nil) {
+            self.longTermPricingId = longTermPricingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case longTermPricingId = "LongTermPricingId"
         }
     }
 
@@ -652,6 +715,7 @@ extension Snowball {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -748,9 +812,9 @@ extension Snowball {
 
     public struct DescribeReturnShippingLabelRequest: AWSEncodableShape {
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
-        public let jobId: String?
+        public let jobId: String
 
-        public init(jobId: String? = nil) {
+        public init(jobId: String) {
             self.jobId = jobId
         }
 
@@ -810,6 +874,7 @@ extension Snowball {
             try self.validate(self.amiId, name: "amiId", parent: name, max: 21)
             try self.validate(self.amiId, name: "amiId", parent: name, min: 12)
             try self.validate(self.amiId, name: "amiId", parent: name, pattern: "(ami-[0-9a-f]{8})|(ami-[0-9a-f]{17})")
+            try self.validate(self.snowballAmiId, name: "snowballAmiId", parent: name, max: 1024)
             try self.validate(self.snowballAmiId, name: "snowballAmiId", parent: name, min: 1)
         }
 
@@ -829,6 +894,7 @@ extension Snowball {
 
         public func validate(name: String) throws {
             try self.validate(self.eventResourceARN, name: "eventResourceARN", parent: name, max: 255)
+            try self.validate(self.eventResourceARN, name: "eventResourceARN", parent: name, pattern: "arn:aws.*:*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -888,7 +954,7 @@ extension Snowball {
     }
 
     public struct GetJobUnlockCodeResult: AWSDecodableShape {
-        /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
+        /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 360 days after the job has been created.
         public let unlockCode: String?
 
         public init(unlockCode: String? = nil) {
@@ -1052,6 +1118,8 @@ extension Snowball {
         public let jobType: JobType?
         /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
         public let kmsKeyARN: String?
+        /// The ID of the long term pricing type for the device.
+        public let longTermPricingId: String?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
         public let notification: Notification?
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
@@ -1060,14 +1128,14 @@ extension Snowball {
         public let roleARN: String?
         /// A job's shipping information, including inbound and outbound tracking numbers and shipping speed options.
         public let shippingDetails: ShippingDetails?
-        /// The Snow device capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs.
+        /// The Snow device capacity preference for this job, specified at job creation. In US regions, you can choose between 50 TB and 80 TB Snowballs. All other regions use 80 TB capacity Snowballs. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
         /// The metadata associated with the tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
 
-        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
+        public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.creationDate = creationDate
@@ -1080,6 +1148,7 @@ extension Snowball {
             self.jobState = jobState
             self.jobType = jobType
             self.kmsKeyARN = kmsKeyARN
+            self.longTermPricingId = longTermPricingId
             self.notification = notification
             self.resources = resources
             self.roleARN = roleARN
@@ -1102,6 +1171,7 @@ extension Snowball {
             case jobState = "JobState"
             case jobType = "JobType"
             case kmsKeyARN = "KmsKeyARN"
+            case longTermPricingId = "LongTermPricingId"
             case notification = "Notification"
             case resources = "Resources"
             case roleARN = "RoleARN"
@@ -1157,7 +1227,9 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.beginMarker, name: "beginMarker", parent: name, max: 1024)
             try self.validate(self.beginMarker, name: "beginMarker", parent: name, min: 1)
+            try self.validate(self.endMarker, name: "endMarker", parent: name, max: 1024)
             try self.validate(self.endMarker, name: "endMarker", parent: name, min: 1)
         }
 
@@ -1183,6 +1255,7 @@ extension Snowball {
                 try $0.validate(name: "\(name).eventTriggers[]")
             }
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 255)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "arn:aws.*:*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1211,6 +1284,7 @@ extension Snowball {
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1252,6 +1326,7 @@ extension Snowball {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1292,6 +1367,7 @@ extension Snowball {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1332,6 +1408,7 @@ extension Snowball {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -1355,6 +1432,96 @@ extension Snowball {
         private enum CodingKeys: String, CodingKey {
             case jobListEntries = "JobListEntries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLongTermPricingRequest: AWSEncodableShape {
+        /// The maximum number of ListLongTermPricing objects to return.
+        public let maxResults: Int?
+        /// Because HTTP requests are stateless, this is the starting point for your next list of ListLongTermPricing to return.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLongTermPricingResult: AWSDecodableShape {
+        /// Each LongTermPricingEntry object contains a status, ID, and other information about the LongTermPricing type.
+        public let longTermPricingEntries: [LongTermPricingListEntry]?
+        /// Because HTTP requests are stateless, this is the starting point for your next list of returned ListLongTermPricing list.
+        public let nextToken: String?
+
+        public init(longTermPricingEntries: [LongTermPricingListEntry]? = nil, nextToken: String? = nil) {
+            self.longTermPricingEntries = longTermPricingEntries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case longTermPricingEntries = "LongTermPricingEntries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct LongTermPricingListEntry: AWSDecodableShape {
+        /// The current active jobs on the device the long term pricing type.
+        public let currentActiveJob: String?
+        /// If set to true, specifies that the current long term pricing type for the device should be automatically renewed before the long term pricing contract expires.
+        public let isLongTermPricingAutoRenew: Bool?
+        /// The IDs of the jobs that are associated with a long term pricing type.
+        public let jobIds: [String]?
+        /// The end date the long term pricing contract.
+        public let longTermPricingEndDate: Date?
+        /// The ID of the long term pricing type for the device.
+        public let longTermPricingId: String?
+        /// The start date of the long term pricing contract.
+        public let longTermPricingStartDate: Date?
+        /// The status of the long term pricing type.
+        public let longTermPricingStatus: String?
+        /// The type of long term pricing that was selected for the device.
+        public let longTermPricingType: LongTermPricingType?
+        /// A new device that replaces a device that is ordered with long term pricing.
+        public let replacementJob: String?
+        /// The type of AWS Snow Family device associated with this long term pricing job.
+        public let snowballType: SnowballType?
+
+        public init(currentActiveJob: String? = nil, isLongTermPricingAutoRenew: Bool? = nil, jobIds: [String]? = nil, longTermPricingEndDate: Date? = nil, longTermPricingId: String? = nil, longTermPricingStartDate: Date? = nil, longTermPricingStatus: String? = nil, longTermPricingType: LongTermPricingType? = nil, replacementJob: String? = nil, snowballType: SnowballType? = nil) {
+            self.currentActiveJob = currentActiveJob
+            self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
+            self.jobIds = jobIds
+            self.longTermPricingEndDate = longTermPricingEndDate
+            self.longTermPricingId = longTermPricingId
+            self.longTermPricingStartDate = longTermPricingStartDate
+            self.longTermPricingStatus = longTermPricingStatus
+            self.longTermPricingType = longTermPricingType
+            self.replacementJob = replacementJob
+            self.snowballType = snowballType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentActiveJob = "CurrentActiveJob"
+            case isLongTermPricingAutoRenew = "IsLongTermPricingAutoRenew"
+            case jobIds = "JobIds"
+            case longTermPricingEndDate = "LongTermPricingEndDate"
+            case longTermPricingId = "LongTermPricingId"
+            case longTermPricingStartDate = "LongTermPricingStartDate"
+            case longTermPricingStatus = "LongTermPricingStatus"
+            case longTermPricingType = "LongTermPricingType"
+            case replacementJob = "ReplacementJob"
+            case snowballType = "SnowballType"
         }
     }
 
@@ -1397,6 +1564,7 @@ extension Snowball {
 
         public func validate(name: String) throws {
             try self.validate(self.bucketArn, name: "bucketArn", parent: name, max: 255)
+            try self.validate(self.bucketArn, name: "bucketArn", parent: name, pattern: "arn:aws.*:*")
             try self.keyRange?.validate(name: "\(name).keyRange")
         }
 
@@ -1509,6 +1677,7 @@ extension Snowball {
             try self.validate(self.clusterId, name: "clusterId", parent: name, max: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, min: 39)
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
@@ -1552,7 +1721,7 @@ extension Snowball {
         public let roleARN: String?
         /// The updated shipping option value of this job's ShippingDetails object.
         public let shippingOption: ShippingOption?
-        /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
+        /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
 
         public init(addressId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String, notification: Notification? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil) {
@@ -1571,6 +1740,7 @@ extension Snowball {
             try self.validate(self.addressId, name: "addressId", parent: name, max: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, min: 40)
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
@@ -1625,6 +1795,40 @@ extension Snowball {
     }
 
     public struct UpdateJobShipmentStateResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLongTermPricingRequest: AWSEncodableShape {
+        /// If set to true, specifies that the current long term pricing type for the device should be automatically renewed before the long term pricing contract expires.
+        public let isLongTermPricingAutoRenew: Bool?
+        /// The ID of the long term pricing type for the device.
+        public let longTermPricingId: String
+        /// Specifies that a device that is ordered with long term pricing should be replaced with a new device.
+        public let replacementJob: String?
+
+        public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingId: String, replacementJob: String? = nil) {
+            self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
+            self.longTermPricingId = longTermPricingId
+            self.replacementJob = replacementJob
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, max: 41)
+            try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, min: 41)
+            try self.validate(self.longTermPricingId, name: "longTermPricingId", parent: name, pattern: "LTPID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+            try self.validate(self.replacementJob, name: "replacementJob", parent: name, max: 39)
+            try self.validate(self.replacementJob, name: "replacementJob", parent: name, min: 39)
+            try self.validate(self.replacementJob, name: "replacementJob", parent: name, pattern: "(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isLongTermPricingAutoRenew = "IsLongTermPricingAutoRenew"
+            case longTermPricingId = "LongTermPricingId"
+            case replacementJob = "ReplacementJob"
+        }
+    }
+
+    public struct UpdateLongTermPricingResult: AWSDecodableShape {
         public init() {}
     }
 

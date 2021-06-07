@@ -85,6 +85,42 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
+    public enum PredefinedLoadMetricType: String, CustomStringConvertible, Codable {
+        case albtargetgrouprequestcount = "ALBTargetGroupRequestCount"
+        case asgtotalcpuutilization = "ASGTotalCPUUtilization"
+        case asgtotalnetworkin = "ASGTotalNetworkIn"
+        case asgtotalnetworkout = "ASGTotalNetworkOut"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredefinedMetricPairType: String, CustomStringConvertible, Codable {
+        case albrequestcount = "ALBRequestCount"
+        case asgcpuutilization = "ASGCPUUtilization"
+        case asgnetworkin = "ASGNetworkIn"
+        case asgnetworkout = "ASGNetworkOut"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredefinedScalingMetricType: String, CustomStringConvertible, Codable {
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
+        case asgaveragenetworkin = "ASGAverageNetworkIn"
+        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable {
+        case honormaxcapacity = "HonorMaxCapacity"
+        case increasemaxcapacity = "IncreaseMaxCapacity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
+        case forecastandscale = "ForecastAndScale"
+        case forecastonly = "ForecastOnly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RefreshStrategy: String, CustomStringConvertible, Codable {
         case rolling = "Rolling"
         public var description: String { return self.rawValue }
@@ -377,7 +413,9 @@ extension AutoScaling {
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of the placement group into which to launch your instances, if any.
         public let placementGroup: String?
-        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf.
+        /// The predicted capacity of the group when it has a predictive scaling policy.
+        public let predictedCapacity: Int?
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf.
         public let serviceLinkedRoleARN: String?
         /// The current state of the group when the DeleteAutoScalingGroup operation is in progress.
         public let status: String?
@@ -400,7 +438,7 @@ extension AutoScaling {
         /// The current size of the warm pool.
         public let warmPoolSize: Int?
 
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -421,6 +459,7 @@ extension AutoScaling {
             self.mixedInstancesPolicy = mixedInstancesPolicy
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
             self.placementGroup = placementGroup
+            self.predictedCapacity = predictedCapacity
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
             self.status = status
             self.suspendedProcesses = suspendedProcesses
@@ -453,6 +492,7 @@ extension AutoScaling {
             case mixedInstancesPolicy = "MixedInstancesPolicy"
             case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
             case placementGroup = "PlacementGroup"
+            case predictedCapacity = "PredictedCapacity"
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
             case status = "Status"
             case suspendedProcesses = "SuspendedProcesses"
@@ -732,6 +772,25 @@ extension AutoScaling {
         }
     }
 
+    public struct CapacityForecast: AWSDecodableShape {
+        /// The time stamps for the data points, in UTC format.
+        @CustomCoding<StandardArrayCoder>
+        public var timestamps: [Date]
+        /// The values of the data points.
+        @CustomCoding<StandardArrayCoder>
+        public var values: [Double]
+
+        public init(timestamps: [Date], values: [Double]) {
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamps = "Timestamps"
+            case values = "Values"
+        }
+    }
+
     public struct CompleteLifecycleActionAnswer: AWSDecodableShape {
         public init() {}
     }
@@ -819,7 +878,7 @@ extension AutoScaling {
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of an existing placement group into which to launch your instances, if any. A placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a placement group. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
         public let placementGroup: String?
-        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
         /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tagging Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -1283,7 +1342,7 @@ extension AutoScaling {
     public struct DeleteWarmPoolType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// Specifies that the warm pool is to be deleted along with all instances associated with the warm pool, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
+        /// Specifies that the warm pool is to be deleted along with all of its associated instances, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
         public let forceDelete: Bool?
 
         public init(autoScalingGroupName: String, forceDelete: Bool? = nil) {
@@ -1304,13 +1363,13 @@ extension AutoScaling {
     }
 
     public struct DescribeAccountLimitsAnswer: AWSDecodableShape {
-        /// The maximum number of groups allowed for your AWS account. The default is 200 groups per AWS Region.
+        /// The maximum number of groups allowed for your account. The default is 200 groups per Region.
         public let maxNumberOfAutoScalingGroups: Int?
-        /// The maximum number of launch configurations allowed for your AWS account. The default is 200 launch configurations per AWS Region.
+        /// The maximum number of launch configurations allowed for your account. The default is 200 launch configurations per Region.
         public let maxNumberOfLaunchConfigurations: Int?
-        /// The current number of groups for your AWS account.
+        /// The current number of groups for your account.
         public let numberOfAutoScalingGroups: Int?
-        /// The current number of launch configurations for your AWS account.
+        /// The current number of launch configurations for your account.
         public let numberOfLaunchConfigurations: Int?
 
         public init(maxNumberOfAutoScalingGroups: Int? = nil, maxNumberOfLaunchConfigurations: Int? = nil, numberOfAutoScalingGroups: Int? = nil, numberOfLaunchConfigurations: Int? = nil) {
@@ -1343,7 +1402,7 @@ extension AutoScaling {
     }
 
     public struct DescribeAutoScalingInstancesType: AWSEncodableShape {
-        /// The IDs of the instances. You can specify up to MaxRecords IDs. If you omit this parameter, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error.
+        /// The IDs of the instances. If you omit this parameter, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instanceIds: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
@@ -1668,10 +1727,10 @@ extension AutoScaling {
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The names of one or more policies. If you omit this parameter, all policies are described. If a group name is provided, the results are limited to that group. This list is limited to 50 items. If you specify an unknown policy name, it is ignored with no error.
+        /// The names of one or more policies. If you omit this parameter, all policies are described. If a group name is provided, the results are limited to that group. If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum number of 50 items.
         @OptionalCustomCoding<StandardArrayCoder>
         public var policyNames: [String]?
-        /// One or more policy types. The valid values are SimpleScaling, StepScaling, and TargetTrackingScaling.
+        /// One or more policy types. The valid values are SimpleScaling, StepScaling, TargetTrackingScaling, and PredictiveScaling.
         @OptionalCustomCoding<StandardArrayCoder>
         public var policyTypes: [String]?
 
@@ -1710,7 +1769,7 @@ extension AutoScaling {
     }
 
     public struct DescribeScalingActivitiesType: AWSEncodableShape {
-        /// The activity IDs of the desired scaling activities. You can specify up to 50 IDs. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group.
+        /// The activity IDs of the desired scaling activities. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var activityIds: [String]?
         /// The name of the Auto Scaling group.
@@ -1758,7 +1817,7 @@ extension AutoScaling {
         public let maxRecords: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The names of one or more scheduled actions. You can specify up to 50 actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error.
+        /// The names of one or more scheduled actions. If you omit this parameter, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. Array Members: Maximum number of 50 actions.
         @OptionalCustomCoding<StandardArrayCoder>
         public var scheduledActionNames: [String]?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
@@ -2035,20 +2094,23 @@ extension AutoScaling {
         public let deleteOnTermination: Bool?
         /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot specify an encryption value. Volumes that are created from encrypted snapshots are automatically encrypted, and volumes that are created from unencrypted snapshots are automatically unencrypted. By default, encrypted snapshots use the AWS managed CMK that is used for EBS encryption, but you can specify a custom CMK when you create the snapshot. The ability to encrypt a snapshot during copying also allows you to apply a new CMK to an already-encrypted snapshot. Volumes restored from the resulting copy are only accessible using the new CMK. Enabling encryption by default results in all EBS volumes being encrypted with the AWS managed CMK or a customer managed CMK, whether or not the snapshot was encrypted.  For more information, see Using Encryption with EBS-Backed AMIs in the Amazon EC2 User Guide for Linux Instances and Required CMK key policy for use with encrypted volumes in the Amazon EC2 Auto Scaling User Guide.
         public let encrypted: Bool?
-        /// The number of I/O operations per second (IOPS) to provision for the volume. The maximum ratio of IOPS to volume size (in GiB) is 50:1. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Required when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.)
+        /// The number of input/output (I/O) operations per second (IOPS) to provision for the volume. For gp3 and io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting.  The following are the supported values for each volume type:     gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS   For io1 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS.   Iops is supported when the volume type is gp3 or io1 and required only when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.)
         public let iops: Int?
         /// The snapshot ID of the volume to use. You must specify either a VolumeSize or a SnapshotId.
         public let snapshotId: String?
-        /// The volume size, in Gibibytes (GiB). This can be a number from 1-1,024 for standard, 4-16,384 for io1, 1-16,384 for gp2, and 500-16,384 for st1 and sc1. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you create a volume from a snapshot and you don't specify a volume size, the default is the snapshot size. You must specify either a VolumeSize or a SnapshotId. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
+        /// The throughput (MiBps) to provision for a gp3 volume.
+        public let throughput: Int?
+        /// The volume size, in GiBs. The following are the supported volumes sizes for each volume type:     gp2 and gp3: 1-16,384    io1: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024   You must specify either a SnapshotId or a VolumeSize. If you specify both SnapshotId and VolumeSize, the volume size must be equal or greater than the size of the snapshot.
         public let volumeSize: Int?
-        /// The volume type, which can be standard for Magnetic, io1 for Provisioned IOPS SSD, gp2 for General Purpose SSD, st1 for Throughput Optimized HDD, or sc1 for Cold HDD. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Valid Values: standard | io1 | gp2 | st1 | sc1
+        /// The volume type. For more information, see Amazon EBS Volume Types in the Amazon EC2 User Guide for Linux Instances. Valid Values: standard | io1 | gp2 | st1 | sc1 | gp3
         public let volumeType: String?
 
-        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
+        public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
             self.snapshotId = snapshotId
+            self.throughput = throughput
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
@@ -2059,6 +2121,8 @@ extension AutoScaling {
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, max: 255)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, min: 1)
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.throughput, name: "throughput", parent: name, max: 1000)
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 125)
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, max: 16384)
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, min: 1)
             try self.validate(self.volumeType, name: "volumeType", parent: name, max: 255)
@@ -2070,6 +2134,7 @@ extension AutoScaling {
             case encrypted = "Encrypted"
             case iops = "Iops"
             case snapshotId = "SnapshotId"
+            case throughput = "Throughput"
             case volumeSize = "VolumeSize"
             case volumeType = "VolumeType"
         }
@@ -2302,6 +2367,62 @@ extension AutoScaling {
         }
     }
 
+    public struct GetPredictiveScalingForecastAnswer: AWSDecodableShape {
+        /// The capacity forecast.
+        public let capacityForecast: CapacityForecast
+        /// The load forecast.
+        @CustomCoding<StandardArrayCoder>
+        public var loadForecast: [LoadForecast]
+        /// The time the forecast was made.
+        public let updateTime: Date
+
+        public init(capacityForecast: CapacityForecast, loadForecast: [LoadForecast], updateTime: Date) {
+            self.capacityForecast = capacityForecast
+            self.loadForecast = loadForecast
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityForecast = "CapacityForecast"
+            case loadForecast = "LoadForecast"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct GetPredictiveScalingForecastType: AWSEncodableShape {
+        /// The name of the Auto Scaling group.
+        public let autoScalingGroupName: String
+        /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. Amazon EC2 Auto Scaling only issues forecasts for periods of two days in advance.
+        public let endTime: Date
+        /// The name of the policy.
+        public let policyName: String
+        /// The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time.
+        public let startTime: Date
+
+        public init(autoScalingGroupName: String, endTime: Date, policyName: String, startTime: Date) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.endTime = endTime
+            self.policyName = policyName
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 255)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case endTime = "EndTime"
+            case policyName = "PolicyName"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct Instance: AWSDecodableShape {
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String
@@ -2395,7 +2516,7 @@ extension AutoScaling {
         public let instanceRefreshId: String?
         /// The number of instances remaining to update before the instance refresh is complete.
         public let instancesToUpdate: Int?
-        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
+        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
         public let percentageComplete: Int?
         /// Additional progress details for an Auto Scaling group that has a warm pool.
         public let progressDetails: InstanceRefreshProgressDetails?
@@ -2434,7 +2555,7 @@ extension AutoScaling {
     public struct InstanceRefreshLivePoolProgress: AWSDecodableShape {
         /// The number of instances remaining to update.
         public let instancesToUpdate: Int?
-        /// The percentage of instances in the Auto Scaling group that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
+        /// The percentage of instances in the Auto Scaling group that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
         public let percentageComplete: Int?
 
         public init(instancesToUpdate: Int? = nil, percentageComplete: Int? = nil) {
@@ -2449,9 +2570,9 @@ extension AutoScaling {
     }
 
     public struct InstanceRefreshProgressDetails: AWSDecodableShape {
-        /// Indicates the progress of an instance fresh on instances that are in the Auto Scaling group.
+        /// Indicates the progress of an instance refresh on instances that are in the Auto Scaling group.
         public let livePoolProgress: InstanceRefreshLivePoolProgress?
-        /// Indicates the progress of an instance fresh on instances that are in the warm pool.
+        /// Indicates the progress of an instance refresh on instances that are in the warm pool.
         public let warmPoolProgress: InstanceRefreshWarmPoolProgress?
 
         public init(livePoolProgress: InstanceRefreshLivePoolProgress? = nil, warmPoolProgress: InstanceRefreshWarmPoolProgress? = nil) {
@@ -2468,7 +2589,7 @@ extension AutoScaling {
     public struct InstanceRefreshWarmPoolProgress: AWSDecodableShape {
         /// The number of instances remaining to update.
         public let instancesToUpdate: Int?
-        /// The percentage of instances in the warm pool that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
+        /// The percentage of instances in the warm pool that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
         public let percentageComplete: Int?
 
         public init(instancesToUpdate: Int? = nil, percentageComplete: Int? = nil) {
@@ -2634,7 +2755,7 @@ extension AutoScaling {
     }
 
     public struct LaunchConfigurationNamesType: AWSEncodableShape {
-        /// The launch configuration names. If you omit this parameter, all launch configurations are described.
+        /// The launch configuration names. If you omit this parameter, all launch configurations are described. Array Members: Maximum number of 50 items.
         @OptionalCustomCoding<StandardArrayCoder>
         public var launchConfigurationNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
@@ -2871,7 +2992,7 @@ extension AutoScaling {
     public struct LoadBalancerState: AWSDecodableShape {
         /// The name of the load balancer.
         public let loadBalancerName: String?
-        /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.
+        /// One of the following load balancer states:    Adding - The Auto Scaling instances are being registered with the load balancer.    Added - All Auto Scaling instances are registered with the load balancer.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the load balancer.
         public let state: String?
 
         public init(loadBalancerName: String? = nil, state: String? = nil) {
@@ -2899,6 +3020,29 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case loadBalancerTargetGroupARN = "LoadBalancerTargetGroupARN"
             case state = "State"
+        }
+    }
+
+    public struct LoadForecast: AWSDecodableShape {
+        /// The metric specification for the load forecast.
+        public let metricSpecification: PredictiveScalingMetricSpecification
+        /// The time stamps for the data points, in UTC format.
+        @CustomCoding<StandardArrayCoder>
+        public var timestamps: [Date]
+        /// The values of the data points.
+        @CustomCoding<StandardArrayCoder>
+        public var values: [Double]
+
+        public init(metricSpecification: PredictiveScalingMetricSpecification, timestamps: [Date], values: [Double]) {
+            self.metricSpecification = metricSpecification
+            self.timestamps = timestamps
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSpecification = "MetricSpecification"
+            case timestamps = "Timestamps"
+            case values = "Values"
         }
     }
 
@@ -3031,6 +3175,145 @@ extension AutoScaling {
         public let resourceLabel: String?
 
         public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
+    public struct PredictiveScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity of the Auto Scaling group. Defaults to HonorMaxCapacity if not specified. The following are possible values:    HonorMaxCapacity - Amazon EC2 Auto Scaling cannot scale out capacity higher than the maximum capacity. The maximum capacity is enforced as a hard limit.     IncreaseMaxCapacity - Amazon EC2 Auto Scaling can scale out capacity higher than the maximum capacity when the forecast capacity is close to or exceeds the maximum capacity. The upper limit is determined by the forecasted capacity and the value for MaxCapacityBuffer.
+        public let maxCapacityBreachBehavior: PredictiveScalingMaxCapacityBreachBehavior?
+        /// The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55. If set to 0, Amazon EC2 Auto Scaling may scale capacity higher than the maximum capacity to equal but not exceed forecast capacity.  Required if the MaxCapacityBreachBehavior property is set to IncreaseMaxCapacity, and cannot be used otherwise.
+        public let maxCapacityBuffer: Int?
+        /// This structure includes the metrics and target utilization to use for predictive scaling.  This is an array, but we currently only support a single metric specification. That is, you can specify a target value and a single metric pair, or a target value and one scaling metric and one load metric.
+        @CustomCoding<StandardArrayCoder>
+        public var metricSpecifications: [PredictiveScalingMetricSpecification]
+        /// The predictive scaling mode. Defaults to ForecastOnly if not specified.
+        public let mode: PredictiveScalingMode?
+        /// The amount of time, in seconds, by which the instance launch time can be advanced. For example, the forecast says to add capacity at 10:00 AM, and you choose to pre-launch instances by 5 minutes. In that case, the instances will be launched at 9:55 AM. The intention is to give resources time to be provisioned. It can take a few minutes to launch an EC2 instance. The actual amount of time required depends on several factors, such as the size of the instance and whether there are startup scripts to complete.  The value must be less than the forecast interval duration of 3600 seconds (60 minutes). Defaults to 300 seconds if not specified.
+        public let schedulingBufferTime: Int?
+
+        public init(maxCapacityBreachBehavior: PredictiveScalingMaxCapacityBreachBehavior? = nil, maxCapacityBuffer: Int? = nil, metricSpecifications: [PredictiveScalingMetricSpecification], mode: PredictiveScalingMode? = nil, schedulingBufferTime: Int? = nil) {
+            self.maxCapacityBreachBehavior = maxCapacityBreachBehavior
+            self.maxCapacityBuffer = maxCapacityBuffer
+            self.metricSpecifications = metricSpecifications
+            self.mode = mode
+            self.schedulingBufferTime = schedulingBufferTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxCapacityBuffer, name: "maxCapacityBuffer", parent: name, max: 100)
+            try self.validate(self.maxCapacityBuffer, name: "maxCapacityBuffer", parent: name, min: 0)
+            try self.metricSpecifications.forEach {
+                try $0.validate(name: "\(name).metricSpecifications[]")
+            }
+            try self.validate(self.schedulingBufferTime, name: "schedulingBufferTime", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCapacityBreachBehavior = "MaxCapacityBreachBehavior"
+            case maxCapacityBuffer = "MaxCapacityBuffer"
+            case metricSpecifications = "MetricSpecifications"
+            case mode = "Mode"
+            case schedulingBufferTime = "SchedulingBufferTime"
+        }
+    }
+
+    public struct PredictiveScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The load metric specification.
+        public let predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric?
+        /// The metric pair specification from which Amazon EC2 Auto Scaling determines the appropriate scaling metric and load metric to use.
+        public let predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair?
+        /// The scaling metric specification.
+        public let predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric?
+        /// Specifies the target utilization.
+        public let targetValue: Double
+
+        public init(predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric? = nil, predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair? = nil, predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric? = nil, targetValue: Double) {
+            self.predefinedLoadMetricSpecification = predefinedLoadMetricSpecification
+            self.predefinedMetricPairSpecification = predefinedMetricPairSpecification
+            self.predefinedScalingMetricSpecification = predefinedScalingMetricSpecification
+            self.targetValue = targetValue
+        }
+
+        public func validate(name: String) throws {
+            try self.predefinedLoadMetricSpecification?.validate(name: "\(name).predefinedLoadMetricSpecification")
+            try self.predefinedMetricPairSpecification?.validate(name: "\(name).predefinedMetricPairSpecification")
+            try self.predefinedScalingMetricSpecification?.validate(name: "\(name).predefinedScalingMetricSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedLoadMetricSpecification = "PredefinedLoadMetricSpecification"
+            case predefinedMetricPairSpecification = "PredefinedMetricPairSpecification"
+            case predefinedScalingMetricSpecification = "PredefinedScalingMetricSpecification"
+            case targetValue = "TargetValue"
+        }
+    }
+
+    public struct PredictiveScalingPredefinedLoadMetric: AWSEncodableShape & AWSDecodableShape {
+        /// The metric type.
+        public let predefinedMetricType: PredefinedLoadMetricType
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        public let resourceLabel: String?
+
+        public init(predefinedMetricType: PredefinedLoadMetricType, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
+    public struct PredictiveScalingPredefinedMetricPair: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates which metrics to use. There are two different types of metrics for each metric type: one is a load metric and one is a scaling metric. For example, if the metric type is ASGCPUUtilization, the Auto Scaling group's total CPU metric is used as the load metric, and the average CPU metric is used for the scaling metric.
+        public let predefinedMetricType: PredefinedMetricPairType
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        public let resourceLabel: String?
+
+        public init(predefinedMetricType: PredefinedMetricPairType, resourceLabel: String? = nil) {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, max: 1023)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, min: 1)
+            try self.validate(self.resourceLabel, name: "resourceLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predefinedMetricType = "PredefinedMetricType"
+            case resourceLabel = "ResourceLabel"
+        }
+    }
+
+    public struct PredictiveScalingPredefinedScalingMetric: AWSEncodableShape & AWSDecodableShape {
+        /// The metric type.
+        public let predefinedMetricType: PredefinedScalingMetricType
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        public let resourceLabel: String?
+
+        public init(predefinedMetricType: PredefinedScalingMetricType, resourceLabel: String? = nil) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -3192,17 +3475,19 @@ extension AutoScaling {
         public let minAdjustmentStep: Int?
         /// The name of the policy.
         public let policyName: String
-        /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)
+        /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)    PredictiveScaling
         public let policyType: String?
+        /// A predictive scaling policy. Provides support for only predefined metrics. Predictive scaling works with CPU utilization, network in/out, and the Application Load Balancer request count. For more information, see PredictiveScalingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is PredictiveScaling.
+        public let predictiveScalingConfiguration: PredictiveScalingConfiguration?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach. Required if the policy type is StepScaling. (Not used with any other policy type.)
         @OptionalCustomCoding<StandardArrayCoder>
         public var stepAdjustments: [StepAdjustment]?
-        /// A target tracking scaling policy. Includes support for predefined or customized metrics. The following predefined metrics are available:    ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut     ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
+        /// A target tracking scaling policy. Provides support for predefined or customized metrics. The following predefined metrics are available:    ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut     ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
-        public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyName: String, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+        public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyName: String, policyType: String? = nil, predictiveScalingConfiguration: PredictiveScalingConfiguration? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.adjustmentType = adjustmentType
             self.autoScalingGroupName = autoScalingGroupName
             self.cooldown = cooldown
@@ -3213,6 +3498,7 @@ extension AutoScaling {
             self.minAdjustmentStep = minAdjustmentStep
             self.policyName = policyName
             self.policyType = policyType
+            self.predictiveScalingConfiguration = predictiveScalingConfiguration
             self.scalingAdjustment = scalingAdjustment
             self.stepAdjustments = stepAdjustments
             self.targetTrackingConfiguration = targetTrackingConfiguration
@@ -3234,6 +3520,7 @@ extension AutoScaling {
             try self.validate(self.policyType, name: "policyType", parent: name, max: 64)
             try self.validate(self.policyType, name: "policyType", parent: name, min: 1)
             try self.validate(self.policyType, name: "policyType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
+            try self.predictiveScalingConfiguration?.validate(name: "\(name).predictiveScalingConfiguration")
             try self.targetTrackingConfiguration?.validate(name: "\(name).targetTrackingConfiguration")
         }
 
@@ -3248,6 +3535,7 @@ extension AutoScaling {
             case minAdjustmentStep = "MinAdjustmentStep"
             case policyName = "PolicyName"
             case policyType = "PolicyType"
+            case predictiveScalingConfiguration = "PredictiveScalingConfiguration"
             case scalingAdjustment = "ScalingAdjustment"
             case stepAdjustments = "StepAdjustments"
             case targetTrackingConfiguration = "TargetTrackingConfiguration"
@@ -3325,11 +3613,11 @@ extension AutoScaling {
     public struct PutWarmPoolType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// Specifies the total maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group. This is an optional property. Specify it only if the warm pool size should not be determined by the difference between the group's maximum capacity and its desired capacity.   Amazon EC2 Auto Scaling will launch and maintain either the difference between the group's maximum capacity and its desired capacity, if a value for MaxGroupPreparedCapacity is not specified, or the difference between the MaxGroupPreparedCapacity and the desired capacity, if a value for MaxGroupPreparedCapacity is specified.  The size of the warm pool is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0. To remove a value that you previously set, include the property but specify -1 for the value.
+        /// Specifies the maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group. This is an optional property. Specify it only if you do not want the warm pool size to be determined by the difference between the group's maximum capacity and its desired capacity.   If a value for MaxGroupPreparedCapacity is not specified, Amazon EC2 Auto Scaling launches and maintains the difference between the group's maximum capacity and its desired capacity. If you specify a value for MaxGroupPreparedCapacity, Amazon EC2 Auto Scaling uses the difference between the MaxGroupPreparedCapacity and the desired capacity instead.  The size of the warm pool is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0, unless you specify a value for MinSize. To remove a value that you previously set, include the property but specify -1 for the value.
         public let maxGroupPreparedCapacity: Int?
         /// Specifies the minimum number of instances to maintain in the warm pool. This helps you to ensure that there is always a certain number of warmed instances available to handle traffic spikes. Defaults to 0 if not specified.
         public let minSize: Int?
-        /// Sets the instance state to transition to after the lifecycle hooks finish. Valid values are: Stopped (default) or Running.
+        /// Sets the instance state to transition to after the lifecycle actions are complete. Default is Stopped.
         public let poolState: WarmPoolState?
 
         public init(autoScalingGroupName: String, maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil) {
@@ -3460,8 +3748,10 @@ extension AutoScaling {
         public let policyARN: String?
         /// The name of the scaling policy.
         public let policyName: String?
-        /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)   For more information, see Target tracking scaling policies and Step and simple scaling policies in the Amazon EC2 Auto Scaling User Guide.
+        /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)    PredictiveScaling    For more information, see Target tracking scaling policies and Step and simple scaling policies in the Amazon EC2 Auto Scaling User Guide.
         public let policyType: String?
+        /// A predictive scaling policy.
+        public let predictiveScalingConfiguration: PredictiveScalingConfiguration?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach.
@@ -3470,7 +3760,7 @@ extension AutoScaling {
         /// A target tracking scaling policy.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
-        public init(adjustmentType: String? = nil, alarms: [Alarm]? = nil, autoScalingGroupName: String? = nil, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyARN: String? = nil, policyName: String? = nil, policyType: String? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
+        public init(adjustmentType: String? = nil, alarms: [Alarm]? = nil, autoScalingGroupName: String? = nil, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyARN: String? = nil, policyName: String? = nil, policyType: String? = nil, predictiveScalingConfiguration: PredictiveScalingConfiguration? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.adjustmentType = adjustmentType
             self.alarms = alarms
             self.autoScalingGroupName = autoScalingGroupName
@@ -3483,6 +3773,7 @@ extension AutoScaling {
             self.policyARN = policyARN
             self.policyName = policyName
             self.policyType = policyType
+            self.predictiveScalingConfiguration = predictiveScalingConfiguration
             self.scalingAdjustment = scalingAdjustment
             self.stepAdjustments = stepAdjustments
             self.targetTrackingConfiguration = targetTrackingConfiguration
@@ -3501,6 +3792,7 @@ extension AutoScaling {
             case policyARN = "PolicyARN"
             case policyName = "PolicyName"
             case policyType = "PolicyType"
+            case predictiveScalingConfiguration = "PredictiveScalingConfiguration"
             case scalingAdjustment = "ScalingAdjustment"
             case stepAdjustments = "StepAdjustments"
             case targetTrackingConfiguration = "TargetTrackingConfiguration"
@@ -3838,7 +4130,7 @@ extension AutoScaling {
         public let key: String
         /// Determines whether the tag is added to new instances as they are launched in the group.
         public let propagateAtLaunch: Bool?
-        /// The name of the group.
+        /// The name of the Auto Scaling group.
         public let resourceId: String?
         /// The type of resource. The only supported value is auto-scaling-group.
         public let resourceType: String?
@@ -4004,7 +4296,7 @@ extension AutoScaling {
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of an existing placement group into which to launch your instances, if any. A placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a placement group. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
         public let placementGroup: String?
-        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
+        /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
         /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Controlling which Auto Scaling instances terminate during scale in in the Amazon EC2 Auto Scaling User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -4089,11 +4381,11 @@ extension AutoScaling {
     }
 
     public struct WarmPoolConfiguration: AWSDecodableShape {
-        /// The total maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group.
+        /// The maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group.
         public let maxGroupPreparedCapacity: Int?
         /// The minimum number of instances to maintain in the warm pool.
         public let minSize: Int?
-        /// The instance state to transition to after the lifecycle actions are complete: Stopped or Running.
+        /// The instance state to transition to after the lifecycle actions are complete.
         public let poolState: WarmPoolState?
         /// The status of a warm pool that is marked for deletion.
         public let status: WarmPoolStatus?

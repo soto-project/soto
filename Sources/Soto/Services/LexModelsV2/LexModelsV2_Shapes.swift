@@ -61,6 +61,7 @@ extension LexModelsV2 {
         case creating = "Creating"
         case deleting = "Deleting"
         case failed = "Failed"
+        case importing = "Importing"
         case notbuilt = "NotBuilt"
         case readyexpresstesting = "ReadyExpressTesting"
         public var description: String { return self.rawValue }
@@ -76,6 +77,7 @@ extension LexModelsV2 {
         case creating = "Creating"
         case deleting = "Deleting"
         case failed = "Failed"
+        case importing = "Importing"
         case inactive = "Inactive"
         case versioning = "Versioning"
         public var description: String { return self.rawValue }
@@ -96,6 +98,65 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum Effect: String, CustomStringConvertible, Codable {
+        case allow = "Allow"
+        case deny = "Deny"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportFilterName: String, CustomStringConvertible, Codable {
+        case exportresourcetype = "ExportResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportFilterOperator: String, CustomStringConvertible, Codable {
+        case co = "CO"
+        case eq = "EQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportSortAttribute: String, CustomStringConvertible, Codable {
+        case lastupdateddatetime = "LastUpdatedDateTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportExportFileFormat: String, CustomStringConvertible, Codable {
+        case lexjson = "LexJson"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportFilterName: String, CustomStringConvertible, Codable {
+        case importresourcetype = "ImportResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportFilterOperator: String, CustomStringConvertible, Codable {
+        case co = "CO"
+        case eq = "EQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportSortAttribute: String, CustomStringConvertible, Codable {
+        case lastupdateddatetime = "LastUpdatedDateTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IntentFilterName: String, CustomStringConvertible, Codable {
         case intentname = "IntentName"
         public var description: String { return self.rawValue }
@@ -110,6 +171,12 @@ extension LexModelsV2 {
     public enum IntentSortAttribute: String, CustomStringConvertible, Codable {
         case intentname = "IntentName"
         case lastupdateddatetime = "LastUpdatedDateTime"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MergeStrategy: String, CustomStringConvertible, Codable {
+        case failonconflict = "FailOnConflict"
+        case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
     }
 
@@ -289,6 +356,32 @@ extension LexModelsV2 {
         }
     }
 
+    public struct BotExportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the bot assigned by Amazon Lex.
+        public let botId: String
+        /// The version of the bot that was exported. This will be either DRAFT or the version number.
+        public let botVersion: String
+
+        public init(botId: String, botVersion: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+        }
+    }
+
     public struct BotFilter: AWSEncodableShape {
         /// The name of the field to filter the list of bots.
         public let name: BotFilterName
@@ -317,6 +410,91 @@ extension LexModelsV2 {
             case name
             case `operator`
             case values
+        }
+    }
+
+    public struct BotImportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The name that Amazon Lex should use for the bot.
+        public let botName: String
+        /// A list of tags to add to the bot. You can only add tags when you import a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation.
+        public let botTags: [String: String]?
+        public let dataPrivacy: DataPrivacy
+        /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
+        public let idleSessionTTLInSeconds: Int?
+        /// The Amazon Resource Name (ARN) of the IAM role used to build and run the bot.
+        public let roleArn: String
+        /// A list of tags to add to the test alias for a bot. You can only add tags when you import a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagResource operation.
+        public let testBotAliasTags: [String: String]?
+
+        public init(botName: String, botTags: [String: String]? = nil, dataPrivacy: DataPrivacy, idleSessionTTLInSeconds: Int? = nil, roleArn: String, testBotAliasTags: [String: String]? = nil) {
+            self.botName = botName
+            self.botTags = botTags
+            self.dataPrivacy = dataPrivacy
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.roleArn = roleArn
+            self.testBotAliasTags = testBotAliasTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botName, name: "botName", parent: name, max: 100)
+            try self.validate(self.botName, name: "botName", parent: name, min: 1)
+            try self.validate(self.botName, name: "botName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.botTags?.forEach {
+                try validate($0.key, name: "botTags.key", parent: name, max: 128)
+                try validate($0.key, name: "botTags.key", parent: name, min: 1)
+                try validate($0.value, name: "botTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "botTags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 86400)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/.*$")
+            try self.testBotAliasTags?.forEach {
+                try validate($0.key, name: "testBotAliasTags.key", parent: name, max: 128)
+                try validate($0.key, name: "testBotAliasTags.key", parent: name, min: 1)
+                try validate($0.value, name: "testBotAliasTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "testBotAliasTags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botName
+            case botTags
+            case dataPrivacy
+            case idleSessionTTLInSeconds
+            case roleArn
+            case testBotAliasTags
+        }
+    }
+
+    public struct BotLocaleExportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the bot to create the locale for.
+        public let botId: String
+        /// The version of the bot to export.
+        public let botVersion: String
+        /// The identifier of the language and locale to export. The string must match one of the locales in the bot.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case localeId
         }
     }
 
@@ -365,6 +543,45 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case event
             case eventDate
+        }
+    }
+
+    public struct BotLocaleImportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the bot to import the locale to.
+        public let botId: String
+        /// The version of the bot to import the locale to. This can only be the DRAFT version of the bot.
+        public let botVersion: String
+        /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
+        public let localeId: String
+        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.  For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:    AMAZON.FallbackIntent     IntentA     IntentB     IntentC
+        public let nluIntentConfidenceThreshold: Double?
+        public let voiceSettings: VoiceSettings?
+
+        public init(botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.voiceSettings = voiceSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1)
+            try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case localeId
+            case nluIntentConfidenceThreshold
+            case voiceSettings
         }
     }
 
@@ -544,7 +761,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The version of the bot to build. This can only be the draft version of the bot.
         public let botVersion: String
-        /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
         public let localeId: String
 
         public init(botId: String, botVersion: String, localeId: String) {
@@ -887,7 +1104,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// A description of the bot locale. Use this to help identify the bot locale in lists.
         public let description: String?
-        /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
         public let nluIntentConfidenceThreshold: Double
@@ -1148,6 +1365,62 @@ extension LexModelsV2 {
         }
     }
 
+    public struct CreateExportRequest: AWSEncodableShape {
+        /// The file format of the bot or bot locale definition files.
+        public let fileFormat: ImportExportFileFormat
+        /// An password to use to encrypt the exported archive. Using a password is optional, but you should encrypt the archive to protect the data in transit between Amazon Lex and your local computer.
+        public let filePassword: String?
+        /// Specifies the type of resource to export, either a bot or a bot locale. You can only specify one type of resource to export.
+        public let resourceSpecification: ExportResourceSpecification
+
+        public init(fileFormat: ImportExportFileFormat, filePassword: String? = nil, resourceSpecification: ExportResourceSpecification) {
+            self.fileFormat = fileFormat
+            self.filePassword = filePassword
+            self.resourceSpecification = resourceSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filePassword, name: "filePassword", parent: name, max: 1024)
+            try self.validate(self.filePassword, name: "filePassword", parent: name, min: 1)
+            try self.resourceSpecification.validate(name: "\(name).resourceSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormat
+            case filePassword
+            case resourceSpecification
+        }
+    }
+
+    public struct CreateExportResponse: AWSDecodableShape {
+        /// The date and time that the request to export a bot was created.
+        public let creationDateTime: Date?
+        /// An identifier for a specific request to create an export.
+        public let exportId: String?
+        /// The status of the export. When the status is Completed, you can use the operation to get the pre-signed S3 URL link to your exported bot or bot locale.
+        public let exportStatus: ExportStatus?
+        /// The file format used for the bot or bot locale definition files.
+        public let fileFormat: ImportExportFileFormat?
+        /// A description of the type of resource that was exported, either a bot or a bot locale.
+        public let resourceSpecification: ExportResourceSpecification?
+
+        public init(creationDateTime: Date? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, fileFormat: ImportExportFileFormat? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
+            self.creationDateTime = creationDateTime
+            self.exportId = exportId
+            self.exportStatus = exportStatus
+            self.fileFormat = fileFormat
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case exportId
+            case exportStatus
+            case fileFormat
+            case resourceSpecification
+        }
+    }
+
     public struct CreateIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -1175,7 +1448,7 @@ extension LexModelsV2 {
         public let intentName: String
         /// Configuration information required to use the AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. The AMAZON.KendraSearchIntent intent is called when Amazon Lex can't determine another intent to invoke.
         public let kendraConfiguration: KendraConfiguration?
-        /// The identifier of the language and locale where this intent is used. All of the bots, slot types, and slots used by the intent must have the same locale.
+        /// The identifier of the language and locale where this intent is used. All of the bots, slot types, and slots used by the intent must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// A lists of contexts that the intent activates when it is fulfilled. You can use an output context to indicate the intents that Amazon Lex should consider for the next turn of the conversation with a customer.  When you use the outputContextsList property, all of the contexts specified in the list are activated when the intent is fulfilled. You can set up to 10 output contexts. You can also set the number of conversation turns that the context should be active, or the length of time that the context should be active.
         public let outputContexts: [OutputContext]?
@@ -1316,6 +1589,128 @@ extension LexModelsV2 {
         }
     }
 
+    public struct CreateResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see  IAM JSON policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String
+
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, min: 2)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
+        }
+    }
+
+    public struct CreateResourcePolicyResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy was attached to.
+        public let resourceArn: String?
+        /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
+        public let revisionId: String?
+
+        public init(resourceArn: String? = nil, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case revisionId
+        }
+    }
+
+    public struct CreateResourcePolicyStatementRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Lex action that this policy either allows or denies. The action must apply to the resource type of the specified ARN. For more information, see  Actions, resources, and condition keys for Amazon Lex V2.
+        public let action: [String]
+        /// Specifies a condition when the policy is in effect. If the principal of the policy is a service principal, you must provide two condition blocks, one with a SourceAccount global condition key and one with a SourceArn global condition key. For more information, see IAM JSON policy elements: Condition .
+        public let condition: [String: [String: String]]?
+        /// Determines whether the statement allows or denies access to the resource.
+        public let effect: Effect
+        /// The identifier of the revision of the policy to edit. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
+        public let expectedRevisionId: String?
+        /// An IAM principal, such as an IAM users, IAM roles, or AWS services that is allowed or denied access to a resource. For more information, see AWS JSON policy elements: Principal.
+        public let principal: [Principal]
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String
+        /// The name of the statement. The ID is the same as the Sid IAM property. The statement name must be unique within the policy. For more information, see IAM JSON policy elements: Sid.
+        public let statementId: String
+
+        public init(action: [String], condition: [String: [String: String]]? = nil, effect: Effect, expectedRevisionId: String? = nil, principal: [Principal], resourceArn: String, statementId: String) {
+            self.action = action
+            self.condition = condition
+            self.effect = effect
+            self.expectedRevisionId = expectedRevisionId
+            self.principal = principal
+            self.resourceArn = resourceArn
+            self.statementId = statementId
+        }
+
+        public func validate(name: String) throws {
+            try self.action.forEach {
+                try validate($0, name: "action[]", parent: name, max: 50)
+                try validate($0, name: "action[]", parent: name, min: 5)
+                try validate($0, name: "action[]", parent: name, pattern: "lex:[a-zA-Z*]+$")
+            }
+            try self.condition?.forEach {
+                try validate($0.key, name: "condition.key", parent: name, min: 1)
+            }
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, max: 5)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, pattern: "^[0-9]+$")
+            try self.principal.forEach {
+                try $0.validate(name: "\(name).principal[]")
+            }
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
+            try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action
+            case condition
+            case effect
+            case principal
+            case statementId
+        }
+    }
+
+    public struct CreateResourcePolicyStatementResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String?
+        /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
+        public let revisionId: String?
+
+        public init(resourceArn: String? = nil, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case revisionId
+        }
+    }
+
     public struct CreateSlotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -1332,7 +1727,7 @@ extension LexModelsV2 {
         public let description: String?
         /// The identifier of the intent that contains the slot.
         public let intentId: String
-        /// The identifier of the language and locale that the slot will be used in. The string must match one of the supported locales. All of the bots, intents, slot types used by the slot must have the same locale. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that the slot will be used in. The string must match one of the supported locales. All of the bots, intents, slot types used by the slot must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// Determines how slot values are used in Amazon CloudWatch logs. If the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are obfuscated in the log output. If the value is None, the actual value is present in the log output. The default is to obfuscate values in the CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
@@ -1451,7 +1846,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// A description of the slot type. Use the description to help identify the slot type in lists.
         public let description: String?
-        /// The identifier of the language and locale that the slot type will be used in. The string must match one of the supported locales. All of the bots, intents, and slots used by the slot type must have the same locale. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that the slot type will be used in. The string must match one of the supported locales. All of the bots, intents, and slots used by the slot type must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// The built-in slot type used as a parent of this slot type. When you define a parent slot type, the new slot type has the configuration of the parent slot type. Only AMAZON.AlphaNumeric is supported.
         public let parentSlotTypeSignature: String?
@@ -1551,6 +1946,27 @@ extension LexModelsV2 {
         }
     }
 
+    public struct CreateUploadUrlRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct CreateUploadUrlResponse: AWSDecodableShape {
+        /// An identifier for a unique import job. Use it when you call the operation.
+        public let importId: String?
+        /// A pre-signed S3 write URL. Upload the zip archive file that contains the definition of your bot or bot locale.
+        public let uploadUrl: String?
+
+        public init(importId: String? = nil, uploadUrl: String? = nil) {
+            self.importId = importId
+            self.uploadUrl = uploadUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importId
+            case uploadUrl
+        }
+    }
+
     public struct CustomPayload: AWSEncodableShape & AWSDecodableShape {
         /// The string that is sent to your application.
         public let value: String
@@ -1646,7 +2062,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The version of the bot that contains the locale.
         public let botVersion: String
-        /// The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that will be deleted. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
         public init(botId: String, botVersion: String, localeId: String) {
@@ -1787,6 +2203,82 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DeleteExportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
+        ]
+
+        /// The unique identifier of the export to delete.
+        public let exportId: String
+
+        public init(exportId: String) {
+            self.exportId = exportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportId, name: "exportId", parent: name, max: 10)
+            try self.validate(self.exportId, name: "exportId", parent: name, min: 10)
+            try self.validate(self.exportId, name: "exportId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteExportResponse: AWSDecodableShape {
+        /// The unique identifier of the deleted export.
+        public let exportId: String?
+        /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the operation and calls to the with the export identifier will fail.
+        public let exportStatus: ExportStatus?
+
+        public init(exportId: String? = nil, exportStatus: ExportStatus? = nil) {
+            self.exportId = exportId
+            self.exportStatus = exportStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportId
+            case exportStatus
+        }
+    }
+
+    public struct DeleteImportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "importId", location: .uri(locationName: "importId"))
+        ]
+
+        /// The unique identifier of the import to delete.
+        public let importId: String
+
+        public init(importId: String) {
+            self.importId = importId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importId, name: "importId", parent: name, max: 10)
+            try self.validate(self.importId, name: "importId", parent: name, min: 10)
+            try self.validate(self.importId, name: "importId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteImportResponse: AWSDecodableShape {
+        /// The unique identifier of the deleted import.
+        public let importId: String?
+        /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the operation and calls to the with the import identifier will fail.
+        public let importStatus: ImportStatus?
+
+        public init(importId: String? = nil, importStatus: ImportStatus? = nil) {
+            self.importId = importId
+            self.importStatus = importStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importId
+            case importStatus
+        }
+    }
+
     public struct DeleteIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -1801,7 +2293,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The unique identifier of the intent to delete.
         public let intentId: String
-        /// The identifier of the language and locale where the bot will be deleted. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale where the bot will be deleted. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
         public init(botId: String, botVersion: String, intentId: String, localeId: String) {
@@ -1826,6 +2318,101 @@ extension LexModelsV2 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The identifier of the revision to edit. If this ID doesn't match the current revision number, Amazon Lex returns an exception If you don't specify a revision ID, Amazon Lex will delete the current policy.
+        public let expectedRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that has the resource policy attached.
+        public let resourceArn: String
+
+        public init(expectedRevisionId: String? = nil, resourceArn: String) {
+            self.expectedRevisionId = expectedRevisionId
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, max: 5)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy was deleted from.
+        public let resourceArn: String?
+        /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
+        public let revisionId: String?
+
+        public init(resourceArn: String? = nil, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case revisionId
+        }
+    }
+
+    public struct DeleteResourcePolicyStatementRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "statementId", location: .uri(locationName: "statementId"))
+        ]
+
+        /// The identifier of the revision of the policy to delete the statement from. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex removes the current contents of the statement.
+        public let expectedRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String
+        /// The name of the statement (SID) to delete from the policy.
+        public let statementId: String
+
+        public init(expectedRevisionId: String? = nil, resourceArn: String, statementId: String) {
+            self.expectedRevisionId = expectedRevisionId
+            self.resourceArn = resourceArn
+            self.statementId = statementId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, max: 5)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
+            try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
+            try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyStatementResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy statement was removed from.
+        public let resourceArn: String?
+        /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
+        public let revisionId: String?
+
+        public init(resourceArn: String? = nil, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case revisionId
+        }
+    }
+
     public struct DeleteSlotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -1841,7 +2428,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The identifier of the intent associated with the slot.
         public let intentId: String
-        /// The identifier of the language and locale that the slot will be deleted from. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that the slot will be deleted from. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The identifier of the slot to delete.
         public let slotId: String
@@ -1885,7 +2472,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The version of the bot associated with the slot type.
         public let botVersion: String
-        /// The identifier of the language and locale that the slot type will be deleted from. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that the slot type will be deleted from. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// By default, the DeleteSlotType operations throws a ResourceInUseException exception if you try to delete a slot type used by a slot. Set the skipResourceInUseCheck parameter to true to skip this check and remove the slot type even if a slot uses it.
         public let skipResourceInUseCheck: Bool?
@@ -2010,7 +2597,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The identifier of the version of the bot associated with the locale.
         public let botVersion: String
-        /// The unique identifier of the locale to describe. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The unique identifier of the locale to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
         public init(botId: String, botVersion: String, localeId: String) {
@@ -2243,6 +2830,134 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DescribeExportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
+        ]
+
+        /// The unique identifier of the export to describe.
+        public let exportId: String
+
+        public init(exportId: String) {
+            self.exportId = exportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportId, name: "exportId", parent: name, max: 10)
+            try self.validate(self.exportId, name: "exportId", parent: name, min: 10)
+            try self.validate(self.exportId, name: "exportId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeExportResponse: AWSDecodableShape {
+        /// The date and time that the export was created.
+        public let creationDateTime: Date?
+        /// A pre-signed S3 URL that points to the bot or bot locale archive. The URL is only available for 5 minutes after calling the DescribeExport operation.
+        public let downloadUrl: String?
+        /// The unique identifier of the described export.
+        public let exportId: String?
+        /// The status of the export. When the status is Complete the export archive file is available for download.
+        public let exportStatus: ExportStatus?
+        /// If the exportStatus is failed, contains one or more reasons why the export could not be completed.
+        public let failureReasons: [String]?
+        /// The file format used in the files that describe the bot or bot locale.
+        public let fileFormat: ImportExportFileFormat?
+        /// The last date and time that the export was updated.
+        public let lastUpdatedDateTime: Date?
+        /// The bot, bot ID, and optional locale ID of the exported bot or bot locale.
+        public let resourceSpecification: ExportResourceSpecification?
+
+        public init(creationDateTime: Date? = nil, downloadUrl: String? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, failureReasons: [String]? = nil, fileFormat: ImportExportFileFormat? = nil, lastUpdatedDateTime: Date? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
+            self.creationDateTime = creationDateTime
+            self.downloadUrl = downloadUrl
+            self.exportId = exportId
+            self.exportStatus = exportStatus
+            self.failureReasons = failureReasons
+            self.fileFormat = fileFormat
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case downloadUrl
+            case exportId
+            case exportStatus
+            case failureReasons
+            case fileFormat
+            case lastUpdatedDateTime
+            case resourceSpecification
+        }
+    }
+
+    public struct DescribeImportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "importId", location: .uri(locationName: "importId"))
+        ]
+
+        /// The unique identifier of the import to describe.
+        public let importId: String
+
+        public init(importId: String) {
+            self.importId = importId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importId, name: "importId", parent: name, max: 10)
+            try self.validate(self.importId, name: "importId", parent: name, min: 10)
+            try self.validate(self.importId, name: "importId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeImportResponse: AWSDecodableShape {
+        /// The date and time that the import was created.
+        public let creationDateTime: Date?
+        /// If the importStatus field is Failed, this provides one or more reasons for the failture.
+        public let failureReasons: [String]?
+        /// The unique identifier that Amazon Lex assigned to the resource created by the import.
+        public let importedResourceId: String?
+        /// The name of the imported resource.
+        public let importedResourceName: String?
+        /// The unique identifier of the described import.
+        public let importId: String?
+        /// The status of the import process. When the status is Completed the resource is imported and ready for use.
+        public let importStatus: ImportStatus?
+        /// The date and time that the import was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The strategy used when there was a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
+        public let mergeStrategy: MergeStrategy?
+        /// The specifications of the imported bot or bot locale.
+        public let resourceSpecification: ImportResourceSpecification?
+
+        public init(creationDateTime: Date? = nil, failureReasons: [String]? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil, resourceSpecification: ImportResourceSpecification? = nil) {
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+            self.importedResourceId = importedResourceId
+            self.importedResourceName = importedResourceName
+            self.importId = importId
+            self.importStatus = importStatus
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.mergeStrategy = mergeStrategy
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case failureReasons
+            case importedResourceId
+            case importedResourceName
+            case importId
+            case importStatus
+            case lastUpdatedDateTime
+            case mergeStrategy
+            case resourceSpecification
+        }
+    }
+
     public struct DescribeIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -2257,7 +2972,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The identifier of the intent to describe.
         public let intentId: String
-        /// The identifier of the language and locale of the intent to describe. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the intent to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
 
         public init(botId: String, botVersion: String, intentId: String, localeId: String) {
@@ -2363,6 +3078,47 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DescribeResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeResourcePolicyResponse: AWSDecodableShape {
+        /// The JSON structure that contains the resource policy. For more information about the contents of a JSON policy document, see  IAM JSON policy reference .
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String?
+        /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
+        public let revisionId: String?
+
+        public init(policy: String? = nil, resourceArn: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
+            case resourceArn
+            case revisionId
+        }
+    }
+
     public struct DescribeSlotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -2378,7 +3134,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The identifier of the intent that contains the slot.
         public let intentId: String
-        /// The identifier of the language and locale of the slot to describe. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the slot to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The unique identifier for the slot.
         public let slotId: String
@@ -2478,7 +3234,7 @@ extension LexModelsV2 {
         public let botId: String
         /// The version of the bot associated with the slot type.
         public let botVersion: String
-        /// The identifier of the language and locale of the slot type to describe. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the slot type to describe. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The identifier of the slot type.
         public let slotTypeId: String
@@ -2571,6 +3327,109 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ExportFilter: AWSEncodableShape {
+        /// The name of the field to use for filtering.
+        public let name: ExportFilterName
+        /// The operator to use for the filter. Specify EQ when the ListExports operation should return only resource types that equal the specified value. Specify CO when the ListExports operation should return resource types that contain the specified value.
+        public let `operator`: ExportFilterOperator
+        /// The values to use to fileter the response.
+        public let values: [String]
+
+        public init(name: ExportFilterName, operator: ExportFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_()\\s-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case `operator`
+            case values
+        }
+    }
+
+    public struct ExportResourceSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Parameters for exporting a bot.
+        public let botExportSpecification: BotExportSpecification?
+        /// Parameters for exporting a bot locale.
+        public let botLocaleExportSpecification: BotLocaleExportSpecification?
+
+        public init(botExportSpecification: BotExportSpecification? = nil, botLocaleExportSpecification: BotLocaleExportSpecification? = nil) {
+            self.botExportSpecification = botExportSpecification
+            self.botLocaleExportSpecification = botLocaleExportSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.botExportSpecification?.validate(name: "\(name).botExportSpecification")
+            try self.botLocaleExportSpecification?.validate(name: "\(name).botLocaleExportSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botExportSpecification
+            case botLocaleExportSpecification
+        }
+    }
+
+    public struct ExportSortBy: AWSEncodableShape {
+        /// The export field to use for sorting.
+        public let attribute: ExportSortAttribute
+        /// The order to sort the list.
+        public let order: SortOrder
+
+        public init(attribute: ExportSortAttribute, order: SortOrder) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute
+            case order
+        }
+    }
+
+    public struct ExportSummary: AWSDecodableShape {
+        /// The date and time that the export was created.
+        public let creationDateTime: Date?
+        /// The unique identifier that Amazon Lex assigned to the export.
+        public let exportId: String?
+        /// The status of the export. When the status is Completed the export is ready to download.
+        public let exportStatus: ExportStatus?
+        /// The file format used in the export files.
+        public let fileFormat: ImportExportFileFormat?
+        /// The date and time that the export was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// Information about the bot or bot locale that was exported.
+        public let resourceSpecification: ExportResourceSpecification?
+
+        public init(creationDateTime: Date? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, fileFormat: ImportExportFileFormat? = nil, lastUpdatedDateTime: Date? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
+            self.creationDateTime = creationDateTime
+            self.exportId = exportId
+            self.exportStatus = exportStatus
+            self.fileFormat = fileFormat
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case exportId
+            case exportStatus
+            case fileFormat
+            case lastUpdatedDateTime
+            case resourceSpecification
+        }
+    }
+
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
         public let enabled: Bool
@@ -2620,6 +3479,113 @@ extension LexModelsV2 {
             case imageUrl
             case subtitle
             case title
+        }
+    }
+
+    public struct ImportFilter: AWSEncodableShape {
+        /// The name of the field to use for filtering.
+        public let name: ImportFilterName
+        /// The operator to use for the filter. Specify EQ when the ListImports operation should return only resource types that equal the specified value. Specify CO when the ListImports operation should return resource types that contain the specified value.
+        public let `operator`: ImportFilterOperator
+        /// The values to use to filter the response.
+        public let values: [String]
+
+        public init(name: ImportFilterName, operator: ImportFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_()\\s-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case `operator`
+            case values
+        }
+    }
+
+    public struct ImportResourceSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Parameters for importing a bot.
+        public let botImportSpecification: BotImportSpecification?
+        /// Parameters for importing a bot locale.
+        public let botLocaleImportSpecification: BotLocaleImportSpecification?
+
+        public init(botImportSpecification: BotImportSpecification? = nil, botLocaleImportSpecification: BotLocaleImportSpecification? = nil) {
+            self.botImportSpecification = botImportSpecification
+            self.botLocaleImportSpecification = botLocaleImportSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.botImportSpecification?.validate(name: "\(name).botImportSpecification")
+            try self.botLocaleImportSpecification?.validate(name: "\(name).botLocaleImportSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botImportSpecification
+            case botLocaleImportSpecification
+        }
+    }
+
+    public struct ImportSortBy: AWSEncodableShape {
+        /// The export field to use for sorting.
+        public let attribute: ImportSortAttribute
+        /// The order to sort the list.
+        public let order: SortOrder
+
+        public init(attribute: ImportSortAttribute, order: SortOrder) {
+            self.attribute = attribute
+            self.order = order
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute
+            case order
+        }
+    }
+
+    public struct ImportSummary: AWSDecodableShape {
+        /// The date and time that the import was created.
+        public let creationDateTime: Date?
+        /// The unique identifier that Amazon Lex assigned to the imported resource.
+        public let importedResourceId: String?
+        /// The name that you gave the imported resource.
+        public let importedResourceName: String?
+        /// The unique identifier that Amazon Lex assigned to the import.
+        public let importId: String?
+        /// The status of the resource. When the status is Completed the resource is ready to build.
+        public let importStatus: ImportStatus?
+        /// The date and time that the import was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The strategy used to merge existing bot or bot locale definitions with the imported definition.
+        public let mergeStrategy: MergeStrategy?
+
+        public init(creationDateTime: Date? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil) {
+            self.creationDateTime = creationDateTime
+            self.importedResourceId = importedResourceId
+            self.importedResourceName = importedResourceName
+            self.importId = importId
+            self.importStatus = importStatus
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.mergeStrategy = mergeStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case importedResourceId
+            case importedResourceName
+            case importId
+            case importStatus
+            case lastUpdatedDateTime
+            case mergeStrategy
         }
     }
 
@@ -3064,7 +4030,7 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
-        /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of built-in intents to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
@@ -3118,7 +4084,7 @@ extension LexModelsV2 {
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
-        /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of built-in slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
@@ -3167,6 +4133,154 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ListExportsRequest: AWSEncodableShape {
+        /// The unique identifier that Amazon Lex assigned to the bot.
+        public let botId: String?
+        /// The version of the bot to list exports for.
+        public let botVersion: String?
+        /// Provides the specification of a filter used to limit the exports in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
+        public let filters: [ExportFilter]?
+        /// The maximum number of exports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListExports operation contans more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+        /// Determines the field that the list of exports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
+        public let sortBy: ExportSortBy?
+
+        public init(botId: String? = nil, botVersion: String? = nil, filters: [ExportFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ExportSortBy? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case filters
+            case maxResults
+            case nextToken
+            case sortBy
+        }
+    }
+
+    public struct ListExportsResponse: AWSDecodableShape {
+        /// The unique identifier assigned to the bot by Amazon Lex.
+        public let botId: String?
+        /// The version of the bot that was exported.
+        public let botVersion: String?
+        /// Summary information for the exports that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter. If there are more exports available, the nextToken field contains a token to get the next page of results.
+        public let exportSummaries: [ExportSummary]?
+        /// A token that indicates whether there are more results to return in a response to the ListExports operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListExports operation request to get the next page of results.
+        public let nextToken: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, exportSummaries: [ExportSummary]? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.exportSummaries = exportSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case exportSummaries
+            case nextToken
+        }
+    }
+
+    public struct ListImportsRequest: AWSEncodableShape {
+        /// The unique identifier that Amazon Lex assigned to the bot.
+        public let botId: String?
+        /// The version of the bot to list imports for.
+        public let botVersion: String?
+        /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
+        public let filters: [ImportFilter]?
+        /// The maximum number of imports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListImports operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+        /// Determines the field that the list of imports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
+        public let sortBy: ImportSortBy?
+
+        public init(botId: String? = nil, botVersion: String? = nil, filters: [ImportFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ImportSortBy? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case filters
+            case maxResults
+            case nextToken
+            case sortBy
+        }
+    }
+
+    public struct ListImportsResponse: AWSDecodableShape {
+        /// The unique identifier assigned by Amazon Lex to the bot.
+        public let botId: String?
+        /// The version of the bot that was imported. It will always be DRAFT.
+        public let botVersion: String?
+        /// Summary information for the imports that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter. If there are more imports available, the nextToken field contains a token to get the next page of results.
+        public let importSummaries: [ImportSummary]?
+        /// A token that indicates whether there are more results to return in a response to the ListImports operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListImports operation request to get the next page of results.
+        public let nextToken: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, importSummaries: [ImportSummary]? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.importSummaries = importSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case importSummaries
+            case nextToken
+        }
+    }
+
     public struct ListIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -3180,7 +4294,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// Provides the specification of a filter used to limit the intents in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on.
         public let filters: [IntentFilter]?
-        /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of intents to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
@@ -3265,7 +4379,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// Provides the specification of a filter used to limit the slot types in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on.
         public let filters: [SlotTypeFilter]?
-        /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
@@ -3353,7 +4467,7 @@ extension LexModelsV2 {
         public let filters: [SlotFilter]?
         /// The unique identifier of the intent that contains the slot.
         public let intentId: String
-        /// The identifier of the language and locale of the slots to list. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale of the slots to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of slots to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
@@ -3583,6 +4697,32 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case value
+        }
+    }
+
+    public struct Principal: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the principal.
+        public let arn: String?
+        /// The name of the AWS service that should allowed or denied access to an Amazon Lex action.
+        public let service: String?
+
+        public init(arn: String? = nil, service: String? = nil) {
+            self.arn = arn
+            self.service = service
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1024)
+            try self.validate(self.arn, name: "arn", parent: name, min: 30)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:(root|(user|role)/.*)$")
+            try self.validate(self.service, name: "service", parent: name, max: 1024)
+            try self.validate(self.service, name: "service", parent: name, min: 15)
+            try self.validate(self.service, name: "service", parent: name, pattern: "^[0-9a-zA-Z_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case service
         }
     }
 
@@ -4060,6 +5200,69 @@ extension LexModelsV2 {
         }
     }
 
+    public struct StartImportRequest: AWSEncodableShape {
+        /// The password used to encrypt the zip archive that contains the bot or bot locale definition. You should always encrypt the zip archive to protect it during transit between your site and Amazon Lex.
+        public let filePassword: String?
+        /// The unique identifier for the import. It is included in the response from the operation.
+        public let importId: String
+        /// The strategy to use when there is a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
+        public let mergeStrategy: MergeStrategy
+        /// Parameters for creating the bot or bot locale.
+        public let resourceSpecification: ImportResourceSpecification
+
+        public init(filePassword: String? = nil, importId: String, mergeStrategy: MergeStrategy, resourceSpecification: ImportResourceSpecification) {
+            self.filePassword = filePassword
+            self.importId = importId
+            self.mergeStrategy = mergeStrategy
+            self.resourceSpecification = resourceSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filePassword, name: "filePassword", parent: name, max: 1024)
+            try self.validate(self.filePassword, name: "filePassword", parent: name, min: 1)
+            try self.validate(self.importId, name: "importId", parent: name, max: 10)
+            try self.validate(self.importId, name: "importId", parent: name, min: 10)
+            try self.validate(self.importId, name: "importId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.resourceSpecification.validate(name: "\(name).resourceSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filePassword
+            case importId
+            case mergeStrategy
+            case resourceSpecification
+        }
+    }
+
+    public struct StartImportResponse: AWSDecodableShape {
+        /// The date and time that the import request was created.
+        public let creationDateTime: Date?
+        /// A unique identifier for the import.
+        public let importId: String?
+        /// The current status of the import. When the status is Complete the bot or bot alias is ready to use.
+        public let importStatus: ImportStatus?
+        /// The strategy used when there was a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
+        public let mergeStrategy: MergeStrategy?
+        /// The parameters used when importing the bot or bot locale.
+        public let resourceSpecification: ImportResourceSpecification?
+
+        public init(creationDateTime: Date? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, resourceSpecification: ImportResourceSpecification? = nil) {
+            self.creationDateTime = creationDateTime
+            self.importId = importId
+            self.importStatus = importStatus
+            self.mergeStrategy = mergeStrategy
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case importId
+            case importStatus
+            case mergeStrategy
+            case resourceSpecification
+        }
+    }
+
     public struct StillWaitingResponseSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Indicates that the user can interrupt the response by speaking while the message is being played.
         public let allowInterrupt: Bool?
@@ -4332,7 +5535,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The new description of the locale.
         public let description: String?
-        /// The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double
@@ -4518,6 +5721,67 @@ extension LexModelsV2 {
         }
     }
 
+    public struct UpdateExportRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
+        ]
+
+        /// The unique identifier Amazon Lex assigned to the export.
+        public let exportId: String
+        /// The new password to use to encrypt the export zip archive.
+        public let filePassword: String?
+
+        public init(exportId: String, filePassword: String? = nil) {
+            self.exportId = exportId
+            self.filePassword = filePassword
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportId, name: "exportId", parent: name, max: 10)
+            try self.validate(self.exportId, name: "exportId", parent: name, min: 10)
+            try self.validate(self.exportId, name: "exportId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.filePassword, name: "filePassword", parent: name, max: 1024)
+            try self.validate(self.filePassword, name: "filePassword", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filePassword
+        }
+    }
+
+    public struct UpdateExportResponse: AWSDecodableShape {
+        /// The date and time that the export was created.
+        public let creationDateTime: Date?
+        /// The unique identifier Amazon Lex assigned to the export.
+        public let exportId: String?
+        /// The status of the export. When the status is Completed the export archive is available for download.
+        public let exportStatus: ExportStatus?
+        /// The file format used for the files that define the resource.
+        public let fileFormat: ImportExportFileFormat?
+        /// The date and time that the export was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// A description of the type of resource that was exported, either a bot or a bot locale.
+        public let resourceSpecification: ExportResourceSpecification?
+
+        public init(creationDateTime: Date? = nil, exportId: String? = nil, exportStatus: ExportStatus? = nil, fileFormat: ImportExportFileFormat? = nil, lastUpdatedDateTime: Date? = nil, resourceSpecification: ExportResourceSpecification? = nil) {
+            self.creationDateTime = creationDateTime
+            self.exportId = exportId
+            self.exportStatus = exportStatus
+            self.fileFormat = fileFormat
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDateTime
+            case exportId
+            case exportStatus
+            case fileFormat
+            case lastUpdatedDateTime
+            case resourceSpecification
+        }
+    }
+
     public struct UpdateIntentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -4548,7 +5812,7 @@ extension LexModelsV2 {
         public let intentName: String
         /// New configuration settings for connecting to an Amazon Kendra index.
         public let kendraConfiguration: KendraConfiguration?
-        /// The identifier of the language and locale where this intent is used. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale where this intent is used. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// A new list of contexts that Amazon Lex activates when the intent is fulfilled.
         public let outputContexts: [OutputContext]?
@@ -4708,6 +5972,56 @@ extension LexModelsV2 {
         }
     }
 
+    public struct UpdateResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring(locationName: "expectedRevisionId")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The identifier of the revision of the policy to update. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
+        public let expectedRevisionId: String?
+        /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see  IAM JSON policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String
+
+        public init(expectedRevisionId: String? = nil, policy: String, resourceArn: String) {
+            self.expectedRevisionId = expectedRevisionId
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, max: 5)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, min: 1)
+            try self.validate(self.expectedRevisionId, name: "expectedRevisionId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.policy, name: "policy", parent: name, min: 2)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy
+        }
+    }
+
+    public struct UpdateResourcePolicyResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
+        public let resourceArn: String?
+        /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
+        public let revisionId: String?
+
+        public init(resourceArn: String? = nil, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case revisionId
+        }
+    }
+
     public struct UpdateSlotRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -4725,7 +6039,7 @@ extension LexModelsV2 {
         public let description: String?
         /// The identifier of the intent that contains the slot.
         public let intentId: String
-        /// The identifier of the language and locale that contains the slot. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that contains the slot. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// New settings that determine how slot values are formatted in Amazon CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
@@ -4855,7 +6169,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The new description of the slot type.
         public let description: String?
-        /// The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+        /// The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The new built-in slot type that should be used as the parent of this slot type.
         public let parentSlotTypeSignature: String?

@@ -62,6 +62,12 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataCompressionType: String, CustomStringConvertible, Codable {
+        case lz4 = "LZ4"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataRepositoryLifecycle: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
@@ -706,6 +712,8 @@ extension FSx {
         /// (Optional) Not available to use with file systems that are linked to a data repository. A boolean flag indicating whether tags for the file system should be copied to backups. The default value is false. If it's set to true, all file system tags are copied to all automatic and user-initiated backups when the user doesn't specify any backup-specific tags. If this value is true, and you specify one or more backup tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. For more information, see Working with backups.
         public let copyTagsToBackups: Bool?
         public let dailyAutomaticBackupStartTime: String?
+        /// Sets the data compression configuration for the file system. DataCompressionType can have the following values:    NONE - (Default) Data compression is turned off when the file system is created.    LZ4 - Data compression is turned on with the LZ4 algorithm.   For more information, see Lustre data compression.
+        public let dataCompressionType: DataCompressionType?
         ///  Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 deployment type for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. Encryption of data in-transit is automatically enabled when you access a SCRATCH_2 or PERSISTENT_1 file system from Amazon EC2 instances that support this feature. (Default = SCRATCH_1)  Encryption of data in-transit for SCRATCH_2 and PERSISTENT_1 deployment types is supported when accessed from supported instance types in supported AWS Regions. To learn more, Encrypting Data in Transit.
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set to READ, improve the performance for frequently accessed files and allows 20% of the total storage capacity of the file system to be cached.  This parameter is required when StorageType is set to HDD.
@@ -721,11 +729,12 @@ extension FSx {
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.dataCompressionType = dataCompressionType
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
             self.exportPath = exportPath
@@ -761,6 +770,7 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case dataCompressionType = "DataCompressionType"
             case deploymentType = "DeploymentType"
             case driveCacheType = "DriveCacheType"
             case exportPath = "ExportPath"
@@ -1726,6 +1736,8 @@ extension FSx {
         /// A boolean flag indicating whether tags on the file system should be copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false)
         public let copyTagsToBackups: Bool?
         public let dailyAutomaticBackupStartTime: String?
+        /// The data compression configuration for the file system. DataCompressionType can have the following values:    NONE - Data compression is turned off for the file system.    LZ4 - Data compression is turned on with the LZ4 algorithm.   For more information, see Lustre data compression.
+        public let dataCompressionType: DataCompressionType?
         public let dataRepositoryConfiguration: DataRepositoryConfiguration?
         /// The deployment type of the FSX for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data.  SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 deployment type is used for longer-term storage and workloads and encryption of data in transit. To learn more about deployment types, see  FSx for Lustre Deployment Options. (Default = SCRATCH_1)
         public let deploymentType: LustreDeploymentType?
@@ -1738,10 +1750,11 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.dataCompressionType = dataCompressionType
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
@@ -1754,6 +1767,7 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case dataCompressionType = "DataCompressionType"
             case dataRepositoryConfiguration = "DataRepositoryConfiguration"
             case deploymentType = "DeploymentType"
             case driveCacheType = "DriveCacheType"
@@ -1984,13 +1998,16 @@ extension FSx {
         public let autoImportPolicy: AutoImportPolicyType?
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
+        /// Sets the data compression configuration for the file system. DataCompressionType can have the following values:    NONE - Data compression is turned off for the file system.    LZ4 - Data compression is turned on with the LZ4 algorithm.   If you don't use DataCompressionType, the file system retains its current data compression configuration. For more information, see Lustre data compression.
+        public let dataCompressionType: DataCompressionType?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.dataCompressionType = dataCompressionType
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -2009,6 +2026,7 @@ extension FSx {
             case autoImportPolicy = "AutoImportPolicy"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case dataCompressionType = "DataCompressionType"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }

@@ -133,7 +133,7 @@ public struct ECS: AWSService {
         return self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes Amazon Elastic Container Service container instances. Returns metadata about registered and remaining resources on each container instance requested.
+    /// Describes one or more container instances. Returns metadata about each container instance requested.
     public func describeContainerInstances(_ input: DescribeContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContainerInstancesResponse> {
         return self.client.execute(operation: "DescribeContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -188,7 +188,7 @@ public struct ECS: AWSService {
         return self.client.execute(operation: "ListContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the services that are running in a specified cluster.
+    /// Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicesResponse> {
         return self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -208,7 +208,7 @@ public struct ECS: AWSService {
         return self.client.execute(operation: "ListTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of tasks for a specified cluster. You can filter the results by family name, by a particular container instance, or by the desired status of the task with the family, containerInstance, and desiredStatus parameters. Recently stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour.
+    /// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour.
     public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTasksResponse> {
         return self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

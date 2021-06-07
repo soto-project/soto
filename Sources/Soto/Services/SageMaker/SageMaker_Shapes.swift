@@ -169,12 +169,14 @@ extension SageMaker {
         case analyzingdata = "AnalyzingData"
         case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
         case completed = "Completed"
+        case deployingmodel = "DeployingModel"
         case explainabilityerror = "ExplainabilityError"
         case failed = "Failed"
         case featureengineering = "FeatureEngineering"
         case generatingexplainabilityreport = "GeneratingExplainabilityReport"
         case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
         case maxcandidatesreached = "MaxCandidatesReached"
+        case modeldeploymenterror = "ModelDeploymentError"
         case modeltuning = "ModelTuning"
         case starting = "Starting"
         case stopped = "Stopped"
@@ -1181,6 +1183,7 @@ extension SageMaker {
         case maxruntimeexceeded = "MaxRuntimeExceeded"
         case maxwaittimeexceeded = "MaxWaitTimeExceeded"
         case preparingtrainingstack = "PreparingTrainingStack"
+        case restarting = "Restarting"
         case starting = "Starting"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -2172,13 +2175,13 @@ extension SageMaker {
     }
 
     public struct AutoMLCandidate: AWSDecodableShape {
-        /// The candidate name.
+        /// The name of the candidate.
         public let candidateName: String
         /// The AutoML candidate's properties.
         public let candidateProperties: CandidateProperties?
         /// The candidate's status.
         public let candidateStatus: CandidateStatus
-        /// The candidate's steps.
+        /// Information about the candidate's steps.
         public let candidateSteps: [AutoMLCandidateStep]
         /// The creation time.
         public let creationTime: Date
@@ -2187,11 +2190,11 @@ extension SageMaker {
         /// The failure reason.
         public let failureReason: String?
         public let finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric?
-        /// The inference containers.
+        /// Information about the inference container definitions.
         public let inferenceContainers: [AutoMLContainerDefinition]?
         /// The last modified time.
         public let lastModifiedTime: Date
-        /// The objective status.
+        /// The objective's status.
         public let objectiveStatus: ObjectiveStatus
 
         public init(candidateName: String, candidateProperties: CandidateProperties? = nil, candidateStatus: CandidateStatus, candidateSteps: [AutoMLCandidateStep], creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date, objectiveStatus: ObjectiveStatus) {
@@ -2224,11 +2227,11 @@ extension SageMaker {
     }
 
     public struct AutoMLCandidateStep: AWSDecodableShape {
-        /// The ARN for the Candidate's step.
+        /// The ARN for the candidate's step.
         public let candidateStepArn: String
-        /// The name for the Candidate's step.
+        /// The name for the candidate's step.
         public let candidateStepName: String
-        /// Whether the Candidate is at the transform, training, or processing step.
+        /// Whether the candidate is at the transform, training, or processing step.
         public let candidateStepType: CandidateStepType
 
         public init(candidateStepArn: String, candidateStepName: String, candidateStepType: CandidateStepType) {
@@ -2271,7 +2274,7 @@ extension SageMaker {
     }
 
     public struct AutoMLContainerDefinition: AWSDecodableShape {
-        /// Environment variables to set in the container. For more information, see .
+        /// The environment variables to set in the container. For more information, see .
         public let environment: [String: String]?
         /// The ECR path of the container. For more information, see .
         public let image: String
@@ -2309,9 +2312,9 @@ extension SageMaker {
     }
 
     public struct AutoMLJobArtifacts: AWSDecodableShape {
-        /// The URL to the notebook location.
+        /// The URL of the notebook location.
         public let candidateDefinitionNotebookLocation: String?
-        /// The URL to the notebook location.
+        /// The URL of the notebook location.
         public let dataExplorationNotebookLocation: String?
 
         public init(candidateDefinitionNotebookLocation: String? = nil, dataExplorationNotebookLocation: String? = nil) {
@@ -2355,7 +2358,7 @@ extension SageMaker {
     public struct AutoMLJobConfig: AWSEncodableShape & AWSDecodableShape {
         /// How long an AutoML job is allowed to run, or how many candidates a job is allowed to generate.
         public let completionCriteria: AutoMLJobCompletionCriteria?
-        /// Security configuration for traffic encryption or Amazon VPC settings.
+        /// The security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
 
         public init(completionCriteria: AutoMLJobCompletionCriteria? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
@@ -2375,7 +2378,7 @@ extension SageMaker {
     }
 
     public struct AutoMLJobObjective: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:    MSE: The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive, the better a model is at predicting the actual values the smaller the MSE value. When the data contains outliers, they tend to dominate the MSE which might cause subpar prediction performance.    Accuracy: The ratio of the number correctly classified items to the total number (correctly and incorrectly) classified. It is used for binary and multiclass classification. Measures how close the predicted class values are to the actual values. Accuracy values vary between zero and one, one being perfect accuracy and zero perfect inaccuracy.    F1: The F1 score is the harmonic mean of the precision and recall. It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class; false when they do not. Precision is the ratio of the true positive predictions to all positive predictions (including the false positives) in a data set and measures the quality of the prediction when it predicts the positive class. Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances and measures how completely a model predicts the actual class members in a data set. The standard F1 score weighs precision and recall equally. But which metric is paramount typically depends on specific aspects of a problem. F1 scores vary between zero and one, one being the best possible performance and zero the worst.    AUC: The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms such as logistic regression that return probabilities. A threshold is needed to map the probabilities into classifications. The relevant curve is the receiver operating characteristic curve that plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives but more false negatives. AUC is the area under this receiver operating characteristic curve and so provides an aggregated measure of the model performance across all possible classification thresholds. The AUC score can also be interpreted as the probability that a randomly selected positive data point is more likely to be predicted positive than a randomly selected negative example. AUC scores vary between zero and one, one being perfect accuracy and one half not better than a random classifier. Values less that one half predict worse than a random predictor and such consistently bad predictors can be inverted to obtain better than random predictors.    F1macro: The F1macro score applies F1 scoring to multiclass classification. In this context, you have multiple classes to predict. You just calculate the precision and recall for each class as you did for the positive class in binary classification. Then used these values to calculate the F1 score for each class and average them to obtain the F1macro score. F1macro scores vary between zero and one, one being the best possible performance and zero the worst.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
+        /// The name of the objective metric used to measure the predictive quality of a machine learning system. This metric is optimized during training to provide the best estimate for model parameter values from data. Here are the options:    MSE: The mean squared error (MSE) is the average of the squared differences between the predicted and actual values. It is used for regression. MSE values are always positive: the better a model is at predicting the actual values, the smaller the MSE value. When the data contains outliers, they tend to dominate the MSE, which might cause subpar prediction performance.    Accuracy: The ratio of the number of correctly classified items to the total number of (correctly and incorrectly) classified items. It is used for binary and multiclass classification. It measures how close the predicted class values are to the actual values. Accuracy values vary between zero and one: one indicates perfect accuracy and zero indicates perfect inaccuracy.    F1: The F1 score is the harmonic mean of the precision and recall. It is used for binary classification into classes traditionally referred to as positive and negative. Predictions are said to be true when they match their actual (correct) class and false when they do not. Precision is the ratio of the true positive predictions to all positive predictions (including the false positives) in a data set and measures the quality of the prediction when it predicts the positive class. Recall (or sensitivity) is the ratio of the true positive predictions to all actual positive instances and measures how completely a model predicts the actual class members in a data set. The standard F1 score weighs precision and recall equally. But which metric is paramount typically depends on specific aspects of a problem. F1 scores vary between zero and one: one indicates the best possible performance and zero the worst.    AUC: The area under the curve (AUC) metric is used to compare and evaluate binary classification by algorithms such as logistic regression that return probabilities. A threshold is needed to map the probabilities into classifications. The relevant curve is the receiver operating characteristic curve that plots the true positive rate (TPR) of predictions (or recall) against the false positive rate (FPR) as a function of the threshold value, above which a prediction is considered positive. Increasing the threshold results in fewer false positives but more false negatives. AUC is the area under this receiver operating characteristic curve and so provides an aggregated measure of the model performance across all possible classification thresholds. The AUC score can also be interpreted as the probability that a randomly selected positive data point is more likely to be predicted positive than a randomly selected negative example. AUC scores vary between zero and one: a score of one indicates perfect accuracy and a score of one half indicates that the prediction is not better than a random classifier. Values under one half predict less accurately than a random predictor. But such consistently bad predictors can simply be inverted to obtain better than random predictors.    F1macro: The F1macro score applies F1 scoring to multiclass classification. In this context, you have multiple classes to predict. You just calculate the precision and recall for each class as you did for the positive class in binary classification. Then, use these values to calculate the F1 score for each class and average them to obtain the F1macro score. F1macro scores vary between zero and one: one indicates the best possible performance and zero the worst.   If you do not specify a metric explicitly, the default behavior is to automatically use:    MSE: for regression.    F1: for binary classification    Accuracy: for multiclass classification.
         public let metricName: AutoMLMetricEnum
 
         public init(metricName: AutoMLMetricEnum) {
@@ -2496,7 +2499,7 @@ extension SageMaker {
         public let enableInterContainerTrafficEncryption: Bool?
         /// The key used to encrypt stored data.
         public let volumeKmsKeyId: String?
-        /// VPC configuration.
+        /// The VPC configuration.
         public let vpcConfig: VpcConfig?
 
         public init(enableInterContainerTrafficEncryption: Bool? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -2595,7 +2598,7 @@ extension SageMaker {
     }
 
     public struct CandidateArtifactLocations: AWSDecodableShape {
-        /// The S3 prefix to the explainability artifacts generated for the AutoML candidate.
+        /// The Amazon S3 prefix to the explainability artifacts generated for the AutoML candidate.
         public let explainability: String
 
         public init(explainability: String) {
@@ -2608,7 +2611,7 @@ extension SageMaker {
     }
 
     public struct CandidateProperties: AWSDecodableShape {
-        /// The S3 prefix to the artifacts generated for an AutoML candidate.
+        /// The Amazon S3 prefix to the artifacts generated for an AutoML candidate.
         public let candidateArtifactLocations: CandidateArtifactLocations?
 
         public init(candidateArtifactLocations: CandidateArtifactLocations? = nil) {
@@ -2891,9 +2894,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 1024)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
-            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+-]+")
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[ -~]+")
             try self.validate(self.userPool, name: "userPool", parent: name, max: 55)
             try self.validate(self.userPool, name: "userPool", parent: name, min: 1)
             try self.validate(self.userPool, name: "userPool", parent: name, pattern: "[\\w-]+_[0-9a-zA-Z]+")
@@ -2920,9 +2923,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 1024)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
-            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+-]+")
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[ -~]+")
             try self.validate(self.userGroup, name: "userGroup", parent: name, max: 128)
             try self.validate(self.userGroup, name: "userGroup", parent: name, min: 1)
             try self.validate(self.userGroup, name: "userGroup", parent: name, pattern: "[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+")
@@ -3528,27 +3531,30 @@ extension SageMaker {
         public let autoMLJobConfig: AutoMLJobConfig?
         /// Identifies an Autopilot job. The name must be unique to your account and is case-insensitive.
         public let autoMLJobName: String
-        /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide a AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it.
+        /// Defines the objective metric used to measure the predictive quality of an AutoML job. You provide an AutoMLJobObjective$MetricName and Autopilot infers whether to minimize or maximize it.
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
         /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by . Format(s) supported: CSV. Minimum of 500 rows.
         public let inputDataConfig: [AutoMLChannel]
-        /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV.
+        /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
+        public let modelDeployConfig: ModelDeployConfig?
+        /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV. &lt;para&gt;Specifies whether to automatically deploy the best &amp;ATP; model to an endpoint and the name of that endpoint if deployed automatically.&lt;/para&gt;
         public let outputDataConfig: AutoMLOutputDataConfig
         /// Defines the type of supervised learning available for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression. For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
         public let problemType: ProblemType?
-        /// The ARN of the role that is used to access the data.
+        /// The ARN of the role that is used to access the data. &lt;para&gt;Specifies whether to automatically deploy the best &amp;ATP; model to an endpoint and the name of that endpoint if deployed automatically.&lt;/para&gt;
         public let roleArn: String
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
         public let tags: [Tag]?
 
-        public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, roleArn: String, tags: [Tag]? = nil) {
+        public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig, problemType: ProblemType? = nil, roleArn: String, tags: [Tag]? = nil) {
             self.autoMLJobConfig = autoMLJobConfig
             self.autoMLJobName = autoMLJobName
             self.autoMLJobObjective = autoMLJobObjective
             self.generateCandidateDefinitionsOnly = generateCandidateDefinitionsOnly
             self.inputDataConfig = inputDataConfig
+            self.modelDeployConfig = modelDeployConfig
             self.outputDataConfig = outputDataConfig
             self.problemType = problemType
             self.roleArn = roleArn
@@ -3565,6 +3571,7 @@ extension SageMaker {
             }
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, max: 20)
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, min: 1)
+            try self.modelDeployConfig?.validate(name: "\(name).modelDeployConfig")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -3582,6 +3589,7 @@ extension SageMaker {
             case autoMLJobObjective = "AutoMLJobObjective"
             case generateCandidateDefinitionsOnly = "GenerateCandidateDefinitionsOnly"
             case inputDataConfig = "InputDataConfig"
+            case modelDeployConfig = "ModelDeployConfig"
             case outputDataConfig = "OutputDataConfig"
             case problemType = "ProblemType"
             case roleArn = "RoleArn"
@@ -3918,7 +3926,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]
-        /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
+        /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
         public let tags: [Tag]?
         /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String
@@ -5173,7 +5181,7 @@ extension SageMaker {
         public let additionalCodeRepositories: [String]?
         /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
-        /// Sets whether Amazon SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance will be able to access resources only in your VPC, and will not be able to connect to Amazon SageMaker training and endpoint services unless your configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
+        /// Sets whether Amazon SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to Amazon SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
         public let directInternetAccess: DirectInternetAccess?
         /// The type of ML compute instance to launch for the notebook instance.
         public let instanceType: InstanceType
@@ -5666,9 +5674,11 @@ extension SageMaker {
         public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
         /// The resources, including the ML compute instances and ML storage volumes, to use for model training.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want Amazon SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
         public let resourceConfig: ResourceConfig
+        /// The number of times to retry the job when the job fails due to an InternalServerError.
+        public let retryStrategy: RetryStrategy?
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.  During model training, Amazon SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String
-        /// Specifies a limit to how long a model training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
+        /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition
         /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
@@ -5678,7 +5688,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, resourceConfig: ResourceConfig, retryStrategy: RetryStrategy? = nil, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.debugHookConfig = debugHookConfig
@@ -5694,6 +5704,7 @@ extension SageMaker {
             self.profilerConfig = profilerConfig
             self.profilerRuleConfigurations = profilerRuleConfigurations
             self.resourceConfig = resourceConfig
+            self.retryStrategy = retryStrategy
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
             self.tags = tags
@@ -5737,6 +5748,7 @@ extension SageMaker {
             try self.validate(self.profilerRuleConfigurations, name: "profilerRuleConfigurations", parent: name, max: 20)
             try self.validate(self.profilerRuleConfigurations, name: "profilerRuleConfigurations", parent: name, min: 0)
             try self.resourceConfig.validate(name: "\(name).resourceConfig")
+            try self.retryStrategy?.validate(name: "\(name).retryStrategy")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -5769,6 +5781,7 @@ extension SageMaker {
             case profilerConfig = "ProfilerConfig"
             case profilerRuleConfigurations = "ProfilerRuleConfigurations"
             case resourceConfig = "ResourceConfig"
+            case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
             case tags = "Tags"
@@ -6049,9 +6062,9 @@ extension SageMaker {
         public let singleSignOnUserIdentifier: String?
         /// The username of the associated AWS Single Sign-On User for this UserProfile. If the Domain's AuthMode is SSO, this field is required, and must match a valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field cannot be specified.
         public let singleSignOnUserValue: String?
-        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+        /// Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags that you specify for the User Profile are also added to all Apps that the User Profile launches.
         public let tags: [Tag]?
-        /// A name for the UserProfile.
+        /// A name for the UserProfile. This value is not case sensitive.
         public let userProfileName: String
         /// A collection of settings.
         public let userSettings: UserSettings?
@@ -6355,7 +6368,7 @@ extension SageMaker {
     public struct DataProcessing: AWSEncodableShape & AWSDecodableShape {
         /// A JSONPath expression used to select a portion of the input data to pass to the algorithm. Use the InputFilter parameter to exclude fields, such as an ID column, from the input. If you want Amazon SageMaker to pass the entire input dataset to the algorithm, accept the default value $. Examples: "$", "$[1:]", "$.features"
         public let inputFilter: String?
-        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input. The default value is None, which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input.  For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV files, Amazon SageMaker combines the transformed data with the input data at the end of the input data and stores it in the output file. The joined data has the joined input data followed by the transformed data and the output is a CSV file.
+        /// Specifies the source of the data to join with the transformed data. The valid values are None and Input. The default value is None, which specifies not to join the input with the transformed data. If you want the batch transform job to join the original input data with the transformed data, set JoinSource to Input. You can specify OutputFilter as an additional filter to select a portion of the joined dataset and store it in the output file. For JSON or JSONLines objects, such as a JSON array, Amazon SageMaker adds the transformed data to the input JSON object in an attribute called SageMakerOutput. The joined result for JSON must be a key-value pair object. If the input is not a key-value pair object, Amazon SageMaker creates a new JSON file. In the new JSON file, and the input data is stored under the SageMakerInput key and the results are stored in SageMakerOutput. For CSV data, Amazon SageMaker takes each row as a JSON array and joins the transformed data with the input by appending each transformed row to the end of the input. The joined data has the original input data followed by the transformed data and the output is a CSV file. For information on how joining in applied, see Workflow for Associating Inferences with Input Records.
         public let joinSource: JoinSource?
         /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want Amazon SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$['id','SageMakerOutput']"
         public let outputFilter: String?
@@ -8004,34 +8017,38 @@ extension SageMaker {
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Returns the secondary status of the AutoML job.
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus
-        /// Returns the status of the AutoML job's AutoMLJobStatus.
+        /// Returns the status of the AutoML job.
         public let autoMLJobStatus: AutoMLJobStatus
-        /// Returns the job's BestCandidate.
+        /// Returns the job's best AutoMLCandidate.
         public let bestCandidate: AutoMLCandidate?
         /// Returns the creation time of the AutoML job.
         public let creationTime: Date
         /// Returns the end time of the AutoML job.
         public let endTime: Date?
-        /// Returns the job's FailureReason.
+        /// Returns the failure reason for an AutoML job, when applicable.
         public let failureReason: String?
-        /// Returns the job's output from GenerateCandidateDefinitionsOnly.
+        /// Indicates whether the output for an AutoML job generates candidate definitions only.
         public let generateCandidateDefinitionsOnly: Bool?
         /// Returns the input data configuration for the AutoML job..
         public let inputDataConfig: [AutoMLChannel]
         /// Returns the job's last modified time.
         public let lastModifiedTime: Date
+        /// Indicates whether the model was deployed automatically to an endpoint and the name of that endpoint if deployed automatically.
+        public let modelDeployConfig: ModelDeployConfig?
+        /// Provides information about endpoint for the model deployment.
+        public let modelDeployResult: ModelDeployResult?
         /// Returns the job's output data config.
         public let outputDataConfig: AutoMLOutputDataConfig
         /// Returns a list of reasons for partial failures within an AutoML job.
         public let partialFailureReasons: [AutoMLPartialFailureReason]?
         /// Returns the job's problem type.
         public let problemType: ProblemType?
-        /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, they are the values you provide.
+        /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
         public let resolvedAttributes: ResolvedAttributes?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
 
-        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
+        public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobArtifacts = autoMLJobArtifacts
             self.autoMLJobConfig = autoMLJobConfig
@@ -8046,6 +8063,8 @@ extension SageMaker {
             self.generateCandidateDefinitionsOnly = generateCandidateDefinitionsOnly
             self.inputDataConfig = inputDataConfig
             self.lastModifiedTime = lastModifiedTime
+            self.modelDeployConfig = modelDeployConfig
+            self.modelDeployResult = modelDeployResult
             self.outputDataConfig = outputDataConfig
             self.partialFailureReasons = partialFailureReasons
             self.problemType = problemType
@@ -8068,6 +8087,8 @@ extension SageMaker {
             case generateCandidateDefinitionsOnly = "GenerateCandidateDefinitionsOnly"
             case inputDataConfig = "InputDataConfig"
             case lastModifiedTime = "LastModifiedTime"
+            case modelDeployConfig = "ModelDeployConfig"
+            case modelDeployResult = "ModelDeployResult"
             case outputDataConfig = "OutputDataConfig"
             case partialFailureReasons = "PartialFailureReasons"
             case problemType = "ProblemType"
@@ -10456,13 +10477,15 @@ extension SageMaker {
         public let profilingStatus: ProfilingStatus?
         /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
         public let resourceConfig: ResourceConfig
+        /// The number of times to retry the job when the job fails due to an InternalServerError.
+        public let retryStrategy: RetryStrategy?
         /// The AWS Identity and Access Management (IAM) role configured for the training job.
         public let roleArn: String?
-        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTrainingStack     DownloadingTrainingImage
+        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTraining     DownloadingTrainingImage
         public let secondaryStatus: SecondaryStatus
         /// A history of all of the secondary statuses that the training job has transitioned through.
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
-        /// Specifies a limit to how long a model training job can run. It also specifies the maximum time to wait for a spot instance. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
+        /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
@@ -10482,7 +10505,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, resourceConfig: ResourceConfig, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, resourceConfig: ResourceConfig, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String, trainingJobName: String, trainingJobStatus: TrainingJobStatus, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -10509,6 +10532,7 @@ extension SageMaker {
             self.profilerRuleEvaluationStatuses = profilerRuleEvaluationStatuses
             self.profilingStatus = profilingStatus
             self.resourceConfig = resourceConfig
+            self.retryStrategy = retryStrategy
             self.roleArn = roleArn
             self.secondaryStatus = secondaryStatus
             self.secondaryStatusTransitions = secondaryStatusTransitions
@@ -10551,6 +10575,7 @@ extension SageMaker {
             case profilerRuleEvaluationStatuses = "ProfilerRuleEvaluationStatuses"
             case profilingStatus = "ProfilingStatus"
             case resourceConfig = "ResourceConfig"
+            case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
             case secondaryStatus = "SecondaryStatus"
             case secondaryStatusTransitions = "SecondaryStatusTransitions"
@@ -10834,7 +10859,7 @@ extension SageMaker {
     public struct DescribeUserProfileRequest: AWSEncodableShape {
         /// The domain ID.
         public let domainId: String
-        /// The user profile name.
+        /// The user profile name. This value is not case sensitive.
         public let userProfileName: String
 
         public init(domainId: String, userProfileName: String) {
@@ -11438,7 +11463,7 @@ extension SageMaker {
         public let probabilityAttribute: String?
         /// The threshold for the class probability to be evaluated as a positive result.
         public let probabilityThresholdAttribute: Double?
-        /// Whether input data distributed in Amazon S3 is fully replicated or sharded by an S3 key. Defauts to FullyReplicated
+        /// Whether input data distributed in Amazon S3 is fully replicated or sharded by an S3 key. Defaults to FullyReplicated
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
         /// Whether the Pipe or File is used as the input mode for transfering data for the monitoring job. Pipe mode is recommended for large datasets. File mode is useful for small files that fit in memory. Defaults to File.
         public let s3InputMode: ProcessingS3InputMode?
@@ -12482,17 +12507,19 @@ extension SageMaker {
         public let outputDataConfig: OutputDataConfig
         /// The resources, including the compute instances and storage volumes, to use for the training jobs that the tuning job launches. Storage volumes store model artifacts and incremental states. Training algorithms might also use storage volumes for scratch space. If you want Amazon SageMaker to use the storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
         public let resourceConfig: ResourceConfig
+        /// The number of times to retry the job when the job fails due to an InternalServerError.
+        public let retryStrategy: RetryStrategy?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the training jobs that the tuning job launches.
         public let roleArn: String
         /// Specifies the values of hyperparameters that do not change for the tuning job.
         public let staticHyperParameters: [String: String]?
-        /// Specifies a limit to how long a model hyperparameter training job can run. It also specifies how long you are willing to wait for a managed spot training job to complete. When the job reaches the a limit, Amazon SageMaker ends the training job. Use this API to cap model training costs.
+        /// Specifies a limit to how long a model hyperparameter training job can run. It also specifies how long a managed spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
         public let tuningObjective: HyperParameterTuningJobObjective?
         /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, definitionName: String? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameterRanges: ParameterRanges? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, tuningObjective: HyperParameterTuningJobObjective? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: HyperParameterAlgorithmSpecification, checkpointConfig: CheckpointConfig? = nil, definitionName: String? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, hyperParameterRanges: ParameterRanges? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig, resourceConfig: ResourceConfig, retryStrategy: RetryStrategy? = nil, roleArn: String, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition, tuningObjective: HyperParameterTuningJobObjective? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.definitionName = definitionName
@@ -12503,6 +12530,7 @@ extension SageMaker {
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
             self.resourceConfig = resourceConfig
+            self.retryStrategy = retryStrategy
             self.roleArn = roleArn
             self.staticHyperParameters = staticHyperParameters
             self.stoppingCondition = stoppingCondition
@@ -12524,6 +12552,7 @@ extension SageMaker {
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, min: 1)
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
             try self.resourceConfig.validate(name: "\(name).resourceConfig")
+            try self.retryStrategy?.validate(name: "\(name).retryStrategy")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -12549,6 +12578,7 @@ extension SageMaker {
             case inputDataConfig = "InputDataConfig"
             case outputDataConfig = "OutputDataConfig"
             case resourceConfig = "ResourceConfig"
+            case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
             case staticHyperParameters = "StaticHyperParameters"
             case stoppingCondition = "StoppingCondition"
@@ -13222,6 +13252,7 @@ extension SageMaker {
         public let labelingJobName: String?
         /// The configured number of workers per data object.
         public let numberOfHumanWorkersPerDataObject: Int?
+        /// The AWS account ID of the account used to start the labeling job.
         public let workRequesterAccountId: String
 
         public init(creationTime: Date, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, workRequesterAccountId: String) {
@@ -13287,7 +13318,7 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
         public let s3OutputPath: String
-        /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. If you provide an SnsTopicArn in OutputConfig, when workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here.  To learn more, see Receive Output Data from a Streaming Labeling Job.
+        /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. Provide a SnsTopicArn if you want to do real time chaining to another streaming job and receive an Amazon SNS notifications each time a data object is submitted by a worker. If you provide an SnsTopicArn in OutputConfig, when workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here.  To learn more, see Receive Output Data from a Streaming Labeling Job.
         public let snsTopicArn: String?
 
         public init(kmsKeyId: String? = nil, s3OutputPath: String, snsTopicArn: String? = nil) {
@@ -13874,7 +13905,7 @@ extension SageMaker {
         public let nameContains: String?
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
-        /// The parameter by which to sort the results. The default is AutoMLJobName.
+        /// The parameter by which to sort the results. The default is Name.
         public let sortBy: AutoMLSortBy?
         /// The sort order for the results. The default is Descending.
         public let sortOrder: AutoMLSortOrder?
@@ -13984,7 +14015,7 @@ extension SageMaker {
     }
 
     public struct ListCandidatesForAutoMLJobResponse: AWSDecodableShape {
-        /// Summaries about the Candidates.
+        /// Summaries about the AutoMLCandidates.
         public let candidates: [AutoMLCandidate]
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
@@ -14604,7 +14635,7 @@ extension SageMaker {
         public let lastModifiedTimeAfter: Date?
         ///  A filter that returns only endpoints that were modified before the specified timestamp.
         public let lastModifiedTimeBefore: Date?
-        /// The maximum number of endpoints to return in the response.
+        /// The maximum number of endpoints to return in the response. This value defaults to 10.
         public let maxResults: Int?
         /// A string in endpoint names. This filter returns only endpoints whose name contains the specified string.
         public let nameContains: String?
@@ -17291,6 +17322,41 @@ extension SageMaker {
         }
     }
 
+    public struct ModelDeployConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Set to True to automatically generate an endpoint name for a one-click Autopilot model deployment; set to False otherwise. The default value is True.  If you set AutoGenerateEndpointName to True, do not specify the EndpointName; otherwise a 400 error is thrown.
+        public let autoGenerateEndpointName: Bool?
+        /// Specifies the endpoint name to use for a one-click Autopilot model deployment if the endpoint name is not generated automatically.  Specify the EndpointName if and only if you set AutoGenerateEndpointName to False; otherwise a 400 error is thrown.
+        public let endpointName: String?
+
+        public init(autoGenerateEndpointName: Bool? = nil, endpointName: String? = nil) {
+            self.autoGenerateEndpointName = autoGenerateEndpointName
+            self.endpointName = endpointName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpointName, name: "endpointName", parent: name, max: 63)
+            try self.validate(self.endpointName, name: "endpointName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoGenerateEndpointName = "AutoGenerateEndpointName"
+            case endpointName = "EndpointName"
+        }
+    }
+
+    public struct ModelDeployResult: AWSDecodableShape {
+        /// The name of the endpoint to which the model has been deployed.  If model deployment fails, this field is omitted from the response.
+        public let endpointName: String?
+
+        public init(endpointName: String? = nil) {
+            self.endpointName = endpointName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointName = "EndpointName"
+        }
+    }
+
     public struct ModelDigests: AWSDecodableShape {
         /// Provides a hash value that uniquely identifies the stored model artifacts.
         public let artifactDigest: String?
@@ -18458,7 +18524,7 @@ extension SageMaker {
     }
 
     public struct MonitoringStoppingCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum runtime allowed in seconds.
+        /// The maximum runtime allowed in seconds.  The MaxRuntimeInSeconds cannot exceed the frequency of the job. For data quality and model explainability, this can be up to 3600 seconds for an hourly schedule. For model bias and model quality hourly schedules, this can be up to 1800 seconds.
         public let maxRuntimeInSeconds: Int
 
         public init(maxRuntimeInSeconds: Int) {
@@ -18746,12 +18812,12 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, max: 500)
             try self.validate(self.authorizationEndpoint, name: "authorizationEndpoint", parent: name, pattern: "https://\\S+")
-            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 1024)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
-            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+-]+")
-            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 64)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[ -~]+")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 1024)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
-            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "[\\w+=/-]+")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "[ -~]+")
             try self.validate(self.issuer, name: "issuer", parent: name, max: 500)
             try self.validate(self.issuer, name: "issuer", parent: name, pattern: "https://\\S+")
             try self.validate(self.jwksUri, name: "jwksUri", parent: name, max: 500)
@@ -20430,6 +20496,24 @@ extension SageMaker {
         }
     }
 
+    public struct RetryStrategy: AWSEncodableShape & AWSDecodableShape {
+        /// The number of times to retry the job. When the job is retried, it's SecondaryStatus is changed to STARTING.
+        public let maximumRetryAttempts: Int
+
+        public init(maximumRetryAttempts: Int) {
+            self.maximumRetryAttempts = maximumRetryAttempts
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 30)
+            try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
     public struct S3DataSource: AWSEncodableShape & AWSDecodableShape {
         /// A list of one or more attribute names to use that are found in a specified augmented manifest file.
         public let attributeNames: [String]?
@@ -21176,9 +21260,9 @@ extension SageMaker {
     }
 
     public struct StoppingCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum length of time, in seconds, that the training or compilation job can run. If job does not complete during this time, Amazon SageMaker ends the job. If value is not specified, default value is 1 day. The maximum value is 28 days.
+        /// The maximum length of time, in seconds, that a training or compilation job can run. If the job does not complete during this time, Amazon SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days.
         public let maxRuntimeInSeconds: Int?
-        /// The maximum length of time, in seconds, how long you are willing to wait for a managed spot training job to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the training job runs. It must be equal to or greater than MaxRuntimeInSeconds.
+        /// The maximum length of time, in seconds, that a managed Spot training job has to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the job can run. It must be equal to or greater than MaxRuntimeInSeconds. If the job does not complete during this time, Amazon SageMaker ends the job. When RetryStrategy is specified in the job request, MaxWaitTimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt.
         public let maxWaitTimeInSeconds: Int?
 
         public init(maxRuntimeInSeconds: Int? = nil, maxWaitTimeInSeconds: Int? = nil) {
@@ -21397,13 +21481,15 @@ extension SageMaker {
         public let outputDataConfig: OutputDataConfig?
         /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
         public let resourceConfig: ResourceConfig?
+        /// The number of times to retry the job when the job fails due to an InternalServerError.
+        public let retryStrategy: RetryStrategy?
         /// The AWS Identity and Access Management (IAM) role configured for the training job.
         public let roleArn: String?
         ///  Provides detailed information about the state of the training job. For detailed information about the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTrainingStack     DownloadingTrainingImage
         public let secondaryStatus: SecondaryStatus?
         /// A history of all of the secondary statuses that the training job has transitioned through.
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
-        /// Specifies a limit to how long a model training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
+        /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition?
         /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
         public let tags: [Tag]?
@@ -21425,7 +21511,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -21448,6 +21534,7 @@ extension SageMaker {
             self.modelArtifacts = modelArtifacts
             self.outputDataConfig = outputDataConfig
             self.resourceConfig = resourceConfig
+            self.retryStrategy = retryStrategy
             self.roleArn = roleArn
             self.secondaryStatus = secondaryStatus
             self.secondaryStatusTransitions = secondaryStatusTransitions
@@ -21487,6 +21574,7 @@ extension SageMaker {
             case modelArtifacts = "ModelArtifacts"
             case outputDataConfig = "OutputDataConfig"
             case resourceConfig = "ResourceConfig"
+            case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
             case secondaryStatus = "SecondaryStatus"
             case secondaryStatusTransitions = "SecondaryStatusTransitions"
@@ -21513,7 +21601,7 @@ extension SageMaker {
         public let outputDataConfig: OutputDataConfig
         /// The resources, including the ML compute instances and ML storage volumes, to use for model training.
         public let resourceConfig: ResourceConfig
-        /// Specifies a limit to how long a model training job can run. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts.
+        /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts.
         public let stoppingCondition: StoppingCondition
         /// The input mode used by the algorithm for the training job. For the input modes that Amazon SageMaker algorithms support, see Algorithms. If an algorithm supports the File input mode, Amazon SageMaker downloads the training data from S3 to the provisioned ML storage Volume, and mounts the directory to docker volume for training container. If an algorithm supports the Pipe input mode, Amazon SageMaker streams data directly from S3 to the container.
         public let trainingInputMode: TrainingInputMode

@@ -36,6 +36,18 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
+    public enum Resource: String, CustomStringConvertible, Codable {
+        case fileSystem = "FILE_SYSTEM"
+        case mountTarget = "MOUNT_TARGET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceIdType: String, CustomStringConvertible, Codable {
+        case longId = "LONG_ID"
+        case shortId = "SHORT_ID"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case disabling = "DISABLING"
@@ -111,7 +123,7 @@ extension EFS {
     }
 
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the status of the file system's backup policy.     ENABLED  - EFS is automatically backing up the file system.&gt;     ENABLING  - EFS is turning on automatic backups for the file system.     DISABLED  - automatic back ups are turned off for the file system.     DISABLING  - EFS is turning off automatic backups for the file system.
+        /// Describes the status of the file system's backup policy.     ENABLED  - EFS is automatically backing up the file system.     ENABLING  - EFS is turning on automatic backups for the file system.     DISABLED  - automatic back ups are turned off for the file system.     DISABLING  - EFS is turning off automatic backups for the file system.
         public let status: Status
 
         public init(status: Status) {
@@ -187,7 +199,7 @@ extension EFS {
         public let creationToken: String
         /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system.
         public let encrypted: Bool?
-        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS file systems.
+        /// The ID of the AWS KMS CMK that you want to use to protect the encrypted file system. This parameter is only required if you want to use a non-default KMS key. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys with EFS file systems.
         public let kmsKeyId: String?
         /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.  The maxIO mode is not supported on file systems using One Zone storage classes.
         public let performanceMode: PerformanceMode?
@@ -218,7 +230,7 @@ extension EFS {
             try self.validate(self.creationToken, name: "creationToken", parent: name, min: 1)
             try self.validate(self.creationToken, name: "creationToken", parent: name, pattern: ".+")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(alias/[a-zA-Z0-9/_-]+))))$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|mrk-[0-9a-f]{32}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(key/mrk-[0-9a-f]{32})|(alias/[a-zA-Z0-9/_-]+))))$")
             try self.validate(self.provisionedThroughputInMibps, name: "provisionedThroughputInMibps", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -504,6 +516,43 @@ extension EFS {
         private enum CodingKeys: String, CodingKey {
             case accessPoints = "AccessPoints"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAccountPreferencesRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAccountPreferencesResponse: AWSDecodableShape {
+        public let nextToken: String?
+        public let resourceIdPreference: ResourceIdPreference?
+
+        public init(nextToken: String? = nil, resourceIdPreference: ResourceIdPreference? = nil) {
+            self.nextToken = nextToken
+            self.resourceIdPreference = resourceIdPreference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case resourceIdPreference = "ResourceIdPreference"
         }
     }
 
@@ -934,7 +983,7 @@ extension EFS {
 
         /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100.
         public let maxResults: Int?
-        /// You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated.
+        /// (Optional) You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated.
         public let nextToken: String?
         /// Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint.
         public let resourceId: String
@@ -1089,6 +1138,30 @@ extension EFS {
         }
     }
 
+    public struct PutAccountPreferencesRequest: AWSEncodableShape {
+        public let resourceIdType: ResourceIdType
+
+        public init(resourceIdType: ResourceIdType) {
+            self.resourceIdType = resourceIdType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdType = "ResourceIdType"
+        }
+    }
+
+    public struct PutAccountPreferencesResponse: AWSDecodableShape {
+        public let resourceIdPreference: ResourceIdPreference?
+
+        public init(resourceIdPreference: ResourceIdPreference? = nil) {
+            self.resourceIdPreference = resourceIdPreference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdPreference = "ResourceIdPreference"
+        }
+    }
+
     public struct PutBackupPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
@@ -1171,6 +1244,21 @@ extension EFS {
         }
     }
 
+    public struct ResourceIdPreference: AWSDecodableShape {
+        public let resourceIdType: ResourceIdType?
+        public let resources: [Resource]?
+
+        public init(resourceIdType: ResourceIdType? = nil, resources: [Resource]? = nil) {
+            self.resourceIdType = resourceIdType
+            self.resources = resources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceIdType = "ResourceIdType"
+            case resources = "Resources"
+        }
+    }
+
     public struct RootDirectory: AWSEncodableShape & AWSDecodableShape {
         /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory &gt; Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory &gt; Path does not exist, attempts to mount the file system using the access point will fail.
         public let creationInfo: CreationInfo?
@@ -1227,6 +1315,7 @@ extension EFS {
 
         /// The ID specifying the EFS resource that you want to create a tag for.
         public let resourceId: String
+        /// An array of Tag objects to add. Each Tag object is a key-value pair.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {

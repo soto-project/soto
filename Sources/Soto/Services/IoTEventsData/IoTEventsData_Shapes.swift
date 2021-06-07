@@ -20,6 +20,35 @@ import SotoCore
 extension IoTEventsData {
     // MARK: Enums
 
+    public enum AlarmStateName: String, CustomStringConvertible, Codable {
+        case acknowledged = "ACKNOWLEDGED"
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        case latched = "LATCHED"
+        case normal = "NORMAL"
+        case snoozeDisabled = "SNOOZE_DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case equal = "EQUAL"
+        case greater = "GREATER"
+        case greaterOrEqual = "GREATER_OR_EQUAL"
+        case less = "LESS"
+        case lessOrEqual = "LESS_OR_EQUAL"
+        case notEqual = "NOT_EQUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomerActionName: String, CustomStringConvertible, Codable {
+        case acknowledge = "ACKNOWLEDGE"
+        case disable = "DISABLE"
+        case enable = "ENABLE"
+        case reset = "RESET"
+        case snooze = "SNOOZE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case internalfailureexception = "InternalFailureException"
         case invalidrequestexception = "InvalidRequestException"
@@ -29,12 +58,288 @@ extension IoTEventsData {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case stateChange = "STATE_CHANGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerType: String, CustomStringConvertible, Codable {
+        case snoozeTimeout = "SNOOZE_TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
-    public struct BatchPutMessageErrorEntry: AWSDecodableShape {
-        /// The code associated with the error.
+    public struct AcknowledgeActionConfiguration: AWSDecodableShape {
+        /// The note that you can leave when you acknowledge the alarm.
+        public let note: String?
+
+        public init(note: String? = nil) {
+            self.note = note
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case note
+        }
+    }
+
+    public struct AcknowledgeAlarmActionRequest: AWSEncodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The note that you can leave when you acknowledge the alarm.
+        public let note: String?
+        /// The request ID. Each ID must be unique within each batch.
+        public let requestId: String
+
+        public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
+            self.alarmModelName = alarmModelName
+            self.keyValue = keyValue
+            self.note = note
+            self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+            try self.validate(self.note, name: "note", parent: name, max: 256)
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 64)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case keyValue
+            case note
+            case requestId
+        }
+    }
+
+    public struct Alarm: AWSDecodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String?
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+        /// Contains information about the current state of the alarm.
+        public let alarmState: AlarmState?
+        /// The time the alarm was created, in the Unix epoch format.
+        public let creationTime: Date?
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The time the alarm was last updated, in the Unix epoch format.
+        public let lastUpdateTime: Date?
+        /// A non-negative integer that reflects the severity level of the alarm.
+        public let severity: Int?
+
+        public init(alarmModelName: String? = nil, alarmModelVersion: String? = nil, alarmState: AlarmState? = nil, creationTime: Date? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, severity: Int? = nil) {
+            self.alarmModelName = alarmModelName
+            self.alarmModelVersion = alarmModelVersion
+            self.alarmState = alarmState
+            self.creationTime = creationTime
+            self.keyValue = keyValue
+            self.lastUpdateTime = lastUpdateTime
+            self.severity = severity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case alarmModelVersion
+            case alarmState
+            case creationTime
+            case keyValue
+            case lastUpdateTime
+            case severity
+        }
+    }
+
+    public struct AlarmState: AWSDecodableShape {
+        /// Contains information about the action that you can take to respond to the alarm.
+        public let customerAction: CustomerAction?
+        /// Information needed to evaluate data.
+        public let ruleEvaluation: RuleEvaluation?
+        /// The name of the alarm state. The state name can be one of the following values:    DISABLED - When the alarm is in the DISABLED state, it isn't ready to evaluate data. To enable the alarm, you must change the alarm to the NORMAL state.    NORMAL - When the alarm is in the NORMAL state, it's ready to evaluate data.    ACTIVE - If the alarm is in the ACTIVE state, the alarm is invoked.    ACKNOWLEDGED - When the alarm is in the ACKNOWLEDGED state, the alarm was invoked and you acknowledged the alarm.    SNOOZE_DISABLED - When the alarm is in the SNOOZE_DISABLED state, the alarm is disabled for a specified period of time. After the snooze time, the alarm automatically changes to the NORMAL state.     LATCHED - When the alarm is in the LATCHED state, the alarm was invoked. However, the data that the alarm is currently evaluating is within the specified range. To change the alarm to the NORMAL state, you must acknowledge the alarm.
+        public let stateName: AlarmStateName?
+        /// Contains information about alarm state changes.
+        public let systemEvent: SystemEvent?
+
+        public init(customerAction: CustomerAction? = nil, ruleEvaluation: RuleEvaluation? = nil, stateName: AlarmStateName? = nil, systemEvent: SystemEvent? = nil) {
+            self.customerAction = customerAction
+            self.ruleEvaluation = ruleEvaluation
+            self.stateName = stateName
+            self.systemEvent = systemEvent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerAction
+            case ruleEvaluation
+            case stateName
+            case systemEvent
+        }
+    }
+
+    public struct AlarmSummary: AWSDecodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String?
+        /// The version of the alarm model.
+        public let alarmModelVersion: String?
+        /// The time the alarm was created, in the Unix epoch format.
+        public let creationTime: Date?
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The time the alarm was last updated, in the Unix epoch format.
+        public let lastUpdateTime: Date?
+        /// The name of the alarm state. The state name can be one of the following values:    DISABLED - When the alarm is in the DISABLED state, it isn't ready to evaluate data. To enable the alarm, you must change the alarm to the NORMAL state.    NORMAL - When the alarm is in the NORMAL state, it's ready to evaluate data.    ACTIVE - If the alarm is in the ACTIVE state, the alarm is invoked.    ACKNOWLEDGED - When the alarm is in the ACKNOWLEDGED state, the alarm was invoked and you acknowledged the alarm.    SNOOZE_DISABLED - When the alarm is in the SNOOZE_DISABLED state, the alarm is disabled for a specified period of time. After the snooze time, the alarm automatically changes to the NORMAL state.     LATCHED - When the alarm is in the LATCHED state, the alarm was invoked. However, the data that the alarm is currently evaluating is within the specified range. To change the alarm to the NORMAL state, you must acknowledge the alarm.
+        public let stateName: AlarmStateName?
+
+        public init(alarmModelName: String? = nil, alarmModelVersion: String? = nil, creationTime: Date? = nil, keyValue: String? = nil, lastUpdateTime: Date? = nil, stateName: AlarmStateName? = nil) {
+            self.alarmModelName = alarmModelName
+            self.alarmModelVersion = alarmModelVersion
+            self.creationTime = creationTime
+            self.keyValue = keyValue
+            self.lastUpdateTime = lastUpdateTime
+            self.stateName = stateName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case alarmModelVersion
+            case creationTime
+            case keyValue
+            case lastUpdateTime
+            case stateName
+        }
+    }
+
+    public struct BatchAcknowledgeAlarmRequest: AWSEncodableShape {
+        /// The list of acknowledge action requests. You can specify up to 10 requests per operation.
+        public let acknowledgeActionRequests: [AcknowledgeAlarmActionRequest]
+
+        public init(acknowledgeActionRequests: [AcknowledgeAlarmActionRequest]) {
+            self.acknowledgeActionRequests = acknowledgeActionRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.acknowledgeActionRequests.forEach {
+                try $0.validate(name: "\(name).acknowledgeActionRequests[]")
+            }
+            try self.validate(self.acknowledgeActionRequests, name: "acknowledgeActionRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgeActionRequests
+        }
+    }
+
+    public struct BatchAcknowledgeAlarmResponse: AWSDecodableShape {
+        /// A list of errors associated with the request, or null if there are no errors. Each error entry contains an entry ID that helps you identify the entry that failed.
+        public let errorEntries: [BatchAlarmActionErrorEntry]?
+
+        public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
+    public struct BatchAlarmActionErrorEntry: AWSDecodableShape {
+        /// The error code.
         public let errorCode: ErrorCode?
-        /// More information about the error.
+        /// A message that describes the error.
+        public let errorMessage: String?
+        /// The request ID. Each ID must be unique within each batch.
+        public let requestId: String?
+
+        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, requestId: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorMessage
+            case requestId
+        }
+    }
+
+    public struct BatchDisableAlarmRequest: AWSEncodableShape {
+        /// The list of disable action requests. You can specify up to 10 requests per operation.
+        public let disableActionRequests: [DisableAlarmActionRequest]
+
+        public init(disableActionRequests: [DisableAlarmActionRequest]) {
+            self.disableActionRequests = disableActionRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.disableActionRequests.forEach {
+                try $0.validate(name: "\(name).disableActionRequests[]")
+            }
+            try self.validate(self.disableActionRequests, name: "disableActionRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disableActionRequests
+        }
+    }
+
+    public struct BatchDisableAlarmResponse: AWSDecodableShape {
+        /// A list of errors associated with the request, or null if there are no errors. Each error entry contains an entry ID that helps you identify the entry that failed.
+        public let errorEntries: [BatchAlarmActionErrorEntry]?
+
+        public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
+    public struct BatchEnableAlarmRequest: AWSEncodableShape {
+        /// The list of enable action requests. You can specify up to 10 requests per operation.
+        public let enableActionRequests: [EnableAlarmActionRequest]
+
+        public init(enableActionRequests: [EnableAlarmActionRequest]) {
+            self.enableActionRequests = enableActionRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.enableActionRequests.forEach {
+                try $0.validate(name: "\(name).enableActionRequests[]")
+            }
+            try self.validate(self.enableActionRequests, name: "enableActionRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableActionRequests
+        }
+    }
+
+    public struct BatchEnableAlarmResponse: AWSDecodableShape {
+        /// A list of errors associated with the request, or null if there are no errors. Each error entry contains an entry ID that helps you identify the entry that failed.
+        public let errorEntries: [BatchAlarmActionErrorEntry]?
+
+        public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
+    public struct BatchPutMessageErrorEntry: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: ErrorCode?
+        /// A message that describes the error.
         public let errorMessage: String?
         /// The ID of the message that caused the error. (See the value corresponding to the "messageId" key in the "message" object.)
         public let messageId: String?
@@ -85,10 +390,76 @@ extension IoTEventsData {
         }
     }
 
+    public struct BatchResetAlarmRequest: AWSEncodableShape {
+        /// The list of reset action requests. You can specify up to 10 requests per operation.
+        public let resetActionRequests: [ResetAlarmActionRequest]
+
+        public init(resetActionRequests: [ResetAlarmActionRequest]) {
+            self.resetActionRequests = resetActionRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.resetActionRequests.forEach {
+                try $0.validate(name: "\(name).resetActionRequests[]")
+            }
+            try self.validate(self.resetActionRequests, name: "resetActionRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resetActionRequests
+        }
+    }
+
+    public struct BatchResetAlarmResponse: AWSDecodableShape {
+        /// A list of errors associated with the request, or null if there are no errors. Each error entry contains an entry ID that helps you identify the entry that failed.
+        public let errorEntries: [BatchAlarmActionErrorEntry]?
+
+        public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
+    public struct BatchSnoozeAlarmRequest: AWSEncodableShape {
+        /// The list of snooze action requests. You can specify up to 10 requests per operation.
+        public let snoozeActionRequests: [SnoozeAlarmActionRequest]
+
+        public init(snoozeActionRequests: [SnoozeAlarmActionRequest]) {
+            self.snoozeActionRequests = snoozeActionRequests
+        }
+
+        public func validate(name: String) throws {
+            try self.snoozeActionRequests.forEach {
+                try $0.validate(name: "\(name).snoozeActionRequests[]")
+            }
+            try self.validate(self.snoozeActionRequests, name: "snoozeActionRequests", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snoozeActionRequests
+        }
+    }
+
+    public struct BatchSnoozeAlarmResponse: AWSDecodableShape {
+        /// A list of errors associated with the request, or null if there are no errors. Each error entry contains an entry ID that helps you identify the entry that failed.
+        public let errorEntries: [BatchAlarmActionErrorEntry]?
+
+        public init(errorEntries: [BatchAlarmActionErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
     public struct BatchUpdateDetectorErrorEntry: AWSDecodableShape {
-        /// The code of the error.
+        /// The error code.
         public let errorCode: ErrorCode?
-        /// A message describing the error.
+        /// A message that describes the error.
         public let errorMessage: String?
         /// The "messageId" of the update request that caused the error. (The value of the "messageId" in the update request "Detector" object.)
         public let messageId: String?
@@ -136,6 +507,80 @@ extension IoTEventsData {
 
         private enum CodingKeys: String, CodingKey {
             case batchUpdateDetectorErrorEntries
+        }
+    }
+
+    public struct CustomerAction: AWSDecodableShape {
+        /// Contains the configuration information of an acknowledge action.
+        public let acknowledgeActionConfiguration: AcknowledgeActionConfiguration?
+        /// The name of the action. The action name can be one of the following values:    SNOOZE - When you snooze the alarm, the alarm state changes to SNOOZE_DISABLED.    ENABLE - When you enable the alarm, the alarm state changes to NORMAL.    DISABLE - When you disable the alarm, the alarm state changes to DISABLED.    ACKNOWLEDGE - When you acknowledge the alarm, the alarm state changes to ACKNOWLEDGED.    RESET - When you reset the alarm, the alarm state changes to NORMAL.   For more information, see the AlarmState API.
+        public let actionName: CustomerActionName?
+        /// Contains the configuration information of a disable action.
+        public let disableActionConfiguration: DisableActionConfiguration?
+        /// Contains the configuration information of an enable action.
+        public let enableActionConfiguration: EnableActionConfiguration?
+        /// Contains the configuration information of a reset action.
+        public let resetActionConfiguration: ResetActionConfiguration?
+        /// Contains the configuration information of a snooze action.
+        public let snoozeActionConfiguration: SnoozeActionConfiguration?
+
+        public init(acknowledgeActionConfiguration: AcknowledgeActionConfiguration? = nil, actionName: CustomerActionName? = nil, disableActionConfiguration: DisableActionConfiguration? = nil, enableActionConfiguration: EnableActionConfiguration? = nil, resetActionConfiguration: ResetActionConfiguration? = nil, snoozeActionConfiguration: SnoozeActionConfiguration? = nil) {
+            self.acknowledgeActionConfiguration = acknowledgeActionConfiguration
+            self.actionName = actionName
+            self.disableActionConfiguration = disableActionConfiguration
+            self.enableActionConfiguration = enableActionConfiguration
+            self.resetActionConfiguration = resetActionConfiguration
+            self.snoozeActionConfiguration = snoozeActionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgeActionConfiguration
+            case actionName
+            case disableActionConfiguration
+            case enableActionConfiguration
+            case resetActionConfiguration
+            case snoozeActionConfiguration
+        }
+    }
+
+    public struct DescribeAlarmRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
+            AWSMemberEncoding(label: "keyValue", location: .querystring(locationName: "keyValue"))
+        ]
+
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+
+        public init(alarmModelName: String, keyValue: String? = nil) {
+            self.alarmModelName = alarmModelName
+            self.keyValue = keyValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAlarmResponse: AWSDecodableShape {
+        /// Contains information about an alarm.
+        public let alarm: Alarm?
+
+        public init(alarm: Alarm? = nil) {
+            self.alarm = alarm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarm
         }
     }
 
@@ -312,6 +757,156 @@ extension IoTEventsData {
         }
     }
 
+    public struct DisableActionConfiguration: AWSDecodableShape {
+        /// The note that you can leave when you disable the alarm.
+        public let note: String?
+
+        public init(note: String? = nil) {
+            self.note = note
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case note
+        }
+    }
+
+    public struct DisableAlarmActionRequest: AWSEncodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The note that you can leave when you disable the alarm.
+        public let note: String?
+        /// The request ID. Each ID must be unique within each batch.
+        public let requestId: String
+
+        public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
+            self.alarmModelName = alarmModelName
+            self.keyValue = keyValue
+            self.note = note
+            self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+            try self.validate(self.note, name: "note", parent: name, max: 256)
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 64)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case keyValue
+            case note
+            case requestId
+        }
+    }
+
+    public struct EnableActionConfiguration: AWSDecodableShape {
+        /// The note that you can leave when you enable the alarm.
+        public let note: String?
+
+        public init(note: String? = nil) {
+            self.note = note
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case note
+        }
+    }
+
+    public struct EnableAlarmActionRequest: AWSEncodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The note that you can leave when you enable the alarm.
+        public let note: String?
+        /// The request ID. Each ID must be unique within each batch.
+        public let requestId: String
+
+        public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
+            self.alarmModelName = alarmModelName
+            self.keyValue = keyValue
+            self.note = note
+            self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+            try self.validate(self.note, name: "note", parent: name, max: 256)
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 64)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case keyValue
+            case note
+            case requestId
+        }
+    }
+
+    public struct ListAlarmsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alarmModelName", location: .uri(locationName: "alarmModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token that you can use to return the next set of results.
+        public let nextToken: String?
+
+        public init(alarmModelName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.alarmModelName = alarmModelName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAlarmsResponse: AWSDecodableShape {
+        /// A list that summarizes each alarm.
+        public let alarmSummaries: [AlarmSummary]?
+        /// The token that you can use to return the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(alarmSummaries: [AlarmSummary]? = nil, nextToken: String? = nil) {
+            self.alarmSummaries = alarmSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmSummaries
+            case nextToken
+        }
+    }
+
     public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
@@ -322,9 +917,9 @@ extension IoTEventsData {
 
         /// The name of the detector model whose detectors (instances) are listed.
         public let detectorModelName: String
-        /// The maximum number of results to return at one time.
+        /// The maximum number of results to be returned per request.
         public let maxResults: Int?
-        /// The token for the next set of results.
+        /// The token that you can use to return the next set of results.
         public let nextToken: String?
         /// A filter that limits results to those detectors (instances) in the given state.
         public let stateName: String?
@@ -352,7 +947,7 @@ extension IoTEventsData {
     public struct ListDetectorsResponse: AWSDecodableShape {
         /// A list of summary information about the detectors (instances).
         public let detectorSummaries: [DetectorSummary]?
-        /// A token to retrieve the next set of results, or null if there are no additional results.
+        /// The token that you can use to return the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(detectorSummaries: [DetectorSummary]? = nil, nextToken: String? = nil) {
@@ -373,26 +968,205 @@ extension IoTEventsData {
         public let messageId: String
         /// The payload of the message. This can be a JSON string or a Base-64-encoded string representing binary data (in which case you must decode it).
         public let payload: Data
+        /// The timestamp associated with the message.
+        public let timestamp: TimestampValue?
 
-        public init(inputName: String, messageId: String, payload: Data) {
+        public init(inputName: String, messageId: String, payload: Data, timestamp: TimestampValue? = nil) {
             self.inputName = inputName
             self.messageId = messageId
             self.payload = payload
+            self.timestamp = timestamp
         }
 
         public func validate(name: String) throws {
             try self.validate(self.inputName, name: "inputName", parent: name, max: 128)
             try self.validate(self.inputName, name: "inputName", parent: name, min: 1)
-            try self.validate(self.inputName, name: "inputName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.inputName, name: "inputName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
             try self.validate(self.messageId, name: "messageId", parent: name, max: 64)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.timestamp?.validate(name: "\(name).timestamp")
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputName
             case messageId
             case payload
+            case timestamp
+        }
+    }
+
+    public struct ResetActionConfiguration: AWSDecodableShape {
+        /// The note that you can leave when you reset the alarm.
+        public let note: String?
+
+        public init(note: String? = nil) {
+            self.note = note
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case note
+        }
+    }
+
+    public struct ResetAlarmActionRequest: AWSEncodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The note that you can leave when you reset the alarm.
+        public let note: String?
+        /// The request ID. Each ID must be unique within each batch.
+        public let requestId: String
+
+        public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String) {
+            self.alarmModelName = alarmModelName
+            self.keyValue = keyValue
+            self.note = note
+            self.requestId = requestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+            try self.validate(self.note, name: "note", parent: name, max: 256)
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 64)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case keyValue
+            case note
+            case requestId
+        }
+    }
+
+    public struct RuleEvaluation: AWSDecodableShape {
+        /// Information needed to compare two values with a comparison operator.
+        public let simpleRuleEvaluation: SimpleRuleEvaluation?
+
+        public init(simpleRuleEvaluation: SimpleRuleEvaluation? = nil) {
+            self.simpleRuleEvaluation = simpleRuleEvaluation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simpleRuleEvaluation
+        }
+    }
+
+    public struct SimpleRuleEvaluation: AWSDecodableShape {
+        /// The value of the input property, on the left side of the comparison operator.
+        public let inputPropertyValue: String?
+        /// The comparison operator.
+        public let `operator`: ComparisonOperator?
+        /// The threshold value, on the right side of the comparison operator.
+        public let thresholdValue: String?
+
+        public init(inputPropertyValue: String? = nil, operator: ComparisonOperator? = nil, thresholdValue: String? = nil) {
+            self.inputPropertyValue = inputPropertyValue
+            self.`operator` = `operator`
+            self.thresholdValue = thresholdValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputPropertyValue
+            case `operator`
+            case thresholdValue
+        }
+    }
+
+    public struct SnoozeActionConfiguration: AWSDecodableShape {
+        /// The note that you can leave when you snooze the alarm.
+        public let note: String?
+        /// The snooze time in seconds. The alarm automatically changes to the NORMAL state after this duration.
+        public let snoozeDuration: Int?
+
+        public init(note: String? = nil, snoozeDuration: Int? = nil) {
+            self.note = note
+            self.snoozeDuration = snoozeDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case note
+            case snoozeDuration
+        }
+    }
+
+    public struct SnoozeAlarmActionRequest: AWSEncodableShape {
+        /// The name of the alarm model.
+        public let alarmModelName: String
+        /// The value of the key used as a filter to select only the alarms associated with the key.
+        public let keyValue: String?
+        /// The note that you can leave when you snooze the alarm.
+        public let note: String?
+        /// The request ID. Each ID must be unique within each batch.
+        public let requestId: String
+        /// The snooze time in seconds. The alarm automatically changes to the NORMAL state after this duration.
+        public let snoozeDuration: Int
+
+        public init(alarmModelName: String, keyValue: String? = nil, note: String? = nil, requestId: String, snoozeDuration: Int) {
+            self.alarmModelName = alarmModelName
+            self.keyValue = keyValue
+            self.note = note
+            self.requestId = requestId
+            self.snoozeDuration = snoozeDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, max: 128)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, min: 1)
+            try self.validate(self.alarmModelName, name: "alarmModelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.keyValue, name: "keyValue", parent: name, max: 128)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, min: 1)
+            try self.validate(self.keyValue, name: "keyValue", parent: name, pattern: "^[a-zA-Z0-9\\-_:]+$")
+            try self.validate(self.note, name: "note", parent: name, max: 256)
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 64)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmModelName
+            case keyValue
+            case note
+            case requestId
+            case snoozeDuration
+        }
+    }
+
+    public struct StateChangeConfiguration: AWSDecodableShape {
+        /// The trigger type. If the value is SNOOZE_TIMEOUT, the snooze duration ends and the alarm automatically changes to the NORMAL state.
+        public let triggerType: TriggerType?
+
+        public init(triggerType: TriggerType? = nil) {
+            self.triggerType = triggerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case triggerType
+        }
+    }
+
+    public struct SystemEvent: AWSDecodableShape {
+        /// The event type. If the value is STATE_CHANGE, the event contains information about alarm state changes.
+        public let eventType: EventType?
+        /// Contains the configuration information of alarm state changes.
+        public let stateChangeConfiguration: StateChangeConfiguration?
+
+        public init(eventType: EventType? = nil, stateChangeConfiguration: StateChangeConfiguration? = nil) {
+            self.eventType = eventType
+            self.stateChangeConfiguration = stateChangeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType
+            case stateChangeConfiguration
         }
     }
 
@@ -432,6 +1206,24 @@ extension IoTEventsData {
         private enum CodingKeys: String, CodingKey {
             case name
             case seconds
+        }
+    }
+
+    public struct TimestampValue: AWSEncodableShape {
+        /// The value of the timestamp, in the Unix epoch format.
+        public let timeInMillis: Int64?
+
+        public init(timeInMillis: Int64? = nil) {
+            self.timeInMillis = timeInMillis
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, max: 9_223_372_036_854_775_807)
+            try self.validate(self.timeInMillis, name: "timeInMillis", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeInMillis
         }
     }
 

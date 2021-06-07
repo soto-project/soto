@@ -920,7 +920,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change.
+    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

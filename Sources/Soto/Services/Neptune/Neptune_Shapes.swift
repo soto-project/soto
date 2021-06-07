@@ -193,7 +193,7 @@ extension Neptune {
     public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
+        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same Amazon Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different Amazon Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
         public let sourceDBClusterParameterGroupIdentifier: String
         /// The tags to be assigned to the copied DB cluster parameter group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -235,11 +235,11 @@ extension Neptune {
 
         /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
-        /// The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+        /// The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId.  KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
         /// Not currently supported.
         public let preSignedUrl: String?
-        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. You can't copy from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
+        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must specify a valid system snapshot in the "available" state.   Specify a valid DB snapshot identifier.   Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String
         /// The tags to assign to the new DB cluster snapshot copy.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -419,6 +419,8 @@ extension Neptune {
         public let backupRetentionPeriod: Int?
         ///  (Not supported by Neptune)
         public let characterSetName: String?
+        ///  If set to true, tags are copied to any snapshot of the DB cluster that is created.
+        public let copyTagsToSnapshot: Bool?
         /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
         public let databaseName: String?
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
@@ -432,25 +434,25 @@ extension Neptune {
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// Not supported by Neptune.
+        /// If set to true, enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false.
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: neptune
         public let engine: String
         /// The version number of the database engine to use for the new DB cluster. Example: 1.0.2.1
         public let engineVersion: String?
-        /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key.   If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a Read Replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the Read Replica in that AWS Region.
+        /// The Amazon KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key.   If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key.   Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region. If you create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used to encrypt the Read Replica in that Amazon Region.
         public let kmsKeyId: String?
-        /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.
+        /// Not supported by Neptune.
         public let masterUsername: String?
-        /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
+        /// Not supported by Neptune.
         public let masterUserPassword: String?
         ///  (Not supported by Neptune)
         public let optionGroupName: String?
         /// The port number on which the instances in the DB cluster accept connections.  Default: 8182
         public let port: Int?
-        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
+        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// This parameter is not currently supported.
         public let preSignedUrl: String?
@@ -465,10 +467,11 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -496,6 +499,7 @@ extension Neptune {
             case availabilityZones = "AvailabilityZones"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case characterSetName = "CharacterSetName"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseName = "DatabaseName"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
@@ -613,11 +617,11 @@ extension Neptune {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer Not applicable. Neptune cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in a Neptune cluster volume.
+        /// Not supported by Neptune.
         public let allocatedStorage: Int?
         /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true
         public let autoMinorVersionUpgrade: Bool?
-        ///  The EC2 Availability Zone that the DB instance is created in Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same AWS Region as the current endpoint.
+        ///  The EC2 Availability Zone that the DB instance is created in Default: A random, system-chosen Availability Zone in the endpoint's Amazon Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same Amazon Region as the current endpoint.
         public let availabilityZone: String?
         /// The number of days for which automated backups are retained. Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see CreateDBCluster. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas
         public let backupRetentionPeriod: Int?
@@ -627,7 +631,7 @@ extension Neptune {
         public let copyTagsToSnapshot: Bool?
         /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
         public let dBClusterIdentifier: String?
-        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions.
+        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all Amazon Regions.
         public let dBInstanceClass: String
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
         public let dBInstanceIdentifier: String
@@ -649,7 +653,7 @@ extension Neptune {
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// True to enable AWS Identity and Access Management (IAM) authentication for Neptune. Default: false
+        /// Not supported by Neptune (ignored).
         public let enableIAMDatabaseAuthentication: Bool?
         ///  (Not supported by Neptune)
         public let enablePerformanceInsights: Bool?
@@ -659,13 +663,13 @@ extension Neptune {
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
         public let iops: Int?
-        /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
+        /// The Amazon KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same Amazon account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your default encryption key. Amazon KMS creates the default encryption key for your Amazon account. Your Amazon account has a different default encryption key for each Amazon Region.
         public let kmsKeyId: String?
         /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
-        /// The name for the master user. Not used.
+        /// Not supported by Neptune.
         public let masterUsername: String?
-        /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Not used.
+        /// Not supported by Neptune.
         public let masterUserPassword: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
         public let monitoringInterval: Int?
@@ -681,7 +685,7 @@ extension Neptune {
         public let port: Int?
         ///  The daily time range during which automated backups are created. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see CreateDBCluster.
         public let preferredBackupWindow: String?
-        /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+        /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance.  Default: 1 Valid Values: 0 - 15
         public let promotionTier: Int?
@@ -953,20 +957,26 @@ extension Neptune {
 
         ///  AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
         public let allocatedStorage: Int?
-        /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
+        /// Provides a list of the Amazon Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon services on your behalf.
         @OptionalCustomCoding<ArrayCoder<_AssociatedRolesEncoding, DBClusterRole>>
         public var associatedRoles: [DBClusterRole]?
+        /// Time at which the DB cluster will be automatically restarted.
+        public let automaticRestartTime: Date?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be created in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// Specifies the number of days for which automatic DB snapshots are retained.
         public let backupRetentionPeriod: Int?
-        ///  (Not supported by Neptune)
+        /// Not supported by Neptune.
         public let characterSetName: String?
         /// Identifies the clone group to which the DB cluster is associated.
         public let cloneGroupId: String?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: Date?
+        ///  If set to true, tags are copied to any snapshot of the DB cluster that is created.
+        public let copyTagsToSnapshot: Bool?
+        /// If set to true, the DB cluster can be cloned across accounts.
+        public let crossAccountClone: Bool?
         /// Contains the name of the initial database of this DB cluster that was provided at create time, if one was specified when the DB cluster was created. This same name is returned for the life of the DB cluster.
         public let databaseName: String?
         /// The Amazon Resource Name (ARN) for the DB cluster.
@@ -976,12 +986,12 @@ extension Neptune {
         /// Provides the list of instances that make up the DB cluster.
         @OptionalCustomCoding<ArrayCoder<_DBClusterMembersEncoding, DBClusterMember>>
         public var dBClusterMembers: [DBClusterMember]?
-        ///  (Not supported by Neptune)
+        /// Not supported by Neptune.
         @OptionalCustomCoding<ArrayCoder<_DBClusterOptionGroupMembershipsEncoding, DBClusterOptionGroupStatus>>
         public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
         /// Specifies the name of the DB cluster parameter group for the DB cluster.
         public let dBClusterParameterGroup: String?
-        /// The AWS Region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
+        /// The Amazon Region-unique, immutable identifier for the DB cluster. This identifier is found in Amazon CloudTrail log entries whenever the Amazon KMS key for the DB cluster is accessed.
         public let dbClusterResourceId: String?
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: String?
@@ -1000,13 +1010,13 @@ extension Neptune {
         public let engineVersion: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public let hostedZoneId: String?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
+        /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
-        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster.
+        /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: Date?
-        /// Contains the master username for the DB cluster.
+        /// Not supported by Neptune.
         public let masterUsername: String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
@@ -1033,14 +1043,17 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
+            self.automaticRestartTime = automaticRestartTime
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.characterSetName = characterSetName
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
+            self.copyTagsToSnapshot = copyTagsToSnapshot
+            self.crossAccountClone = crossAccountClone
             self.databaseName = databaseName
             self.dBClusterArn = dBClusterArn
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -1076,11 +1089,14 @@ extension Neptune {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "AllocatedStorage"
             case associatedRoles = "AssociatedRoles"
+            case automaticRestartTime = "AutomaticRestartTime"
             case availabilityZones = "AvailabilityZones"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case characterSetName = "CharacterSetName"
             case cloneGroupId = "CloneGroupId"
             case clusterCreateTime = "ClusterCreateTime"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
+            case crossAccountClone = "CrossAccountClone"
             case databaseName = "DatabaseName"
             case dBClusterArn = "DBClusterArn"
             case dBClusterIdentifier = "DBClusterIdentifier"
@@ -1231,9 +1247,9 @@ extension Neptune {
     }
 
     public struct DBClusterOptionGroupStatus: AWSDecodableShape {
-        /// Specifies the name of the DB cluster option group.
+        /// Not supported by Neptune.
         public let dBClusterOptionGroupName: String?
-        /// Specifies the status of the DB cluster option group.
+        /// Not supported by Neptune.
         public let status: String?
 
         public init(dBClusterOptionGroupName: String? = nil, status: String? = nil) {
@@ -1326,11 +1342,11 @@ extension Neptune {
     }
 
     public struct DBClusterRole: AWSDecodableShape {
-        /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion.
+        /// The name of the feature associated with the Amazon Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
-        /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.
+        /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other Amazon services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other Amazon services on your behalf.
         public let status: String?
 
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
@@ -1366,13 +1382,13 @@ extension Neptune {
         public let engine: String?
         /// Provides the version of the database engine for this DB cluster snapshot.
         public let engineVersion: String?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
+        /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
-        /// If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB cluster snapshot.
+        /// If StorageEncrypted is true, the Amazon KMS key identifier for the encrypted DB cluster snapshot.
         public let kmsKeyId: String?
         /// Provides the license model information for this DB cluster snapshot.
         public let licenseModel: String?
-        /// Provides the master username for the DB cluster snapshot.
+        /// Not supported by Neptune.
         public let masterUsername: String?
         /// Specifies the percentage of the estimated data that has been transferred.
         public let percentProgress: Int?
@@ -1441,9 +1457,9 @@ extension Neptune {
     public struct DBClusterSnapshotAttribute: AWSDecodableShape {
         public struct _AttributeValuesEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
-        /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
+        /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of Amazon accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
         public let attributeName: String?
-        /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
+        /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the Amazon accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any Amazon account to copy or restore.
         @OptionalCustomCoding<ArrayCoder<_AttributeValuesEncoding, String>>
         public var attributeValues: [String]?
 
@@ -1593,7 +1609,7 @@ extension Neptune {
         public struct _StatusInfosEncoding: ArrayCoderProperties { public static let member = "DBInstanceStatusInfo" }
         public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
 
-        /// Specifies the allocated storage size specified in gibibytes.
+        /// Not supported by Neptune.
         public let allocatedStorage: Int?
         /// Indicates that minor version patches are applied automatically.
         public let autoMinorVersionUpgrade: Bool?
@@ -1619,7 +1635,7 @@ extension Neptune {
         public let dbInstancePort: Int?
         /// Specifies the current state of this database.
         public let dBInstanceStatus: String?
-        /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed.
+        /// The Amazon Region-unique, immutable identifier for the DB instance. This identifier is found in Amazon CloudTrail log entries whenever the Amazon KMS key for the DB instance is accessed.
         public let dbiResourceId: String?
         /// The database name.
         public let dBName: String?
@@ -1647,7 +1663,7 @@ extension Neptune {
         public let engineVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public let enhancedMonitoringResourceArn: String?
-        /// True if AWS Identity and Access Management (IAM) authentication is enabled, and otherwise false.
+        /// True if Amazon Identity and Access Management (IAM) authentication is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Provides the date and time the DB instance was created.
         public let instanceCreateTime: Date?
@@ -1659,7 +1675,7 @@ extension Neptune {
         public let latestRestorableTime: Date?
         /// License model information for this DB instance.
         public let licenseModel: String?
-        /// Contains the master username for the DB instance.
+        /// Not supported by Neptune.
         public let masterUsername: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
         public let monitoringInterval: Int?
@@ -2377,15 +2393,15 @@ extension Neptune {
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// True to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, and otherwise false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
+        /// True to include manual DB cluster snapshots that are public and can be copied or restored by any Amazon account, and otherwise false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
         public let includePublic: Bool?
-        /// True to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
+        /// True to include shared manual DB cluster snapshots from other Amazon accounts that this AWS account has been given permission to copy or restore, and otherwise false. The default is false. You can give an Amazon account permission to restore a manual DB cluster snapshot from another Amazon account by the ModifyDBClusterSnapshotAttribute API action.
         public let includeShared: Bool?
         /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
+        /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my Amazon account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my Amazon account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
         public let snapshotType: String?
 
         public init(dBClusterIdentifier: String? = nil, dBClusterSnapshotIdentifier: String? = nil, filters: [Filter]? = nil, includePublic: Bool? = nil, includeShared: Bool? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotType: String? = nil) {
@@ -2416,7 +2432,7 @@ extension Neptune {
 
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String?
-        /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB clusters created by that engine.   For example, to invoke this API from the AWS CLI and filter so that only Neptune DB clusters are returned, you could use the following command:
+        /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB clusters created by that engine.   For example, to invoke this API from the Amazon CLI and filter so that only Neptune DB clusters are returned, you could use the following command:
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2492,7 +2508,7 @@ extension Neptune {
 
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String?
-        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB instances created by that engine.   For example, to invoke this API from the AWS CLI and filter so that only Neptune DB instances are returned, you could use the following command:
+        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    engine - Accepts an engine name (such as neptune), and restricts the results list to DB instances created by that engine.   For example, to invoke this API from the Amazon CLI and filter so that only Neptune DB instances are returned, you could use the following command:
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -3041,7 +3057,7 @@ extension Neptune {
         public struct _EventCategoriesListEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
         public struct _SourceIdsListEncoding: ArrayCoderProperties { public static let member = "SourceId" }
 
-        /// The AWS customer account associated with the event notification subscription.
+        /// The Amazon customer account associated with the event notification subscription.
         public let customerAwsId: String?
         /// The event notification subscription Id.
         public let custSubscriptionId: String?
@@ -3281,42 +3297,45 @@ extension Neptune {
     public struct ModifyDBClusterMessage: AWSEncodableShape {
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
+        /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
         public let applyImmediately: Bool?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35
         public let backupRetentionPeriod: Int?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
+        ///  If set to true, tags are copied to any snapshot of the DB cluster that is created.
+        public let copyTagsToSnapshot: Bool?
         /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to use for the DB cluster.
         public let dBClusterParameterGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
+        /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
         public let enableIAMDatabaseAuthentication: Bool?
         /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see Engine Releases for Amazon Neptune, or call DescribeDBEngineVersions.
         public let engineVersion: String?
-        /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
+        /// Not supported by Neptune.
         public let masterUserPassword: String?
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newDBClusterIdentifier: String?
-        ///  (Not supported by Neptune)
+        ///  Not supported by Neptune.
         public let optionGroupName: String?
         /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
         public let port: Int?
-        /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
+        /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
-        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+        /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         /// A list of VPC security groups that the DB cluster will belong to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, optionGroupName: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             self.deletionProtection = deletionProtection
@@ -3335,6 +3354,7 @@ extension Neptune {
             case applyImmediately = "ApplyImmediately"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
             case deletionProtection = "DeletionProtection"
@@ -3386,14 +3406,14 @@ extension Neptune {
         public struct _ValuesToAddEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
         public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
-        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
+        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
         public let attributeName: String
         /// The identifier for the DB cluster snapshot to modify the attributes for.
         public let dBClusterSnapshotIdentifier: String
-        /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
+        /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account IDs, or all to make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
         @OptionalCustomCoding<ArrayCoder<_ValuesToAddEncoding, String>>
         public var valuesToAdd: [String]?
-        /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
+        /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more Amazon account identifiers, or all to remove authorization for any Amazon account to copy or restore the DB cluster snapshot. If you specify all, an Amazon account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_ValuesToRemoveEncoding, String>>
         public var valuesToRemove: [String]?
 
@@ -3428,7 +3448,7 @@ extension Neptune {
         public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The new amount of storage (in gibibytes) to allocate for the DB instance. Not applicable. Storage is managed by the DB Cluster.
+        /// Not supported by Neptune.
         public let allocatedStorage: Int?
         /// Indicates that major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
         public let allowMajorVersionUpgrade: Bool?
@@ -3463,7 +3483,7 @@ extension Neptune {
         public let domain: String?
         /// Not supported
         public let domainIAMRoleName: String?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBCluster. Default: false
+        /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines Not applicable. Mapping Amazon IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBCluster. Default: false
         public let enableIAMDatabaseAuthentication: Bool?
         ///  (Not supported by Neptune)
         public let enablePerformanceInsights: Bool?
@@ -3471,9 +3491,9 @@ extension Neptune {
         public let engineVersion: String?
         /// The new Provisioned IOPS (I/O operations per second) value for the instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. Default: Uses existing setting
         public let iops: Int?
-        /// Not supported.
+        /// Not supported by Neptune.
         public let licenseModel: String?
-        /// Not applicable.
+        /// Not supported by Neptune.
         public let masterUserPassword: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
         public let monitoringInterval: Int?
@@ -3695,9 +3715,9 @@ extension Neptune {
     }
 
     public struct OptionGroupMembership: AWSDecodableShape {
-        /// The name of the option group that the instance belongs to.
+        /// Not supported by Neptune.
         public let optionGroupName: String?
-        /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed.
+        /// Not supported by Neptune.
         public let status: String?
 
         public init(optionGroupName: String? = nil, status: String? = nil) {
@@ -3961,9 +3981,9 @@ extension Neptune {
         public let engineVersion: String?
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
         public let iops: Int?
-        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license
+        /// Not supported by Neptune.
         public let licenseModel: String?
-        /// Contains the pending or currently-in-progress change of the master credentials for the DB instance.
+        /// Not supported by Neptune.
         public let masterUserPassword: String?
         /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
         public let multiAZ: Bool?
@@ -4228,6 +4248,8 @@ extension Neptune {
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
+        ///  If set to true, tags are copied to any snapshot of the restored DB cluster that is created.
+        public let copyTagsToSnapshot: Bool?
         /// Not supported.
         public let databaseName: String?
         /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
@@ -4241,13 +4263,13 @@ extension Neptune {
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
+        /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
         public let engine: String
         /// The version of the database engine to use for the new DB cluster.
         public let engineVersion: String?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
+        /// The Amazon KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
         public let kmsKeyId: String?
         ///  (Not supported by Neptune)
         public let optionGroupName: String?
@@ -4262,8 +4284,9 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(availabilityZones: [String]? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dBClusterIdentifier: String, dBClusterParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String, engineVersion: String? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, port: Int? = nil, snapshotIdentifier: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -4283,6 +4306,7 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseName = "DatabaseName"
             case dBClusterIdentifier = "DBClusterIdentifier"
             case dBClusterParameterGroupName = "DBClusterParameterGroupName"
@@ -4328,9 +4352,9 @@ extension Neptune {
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
+        /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
+        /// The Amazon KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
         ///  (Not supported by Neptune)
         public let optionGroupName: String?
