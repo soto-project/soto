@@ -19,12 +19,15 @@ import SotoCore
 /// Error enum for LakeFormation
 public struct LakeFormationErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case alreadyExistsException = "AlreadyExistsException"
         case concurrentModificationException = "ConcurrentModificationException"
         case entityNotFoundException = "EntityNotFoundException"
+        case glueEncryptionException = "GlueEncryptionException"
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
         case operationTimeoutException = "OperationTimeoutException"
+        case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
     }
 
     private let error: Code
@@ -45,18 +48,24 @@ public struct LakeFormationErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Access to a resource was denied.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// A resource to be created or added already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// Two processes are trying to modify a resource simultaneously.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// A specified entity does not exist
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    /// An encryption operation failed.
+    public static var glueEncryptionException: Self { .init(.glueEncryptionException) }
     /// An internal service error occurred.
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The input provided was not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    /// A resource numerical limit was exceeded.
+    public static var resourceNumberLimitExceededException: Self { .init(.resourceNumberLimitExceededException) }
 }
 
 extension LakeFormationErrorType: Equatable {

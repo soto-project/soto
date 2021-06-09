@@ -20,6 +20,43 @@ import SotoCore
 extension SNS {
     // MARK: Enums
 
+    public enum LanguageCodeString: String, CustomStringConvertible, Codable {
+        case deDe = "de-DE"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case es419 = "es-419"
+        case esEs = "es-ES"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case krKr = "kr-KR"
+        case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
+        case zhTw = "zh-TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumberCapability: String, CustomStringConvertible, Codable {
+        case mms = "MMS"
+        case sms = "SMS"
+        case voice = "VOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteType: String, CustomStringConvertible, Codable {
+        case premium = "Premium"
+        case promotional = "Promotional"
+        case transactional = "Transactional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SMSSandboxPhoneNumberVerificationStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case verified = "Verified"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AddPermissionInput: AWSEncodableShape {
@@ -123,7 +160,7 @@ extension SNS {
     }
 
     public struct CreatePlatformApplicationInput: AWSEncodableShape {
-        /// For a list of attributes, see SetPlatformApplicationAttributes
+        /// For a list of attributes, see SetPlatformApplicationAttributes.
         @CustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]
         /// Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
@@ -183,8 +220,34 @@ extension SNS {
         }
     }
 
+    public struct CreateSMSSandboxPhoneNumberInput: AWSEncodableShape {
+        /// The language to use for sending the OTP. The default value is en-US.
+        public let languageCode: LanguageCodeString?
+        /// The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to.
+        public let phoneNumber: String
+
+        public init(languageCode: LanguageCodeString? = nil, phoneNumber: String) {
+            self.languageCode = languageCode
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^(\\+[0-9]{8,}|[0-9]{0,9})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct CreateSMSSandboxPhoneNumberResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreateTopicInput: AWSEncodableShape {
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the the MessageDeduplicationId parameter for the Publish action.
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side encryption:    KmsMasterKeyId – The ID of an AWS managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]?
         /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long. For a FIFO (first-in-first-out) topic, the name must end with the .fifo suffix.
@@ -249,6 +312,28 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case platformApplicationArn = "PlatformApplicationArn"
         }
+    }
+
+    public struct DeleteSMSSandboxPhoneNumberInput: AWSEncodableShape {
+        /// The destination phone number to delete.
+        public let phoneNumber: String
+
+        public init(phoneNumber: String) {
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^(\\+[0-9]{8,}|[0-9]{0,9})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct DeleteSMSSandboxPhoneNumberResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteTopicInput: AWSEncodableShape {
@@ -364,6 +449,23 @@ extension SNS {
         }
     }
 
+    public struct GetSMSSandboxAccountStatusInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetSMSSandboxAccountStatusResult: AWSDecodableShape {
+        /// Indicates whether the calling account is in the SMS sandbox.
+        public let isInSandbox: Bool
+
+        public init(isInSandbox: Bool) {
+            self.isInSandbox = isInSandbox
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isInSandbox = "IsInSandbox"
+        }
+    }
+
     public struct GetSubscriptionAttributesInput: AWSEncodableShape {
         /// The ARN of the subscription whose properties you want to get.
         public let subscriptionArn: String
@@ -405,7 +507,7 @@ extension SNS {
     }
 
     public struct GetTopicAttributesResponse: AWSDecodableShape {
-        /// A map of the topic's attributes. Attributes in this map include the following:    DeliveryPolicy – The JSON serialization of the topic's delivery policy.    DisplayName – The human-readable name used in the From field for notifications to email and email-json endpoints.    Owner – The AWS account ID of the topic's owner.    Policy – The JSON serialization of the topic's access control policy.    SubscriptionsConfirmed – The number of confirmed subscriptions for the topic.    SubscriptionsDeleted – The number of deleted subscriptions for the topic.    SubscriptionsPending – The number of subscriptions pending confirmation for the topic.    TopicArn – The topic's ARN.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy, taking system defaults into account.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the the MessageDeduplicationId parameter for the Publish action.
+        /// A map of the topic's attributes. Attributes in this map include the following:    DeliveryPolicy – The JSON serialization of the topic's delivery policy.    DisplayName – The human-readable name used in the From field for notifications to email and email-json endpoints.    Owner – The AWS account ID of the topic's owner.    Policy – The JSON serialization of the topic's access control policy.    SubscriptionsConfirmed – The number of confirmed subscriptions for the topic.    SubscriptionsDeleted – The number of deleted subscriptions for the topic.    SubscriptionsPending – The number of subscriptions pending confirmation for the topic.    TopicArn – The topic's ARN.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy, taking system defaults into account.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]?
 
@@ -450,6 +552,46 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case endpoints = "Endpoints"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOriginationNumbersRequest: AWSEncodableShape {
+        /// The maximum number of origination numbers to return.
+        public let maxResults: Int?
+        /// Token that the previous ListOriginationNumbers request returns.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 30)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOriginationNumbersResult: AWSDecodableShape {
+        /// A NextToken string is returned when you call the ListOriginationNumbers operation if additional pages of records are available.
+        public let nextToken: String?
+        /// A list of the calling account's verified and pending origination numbers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var phoneNumbers: [PhoneNumberInformation]?
+
+        public init(nextToken: String? = nil, phoneNumbers: [PhoneNumberInformation]? = nil) {
+            self.nextToken = nextToken
+            self.phoneNumbers = phoneNumbers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case phoneNumbers = "PhoneNumbers"
         }
     }
 
@@ -512,6 +654,46 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case platformApplications = "PlatformApplications"
+        }
+    }
+
+    public struct ListSMSSandboxPhoneNumbersInput: AWSEncodableShape {
+        /// The maximum number of phone numbers to return.
+        public let maxResults: Int?
+        /// Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSMSSandboxPhoneNumbersResult: AWSDecodableShape {
+        /// A NextToken string is returned when you call the ListSMSSandboxPhoneNumbersInput operation if additional pages of records are available.
+        public let nextToken: String?
+        /// A list of the calling account's pending and verified phone numbers.
+        @CustomCoding<StandardArrayCoder>
+        public var phoneNumbers: [SMSSandboxPhoneNumber]
+
+        public init(nextToken: String? = nil, phoneNumbers: [SMSSandboxPhoneNumber]) {
+            self.nextToken = nextToken
+            self.phoneNumbers = phoneNumbers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case phoneNumbers = "PhoneNumbers"
         }
     }
 
@@ -682,6 +864,40 @@ extension SNS {
         public init() {}
     }
 
+    public struct PhoneNumberInformation: AWSDecodableShape {
+        /// The date and time when the phone number was created.
+        public let createdAt: Date?
+        /// The two-character code for the country or region, in ISO 3166-1 alpha-2 format.
+        public let iso2CountryCode: String?
+        /// The capabilities of each phone number.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var numberCapabilities: [NumberCapability]?
+        /// The phone number.
+        public let phoneNumber: String?
+        /// The list of supported routes.
+        public let routeType: RouteType?
+        /// The status of the phone number.
+        public let status: String?
+
+        public init(createdAt: Date? = nil, iso2CountryCode: String? = nil, numberCapabilities: [NumberCapability]? = nil, phoneNumber: String? = nil, routeType: RouteType? = nil, status: String? = nil) {
+            self.createdAt = createdAt
+            self.iso2CountryCode = iso2CountryCode
+            self.numberCapabilities = numberCapabilities
+            self.phoneNumber = phoneNumber
+            self.routeType = routeType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case iso2CountryCode = "Iso2CountryCode"
+            case numberCapabilities = "NumberCapabilities"
+            case phoneNumber = "PhoneNumber"
+            case routeType = "RouteType"
+            case status = "Status"
+        }
+    }
+
     public struct PlatformApplication: AWSDecodableShape {
         /// Attributes for platform application object.
         @OptionalCustomCoding<StandardDictionaryCoder>
@@ -782,6 +998,23 @@ extension SNS {
         }
     }
 
+    public struct SMSSandboxPhoneNumber: AWSDecodableShape {
+        /// The destination phone number.
+        public let phoneNumber: String?
+        /// The destination phone number's verification status.
+        public let status: SMSSandboxPhoneNumberVerificationStatus?
+
+        public init(phoneNumber: String? = nil, status: SMSSandboxPhoneNumberVerificationStatus? = nil) {
+            self.phoneNumber = phoneNumber
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+            case status = "Status"
+        }
+    }
+
     public struct SetEndpointAttributesInput: AWSEncodableShape {
         /// A map of the endpoint attributes. Attributes in this map include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.
         @CustomCoding<StandardDictionaryCoder>
@@ -858,7 +1091,7 @@ extension SNS {
     }
 
     public struct SetTopicAttributesInput: AWSEncodableShape {
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the the MessageDeduplicationId parameter for the Publish action.
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action.
         public let attributeName: String
         /// The new value for the attribute.
         public let attributeValue: String?
@@ -1058,6 +1291,35 @@ extension SNS {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct VerifySMSSandboxPhoneNumberInput: AWSEncodableShape {
+        /// The OTP sent to the destination number from the CreateSMSSandBoxPhoneNumber call.
+        public let oneTimePassword: String
+        /// The destination phone number to verify.
+        public let phoneNumber: String
+
+        public init(oneTimePassword: String, phoneNumber: String) {
+            self.oneTimePassword = oneTimePassword
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.oneTimePassword, name: "oneTimePassword", parent: name, max: 8)
+            try self.validate(self.oneTimePassword, name: "oneTimePassword", parent: name, min: 5)
+            try self.validate(self.oneTimePassword, name: "oneTimePassword", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^(\\+[0-9]{8,}|[0-9]{0,9})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oneTimePassword = "OneTimePassword"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct VerifySMSSandboxPhoneNumberResult: AWSDecodableShape {
         public init() {}
     }
 }

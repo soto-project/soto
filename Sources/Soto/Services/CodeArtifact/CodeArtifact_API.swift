@@ -107,12 +107,12 @@ public struct CodeArtifact: AWSService {
         return self.client.execute(operation: "DeleteRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policies", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a  DomainDescription  object that contains information about the requested domain.
+    ///  Returns a DomainDescription object that contains information about the requested domain.
     public func describeDomain(_ input: DescribeDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainResult> {
         return self.client.execute(operation: "DescribeDomain", path: "/v1/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a  PackageVersionDescription  object that contains information about the requested package version.
+    ///  Returns a PackageVersionDescription object that contains information about the requested package version.
     public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageVersionResult> {
         return self.client.execute(operation: "DescribePackageVersion", path: "/v1/package/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -127,7 +127,7 @@ public struct CodeArtifact: AWSService {
         return self.client.execute(operation: "DisassociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted.   To view all disposed package versions in a repository, use  ListPackageVersions  and set the  status  parameter to Disposed.   To view information about a disposed package version, use  DescribePackageVersion ..
+    ///  Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted.   To view all disposed package versions in a repository, use ListPackageVersions and set the status parameter to Disposed.   To view information about a disposed package version, use DescribePackageVersion.
     public func disposePackageVersions(_ input: DisposePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisposePackageVersionsResult> {
         return self.client.execute(operation: "DisposePackageVersions", path: "/v1/package/versions/dispose", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -167,32 +167,32 @@ public struct CodeArtifact: AWSService {
         return self.client.execute(operation: "ListDomains", path: "/v1/domains", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of  AssetSummary  objects for assets in a package version.
+    ///  Returns a list of AssetSummary objects for assets in a package version.
     public func listPackageVersionAssets(_ input: ListPackageVersionAssetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionAssetsResult> {
         return self.client.execute(operation: "ListPackageVersionAssets", path: "/v1/package/version/assets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns the direct dependencies for a package version. The dependencies are returned as  PackageDependency  objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
+    ///  Returns the direct dependencies for a package version. The dependencies are returned as PackageDependency objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package format (for example, the package.json file for npm packages and the pom.xml file for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
     public func listPackageVersionDependencies(_ input: ListPackageVersionDependenciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionDependenciesResult> {
         return self.client.execute(operation: "ListPackageVersionDependencies", path: "/v1/package/version/dependencies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters.
+    ///  Returns a list of PackageVersionSummary objects for package versions in a repository that match the request parameters.
     public func listPackageVersions(_ input: ListPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionsResult> {
         return self.client.execute(operation: "ListPackageVersions", path: "/v1/package/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
+    ///  Returns a list of PackageSummary objects for packages in a repository that match the request parameters.
     public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesResult> {
         return self.client.execute(operation: "ListPackages", path: "/v1/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input parameters.
+    ///  Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input parameters.
     public func listRepositories(_ input: ListRepositoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesResult> {
         return self.client.execute(operation: "ListRepositories", path: "/v1/repositories", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
+    ///  Returns a list of RepositorySummary objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input parameters.
     public func listRepositoriesInDomain(_ input: ListRepositoriesInDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesInDomainResult> {
         return self.client.execute(operation: "ListRepositoriesInDomain", path: "/v1/domain/repositories", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

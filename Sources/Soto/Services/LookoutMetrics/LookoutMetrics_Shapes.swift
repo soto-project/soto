@@ -378,7 +378,7 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
-            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 520)
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, pattern: ".*\\S.*")
         }
@@ -405,7 +405,7 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
-            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, max: 520)
             try self.validate(self.timeSeriesId, name: "timeSeriesId", parent: name, pattern: ".*\\S.*")
         }
@@ -418,7 +418,7 @@ extension LookoutMetrics {
     }
 
     public struct AppFlowConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the flow.
+        ///  name of the flow.
         public let flowName: String
         /// An IAM role that gives Amazon Lookout for Metrics permission to access the flow.
         public let roleArn: String
@@ -587,7 +587,7 @@ extension LookoutMetrics {
             try self.validate(self.anomalyDetectorName, name: "anomalyDetectorName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1142,7 +1142,7 @@ extension LookoutMetrics {
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
-            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1486,7 +1486,7 @@ extension LookoutMetrics {
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
             try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
             try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
-            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.metricName, name: "metricName", parent: name, max: 256)
@@ -1801,7 +1801,7 @@ extension LookoutMetrics {
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, pattern: ".*\\S.*")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_]+")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.]+")
             try self.validate(self.databasePort, name: "databasePort", parent: name, max: 65535)
             try self.validate(self.databasePort, name: "databasePort", parent: name, min: 1)
             try self.validate(self.dBInstanceIdentifier, name: "dBInstanceIdentifier", parent: name, max: 63)
@@ -1813,7 +1813,7 @@ extension LookoutMetrics {
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:secret:AmazonLookoutMetrics-.+")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
         }
 
@@ -1867,7 +1867,7 @@ extension LookoutMetrics {
             try self.validate(self.databaseHost, name: "databaseHost", parent: name, pattern: ".*\\S.*")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 100)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-z0-9]+")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.]+")
             try self.validate(self.databasePort, name: "databasePort", parent: name, max: 65535)
             try self.validate(self.databasePort, name: "databasePort", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
@@ -1876,7 +1876,7 @@ extension LookoutMetrics {
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:secret:AmazonLookoutMetrics-.+")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
         }
 
@@ -1936,7 +1936,7 @@ extension LookoutMetrics {
     }
 
     public struct SNSConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// THe ARN of the IAM role that has access to the target SNS topic.
+        /// The ARN of the IAM role that has access to the target SNS topic.
         public let roleArn: String
         /// The ARN of the target SNS topic.
         public let snsTopicArn: String
@@ -2157,7 +2157,7 @@ extension LookoutMetrics {
             try self.validate(self.anomalyDetectorDescription, name: "anomalyDetectorDescription", parent: name, pattern: ".*\\S.*")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}")
         }
 
         private enum CodingKeys: String, CodingKey {

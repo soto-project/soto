@@ -1123,10 +1123,14 @@ extension EC2 {
         public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
         public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
         public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
+        public static var u12Tb1112Xlarge: Self { .init(rawValue: "u-12tb1.112xlarge") }
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
         public static var u18Tb1Metal: Self { .init(rawValue: "u-18tb1.metal") }
         public static var u24Tb1Metal: Self { .init(rawValue: "u-24tb1.metal") }
+        public static var u6Tb1112Xlarge: Self { .init(rawValue: "u-6tb1.112xlarge") }
+        public static var u6Tb156Xlarge: Self { .init(rawValue: "u-6tb1.56xlarge") }
         public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
+        public static var u9Tb1112Xlarge: Self { .init(rawValue: "u-9tb1.112xlarge") }
         public static var u9Tb1Metal: Self { .init(rawValue: "u-9tb1.metal") }
         public static var x116Xlarge: Self { .init(rawValue: "x1.16xlarge") }
         public static var x132Xlarge: Self { .init(rawValue: "x1.32xlarge") }
@@ -4457,6 +4461,8 @@ extension EC2 {
         public let instancePlatform: CapacityReservationInstancePlatform?
         /// The type of instance for which the Capacity Reservation reserves capacity.
         public let instanceType: String?
+        /// The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was created.
+        public let outpostArn: String?
         /// The ID of the AWS account that owns the Capacity Reservation.
         public let ownerId: String?
         /// The date and time at which the Capacity Reservation was started.
@@ -4471,7 +4477,7 @@ extension EC2 {
         /// The total number of instances for which the Capacity Reservation reserves capacity.
         public let totalInstanceCount: Int?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, ownerId: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityReservationArn: String? = nil, capacityReservationId: String? = nil, createDate: Date? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
@@ -4485,6 +4491,7 @@ extension EC2 {
             self.instanceMatchCriteria = instanceMatchCriteria
             self.instancePlatform = instancePlatform
             self.instanceType = instanceType
+            self.outpostArn = outpostArn
             self.ownerId = ownerId
             self.startDate = startDate
             self.state = state
@@ -4507,6 +4514,7 @@ extension EC2 {
             case instanceMatchCriteria
             case instancePlatform
             case instanceType
+            case outpostArn
             case ownerId
             case startDate
             case state
@@ -5670,13 +5678,15 @@ extension EC2 {
         public let instancePlatform: CapacityReservationInstancePlatform
         /// The instance type for which to reserve capacity. For more information, see Instance types in the Amazon EC2 User Guide.
         public let instanceType: String
+        /// The Amazon Resource Name (ARN) of the Outpost on which to create the Capacity Reservation.
+        public let outpostArn: String?
         /// The tags to apply to the Capacity Reservation during launch.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one of the following tenancy settings:    default - The Capacity Reservation is created on hardware that is shared with other AWS accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single AWS account.
         public let tenancy: CapacityReservationTenancy?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform, instanceType: String, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, dryRun: Bool? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceCount: Int, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform, instanceType: String, outpostArn: String? = nil, tagSpecifications: [TagSpecification]? = nil, tenancy: CapacityReservationTenancy? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.clientToken = clientToken
@@ -5689,8 +5699,13 @@ extension EC2 {
             self.instanceMatchCriteria = instanceMatchCriteria
             self.instancePlatform = instancePlatform
             self.instanceType = instanceType
+            self.outpostArn = outpostArn
             self.tagSpecifications = tagSpecifications
             self.tenancy = tenancy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostArn, name: "outpostArn", parent: name, pattern: "^arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/op-[a-f0-9]{17}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5706,6 +5721,7 @@ extension EC2 {
             case instanceMatchCriteria = "InstanceMatchCriteria"
             case instancePlatform = "InstancePlatform"
             case instanceType = "InstanceType"
+            case outpostArn = "OutpostArn"
             case tagSpecifications = "TagSpecifications"
             case tenancy = "Tenancy"
         }
@@ -7083,6 +7099,8 @@ extension EC2 {
         public struct _PrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency.
+        public let clientToken: String?
         /// A description for the network interface.
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7110,7 +7128,8 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, groups: [String]? = nil, interfaceType: NetworkInterfaceCreationType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateNetworkInterfaceRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, groups: [String]? = nil, interfaceType: NetworkInterfaceCreationType? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, privateIpAddress: String? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
             self.groups = groups
@@ -7125,6 +7144,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case description
             case dryRun
             case groups = "SecurityGroupId"
@@ -7140,14 +7160,18 @@ extension EC2 {
     }
 
     public struct CreateNetworkInterfaceResult: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let clientToken: String?
         /// Information about the network interface.
         public let networkInterface: NetworkInterface?
 
-        public init(networkInterface: NetworkInterface? = nil) {
+        public init(clientToken: String? = nil, networkInterface: NetworkInterface? = nil) {
+            self.clientToken = clientToken
             self.networkInterface = networkInterface
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken
             case networkInterface
         }
     }
@@ -11147,7 +11171,7 @@ extension EC2 {
         public var capacityReservationIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    instance-type - The type of instance for which the Capacity Reservation reserves capacity.    owner-id - The ID of the AWS account that owns the Capacity Reservation.    availability-zone-id - The Availability Zone ID of the Capacity Reservation.    instance-platform - The type of operating system for which the Capacity Reservation reserves capacity.    availability-zone - The Availability Zone ID of the Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one of the following tenancy settings:    default - The Capacity Reservation is created on hardware that is shared with other AWS accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single AWS account.      state - The current state of the Capacity Reservation. A Capacity Reservation can be in one of the following states:    active- The Capacity Reservation is active and the capacity is available for your use.    expired - The Capacity Reservation expired automatically at the date and time specified in your request. The reserved capacity is no longer available for your use.    cancelled - The Capacity Reservation was cancelled. The reserved capacity is no longer available for your use.    pending - The Capacity Reservation request was successful but the capacity provisioning is still pending.    failed - The Capacity Reservation request has failed. A request might fail due to invalid request parameters, capacity constraints, or instance limit constraints. Failed requests are retained for 60 minutes.      start-date - The date and time at which the Capacity Reservation was started.    end-date - The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reservation's state changes to expired when it reaches its end date and time.    end-date-type - Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types:    unlimited - The Capacity Reservation remains active until you explicitly cancel it.    limited - The Capacity Reservation expires automatically at a specified date and time.      instance-match-criteria - Indicates the type of instance launches that the Capacity Reservation accepts. The options include:    open - The Capacity Reservation accepts all instances that have matching attributes (instance type, platform, and Availability Zone). Instances that have matching attributes launch into the Capacity Reservation automatically without specifying any additional parameters.    targeted - The Capacity Reservation only accepts instances that have matching attributes (instance type, platform, and Availability Zone), and explicitly target the Capacity Reservation. This ensures that only permitted instances can use the reserved capacity.
+        /// One or more filters.    instance-type - The type of instance for which the Capacity Reservation reserves capacity.    owner-id - The ID of the AWS account that owns the Capacity Reservation.    availability-zone-id - The Availability Zone ID of the Capacity Reservation.    instance-platform - The type of operating system for which the Capacity Reservation reserves capacity.    availability-zone - The Availability Zone ID of the Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one of the following tenancy settings:    default - The Capacity Reservation is created on hardware that is shared with other AWS accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single AWS account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was created.    state - The current state of the Capacity Reservation. A Capacity Reservation can be in one of the following states:    active- The Capacity Reservation is active and the capacity is available for your use.    expired - The Capacity Reservation expired automatically at the date and time specified in your request. The reserved capacity is no longer available for your use.    cancelled - The Capacity Reservation was cancelled. The reserved capacity is no longer available for your use.    pending - The Capacity Reservation request was successful but the capacity provisioning is still pending.    failed - The Capacity Reservation request has failed. A request might fail due to invalid request parameters, capacity constraints, or instance limit constraints. Failed requests are retained for 60 minutes.      start-date - The date and time at which the Capacity Reservation was started.    end-date - The date and time at which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved capacity is released and you can no longer launch instances into it. The Capacity Reservation's state changes to expired when it reaches its end date and time.    end-date-type - Indicates the way in which the Capacity Reservation ends. A Capacity Reservation can have one of the following end types:    unlimited - The Capacity Reservation remains active until you explicitly cancel it.    limited - The Capacity Reservation expires automatically at a specified date and time.      instance-match-criteria - Indicates the type of instance launches that the Capacity Reservation accepts. The options include:    open - The Capacity Reservation accepts all instances that have matching attributes (instance type, platform, and Availability Zone). Instances that have matching attributes launch into the Capacity Reservation automatically without specifying any additional parameters.    targeted - The Capacity Reservation only accepts instances that have matching attributes (instance type, platform, and Availability Zone), and explicitly target the Capacity Reservation. This ensures that only permitted instances can use the reserved capacity.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.

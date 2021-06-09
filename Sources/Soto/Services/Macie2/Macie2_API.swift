@@ -297,6 +297,11 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "PutFindingsPublicationConfiguration", path: "/findings-publication-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves (queries) statistical data and other information about AWS resources that Amazon Macie monitors and analyzes.
+    public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourcesResponse> {
+        return self.client.execute(operation: "SearchResources", path: "/datasources/search-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds or updates one or more tags (keys and values) that are associated with a classification job, custom data identifier, findings filter, or member account.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

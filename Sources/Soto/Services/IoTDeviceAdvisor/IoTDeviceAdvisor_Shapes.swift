@@ -28,6 +28,8 @@ extension IoTDeviceAdvisor {
         case passWithWarnings = "PASS_WITH_WARNINGS"
         case pending = "PENDING"
         case running = "RUNNING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -39,6 +41,8 @@ extension IoTDeviceAdvisor {
         case passWithWarnings = "PASS_WITH_WARNINGS"
         case pending = "PENDING"
         case running = "RUNNING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -101,7 +105,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
         ]
 
-        /// Deletes a Device Advisor test suite with defined suite Id.
+        /// Suite definition Id of the test suite to be deleted.
         public let suiteDefinitionId: String
 
         public init(suiteDefinitionId: String) {
@@ -110,7 +114,7 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -150,9 +154,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
         ]
 
-        /// Requests suite definition Id with GetSuiteDefinition API call.
+        /// Suite definition Id of the test suite to get.
         public let suiteDefinitionId: String
-        /// Requests the suite definition version of a test suite.
+        /// Suite definition version of the test suite to get.
         public let suiteDefinitionVersion: String?
 
         public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil) {
@@ -162,7 +166,7 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
         }
@@ -171,19 +175,19 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GetSuiteDefinitionResponse: AWSDecodableShape {
-        /// Gets the timestamp of the time suite was created with GetSuiteDefinition API call.
+        /// Date (in Unix epoch time) when the suite definition was created.
         public let createdAt: Date?
-        /// Gets the timestamp of the time suite was modified with GetSuiteDefinition API call.
+        /// Date (in Unix epoch time) when the suite definition was last modified.
         public let lastModifiedAt: Date?
-        /// Gets latest suite definition version with GetSuiteDefinition API call.
+        /// Latest suite definition version of the suite definition.
         public let latestVersion: String?
         /// The ARN of the suite definition.
         public let suiteDefinitionArn: String?
-        /// Gets the suite configuration with GetSuiteDefinition API call.
+        /// Suite configuration of the suite definition.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
-        /// Gets suite definition Id with GetSuiteDefinition API call.
+        /// Suite definition Id of the suite definition.
         public let suiteDefinitionId: String?
-        /// Gets suite definition version with GetSuiteDefinition API call.
+        /// Suite definition version of the suite definition.
         public let suiteDefinitionVersion: String?
         /// Tags attached to the suite definition.
         public let tags: [String: String]?
@@ -217,9 +221,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
-        /// Device Advisor suite definition Id.
+        /// Suite definition Id of the test suite.
         public let suiteDefinitionId: String
-        /// Device Advisor suite run Id.
+        /// Suite run Id of the test suite run.
         public let suiteRunId: String
 
         public init(suiteDefinitionId: String, suiteRunId: String) {
@@ -229,16 +233,16 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, max: 36)
-            try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 36)
+            try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 12)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSuiteRunReportResponse: AWSDecodableShape {
-        /// Gets the download URL of the qualification report.
+        /// Download URL of the qualification report.
         public let qualificationReportDownloadUrl: String?
 
         public init(qualificationReportDownloadUrl: String? = nil) {
@@ -256,9 +260,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
-        /// Requests the information about Device Advisor test suite run based on suite definition Id.
+        /// Suite definition Id for the test suite run.
         public let suiteDefinitionId: String
-        /// Requests the information about Device Advisor test suite run based on suite run Id.
+        /// Suite run Id for the test suite run.
         public let suiteRunId: String
 
         public init(suiteDefinitionId: String, suiteRunId: String) {
@@ -268,36 +272,36 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, max: 36)
-            try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 36)
+            try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 12)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSuiteRunResponse: AWSDecodableShape {
-        /// Gets the information about Device Advisor test suite run based on end time.
+        /// Date (in Unix epoch time) when the test suite run ended.
         public let endTime: Date?
-        /// Gets the information about Device Advisor test suite run based on error.
+        /// Error reason for any test suite run failure.
         public let errorReason: String?
-        /// Gets the information about Device Advisor test suite run based on start time.
+        /// Date (in Unix epoch time) when the test suite run was started.
         public let startTime: Date?
-        /// Gets the information about Device Advisor test suite run based on its status.
+        /// Status for the test suite run.
         public let status: SuiteRunStatus?
-        /// Gets the information about Device Advisor test suite run based on suite definition Id.
+        /// Suite definition Id for the test suite run.
         public let suiteDefinitionId: String?
-        /// Gets the information about Device Advisor test suite run based on suite definition version.
+        /// Suite definition version for the test suite run.
         public let suiteDefinitionVersion: String?
         /// The ARN of the suite run.
         public let suiteRunArn: String?
-        /// Gets the information about Device Advisor test suite run based on suite configuration.
+        /// Suite run configuration for the test suite run.
         public let suiteRunConfiguration: SuiteRunConfiguration?
-        /// Gets the information about Device Advisor test suite run based on suite run Id.
+        /// Suite run Id for the test suite run.
         public let suiteRunId: String?
         /// The tags attached to the suite run.
         public let tags: [String: String]?
-        /// Gets the information about Device Advisor test suite run based on test case runs.
+        /// Test results for the test suite run.
         public let testResult: TestResult?
 
         public init(endTime: Date? = nil, errorReason: String? = nil, startTime: Date? = nil, status: SuiteRunStatus? = nil, suiteDefinitionId: String? = nil, suiteDefinitionVersion: String? = nil, suiteRunArn: String? = nil, suiteRunConfiguration: SuiteRunConfiguration? = nil, suiteRunId: String? = nil, tags: [String: String]? = nil, testResult: TestResult? = nil) {
@@ -330,11 +334,11 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GroupResult: AWSDecodableShape {
-        /// Show Group Result Id.
+        /// Group result Id.
         public let groupId: String?
-        /// Show Group Result Name.
+        /// Group Result Name.
         public let groupName: String?
-        /// Show Group Result.
+        /// Tests under Group Result.
         public let tests: [TestCaseRun]?
 
         public init(groupId: String? = nil, groupName: String? = nil, tests: [TestCaseRun]? = nil) {
@@ -356,9 +360,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// Request the list of all the Device Advisor test suites.
+        /// The maximum number of results to return at once.
         public let maxResults: Int?
-        /// Requests the Device Advisor test suites next token.
+        /// A token used to get the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -376,9 +380,9 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListSuiteDefinitionsResponse: AWSDecodableShape {
-        /// Creates a Device Advisor test suite.
+        /// A token used to get the next set of results.
         public let nextToken: String?
-        /// Lists test suite information using List suite definition.
+        /// An array of objects that provide summaries of information about the suite definitions in the list.
         public let suiteDefinitionInformationList: [SuiteDefinitionInformation]?
 
         public init(nextToken: String? = nil, suiteDefinitionInformationList: [SuiteDefinitionInformation]? = nil) {
@@ -400,13 +404,13 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
         ]
 
-        /// MaxResults for list suite run API request.
+        /// The maximum number of results to return at once.
         public let maxResults: Int?
-        /// Next pagination token for list suite run request.
+        /// A token to retrieve the next set of results.
         public let nextToken: String?
-        /// Lists the runs of the specified Device Advisor test suite based on suite definition Id.
+        /// Lists the test suite runs of the specified test suite based on suite definition Id.
         public let suiteDefinitionId: String?
-        /// Lists the runs of the specified Device Advisor test suite based on suite definition version.
+        /// Must be passed along with suiteDefinitionId. Lists the test suite runs of the specified test suite based on suite definition version.
         public let suiteDefinitionVersion: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, suiteDefinitionId: String? = nil, suiteDefinitionVersion: String? = nil) {
@@ -421,7 +425,7 @@ extension IoTDeviceAdvisor {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
         }
@@ -430,9 +434,9 @@ extension IoTDeviceAdvisor {
     }
 
     public struct ListSuiteRunsResponse: AWSDecodableShape {
-        /// Next pagination token for list suite run response.
+        /// A token to retrieve the next set of results.
         public let nextToken: String?
-        /// Lists the runs of the specified Device Advisor test suite.
+        /// An array of objects that provide summaries of information about the suite runs in the list.
         public let suiteRunsList: [SuiteRunInformation]?
 
         public init(nextToken: String? = nil, suiteRunsList: [SuiteRunInformation]? = nil) {
@@ -479,70 +483,16 @@ extension IoTDeviceAdvisor {
         }
     }
 
-    public struct ListTestCasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "intendedForQualification", location: .querystring(locationName: "intendedForQualification")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
-        ]
-
-        /// Lists all the qualification test cases in the test suite.
-        public let intendedForQualification: Bool?
-        /// Requests the test cases max results.
-        public let maxResults: Int?
-        /// Requests the test cases next token.
-        public let nextToken: String?
-
-        public init(intendedForQualification: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
-            self.intendedForQualification = intendedForQualification
-            self.maxResults = maxResults
-            self.nextToken = nextToken
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
-        }
-
-        private enum CodingKeys: CodingKey {}
-    }
-
-    public struct ListTestCasesResponse: AWSDecodableShape {
-        /// Gets the category of test case.
-        public let categories: [TestCaseCategory]?
-        /// Gets the configuration of test group.
-        public let groupConfiguration: [String: String]?
-        /// Test cases next token response.
-        public let nextToken: String?
-        /// Gets the configuration of root test group.
-        public let rootGroupConfiguration: [String: String]?
-
-        public init(categories: [TestCaseCategory]? = nil, groupConfiguration: [String: String]? = nil, nextToken: String? = nil, rootGroupConfiguration: [String: String]? = nil) {
-            self.categories = categories
-            self.groupConfiguration = groupConfiguration
-            self.nextToken = nextToken
-            self.rootGroupConfiguration = rootGroupConfiguration
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case categories
-            case groupConfiguration
-            case nextToken
-            case rootGroupConfiguration
-        }
-    }
-
     public struct StartSuiteRunRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
         ]
 
-        /// Request to start suite run based on suite definition Id.
+        /// Suite definition Id of the test suite.
         public let suiteDefinitionId: String
-        /// Request to start suite run based on suite definition version.
+        /// Suite definition version of the test suite.
         public let suiteDefinitionVersion: String?
-        /// Request to start suite run based on suite configuration.
+        /// Suite run configuration.
         public let suiteRunConfiguration: SuiteRunConfiguration?
         /// The tags to be attached to the suite run.
         public let tags: [String: String]?
@@ -556,7 +506,7 @@ extension IoTDeviceAdvisor {
 
         public func validate(name: String) throws {
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, max: 255)
             try self.validate(self.suiteDefinitionVersion, name: "suiteDefinitionVersion", parent: name, min: 2)
             try self.suiteRunConfiguration?.validate(name: "\(name).suiteRunConfiguration")
@@ -576,11 +526,11 @@ extension IoTDeviceAdvisor {
     }
 
     public struct StartSuiteRunResponse: AWSDecodableShape {
-        /// Starts a Device Advisor test suite run based on suite create time.
+        /// Date (in Unix epoch time) when the suite run was created.
         public let createdAt: Date?
-        /// Starts a Device Advisor test suite run based on suite run arn.
+        /// Amazon resource name of the started suite run.
         public let suiteRunArn: String?
-        /// Starts a Device Advisor test suite run based on suite Run Id.
+        /// Suite Run Id of the started suite run.
         public let suiteRunId: String?
 
         public init(createdAt: Date? = nil, suiteRunArn: String? = nil, suiteRunId: String? = nil) {
@@ -594,6 +544,36 @@ extension IoTDeviceAdvisor {
             case suiteRunArn
             case suiteRunId
         }
+    }
+
+    public struct StopSuiteRunRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
+            AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
+        ]
+
+        /// Suite definition Id of the test suite run to be stopped.
+        public let suiteDefinitionId: String
+        /// Suite run Id of the test suite run to be stopped.
+        public let suiteRunId: String
+
+        public init(suiteDefinitionId: String, suiteRunId: String) {
+            self.suiteDefinitionId = suiteDefinitionId
+            self.suiteRunId = suiteRunId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
+            try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, max: 36)
+            try self.validate(self.suiteRunId, name: "suiteRunId", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopSuiteRunResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct SuiteDefinitionConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -640,15 +620,15 @@ extension IoTDeviceAdvisor {
     }
 
     public struct SuiteDefinitionInformation: AWSDecodableShape {
-        /// Gets the information of when the test suite was created.
+        /// Date (in Unix epoch time) when the test suite was created.
         public let createdAt: Date?
-        /// Specifies the devices under test.
+        /// Specifies the devices under test for the test suite.
         public let defaultDevices: [DeviceUnderTest]?
-        /// Gets the test suites which will be used for qualification.
+        /// Specifies if the test suite is intended for qualification.
         public let intendedForQualification: Bool?
-        /// Get suite definition Id.
+        /// Suite definition Id of the test suite.
         public let suiteDefinitionId: String?
-        /// Get test suite name.
+        /// Suite name of the test suite.
         public let suiteDefinitionName: String?
 
         public init(createdAt: Date? = nil, defaultDevices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil) {
@@ -671,23 +651,19 @@ extension IoTDeviceAdvisor {
     public struct SuiteRunConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Gets the primary device for suite run.
         public let primaryDevice: DeviceUnderTest?
-        /// Gets the secondary device for suite run.
-        public let secondaryDevice: DeviceUnderTest?
         /// Gets test case list.
         public let selectedTestList: [String]?
 
-        public init(primaryDevice: DeviceUnderTest? = nil, secondaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
+        public init(primaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
             self.primaryDevice = primaryDevice
-            self.secondaryDevice = secondaryDevice
             self.selectedTestList = selectedTestList
         }
 
         public func validate(name: String) throws {
             try self.primaryDevice?.validate(name: "\(name).primaryDevice")
-            try self.secondaryDevice?.validate(name: "\(name).secondaryDevice")
             try self.selectedTestList?.forEach {
                 try validate($0, name: "selectedTestList[]", parent: name, max: 36)
-                try validate($0, name: "selectedTestList[]", parent: name, min: 36)
+                try validate($0, name: "selectedTestList[]", parent: name, min: 12)
             }
             try self.validate(self.selectedTestList, name: "selectedTestList", parent: name, max: 100)
             try self.validate(self.selectedTestList, name: "selectedTestList", parent: name, min: 0)
@@ -695,31 +671,30 @@ extension IoTDeviceAdvisor {
 
         private enum CodingKeys: String, CodingKey {
             case primaryDevice
-            case secondaryDevice
             case selectedTestList
         }
     }
 
     public struct SuiteRunInformation: AWSDecodableShape {
-        /// Get suite run information based on time suite was created.
+        /// Date (in Unix epoch time) when the suite run was created.
         public let createdAt: Date?
-        /// Get suite run information based on end time of the run.
+        /// Date (in Unix epoch time) when the suite run ended.
         public let endAt: Date?
-        /// Get suite run information based on result of the test suite run.
+        /// Number of test cases that failed in the suite run.
         public let failed: Int?
-        /// Get suite run information based on result of the test suite run.
+        /// Number of test cases that passed in the suite run.
         public let passed: Int?
-        /// Get suite run information based on start time of the run.
+        /// Date (in Unix epoch time) when the suite run was started.
         public let startedAt: Date?
-        /// Get suite run information based on test run status.
+        /// Status of the suite run.
         public let status: SuiteRunStatus?
-        /// Get suite run information based on suite definition Id.
+        /// Suite definition Id of the suite run.
         public let suiteDefinitionId: String?
-        /// Get suite run information based on suite definition name.
+        /// Suite definition name of the suite run.
         public let suiteDefinitionName: String?
-        /// Get suite run information based on suite definition version.
+        /// Suite definition version of the suite run.
         public let suiteDefinitionVersion: String?
-        /// Get suite run information based on suite run Id.
+        /// Suite run Id of the suite run.
         public let suiteRunId: String?
 
         public init(createdAt: Date? = nil, endAt: Date? = nil, failed: Int? = nil, passed: Int? = nil, startedAt: Date? = nil, status: SuiteRunStatus? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil, suiteDefinitionVersion: String? = nil, suiteRunId: String? = nil) {
@@ -782,61 +757,6 @@ extension IoTDeviceAdvisor {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
-    }
-
-    public struct TestCase: AWSDecodableShape {
-        /// Shows test case configuration.
-        public let configuration: [String: String]?
-        /// Shows test case name.
-        public let name: String?
-        /// Specifies a test.
-        public let test: TestCaseDefinition?
-
-        public init(configuration: [String: String]? = nil, name: String? = nil, test: TestCaseDefinition? = nil) {
-            self.configuration = configuration
-            self.name = name
-            self.test = test
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case configuration
-            case name
-            case test
-        }
-    }
-
-    public struct TestCaseCategory: AWSDecodableShape {
-        /// Lists all the tests name in the specified category.
-        public let name: String?
-        /// Lists all the tests in the specified category.
-        public let tests: [TestCase]?
-
-        public init(name: String? = nil, tests: [TestCase]? = nil) {
-            self.name = name
-            self.tests = tests
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case name
-            case tests
-        }
-    }
-
-    public struct TestCaseDefinition: AWSDecodableShape {
-        /// Provides test case definition Id.
-        public let id: String?
-        /// Provides test case definition version.
-        public let testCaseVersion: String?
-
-        public init(id: String? = nil, testCaseVersion: String? = nil) {
-            self.id = id
-            self.testCaseVersion = testCaseVersion
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case id
-            case testCaseVersion
-        }
     }
 
     public struct TestCaseRun: AWSDecodableShape {
@@ -938,7 +858,7 @@ extension IoTDeviceAdvisor {
 
         /// Updates a Device Advisor test suite with suite definition configuration.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
-        /// Updates a Device Advisor test suite with suite definition id.
+        /// Suite definition Id of the test suite to be updated.
         public let suiteDefinitionId: String
 
         public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, suiteDefinitionId: String) {
@@ -949,7 +869,7 @@ extension IoTDeviceAdvisor {
         public func validate(name: String) throws {
             try self.suiteDefinitionConfiguration?.validate(name: "\(name).suiteDefinitionConfiguration")
             try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, max: 36)
-            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 36)
+            try self.validate(self.suiteDefinitionId, name: "suiteDefinitionId", parent: name, min: 12)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -958,17 +878,17 @@ extension IoTDeviceAdvisor {
     }
 
     public struct UpdateSuiteDefinitionResponse: AWSDecodableShape {
-        /// Updates a Device Advisor test suite with TimeStamp of when it was created.
+        /// Timestamp of when the test suite was created.
         public let createdAt: Date?
-        /// Updates a Device Advisor test suite with TimeStamp of when it was updated.
+        /// Timestamp of when the test suite was updated.
         public let lastUpdatedAt: Date?
-        /// Updates a Device Advisor test suite with Amazon Resource name.
+        /// Amazon Resource name of the updated test suite.
         public let suiteDefinitionArn: String?
-        /// Updates a Device Advisor test suite with suite UUID.
+        /// Suite definition Id of the updated test suite.
         public let suiteDefinitionId: String?
-        /// Updates a Device Advisor test suite with suite definition name.
+        /// Suite definition name of the updated test suite.
         public let suiteDefinitionName: String?
-        /// Updates a Device Advisor test suite with suite definition version.
+        /// Suite definition version of the updated test suite.
         public let suiteDefinitionVersion: String?
 
         public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, suiteDefinitionArn: String? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil, suiteDefinitionVersion: String? = nil) {

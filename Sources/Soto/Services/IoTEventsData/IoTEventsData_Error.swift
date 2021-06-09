@@ -44,7 +44,7 @@ public struct IoTEventsDataErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// An internal failure occured.
+    /// An internal failure occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// The request was invalid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }

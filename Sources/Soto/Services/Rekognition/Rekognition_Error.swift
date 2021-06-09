@@ -79,15 +79,15 @@ public struct RekognitionErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
-    /// A collection with the specified ID already exists.
+    /// A resource with the specified ID already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// The specified resource is already being used.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
-    /// The collection specified in the request cannot be found.
+    /// The resource specified in the request cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The requested resource isn't ready. For example, this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
-    ///  The size of the collection or tag list exceeds the allowed limit. For more information, see Limits in Amazon Rekognition in the Amazon Rekognition Developer Guide.
+    ///  The size of the collection exceeds the allowed limit. For more information, see Limits in Amazon Rekognition in the Amazon Rekognition Developer Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
     public static var throttlingException: Self { .init(.throttlingException) }

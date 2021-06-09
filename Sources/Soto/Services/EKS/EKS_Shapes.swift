@@ -140,6 +140,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum TaintEffect: String, CustomStringConvertible, Codable {
+        case noExecute = "NO_EXECUTE"
+        case noSchedule = "NO_SCHEDULE"
+        case preferNoSchedule = "PREFER_NO_SCHEDULE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UpdateParamType: String, CustomStringConvertible, Codable {
         case addonversion = "AddonVersion"
         case clusterlogging = "ClusterLogging"
@@ -159,6 +166,8 @@ extension EKS {
         case releaseversion = "ReleaseVersion"
         case resolveconflicts = "ResolveConflicts"
         case serviceaccountrolearn = "ServiceAccountRoleArn"
+        case taintstoadd = "TaintsToAdd"
+        case taintstoremove = "TaintsToRemove"
         case version = "Version"
         public var description: String { return self.rawValue }
     }
@@ -211,7 +220,7 @@ extension EKS {
         public let serviceAccountRoleArn: String?
         /// The status of the add-on.
         public let status: AddonStatus?
-        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster.
+        /// The metadata that you apply to the add-on to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Add-on tags do not propagate to any other resources associated with the cluster.
         public let tags: [String: String]?
 
         public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, modifiedAt: Date? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
@@ -757,14 +766,16 @@ extension EKS {
         public let remoteAccess: RemoteAccessConfig?
         /// The scaling configuration details for the Auto Scaling group that is created for your node group.
         public let scalingConfig: NodegroupScalingConfig?
-        /// The subnets to use for the Auto Scaling group that is created for your node group. These subnets must have the tag key kubernetes.io/cluster/CLUSTER_NAME with a value of shared, where CLUSTER_NAME is replaced with the name of your cluster. If you specify launchTemplate, then don't specify  SubnetId  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate, then don't specify  SubnetId  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let subnets: [String]
         /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
+        /// The Kubernetes taints to be applied to the nodes in the node group.
+        public let taints: [Taint]?
         /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clientRequestToken = clientRequestToken
@@ -780,6 +791,7 @@ extension EKS {
             self.scalingConfig = scalingConfig
             self.subnets = subnets
             self.tags = tags
+            self.taints = taints
             self.version = version
         }
 
@@ -787,7 +799,7 @@ extension EKS {
             try self.labels?.forEach {
                 try validate($0.key, name: "labels.key", parent: name, max: 63)
                 try validate($0.key, name: "labels.key", parent: name, min: 1)
-                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 253)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 63)
                 try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
@@ -795,6 +807,9 @@ extension EKS {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.taints?.forEach {
+                try $0.validate(name: "\(name).taints[]")
             }
         }
 
@@ -813,6 +828,7 @@ extension EKS {
             case scalingConfig
             case subnets
             case tags
+            case taints
             case version
         }
     }
@@ -1247,7 +1263,7 @@ extension EKS {
     }
 
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// AWS Key Management Service (AWS KMS) customer master key (CMK). Either the ARN or the alias can be used.
+        /// AWS Key Management Service (AWS KMS) key. Either the ARN or the alias can be used.
         public let provider: Provider?
         /// Specifies the resources to be encrypted. The only supported value is "secrets".
         public let resources: [String]?
@@ -1833,10 +1849,12 @@ extension EKS {
         public let subnets: [String]?
         /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
+        /// The Kubernetes taints to be applied to the nodes in the node group when they are created. Effect is one of NoSchedule, PreferNoSchedule, or NoExecute. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes.
+        public let taints: [Taint]?
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clusterName = clusterName
@@ -1857,6 +1875,7 @@ extension EKS {
             self.status = status
             self.subnets = subnets
             self.tags = tags
+            self.taints = taints
             self.version = version
         }
 
@@ -1881,6 +1900,7 @@ extension EKS {
             case status
             case subnets
             case tags
+            case taints
             case version
         }
     }
@@ -2063,7 +2083,7 @@ extension EKS {
     }
 
     public struct Provider: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Resource Name (ARN) or alias of the customer master key (CMK). The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK. For more information, see Allowing Users in Other Accounts to Use a CMK in the AWS Key Management Service Developer Guide.
+        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key. For more information, see Allowing Users in Other Accounts to Use a KMS key in the AWS Key Management Service Developer Guide.
         public let keyArn: String?
 
         public init(keyArn: String? = nil) {
@@ -2122,6 +2142,34 @@ extension EKS {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Taint: AWSEncodableShape & AWSDecodableShape {
+        /// The effect of the taint.
+        public let effect: TaintEffect?
+        /// The key of the taint.
+        public let key: String?
+        /// The value of the taint.
+        public let value: String?
+
+        public init(effect: TaintEffect? = nil, key: String? = nil, value: String? = nil) {
+            self.effect = effect
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 63)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 63)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effect
+            case key
+            case value
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -2336,7 +2384,7 @@ extension EKS {
             try self.addOrUpdateLabels?.forEach {
                 try validate($0.key, name: "addOrUpdateLabels.key", parent: name, max: 63)
                 try validate($0.key, name: "addOrUpdateLabels.key", parent: name, min: 1)
-                try validate($0.value, name: "addOrUpdateLabels[\"\($0.key)\"]", parent: name, max: 253)
+                try validate($0.value, name: "addOrUpdateLabels[\"\($0.key)\"]", parent: name, max: 63)
                 try validate($0.value, name: "addOrUpdateLabels[\"\($0.key)\"]", parent: name, min: 1)
             }
         }
@@ -2363,24 +2411,29 @@ extension EKS {
         public let nodegroupName: String
         /// The scaling configuration details for the Auto Scaling group after the update.
         public let scalingConfig: NodegroupScalingConfig?
+        /// The Kubernetes taints to be applied to the nodes in the node group after the update.
+        public let taints: UpdateTaintsPayload?
 
-        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil) {
+        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.labels = labels
             self.nodegroupName = nodegroupName
             self.scalingConfig = scalingConfig
+            self.taints = taints
         }
 
         public func validate(name: String) throws {
             try self.labels?.validate(name: "\(name).labels")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
+            try self.taints?.validate(name: "\(name).taints")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken
             case labels
             case scalingConfig
+            case taints
         }
     }
 
@@ -2462,6 +2515,32 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case type
             case value
+        }
+    }
+
+    public struct UpdateTaintsPayload: AWSEncodableShape {
+        /// Kubernetes taints to be added or updated.
+        public let addOrUpdateTaints: [Taint]?
+        /// Kubernetes taints to be removed.
+        public let removeTaints: [Taint]?
+
+        public init(addOrUpdateTaints: [Taint]? = nil, removeTaints: [Taint]? = nil) {
+            self.addOrUpdateTaints = addOrUpdateTaints
+            self.removeTaints = removeTaints
+        }
+
+        public func validate(name: String) throws {
+            try self.addOrUpdateTaints?.forEach {
+                try $0.validate(name: "\(name).addOrUpdateTaints[]")
+            }
+            try self.removeTaints?.forEach {
+                try $0.validate(name: "\(name).removeTaints[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOrUpdateTaints
+            case removeTaints
         }
     }
 

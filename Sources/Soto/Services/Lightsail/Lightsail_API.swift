@@ -623,7 +623,7 @@ public struct Lightsail: AWSService {
         return self.client.execute(operation: "GetRelationalDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a specific static IP.
+    /// Returns information about an Amazon Lightsail static IP.
     public func getStaticIp(_ input: GetStaticIpRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStaticIpResult> {
         return self.client.execute(operation: "GetStaticIp", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

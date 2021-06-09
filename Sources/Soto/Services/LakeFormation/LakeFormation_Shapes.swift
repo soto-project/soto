@@ -39,6 +39,10 @@ extension LakeFormation {
         case catalog = "CATALOG"
         case dataLocation = "DATA_LOCATION"
         case database = "DATABASE"
+        case lfTag = "LF_TAG"
+        case lfTagPolicy = "LF_TAG_POLICY"
+        case lfTagPolicyDatabase = "LF_TAG_POLICY_DATABASE"
+        case lfTagPolicyTable = "LF_TAG_POLICY_TABLE"
         case table = "TABLE"
         public var description: String { return self.rawValue }
     }
@@ -53,18 +57,81 @@ extension LakeFormation {
     public enum Permission: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case alter = "ALTER"
+        case alterTag = "ALTER_TAG"
+        case associateTag = "ASSOCIATE_TAG"
         case createDatabase = "CREATE_DATABASE"
         case createTable = "CREATE_TABLE"
+        case createTag = "CREATE_TAG"
         case dataLocationAccess = "DATA_LOCATION_ACCESS"
         case delete = "DELETE"
+        case deleteTag = "DELETE_TAG"
         case describe = "DESCRIBE"
+        case describeTag = "DESCRIBE_TAG"
         case drop = "DROP"
         case insert = "INSERT"
         case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceShareType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case foreign = "FOREIGN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case database = "DATABASE"
+        case table = "TABLE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AddLFTagsToResourceRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The tags to attach to the resource.
+        public let lFTags: [LFTagPair]
+        /// The resource to which to attach a tag.
+        public let resource: Resource
+
+        public init(catalogId: String? = nil, lFTags: [LFTagPair], resource: Resource) {
+            self.catalogId = catalogId
+            self.lFTags = lFTags
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.lFTags.forEach {
+                try $0.validate(name: "\(name).lFTags[]")
+            }
+            try self.validate(self.lFTags, name: "lFTags", parent: name, max: 50)
+            try self.validate(self.lFTags, name: "lFTags", parent: name, min: 1)
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case lFTags = "LFTags"
+            case resource = "Resource"
+        }
+    }
+
+    public struct AddLFTagsToResourceResponse: AWSDecodableShape {
+        /// A list of failures to tag the resource.
+        public let failures: [LFTagError]?
+
+        public init(failures: [LFTagError]? = nil) {
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
+        }
+    }
 
     public struct BatchGrantPermissionsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
@@ -201,6 +268,23 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct ColumnLFTag: AWSDecodableShape {
+        /// The tags attached to a column resource.
+        public let lFTags: [LFTagPair]?
+        /// The name of a column resource.
+        public let name: String?
+
+        public init(lFTags: [LFTagPair]? = nil, name: String? = nil) {
+            self.lFTags = lFTags
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lFTags = "LFTags"
+            case name = "Name"
+        }
+    }
+
     public struct ColumnWildcard: AWSEncodableShape & AWSDecodableShape {
         /// Excludes column names. Any column with this name will be excluded.
         public let excludedColumnNames: [String]?
@@ -220,6 +304,47 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case excludedColumnNames = "ExcludedColumnNames"
         }
+    }
+
+    public struct CreateLFTagRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag.
+        public let tagKey: String
+        /// A list of possible values an attribute can take.
+        public let tagValues: [String]
+
+        public init(catalogId: String? = nil, tagKey: String, tagValues: [String]) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, min: 0)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
+            }
+            try self.validate(self.tagValues, name: "tagValues", parent: name, max: 50)
+            try self.validate(self.tagValues, name: "tagValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct CreateLFTagResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DataLakePrincipal: AWSEncodableShape & AWSDecodableShape {
@@ -333,6 +458,36 @@ extension LakeFormation {
         }
     }
 
+    public struct DeleteLFTagRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag to delete.
+        public let tagKey: String
+
+        public init(catalogId: String? = nil, tagKey: String) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+        }
+    }
+
+    public struct DeleteLFTagResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeregisterResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to deregister.
         public let resourceArn: String
@@ -377,7 +532,7 @@ extension LakeFormation {
     }
 
     public struct DetailsMap: AWSDecodableShape {
-        /// A share resource ARN for a catalog resource shared through AWS Resource Access Manager (AWS RAM).
+        /// A resource share ARN for a catalog resource shared through AWS Resource Access Manager (AWS RAM).
         public let resourceShare: [String]?
 
         public init(resourceShare: [String]? = nil) {
@@ -509,6 +664,102 @@ extension LakeFormation {
         }
     }
 
+    public struct GetLFTagRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag.
+        public let tagKey: String
+
+        public init(catalogId: String? = nil, tagKey: String) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+        }
+    }
+
+    public struct GetLFTagResponse: AWSDecodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag.
+        public let tagKey: String?
+        /// A list of possible values an attribute can take.
+        public let tagValues: [String]?
+
+        public init(catalogId: String? = nil, tagKey: String? = nil, tagValues: [String]? = nil) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct GetResourceLFTagsRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The resource for which you want to return tags.
+        public let resource: Resource
+        /// Indicates whether to show the assigned tags.
+        public let showAssignedLFTags: Bool?
+
+        public init(catalogId: String? = nil, resource: Resource, showAssignedLFTags: Bool? = nil) {
+            self.catalogId = catalogId
+            self.resource = resource
+            self.showAssignedLFTags = showAssignedLFTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case resource = "Resource"
+            case showAssignedLFTags = "ShowAssignedLFTags"
+        }
+    }
+
+    public struct GetResourceLFTagsResponse: AWSDecodableShape {
+        /// A list of tags applied to a database resource.
+        public let lFTagOnDatabase: [LFTagPair]?
+        /// A list of tags applied to a column resource.
+        public let lFTagsOnColumns: [ColumnLFTag]?
+        /// A list of tags applied to a table resource.
+        public let lFTagsOnTable: [LFTagPair]?
+
+        public init(lFTagOnDatabase: [LFTagPair]? = nil, lFTagsOnColumns: [ColumnLFTag]? = nil, lFTagsOnTable: [LFTagPair]? = nil) {
+            self.lFTagOnDatabase = lFTagOnDatabase
+            self.lFTagsOnColumns = lFTagsOnColumns
+            self.lFTagsOnTable = lFTagsOnTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lFTagOnDatabase = "LFTagOnDatabase"
+            case lFTagsOnColumns = "LFTagsOnColumns"
+            case lFTagsOnTable = "LFTagsOnTable"
+        }
+    }
+
     public struct GrantPermissionsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
         public let catalogId: String?
@@ -548,6 +799,209 @@ extension LakeFormation {
 
     public struct GrantPermissionsResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct LFTag: AWSEncodableShape & AWSDecodableShape {
+        /// The key-name for the tag.
+        public let tagKey: String
+        /// A list of possible values an attribute can take.
+        public let tagValues: [String]
+
+        public init(tagKey: String, tagValues: [String]) {
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, min: 0)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
+            }
+            try self.validate(self.tagValues, name: "tagValues", parent: name, max: 50)
+            try self.validate(self.tagValues, name: "tagValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey = "TagKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct LFTagError: AWSDecodableShape {
+        /// An error that occurred with the attachment or detachment of the tag.
+        public let error: ErrorDetail?
+        /// The key-name of the tag.
+        public let lFTag: LFTagPair?
+
+        public init(error: ErrorDetail? = nil, lFTag: LFTagPair? = nil) {
+            self.error = error
+            self.lFTag = lFTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case lFTag = "LFTag"
+        }
+    }
+
+    public struct LFTagKeyResource: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag.
+        public let tagKey: String
+        /// A list of possible values an attribute can take.
+        public let tagValues: [String]
+
+        public init(catalogId: String? = nil, tagKey: String, tagValues: [String]) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 255)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, min: 0)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
+            }
+            try self.validate(self.tagValues, name: "tagValues", parent: name, max: 50)
+            try self.validate(self.tagValues, name: "tagValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct LFTagPair: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag.
+        public let tagKey: String
+        /// A list of possible values an attribute can take.
+        public let tagValues: [String]
+
+        public init(catalogId: String? = nil, tagKey: String, tagValues: [String]) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, min: 0)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
+            }
+            try self.validate(self.tagValues, name: "tagValues", parent: name, max: 50)
+            try self.validate(self.tagValues, name: "tagValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct LFTagPolicyResource: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// A list of tag conditions that apply to the resource's tag policy.
+        public let expression: [LFTag]
+        /// The resource type for which the tag policy applies.
+        public let resourceType: ResourceType
+
+        public init(catalogId: String? = nil, expression: [LFTag], resourceType: ResourceType) {
+            self.catalogId = catalogId
+            self.expression = expression
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.expression.forEach {
+                try $0.validate(name: "\(name).expression[]")
+            }
+            try self.validate(self.expression, name: "expression", parent: name, max: 5)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case expression = "Expression"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ListLFTagsRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is not the first call to retrieve this list.
+        public let nextToken: String?
+        /// If resource share type is ALL, returns both in-account tags and shared tags that the requester has permission to view. If resource share type is FOREIGN, returns all share tags that the requester can view. If no resource share type is passed, lists tags in the given catalog ID that the requester has permission to view.
+        public let resourceShareType: ResourceShareType?
+
+        public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
+            self.catalogId = catalogId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceShareType = resourceShareType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceShareType = "ResourceShareType"
+        }
+    }
+
+    public struct ListLFTagsResponse: AWSDecodableShape {
+        /// A list of tags that the requested has permission to view.
+        public let lFTags: [LFTagPair]?
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+
+        public init(lFTags: [LFTagPair]? = nil, nextToken: String? = nil) {
+            self.lFTags = lFTags
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lFTags = "LFTags"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct ListPermissionsRequest: AWSEncodableShape {
@@ -677,7 +1131,7 @@ extension LakeFormation {
     }
 
     public struct PrincipalResourcePermissions: AWSDecodableShape {
-        /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM share resource ARN.
+        /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM resource share ARN.
         public let additionalDetails: DetailsMap?
         /// The permissions to be granted or revoked on the resource.
         public let permissions: [Permission]?
@@ -762,6 +1216,52 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct RemoveLFTagsFromResourceRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The tags to be removed from the resource.
+        public let lFTags: [LFTagPair]
+        /// The resource where you want to remove a tag.
+        public let resource: Resource
+
+        public init(catalogId: String? = nil, lFTags: [LFTagPair], resource: Resource) {
+            self.catalogId = catalogId
+            self.lFTags = lFTags
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.lFTags.forEach {
+                try $0.validate(name: "\(name).lFTags[]")
+            }
+            try self.validate(self.lFTags, name: "lFTags", parent: name, max: 50)
+            try self.validate(self.lFTags, name: "lFTags", parent: name, min: 1)
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case lFTags = "LFTags"
+            case resource = "Resource"
+        }
+    }
+
+    public struct RemoveLFTagsFromResourceResponse: AWSDecodableShape {
+        /// A list of failures to untag a resource.
+        public let failures: [LFTagError]?
+
+        public init(failures: [LFTagError]? = nil) {
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures = "Failures"
+        }
+    }
+
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
         public let catalog: CatalogResource?
@@ -769,15 +1269,21 @@ extension LakeFormation {
         public let database: DatabaseResource?
         /// The location of an Amazon S3 path where permissions are granted or revoked.
         public let dataLocation: DataLocationResource?
+        /// The tag key and values attached to a resource.
+        public let lFTag: LFTagKeyResource?
+        /// A list of tag conditions that define a resource's tag policy.
+        public let lFTagPolicy: LFTagPolicyResource?
         /// The table for the resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal.
         public let table: TableResource?
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
         public let tableWithColumns: TableWithColumnsResource?
 
-        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataLocation: DataLocationResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
+        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataLocation: DataLocationResource? = nil, lFTag: LFTagKeyResource? = nil, lFTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
             self.catalog = catalog
             self.database = database
             self.dataLocation = dataLocation
+            self.lFTag = lFTag
+            self.lFTagPolicy = lFTagPolicy
             self.table = table
             self.tableWithColumns = tableWithColumns
         }
@@ -785,6 +1291,8 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.database?.validate(name: "\(name).database")
             try self.dataLocation?.validate(name: "\(name).dataLocation")
+            try self.lFTag?.validate(name: "\(name).lFTag")
+            try self.lFTagPolicy?.validate(name: "\(name).lFTagPolicy")
             try self.table?.validate(name: "\(name).table")
             try self.tableWithColumns?.validate(name: "\(name).tableWithColumns")
         }
@@ -793,6 +1301,8 @@ extension LakeFormation {
             case catalog = "Catalog"
             case database = "Database"
             case dataLocation = "DataLocation"
+            case lFTag = "LFTag"
+            case lFTagPolicy = "LFTagPolicy"
             case table = "Table"
             case tableWithColumns = "TableWithColumns"
         }
@@ -858,6 +1368,116 @@ extension LakeFormation {
 
     public struct RevokePermissionsResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct SearchDatabasesByLFTagsRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// A list of conditions (LFTag structures) to search for in database resources.
+        public let expression: [LFTag]
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is not the first call to retrieve this list.
+        public let nextToken: String?
+
+        public init(catalogId: String? = nil, expression: [LFTag], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.catalogId = catalogId
+            self.expression = expression
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.expression.forEach {
+                try $0.validate(name: "\(name).expression[]")
+            }
+            try self.validate(self.expression, name: "expression", parent: name, max: 5)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case expression = "Expression"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchDatabasesByLFTagsResponse: AWSDecodableShape {
+        /// A list of databases that meet the tag conditions.
+        public let databaseList: [TaggedDatabase]?
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+
+        public init(databaseList: [TaggedDatabase]? = nil, nextToken: String? = nil) {
+            self.databaseList = databaseList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseList = "DatabaseList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchTablesByLFTagsRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// A list of conditions (LFTag structures) to search for in table resources.
+        public let expression: [LFTag]
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A continuation token, if this is not the first call to retrieve this list.
+        public let nextToken: String?
+
+        public init(catalogId: String? = nil, expression: [LFTag], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.catalogId = catalogId
+            self.expression = expression
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.expression.forEach {
+                try $0.validate(name: "\(name).expression[]")
+            }
+            try self.validate(self.expression, name: "expression", parent: name, max: 5)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case expression = "Expression"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchTablesByLFTagsResponse: AWSDecodableShape {
+        /// A continuation token, present if the current list segment is not the last.
+        public let nextToken: String?
+        /// A list of tables that meet the tag conditions.
+        public let tableList: [TaggedTable]?
+
+        public init(nextToken: String? = nil, tableList: [TaggedTable]? = nil) {
+            self.nextToken = nextToken
+            self.tableList = tableList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tableList = "TableList"
+        }
     }
 
     public struct TableResource: AWSEncodableShape & AWSDecodableShape {
@@ -946,6 +1566,100 @@ extension LakeFormation {
             case databaseName = "DatabaseName"
             case name = "Name"
         }
+    }
+
+    public struct TaggedDatabase: AWSDecodableShape {
+        /// A database that has tags attached to it.
+        public let database: DatabaseResource?
+        /// A list of tags attached to the database.
+        public let lFTags: [LFTagPair]?
+
+        public init(database: DatabaseResource? = nil, lFTags: [LFTagPair]? = nil) {
+            self.database = database
+            self.lFTags = lFTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case lFTags = "LFTags"
+        }
+    }
+
+    public struct TaggedTable: AWSDecodableShape {
+        /// A list of tags attached to the database where the table resides.
+        public let lFTagOnDatabase: [LFTagPair]?
+        /// A list of tags attached to columns in the table.
+        public let lFTagsOnColumns: [ColumnLFTag]?
+        /// A list of tags attached to the table.
+        public let lFTagsOnTable: [LFTagPair]?
+        /// A table that has tags attached to it.
+        public let table: TableResource?
+
+        public init(lFTagOnDatabase: [LFTagPair]? = nil, lFTagsOnColumns: [ColumnLFTag]? = nil, lFTagsOnTable: [LFTagPair]? = nil, table: TableResource? = nil) {
+            self.lFTagOnDatabase = lFTagOnDatabase
+            self.lFTagsOnColumns = lFTagsOnColumns
+            self.lFTagsOnTable = lFTagsOnTable
+            self.table = table
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lFTagOnDatabase = "LFTagOnDatabase"
+            case lFTagsOnColumns = "LFTagsOnColumns"
+            case lFTagsOnTable = "LFTagsOnTable"
+            case table = "Table"
+        }
+    }
+
+    public struct UpdateLFTagRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        public let catalogId: String?
+        /// The key-name for the tag for which to add or delete values.
+        public let tagKey: String
+        /// A list of tag values to add from the tag.
+        public let tagValuesToAdd: [String]?
+        /// A list of tag values to delete from the tag.
+        public let tagValuesToDelete: [String]?
+
+        public init(catalogId: String? = nil, tagKey: String, tagValuesToAdd: [String]? = nil, tagValuesToDelete: [String]? = nil) {
+            self.catalogId = catalogId
+            self.tagKey = tagKey
+            self.tagValuesToAdd = tagValuesToAdd
+            self.tagValuesToDelete = tagValuesToDelete
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
+            try self.tagValuesToAdd?.forEach {
+                try validate($0, name: "tagValuesToAdd[]", parent: name, max: 256)
+                try validate($0, name: "tagValuesToAdd[]", parent: name, min: 0)
+                try validate($0, name: "tagValuesToAdd[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
+            }
+            try self.validate(self.tagValuesToAdd, name: "tagValuesToAdd", parent: name, max: 50)
+            try self.validate(self.tagValuesToAdd, name: "tagValuesToAdd", parent: name, min: 1)
+            try self.tagValuesToDelete?.forEach {
+                try validate($0, name: "tagValuesToDelete[]", parent: name, max: 256)
+                try validate($0, name: "tagValuesToDelete[]", parent: name, min: 0)
+                try validate($0, name: "tagValuesToDelete[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
+            }
+            try self.validate(self.tagValuesToDelete, name: "tagValuesToDelete", parent: name, max: 50)
+            try self.validate(self.tagValuesToDelete, name: "tagValuesToDelete", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case tagKey = "TagKey"
+            case tagValuesToAdd = "TagValuesToAdd"
+            case tagValuesToDelete = "TagValuesToDelete"
+        }
+    }
+
+    public struct UpdateLFTagResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateResourceRequest: AWSEncodableShape {

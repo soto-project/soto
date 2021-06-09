@@ -191,6 +191,12 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum Mode: String, CustomStringConvertible, Codable {
+        case enabled = "ENABLED"
+        case learnOnly = "LEARN_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Order: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
@@ -213,6 +219,22 @@ extension Kendra {
         case answer = "ANSWER"
         case document = "DOCUMENT"
         case questionAnswer = "QUESTION_ANSWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuerySuggestionsBlockListStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case activeButUpdateFailed = "ACTIVE_BUT_UPDATE_FAILED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuerySuggestionsStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -516,7 +538,7 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentRequest: AWSEncodableShape {
-        /// One or more documents to add to the index.  Documents have the following file size limits.   5 MB total size for inline documents   50 MB total size for files from an S3 bucket   5 MB extracted text for any file   For more information about file size and transaction per second quotas, see Quotas.
+        /// One or more documents to add to the index. Documents can include custom attributes. For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom attributes that provide information on the synchronization of documents running on a data source. Note, 'DataSourceSyncJobId' could be an optional custom attribute as Amazon Kendra will use the ID of a running sync job. Documents have the following file size limits.   5 MB total size for inline documents   50 MB total size for files from an S3 bucket   5 MB extracted text for any file   For more information about file size and transaction per second quotas, see Quotas.
         public let documents: [Document]
         /// The identifier of the index to add the documents to. You need to create the index first using the CreateIndex operation.
         public let indexId: String
@@ -603,6 +625,25 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case queryCapacityUnits = "QueryCapacityUnits"
             case storageCapacityUnits = "StorageCapacityUnits"
+        }
+    }
+
+    public struct ClearQuerySuggestionsRequest: AWSEncodableShape {
+        /// The identifier of the index you want to clear query suggestions from.
+        public let indexId: String
+
+        public init(indexId: String) {
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
         }
     }
 
@@ -1277,6 +1318,79 @@ extension Kendra {
         }
     }
 
+    public struct CreateQuerySuggestionsBlockListRequest: AWSEncodableShape {
+        /// A token that you provide to identify the request to create a query suggestions block list.
+        public let clientToken: String?
+        /// A user-friendly description for the block list. For example, the description "List of all offensive words that can appear in user queries and need to be blocked from suggestions."
+        public let description: String?
+        /// The identifier of the index you want to create a query suggestions block list for.
+        public let indexId: String
+        /// A user friendly name for the block list. For example, the block list named 'offensive-words' includes all offensive words that could appear in user queries and need to be blocked from suggestions.
+        public let name: String
+        /// The IAM (Identity and Access Management) role used by Amazon Kendra to access the block list text file in your S3 bucket. You need permissions to the role ARN (Amazon Resource Name). The role needs S3 read permissions to your file in S3 and needs to give STS (Security Token Service) assume role permissions to Amazon Kendra.
+        public let roleArn: String
+        /// The S3 path to your block list text file in your S3 bucket. Each block word or phrase should be on a separate line in a text file. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+        public let sourceS3Path: S3Path
+        /// A tag that you can assign to a block list that categorizes the block list.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateQuerySuggestionsBlockListRequest.idempotencyToken(), description: String? = nil, indexId: String, name: String, roleArn: String, sourceS3Path: S3Path, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+            self.sourceS3Path = sourceS3Path
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.sourceS3Path.validate(name: "\(name).sourceS3Path")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case sourceS3Path = "SourceS3Path"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateQuerySuggestionsBlockListResponse: AWSDecodableShape {
+        /// The unique identifier of the created block list.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct CreateThesaurusRequest: AWSEncodableShape {
         /// A token that you provide to identify the request to create a thesaurus. Multiple calls to the CreateThesaurus operation with the same client token will create only one index.
         public let clientToken: String?
@@ -1479,10 +1593,10 @@ extension Kendra {
     public struct DataSourceSyncJobMetricTarget: AWSEncodableShape {
         /// The ID of the data source that is running the sync job.
         public let dataSourceId: String
-        /// The ID of the sync job that is running on the data source.
-        public let dataSourceSyncJobId: String
+        /// The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are indexed/deleted at the index level without sync job metrics included.
+        public let dataSourceSyncJobId: String?
 
-        public init(dataSourceId: String, dataSourceSyncJobId: String) {
+        public init(dataSourceId: String, dataSourceSyncJobId: String? = nil) {
             self.dataSourceId = dataSourceId
             self.dataSourceSyncJobId = dataSourceSyncJobId
         }
@@ -1705,6 +1819,32 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+        }
+    }
+
+    public struct DeleteQuerySuggestionsBlockListRequest: AWSEncodableShape {
+        /// The unique identifier of the block list that needs to be deleted.
+        public let id: String
+        /// The identifier of the you want to delete a block list from.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
         }
     }
 
@@ -1980,6 +2120,153 @@ extension Kendra {
             case updatedAt = "UpdatedAt"
             case userContextPolicy = "UserContextPolicy"
             case userTokenConfigurations = "UserTokenConfigurations"
+        }
+    }
+
+    public struct DescribeQuerySuggestionsBlockListRequest: AWSEncodableShape {
+        /// The unique identifier of the block list.
+        public let id: String
+        /// The identifier of the index for the block list.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DescribeQuerySuggestionsBlockListResponse: AWSDecodableShape {
+        /// Shows the date-time a block list for query suggestions was last created.
+        public let createdAt: Date?
+        /// Shows the description for the block list.
+        public let description: String?
+        /// Shows the error message with details when there are issues in processing the block list.
+        public let errorMessage: String?
+        /// Shows the current size of the block list text file in S3.
+        public let fileSizeBytes: Int64?
+        /// Shows the unique identifier of the block list.
+        public let id: String?
+        /// Shows the identifier of the index for the block list.
+        public let indexId: String?
+        /// Shows the current number of valid, non-empty words or phrases in the block list text file.
+        public let itemCount: Int?
+        /// Shows the name of the block list.
+        public let name: String?
+        /// Shows the current IAM (Identity and Access Management) role used by Amazon Kendra to access the block list text file in S3. The role needs S3 read permissions to your file in S3 and needs to give STS (Security Token Service) assume role permissions to Amazon Kendra.
+        public let roleArn: String?
+        /// Shows the current S3 path to your block list text file in your S3 bucket. Each block word or phrase should be on a separate line in a text file. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+        public let sourceS3Path: S3Path?
+        /// Shows whether the current status of the block list is ACTIVE or INACTIVE.
+        public let status: QuerySuggestionsBlockListStatus?
+        /// Shows the date-time a block list for query suggestions was last updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileSizeBytes: Int64? = nil, id: String? = nil, indexId: String? = nil, itemCount: Int? = nil, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil, status: QuerySuggestionsBlockListStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.errorMessage = errorMessage
+            self.fileSizeBytes = fileSizeBytes
+            self.id = id
+            self.indexId = indexId
+            self.itemCount = itemCount
+            self.name = name
+            self.roleArn = roleArn
+            self.sourceS3Path = sourceS3Path
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case fileSizeBytes = "FileSizeBytes"
+            case id = "Id"
+            case indexId = "IndexId"
+            case itemCount = "ItemCount"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case sourceS3Path = "SourceS3Path"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct DescribeQuerySuggestionsConfigRequest: AWSEncodableShape {
+        /// The identifier of the index you want to describe query suggestions settings for.
+        public let indexId: String
+
+        public init(indexId: String) {
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DescribeQuerySuggestionsConfigResponse: AWSDecodableShape {
+        /// Shows whether Amazon Kendra uses all queries or only uses queries that include user information to generate query suggestions.
+        public let includeQueriesWithoutUserInformation: Bool?
+        /// Shows the date-time query suggestions for an index was last cleared. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. Amazon Kendra only considers re-occurences of a query from the time you cleared suggestions.
+        public let lastClearTime: Date?
+        /// Shows the date-time query suggestions for an index was last updated.
+        public let lastSuggestionsBuildTime: Date?
+        /// Shows the minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users.
+        public let minimumNumberOfQueryingUsers: Int?
+        /// Shows the minimum number of times a query must be searched in order for the query to be eligible to suggest to your users.
+        public let minimumQueryCount: Int?
+        /// Shows whether query suggestions are currently in ENABLED mode or LEARN_ONLY mode. By default, Amazon Kendra enables query suggestions.LEARN_ONLY turns off query suggestions for your users. You can change the mode using the UpdateQuerySuggestionsConfig operation.
+        public let mode: Mode?
+        /// Shows how recent your queries are in your query log time window (in days).
+        public let queryLogLookBackWindowInDays: Int?
+        /// Shows whether the status of query suggestions settings is currently Active or Updating. Active means the current settings apply and Updating means your changed settings are in the process of applying.
+        public let status: QuerySuggestionsStatus?
+        /// Shows the current total count of query suggestions for an index. This count can change when you update your query suggestions settings, if you filter out certain queries from suggestions using a block list, and as the query log accumulates more queries for Amazon Kendra to learn from.
+        public let totalSuggestionsCount: Int?
+
+        public init(includeQueriesWithoutUserInformation: Bool? = nil, lastClearTime: Date? = nil, lastSuggestionsBuildTime: Date? = nil, minimumNumberOfQueryingUsers: Int? = nil, minimumQueryCount: Int? = nil, mode: Mode? = nil, queryLogLookBackWindowInDays: Int? = nil, status: QuerySuggestionsStatus? = nil, totalSuggestionsCount: Int? = nil) {
+            self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
+            self.lastClearTime = lastClearTime
+            self.lastSuggestionsBuildTime = lastSuggestionsBuildTime
+            self.minimumNumberOfQueryingUsers = minimumNumberOfQueryingUsers
+            self.minimumQueryCount = minimumQueryCount
+            self.mode = mode
+            self.queryLogLookBackWindowInDays = queryLogLookBackWindowInDays
+            self.status = status
+            self.totalSuggestionsCount = totalSuggestionsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
+            case lastClearTime = "LastClearTime"
+            case lastSuggestionsBuildTime = "LastSuggestionsBuildTime"
+            case minimumNumberOfQueryingUsers = "MinimumNumberOfQueryingUsers"
+            case minimumQueryCount = "MinimumQueryCount"
+            case mode = "Mode"
+            case queryLogLookBackWindowInDays = "QueryLogLookBackWindowInDays"
+            case status = "Status"
+            case totalSuggestionsCount = "TotalSuggestionsCount"
         }
     }
 
@@ -2346,6 +2633,51 @@ extension Kendra {
             case name = "Name"
             case status = "Status"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetQuerySuggestionsRequest: AWSEncodableShape {
+        /// The identifier of the index you want to get query suggestions from.
+        public let indexId: String
+        /// The maximum number of query suggestions you want to show to your users.
+        public let maxSuggestionsCount: Int?
+        /// The text of a user's query to generate query suggestions. A query is suggested if the query prefix matches what a user starts to type as their query. Amazon Kendra does not show any suggestions if a user types fewer than two characters or more than 60 characters. A query must also have at least one search result and contain at least one word of more than four characters.
+        public let queryText: String
+
+        public init(indexId: String, maxSuggestionsCount: Int? = nil, queryText: String) {
+            self.indexId = indexId
+            self.maxSuggestionsCount = maxSuggestionsCount
+            self.queryText = queryText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.queryText, name: "queryText", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
+            case maxSuggestionsCount = "MaxSuggestionsCount"
+            case queryText = "QueryText"
+        }
+    }
+
+    public struct GetQuerySuggestionsResponse: AWSDecodableShape {
+        /// The unique identifier for a list of query suggestions for an index.
+        public let querySuggestionsId: String?
+        /// A list of query suggestions for an index.
+        public let suggestions: [Suggestion]?
+
+        public init(querySuggestionsId: String? = nil, suggestions: [Suggestion]? = nil) {
+            self.querySuggestionsId = querySuggestionsId
+            self.suggestions = suggestions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case querySuggestionsId = "QuerySuggestionsId"
+            case suggestions = "Suggestions"
         }
     }
 
@@ -2787,6 +3119,54 @@ extension Kendra {
         }
     }
 
+    public struct ListQuerySuggestionsBlockListsRequest: AWSEncodableShape {
+        /// The identifier of the index for a list of all block lists that exist for that index. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+        public let indexId: String
+        /// The maximum number of block lists to return.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of block lists (BlockListSummaryItems).
+        public let nextToken: String?
+
+        public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.indexId = indexId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListQuerySuggestionsBlockListsResponse: AWSDecodableShape {
+        /// Summary items for a block list. This includes summary items on the block list ID, block list name, when the block list was created, when the block list was last updated, and the count of block words/phrases in the block list. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+        public let blockListSummaryItems: [QuerySuggestionsBlockListSummary]?
+        /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of block lists.
+        public let nextToken: String?
+
+        public init(blockListSummaryItems: [QuerySuggestionsBlockListSummary]? = nil, nextToken: String? = nil) {
+            self.blockListSummaryItems = blockListSummaryItems
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blockListSummaryItems = "BlockListSummaryItems"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
         public let resourceARN: String
@@ -3146,6 +3526,39 @@ extension Kendra {
         }
     }
 
+    public struct QuerySuggestionsBlockListSummary: AWSDecodableShape {
+        /// The date-time summary information for a query suggestions block list was last created.
+        public let createdAt: Date?
+        /// The identifier of a block list.
+        public let id: String?
+        /// The number of items in the block list file.
+        public let itemCount: Int?
+        /// The name of the block list.
+        public let name: String?
+        /// The status of the block list.
+        public let status: QuerySuggestionsBlockListStatus?
+        /// The date-time the block list was last updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, id: String? = nil, itemCount: Int? = nil, name: String? = nil, status: QuerySuggestionsBlockListStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.id = id
+            self.itemCount = itemCount
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case id = "Id"
+            case itemCount = "ItemCount"
+            case name = "Name"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct Relevance: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the time period that the boost applies to. For example, to make the boost apply to documents with the field value within the last month, you would use "2628000s". Once the field value is beyond the specified range, the effect of the boost drops off. The higher the importance, the faster the effect drops off. If you don't specify a value, the default is 3 months. The value of the field is a numeric string followed by the character "s", for example "86400s" for one day, or "604800s" for one week.  Only applies to DATE fields.
         public let duration: String?
@@ -3217,9 +3630,9 @@ extension Kendra {
         /// The name of the bucket that contains the documents.
         public let bucketName: String
         public let documentsMetadataConfiguration: DocumentsMetadataConfiguration?
-        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix or inclusion pattern also matches an exclusion pattern, the document is not indexed. For more information about glob patterns, see glob (programming) in Wikipedia.
+        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix or inclusion pattern also matches an exclusion pattern, the document is not indexed. Some examples are:    *.png , *.jpg will exclude all PNG and JPEG image files in a directory (files with the extensions .png and .jpg).    *internal* will exclude all files in a directory that contain 'internal' in the file name, such as 'internal', 'internal_only', 'company_internal'.    **/*internal* will exclude all internal-related files in a directory and its subdirectories.
         public let exclusionPatterns: [String]?
-        /// A list of glob patterns for documents that should be indexed. If a document that matches an inclusion pattern also matches an exclusion pattern, the document is not indexed. For more information about glob patterns, see glob (programming) in Wikipedia.
+        /// A list of glob patterns for documents that should be indexed. If a document that matches an inclusion pattern also matches an exclusion pattern, the document is not indexed. Some examples are:    *.txt will include all text files in a directory (files with the extension .txt).    **/*.txt will include all text files in a directory and its subdirectories.    *tax* will include all files in a directory that contain 'tax' in the file name, such as 'tax', 'taxes', 'income_tax'.
         public let inclusionPatterns: [String]?
         /// A list of S3 prefixes for the documents that should be included in the index.
         public let inclusionPrefixes: [String]?
@@ -3297,7 +3710,7 @@ extension Kendra {
     public struct SalesforceChatterFeedConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the column in the Salesforce FeedItem table that contains the content to index. Typically this is the Body column.
         public let documentDataFieldName: String
-        /// The name of the column in the Salesforce FeedItem table that contains the title of the document. This is typically the Title collumn.
+        /// The name of the column in the Salesforce FeedItem table that contains the title of the document. This is typically the Title column.
         public let documentTitleFieldName: String?
         /// Maps fields from a Salesforce chatter feed into Amazon Kendra index fields.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
@@ -4037,6 +4450,70 @@ extension Kendra {
         }
     }
 
+    public struct Suggestion: AWSDecodableShape {
+        /// The unique UUID (universally unique identifier) of a single query suggestion.
+        public let id: String?
+        /// The value for the unique UUID (universally unique identifier) of a single query suggestion. The value is the text string of a suggestion.
+        public let value: SuggestionValue?
+
+        public init(id: String? = nil, value: SuggestionValue? = nil) {
+            self.id = id
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case value = "Value"
+        }
+    }
+
+    public struct SuggestionHighlight: AWSDecodableShape {
+        /// The zero-based location in the response string where the highlight starts.
+        public let beginOffset: Int?
+        /// The zero-based location in the response string where the highlight ends.
+        public let endOffset: Int?
+
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+        }
+    }
+
+    public struct SuggestionTextWithHighlights: AWSDecodableShape {
+        /// The beginning and end of the query suggestion text that should be highlighted.
+        public let highlights: [SuggestionHighlight]?
+        /// The query suggestion text to display to the user.
+        public let text: String?
+
+        public init(highlights: [SuggestionHighlight]? = nil, text: String? = nil) {
+            self.highlights = highlights
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case highlights = "Highlights"
+            case text = "Text"
+        }
+    }
+
+    public struct SuggestionValue: AWSDecodableShape {
+        /// The SuggestionTextWithHighlights structure that contains the query suggestion text and highlights.
+        public let text: SuggestionTextWithHighlights?
+
+        public init(text: SuggestionTextWithHighlights? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, or data source.
         public let key: String
@@ -4322,6 +4799,101 @@ extension Kendra {
             case roleArn = "RoleArn"
             case userContextPolicy = "UserContextPolicy"
             case userTokenConfigurations = "UserTokenConfigurations"
+        }
+    }
+
+    public struct UpdateQuerySuggestionsBlockListRequest: AWSEncodableShape {
+        /// The description for a block list.
+        public let description: String?
+        /// The unique identifier of a block list.
+        public let id: String
+        /// The identifier of the index for a block list.
+        public let indexId: String
+        /// The name of a block list.
+        public let name: String?
+        /// The IAM (Identity and Access Management) role used to access the block list text file in S3.
+        public let roleArn: String?
+        /// The S3 path where your block list text file sits in S3. If you update your block list and provide the same path to the block list text file in S3, then Amazon Kendra reloads the file to refresh the block list. Amazon Kendra does not automatically refresh your block list. You need to call the UpdateQuerySuggestionsBlockList API to refresh you block list. If you update your block list, then Amazon Kendra asynchronously refreshes all query suggestions with the latest content in the S3 file. This means changes might not take effect immediately.
+        public let sourceS3Path: S3Path?
+
+        public init(description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil) {
+            self.description = description
+            self.id = id
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+            self.sourceS3Path = sourceS3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.sourceS3Path?.validate(name: "\(name).sourceS3Path")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case sourceS3Path = "SourceS3Path"
+        }
+    }
+
+    public struct UpdateQuerySuggestionsConfigRequest: AWSEncodableShape {
+        ///  TRUE to include queries without user information (i.e. all queries, irrespective of the user), otherwise FALSE to only include queries with user information. If you pass user information to Amazon Kendra along with the queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries with user information. If you set to FALSE, Amazon Kendra only considers queries searched at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for suggestions. If you set to TRUE, Amazon Kendra ignores all user information and learns from all queries.
+        public let includeQueriesWithoutUserInformation: Bool?
+        /// The identifier of the index you want to update query suggestions settings for.
+        public let indexId: String
+        /// The minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users. Increasing this number might decrease the number of suggestions. However, this ensures a query is searched by many users and is truly popular to suggest to users. How you tune this setting depends on your specific needs.
+        public let minimumNumberOfQueryingUsers: Int?
+        /// The the minimum number of times a query must be searched in order to be eligible to suggest to your users. Decreasing this number increases the number of suggestions. However, this affects the quality of suggestions as it sets a low bar for a query to be considered popular to suggest to users. How you tune this setting depends on your specific needs.
+        public let minimumQueryCount: Int?
+        /// Set the mode to ENABLED or LEARN_ONLY. By default, Amazon Kendra enables query suggestions. LEARN_ONLY mode allows you to turn off query suggestions. You can to update this at any time. In LEARN_ONLY mode, Amazon Kendra continues to learn from new queries to keep suggestions up to date for when you are ready to switch to ENABLED mode again.
+        public let mode: Mode?
+        /// How recent your queries are in your query log time window. The time window is the number of days from current day to past days. By default, Amazon Kendra sets this to 180.
+        public let queryLogLookBackWindowInDays: Int?
+
+        public init(includeQueriesWithoutUserInformation: Bool? = nil, indexId: String, minimumNumberOfQueryingUsers: Int? = nil, minimumQueryCount: Int? = nil, mode: Mode? = nil, queryLogLookBackWindowInDays: Int? = nil) {
+            self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
+            self.indexId = indexId
+            self.minimumNumberOfQueryingUsers = minimumNumberOfQueryingUsers
+            self.minimumQueryCount = minimumQueryCount
+            self.mode = mode
+            self.queryLogLookBackWindowInDays = queryLogLookBackWindowInDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.minimumNumberOfQueryingUsers, name: "minimumNumberOfQueryingUsers", parent: name, max: 10000)
+            try self.validate(self.minimumNumberOfQueryingUsers, name: "minimumNumberOfQueryingUsers", parent: name, min: 1)
+            try self.validate(self.minimumQueryCount, name: "minimumQueryCount", parent: name, max: 10000)
+            try self.validate(self.minimumQueryCount, name: "minimumQueryCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeQueriesWithoutUserInformation = "IncludeQueriesWithoutUserInformation"
+            case indexId = "IndexId"
+            case minimumNumberOfQueryingUsers = "MinimumNumberOfQueryingUsers"
+            case minimumQueryCount = "MinimumQueryCount"
+            case mode = "Mode"
+            case queryLogLookBackWindowInDays = "QueryLogLookBackWindowInDays"
         }
     }
 

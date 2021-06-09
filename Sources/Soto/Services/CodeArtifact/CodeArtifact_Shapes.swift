@@ -1570,7 +1570,7 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionAssetsResult: AWSDecodableShape {
-        ///  The returned list of  AssetSummary  objects.
+        ///  The returned list of AssetSummary objects.
         public let assets: [AssetSummary]?
         ///  The format of the package that contains the returned package version assets.
         public let format: PackageFormat?
@@ -1674,7 +1674,7 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionDependenciesResult: AWSDecodableShape {
-        ///  The returned list of  PackageDependency  objects.
+        ///  The returned list of PackageDependency objects.
         public let dependencies: [PackageDependency]?
         ///  A format that specifies the type of the package that contains the returned dependencies. The valid values are:     npm     pypi     maven
         public let format: PackageFormat?
@@ -1795,7 +1795,7 @@ extension CodeArtifact {
         public let nextToken: String?
         ///  The name of the package.
         public let package: String?
-        ///  The returned list of  PackageVersionSummary  objects.
+        ///  The returned list of PackageVersionSummary objects.
         public let versions: [PackageVersionSummary]?
 
         public init(defaultDisplayVersion: String? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, versions: [PackageVersionSummary]? = nil) {
@@ -1886,7 +1886,7 @@ extension CodeArtifact {
     public struct ListPackagesResult: AWSDecodableShape {
         ///  If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        ///  The list of returned  PackageSummary  objects.
+        ///  The list of returned PackageSummary objects.
         public let packages: [PackageSummary]?
 
         public init(nextToken: String? = nil, packages: [PackageSummary]? = nil) {
@@ -2009,7 +2009,7 @@ extension CodeArtifact {
     public struct ListRepositoriesResult: AWSDecodableShape {
         ///  If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
-        ///  The returned list of  RepositorySummary  objects.
+        ///  The returned list of RepositorySummary objects.
         public let repositories: [RepositorySummary]?
 
         public init(nextToken: String? = nil, repositories: [RepositorySummary]? = nil) {

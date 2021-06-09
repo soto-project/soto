@@ -182,6 +182,7 @@ extension Chime {
 
     public enum PhoneNumberProductType: String, CustomStringConvertible, Codable {
         case businesscalling = "BusinessCalling"
+        case sipmediaapplicationdialin = "SipMediaApplicationDialIn"
         case voiceconnector = "VoiceConnector"
         public var description: String { return self.rawValue }
     }
@@ -689,6 +690,30 @@ extension Chime {
         }
     }
 
+    public struct BatchChannelMemberships: AWSDecodableShape {
+        /// The ARN of the channel to which you're adding users.
+        public let channelArn: String?
+        public let invitedBy: Identity?
+        /// The users successfully added to the request.
+        public let members: [Identity]?
+        /// The membership types set for the channel users.
+        public let type: ChannelMembershipType?
+
+        public init(channelArn: String? = nil, invitedBy: Identity? = nil, members: [Identity]? = nil, type: ChannelMembershipType? = nil) {
+            self.channelArn = channelArn
+            self.invitedBy = invitedBy
+            self.members = members
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "ChannelArn"
+            case invitedBy = "InvitedBy"
+            case members = "Members"
+            case type = "Type"
+        }
+    }
+
     public struct BatchCreateAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
@@ -729,6 +754,88 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case attendees = "Attendees"
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchCreateChannelMembershipError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: ErrorCode?
+        /// The error message.
+        public let errorMessage: String?
+        /// The ARN of the member that the service couldn't add.
+        public let memberArn: String?
+
+        public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, memberArn: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.memberArn = memberArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case memberArn = "MemberArn"
+        }
+    }
+
+    public struct BatchCreateChannelMembershipRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "channelArn", location: .uri(locationName: "channelArn")),
+            AWSMemberEncoding(label: "chimeBearer", location: .header(locationName: "x-amz-chime-bearer"))
+        ]
+
+        /// The ARN of the channel to which you're adding users.
+        public let channelArn: String
+        /// The AppInstanceUserArn of the user that makes the API call.
+        public let chimeBearer: String?
+        /// The ARNs of the members you want to add to the channel.
+        public let memberArns: [String]
+        /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
+        public let type: ChannelMembershipType?
+
+        public init(channelArn: String, chimeBearer: String? = nil, memberArns: [String], type: ChannelMembershipType? = nil) {
+            self.channelArn = channelArn
+            self.chimeBearer = chimeBearer
+            self.memberArns = memberArns
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelArn, name: "channelArn", parent: name, max: 1600)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, min: 5)
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.memberArns.forEach {
+                try validate($0, name: "memberArns[]", parent: name, max: 1600)
+                try validate($0, name: "memberArns[]", parent: name, min: 5)
+                try validate($0, name: "memberArns[]", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            }
+            try self.validate(self.memberArns, name: "memberArns", parent: name, max: 100)
+            try self.validate(self.memberArns, name: "memberArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberArns = "MemberArns"
+            case type = "Type"
+        }
+    }
+
+    public struct BatchCreateChannelMembershipResponse: AWSDecodableShape {
+        /// The list of channel memberships in the response.
+        public let batchChannelMemberships: BatchChannelMemberships?
+        /// If the action fails for one or more of the memberships in the request, a list of the memberships is returned, along with error codes and error messages.
+        public let errors: [BatchCreateChannelMembershipError]?
+
+        public init(batchChannelMemberships: BatchChannelMemberships? = nil, errors: [BatchCreateChannelMembershipError]? = nil) {
+            self.batchChannelMemberships = batchChannelMemberships
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchChannelMemberships = "BatchChannelMemberships"
             case errors = "Errors"
         }
     }
@@ -2361,11 +2468,11 @@ extension Chime {
             AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri(locationName: "sipMediaApplicationId"))
         ]
 
-        /// The phone number that a user calls from.
+        /// The phone number that a user calls from. This is a phone number in your Amazon Chime phone number inventory.
         public let fromPhoneNumber: String
         /// The ID of the SIP media application.
         public let sipMediaApplicationId: String
-        /// The phone number that the user dials in order to connect to a meeting.
+        /// The phone number that the service should call.
         public let toPhoneNumber: String
 
         public init(fromPhoneNumber: String, sipMediaApplicationId: String, toPhoneNumber: String) {
@@ -3449,7 +3556,7 @@ extension Chime {
     }
 
     public struct DescribeChannelBanResponse: AWSDecodableShape {
-        /// The the details of the ban.
+        /// The details of the ban.
         public let channelBan: ChannelBan?
 
         public init(channelBan: ChannelBan? = nil) {
@@ -5717,7 +5824,7 @@ extension Chime {
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested channels are returned.
         public let nextToken: String?
-        ///  The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
+        /// The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
         public let privacy: ChannelPrivacy?
 
         public init(appInstanceArn: String, chimeBearer: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, privacy: ChannelPrivacy? = nil) {
@@ -6176,6 +6283,34 @@ extension Chime {
         }
     }
 
+    public struct ListSupportedPhoneNumberCountriesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "productType", location: .querystring(locationName: "product-type"))
+        ]
+
+        /// The phone number product type.
+        public let productType: PhoneNumberProductType
+
+        public init(productType: PhoneNumberProductType) {
+            self.productType = productType
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSupportedPhoneNumberCountriesResponse: AWSDecodableShape {
+        /// The supported phone number countries.
+        public let phoneNumberCountries: [PhoneNumberCountry]?
+
+        public init(phoneNumberCountries: [PhoneNumberCountry]? = nil) {
+            self.phoneNumberCountries = phoneNumberCountries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumberCountries = "PhoneNumberCountries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceARN", location: .querystring(locationName: "arn"))
@@ -6462,7 +6597,7 @@ extension Chime {
         public let externalMeetingId: String?
         /// The media placement for the meeting.
         public let mediaPlacement: MediaPlacement?
-        ///  The Region in which you create the meeting. Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
+        /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
         public let mediaRegion: String?
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
@@ -6696,6 +6831,8 @@ extension Chime {
         public let callingNameStatus: CallingNameStatus?
         /// The phone number capabilities.
         public let capabilities: PhoneNumberCapabilities?
+        /// The phone number country. Format: ISO 3166-1 alpha-2.
+        public let country: String?
         /// The phone number creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
@@ -6716,11 +6853,12 @@ extension Chime {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
 
-        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
+        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
             self.associations = associations
             self.callingName = callingName
             self.callingNameStatus = callingNameStatus
             self.capabilities = capabilities
+            self.country = country
             self.createdTimestamp = createdTimestamp
             self.deletionTimestamp = deletionTimestamp
             self.e164PhoneNumber = e164PhoneNumber
@@ -6736,6 +6874,7 @@ extension Chime {
             case callingName = "CallingName"
             case callingNameStatus = "CallingNameStatus"
             case capabilities = "Capabilities"
+            case country = "Country"
             case createdTimestamp = "CreatedTimestamp"
             case deletionTimestamp = "DeletionTimestamp"
             case e164PhoneNumber = "E164PhoneNumber"
@@ -6799,6 +6938,23 @@ extension Chime {
             case outboundCall = "OutboundCall"
             case outboundMMS = "OutboundMMS"
             case outboundSMS = "OutboundSMS"
+        }
+    }
+
+    public struct PhoneNumberCountry: AWSDecodableShape {
+        /// The phone number country code. Format: ISO 3166-1 alpha-2.
+        public let countryCode: String?
+        /// The supported phone number types.
+        public let supportedPhoneNumberTypes: [PhoneNumberType]?
+
+        public init(countryCode: String? = nil, supportedPhoneNumberTypes: [PhoneNumberType]? = nil) {
+            self.countryCode = countryCode
+            self.supportedPhoneNumberTypes = supportedPhoneNumberTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryCode = "CountryCode"
+            case supportedPhoneNumberTypes = "SupportedPhoneNumberTypes"
         }
     }
 
@@ -7763,36 +7919,41 @@ extension Chime {
             AWSMemberEncoding(label: "country", location: .querystring(locationName: "country")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "phoneNumberType", location: .querystring(locationName: "phone-number-type")),
             AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")),
             AWSMemberEncoding(label: "tollFreePrefix", location: .querystring(locationName: "toll-free-prefix"))
         ]
 
-        /// The area code used to filter results.
+        /// The area code used to filter results. Only applies to the US.
         public let areaCode: String?
-        /// The city used to filter results.
+        /// The city used to filter results. Only applies to the US.
         public let city: String?
-        /// The country used to filter results.
+        /// The country used to filter results. Defaults to the US Format: ISO 3166-1 alpha-2.
         public let country: String?
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
-        /// The token to use to retrieve the next page of results.
+        /// The token used to retrieve the next page of results.
         public let nextToken: String?
-        /// The state used to filter results.
+        /// The phone number type used to filter results. Required for non-US numbers.
+        public let phoneNumberType: PhoneNumberType?
+        /// The state used to filter results. Required only if you provide City. Only applies to the US.
         public let state: String?
-        /// The toll-free prefix that you use to filter results.
+        /// The toll-free prefix that you use to filter results. Only applies to the US.
         public let tollFreePrefix: String?
 
-        public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
+        public init(areaCode: String? = nil, city: String? = nil, country: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberType: PhoneNumberType? = nil, state: String? = nil, tollFreePrefix: String? = nil) {
             self.areaCode = areaCode
             self.city = city
             self.country = country
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.phoneNumberType = phoneNumberType
             self.state = state
             self.tollFreePrefix = tollFreePrefix
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.country, name: "country", parent: name, pattern: "[A-Z]{2}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.tollFreePrefix, name: "tollFreePrefix", parent: name, max: 3)
@@ -7806,13 +7967,17 @@ extension Chime {
     public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]?
+        /// The token used to retrieve the next page of search results.
+        public let nextToken: String?
 
-        public init(e164PhoneNumbers: [String]? = nil) {
+        public init(e164PhoneNumbers: [String]? = nil, nextToken: String? = nil) {
             self.e164PhoneNumbers = e164PhoneNumbers
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case e164PhoneNumbers = "E164PhoneNumbers"
+            case nextToken = "NextToken"
         }
     }
 
@@ -9206,7 +9371,7 @@ extension Chime {
         public let name: String
         /// The Amazon Chime Voice Connector group ID.
         public let voiceConnectorGroupId: String
-        ///  The VoiceConnectorItems to associate with the group.
+        /// The VoiceConnectorItems to associate with the group.
         public let voiceConnectorItems: [VoiceConnectorItem]
 
         public init(name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {

@@ -86,9 +86,24 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "CreateBotVersion", path: "/bots/{botId}/botversions/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see  Importing and exporting bots
+    public func createExport(_ input: CreateExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExportResponse> {
+        return self.client.execute(operation: "CreateExport", path: "/exports/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an intent. To define the interaction between the user and your bot, you define one or more intents. For example, for a pizza ordering bot you would create an OrderPizza intent. When you create an intent, you must provide a name. You can optionally provide the following:   Sample utterances. For example, "I want to order a pizza" and "Can I order a pizza." You can't provide utterances for built-in intents.   Information to be gathered. You specify slots for the information that you bot requests from the user. You can specify standard slot types, such as date and time, or custom slot types for your application.   How the intent is fulfilled. You can provide a Lambda function or configure the intent to return the intent information to your client application. If you use a Lambda function, Amazon Lex invokes the function when all of the intent information is available.   A confirmation prompt to send to the user to confirm an intent. For example, "Shall I order your pizza?"   A conclusion statement to send to the user after the intent is fulfilled. For example, "I ordered your pizza."   A follow-up prompt that asks the user for additional activity. For example, "Do you want a drink with your pizza?"
     public func createIntent(_ input: CreateIntentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIntentResponse> {
         return self.client.execute(operation: "CreateIntent", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/intents/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new resource policy with the specified policy statements.
+    public func createResourcePolicy(_ input: CreateResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourcePolicyResponse> {
+        return self.client.execute(operation: "CreateResourcePolicy", path: "/policy/{resourceArn}/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can create a resource policy statement that allows cross-account access.
+    public func createResourcePolicyStatement(_ input: CreateResourcePolicyStatementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourcePolicyStatementResponse> {
+        return self.client.execute(operation: "CreateResourcePolicyStatement", path: "/policy/{resourceArn}/statements/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user.
@@ -99,6 +114,11 @@ public struct LexModelsV2: AWSService {
     /// Creates a custom slot type  To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume.
     public func createSlotType(_ input: CreateSlotTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSlotTypeResponse> {
         return self.client.execute(operation: "CreateSlotType", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/slottypes/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
+    public func createUploadUrl(_ input: CreateUploadUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUploadUrlResponse> {
+        return self.client.execute(operation: "CreateUploadUrl", path: "/createuploadurl/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.
@@ -121,9 +141,29 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "DeleteBotVersion", path: "/bots/{botId}/botversions/{botVersion}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes a previous export and the associated files stored in an S3 bucket.
+    public func deleteExport(_ input: DeleteExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteExportResponse> {
+        return self.client.execute(operation: "DeleteExport", path: "/exports/{exportId}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes a previous import and the associated file stored in an S3 bucket.
+    public func deleteImport(_ input: DeleteImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteImportResponse> {
+        return self.client.execute(operation: "DeleteImport", path: "/imports/{importId}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes the specified intent. Deleting an intent also deletes the slots associated with the intent.
     @discardableResult public func deleteIntent(_ input: DeleteIntentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteIntent", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/intents/{intentId}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception.
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePolicyResponse> {
+        return self.client.execute(operation: "DeleteResourcePolicy", path: "/policy/{resourceArn}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception.
+    public func deleteResourcePolicyStatement(_ input: DeleteResourcePolicyStatementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePolicyStatementResponse> {
+        return self.client.execute(operation: "DeleteResourcePolicyStatement", path: "/policy/{resourceArn}/statements/{statementId}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified slot from an intent.
@@ -156,9 +196,24 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "DescribeBotVersion", path: "/bots/{botId}/botversions/{botVersion}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information about a specific export.
+    public func describeExport(_ input: DescribeExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeExportResponse> {
+        return self.client.execute(operation: "DescribeExport", path: "/exports/{exportId}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets information about a specific import.
+    public func describeImport(_ input: DescribeImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImportResponse> {
+        return self.client.execute(operation: "DescribeImport", path: "/imports/{importId}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns metadata about an intent.
     public func describeIntent(_ input: DescribeIntentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIntentResponse> {
         return self.client.execute(operation: "DescribeIntent", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/intents/{intentId}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the resource policy and policy revision for a bot or bot alias.
+    public func describeResourcePolicy(_ input: DescribeResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeResourcePolicyResponse> {
+        return self.client.execute(operation: "DescribeResourcePolicy", path: "/policy/{resourceArn}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets metadata information about a slot.
@@ -201,6 +256,16 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "ListBuiltInSlotTypes", path: "/builtins/locales/{localeId}/slottypes/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+    public func listExports(_ input: ListExportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExportsResponse> {
+        return self.client.execute(operation: "ListExports", path: "/exports/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+    public func listImports(_ input: ListImportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportsResponse> {
+        return self.client.execute(operation: "ListImports", path: "/imports/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Get a list of intents that meet the specified criteria.
     public func listIntents(_ input: ListIntentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIntentsResponse> {
         return self.client.execute(operation: "ListIntents", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/intents/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -219,6 +284,11 @@ public struct LexModelsV2: AWSService {
     /// Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceARN}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts importing a bot or bot locale from a zip archive that you uploaded to an S3 bucket.
+    public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportResponse> {
+        return self.client.execute(operation: "StartImport", path: "/imports/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
@@ -246,9 +316,19 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "UpdateBotLocale", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates the password used to encrypt an export zip archive.
+    public func updateExport(_ input: UpdateExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateExportResponse> {
+        return self.client.execute(operation: "UpdateExport", path: "/exports/{exportId}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the settings for an intent.
     public func updateIntent(_ input: UpdateIntentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIntentResponse> {
         return self.client.execute(operation: "UpdateIntent", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/intents/{intentId}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception.
+    public func updateResourcePolicy(_ input: UpdateResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourcePolicyResponse> {
+        return self.client.execute(operation: "UpdateResourcePolicy", path: "/policy/{resourceArn}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the settings for a slot.

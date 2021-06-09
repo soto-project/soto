@@ -613,7 +613,7 @@ extension WorkSpaces {
         /// The identifier of the image that is used to create the bundle.
         public let imageId: String
         public let rootStorage: RootStorage?
-        /// The tags associated with the bundle.  To add tags at the same time that you're creating the bundle, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
+        /// The tags associated with the bundle.  To add tags at the same time when you're creating the bundle, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
         public let tags: [Tag]?
         public let userStorage: UserStorage
 
@@ -2620,6 +2620,8 @@ extension WorkSpaces {
         public let deviceTypeChromeOs: AccessPropertyValue?
         /// Indicates whether users can use iOS devices to access their WorkSpaces.
         public let deviceTypeIos: AccessPropertyValue?
+        /// Indicates whether users can use Linux clients to access their WorkSpaces.
+        public let deviceTypeLinux: AccessPropertyValue?
         /// Indicates whether users can use macOS clients to access their WorkSpaces. To restrict WorkSpaces access to trusted devices (also known as managed devices) with valid certificates, specify a value of TRUST. For more information, see Restrict WorkSpaces Access to Trusted Devices.
         public let deviceTypeOsx: AccessPropertyValue?
         /// Indicates whether users can access their WorkSpaces through a web browser.
@@ -2629,10 +2631,11 @@ extension WorkSpaces {
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public let deviceTypeZeroClient: AccessPropertyValue?
 
-        public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
+        public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeLinux: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
             self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
             self.deviceTypeOsx = deviceTypeOsx
             self.deviceTypeWeb = deviceTypeWeb
             self.deviceTypeWindows = deviceTypeWindows
@@ -2643,6 +2646,7 @@ extension WorkSpaces {
             case deviceTypeAndroid = "DeviceTypeAndroid"
             case deviceTypeChromeOs = "DeviceTypeChromeOs"
             case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
             case deviceTypeOsx = "DeviceTypeOsx"
             case deviceTypeWeb = "DeviceTypeWeb"
             case deviceTypeWindows = "DeviceTypeWindows"

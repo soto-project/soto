@@ -103,6 +103,11 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "CreateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new report generator.
+    public func createLicenseManagerReportGenerator(_ input: CreateLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLicenseManagerReportGeneratorResponse> {
+        return self.client.execute(operation: "CreateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new version of the specified license.
     public func createLicenseVersion(_ input: CreateLicenseVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLicenseVersionResponse> {
         return self.client.execute(operation: "CreateLicenseVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -126,6 +131,11 @@ public struct LicenseManager: AWSService {
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     public func deleteLicenseConfiguration(_ input: DeleteLicenseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLicenseConfigurationResponse> {
         return self.client.execute(operation: "DeleteLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete an existing report generator. This action deletes the report generator, which stops it from generating future reports and cannot be reversed. However, the previous reports from this generator will remain in your S3 bucket.
+    public func deleteLicenseManagerReportGenerator(_ input: DeleteLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLicenseManagerReportGeneratorResponse> {
+        return self.client.execute(operation: "DeleteLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified token. Must be called in the license home Region.
@@ -158,6 +168,11 @@ public struct LicenseManager: AWSService {
         return self.client.execute(operation: "GetLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets information on the specified report generator.
+    public func getLicenseManagerReportGenerator(_ input: GetLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLicenseManagerReportGeneratorResponse> {
+        return self.client.execute(operation: "GetLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets detailed information about the usage of the specified license.
     public func getLicenseUsage(_ input: GetLicenseUsageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLicenseUsageResponse> {
         return self.client.execute(operation: "GetLicenseUsage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -186,6 +201,11 @@ public struct LicenseManager: AWSService {
     /// Lists the license configurations for your account.
     public func listLicenseConfigurations(_ input: ListLicenseConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLicenseConfigurationsResponse> {
         return self.client.execute(operation: "ListLicenseConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the report generators for your account.
+    public func listLicenseManagerReportGenerators(_ input: ListLicenseManagerReportGeneratorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLicenseManagerReportGeneratorsResponse> {
+        return self.client.execute(operation: "ListLicenseManagerReportGenerators", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the license configurations for the specified resource.
@@ -251,6 +271,11 @@ public struct LicenseManager: AWSService {
     /// Modifies the attributes of an existing license configuration.
     public func updateLicenseConfiguration(_ input: UpdateLicenseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLicenseConfigurationResponse> {
         return self.client.execute(operation: "UpdateLicenseConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a report generator. After you make changes to a report generator, it will start generating new reports within 60 minutes of being updated.
+    public func updateLicenseManagerReportGenerator(_ input: UpdateLicenseManagerReportGeneratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLicenseManagerReportGeneratorResponse> {
+        return self.client.execute(operation: "UpdateLicenseManagerReportGenerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Adds or removes the specified license configurations for the specified AWS resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and AWS CloudFormation templates, as they send license configurations to the operation that creates the resource.

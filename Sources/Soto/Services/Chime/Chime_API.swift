@@ -87,6 +87,11 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{meetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Adds a specified number of users to a channel.
+    public func batchCreateChannelMembership(_ input: BatchCreateChannelMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateChannelMembershipResponse> {
+        return self.client.execute(operation: "BatchCreateChannelMembership", path: "/channels/{channelArn}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
     public func batchCreateRoomMembership(_ input: BatchCreateRoomMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateRoomMembershipResponse> {
         return self.client.execute(operation: "BatchCreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -107,7 +112,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "BatchUnsuspendUser", path: "/accounts/{accountId}/users?operation=unsuspend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update either the product type or the calling name.  For product types, choose from Amazon Chime Business Calling and Amazon Chime Voice Connector. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the US, you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdatePhoneNumberResponse> {
         return self.client.execute(operation: "BatchUpdatePhoneNumber", path: "/phone-numbers?operation=batch-update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -182,7 +187,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use the Amazon Chime Voice Connector product type.
+    /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the US, you must use the Amazon Chime SIP Media Application Dial-In product type.
     public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePhoneNumberOrderResponse> {
         return self.client.execute(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -232,7 +237,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateVoiceConnectorGroup", path: "/voice-connector-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support.  After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
+    /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
     public func deleteAccount(_ input: DeleteAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountResponse> {
         return self.client.execute(operation: "DeleteAccount", path: "/accounts/{accountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -257,7 +262,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeleteAppInstanceUser", path: "/app-instance-users/{appInstanceUserArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken . Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @discardableResult public func deleteAttendee(_ input: DeleteAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -292,12 +297,12 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeleteEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its attendees are also deleted, clients connected to the meeting are disconnected, and clients can no longer join the meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @discardableResult public func deleteMeeting(_ input: DeleteMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteMeeting", path: "/meetings/{meetingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Moves the specified phone number into the Deletionqueue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted.  Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
+    /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     @discardableResult public func deletePhoneNumber(_ input: DeletePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeletePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -337,7 +342,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
+    /// Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
     @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -592,7 +597,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "InviteUsers", path: "/accounts/{accountId}/users?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, toucan filter by the user's email address, which returns one account result.
+    /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     public func listAccounts(_ input: ListAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountsResponse> {
         return self.client.execute(operation: "ListAccounts", path: "/accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -642,7 +647,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListChannelMembershipsForAppInstanceUser", path: "/channels?scope=app-instance-user-memberships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order .  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     public func listChannelMessages(_ input: ListChannelMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelMessagesResponse> {
         return self.client.execute(operation: "ListChannelMessages", path: "/channels/{channelArn}/messages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -652,7 +657,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListChannelModerators", path: "/channels/{channelArn}/moderators", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality &amp; restrictions     Use privacy = PUBLIC to retrieve all public channels in the account    Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality &amp; restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
         return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -705,6 +710,11 @@ public struct Chime: AWSService {
     /// Lists the SIP rules under the administrator's AWS account.
     public func listSipRules(_ input: ListSipRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSipRulesResponse> {
         return self.client.execute(operation: "ListSipRules", path: "/sip-rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists supported phone number countries.
+    public func listSupportedPhoneNumberCountries(_ input: ListSupportedPhoneNumberCountriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSupportedPhoneNumberCountriesResponse> {
+        return self.client.execute(operation: "ListSupportedPhoneNumberCountries", path: "/phone-number-countries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the tags applied to an Amazon Chime SDK meeting resource.
@@ -827,7 +837,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "RestorePhoneNumber", path: "/phone-numbers/{phoneNumberId}?operation=restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Searches phone numbers that can be ordered.
+    /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchAvailablePhoneNumbersResponse> {
         return self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -912,7 +922,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdateGlobalSettings", path: "/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+    /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePhoneNumberResponse> {
         return self.client.execute(operation: "UpdatePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

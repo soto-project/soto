@@ -82,7 +82,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration.
+    ///  Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImageResponse> {
         return self.client.execute(operation: "CreateImage", path: "/CreateImage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -297,7 +297,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
+    ///  Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images.  UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     public func updateImagePipeline(_ input: UpdateImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateImagePipelineResponse> {
         return self.client.execute(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

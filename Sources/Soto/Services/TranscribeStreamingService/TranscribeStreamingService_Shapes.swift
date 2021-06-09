@@ -54,6 +54,13 @@ extension TranscribeStreamingService {
         public var description: String { return self.rawValue }
     }
 
+    public enum PartialResultsStability: String, CustomStringConvertible, Codable {
+        case high
+        case low
+        case medium
+        public var description: String { return self.rawValue }
+    }
+
     public enum Specialty: String, CustomStringConvertible, Codable {
         case cardiology = "CARDIOLOGY"
         case neurology = "NEUROLOGY"
@@ -167,6 +174,8 @@ extension TranscribeStreamingService {
         public let endTime: Double?
         /// If speaker identification is enabled, shows the speakers identified in the real-time stream.
         public let speaker: String?
+        /// If partial result stabilization has been enabled, indicates whether the word or phrase in the item is stable. If Stable is true, the result is stable.
+        public let stable: Bool?
         /// The offset from the beginning of the audio stream to the beginning of the audio that resulted in the item.
         public let startTime: Double?
         /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio.
@@ -174,11 +183,12 @@ extension TranscribeStreamingService {
         /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your real-time stream. If true then a word in the item matches your vocabulary filter.
         public let vocabularyFilterMatch: Bool?
 
-        public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+        public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, stable: Bool? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
             self.confidence = confidence
             self.content = content
             self.endTime = endTime
             self.speaker = speaker
+            self.stable = stable
             self.startTime = startTime
             self.type = type
             self.vocabularyFilterMatch = vocabularyFilterMatch
@@ -189,6 +199,7 @@ extension TranscribeStreamingService {
             case content = "Content"
             case endTime = "EndTime"
             case speaker = "Speaker"
+            case stable = "Stable"
             case startTime = "StartTime"
             case type = "Type"
             case vocabularyFilterMatch = "VocabularyFilterMatch"
@@ -581,10 +592,12 @@ extension TranscribeStreamingService {
         public static var _encoding = [
             AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
             AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
+            AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header(locationName: "x-amzn-transcribe-enable-partial-results-stabilization")),
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
             AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
+            AWSMemberEncoding(label: "partialResultsStability", location: .header(locationName: "x-amzn-transcribe-partial-results-stability")),
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
             AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")),
@@ -596,6 +609,8 @@ extension TranscribeStreamingService {
         public let audioStream: AudioStream
         /// When true, instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let enableChannelIdentification: Bool?
+        /// When true, instructs Amazon Transcribe to present transcription results that have the partial results stabilized. Normally, any word or phrase from one partial result can change in a subsequent partial result. With partial results stabilization enabled, only the last few words of one partial result can change in another partial result.
+        public let enablePartialResultsStabilization: Bool?
         /// Indicates the source language used in the input audio stream.
         public let languageCode: LanguageCode
         /// The encoding used for the input audio.
@@ -604,6 +619,8 @@ extension TranscribeStreamingService {
         public let mediaSampleRateHertz: Int
         /// The number of channels that are in your audio stream.
         public let numberOfChannels: Int?
+        /// You can use this field to set the stability level of the transcription results. A higher stability level means that the transcription results are less likely to change. Higher stability levels can come with lower overall transcription accuracy.
+        public let partialResultsStability: PartialResultsStability?
         /// A identifier for the transcription session. Use this parameter when you want to retry a session. If you don't provide a session ID, Amazon Transcribe will generate one for you and return it in the response.
         public let sessionId: String?
         /// When true, enables speaker identification in your real-time stream.
@@ -615,13 +632,15 @@ extension TranscribeStreamingService {
         /// The name of the vocabulary to use when processing the transcription job.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(audioStream: AudioStream, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.enableChannelIdentification = enableChannelIdentification
+            self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.numberOfChannels = numberOfChannels
+            self.partialResultsStability = partialResultsStability
             self.sessionId = sessionId
             self.showSpeakerLabel = showSpeakerLabel
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -654,10 +673,12 @@ extension TranscribeStreamingService {
         public static let _payloadPath: String = "transcriptResultStream"
         public static var _encoding = [
             AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
+            AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header(locationName: "x-amzn-transcribe-enable-partial-results-stabilization")),
             AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
             AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
+            AWSMemberEncoding(label: "partialResultsStability", location: .header(locationName: "x-amzn-transcribe-partial-results-stability")),
             AWSMemberEncoding(label: "requestId", location: .header(locationName: "x-amzn-request-id")),
             AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
@@ -669,6 +690,8 @@ extension TranscribeStreamingService {
 
         /// Shows whether channel identification has been enabled in the stream.
         public let enableChannelIdentification: Bool?
+        /// Shows whether partial results stabilization has been enabled in the stream.
+        public let enablePartialResultsStabilization: Bool?
         /// The language code for the input audio stream.
         public let languageCode: LanguageCode?
         /// The encoding used for the input audio stream.
@@ -677,6 +700,8 @@ extension TranscribeStreamingService {
         public let mediaSampleRateHertz: Int?
         /// The number of channels identified in the stream.
         public let numberOfChannels: Int?
+        /// If partial results stabilization has been enabled in the stream, shows the stability level.
+        public let partialResultsStability: PartialResultsStability?
         /// An identifier for the streaming transcription.
         public let requestId: String?
         /// An identifier for a specific transcription session.
@@ -692,12 +717,14 @@ extension TranscribeStreamingService {
         /// The name of the vocabulary used when processing the stream.
         public let vocabularyName: String?
 
-        public init(enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.enableChannelIdentification = enableChannelIdentification
+            self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.numberOfChannels = numberOfChannels
+            self.partialResultsStability = partialResultsStability
             self.requestId = requestId
             self.sessionId = sessionId
             self.showSpeakerLabel = showSpeakerLabel
@@ -709,10 +736,12 @@ extension TranscribeStreamingService {
 
         private enum CodingKeys: String, CodingKey {
             case enableChannelIdentification = "x-amzn-transcribe-enable-channel-identification"
+            case enablePartialResultsStabilization = "x-amzn-transcribe-enable-partial-results-stabilization"
             case languageCode = "x-amzn-transcribe-language-code"
             case mediaEncoding = "x-amzn-transcribe-media-encoding"
             case mediaSampleRateHertz = "x-amzn-transcribe-sample-rate"
             case numberOfChannels = "x-amzn-transcribe-number-of-channels"
+            case partialResultsStability = "x-amzn-transcribe-partial-results-stability"
             case requestId = "x-amzn-request-id"
             case sessionId = "x-amzn-transcribe-session-id"
             case showSpeakerLabel = "x-amzn-transcribe-show-speaker-label"

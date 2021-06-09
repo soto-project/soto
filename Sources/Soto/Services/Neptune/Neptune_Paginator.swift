@@ -72,6 +72,218 @@ extension Neptune {
         )
     }
 
+    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBClusterParameterGroupsPaginator<Result>(
+        _ input: DescribeDBClusterParameterGroupsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DBClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDBClusterParameterGroups,
+            inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
+            outputKey: \DBClusterParameterGroupsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBClusterParameterGroupsPaginator(
+        _ input: DescribeDBClusterParameterGroupsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DBClusterParameterGroupsMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDBClusterParameterGroups,
+            inputKey: \DescribeDBClusterParameterGroupsMessage.marker,
+            outputKey: \DBClusterParameterGroupsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the detailed parameter list for a particular DB cluster parameter group.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBClusterParametersPaginator<Result>(
+        _ input: DescribeDBClusterParametersMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DBClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDBClusterParameters,
+            inputKey: \DescribeDBClusterParametersMessage.marker,
+            outputKey: \DBClusterParameterGroupDetails.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBClusterParametersPaginator(
+        _ input: DescribeDBClusterParametersMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DBClusterParameterGroupDetails, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDBClusterParameters,
+            inputKey: \DescribeDBClusterParametersMessage.marker,
+            outputKey: \DBClusterParameterGroupDetails.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns information about DB cluster snapshots. This API action supports pagination.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBClusterSnapshotsPaginator<Result>(
+        _ input: DescribeDBClusterSnapshotsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DBClusterSnapshotMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDBClusterSnapshots,
+            inputKey: \DescribeDBClusterSnapshotsMessage.marker,
+            outputKey: \DBClusterSnapshotMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBClusterSnapshotsPaginator(
+        _ input: DescribeDBClusterSnapshotsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DBClusterSnapshotMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDBClusterSnapshots,
+            inputKey: \DescribeDBClusterSnapshotsMessage.marker,
+            outputKey: \DBClusterSnapshotMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns information about provisioned DB clusters, and supports pagination.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDBClustersPaginator<Result>(
+        _ input: DescribeDBClustersMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DBClusterMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDBClusters,
+            inputKey: \DescribeDBClustersMessage.marker,
+            outputKey: \DBClusterMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDBClustersPaginator(
+        _ input: DescribeDBClustersMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DBClusterMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDBClusters,
+            inputKey: \DescribeDBClustersMessage.marker,
+            outputKey: \DBClusterMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of the available DB engines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -548,12 +760,114 @@ extension Neptune {
             onPage: onPage
         )
     }
+
+    ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describePendingMaintenanceActionsPaginator<Result>(
+        _ input: DescribePendingMaintenanceActionsMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, PendingMaintenanceActionsMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describePendingMaintenanceActions,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \PendingMaintenanceActionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describePendingMaintenanceActionsPaginator(
+        _ input: DescribePendingMaintenanceActionsMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (PendingMaintenanceActionsMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describePendingMaintenanceActions,
+            inputKey: \DescribePendingMaintenanceActionsMessage.marker,
+            outputKey: \PendingMaintenanceActionsMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension Neptune.DescribeDBClusterEndpointsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterEndpointsMessage {
         return .init(
             dBClusterEndpointIdentifier: self.dBClusterEndpointIdentifier,
+            dBClusterIdentifier: self.dBClusterIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension Neptune.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterParameterGroupsMessage {
+        return .init(
+            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension Neptune.DescribeDBClusterParametersMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterParametersMessage {
+        return .init(
+            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            source: self.source
+        )
+    }
+}
+
+extension Neptune.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterSnapshotsMessage {
+        return .init(
+            dBClusterIdentifier: self.dBClusterIdentifier,
+            dBClusterSnapshotIdentifier: self.dBClusterSnapshotIdentifier,
+            filters: self.filters,
+            includePublic: self.includePublic,
+            includeShared: self.includeShared,
+            marker: token,
+            maxRecords: self.maxRecords,
+            snapshotType: self.snapshotType
+        )
+    }
+}
+
+extension Neptune.DescribeDBClustersMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClustersMessage {
+        return .init(
             dBClusterIdentifier: self.dBClusterIdentifier,
             filters: self.filters,
             marker: token,
@@ -672,6 +986,17 @@ extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             vpc: self.vpc
+        )
+    }
+}
+
+extension Neptune.DescribePendingMaintenanceActionsMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribePendingMaintenanceActionsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            resourceIdentifier: self.resourceIdentifier
         )
     }
 }

@@ -718,6 +718,19 @@ extension ElasticsearchService {
         }
     }
 
+    public struct ColdStorageOptions: AWSEncodableShape & AWSDecodableShape {
+        /// True to enable cold storage for an Elasticsearch domain.
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct CompatibleVersionsMap: AWSDecodableShape {
         /// The current version of Elasticsearch on which a domain is.
         public let sourceVersion: String?
@@ -1730,6 +1743,8 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchClusterConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the ColdStorageOptions configuration for an Elasticsearch domain.
+        public let coldStorageOptions: ColdStorageOptions?
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int?
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
@@ -1751,7 +1766,8 @@ extension ElasticsearchService {
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
         public let zoneAwarenessEnabled: Bool?
 
-        public init(dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: ESPartitionInstanceType? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: ESWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
+        public init(coldStorageOptions: ColdStorageOptions? = nil, dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: ESPartitionInstanceType? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: ESWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
+            self.coldStorageOptions = coldStorageOptions
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
             self.dedicatedMasterType = dedicatedMasterType
@@ -1765,6 +1781,7 @@ extension ElasticsearchService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coldStorageOptions = "ColdStorageOptions"
             case dedicatedMasterCount = "DedicatedMasterCount"
             case dedicatedMasterEnabled = "DedicatedMasterEnabled"
             case dedicatedMasterType = "DedicatedMasterType"

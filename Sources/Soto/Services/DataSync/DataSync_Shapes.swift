@@ -142,6 +142,13 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum SmbSecurityDescriptorCopyFlags: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case ownerDacl = "OWNER_DACL"
+        case ownerDaclSacl = "OWNER_DACL_SACL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SmbVersion: String, CustomStringConvertible, Codable {
         case automatic = "AUTOMATIC"
         case smb2 = "SMB2"
@@ -252,7 +259,7 @@ extension DataSync {
         public let activationKey: String
         /// The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
         public let agentName: String?
-        /// The ARNs of the security groups used to protect your data transfer task subnets. See CreateAgentRequest$SubnetArns.
+        /// The ARNs of the security groups used to protect your data transfer task subnets. See SecurityGroupArns.
         public let securityGroupArns: [String]?
         /// The Amazon Resource Names (ARNs) of the subnets in which DataSync will create elastic network interfaces for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four network interfaces for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four network interfaces.
         public let subnetArns: [String]?
@@ -383,7 +390,7 @@ extension DataSync {
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
-        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system.
+        /// The user who has the permissions to access files and folders in the FSx for Windows File Server file system. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see user.
         public let user: String
 
         public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
@@ -587,12 +594,12 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Request: AWSEncodableShape {
-        /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see outposts-agent.
+        /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see Deploy your DataSync agent on AWS Outposts.
         public let agentArns: [String]?
         /// The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
         public let s3BucketArn: String
         public let s3Config: S3Config
-        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        /// The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with S3 storage classes in DataSync.
         public let s3StorageClass: S3StorageClass?
         /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
         public let subdirectory: String?
@@ -665,7 +672,7 @@ extension DataSync {
         public let subdirectory: String
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
-        /// The user who can mount the share, has the permissions to access files and folders in the SMB share.
+        /// The user who can mount the share, has the permissions to access files and folders in the SMB share. For information about choosing a user name that ensures sufficient permissions to files, folders, and metadata, see user.
         public let user: String
 
         public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
@@ -737,9 +744,9 @@ extension DataSync {
         public let excludes: [FilterRule]?
         /// The name of a task. This value is a text reference that is used to identify the task in the console.
         public let name: String?
-        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting the task execution. For more information, see the operation.
+        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting the task execution. For more information, see the StartTaskExecution operation.
         public let options: Options?
-        /// Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see task-scheduling.
+        /// Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see Scheduling your task.
         public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the source location for the task.
         public let sourceLocationArn: String
@@ -897,7 +904,7 @@ extension DataSync {
         public let creationTime: Date?
         /// The type of endpoint that your agent is connected to. If the endpoint is a VPC endpoint, the agent is not accessible over the public internet.
         public let endpointType: EndpointType?
-        /// The time that the agent last connected to DataSyc.
+        /// The time that the agent last connected to DataSync.
         public let lastConnectionTime: Date?
         /// The name of the agent.
         public let name: String?
@@ -1140,7 +1147,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationS3Response: AWSDecodableShape {
-        /// If you are using DataSync on an AWS Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see outposts-agent.
+        /// If you are using DataSync on an AWS Outpost, the Amazon Resource Name (ARNs) of the EC2 agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see Deploy your DataSync agent on AWS Outposts.
         public let agentArns: [String]?
         /// The time that the Amazon S3 bucket location was created.
         public let creationTime: Date?
@@ -1149,7 +1156,7 @@ extension DataSync {
         /// The URL of the Amazon S3 location that was described.
         public let locationUri: String?
         public let s3Config: S3Config?
-        /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+        /// The Amazon S3 storage class that you chose to store your files in when this location is used as a task destination. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with S3 storage classes in DataSync.
         public let s3StorageClass: S3StorageClass?
 
         public init(agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
@@ -1198,7 +1205,7 @@ extension DataSync {
         public let domain: String?
         /// The Amazon Resource Name (ARN) of the SMB location that was described.
         public let locationArn: String?
-        /// The URL of the source SBM location that was described.
+        /// The URL of the source SMB location that was described.
         public let locationUri: String?
         /// The mount options that are available for DataSync to use to access an SMB location.
         public let mountOptions: SmbMountOptions?
@@ -1337,7 +1344,7 @@ extension DataSync {
         public let excludes: [FilterRule]?
         /// The name of the task that was described.
         public let name: String?
-        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the overriding OverrideOptions value to operation.
+        /// The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the overriding OverrideOptions value to StartTaskExecution operation.
         public let options: Options?
         /// The schedule used to periodically transfer files from a source to a destination location.
         public let schedule: TaskSchedule?
@@ -1671,7 +1678,7 @@ extension DataSync {
     public struct LocationFilter: AWSEncodableShape {
         /// The name of the filter being used. Each API call supports a list of filters that are available for it (for example, LocationType for ListLocations).
         public let name: LocationFilterName
-        /// The operator that is used to compare filter values (for example, Equals or Contains). For more about API filtering operators, see query-resources.
+        /// The operator that is used to compare filter values (for example, Equals or Contains). For more about API filtering operators, see API filters for ListTasks and ListLocations.
         public let `operator`: Operator
         /// The values that you want to filter for. For example, you might want to display only Amazon S3 locations.
         public let values: [String]
@@ -1754,30 +1761,32 @@ extension DataSync {
         public let atime: Atime?
         /// A value that limits the bandwidth used by AWS DataSync. For example, if you want AWS DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
         public let bytesPerSecond: Int64?
-        /// The group ID (GID) of the file's owners.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID.
+        /// The POSIX group ID (GID) of the file's owners. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of user ID (UID) and GID (recommended). NONE: Ignore UID and GID.
         public let gid: Gid?
         /// A value that determines the type of logs that DataSync publishes to a log stream in the Amazon CloudWatch log group that you provide. For more information about providing a log group for DataSync, see CloudWatchLogGroupArn. If set to OFF, no logs are published. BASIC publishes logs on errors for individual files transferred, and TRANSFER publishes logs for every file or object that is transferred and integrity checked.
         public let logLevel: LogLevel?
-        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
+        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase. This option is required for cases when you need to run the same task more than one time.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
         public let mtime: Mtime?
-        /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes in the AWS DataSync User Guide.
+        /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the AWS DataSync User Guide.
         public let overwriteMode: OverwriteMode?
-        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   AWS DataSync can preserve extant permissions of a source location.
+        /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   AWS DataSync can preserve extant permissions of a source location.
         public let posixPermissions: PosixPermissions?
-        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see using-storage-classes in the AWS DataSync User Guide. Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
+        /// A value that specifies whether files in the destination that don't exist in the source file system should be preserved. This option can affect your storage cost. If your task deletes objects, you might incur minimum storage duration charges for certain storage classes. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the AWS DataSync User Guide. Default value: PRESERVE. PRESERVE: Ignore such destination files (recommended).  REMOVE: Delete destination files that aren’t present in the source.
         public let preserveDeletedFiles: PreserveDeletedFiles?
-        /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and recreate the files with that device name and metadata on the destination.  AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS.
+        /// A value that determines whether AWS DataSync should preserve the metadata of block and character devices in the source file system, and re-create the files with that device name and metadata on the destination. DataSync does not copy the contents of such devices, only the name and metadata.   AWS DataSync can't sync the actual contents of such devices, because they are nonterminal and don't return an end-of-file (EOF) marker.  Default value: NONE. NONE: Ignore special devices (recommended).  PRESERVE: Preserve character and block device metadata. This option isn't currently supported for Amazon EFS.
         public let preserveDevices: PreserveDevices?
-        /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see queue-task-execution.
+        /// A value that determines which components of the SMB security descriptor are copied from source to destination objects.  This value is only used for transfers between SMB and Amazon FSx for Windows File Server locations, or between two Amazon FSx for Windows File Server locations. For more information about how DataSync handles metadata, see How DataSync Handles Metadata and Special Files.  Default value: OWNER_DACL.  OWNER_DACL: For each copied object, DataSync copies the following metadata:   Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   When choosing this option, DataSync does NOT copy the NTFS system access control lists (SACLs), which are used by administrators to log attempts to access a secured object.  OWNER_DACL_SACL: For each copied object, DataSync copies the following metadata:   Object owner.   NTFS discretionary access control lists (DACLs), which determine whether to grant access to an object.   NTFS system access control lists (SACLs), which are used by administrators to log attempts to access a secured object.   Copying SACLs requires granting additional permissions to the Windows user that DataSync uses to access your SMB location. For information about choosing a user that ensures sufficient permissions to files, folders, and metadata, see user.  NONE: None of the SMB security descriptor components are copied. Destination objects are owned by the user that was provided for accessing the destination location. DACLs and SACLs are set based on the destination server’s configuration.
+        public let securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags?
+        /// A value that determines whether tasks should be queued before executing the tasks. If set to ENABLED, the tasks will be queued. The default is ENABLED. If you use the same agent to run multiple tasks, you can enable the tasks to run in series. For more information, see Queueing task executions.
         public let taskQueueing: TaskQueueing?
         /// A value that determines whether DataSync transfers only the data and metadata that differ between the source and the destination location, or whether DataSync transfers all the content from the source, without comparing to the destination location.  CHANGED: DataSync copies only data or metadata that is new or different content from the source location to the destination location. ALL: DataSync copies all source location content to the destination, without comparing to existing content on the destination.
         public let transferMode: TransferMode?
-        /// The user ID (UID) of the file's owner.  Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID.
+        /// The POSIX user ID (UID) of the file's owner. This option should only be set for NFS, EFS, and S3 locations. To learn more about what metadata is copied by DataSync, see Metadata Copied by DataSync. Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID.
         public let uid: Uid?
-        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred. For more information, see create-task  Default value: POINT_IN_TIME_CONSISTENT. ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.  POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at the end of the transfer to verify that source and destination are fully synchronized. This option isn't supported when transferring to S3 Glacier or S3 Glacier Deep Archive storage classes. NONE: No additional verification is done at the end of the transfer, but all data transmissions are integrity-checked with checksum verification during the transfer.
+        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred. For more information, see Configure task settings.  Default value: POINT_IN_TIME_CONSISTENT. ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.  POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at the end of the transfer to verify that source and destination are fully synchronized. This option isn't supported when transferring to S3 Glacier or S3 Glacier Deep Archive storage classes. NONE: No additional verification is done at the end of the transfer, but all data transmissions are integrity-checked with checksum verification during the transfer.
         public let verifyMode: VerifyMode?
 
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
@@ -1787,6 +1796,7 @@ extension DataSync {
             self.posixPermissions = posixPermissions
             self.preserveDeletedFiles = preserveDeletedFiles
             self.preserveDevices = preserveDevices
+            self.securityDescriptorCopyFlags = securityDescriptorCopyFlags
             self.taskQueueing = taskQueueing
             self.transferMode = transferMode
             self.uid = uid
@@ -1807,6 +1817,7 @@ extension DataSync {
             case posixPermissions = "PosixPermissions"
             case preserveDeletedFiles = "PreserveDeletedFiles"
             case preserveDevices = "PreserveDevices"
+            case securityDescriptorCopyFlags = "SecurityDescriptorCopyFlags"
             case taskQueueing = "TaskQueueing"
             case transferMode = "TransferMode"
             case uid = "Uid"
@@ -2036,7 +2047,7 @@ extension DataSync {
     public struct TaskFilter: AWSEncodableShape {
         /// The name of the filter being used. Each API call supports a list of filters that are available for it. For example, LocationId for ListTasks.
         public let name: TaskFilterName
-        /// The operator that is used to compare filter values (for example, Equals or Contains). For more about API filtering operators, see query-resources.
+        /// The operator that is used to compare filter values (for example, Equals or Contains). For more about API filtering operators, see API filters for ListTasks and ListLocations.
         public let `operator`: Operator
         /// The values that you want to filter for. For example, you might want to display only tasks for a specific destination location.
         public let values: [String]
@@ -2353,7 +2364,7 @@ extension DataSync {
         /// The name of the task to update.
         public let name: String?
         public let options: Options?
-        /// Specifies a schedule used to periodically transfer files from a source to a destination location. You can configure your task to execute hourly, daily, weekly or on specific days of the week. You control when in the day or hour you want the task to execute. The time you specify is UTC time. For more information, see task-scheduling.
+        /// Specifies a schedule used to periodically transfer files from a source to a destination location. You can configure your task to execute hourly, daily, weekly or on specific days of the week. You control when in the day or hour you want the task to execute. The time you specify is UTC time. For more information, see Scheduling your task.
         public let schedule: TaskSchedule?
         /// The Amazon Resource Name (ARN) of the resource name of the task to update.
         public let taskArn: String

@@ -56,6 +56,13 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogLevel: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case error = "ERROR"
+        case info = "INFO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MessageType: String, CustomStringConvertible, Codable {
         case customCommandIdGet = "CUSTOM_COMMAND_ID_GET"
         case customCommandIdNotify = "CUSTOM_COMMAND_ID_NOTIFY"
@@ -75,6 +82,15 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum WirelessDeviceEvent: String, CustomStringConvertible, Codable {
+        case downlinkData = "Downlink_Data"
+        case join = "Join"
+        case registration = "Registration"
+        case rejoin = "Rejoin"
+        case uplinkData = "Uplink_Data"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable {
         case deveui = "DevEui"
         case thingname = "ThingName"
@@ -85,6 +101,12 @@ extension IoTWireless {
     public enum WirelessDeviceType: String, CustomStringConvertible, Codable {
         case lorawan = "LoRaWAN"
         case sidewalk = "Sidewalk"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WirelessGatewayEvent: String, CustomStringConvertible, Codable {
+        case certificate = "Certificate"
+        case cupsRequest = "CUPS_Request"
         public var description: String { return self.rawValue }
     }
 
@@ -113,6 +135,11 @@ extension IoTWireless {
         case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
         case secondRetry = "SECOND_RETRY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WirelessGatewayType: String, CustomStringConvertible, Codable {
+        case lorawan = "LoRaWAN"
         public var description: String { return self.rawValue }
     }
 
@@ -1147,6 +1174,28 @@ extension IoTWireless {
         }
     }
 
+    public struct GetLogLevelsByResourceTypesRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetLogLevelsByResourceTypesResponse: AWSDecodableShape {
+        public let defaultLogLevel: LogLevel?
+        public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
+        public let wirelessGatewayLogOptions: [WirelessGatewayLogOption]?
+
+        public init(defaultLogLevel: LogLevel? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
+            self.defaultLogLevel = defaultLogLevel
+            self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
+            self.wirelessGatewayLogOptions = wirelessGatewayLogOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultLogLevel = "DefaultLogLevel"
+            case wirelessDeviceLogOptions = "WirelessDeviceLogOptions"
+            case wirelessGatewayLogOptions = "WirelessGatewayLogOptions"
+        }
+    }
+
     public struct GetPartnerAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "partnerAccountId", location: .uri(locationName: "PartnerAccountId")),
@@ -1184,6 +1233,40 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case accountLinked = "AccountLinked"
             case sidewalk = "Sidewalk"
+        }
+    }
+
+    public struct GetResourceLogLevelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        public let resourceIdentifier: String
+        /// The type of the resource, currently support WirelessDevice and WirelessGateway.
+        public let resourceType: String
+
+        public init(resourceIdentifier: String, resourceType: String) {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourceLogLevelResponse: AWSDecodableShape {
+        public let logLevel: LogLevel?
+
+        public init(logLevel: LogLevel? = nil) {
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "LogLevel"
         }
     }
 
@@ -2197,22 +2280,48 @@ extension IoTWireless {
     public struct LoRaWANGateway: AWSEncodableShape & AWSDecodableShape {
         /// The gateway's EUI value.
         public let gatewayEui: String?
+        public let joinEuiFilters: [[String]]?
+        public let netIdFilters: [String]?
         /// The frequency band (RFRegion) value.
         public let rfRegion: String?
+        public let subBands: [Int]?
 
-        public init(gatewayEui: String? = nil, rfRegion: String? = nil) {
+        public init(gatewayEui: String? = nil, joinEuiFilters: [[String]]? = nil, netIdFilters: [String]? = nil, rfRegion: String? = nil, subBands: [Int]? = nil) {
             self.gatewayEui = gatewayEui
+            self.joinEuiFilters = joinEuiFilters
+            self.netIdFilters = netIdFilters
             self.rfRegion = rfRegion
+            self.subBands = subBands
         }
 
         public func validate(name: String) throws {
             try self.validate(self.gatewayEui, name: "gatewayEui", parent: name, pattern: "^(([0-9A-Fa-f]{2}-){7}|([0-9A-Fa-f]{2}:){7}|([0-9A-Fa-f]{2}\\s){7}|([0-9A-Fa-f]{2}){7})([0-9A-Fa-f]{2})$")
+            try self.joinEuiFilters?.forEach {
+                try validate($0, name: "joinEuiFilters[]", parent: name, max: 2)
+                try validate($0, name: "joinEuiFilters[]", parent: name, min: 2)
+            }
+            try self.validate(self.joinEuiFilters, name: "joinEuiFilters", parent: name, max: 3)
+            try self.validate(self.joinEuiFilters, name: "joinEuiFilters", parent: name, min: 0)
+            try self.netIdFilters?.forEach {
+                try validate($0, name: "netIdFilters[]", parent: name, pattern: "[a-fA-F0-9]{6}")
+            }
+            try self.validate(self.netIdFilters, name: "netIdFilters", parent: name, max: 10)
+            try self.validate(self.netIdFilters, name: "netIdFilters", parent: name, min: 0)
             try self.validate(self.rfRegion, name: "rfRegion", parent: name, max: 64)
+            try self.subBands?.forEach {
+                try validate($0, name: "subBands[]", parent: name, max: 8)
+                try validate($0, name: "subBands[]", parent: name, min: 1)
+            }
+            try self.validate(self.subBands, name: "subBands", parent: name, max: 8)
+            try self.validate(self.subBands, name: "subBands", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case gatewayEui = "GatewayEui"
+            case joinEuiFilters = "JoinEuiFilters"
+            case netIdFilters = "NetIdFilters"
             case rfRegion = "RfRegion"
+            case subBands = "SubBands"
         }
     }
 
@@ -2529,6 +2638,70 @@ extension IoTWireless {
             case joinEui = "JoinEui"
             case nwkKey = "NwkKey"
         }
+    }
+
+    public struct PutResourceLogLevelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        public let logLevel: LogLevel
+        public let resourceIdentifier: String
+        /// The type of the resource, currently support WirelessDevice and WirelessGateway.
+        public let resourceType: String
+
+        public init(logLevel: LogLevel, resourceIdentifier: String, resourceType: String) {
+            self.logLevel = logLevel
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "LogLevel"
+        }
+    }
+
+    public struct PutResourceLogLevelResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ResetAllResourceLogLevelsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct ResetAllResourceLogLevelsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ResetResourceLogLevelRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceIdentifier", location: .uri(locationName: "ResourceIdentifier")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
+        ]
+
+        public let resourceIdentifier: String
+        /// The type of the resource, currently support WirelessDevice and WirelessGateway.
+        public let resourceType: String
+
+        public init(resourceIdentifier: String, resourceType: String) {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ResetResourceLogLevelResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct SendDataToWirelessDeviceRequest: AWSEncodableShape {
@@ -2981,6 +3154,28 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct UpdateLogLevelsByResourceTypesRequest: AWSEncodableShape {
+        public let defaultLogLevel: LogLevel?
+        public let wirelessDeviceLogOptions: [WirelessDeviceLogOption]?
+        public let wirelessGatewayLogOptions: [WirelessGatewayLogOption]?
+
+        public init(defaultLogLevel: LogLevel? = nil, wirelessDeviceLogOptions: [WirelessDeviceLogOption]? = nil, wirelessGatewayLogOptions: [WirelessGatewayLogOption]? = nil) {
+            self.defaultLogLevel = defaultLogLevel
+            self.wirelessDeviceLogOptions = wirelessDeviceLogOptions
+            self.wirelessGatewayLogOptions = wirelessGatewayLogOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultLogLevel = "DefaultLogLevel"
+            case wirelessDeviceLogOptions = "WirelessDeviceLogOptions"
+            case wirelessGatewayLogOptions = "WirelessGatewayLogOptions"
+        }
+    }
+
+    public struct UpdateLogLevelsByResourceTypesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdatePartnerAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "partnerAccountId", location: .uri(locationName: "PartnerAccountId")),
@@ -3068,24 +3263,41 @@ extension IoTWireless {
         public let description: String?
         /// The ID of the resource to update.
         public let id: String
+        public let joinEuiFilters: [[String]]?
         /// The new name of the resource.
         public let name: String?
+        public let netIdFilters: [String]?
 
-        public init(description: String? = nil, id: String, name: String? = nil) {
+        public init(description: String? = nil, id: String, joinEuiFilters: [[String]]? = nil, name: String? = nil, netIdFilters: [String]? = nil) {
             self.description = description
             self.id = id
+            self.joinEuiFilters = joinEuiFilters
             self.name = name
+            self.netIdFilters = netIdFilters
         }
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.joinEuiFilters?.forEach {
+                try validate($0, name: "joinEuiFilters[]", parent: name, max: 2)
+                try validate($0, name: "joinEuiFilters[]", parent: name, min: 2)
+            }
+            try self.validate(self.joinEuiFilters, name: "joinEuiFilters", parent: name, max: 3)
+            try self.validate(self.joinEuiFilters, name: "joinEuiFilters", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.netIdFilters?.forEach {
+                try validate($0, name: "netIdFilters[]", parent: name, pattern: "[a-fA-F0-9]{6}")
+            }
+            try self.validate(self.netIdFilters, name: "netIdFilters", parent: name, max: 10)
+            try self.validate(self.netIdFilters, name: "netIdFilters", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
+            case joinEuiFilters = "JoinEuiFilters"
             case name = "Name"
+            case netIdFilters = "NetIdFilters"
         }
     }
 
@@ -3143,6 +3355,40 @@ extension IoTWireless {
         }
     }
 
+    public struct WirelessDeviceEventLogOption: AWSEncodableShape & AWSDecodableShape {
+        public let event: WirelessDeviceEvent
+        public let logLevel: LogLevel
+
+        public init(event: WirelessDeviceEvent, logLevel: LogLevel) {
+            self.event = event
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case logLevel = "LogLevel"
+        }
+    }
+
+    public struct WirelessDeviceLogOption: AWSEncodableShape & AWSDecodableShape {
+        public let events: [WirelessDeviceEventLogOption]?
+        public let logLevel: LogLevel
+        /// The wireless device type.
+        public let type: WirelessDeviceType
+
+        public init(events: [WirelessDeviceEventLogOption]? = nil, logLevel: LogLevel, type: WirelessDeviceType) {
+            self.events = events
+            self.logLevel = logLevel
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case logLevel = "LogLevel"
+            case type = "Type"
+        }
+    }
+
     public struct WirelessDeviceStatistics: AWSDecodableShape {
         /// The Amazon Resource Name of the resource.
         public let arn: String?
@@ -3180,6 +3426,39 @@ extension IoTWireless {
             case loRaWAN = "LoRaWAN"
             case name = "Name"
             case sidewalk = "Sidewalk"
+            case type = "Type"
+        }
+    }
+
+    public struct WirelessGatewayEventLogOption: AWSEncodableShape & AWSDecodableShape {
+        public let event: WirelessGatewayEvent
+        public let logLevel: LogLevel
+
+        public init(event: WirelessGatewayEvent, logLevel: LogLevel) {
+            self.event = event
+            self.logLevel = logLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case logLevel = "LogLevel"
+        }
+    }
+
+    public struct WirelessGatewayLogOption: AWSEncodableShape & AWSDecodableShape {
+        public let events: [WirelessGatewayEventLogOption]?
+        public let logLevel: LogLevel
+        public let type: WirelessGatewayType
+
+        public init(events: [WirelessGatewayEventLogOption]? = nil, logLevel: LogLevel, type: WirelessGatewayType) {
+            self.events = events
+            self.logLevel = logLevel
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case logLevel = "LogLevel"
             case type = "Type"
         }
     }

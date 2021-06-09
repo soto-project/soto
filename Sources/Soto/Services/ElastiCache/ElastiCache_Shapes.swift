@@ -1072,7 +1072,7 @@ extension ElastiCache {
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
         public let notificationTopicArn: String?
-        /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
+        /// The initial number of cache nodes that the cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
         public let numCacheNodes: Int?
         /// Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts.
         public let outpostMode: OutpostMode?
@@ -1412,7 +1412,7 @@ extension ElastiCache {
         public var tags: [Tag]?
         /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
         public let transitEncryptionEnabled: Bool?
-        /// The list of user groups to associate with the replication group.
+        /// The user group to associate with the replication group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
@@ -3368,10 +3368,10 @@ extension ElastiCache {
         public let snapshottingClusterId: String?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
         public let snapshotWindow: String?
-        /// A list of user group IDs.
+        /// The user group you are associating with the replication group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToAdd: [String]?
-        /// A list of users groups to remove, meaning the users in the group no longer can access thereplication group.
+        /// The user group to remove, meaning the users in the group no longer can access the replication group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIdsToRemove: [String]?
 

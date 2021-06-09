@@ -40,7 +40,6 @@ class LambdaTests: XCTestCase {
 
      */
     class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Lambda.FunctionConfiguration> {
-
         // Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
         let functionCode = Lambda.FunctionCode(zipFile: Data(base64Encoded: code))
@@ -64,7 +63,6 @@ class LambdaTests: XCTestCase {
     }
 
     class func createIAMRole() -> EventLoopFuture<IAM.CreateRoleResponse> {
-
         // as documented at https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
         let assumeRolePolicyDocument = """
         {

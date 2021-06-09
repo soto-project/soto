@@ -53,7 +53,7 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The health check for the instance that is specified by ServiceId and InstanceId is not a custom health check.
+    /// The health check for the instance that's specified by ServiceId and InstanceId isn't a custom health check.
     public static var customHealthNotFound: Self { .init(.customHealthNotFound) }
     /// The operation is already in progress.
     public static var duplicateRequest: Self { .init(.duplicateRequest) }

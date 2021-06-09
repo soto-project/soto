@@ -73,6 +73,7 @@ extension ECS {
 
     public enum Compatibility: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
+        case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
@@ -179,6 +180,7 @@ extension ECS {
 
     public enum LaunchType: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
+        case external = "EXTERNAL"
         case fargate = "FARGATE"
         public var description: String { return self.rawValue }
     }
@@ -789,7 +791,7 @@ extension ECS {
         public let image: String?
         /// When this parameter is true, this allows you to deploy containerized applications that require stdin or a tty to be allocated. This parameter maps to OpenStdin in the Create a container section of the Docker Remote API and the --interactive option to docker run.
         public let interactive: Bool?
-        /// The links parameter allows containers to communicate with each other without the need for port mappings. This parameter is only supported if the network mode of a task definition is bridge. The name:internalName construct is analogous to name:alias in Docker links. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. For more information about linking Docker containers, go to Legacy container links in the Docker documentation. This parameter maps to Links in the Create a container section of the Docker Remote API and the --link option to docker run.  This parameter is not supported for Windows containers.   Containers that are collocated on a single container instance may be able to communicate with each other without requiring links or host port mappings. Network isolation is achieved on the container instance using security groups and VPC settings.
+        /// The links parameter allows containers to communicate with each other without the need for port mappings. This parameter is only supported if the network mode of a task definition is bridge. The name:internalName construct is analogous to name:alias in Docker links. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. For more information about linking Docker containers, go to Legacy container links in the Docker documentation. This parameter maps to Links in the Create a container section of the Docker Remote API and the --link option to docker run.  This parameter is not supported for Windows containers.   Containers that are collocated on a single container instance may be able to communicate with each other without requiring links or host port mappings. Network isolation is achieved on the container instance using security groups and VPC settings.
         public let links: [String]?
         /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information see KernelCapabilities.  This parameter is not supported for Windows containers.
         public let linuxParameters: LinuxParameters?
@@ -801,7 +803,7 @@ extension ECS {
         public let memoryReservation: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives.
         public let mountPoints: [MountPoint]?
-        /// The name of a container. If you are linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. This parameter maps to name in the Create a container section of the Docker Remote API and the --name option to docker run.
+        /// The name of a container. If you are linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This parameter maps to name in the Create a container section of the Docker Remote API and the --name option to docker run.
         public let name: String?
         /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. For task definitions that use the awsvpc network mode, you should only specify the containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than localhost. There is no loopback for port mappings on Windows, so you cannot access a container's mapped port from the host itself.  This parameter maps to PortBindings in the Create a container section of the Docker Remote API and the --publish option to docker run. If the network mode of a task definition is set to none, then you can't specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping.  After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description for a selected task in the Amazon ECS console. The assignments are also visible in the networkBindings section DescribeTasks responses.
         public let portMappings: [PortMapping]?
@@ -947,7 +949,7 @@ extension ECS {
         public let capacityProviderName: String?
         /// The Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
         public let containerInstanceArn: String?
-        /// The EC2 instance ID of the container instance.
+        /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the AWS Systems Manager managed instance ID.
         public let ec2InstanceId: String?
         /// The number of tasks on the container instance that are in the PENDING status.
         public let pendingTasksCount: Int?
@@ -1135,7 +1137,7 @@ extension ECS {
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The short name of one or more capacity providers to associate with the cluster. A capacity provider must be associated with a cluster before it can be included as part of the default capacity provider strategy of the cluster or used in a capacity provider strategy when calling the CreateService or RunTask actions. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created and not already associated with another cluster. New Auto Scaling group capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviders: [String]?
-        /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed.
+        /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public let clusterName: String?
         /// The execute command configuration for the cluster.
         public let configuration: ClusterConfiguration?
@@ -1208,7 +1210,7 @@ extension ECS {
         public let enableExecuteCommand: Bool?
         /// The period of time, in seconds, that the Amazon ECS service scheduler should ignore unhealthy Elastic Load Balancing target health checks after a task has first started. This is only used when your service is configured to use a load balancer. If your service has a load balancer defined and you don't specify a health check grace period value, the default value of 0 is used. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds. During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
         public let healthCheckGracePeriodSeconds: Int?
-        /// The launch type on which to run your service. The accepted values are FARGATE and EC2. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. When a value of FARGATE is specified, your tasks are launched on AWS Fargate On-Demand infrastructure. To use Fargate Spot, you must use a capacity provider strategy with the FARGATE_SPOT capacity provider. When a value of EC2 is specified, your tasks are launched on Amazon EC2 instances registered to your cluster. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+        /// The infrastructure on which to run your service. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on AWS Fargate On-Demand infrastructure.  Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see AWS Fargate capacity providers in the Amazon ECS User Guide for AWS Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
         public let launchType: LaunchType?
         /// A load balancer object representing the load balancers to use with your service. For more information, see Service Load Balancing in the Amazon Elastic Container Service Developer Guide. If the service is using the rolling update (ECS) deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that make use of multiple target groups. For more information, see Using service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. If the service is using the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, AWS CodeDeploy determines which task set in your service has the status PRIMARY and associates one target group with it, and then associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that allows you perform validation tests with Lambda functions before routing production traffic to it. After you create a service using the ECS deployment controller, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. If you are using the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers are not supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance, because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
         public let loadBalancers: [LoadBalancer]?
@@ -1226,7 +1228,7 @@ extension ECS {
         public let role: String?
         /// The scheduling strategy to use for the service. For more information, see Services. There are two service scheduler strategies available:    REPLICA-The replica scheduling strategy places and maintains the desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. This scheduler strategy is required if the service is using the CODE_DEPLOY or EXTERNAL deployment controller types.    DAEMON-The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks and will stop tasks that do not meet the placement constraints. When you're using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies.  Tasks using the Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't support the DAEMON scheduling strategy.
         public let schedulingStrategy: SchedulingStrategy?
-        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
+        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
         public let serviceName: String
         /// The details of the service discovery registry to associate with this service. For more information, see Service discovery.  Each service may be associated with one service registry. Multiple service registries per service isn't supported.
         public let serviceRegistries: [ServiceRegistry]?
@@ -1808,7 +1810,7 @@ extension ECS {
     public struct DescribeClustersRequest: AWSEncodableShape {
         /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
-        /// Whether to include additional information about your clusters in the response. If this field is omitted, the attachments, statistics, and tags are not included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If STATISTICS is specified, the following additional information, separated by launch type, is included:   runningEC2TasksCount   runningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount   If TAGS is specified, the metadata tags associated with the cluster are included.
+        /// Whether to include additional information about the clusters in the response. If this field is omitted, this information isn't included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If STATISTICS is specified, the task and service count is included, separated by launch type. If TAGS is specified, the metadata tags associated with the cluster are included.
         public let include: [ClusterField]?
 
         public init(clusters: [String]? = nil, include: [ClusterField]? = nil) {
@@ -2275,7 +2277,7 @@ extension ECS {
         public let containerArn: String?
         /// The name of the container.
         public let containerName: String?
-        /// Whether or not the execute command session is running in interactive mode.
+        /// Whether or not the execute command session is running in interactive mode. Amazon ECS only supports initiating interactive sessions, so you must specify true for this value.
         public let interactive: Bool?
         /// The details of the SSM session that was created for this instance of execute-command.
         public let session: Session?
@@ -2722,15 +2724,15 @@ extension ECS {
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
-        /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed.
+        /// The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListServices results. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        /// The launch type for the services to list.
+        /// The launch type to use when filtering the ListServices results.
         public let launchType: LaunchType?
         /// The maximum number of service results returned by ListServices in paginated output. When this parameter is used, ListServices only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServices request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListServices returns up to 10 results and a nextToken value if applicable.
         public let maxResults: Int?
         /// The nextToken value returned from a ListServices request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
-        /// The scheduling strategy for services to list.
+        /// The scheduling strategy to use when filtering the ListServices results.
         public let schedulingStrategy: SchedulingStrategy?
 
         public init(cluster: String? = nil, launchType: LaunchType? = nil, maxResults: Int? = nil, nextToken: String? = nil, schedulingStrategy: SchedulingStrategy? = nil) {
@@ -2882,21 +2884,21 @@ extension ECS {
     }
 
     public struct ListTasksRequest: AWSEncodableShape {
-        /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed.
+        /// The short name or full Amazon Resource Name (ARN) of the cluster to use when filtering the ListTasks results. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
-        /// The container instance ID or full ARN of the container instance with which to filter the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
+        /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
         public let containerInstance: String?
-        /// The task desired status with which to filter the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that are not starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING.  Although you can filter results based on a desired status of PENDING, this does not return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
+        /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that are not starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING.  Although you can filter results based on a desired status of PENDING, this does not return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
         public let desiredStatus: DesiredStatus?
-        /// The name of the family with which to filter the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
+        /// The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
         public let family: String?
-        /// The launch type for services to list.
+        /// The launch type to use when filtering the ListTasks results.
         public let launchType: LaunchType?
         /// The maximum number of task results returned by ListTasks in paginated output. When this parameter is used, ListTasks only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTasks request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTasks returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
         /// The nextToken value returned from a ListTasks request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
-        /// The name of the service with which to filter the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
+        /// The name of the service to use when filtering the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
         public let serviceName: String?
         /// The startedBy value with which to filter the task results. Specifying a startedBy value limits the results to tasks that were started with that value.
         public let startedBy: String?
@@ -3461,7 +3463,7 @@ extension ECS {
         public let ephemeralStorage: EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make AWS API calls on your behalf. The task execution IAM role is required depending on the requirements of your task. For more information, see Amazon ECS task execution IAM role in the Amazon Elastic Container Service Developer Guide.
         public let executionRoleArn: String?
-        /// You must specify a family for a task definition, which allows you to track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed.
+        /// You must specify a family for a task definition, which allows you to track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public let family: String
         /// The Elastic Inference accelerators to use for the containers in the task.
         public let inferenceAccelerators: [InferenceAccelerator]?
@@ -3626,7 +3628,7 @@ extension ECS {
         public let enableExecuteCommand: Bool?
         /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
         public let group: String?
-        /// The launch type on which to run your task. The accepted values are FARGATE and EC2. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide. When a value of FARGATE is specified, your tasks are launched on AWS Fargate On-Demand infrastructure. To use Fargate Spot, you must use a capacity provider strategy with the FARGATE_SPOT capacity provider. When a value of EC2 is specified, your tasks are launched on Amazon EC2 instances registered to your cluster. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+        /// The infrastructure on which to run your standalone task. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on AWS Fargate On-Demand infrastructure.  Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see AWS Fargate capacity providers in the Amazon ECS User Guide for AWS Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
         public let launchType: LaunchType?
         /// The network configuration for the task. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it is not supported for other network modes. For more information, see Task Networking in the Amazon Elastic Container Service Developer Guide.
         public let networkConfiguration: NetworkConfiguration?
@@ -3777,7 +3779,7 @@ extension ECS {
         public let events: [ServiceEvent]?
         /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started.
         public let healthCheckGracePeriodSeconds: Int?
-        /// The launch type on which your service is running. If no value is specified, it will default to EC2. Valid values include EC2 and FARGATE. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
+        /// The infrastructure on which your service is running. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
         /// A list of Elastic Load Balancing load balancer objects, containing the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer.
         public let loadBalancers: [LoadBalancer]?
@@ -3801,7 +3803,7 @@ extension ECS {
         public let schedulingStrategy: SchedulingStrategy?
         /// The ARN that identifies the service. The ARN contains the arn:aws:ecs namespace, followed by the Region of the service, the AWS account ID of the service owner, the service namespace, and then the service name. For example, arn:aws:ecs:region:012345678910:service/my-service.
         public let serviceArn: String?
-        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
+        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a Region or across multiple Regions.
         public let serviceName: String?
         /// The details of the service discovery registries to assign to this service. For more information, see Service Discovery.
         public let serviceRegistries: [ServiceRegistry]?
@@ -4342,7 +4344,7 @@ extension ECS {
         public let inferenceAccelerators: [InferenceAccelerator]?
         /// The last known status of the task. For more information, see Task Lifecycle.
         public let lastStatus: String?
-        /// The launch type on which your task is running. For more information, see Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide.
+        /// The infrastructure on which your task is running. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
         /// The amount of memory (in MiB) used by the task as expressed in a task definition. It can be expressed as an integer using MiB, for example 1024. It can also be expressed as a string using GB, for example 1GB or 1 GB. String values are converted to an integer indicating the MiB when the task definition is registered. If you are using the EC2 launch type, this field is optional. If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the cpu parameter:   512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)   1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB) - Available cpu values: 512 (.5 vCPU)   2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB) - Available cpu values: 1024 (1 vCPU)   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB) - Available cpu values: 2048 (2 vCPU)   Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB) - Available cpu values: 4096 (4 vCPU)
         public let memory: String?
@@ -5127,7 +5129,7 @@ extension ECS {
         public let fsxWindowsFileServerVolumeConfiguration: FSxWindowsFileServerVolumeConfiguration?
         /// This parameter is specified when you are using bind mount host volumes. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers cannot mount directories on a different drive, and mount point cannot be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
         public let host: HostVolumeProperties?
-        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
 
         public init(dockerVolumeConfiguration: DockerVolumeConfiguration? = nil, efsVolumeConfiguration: EFSVolumeConfiguration? = nil, fsxWindowsFileServerVolumeConfiguration: FSxWindowsFileServerVolumeConfiguration? = nil, host: HostVolumeProperties? = nil, name: String? = nil) {

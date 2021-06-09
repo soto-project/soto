@@ -297,6 +297,8 @@ extension SSM {
         case deploymentstrategy = "DeploymentStrategy"
         case package = "Package"
         case policy = "Policy"
+        case problemanalysis = "ProblemAnalysis"
+        case problemanalysistemplate = "ProblemAnalysisTemplate"
         case session = "Session"
         public var description: String { return self.rawValue }
     }
@@ -486,6 +488,18 @@ extension SSM {
         case equal = "Equal"
         case greaterthan = "GreaterThan"
         case lessthan = "LessThan"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemRelatedItemsFilterKey: String, CustomStringConvertible, Codable {
+        case associationid = "AssociationId"
+        case resourcetype = "ResourceType"
+        case resourceuri = "ResourceUri"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OpsItemRelatedItemsFilterOperator: String, CustomStringConvertible, Codable {
+        case equal = "Equal"
         public var description: String { return self.rawValue }
     }
 
@@ -813,6 +827,48 @@ extension SSM {
         public init() {}
     }
 
+    public struct AssociateOpsItemRelatedItemRequest: AWSEncodableShape {
+        /// The type of association that you want to create between an OpsItem and a resource. OpsCenter supports IsParentOf and RelatesTo association types.
+        public let associationType: String
+        /// The ID of the OpsItem to which you want to associate a resource as a related item.
+        public let opsItemId: String
+        /// The type of resource that you want to associate with an OpsItem. OpsCenter supports the following types:  AWS::SSMIncidents::IncidentRecord: an Incident Manager incident. Incident Manager is a capability of AWS Systems Manager.  AWS::SSM::Document: a Systems Manager (SSM) document.
+        public let resourceType: String
+        /// The Amazon Resource Name (ARN) of the AWS resource that you want to associate with the OpsItem.
+        public let resourceUri: String
+
+        public init(associationType: String, opsItemId: String, resourceType: String, resourceUri: String) {
+            self.associationType = associationType
+            self.opsItemId = opsItemId
+            self.resourceType = resourceType
+            self.resourceUri = resourceUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationType = "AssociationType"
+            case opsItemId = "OpsItemId"
+            case resourceType = "ResourceType"
+            case resourceUri = "ResourceUri"
+        }
+    }
+
+    public struct AssociateOpsItemRelatedItemResponse: AWSDecodableShape {
+        /// The association ID.
+        public let associationId: String?
+
+        public init(associationId: String? = nil) {
+            self.associationId = associationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+        }
+    }
+
     public struct Association: AWSDecodableShape {
         /// The ID created by the system when you create an association. An association is a binding between a document and a set of targets with a schedule.
         public let associationId: String?
@@ -873,6 +929,8 @@ extension SSM {
         public let associationVersion: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
         public let automationTargetParameterName: String?
+        /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see AWS Systems Manager Change Calendar.
+        public let calendarNames: [String]?
         /// The severity level that is assigned to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The date when the association was made.
@@ -910,12 +968,13 @@ extension SSM {
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
             self.automationTargetParameterName = automationTargetParameterName
+            self.calendarNames = calendarNames
             self.complianceSeverity = complianceSeverity
             self.date = date
             self.documentVersion = documentVersion
@@ -942,6 +1001,7 @@ extension SSM {
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
             case automationTargetParameterName = "AutomationTargetParameterName"
+            case calendarNames = "CalendarNames"
             case complianceSeverity = "ComplianceSeverity"
             case date = "Date"
             case documentVersion = "DocumentVersion"
@@ -1177,6 +1237,8 @@ extension SSM {
         public let associationName: String?
         /// The association version.
         public let associationVersion: String?
+        /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change Calendar type documents your associations are gated under. The associations for this version only run when that Change Calendar is open. For more information, see AWS Systems Manager Change Calendar.
+        public let calendarNames: [String]?
         /// The severity level that is assigned to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The date the association version was created.
@@ -1202,11 +1264,12 @@ extension SSM {
         /// The targets specified for the association when the association version was created.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
+            self.calendarNames = calendarNames
             self.complianceSeverity = complianceSeverity
             self.createdDate = createdDate
             self.documentVersion = documentVersion
@@ -1226,6 +1289,7 @@ extension SSM {
             case associationId = "AssociationId"
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
+            case calendarNames = "CalendarNames"
             case complianceSeverity = "ComplianceSeverity"
             case createdDate = "CreatedDate"
             case documentVersion = "DocumentVersion"
@@ -1876,6 +1940,7 @@ extension SSM {
         public let cloudWatchOutputConfig: CloudWatchOutputConfig?
         /// The command against which this invocation was requested.
         public let commandId: String?
+        /// Plugins processed by the command.
         public let commandPlugins: [CommandPlugin]?
         /// User-specified information about the command, such as a brief description of what the command should do.
         public let comment: String?
@@ -2268,6 +2333,8 @@ extension SSM {
         public let associationName: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
         public let automationTargetParameterName: String?
+        /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change Calendar type documents your associations are gated under. The associations only run when that Change Calendar is open. For more information, see AWS Systems Manager Change Calendar.
+        public let calendarNames: [String]?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version.
@@ -2293,10 +2360,11 @@ extension SSM {
         /// The instances targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
+            self.calendarNames = calendarNames
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
             self.instanceId = instanceId
@@ -2343,6 +2411,7 @@ extension SSM {
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
+            case calendarNames = "CalendarNames"
             case complianceSeverity = "ComplianceSeverity"
             case documentVersion = "DocumentVersion"
             case instanceId = "InstanceId"
@@ -2376,12 +2445,14 @@ extension SSM {
     }
 
     public struct CreateAssociationRequest: AWSEncodableShape {
-        /// By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
+        /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
         public let applyOnlyAtCronInterval: Bool?
         /// Specify a descriptive name for the association.
         public let associationName: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
         public let automationTargetParameterName: String?
+        /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change Calendar type documents you want to gate your associations under. The associations only run when that Change Calendar is open. For more information, see AWS Systems Manager Change Calendar.
+        public let calendarNames: [String]?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want to associate with the target(s). Can be a specific version or the default version.
@@ -2407,10 +2478,11 @@ extension SSM {
         /// The targets for the association. You can target instances by using tags, AWS Resource Groups, all instances in an AWS account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the AWS Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
+            self.calendarNames = calendarNames
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
             self.instanceId = instanceId
@@ -2457,6 +2529,7 @@ extension SSM {
             case applyOnlyAtCronInterval = "ApplyOnlyAtCronInterval"
             case associationName = "AssociationName"
             case automationTargetParameterName = "AutomationTargetParameterName"
+            case calendarNames = "CalendarNames"
             case complianceSeverity = "ComplianceSeverity"
             case documentVersion = "DocumentVersion"
             case instanceId = "InstanceId"
@@ -2490,6 +2563,8 @@ extension SSM {
         public let attachments: [AttachmentsSource]?
         /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the AWS Systems Manager User Guide.    Create an SSM document (AWS API)     Create an SSM document (AWS CLI)     Create an SSM document (API)
         public let content: String
+        /// An optional field where you can specify a friendly name for the Systems Manager document. This value can differ for each version of the document. You can update this value at a later time using the UpdateDocument action.
+        public let displayName: String?
         /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
         /// The type of document to create.
@@ -2505,9 +2580,10 @@ extension SSM {
         /// An optional field specifying the version of the artifact you are creating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, requires: [DocumentRequires]? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(attachments: [AttachmentsSource]? = nil, content: String, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, name: String, requires: [DocumentRequires]? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.attachments = attachments
             self.content = content
+            self.displayName = displayName
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.name = name
@@ -2524,6 +2600,8 @@ extension SSM {
             try self.validate(self.attachments, name: "attachments", parent: name, max: 20)
             try self.validate(self.attachments, name: "attachments", parent: name, min: 0)
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 1024)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\w\\.\\-\\:\\/ ]*$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.requires?.forEach {
                 try $0.validate(name: "\(name).requires[]")
@@ -2541,6 +2619,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case attachments = "Attachments"
             case content = "Content"
+            case displayName = "DisplayName"
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case name = "Name"
@@ -2710,7 +2789,7 @@ extension SSM {
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
             try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+")
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
             try self.operationalData?.forEach {
@@ -3704,7 +3783,7 @@ extension SSM {
         public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// A boolean that indicates whether to list step executions in reverse order by start time. The default value is 'false'.
+        /// Indicates whether to list step executions in reverse order by start time. The default value is 'false'.
         public let reverseOrder: Bool?
 
         public init(automationExecutionId: String, filters: [StepExecutionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
@@ -5101,6 +5180,31 @@ extension SSM {
         }
     }
 
+    public struct DisassociateOpsItemRelatedItemRequest: AWSEncodableShape {
+        /// The ID of the association for which you want to delete an association between the OpsItem and a related resource.
+        public let associationId: String
+        /// The ID of the OpsItem for which you want to delete an association between the OpsItem and a related resource.
+        public let opsItemId: String
+
+        public init(associationId: String, opsItemId: String) {
+            self.associationId = associationId
+            self.opsItemId = opsItemId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case opsItemId = "OpsItemId"
+        }
+    }
+
+    public struct DisassociateOpsItemRelatedItemResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DocumentDefaultVersionDescription: AWSDecodableShape {
         /// The default version of the document.
         public let defaultVersion: String?
@@ -5135,6 +5239,8 @@ extension SSM {
         public let defaultVersion: String?
         /// A description of the document.
         public let description: String?
+        /// The friendly name of the Systems Manager document. This value can differ for each version of the document. If you want to update this value, see UpdateDocument.
+        public let displayName: String?
         /// The document format, either JSON or YAML.
         public let documentFormat: DocumentFormat?
         /// The type of document.
@@ -5178,13 +5284,14 @@ extension SSM {
         /// The version of the artifact associated with the document.
         public let versionName: String?
 
-        public init(approvedVersion: String? = nil, attachmentsInformation: [AttachmentInformation]? = nil, author: String? = nil, createdDate: Date? = nil, defaultVersion: String? = nil, description: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, pendingReviewVersion: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewInformation: [ReviewInformation]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(approvedVersion: String? = nil, attachmentsInformation: [AttachmentInformation]? = nil, author: String? = nil, createdDate: Date? = nil, defaultVersion: String? = nil, description: String? = nil, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, pendingReviewVersion: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewInformation: [ReviewInformation]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.approvedVersion = approvedVersion
             self.attachmentsInformation = attachmentsInformation
             self.author = author
             self.createdDate = createdDate
             self.defaultVersion = defaultVersion
             self.description = description
+            self.displayName = displayName
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.documentVersion = documentVersion
@@ -5215,6 +5322,7 @@ extension SSM {
             case createdDate = "CreatedDate"
             case defaultVersion = "DefaultVersion"
             case description = "Description"
+            case displayName = "DisplayName"
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case documentVersion = "DocumentVersion"
@@ -5263,6 +5371,10 @@ extension SSM {
     public struct DocumentIdentifier: AWSDecodableShape {
         /// The user in your organization who created the document.
         public let author: String?
+        /// The date the Systems Manager document was created.
+        public let createdDate: Date?
+        /// An optional field where you can specify a friendly name for the Systems Manager document. This value can differ for each version of the document. If you want to update this value, see UpdateDocument.
+        public let displayName: String?
         /// The document format, either JSON or YAML.
         public let documentFormat: DocumentFormat?
         /// The document type.
@@ -5288,8 +5400,10 @@ extension SSM {
         /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(author: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(author: String? = nil, createdDate: Date? = nil, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, owner: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.author = author
+            self.createdDate = createdDate
+            self.displayName = displayName
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.documentVersion = documentVersion
@@ -5306,6 +5420,8 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case author = "Author"
+            case createdDate = "CreatedDate"
+            case displayName = "DisplayName"
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case documentVersion = "DocumentVersion"
@@ -5487,6 +5603,8 @@ extension SSM {
     public struct DocumentVersionInfo: AWSDecodableShape {
         /// The date the document was created.
         public let createdDate: Date?
+        /// The friendly name of the Systems Manager document. This value can differ for each version of the document. If you want to update this value, see UpdateDocument.
+        public let displayName: String?
         /// The document format, either JSON or YAML.
         public let documentFormat: DocumentFormat?
         /// The document version.
@@ -5504,8 +5622,9 @@ extension SSM {
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(createdDate: Date? = nil, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, isDefaultVersion: Bool? = nil, name: String? = nil, reviewStatus: ReviewStatus? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
+        public init(createdDate: Date? = nil, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, isDefaultVersion: Bool? = nil, name: String? = nil, reviewStatus: ReviewStatus? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.createdDate = createdDate
+            self.displayName = displayName
             self.documentFormat = documentFormat
             self.documentVersion = documentVersion
             self.isDefaultVersion = isDefaultVersion
@@ -5518,6 +5637,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
+            case displayName = "DisplayName"
             case documentFormat = "DocumentFormat"
             case documentVersion = "DocumentVersion"
             case isDefaultVersion = "IsDefaultVersion"
@@ -5917,6 +6037,10 @@ extension SSM {
         public let attachmentsContent: [AttachmentContent]?
         /// The contents of the Systems Manager document.
         public let content: String?
+        /// The date the Systems Manager document was created.
+        public let createdDate: Date?
+        /// The friendly name of the Systems Manager document. This value can differ for each version of the document. If you want to update this value, see UpdateDocument.
+        public let displayName: String?
         /// The document format, either JSON or YAML.
         public let documentFormat: DocumentFormat?
         /// The document type.
@@ -5936,9 +6060,11 @@ extension SSM {
         /// The version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, requires: [DocumentRequires]? = nil, reviewStatus: ReviewStatus? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
+        public init(attachmentsContent: [AttachmentContent]? = nil, content: String? = nil, createdDate: Date? = nil, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, name: String? = nil, requires: [DocumentRequires]? = nil, reviewStatus: ReviewStatus? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, versionName: String? = nil) {
             self.attachmentsContent = attachmentsContent
             self.content = content
+            self.createdDate = createdDate
+            self.displayName = displayName
             self.documentFormat = documentFormat
             self.documentType = documentType
             self.documentVersion = documentVersion
@@ -5953,6 +6079,8 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case attachmentsContent = "AttachmentsContent"
             case content = "Content"
+            case createdDate = "CreatedDate"
+            case displayName = "DisplayName"
             case documentFormat = "DocumentFormat"
             case documentType = "DocumentType"
             case documentVersion = "DocumentVersion"
@@ -6963,7 +7091,7 @@ extension SSM {
     }
 
     public struct GetServiceSettingRequest: AWSEncodableShape {
-        /// The ID of the service setting to get. The setting ID can be /ssm/automation/customer-script-log-destination, /ssm/automation/customer-script-log-group-name, /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier.
+        /// The ID of the service setting to get. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
         public let settingId: String
 
         public init(settingId: String) {
@@ -8350,6 +8478,54 @@ extension SSM {
         }
     }
 
+    public struct ListOpsItemRelatedItemsRequest: AWSEncodableShape {
+        /// One or more OpsItem filters. Use a filter to return a more specific list of results.
+        public let filters: [OpsItemRelatedItemsFilter]?
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+        /// The ID of the OpsItem for which you want to list all related-item resources.
+        public let opsItemId: String?
+
+        public init(filters: [OpsItemRelatedItemsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, opsItemId: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.opsItemId = opsItemId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.opsItemId, name: "opsItemId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case opsItemId = "OpsItemId"
+        }
+    }
+
+    public struct ListOpsItemRelatedItemsResponse: AWSDecodableShape {
+        /// The token for the next set of items to return. Use this token to get the next set of results.
+        public let nextToken: String?
+        /// A list of related-item resources for the specified OpsItem.
+        public let summaries: [OpsItemRelatedItemSummary]?
+
+        public init(nextToken: String? = nil, summaries: [OpsItemRelatedItemSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaries = "Summaries"
+        }
+    }
+
     public struct ListOpsMetadataRequest: AWSEncodableShape {
         /// One or more filters to limit the number of OpsMetadata objects returned by the call.
         public let filters: [OpsMetadataFilter]?
@@ -9528,6 +9704,70 @@ extension SSM {
         }
     }
 
+    public struct OpsItemRelatedItemSummary: AWSDecodableShape {
+        /// The association ID.
+        public let associationId: String?
+        /// The association type.
+        public let associationType: String?
+        public let createdBy: OpsItemIdentity?
+        /// The time the related-item association was created.
+        public let createdTime: Date?
+        public let lastModifiedBy: OpsItemIdentity?
+        /// The time the related-item association was last updated.
+        public let lastModifiedTime: Date?
+        /// The OpsItem ID.
+        public let opsItemId: String?
+        /// The resource type.
+        public let resourceType: String?
+        /// The Amazon Resource Name (ARN) of the related-item resource.
+        public let resourceUri: String?
+
+        public init(associationId: String? = nil, associationType: String? = nil, createdBy: OpsItemIdentity? = nil, createdTime: Date? = nil, lastModifiedBy: OpsItemIdentity? = nil, lastModifiedTime: Date? = nil, opsItemId: String? = nil, resourceType: String? = nil, resourceUri: String? = nil) {
+            self.associationId = associationId
+            self.associationType = associationType
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.opsItemId = opsItemId
+            self.resourceType = resourceType
+            self.resourceUri = resourceUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationId = "AssociationId"
+            case associationType = "AssociationType"
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case opsItemId = "OpsItemId"
+            case resourceType = "ResourceType"
+            case resourceUri = "ResourceUri"
+        }
+    }
+
+    public struct OpsItemRelatedItemsFilter: AWSEncodableShape {
+        /// The name of the filter key. Supported values include ResourceUri, ResourceType, or AssociationId.
+        public let key: OpsItemRelatedItemsFilterKey
+        /// The operator used by the filter call. The only supported operator is EQUAL.
+        public let `operator`: OpsItemRelatedItemsFilterOperator
+        /// The values for the filter.
+        public let values: [String]
+
+        public init(key: OpsItemRelatedItemsFilterKey, operator: OpsItemRelatedItemsFilterOperator, values: [String]) {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
     public struct OpsItemSummary: AWSDecodableShape {
         /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
         public let actualEndTime: Date?
@@ -10218,7 +10458,7 @@ extension SSM {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.approveAfterDays, name: "approveAfterDays", parent: name, max: 100)
+            try self.validate(self.approveAfterDays, name: "approveAfterDays", parent: name, max: 360)
             try self.validate(self.approveAfterDays, name: "approveAfterDays", parent: name, min: 0)
             try self.validate(self.approveUntilDate, name: "approveUntilDate", parent: name, max: 10)
             try self.validate(self.approveUntilDate, name: "approveUntilDate", parent: name, min: 1)
@@ -10829,7 +11069,7 @@ extension SSM {
     }
 
     public struct ResetServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be /ssm/automation/customer-script-log-destination, /ssm/automation/customer-script-log-group-name, /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled, or /ssm/managed-instance/activation-tier. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled.
+        /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
         public let settingId: String
 
         public init(settingId: String) {
@@ -11085,7 +11325,7 @@ extension SSM {
         public let includeFutureRegions: Bool?
         /// The SyncSource AWS Regions included in the resource data sync.
         public let sourceRegions: [String]
-        /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in AWS Organizations) or singleAccountMultiRegions.
+        /// The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in AWS Organizations) or SingleAccountMultiRegions.
         public let sourceType: String
 
         public init(awsOrganizationsSource: ResourceDataSyncAwsOrganizationsSource? = nil, enableAllOpsDataSources: Bool? = nil, includeFutureRegions: Bool? = nil, sourceRegions: [String], sourceType: String) {
@@ -12166,7 +12406,7 @@ extension SSM {
             try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, max: 64)
             try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, min: 1)
-            try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "[\\w+=,.@-]+")
+            try self.validate(self.executionRoleName, name: "executionRoleName", parent: name, pattern: "[\\w+=,.@/-]+")
             try self.validate(self.regions, name: "regions", parent: name, max: 50)
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
             try self.validate(self.targetLocationMaxConcurrency, name: "targetLocationMaxConcurrency", parent: name, max: 7)
@@ -12277,6 +12517,8 @@ extension SSM {
         public let associationVersion: String?
         /// Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
         public let automationTargetParameterName: String?
+        /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change Calendar type documents you want to gate your associations under. The associations only run when that Change Calendar is open. For more information, see AWS Systems Manager Change Calendar.
+        public let calendarNames: [String]?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want update for the association.
@@ -12300,12 +12542,13 @@ extension SSM {
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
             self.automationTargetParameterName = automationTargetParameterName
+            self.calendarNames = calendarNames
             self.complianceSeverity = complianceSeverity
             self.documentVersion = documentVersion
             self.maxConcurrency = maxConcurrency
@@ -12354,6 +12597,7 @@ extension SSM {
             case associationName = "AssociationName"
             case associationVersion = "AssociationVersion"
             case automationTargetParameterName = "AutomationTargetParameterName"
+            case calendarNames = "CalendarNames"
             case complianceSeverity = "ComplianceSeverity"
             case documentVersion = "DocumentVersion"
             case maxConcurrency = "MaxConcurrency"
@@ -12492,20 +12736,23 @@ extension SSM {
         public let attachments: [AttachmentsSource]?
         /// A valid JSON or YAML string.
         public let content: String
+        /// The friendly name of the Systems Manager document that you want to update. This value can differ for each version of the document. If you do not specify a value for this parameter in your request, the existing value is applied to the new document version.
+        public let displayName: String?
         /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
         public let documentFormat: DocumentFormat?
         /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable.
         public let documentVersion: String?
-        /// The name of the document that you want to update.
+        /// The name of the Systems Manager document that you want to update.
         public let name: String
         /// Specify a new target type for the document.
         public let targetType: String?
         /// An optional field specifying the version of the artifact you are updating with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and cannot be changed.
         public let versionName: String?
 
-        public init(attachments: [AttachmentsSource]? = nil, content: String, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, name: String, targetType: String? = nil, versionName: String? = nil) {
+        public init(attachments: [AttachmentsSource]? = nil, content: String, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentVersion: String? = nil, name: String, targetType: String? = nil, versionName: String? = nil) {
             self.attachments = attachments
             self.content = content
+            self.displayName = displayName
             self.documentFormat = documentFormat
             self.documentVersion = documentVersion
             self.name = name
@@ -12520,6 +12767,8 @@ extension SSM {
             try self.validate(self.attachments, name: "attachments", parent: name, max: 20)
             try self.validate(self.attachments, name: "attachments", parent: name, min: 0)
             try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 1024)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\w\\.\\-\\:\\/ ]*$")
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
             try self.validate(self.targetType, name: "targetType", parent: name, max: 200)
@@ -12530,6 +12779,7 @@ extension SSM {
         private enum CodingKeys: String, CodingKey {
             case attachments = "Attachments"
             case content = "Content"
+            case displayName = "DisplayName"
             case documentFormat = "DocumentFormat"
             case documentVersion = "DocumentVersion"
             case name = "Name"
@@ -13020,7 +13270,7 @@ extension SSM {
             try self.validate(self.category, name: "category", parent: name, max: 64)
             try self.validate(self.category, name: "category", parent: name, min: 1)
             try self.validate(self.category, name: "category", parent: name, pattern: "^(?!\\s*$).+")
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]*\\S[\\s\\S]*")
             try self.operationalData?.forEach {
@@ -13302,9 +13552,9 @@ extension SSM {
     }
 
     public struct UpdateServiceSettingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
+        /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.    /ssm/automation/customer-script-log-destination     /ssm/automation/customer-script-log-group-name     /ssm/documents/console/public-sharing-permission     /ssm/parameter-store/default-parameter-tier     /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
         public let settingId: String
-        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false. For the /ssm/automation/customer-script-log-destination setting ID, the setting value can be CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting value can be the name of a CloudWatch Logs log group.
+        /// The new value to specify for the service setting. For the /ssm/parameter-store/default-parameter-tier setting ID, the setting value can be one of the following.   Standard   Advanced   Intelligent-Tiering   For the /ssm/parameter-store/high-throughput-enabled, and /ssm/managed-instance/activation-tier setting IDs, the setting value can be true or false. For the /ssm/automation/customer-script-log-destination setting ID, the setting value can be CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting value can be the name of a CloudWatch Logs log group. For the /ssm/documents/console/public-sharing-permission setting ID, the setting value can be Enable or Disable.
         public let settingValue: String
 
         public init(settingId: String, settingValue: String) {

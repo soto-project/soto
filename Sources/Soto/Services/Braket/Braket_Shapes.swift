@@ -29,6 +29,7 @@ extension Braket {
     public enum DeviceStatus: String, CustomStringConvertible, Codable {
         case offline = "OFFLINE"
         case online = "ONLINE"
+        case retired = "RETIRED"
         public var description: String { return self.rawValue }
     }
 
@@ -139,7 +140,7 @@ extension Braket {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 256)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 1)
-            try self.validate(self.deviceParameters, name: "deviceParameters", parent: name, max: 2048)
+            try self.validate(self.deviceParameters, name: "deviceParameters", parent: name, max: 48000)
             try self.validate(self.deviceParameters, name: "deviceParameters", parent: name, min: 1)
             try self.validate(self.outputS3Bucket, name: "outputS3Bucket", parent: name, max: 63)
             try self.validate(self.outputS3Bucket, name: "outputS3Bucket", parent: name, min: 3)
@@ -593,7 +594,7 @@ extension Braket {
 
         /// Specify the resourceArn for the resource from which to remove the tags.
         public let resourceArn: String
-        /// pecify the keys for the tags to remove from the resource.
+        /// Specify the keys for the tags to remove from the resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

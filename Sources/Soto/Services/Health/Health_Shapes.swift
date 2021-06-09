@@ -65,7 +65,7 @@ extension Health {
         public let entityUrl: String?
         /// The ID of the affected entity.
         public let entityValue: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
         /// The most recent time that the entity was updated.
         public let lastUpdatedTime: Date?
@@ -115,7 +115,7 @@ extension Health {
     }
 
     public struct DescribeAffectedAccountsForOrganizationRequest: AWSEncodableShape {
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int?
@@ -637,7 +637,7 @@ extension Health {
     public struct EntityAggregate: AWSDecodableShape {
         /// The number of entities that match the criteria for the specified events.
         public let count: Int?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
         public init(count: Int? = nil, eventArn: String? = nil) {
@@ -711,7 +711,7 @@ extension Health {
     }
 
     public struct Event: AWSDecodableShape {
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let arn: String?
         /// The AWS Availability Zone of the event. For example, us-east-1a.
         public let availabilityZone: String?
@@ -725,7 +725,7 @@ extension Health {
         public let eventTypeCode: String?
         /// The most recent date and time that the event was updated.
         public let lastUpdatedTime: Date?
-        /// The AWS region name of the event.
+        /// The AWS Region name of the event.
         public let region: String?
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public let service: String?
@@ -766,7 +766,7 @@ extension Health {
     public struct EventAccountFilter: AWSEncodableShape {
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String
 
         public init(awsAccountId: String? = nil, eventArn: String) {
@@ -843,7 +843,7 @@ extension Health {
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
         public init(errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
@@ -860,7 +860,7 @@ extension Health {
     }
 
     public struct EventFilter: AWSEncodableShape {
-        /// A list of AWS availability zones.
+        /// A list of AWS Availability Zones.
         public let availabilityZones: [String]?
         /// A list of dates and times that the event ended.
         public let endTimes: [DateTimeRange]?
@@ -878,7 +878,7 @@ extension Health {
         public let eventTypeCodes: [String]?
         /// A list of dates and times that the event was last updated.
         public let lastUpdatedTimes: [DateTimeRange]?
-        /// A list of AWS regions.
+        /// A list of AWS Regions.
         public let regions: [String]?
         /// The AWS services associated with the event. For example, EC2, RDS.
         public let services: [String]?
@@ -1046,7 +1046,7 @@ extension Health {
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
         public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
@@ -1065,7 +1065,7 @@ extension Health {
     }
 
     public struct OrganizationEvent: AWSDecodableShape {
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let arn: String?
         /// The date and time that the event ended.
         public let endTime: Date?
@@ -1079,7 +1079,7 @@ extension Health {
         public let lastUpdatedTime: Date?
         /// The AWS Region name of the event.
         public let region: String?
-        /// The AWS service that is affected by the event. For example, EC2, RDS.
+        /// The AWS service that is affected by the event, such as EC2 and RDS.
         public let service: String?
         /// The date and time that the event began.
         public let startTime: Date?
@@ -1137,13 +1137,13 @@ extension Health {
     }
 
     public struct OrganizationEventDetailsErrorItem: AWSDecodableShape {
-        /// Error information returned when a DescribeEventDetailsForOrganization operation cannot find a specified event.
+        /// Error information returned when a DescribeEventDetailsForOrganization operation can't find a specified event.
         public let awsAccountId: String?
-        /// A message that describes the error.
+        /// A message that describes the error. If you call the DescribeEventDetailsForOrganization operation and receive one of the following errors, follow the recommendations in the message:   We couldn't find a public event that matches your request. To find an event that is account specific, you must enter an AWS account ID in the request.   We couldn't find an account specific event for the specified AWS account. To find an event that is public, you must enter a null value for the AWS account ID in the request.   Your AWS account doesn't include the AWS Support plan required to use the AWS Health API. You must have either a Business or Enterprise Support plan.
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public let eventArn: String?
 
         public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {

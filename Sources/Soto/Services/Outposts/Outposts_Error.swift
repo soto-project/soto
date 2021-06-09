@@ -20,6 +20,7 @@ import SotoCore
 public struct OutpostsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case notFoundException = "NotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -46,6 +47,8 @@ public struct OutpostsErrorType: AWSErrorType {
 
     /// You do not have permission to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Updating or deleting this resource can cause an inconsistent state.
+    public static var conflictException: Self { .init(.conflictException) }
     /// An internal error has occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified request is not valid.
