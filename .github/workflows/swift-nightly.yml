@@ -3,7 +3,8 @@ name: Swift nightly build
 on:
   schedule:
     - cron: '0 1 * * *'
-
+  workflow_dispatch:
+  
 env:
   AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,7 +32,6 @@ jobs:
     - name: Install dependencies (Amazon Linux2/CentOS8)
       if: ${{ matrix.tag == 'nightly-amazonlinux2' || matrix.tag == 'nightly-centos8'}}
       run: |
-        yum -y update
         yum -y install zlib-devel
     - name: Test Resource Prefix
       # set AWS_TEST_RESOURCE_PREFIX environment variable to a random series of 8 letters
