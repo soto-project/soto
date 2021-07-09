@@ -245,7 +245,8 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
 
         // bucket doesn't exist
-        let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
+        let name2 = name + "2"
+        let request = S3.CreateMultipartUploadRequest(bucket: name2, key: name)
         let response2 = Self.s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename)
             .map { _ in
                 XCTFail("testMultiPartDownloadFailure: should have failed")
