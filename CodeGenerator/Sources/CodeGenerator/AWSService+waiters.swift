@@ -129,11 +129,10 @@ extension AWSService {
                 if let startIndex = fieldStartIndex {
                     fieldStartIndex = nil
                     if argument[index] != "(" {
-                        output += argument[startIndex].lowercased()
+                        output += String(argument[startIndex...index]).toSwiftLabelCase()
                     } else {
-                        output.append(argument[startIndex])
+                        output += argument[startIndex...index]
                     }
-                    output += argument[argument.index(after: startIndex)...index]
                 } else {
                     output.append(argument[index])
                 }

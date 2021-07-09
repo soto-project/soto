@@ -67,7 +67,7 @@ extension String {
         return self.replacingOccurrences(of: "-", with: "_").camelCased()
     }
 
-    public func reservedwordEscaped() -> String {
+    public func reservedwordEscaped() -> Self {
         if swiftReservedWords.contains(self.lowercased()) {
             return "`\(self)`"
         }
