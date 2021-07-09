@@ -98,17 +98,17 @@ extension AWSService {
 
         case .path(let argument, let expected):
             let expected = try generateExpectedValue(expected: expected)
-            let path = generatePathArgument(argument: argument)
+            let path = self.generatePathArgument(argument: argument)
             return .init(state: acceptor.state.rawValue, matcher: .jmesPath(path: path, expected: expected))
 
         case .anyPath(let argument, let expected):
             let expected = try generateExpectedValue(expected: expected)
-            let path = generatePathArgument(argument: argument)
+            let path = self.generatePathArgument(argument: argument)
             return .init(state: acceptor.state.rawValue, matcher: .jmesAnyPath(path: path, expected: expected))
 
         case .allPath(let argument, let expected):
             let expected = try generateExpectedValue(expected: expected)
-            let path = generatePathArgument(argument: argument)
+            let path = self.generatePathArgument(argument: argument)
             return .init(state: acceptor.state.rawValue, matcher: .jmesAllPath(path: path, expected: expected))
         }
     }
@@ -119,7 +119,7 @@ extension AWSService {
         // a field is any series of letters that don't end with a (
         var output: String = ""
         var index = argument.startIndex
-        var fieldStartIndex: String.Index? = nil
+        var fieldStartIndex: String.Index?
         while index != argument.endIndex {
             if argument[index].isLetter {
                 if fieldStartIndex == nil {

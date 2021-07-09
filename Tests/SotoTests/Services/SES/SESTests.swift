@@ -40,11 +40,11 @@ class SESTests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    /*func testSESIdentityExistsWaiter() {
-        let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
-            .flatMap{ _ in
-                return Self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
-            }
-        XCTAssertNoThrow(try response.wait())
-    }*/
+    /* func testSESIdentityExistsWaiter() {
+         let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
+             .flatMap{ _ in
+                 return Self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
+             }
+         XCTAssertNoThrow(try response.wait())
+     } */
 }
