@@ -30,6 +30,7 @@ extension EKS {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .failure, matcher: try! JMESPathMatcher("addon.status", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("addon.status", expected: "DEGRADED")),
                 .init(state: .success, matcher: try! JMESPathMatcher("addon.status", expected: "ACTIVE")),
             ],
             minDelayTime: .seconds(10),
