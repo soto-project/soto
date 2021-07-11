@@ -39,7 +39,7 @@ class LambdaTests: XCTestCase {
      rm lambda.js
 
      */
-    class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Lambda.FunctionConfiguration> {
+    class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Void> {
         // Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
         let functionCode = Lambda.FunctionCode(zipFile: Data(base64Encoded: code))
@@ -54,6 +54,9 @@ class LambdaTests: XCTestCase {
         )
         print("Creating Lambda Function : \(self.functionName)")
         return Self.lambda.createFunction(cfr)
+            .flatMap { _ in
+                Self.lambda.waitUntilFunctionExists(.init(functionName: self.functionName))
+            }
     }
 
     class func deleteLambdaFunction() -> EventLoopFuture<Void> {
@@ -86,6 +89,10 @@ class LambdaTests: XCTestCase {
 
         print("Creating IAM Role : \(self.functionExecutionRoleName)")
         return Self.iam.createRole(crr)
+            .flatMap { response in
+                Self.iam.waitUntilRoleExists(.init(roleName: self.functionExecutionRoleName))
+                    .map { _ in response }
+            }
     }
 
     class func deleteIAMRole() -> EventLoopFuture<Void> {
@@ -118,14 +125,14 @@ class LambdaTests: XCTestCase {
 
         // create an IAM role
         let response = Self.createIAMRole()
-            .flatMap { response -> EventLoopFuture<Lambda.FunctionConfiguration> in
+            .flatMap { response -> EventLoopFuture<Void> in
                 let eventLoop = Self.client.eventLoopGroup.next()
 
                 // IAM needs some time after Role creation,
                 // before the role can be attached to a Lambda function
                 // https://stackoverflow.com/a/37438525/663360
-                print("Sleeping 15 secs, waiting for IAM Role to be created")
-                let scheduled = eventLoop.flatScheduleTask(in: .seconds(15)) {
+                print("Sleeping 20 secs, waiting for IAM Role to be ready")
+                let scheduled = eventLoop.flatScheduleTask(in: .seconds(20)) {
                     // create a Lambda function
                     Self.createLambdaFunction(roleArn: response.role.arn)
                 }

@@ -111,14 +111,3 @@ struct PatchKeyPath4<Object, U, V, W, X>: PatchKeyPath {
         object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]?[keyPath: self.keyPath3]?[keyPath: self.keyPath4] = value
     }
 }
-
-/// Protocol for objects that can be patched.
-protocol PatchBase {}
-
-extension PatchBase {
-    /// extends object to include [patchKeyPath:] subscript
-    subscript<P: PatchKeyPath, T>(patchKeyPath patchKeyPath: P) -> T? where P.Base == Self, P.Value == T {
-        get { patchKeyPath.get(self) }
-        set(newValue) { newValue.map { patchKeyPath.set(&self, value: $0) } }
-    }
-}

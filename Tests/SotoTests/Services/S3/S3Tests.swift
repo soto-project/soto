@@ -630,6 +630,29 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testWaiters() {
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { _ in
+                Self.s3.putObject(.init(body: .string(contents), bucket: name, key: filename))
+            }
+            .flatMap { _ in
+                Self.s3.waitUntilObjectExists(.init(bucket: name, key: filename))
+            }
+            .flatMap { _ in
+                Self.s3.deleteObject(.init(bucket: name, key: filename))
+            }
+            .flatMap { _ in
+                Self.s3.waitUntilObjectNotExists(.init(bucket: name, key: filename))
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testError() {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }

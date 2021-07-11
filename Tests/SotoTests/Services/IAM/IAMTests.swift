@@ -55,6 +55,9 @@ class IAMTests: XCTestCase {
                     throw error
                 }
             }
+            .flatMap { _ in
+                Self.iam.waitUntilUserExists(.init(userName: userName))
+            }
     }
 
     func deleteUser(userName: String) -> EventLoopFuture<Void> {

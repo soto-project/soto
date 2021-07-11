@@ -64,7 +64,7 @@ class DynamoDBTests: XCTestCase {
                 }
             }
             .flatMap { (_) -> EventLoopFuture<Void> in
-                return self.waitForActiveTable(name: name, on: Self.dynamoDB.client.eventLoopGroup.next())
+                return Self.dynamoDB.waitUntilTableExists(.init(tableName: name))
             }
     }
 

@@ -75,6 +75,18 @@ class GlacierTests: XCTestCase {
         )
     }
 
+    func testWaiter() {
+        let vaultName = TestEnvironment.generateResourceName()
+        let response = Self.glacier.createVault(.init(accountId: "-", vaultName: vaultName))
+            .flatMap { _ in
+                Self.glacier.waitUntilVaultExists(.init(accountId: "-", vaultName: vaultName))
+            }
+            .flatAlways { _ in
+                Self.glacier.deleteVault(.init(accountId: "-", vaultName: vaultName))
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     func testError() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
