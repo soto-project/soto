@@ -30,9 +30,6 @@ extension AWSService {
     }
 
     enum MatcherContext {
-        case path(path: String, expected: String)
-        case anyPath(arrayPath: String, elementPath: String, expected: String)
-        case allPath(arrayPath: String, elementPath: String, expected: String)
         case jmesPath(path: String, expected: String)
         case jmesAnyPath(path: String, expected: String)
         case jmesAllPath(path: String, expected: String)

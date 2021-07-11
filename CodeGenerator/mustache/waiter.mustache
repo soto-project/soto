@@ -18,15 +18,6 @@ extension {{name}} {
         let waiter = AWSClient.Waiter(
             acceptors: [
 {{#acceptors}}
-{{#matcher.path}}
-                .init(state: .{{state}}, matcher: AWSPathMatcher(path: \{{operation.outputShape}}.{{path}}, expected: {{expected}})),
-{{/matcher.path}}
-{{#matcher.anyPath}}
-                .init(state: .{{state}}, matcher: AWSAnyPathMatcher(arrayPath: \{{operation.outputShape}}.{{arrayPath}}, elementPath: \{{elementPath}}, expected: {{expected}})),
-{{/matcher.anyPath}}
-{{#matcher.allPath}}
-                .init(state: .{{state}}, matcher: AWSAllPathMatcher(arrayPath: \{{operation.outputShape}}.{{arrayPath}}, elementPath: \{{elementPath}}, expected: {{expected}})),
-{{/matcher.allPath}}
 {{#matcher.jmesPath}}
                 .init(state: .{{state}}, matcher: try! JMESPathMatcher("{{path}}", expected: {{expected}})),
 {{/matcher.jmesPath}}
