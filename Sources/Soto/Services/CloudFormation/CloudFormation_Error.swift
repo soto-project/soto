@@ -38,6 +38,7 @@ public struct CloudFormationErrorType: AWSErrorType {
         case stackSetNotFoundException = "StackSetNotFoundException"
         case staleRequestException = "StaleRequestException"
         case tokenAlreadyExistsException = "TokenAlreadyExistsException"
+        case typeConfigurationNotFoundException = "TypeConfigurationNotFoundException"
         case typeNotFoundException = "TypeNotFoundException"
     }
 
@@ -97,7 +98,9 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var staleRequestException: Self { .init(.staleRequestException) }
     /// A client request token already exists.
     public static var tokenAlreadyExistsException: Self { .init(.tokenAlreadyExistsException) }
-    /// The specified type does not exist in the CloudFormation registry.
+    /// The specified extension configuration cannot be found.
+    public static var typeConfigurationNotFoundException: Self { .init(.typeConfigurationNotFoundException) }
+    /// The specified extension does not exist in the CloudFormation registry.
     public static var typeNotFoundException: Self { .init(.typeNotFoundException) }
 }
 

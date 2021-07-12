@@ -142,6 +142,148 @@ extension GreengrassV2 {
 
     // MARK: Shapes
 
+    public struct AssociateClientDeviceWithCoreDeviceEntry: AWSEncodableShape {
+        /// The name of the AWS IoT thing that represents the client device to associate.
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName
+        }
+    }
+
+    public struct AssociateClientDeviceWithCoreDeviceErrorEntry: AWSDecodableShape {
+        /// The error code for the request.
+        public let code: String?
+        /// A message that provides additional information about the error.
+        public let message: String?
+        /// The name of the AWS IoT thing whose associate request failed.
+        public let thingName: String?
+
+        public init(code: String? = nil, message: String? = nil, thingName: String? = nil) {
+            self.code = code
+            self.message = message
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+            case thingName
+        }
+    }
+
+    public struct AssociatedClientDevice: AWSDecodableShape {
+        /// The time that the client device was associated, expressed in ISO 8601 format.
+        public let associationTimestamp: Date?
+        /// The name of the AWS IoT thing that represents the associated client device.
+        public let thingName: String?
+
+        public init(associationTimestamp: Date? = nil, thingName: String? = nil) {
+            self.associationTimestamp = associationTimestamp
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationTimestamp
+            case thingName
+        }
+    }
+
+    public struct BatchAssociateClientDeviceWithCoreDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
+        ]
+
+        /// The name of the core device. This is also the name of the AWS IoT thing.
+        public let coreDeviceThingName: String
+        /// The list of client devices to associate.
+        public let entries: [AssociateClientDeviceWithCoreDeviceEntry]?
+
+        public init(coreDeviceThingName: String, entries: [AssociateClientDeviceWithCoreDeviceEntry]? = nil) {
+            self.coreDeviceThingName = coreDeviceThingName
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
+            try self.entries?.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 100)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries
+        }
+    }
+
+    public struct BatchAssociateClientDeviceWithCoreDeviceResponse: AWSDecodableShape {
+        /// The list of any errors for the entries in the request. Each error entry contains the name of the AWS IoT thing that failed to associate.
+        public let errorEntries: [AssociateClientDeviceWithCoreDeviceErrorEntry]?
+
+        public init(errorEntries: [AssociateClientDeviceWithCoreDeviceErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
+    public struct BatchDisassociateClientDeviceFromCoreDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName"))
+        ]
+
+        /// The name of the core device. This is also the name of the AWS IoT thing.
+        public let coreDeviceThingName: String
+        /// The list of client devices to disassociate.
+        public let entries: [DisassociateClientDeviceFromCoreDeviceEntry]?
+
+        public init(coreDeviceThingName: String, entries: [DisassociateClientDeviceFromCoreDeviceEntry]? = nil) {
+            self.coreDeviceThingName = coreDeviceThingName
+            self.entries = entries
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
+            try self.entries?.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.entries, name: "entries", parent: name, max: 100)
+            try self.validate(self.entries, name: "entries", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries
+        }
+    }
+
+    public struct BatchDisassociateClientDeviceFromCoreDeviceResponse: AWSDecodableShape {
+        /// The list of errors (if any) for the entries in the request. Each error entry contains the name of the AWS IoT thing that failed to disassociate.
+        public let errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]?
+
+        public init(errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]? = nil) {
+            self.errorEntries = errorEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+        }
+    }
+
     public struct CancelDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "deploymentId"))
@@ -790,6 +932,45 @@ extension GreengrassV2 {
         }
     }
 
+    public struct DisassociateClientDeviceFromCoreDeviceEntry: AWSEncodableShape {
+        /// The name of the AWS IoT thing that represents the client device to disassociate.
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName
+        }
+    }
+
+    public struct DisassociateClientDeviceFromCoreDeviceErrorEntry: AWSDecodableShape {
+        /// The error code for the request.
+        public let code: String?
+        /// A message that provides additional information about the error.
+        public let message: String?
+        /// The name of the AWS IoT thing whose disassociate request failed.
+        public let thingName: String?
+
+        public init(code: String? = nil, message: String? = nil, thingName: String? = nil) {
+            self.code = code
+            self.message = message
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
+            case thingName
+        }
+    }
+
     public struct EffectiveDeployment: AWSDecodableShape {
         /// The status of the deployment job on the AWS IoT Greengrass core device.
         public let coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus
@@ -1435,6 +1616,53 @@ extension GreengrassV2 {
             case destinationPath
             case permission
             case sourcePath
+        }
+    }
+
+    public struct ListClientDevicesAssociatedWithCoreDeviceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreDeviceThingName", location: .uri(locationName: "coreDeviceThingName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The name of the core device. This is also the name of the AWS IoT thing.
+        public let coreDeviceThingName: String
+        /// The maximum number of results to be returned per paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(coreDeviceThingName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.coreDeviceThingName = coreDeviceThingName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
+            try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListClientDevicesAssociatedWithCoreDeviceResponse: AWSDecodableShape {
+        /// A list that describes the client devices that are associated with the core device.
+        public let associatedClientDevices: [AssociatedClientDevice]?
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(associatedClientDevices: [AssociatedClientDevice]? = nil, nextToken: String? = nil) {
+            self.associatedClientDevices = associatedClientDevices
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedClientDevices
+            case nextToken
         }
     }
 

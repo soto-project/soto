@@ -37,6 +37,7 @@ public struct DAXErrorType: AWSErrorType {
         case parameterGroupNotFoundFault = "ParameterGroupNotFoundFault"
         case parameterGroupQuotaExceededFault = "ParameterGroupQuotaExceededFault"
         case serviceLinkedRoleNotFoundFault = "ServiceLinkedRoleNotFoundFault"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case subnetGroupAlreadyExistsFault = "SubnetGroupAlreadyExistsFault"
         case subnetGroupInUseFault = "SubnetGroupInUseFault"
         case subnetGroupNotFoundFault = "SubnetGroupNotFoundFault"
@@ -101,6 +102,8 @@ public struct DAXErrorType: AWSErrorType {
     public static var parameterGroupQuotaExceededFault: Self { .init(.parameterGroupQuotaExceededFault) }
     /// The specified service linked role (SLR) was not found.
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
+    /// You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact AWS customer support to discuss options for continuing to create encrypted clusters.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The specified subnet group already exists.
     public static var subnetGroupAlreadyExistsFault: Self { .init(.subnetGroupAlreadyExistsFault) }
     /// The specified subnet group is currently in use.

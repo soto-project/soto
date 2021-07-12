@@ -213,12 +213,10 @@ extension Macie2 {
     }
 
     public enum ScopeFilterKey: String, CustomStringConvertible, Codable {
-        case bucketCreationDate = "BUCKET_CREATION_DATE"
         case objectExtension = "OBJECT_EXTENSION"
         case objectKey = "OBJECT_KEY"
         case objectLastModifiedDate = "OBJECT_LAST_MODIFIED_DATE"
         case objectSize = "OBJECT_SIZE"
-        case tag = "TAG"
         public var description: String { return self.rawValue }
     }
 
@@ -3922,14 +3920,16 @@ extension Macie2 {
         ]
 
         public let action: FindingsFilterAction?
+        public let clientToken: String?
         public let description: String?
         public let findingCriteria: FindingCriteria?
         public let id: String
         public let name: String?
         public let position: Int?
 
-        public init(action: FindingsFilterAction? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, id: String, name: String? = nil, position: Int? = nil) {
+        public init(action: FindingsFilterAction? = nil, clientToken: String? = UpdateFindingsFilterRequest.idempotencyToken(), description: String? = nil, findingCriteria: FindingCriteria? = nil, id: String, name: String? = nil, position: Int? = nil) {
             self.action = action
+            self.clientToken = clientToken
             self.description = description
             self.findingCriteria = findingCriteria
             self.id = id
@@ -3939,6 +3939,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case action
+            case clientToken
             case description
             case findingCriteria
             case name

@@ -55,13 +55,13 @@ public struct STSErrorType: AWSErrorType {
     public static var iDPRejectedClaimException: Self { .init(.iDPRejectedClaimException) }
     /// The error returned if the message passed to DecodeAuthorizationMessage was invalid. This can happen if the token contains invalid characters, such as linebreaks.
     public static var invalidAuthorizationMessageException: Self { .init(.invalidAuthorizationMessageException) }
-    /// The web identity token that was passed could not be validated by AWS. Get a new identity token from the identity provider and then retry the request.
+    /// The web identity token that was passed could not be validated by Amazon Web Services. Get a new identity token from the identity provider and then retry the request.
     public static var invalidIdentityTokenException: Self { .init(.invalidIdentityTokenException) }
     /// The request was rejected because the policy document was malformed. The error message describes the specific error.
     public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
-    /// The request was rejected because the total packed size of the session policies and session tags combined was too large. An AWS conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see Passing Session Tags in STS in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see IAM and STS Entity Character Limits in the IAM User Guide.
+    /// The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see Passing Session Tags in STS in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see IAM and STS Entity Character Limits in the IAM User Guide.
     public static var packedPolicyTooLargeException: Self { .init(.packedPolicyTooLargeException) }
-    /// STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the IAM User Guide.
+    /// STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the IAM User Guide.
     public static var regionDisabledException: Self { .init(.regionDisabledException) }
 }
 

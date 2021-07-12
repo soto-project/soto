@@ -931,6 +931,8 @@ extension SecurityHub {
         public let apiGatewayManaged: Bool?
         /// Indicates whether updates to an API automatically trigger a new deployment.
         public let autoDeploy: Bool?
+        /// The identifier of a client certificate for a stage. Supported only for WebSocket API calls.
+        public let clientCertificateId: String?
         /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createdDate: String?
         /// Default route settings for the stage.
@@ -950,10 +952,11 @@ extension SecurityHub {
         /// A map that defines the stage variables for the stage. Variable names can have alphanumeric and underscore characters. Variable values can contain the following characters:   Uppercase and lowercase letters   Numbers   Special characters -._~:/?#&amp;=,
         public let stageVariables: [String: String]?
 
-        public init(accessLogSettings: AwsApiGatewayAccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, createdDate: String? = nil, defaultRouteSettings: AwsApiGatewayV2RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: String? = nil, routeSettings: AwsApiGatewayV2RouteSettings? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
+        public init(accessLogSettings: AwsApiGatewayAccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: String? = nil, defaultRouteSettings: AwsApiGatewayV2RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: String? = nil, routeSettings: AwsApiGatewayV2RouteSettings? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
             self.autoDeploy = autoDeploy
+            self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
             self.defaultRouteSettings = defaultRouteSettings
             self.deploymentId = deploymentId
@@ -967,6 +970,7 @@ extension SecurityHub {
 
         public func validate(name: String) throws {
             try self.accessLogSettings?.validate(name: "\(name).accessLogSettings")
+            try self.validate(self.clientCertificateId, name: "clientCertificateId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.createdDate, name: "createdDate", parent: name, pattern: ".*\\S.*")
             try self.defaultRouteSettings?.validate(name: "\(name).defaultRouteSettings")
             try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: ".*\\S.*")
@@ -985,6 +989,7 @@ extension SecurityHub {
             case accessLogSettings = "AccessLogSettings"
             case apiGatewayManaged = "ApiGatewayManaged"
             case autoDeploy = "AutoDeploy"
+            case clientCertificateId = "ClientCertificateId"
             case createdDate = "CreatedDate"
             case defaultRouteSettings = "DefaultRouteSettings"
             case deploymentId = "DeploymentId"
@@ -1689,7 +1694,7 @@ extension SecurityHub {
     }
 
     public struct AwsCodeBuildProjectDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) used to encrypt the build output artifacts. You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK alias (using the format alias/alias-name).
+        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) used to encrypt the build output artifacts. You can specify either the ARN of the CMK or, if available, the CMK alias (using the format alias/alias-name).
         public let encryptionKey: String?
         /// Information about the build environment for this build project.
         public let environment: AwsCodeBuildProjectEnvironment?
@@ -1763,7 +1768,7 @@ extension SecurityHub {
     }
 
     public struct AwsCodeBuildProjectEnvironmentRegistryCredential: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) or name of credentials created using AWS Secrets Manager.  The credential can use the name of the credentials only if they exist in your current AWS Region.
+        /// The ARN or name of credentials created using AWS Secrets Manager.  The credential can use the name of the credentials only if they exist in your current AWS Region.
         public let credential: String?
         /// The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for AWS Secrets Manager.
         public let credentialProvider: String?
@@ -2458,6 +2463,8 @@ extension SecurityHub {
         public let keyName: String?
         /// Indicates when the instance was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
+        /// The identifiers of the network interfaces for the EC2 instance. The details for each network interface are in a corresponding AwsEc2NetworkInterfacesDetails object.
+        public let networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]?
         /// The identifier of the subnet that the instance was launched in.
         public let subnetId: String?
         /// The instance type of the instance.
@@ -2465,13 +2472,14 @@ extension SecurityHub {
         /// The identifier of the VPC that the instance was launched in.
         public let vpcId: String?
 
-        public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, subnetId: String? = nil, type: String? = nil, vpcId: String? = nil) {
+        public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]? = nil, subnetId: String? = nil, type: String? = nil, vpcId: String? = nil) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
             self.ipV4Addresses = ipV4Addresses
             self.ipV6Addresses = ipV6Addresses
             self.keyName = keyName
             self.launchedAt = launchedAt
+            self.networkInterfaces = networkInterfaces
             self.subnetId = subnetId
             self.type = type
             self.vpcId = vpcId
@@ -2488,6 +2496,9 @@ extension SecurityHub {
             }
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: ".*\\S.*")
             try self.validate(self.launchedAt, name: "launchedAt", parent: name, pattern: ".*\\S.*")
+            try self.networkInterfaces?.forEach {
+                try $0.validate(name: "\(name).networkInterfaces[]")
+            }
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
@@ -2500,9 +2511,27 @@ extension SecurityHub {
             case ipV6Addresses = "IpV6Addresses"
             case keyName = "KeyName"
             case launchedAt = "LaunchedAt"
+            case networkInterfaces = "NetworkInterfaces"
             case subnetId = "SubnetId"
             case type = "Type"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsEc2InstanceNetworkInterfacesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the network interface. The details are in a corresponding AwsEc2NetworkInterfacesDetails object.
+        public let networkInterfaceId: String?
+
+        public init(networkInterfaceId: String? = nil) {
+            self.networkInterfaceId = networkInterfaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInterfaceId = "NetworkInterfaceId"
         }
     }
 
@@ -2946,7 +2975,7 @@ extension SecurityHub {
         public let groupName: String?
         /// The status of a VPC peering connection, if applicable.
         public let peeringStatus: String?
-        /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned in the response. If the referenced security group is deleted, this value is not returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS.
+        /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned in the response. If the referenced security group is deleted, this value is not returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another VPC.
         public let userId: String?
         /// The ID of the VPC for the referenced security group, if applicable.
         public let vpcId: String?
@@ -3170,6 +3199,1251 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsEcsClusterClusterSettingsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the setting.
+        public let name: String?
+        /// The value of the setting.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsEcsClusterConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the run command configuration for the cluster.
+        public let executeCommandConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationDetails?
+
+        public init(executeCommandConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationDetails? = nil) {
+            self.executeCommandConfiguration = executeCommandConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.executeCommandConfiguration?.validate(name: "\(name).executeCommandConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executeCommandConfiguration = "ExecuteCommandConfiguration"
+        }
+    }
+
+    public struct AwsEcsClusterConfigurationExecuteCommandConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the KMS key that is used to encrypt the data between the local client and the container.
+        public let kmsKeyId: String?
+        /// The log configuration for the results of the run command actions. Required if Logging is NONE.
+        public let logConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails?
+        /// The log setting to use for redirecting logs for run command results.
+        public let logging: String?
+
+        public init(kmsKeyId: String? = nil, logConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails? = nil, logging: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.logConfiguration = logConfiguration
+            self.logging = logging
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*\\S.*")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
+            try self.validate(self.logging, name: "logging", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case logConfiguration = "LogConfiguration"
+            case logging = "Logging"
+        }
+    }
+
+    public struct AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to enable encryption on the CloudWatch logs.
+        public let cloudWatchEncryptionEnabled: Bool?
+        /// The name of the CloudWatch log group to send the logs to.
+        public let cloudWatchLogGroupName: String?
+        /// The name of the S3 bucket to send logs to.
+        public let s3BucketName: String?
+        /// Whether to encrypt the logs that are sent to the S3 bucket.
+        public let s3EncryptionEnabled: Bool?
+        /// Identifies the folder in the S3 bucket to send the logs to.
+        public let s3KeyPrefix: String?
+
+        public init(cloudWatchEncryptionEnabled: Bool? = nil, cloudWatchLogGroupName: String? = nil, s3BucketName: String? = nil, s3EncryptionEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
+            self.cloudWatchEncryptionEnabled = cloudWatchEncryptionEnabled
+            self.cloudWatchLogGroupName = cloudWatchLogGroupName
+            self.s3BucketName = s3BucketName
+            self.s3EncryptionEnabled = s3EncryptionEnabled
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudWatchLogGroupName, name: "cloudWatchLogGroupName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchEncryptionEnabled = "CloudWatchEncryptionEnabled"
+            case cloudWatchLogGroupName = "CloudWatchLogGroupName"
+            case s3BucketName = "S3BucketName"
+            case s3EncryptionEnabled = "S3EncryptionEnabled"
+            case s3KeyPrefix = "S3KeyPrefix"
+        }
+    }
+
+    public struct AwsEcsClusterDefaultCapacityProviderStrategyDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum number of tasks to run on the specified capacity provider.
+        public let base: Int?
+        /// The name of the capacity provider.
+        public let capacityProvider: String?
+        /// The relative percentage of the total number of tasks launched that should use the capacity provider.
+        public let weight: Int?
+
+        public init(base: Int? = nil, capacityProvider: String? = nil, weight: Int? = nil) {
+            self.base = base
+            self.capacityProvider = capacityProvider
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityProvider, name: "capacityProvider", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case base = "Base"
+            case capacityProvider = "CapacityProvider"
+            case weight = "Weight"
+        }
+    }
+
+    public struct AwsEcsClusterDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The short name of one or more capacity providers to associate with the cluster.
+        public let capacityProviders: [String]?
+        /// The setting to use to create the cluster. Specifically used to configure whether to enable CloudWatch Container Insights for the cluster.
+        public let clusterSettings: [AwsEcsClusterClusterSettingsDetails]?
+        /// The run command configuration for the cluster.
+        public let configuration: AwsEcsClusterConfigurationDetails?
+        /// The default capacity provider strategy for the cluster. The default capacity provider strategy is used when services or tasks are run without a specified launch type or capacity provider strategy.
+        public let defaultCapacityProviderStrategy: [AwsEcsClusterDefaultCapacityProviderStrategyDetails]?
+
+        public init(capacityProviders: [String]? = nil, clusterSettings: [AwsEcsClusterClusterSettingsDetails]? = nil, configuration: AwsEcsClusterConfigurationDetails? = nil, defaultCapacityProviderStrategy: [AwsEcsClusterDefaultCapacityProviderStrategyDetails]? = nil) {
+            self.capacityProviders = capacityProviders
+            self.clusterSettings = clusterSettings
+            self.configuration = configuration
+            self.defaultCapacityProviderStrategy = defaultCapacityProviderStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.capacityProviders?.forEach {
+                try validate($0, name: "capacityProviders[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.clusterSettings?.forEach {
+                try $0.validate(name: "\(name).clusterSettings[]")
+            }
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.defaultCapacityProviderStrategy?.forEach {
+                try $0.validate(name: "\(name).defaultCapacityProviderStrategy[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProviders = "CapacityProviders"
+            case clusterSettings = "ClusterSettings"
+            case configuration = "Configuration"
+            case defaultCapacityProviderStrategy = "DefaultCapacityProviderStrategy"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The dependency condition of the dependent container. Indicates the required status of the dependent container before the current container can start.
+        public let condition: String?
+        /// The name of the dependent container.
+        public let containerName: String?
+
+        public init(condition: String? = nil, containerName: String? = nil) {
+            self.condition = condition
+            self.containerName = containerName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.condition, name: "condition", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.containerName, name: "containerName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case containerName = "ContainerName"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The command that is passed to the container.
+        public let command: [String]?
+        /// The number of CPU units reserved for the container.
+        public let cpu: Int?
+        /// The dependencies that are defined for container startup and shutdown.
+        public let dependsOn: [AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails]?
+        /// Whether to disable networking within the container.
+        public let disableNetworking: Bool?
+        /// A list of DNS search domains that are presented to the container.
+        public let dnsSearchDomains: [String]?
+        /// A list of DNS servers that are presented to the container.
+        public let dnsServers: [String]?
+        /// A key-value map of labels to add to the container.
+        public let dockerLabels: [String: String]?
+        /// A list of strings to provide custom labels for SELinux and AppArmor multi-level security systems.
+        public let dockerSecurityOptions: [String]?
+        /// The entry point that is passed to the container.
+        public let entryPoint: [String]?
+        /// The environment variables to pass to a container.
+        public let environment: [AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails]?
+        /// A list of files containing the environment variables to pass to a container.
+        public let environmentFiles: [AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails]?
+        /// Whether the container is essential. All tasks must have at least one essential container.
+        public let essential: Bool?
+        /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container.
+        public let extraHosts: [AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails]?
+        /// The FireLens configuration for the container. Specifies and configures a log router for container logs.
+        public let firelensConfiguration: AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails?
+        /// The container health check command and associated configuration parameters for the container.
+        public let healthCheck: AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails?
+        /// The hostname to use for the container.
+        public let hostname: String?
+        /// The image used to start the container.
+        public let image: String?
+        /// If set to true, then containerized applications can be deployed that require stdin or a tty to be allocated.
+        public let interactive: Bool?
+        /// A list of links for the container in the form  container_name:alias . Allows containers to communicate with each other without the need for port mappings.
+        public let links: [String]?
+        /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities.
+        public let linuxParameters: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails?
+        /// The log configuration specification for the container.
+        public let logConfiguration: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails?
+        /// The amount (in MiB) of memory to present to the container. If the container attempts to exceed the memory specified here, the container is shut down. The total amount of memory reserved for all containers within a task must be lower than the task memory value, if one is specified.
+        public let memory: Int?
+        /// The soft limit (in MiB) of memory to reserve for the container.
+        public let memoryReservation: Int?
+        /// The mount points for the data volumes in the container.
+        public let mountPoints: [AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails]?
+        /// The name of the container.
+        public let name: String?
+        /// The list of port mappings for the container.
+        public let portMappings: [AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails]?
+        /// Whether the container is given elevated privileges on the host container instance. The elevated privileges are similar to the root user.
+        public let privileged: Bool?
+        /// Whether to allocate a TTY to the container.
+        public let pseudoTerminal: Bool?
+        /// Whether the container is given read-only access to its root file system.
+        public let readonlyRootFilesystem: Bool?
+        /// The private repository authentication credentials to use.
+        public let repositoryCredentials: AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails?
+        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        public let resourceRequirements: [AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails]?
+        /// The secrets to pass to the container.
+        public let secrets: [AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails]?
+        /// The number of seconds to wait before giving up on resolving dependencies for a container.
+        public let startTimeout: Int?
+        /// The number of seconds to wait before the container is stopped if it doesn't shut down normally on its own.
+        public let stopTimeout: Int?
+        /// A list of namespaced kernel parameters to set in the container.
+        public let systemControls: [AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails]?
+        /// A list of ulimits to set in the container.
+        public let ulimits: [AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails]?
+        /// The user to use inside the container. The value can use one of the following formats.     user       user : group       uid       uid : gid       user : gid       uid : group
+        public let user: String?
+        /// Data volumes to mount from another container.
+        public let volumesFrom: [AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails]?
+        /// The working directory in which to run commands inside the container.
+        public let workingDirectory: String?
+
+        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails]? = nil, environmentFiles: [AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails]? = nil, essential: Bool? = nil, extraHosts: [AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails]? = nil, firelensConfiguration: AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails? = nil, healthCheck: AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails? = nil, logConfiguration: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails]? = nil, name: String? = nil, portMappings: [AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails? = nil, resourceRequirements: [AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails]? = nil, secrets: [AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails]? = nil, ulimits: [AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails]? = nil, user: String? = nil, volumesFrom: [AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails]? = nil, workingDirectory: String? = nil) {
+            self.command = command
+            self.cpu = cpu
+            self.dependsOn = dependsOn
+            self.disableNetworking = disableNetworking
+            self.dnsSearchDomains = dnsSearchDomains
+            self.dnsServers = dnsServers
+            self.dockerLabels = dockerLabels
+            self.dockerSecurityOptions = dockerSecurityOptions
+            self.entryPoint = entryPoint
+            self.environment = environment
+            self.environmentFiles = environmentFiles
+            self.essential = essential
+            self.extraHosts = extraHosts
+            self.firelensConfiguration = firelensConfiguration
+            self.healthCheck = healthCheck
+            self.hostname = hostname
+            self.image = image
+            self.interactive = interactive
+            self.links = links
+            self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
+            self.memory = memory
+            self.memoryReservation = memoryReservation
+            self.mountPoints = mountPoints
+            self.name = name
+            self.portMappings = portMappings
+            self.privileged = privileged
+            self.pseudoTerminal = pseudoTerminal
+            self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.repositoryCredentials = repositoryCredentials
+            self.resourceRequirements = resourceRequirements
+            self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
+            self.systemControls = systemControls
+            self.ulimits = ulimits
+            self.user = user
+            self.volumesFrom = volumesFrom
+            self.workingDirectory = workingDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.command?.forEach {
+                try validate($0, name: "command[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.dependsOn?.forEach {
+                try $0.validate(name: "\(name).dependsOn[]")
+            }
+            try self.dnsSearchDomains?.forEach {
+                try validate($0, name: "dnsSearchDomains[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.dnsServers?.forEach {
+                try validate($0, name: "dnsServers[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.dockerLabels?.forEach {
+                try validate($0.key, name: "dockerLabels.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "dockerLabels[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.dockerSecurityOptions?.forEach {
+                try validate($0, name: "dockerSecurityOptions[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.entryPoint?.forEach {
+                try validate($0, name: "entryPoint[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.environment?.forEach {
+                try $0.validate(name: "\(name).environment[]")
+            }
+            try self.environmentFiles?.forEach {
+                try $0.validate(name: "\(name).environmentFiles[]")
+            }
+            try self.extraHosts?.forEach {
+                try $0.validate(name: "\(name).extraHosts[]")
+            }
+            try self.firelensConfiguration?.validate(name: "\(name).firelensConfiguration")
+            try self.healthCheck?.validate(name: "\(name).healthCheck")
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.image, name: "image", parent: name, pattern: ".*\\S.*")
+            try self.links?.forEach {
+                try validate($0, name: "links[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.linuxParameters?.validate(name: "\(name).linuxParameters")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
+            try self.mountPoints?.forEach {
+                try $0.validate(name: "\(name).mountPoints[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.portMappings?.forEach {
+                try $0.validate(name: "\(name).portMappings[]")
+            }
+            try self.repositoryCredentials?.validate(name: "\(name).repositoryCredentials")
+            try self.resourceRequirements?.forEach {
+                try $0.validate(name: "\(name).resourceRequirements[]")
+            }
+            try self.secrets?.forEach {
+                try $0.validate(name: "\(name).secrets[]")
+            }
+            try self.systemControls?.forEach {
+                try $0.validate(name: "\(name).systemControls[]")
+            }
+            try self.ulimits?.forEach {
+                try $0.validate(name: "\(name).ulimits[]")
+            }
+            try self.validate(self.user, name: "user", parent: name, pattern: ".*\\S.*")
+            try self.volumesFrom?.forEach {
+                try $0.validate(name: "\(name).volumesFrom[]")
+            }
+            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "Command"
+            case cpu = "Cpu"
+            case dependsOn = "DependsOn"
+            case disableNetworking = "DisableNetworking"
+            case dnsSearchDomains = "DnsSearchDomains"
+            case dnsServers = "DnsServers"
+            case dockerLabels = "DockerLabels"
+            case dockerSecurityOptions = "DockerSecurityOptions"
+            case entryPoint = "EntryPoint"
+            case environment = "Environment"
+            case environmentFiles = "EnvironmentFiles"
+            case essential = "Essential"
+            case extraHosts = "ExtraHosts"
+            case firelensConfiguration = "FirelensConfiguration"
+            case healthCheck = "HealthCheck"
+            case hostname = "Hostname"
+            case image = "Image"
+            case interactive = "Interactive"
+            case links = "Links"
+            case linuxParameters = "LinuxParameters"
+            case logConfiguration = "LogConfiguration"
+            case memory = "Memory"
+            case memoryReservation = "MemoryReservation"
+            case mountPoints = "MountPoints"
+            case name = "Name"
+            case portMappings = "PortMappings"
+            case privileged = "Privileged"
+            case pseudoTerminal = "PseudoTerminal"
+            case readonlyRootFilesystem = "ReadonlyRootFilesystem"
+            case repositoryCredentials = "RepositoryCredentials"
+            case resourceRequirements = "ResourceRequirements"
+            case secrets = "Secrets"
+            case startTimeout = "StartTimeout"
+            case stopTimeout = "StopTimeout"
+            case systemControls = "SystemControls"
+            case ulimits = "Ulimits"
+            case user = "User"
+            case volumesFrom = "VolumesFrom"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the environment variable.
+        public let name: String?
+        /// The value of the environment variable.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The type of environment file.
+        public let type: String?
+        /// The ARN of the S3 object that contains the environment variable file.
+        public let value: String?
+
+        public init(type: String? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The hostname to use in the /etc/hosts entry.
+        public let hostname: String?
+        /// The IP address to use in the /etc/hosts entry.
+        public let ipAddress: String?
+
+        public init(hostname: String? = nil, ipAddress: String? = nil) {
+            self.hostname = hostname
+            self.ipAddress = ipAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname = "Hostname"
+            case ipAddress = "IpAddress"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The options to use to configure the log router. The valid option keys are as follows:    enable-ecs-log-metadata. The value can be true or false.    config-file-type. The value can be s3 or file.    config-file-value. The value is either an S3 ARN or a file path.
+        public let options: [String: String]?
+        /// The log router to use.
+        public let type: String?
+
+        public init(options: [String: String]? = nil, type: String? = nil) {
+            self.options = options
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.options?.forEach {
+                try validate($0.key, name: "options.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "options[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The command that the container runs to determine whether it is healthy.
+        public let command: [String]?
+        /// The time period in seconds between each health check execution. The default value is 30 seconds.
+        public let interval: Int?
+        /// The number of times to retry a failed health check before the container is considered unhealthy. The default value is 3.
+        public let retries: Int?
+        /// The optional grace period in seconds that allows containers time to bootstrap before failed health checks count towards the maximum number of retries.
+        public let startPeriod: Int?
+        /// The time period in seconds to wait for a health check to succeed before it is considered a failure. The default value is 5.
+        public let timeout: Int?
+
+        public init(command: [String]? = nil, interval: Int? = nil, retries: Int? = nil, startPeriod: Int? = nil, timeout: Int? = nil) {
+            self.command = command
+            self.interval = interval
+            self.retries = retries
+            self.startPeriod = startPeriod
+            self.timeout = timeout
+        }
+
+        public func validate(name: String) throws {
+            try self.command?.forEach {
+                try validate($0, name: "command[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "Command"
+            case interval = "Interval"
+            case retries = "Retries"
+            case startPeriod = "StartPeriod"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Linux capabilities for the container that are added to the default configuration provided by Docker.
+        public let add: [String]?
+        /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker.
+        public let drop: [String]?
+
+        public init(add: [String]? = nil, drop: [String]? = nil) {
+            self.add = add
+            self.drop = drop
+        }
+
+        public func validate(name: String) throws {
+            try self.add?.forEach {
+                try validate($0, name: "add[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.drop?.forEach {
+                try validate($0, name: "drop[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case add = "Add"
+            case drop = "Drop"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.
+        public let capabilities: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails?
+        /// The host devices to expose to the container.
+        public let devices: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails]?
+        /// Whether to run an init process inside the container that forwards signals and reaps processes.
+        public let initProcessEnabled: Bool?
+        /// The total amount of swap memory (in MiB) that a container can use.
+        public let maxSwap: Int?
+        /// The value for the size (in MiB) of the /dev/shm volume.
+        public let sharedMemorySize: Int?
+        /// Configures the container's memory swappiness behavior. Determines how aggressively pages are swapped. The higher the value, the more aggressive the swappiness. The default is 60.
+        public let swappiness: Int?
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount.
+        public let tmpfs: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]?
+
+        public init(capabilities: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails? = nil, devices: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails]? = nil, initProcessEnabled: Bool? = nil, maxSwap: Int? = nil, sharedMemorySize: Int? = nil, swappiness: Int? = nil, tmpfs: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]? = nil) {
+            self.capabilities = capabilities
+            self.devices = devices
+            self.initProcessEnabled = initProcessEnabled
+            self.maxSwap = maxSwap
+            self.sharedMemorySize = sharedMemorySize
+            self.swappiness = swappiness
+            self.tmpfs = tmpfs
+        }
+
+        public func validate(name: String) throws {
+            try self.capabilities?.validate(name: "\(name).capabilities")
+            try self.devices?.forEach {
+                try $0.validate(name: "\(name).devices[]")
+            }
+            try self.tmpfs?.forEach {
+                try $0.validate(name: "\(name).tmpfs[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case devices = "Devices"
+            case initProcessEnabled = "InitProcessEnabled"
+            case maxSwap = "MaxSwap"
+            case sharedMemorySize = "SharedMemorySize"
+            case swappiness = "Swappiness"
+            case tmpfs = "Tmpfs"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The path inside the container at which to expose the host device.
+        public let containerPath: String?
+        /// The path for the device on the host container instance.
+        public let hostPath: String?
+        /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
+        public let permissions: [String]?
+
+        public init(containerPath: String? = nil, hostPath: String? = nil, permissions: [String]? = nil) {
+            self.containerPath = containerPath
+            self.hostPath = hostPath
+            self.permissions = permissions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerPath, name: "containerPath", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.hostPath, name: "hostPath", parent: name, pattern: ".*\\S.*")
+            try self.permissions?.forEach {
+                try validate($0, name: "permissions[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPath = "ContainerPath"
+            case hostPath = "HostPath"
+            case permissions = "Permissions"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The absolute file path where the tmpfs volume is to be mounted.
+        public let containerPath: String?
+        /// The list of tmpfs volume mount options.
+        public let mountOptions: [String]?
+        /// The maximum size (in MiB) of the tmpfs volume.
+        public let size: Int?
+
+        public init(containerPath: String? = nil, mountOptions: [String]? = nil, size: Int? = nil) {
+            self.containerPath = containerPath
+            self.mountOptions = mountOptions
+            self.size = size
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerPath, name: "containerPath", parent: name, pattern: ".*\\S.*")
+            try self.mountOptions?.forEach {
+                try validate($0, name: "mountOptions[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPath = "ContainerPath"
+            case mountOptions = "MountOptions"
+            case size = "Size"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The log driver to use for the container.
+        public let logDriver: String?
+        /// The configuration options to send to the log driver. Requires version 1.19 of the Docker Remote API or greater on your container instance.
+        public let options: [String: String]?
+        /// The secrets to pass to the log configuration.
+        public let secretOptions: [AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails]?
+
+        public init(logDriver: String? = nil, options: [String: String]? = nil, secretOptions: [AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails]? = nil) {
+            self.logDriver = logDriver
+            self.options = options
+            self.secretOptions = secretOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logDriver, name: "logDriver", parent: name, pattern: ".*\\S.*")
+            try self.options?.forEach {
+                try validate($0.key, name: "options.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "options[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.secretOptions?.forEach {
+                try $0.validate(name: "\(name).secretOptions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logDriver = "LogDriver"
+            case options = "Options"
+            case secretOptions = "SecretOptions"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the secret.
+        public let name: String?
+        /// The secret to expose to the container. The value is either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the Systems Manager Parameter Store.
+        public let valueFrom: String?
+
+        public init(name: String? = nil, valueFrom: String? = nil) {
+            self.name = name
+            self.valueFrom = valueFrom
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.valueFrom, name: "valueFrom", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case valueFrom = "ValueFrom"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The path on the container to mount the host volume at.
+        public let containerPath: String?
+        /// Whether the container has read-only access to the volume.
+        public let readOnly: Bool?
+        /// The name of the volume to mount. Must match the name of a volume listed in VolumeDetails for the task definition.
+        public let sourceVolume: String?
+
+        public init(containerPath: String? = nil, readOnly: Bool? = nil, sourceVolume: String? = nil) {
+            self.containerPath = containerPath
+            self.readOnly = readOnly
+            self.sourceVolume = sourceVolume
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerPath, name: "containerPath", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sourceVolume, name: "sourceVolume", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPath = "ContainerPath"
+            case readOnly = "ReadOnly"
+            case sourceVolume = "SourceVolume"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The port number on the container that is bound to the user-specified or automatically assigned host port.
+        public let containerPort: Int?
+        /// The port number on the container instance to reserve for the container.
+        public let hostPort: Int?
+        /// The protocol used for the port mapping. The default is tcp.
+        public let `protocol`: String?
+
+        public init(containerPort: Int? = nil, hostPort: Int? = nil, protocol: String? = nil) {
+            self.containerPort = containerPort
+            self.hostPort = hostPort
+            self.`protocol` = `protocol`
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.`protocol`, name: "`protocol`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPort = "ContainerPort"
+            case hostPort = "HostPort"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the secret that contains the private repository credentials.
+        public let credentialsParameter: String?
+
+        public init(credentialsParameter: String? = nil) {
+            self.credentialsParameter = credentialsParameter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialsParameter, name: "credentialsParameter", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialsParameter = "CredentialsParameter"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The type of resource to assign to a container.
+        public let type: String?
+        /// The value for the specified resource type. For GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. For InferenceAccelerator, the value should match the DeviceName attribute of an entry in InferenceAccelerators.
+        public let value: String?
+
+        public init(type: String? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the secret.
+        public let name: String?
+        /// The secret to expose to the container. The value is either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the Systems Manager Parameter Store.
+        public let valueFrom: String?
+
+        public init(name: String? = nil, valueFrom: String? = nil) {
+            self.name = name
+            self.valueFrom = valueFrom
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.valueFrom, name: "valueFrom", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case valueFrom = "ValueFrom"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The namespaced kernel parameter for which to set a value.
+        public let namespace: String?
+        /// The value of the parameter.
+        public let value: String?
+
+        public init(namespace: String? = nil, value: String? = nil) {
+            self.namespace = namespace
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The hard limit for the ulimit type.
+        public let hardLimit: Int?
+        /// The type of the ulimit.
+        public let name: String?
+        /// The soft limit for the ulimit type.
+        public let softLimit: Int?
+
+        public init(hardLimit: Int? = nil, name: String? = nil, softLimit: Int? = nil) {
+            self.hardLimit = hardLimit
+            self.name = name
+            self.softLimit = softLimit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hardLimit = "HardLimit"
+            case name = "Name"
+            case softLimit = "SoftLimit"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Whether the container has read-only access to the volume.
+        public let readOnly: Bool?
+        /// The name of another container within the same task definition from which to mount volumes.
+        public let sourceContainer: String?
+
+        public init(readOnly: Bool? = nil, sourceContainer: String? = nil) {
+            self.readOnly = readOnly
+            self.sourceContainer = sourceContainer
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceContainer, name: "sourceContainer", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readOnly = "ReadOnly"
+            case sourceContainer = "SourceContainer"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The container definitions that describe the containers that make up the task.
+        public let containerDefinitions: [AwsEcsTaskDefinitionContainerDefinitionsDetails]?
+        /// The number of CPU units used by the task.
+        public let cpu: String?
+        /// The ARN of the task execution role that grants the container agent permission to make API calls on behalf of the container user.
+        public let executionRoleArn: String?
+        /// The name of a family that this task definition is registered to.
+        public let family: String?
+        /// The Elastic Inference accelerators to use for the containers in the task.
+        public let inferenceAccelerators: [AwsEcsTaskDefinitionInferenceAcceleratorsDetails]?
+        /// The IPC resource namespace to use for the containers in the task.
+        public let ipcMode: String?
+        /// The amount (in MiB) of memory used by the task.
+        public let memory: String?
+        /// The Docker networking mode to use for the containers in the task.
+        public let networkMode: String?
+        /// The process namespace to use for the containers in the task.
+        public let pidMode: String?
+        /// The placement constraint objects to use for tasks.
+        public let placementConstraints: [AwsEcsTaskDefinitionPlacementConstraintsDetails]?
+        /// The configuration details for the App Mesh proxy.
+        public let proxyConfiguration: AwsEcsTaskDefinitionProxyConfigurationDetails?
+        /// The task launch types that the task definition was validated against.
+        public let requiresCompatibilities: [String]?
+        /// The short name or ARN of the IAM role that grants containers in the task permission to call AWS API operations on your behalf.
+        public let taskRoleArn: String?
+        /// The data volume definitions for the task.
+        public let volumes: [AwsEcsTaskDefinitionVolumesDetails]?
+
+        public init(containerDefinitions: [AwsEcsTaskDefinitionContainerDefinitionsDetails]? = nil, cpu: String? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [AwsEcsTaskDefinitionInferenceAcceleratorsDetails]? = nil, ipcMode: String? = nil, memory: String? = nil, networkMode: String? = nil, pidMode: String? = nil, placementConstraints: [AwsEcsTaskDefinitionPlacementConstraintsDetails]? = nil, proxyConfiguration: AwsEcsTaskDefinitionProxyConfigurationDetails? = nil, requiresCompatibilities: [String]? = nil, taskRoleArn: String? = nil, volumes: [AwsEcsTaskDefinitionVolumesDetails]? = nil) {
+            self.containerDefinitions = containerDefinitions
+            self.cpu = cpu
+            self.executionRoleArn = executionRoleArn
+            self.family = family
+            self.inferenceAccelerators = inferenceAccelerators
+            self.ipcMode = ipcMode
+            self.memory = memory
+            self.networkMode = networkMode
+            self.pidMode = pidMode
+            self.placementConstraints = placementConstraints
+            self.proxyConfiguration = proxyConfiguration
+            self.requiresCompatibilities = requiresCompatibilities
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+
+        public func validate(name: String) throws {
+            try self.containerDefinitions?.forEach {
+                try $0.validate(name: "\(name).containerDefinitions[]")
+            }
+            try self.validate(self.cpu, name: "cpu", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.family, name: "family", parent: name, pattern: ".*\\S.*")
+            try self.inferenceAccelerators?.forEach {
+                try $0.validate(name: "\(name).inferenceAccelerators[]")
+            }
+            try self.validate(self.ipcMode, name: "ipcMode", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.memory, name: "memory", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.networkMode, name: "networkMode", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.pidMode, name: "pidMode", parent: name, pattern: ".*\\S.*")
+            try self.placementConstraints?.forEach {
+                try $0.validate(name: "\(name).placementConstraints[]")
+            }
+            try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
+            try self.requiresCompatibilities?.forEach {
+                try validate($0, name: "requiresCompatibilities[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.taskRoleArn, name: "taskRoleArn", parent: name, pattern: ".*\\S.*")
+            try self.volumes?.forEach {
+                try $0.validate(name: "\(name).volumes[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerDefinitions = "ContainerDefinitions"
+            case cpu = "Cpu"
+            case executionRoleArn = "ExecutionRoleArn"
+            case family = "Family"
+            case inferenceAccelerators = "InferenceAccelerators"
+            case ipcMode = "IpcMode"
+            case memory = "Memory"
+            case networkMode = "NetworkMode"
+            case pidMode = "PidMode"
+            case placementConstraints = "PlacementConstraints"
+            case proxyConfiguration = "ProxyConfiguration"
+            case requiresCompatibilities = "RequiresCompatibilities"
+            case taskRoleArn = "TaskRoleArn"
+            case volumes = "Volumes"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionInferenceAcceleratorsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Elastic Inference accelerator device name.
+        public let deviceName: String?
+        /// The Elastic Inference accelerator type to use.
+        public let deviceType: String?
+
+        public init(deviceName: String? = nil, deviceType: String? = nil) {
+            self.deviceName = deviceName
+            self.deviceType = deviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.deviceType, name: "deviceType", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceName = "DeviceName"
+            case deviceType = "DeviceType"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionPlacementConstraintsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A cluster query language expression to apply to the constraint.
+        public let expression: String?
+        /// The type of constraint.
+        public let type: String?
+
+        public init(expression: String? = nil, type: String? = nil) {
+            self.expression = expression
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionProxyConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the container that will serve as the App Mesh proxy.
+        public let containerName: String?
+        /// The set of network configuration parameters to provide to the Container Network Interface (CNI) plugin, specified as key-value pairs.
+        public let proxyConfigurationProperties: [AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails]?
+        /// The proxy type.
+        public let type: String?
+
+        public init(containerName: String? = nil, proxyConfigurationProperties: [AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails]? = nil, type: String? = nil) {
+            self.containerName = containerName
+            self.proxyConfigurationProperties = proxyConfigurationProperties
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerName, name: "containerName", parent: name, pattern: ".*\\S.*")
+            try self.proxyConfigurationProperties?.forEach {
+                try $0.validate(name: "\(name).proxyConfigurationProperties[]")
+            }
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "ContainerName"
+            case proxyConfigurationProperties = "ProxyConfigurationProperties"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the property.
+        public let name: String?
+        /// The value of the property.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionVolumesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Information about a Docker volume.
+        public let dockerVolumeConfiguration: AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails?
+        /// Information about the Amazon Elastic File System file system that is used for task storage.
+        public let efsVolumeConfiguration: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails?
+        /// Information about a bind mount host volume.
+        public let host: AwsEcsTaskDefinitionVolumesHostDetails?
+        /// The name of the data volume.
+        public let name: String?
+
+        public init(dockerVolumeConfiguration: AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails? = nil, efsVolumeConfiguration: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails? = nil, host: AwsEcsTaskDefinitionVolumesHostDetails? = nil, name: String? = nil) {
+            self.dockerVolumeConfiguration = dockerVolumeConfiguration
+            self.efsVolumeConfiguration = efsVolumeConfiguration
+            self.host = host
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.dockerVolumeConfiguration?.validate(name: "\(name).dockerVolumeConfiguration")
+            try self.efsVolumeConfiguration?.validate(name: "\(name).efsVolumeConfiguration")
+            try self.host?.validate(name: "\(name).host")
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dockerVolumeConfiguration = "DockerVolumeConfiguration"
+            case efsVolumeConfiguration = "EfsVolumeConfiguration"
+            case host = "Host"
+            case name = "Name"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to create the Docker volume automatically if it does not already exist.
+        public let autoprovision: Bool?
+        /// The Docker volume driver to use.
+        public let driver: String?
+        /// A map of Docker driver-specific options that are passed through.
+        public let driverOpts: [String: String]?
+        /// Custom metadata to add to the Docker volume.
+        public let labels: [String: String]?
+        /// The scope for the Docker volume that determines its lifecycle. Docker volumes that are scoped to a task are provisioned automatically when the task starts and destroyed when the task stops. Docker volumes that are shared persist after the task stops.
+        public let scope: String?
+
+        public init(autoprovision: Bool? = nil, driver: String? = nil, driverOpts: [String: String]? = nil, labels: [String: String]? = nil, scope: String? = nil) {
+            self.autoprovision = autoprovision
+            self.driver = driver
+            self.driverOpts = driverOpts
+            self.labels = labels
+            self.scope = scope
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.driver, name: "driver", parent: name, pattern: ".*\\S.*")
+            try self.driverOpts?.forEach {
+                try validate($0.key, name: "driverOpts.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "driverOpts[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.labels?.forEach {
+                try validate($0.key, name: "labels.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.scope, name: "scope", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoprovision = "Autoprovision"
+            case driver = "Driver"
+            case driverOpts = "DriverOpts"
+            case labels = "Labels"
+            case scope = "Scope"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon EFS access point identifier to use.
+        public let accessPointId: String?
+        /// Whether to use the Amazon ECS task IAM role defined in a task definition when mounting the Amazon EFS file system.
+        public let iam: String?
+
+        public init(accessPointId: String? = nil, iam: String? = nil) {
+            self.accessPointId = accessPointId
+            self.iam = iam
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.iam, name: "iam", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointId = "AccessPointId"
+            case iam = "Iam"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization configuration details for the Amazon EFS file system.
+        public let authorizationConfig: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails?
+        /// The Amazon EFS file system identifier to use.
+        public let filesystemId: String?
+        /// The directory within the Amazon EFS file system to mount as the root directory inside the host.
+        public let rootDirectory: String?
+        /// Whether to enable encryption for Amazon EFS data in transit between the Amazon ECS host and the Amazon EFS server.
+        public let transitEncryption: String?
+        /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server.
+        public let transitEncryptionPort: Int?
+
+        public init(authorizationConfig: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails? = nil, filesystemId: String? = nil, rootDirectory: String? = nil, transitEncryption: String? = nil, transitEncryptionPort: Int? = nil) {
+            self.authorizationConfig = authorizationConfig
+            self.filesystemId = filesystemId
+            self.rootDirectory = rootDirectory
+            self.transitEncryption = transitEncryption
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationConfig?.validate(name: "\(name).authorizationConfig")
+            try self.validate(self.filesystemId, name: "filesystemId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.rootDirectory, name: "rootDirectory", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.transitEncryption, name: "transitEncryption", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationConfig = "AuthorizationConfig"
+            case filesystemId = "FilesystemId"
+            case rootDirectory = "RootDirectory"
+            case transitEncryption = "TransitEncryption"
+            case transitEncryptionPort = "TransitEncryptionPort"
+        }
+    }
+
+    public struct AwsEcsTaskDefinitionVolumesHostDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The path on the host container instance that is presented to the container.
+        public let sourcePath: String?
+
+        public init(sourcePath: String? = nil) {
+            self.sourcePath = sourcePath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourcePath, name: "sourcePath", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourcePath = "SourcePath"
+        }
+    }
+
     public struct AwsElasticBeanstalkEnvironmentDetails: AWSEncodableShape & AWSDecodableShape {
         /// The name of the application that is associated with the environment.
         public let applicationName: String?
@@ -3364,12 +4638,16 @@ extension SecurityHub {
         public let endpoint: String?
         /// The key-value pair that exists if the Amazon ES domain uses VPC endpoints.
         public let endpoints: [String: String]?
+        /// Configures the CloudWatch Logs to publish for the Elasticsearch domain.
+        public let logPublishingOptions: AwsElasticsearchDomainLogPublishingOptions?
         /// Details about the configuration for node-to-node encryption.
         public let nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions?
+        /// Information about the status of a domain relative to the latest service software.
+        public let serviceSoftwareOptions: AwsElasticsearchDomainServiceSoftwareOptions?
         /// Information that Amazon ES derives based on VPCOptions for the domain.
         public let vPCOptions: AwsElasticsearchDomainVPCOptions?
 
-        public init(accessPolicies: String? = nil, domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions? = nil, domainId: String? = nil, domainName: String? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil, vPCOptions: AwsElasticsearchDomainVPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions? = nil, domainId: String? = nil, domainName: String? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: AwsElasticsearchDomainLogPublishingOptions? = nil, nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil, serviceSoftwareOptions: AwsElasticsearchDomainServiceSoftwareOptions? = nil, vPCOptions: AwsElasticsearchDomainVPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
@@ -3378,7 +4656,9 @@ extension SecurityHub {
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.endpoint = endpoint
             self.endpoints = endpoints
+            self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.serviceSoftwareOptions = serviceSoftwareOptions
             self.vPCOptions = vPCOptions
         }
 
@@ -3394,6 +4674,8 @@ extension SecurityHub {
                 try validate($0.key, name: "endpoints.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name: "endpoints[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
+            try self.logPublishingOptions?.validate(name: "\(name).logPublishingOptions")
+            try self.serviceSoftwareOptions?.validate(name: "\(name).serviceSoftwareOptions")
             try self.vPCOptions?.validate(name: "\(name).vPCOptions")
         }
 
@@ -3406,7 +4688,9 @@ extension SecurityHub {
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case endpoint = "Endpoint"
             case endpoints = "Endpoints"
+            case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+            case serviceSoftwareOptions = "ServiceSoftwareOptions"
             case vPCOptions = "VPCOptions"
         }
     }
@@ -3453,6 +4737,49 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsElasticsearchDomainLogPublishingOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the Elasticsearch index logs publishing.
+        public let indexSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig?
+        /// Configures the Elasticsearch search slow log publishing.
+        public let searchSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig?
+
+        public init(indexSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil, searchSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil) {
+            self.indexSlowLogs = indexSlowLogs
+            self.searchSlowLogs = searchSlowLogs
+        }
+
+        public func validate(name: String) throws {
+            try self.indexSlowLogs?.validate(name: "\(name).indexSlowLogs")
+            try self.searchSlowLogs?.validate(name: "\(name).searchSlowLogs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexSlowLogs = "IndexSlowLogs"
+            case searchSlowLogs = "SearchSlowLogs"
+        }
+    }
+
+    public struct AwsElasticsearchDomainLogPublishingOptionsLogConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the CloudWatch Logs group to publish the logs to.
+        public let cloudWatchLogsLogGroupArn: String?
+        /// Whether the log publishing is enabled.
+        public let enabled: Bool?
+
+        public init(cloudWatchLogsLogGroupArn: String? = nil, enabled: Bool? = nil) {
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudWatchLogsLogGroupArn, name: "cloudWatchLogsLogGroupArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case enabled = "Enabled"
+        }
+    }
+
     public struct AwsElasticsearchDomainNodeToNodeEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
         /// Whether node-to-node encryption is enabled.
         public let enabled: Bool?
@@ -3463,6 +4790,51 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct AwsElasticsearchDomainServiceSoftwareOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The epoch time when the deployment window closes for required updates. After this time, Amazon Elasticsearch Service schedules the software upgrade automatically.
+        public let automatedUpdateDate: String?
+        /// Whether a request to update the domain can be canceled.
+        public let cancellable: Bool?
+        /// The version of the service software that is currently installed on the domain.
+        public let currentVersion: String?
+        /// A more detailed description of the service software status.
+        public let description: String?
+        /// The most recent version of the service software.
+        public let newVersion: String?
+        /// Whether a service software update is available for the domain.
+        public let updateAvailable: Bool?
+        /// The status of the service software update.
+        public let updateStatus: String?
+
+        public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
+            self.automatedUpdateDate = automatedUpdateDate
+            self.cancellable = cancellable
+            self.currentVersion = currentVersion
+            self.description = description
+            self.newVersion = newVersion
+            self.updateAvailable = updateAvailable
+            self.updateStatus = updateStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.automatedUpdateDate, name: "automatedUpdateDate", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.newVersion, name: "newVersion", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.updateStatus, name: "updateStatus", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automatedUpdateDate = "AutomatedUpdateDate"
+            case cancellable = "Cancellable"
+            case currentVersion = "CurrentVersion"
+            case description = "Description"
+            case newVersion = "NewVersion"
+            case updateAvailable = "UpdateAvailable"
+            case updateStatus = "UpdateStatus"
         }
     }
 
@@ -4668,7 +6040,7 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionDeadLetterConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
+        /// The ARN of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
 
         public init(targetArn: String? = nil) {
@@ -4705,7 +6077,7 @@ extension SecurityHub {
         public let layers: [AwsLambdaFunctionLayer]?
         /// For Lambda@Edge functions, the ARN of the master function.
         public let masterArn: String?
-        /// The memory that's allocated to the function.
+        /// The memory that is allocated to the function.
         public let memorySize: Int?
         /// The latest updated revision of the function or alias.
         public let revisionId: String?
@@ -4834,7 +6206,7 @@ extension SecurityHub {
     }
 
     public struct AwsLambdaFunctionLayer: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the function layer.
+        /// The ARN of the function layer.
         public let arn: String?
         /// The size of the layer archive in bytes.
         public let codeSize: Int?
@@ -5343,7 +6715,7 @@ extension SecurityHub {
     public struct AwsRdsDbInstanceAssociatedRole: AWSEncodableShape & AWSDecodableShape {
         /// The name of the feature associated with the IAM)role.
         public let featureName: String?
-        /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB instance.
+        /// The ARN of the IAM role that is associated with the DB instance.
         public let roleArn: String?
         /// Describes the state of the association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB instance.    INVALID - The IAM role ARN is associated with the DB instance. But the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.
         public let status: String?
@@ -6811,7 +8183,277 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsS3BucketBucketLifecycleConfigurationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The lifecycle rules.
+        public let rules: [AwsS3BucketBucketLifecycleConfigurationRulesDetails]?
+
+        public init(rules: [AwsS3BucketBucketLifecycleConfigurationRulesDetails]? = nil) {
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "Rules"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The number of days after which Amazon S3 cancels an incomplete multipart upload.
+        public let daysAfterInitiation: Int?
+
+        public init(daysAfterInitiation: Int? = nil) {
+            self.daysAfterInitiation = daysAfterInitiation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daysAfterInitiation = "DaysAfterInitiation"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// How Amazon S3 responds when a multipart upload is incomplete. Specifically, provides a number of days before Amazon S3 cancels the entire upload.
+        public let abortIncompleteMultipartUpload: AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails?
+        /// The date when objects are moved or deleted. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let expirationDate: String?
+        /// The length in days of the lifetime for objects that are subject to the rule.
+        public let expirationInDays: Int?
+        /// Whether Amazon S3 removes a delete marker that has no noncurrent versions. If set to true, the delete marker is expired. If set to false, the policy takes no action. If you provide ExpiredObjectDeleteMarker, you cannot provide ExpirationInDays or ExpirationDate.
+        public let expiredObjectDeleteMarker: Bool?
+        /// Identifies the objects that a rule applies to.
+        public let filter: AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails?
+        /// The unique identifier of the rule.
+        public let id: String?
+        /// The number of days that an object is noncurrent before Amazon S3 can perform the associated action.
+        public let noncurrentVersionExpirationInDays: Int?
+        /// Transition rules that describe when noncurrent objects transition to a specified storage class.
+        public let noncurrentVersionTransitions: [AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails]?
+        /// A prefix that identifies one or more objects that the rule applies to.
+        public let prefix: String?
+        /// The current status of the rule. Indicates whether the rule is currently being applied.
+        public let status: String?
+        /// Transition rules that indicate when objects transition to a specified storage class.
+        public let transitions: [AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails]?
+
+        public init(abortIncompleteMultipartUpload: AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails? = nil, expirationDate: String? = nil, expirationInDays: Int? = nil, expiredObjectDeleteMarker: Bool? = nil, filter: AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails? = nil, id: String? = nil, noncurrentVersionExpirationInDays: Int? = nil, noncurrentVersionTransitions: [AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails]? = nil, prefix: String? = nil, status: String? = nil, transitions: [AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails]? = nil) {
+            self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
+            self.expirationDate = expirationDate
+            self.expirationInDays = expirationInDays
+            self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
+            self.filter = filter
+            self.id = id
+            self.noncurrentVersionExpirationInDays = noncurrentVersionExpirationInDays
+            self.noncurrentVersionTransitions = noncurrentVersionTransitions
+            self.prefix = prefix
+            self.status = status
+            self.transitions = transitions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expirationDate, name: "expirationDate", parent: name, pattern: ".*\\S.*")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.id, name: "id", parent: name, pattern: ".*\\S.*")
+            try self.noncurrentVersionTransitions?.forEach {
+                try $0.validate(name: "\(name).noncurrentVersionTransitions[]")
+            }
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.status, name: "status", parent: name, pattern: ".*\\S.*")
+            try self.transitions?.forEach {
+                try $0.validate(name: "\(name).transitions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abortIncompleteMultipartUpload = "AbortIncompleteMultipartUpload"
+            case expirationDate = "ExpirationDate"
+            case expirationInDays = "ExpirationInDays"
+            case expiredObjectDeleteMarker = "ExpiredObjectDeleteMarker"
+            case filter = "Filter"
+            case id = "ID"
+            case noncurrentVersionExpirationInDays = "NoncurrentVersionExpirationInDays"
+            case noncurrentVersionTransitions = "NoncurrentVersionTransitions"
+            case prefix = "Prefix"
+            case status = "Status"
+            case transitions = "Transitions"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the filter.
+        public let predicate: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails?
+
+        public init(predicate: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails? = nil) {
+            self.predicate = predicate
+        }
+
+        public func validate(name: String) throws {
+            try self.predicate?.validate(name: "\(name).predicate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case predicate = "Predicate"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The values to use for the filter.
+        public let operands: [AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails]?
+        /// A prefix filter.
+        public let prefix: String?
+        /// A tag filter.
+        public let tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails?
+        /// Whether to use AND or OR to join the operands.
+        public let type: String?
+
+        public init(operands: [AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails]? = nil, prefix: String? = nil, tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails? = nil, type: String? = nil) {
+            self.operands = operands
+            self.prefix = prefix
+            self.tag = tag
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.operands?.forEach {
+                try $0.validate(name: "\(name).operands[]")
+            }
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*")
+            try self.tag?.validate(name: "\(name).tag")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operands = "Operands"
+            case prefix = "Prefix"
+            case tag = "Tag"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Prefix text for matching objects.
+        public let prefix: String?
+        /// A tag that is assigned to matching objects.
+        public let tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails?
+        /// The type of filter value.
+        public let type: String?
+
+        public init(prefix: String? = nil, tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails? = nil, type: String? = nil) {
+            self.prefix = prefix
+            self.tag = tag
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: ".*\\S.*")
+            try self.tag?.validate(name: "\(name).tag")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "Prefix"
+            case tag = "Tag"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The tag key.
+        public let key: String?
+        /// The tag value.
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The tag key.
+        public let key: String?
+        /// The tag value
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The number of days that an object is noncurrent before Amazon S3 can perform the associated action.
+        public let days: Int?
+        /// The class of storage to change the object to after the object is noncurrent for the specified number of days.
+        public let storageClass: String?
+
+        public init(days: Int? = nil, storageClass: String? = nil) {
+            self.days = days
+            self.storageClass = storageClass
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storageClass, name: "storageClass", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let date: String?
+        /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
+        public let days: Int?
+        /// The storage class to transition the object to.
+        public let storageClass: String?
+
+        public init(date: String? = nil, days: Int? = nil, storageClass: String? = nil) {
+            self.date = date
+            self.days = days
+            self.storageClass = storageClass
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.date, name: "date", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.storageClass, name: "storageClass", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "Date"
+            case days = "Days"
+            case storageClass = "StorageClass"
+        }
+    }
+
     public struct AwsS3BucketDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The lifecycle configuration for objects in the S3 bucket.
+        public let bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails?
         /// Indicates when the S3 bucket was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String?
         /// The canonical user ID of the owner of the S3 bucket.
@@ -6823,7 +8465,8 @@ extension SecurityHub {
         /// The encryption rules that are applied to the S3 bucket.
         public let serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration?
 
-        public init(createdAt: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
+        public init(bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails? = nil, createdAt: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
+            self.bucketLifecycleConfiguration = bucketLifecycleConfiguration
             self.createdAt = createdAt
             self.ownerId = ownerId
             self.ownerName = ownerName
@@ -6832,6 +8475,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.bucketLifecycleConfiguration?.validate(name: "\(name).bucketLifecycleConfiguration")
             try self.validate(self.createdAt, name: "createdAt", parent: name, pattern: ".*\\S.*")
             try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.ownerName, name: "ownerName", parent: name, pattern: ".*\\S.*")
@@ -6839,6 +8483,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketLifecycleConfiguration = "BucketLifecycleConfiguration"
             case createdAt = "CreatedAt"
             case ownerId = "OwnerId"
             case ownerName = "OwnerName"
@@ -7249,8 +8894,6 @@ extension SecurityHub {
         public let generatorId: [StringFilter]?
         /// The security findings provider-specific identifier for a finding.
         public let id: [StringFilter]?
-        /// A keyword for a finding.
-        public let keyword: [KeywordFilter]?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider most recently observed the potential security issue that a finding captured.
         public let lastObservedAt: [DateFilter]?
         /// The name of the malware that was observed.
@@ -7394,7 +9037,7 @@ extension SecurityHub {
         /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:   The record state changes from ARCHIVED to ACTIVE.   The compliance status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.
         public let workflowStatus: [StringFilter]?
 
-        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
             self.complianceStatus = complianceStatus
@@ -7412,7 +9055,6 @@ extension SecurityHub {
             self.firstObservedAt = firstObservedAt
             self.generatorId = generatorId
             self.id = id
-            self.keyword = keyword
             self.lastObservedAt = lastObservedAt
             self.malwareName = malwareName
             self.malwarePath = malwarePath
@@ -7525,9 +9167,6 @@ extension SecurityHub {
             }
             try self.id?.forEach {
                 try $0.validate(name: "\(name).id[]")
-            }
-            try self.keyword?.forEach {
-                try $0.validate(name: "\(name).keyword[]")
             }
             try self.lastObservedAt?.forEach {
                 try $0.validate(name: "\(name).lastObservedAt[]")
@@ -7750,7 +9389,6 @@ extension SecurityHub {
             case firstObservedAt = "FirstObservedAt"
             case generatorId = "GeneratorId"
             case id = "Id"
-            case keyword = "Keyword"
             case lastObservedAt = "LastObservedAt"
             case malwareName = "MalwareName"
             case malwarePath = "MalwarePath"
@@ -7904,7 +9542,7 @@ extension SecurityHub {
     }
 
     public struct AwsSqsQueueDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
+        /// The ARN of the dead-letter queue to which Amazon SQS moves messages after the value of maxReceiveCount is exceeded.
         public let deadLetterTargetArn: String?
         /// The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again.
         public let kmsDataKeyReusePeriodSeconds: Int?
@@ -8578,9 +10216,9 @@ extension SecurityHub {
     public struct CreateActionTargetRequest: AWSEncodableShape {
         /// The description for the custom action target.
         public let description: String
-        /// The ID for the custom action target.
+        /// The ID for the custom action target. Can contain up to 20 alphanumeric characters.
         public let id: String
-        /// The name of the custom action target.
+        /// The name of the custom action target. Can contain up to 20 characters.
         public let name: String
 
         public init(description: String, id: String, name: String) {
@@ -10008,23 +11646,6 @@ extension SecurityHub {
         }
     }
 
-    public struct KeywordFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A value for the keyword.
-        public let value: String?
-
-        public init(value: String? = nil) {
-            self.value = value
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case value = "Value"
-        }
-    }
-
     public struct ListEnabledProductsForImportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
@@ -11068,7 +12689,7 @@ extension SecurityHub {
         public let awsDynamoDbTable: AwsDynamoDbTableDetails?
         /// Details about an Elastic IP address.
         public let awsEc2Eip: AwsEc2EipDetails?
-        /// Details about an Amazon EC2 instance related to a finding.
+        /// Details about an EC2 instance related to a finding.
         public let awsEc2Instance: AwsEc2InstanceDetails?
         /// Details about an EC2 network access control list (ACL).
         public let awsEc2NetworkAcl: AwsEc2NetworkAclDetails?
@@ -11082,6 +12703,10 @@ extension SecurityHub {
         public let awsEc2Volume: AwsEc2VolumeDetails?
         /// Details for an EC2 VPC.
         public let awsEc2Vpc: AwsEc2VpcDetails?
+        /// Details about an ECS cluster.
+        public let awsEcsCluster: AwsEcsClusterDetails?
+        /// Details about a task definition. A task definition describes the container and volume definitions of an Amazon Elastic Container Service task.
+        public let awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails?
         /// Details about an Elastic Beanstalk environment.
         public let awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails?
         /// Details for an Elasticsearch domain.
@@ -11137,7 +12762,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -11156,6 +12781,8 @@ extension SecurityHub {
             self.awsEc2Subnet = awsEc2Subnet
             self.awsEc2Volume = awsEc2Volume
             self.awsEc2Vpc = awsEc2Vpc
+            self.awsEcsCluster = awsEcsCluster
+            self.awsEcsTaskDefinition = awsEcsTaskDefinition
             self.awsElasticBeanstalkEnvironment = awsElasticBeanstalkEnvironment
             self.awsElasticsearchDomain = awsElasticsearchDomain
             self.awsElbLoadBalancer = awsElbLoadBalancer
@@ -11204,6 +12831,8 @@ extension SecurityHub {
             try self.awsEc2Subnet?.validate(name: "\(name).awsEc2Subnet")
             try self.awsEc2Volume?.validate(name: "\(name).awsEc2Volume")
             try self.awsEc2Vpc?.validate(name: "\(name).awsEc2Vpc")
+            try self.awsEcsCluster?.validate(name: "\(name).awsEcsCluster")
+            try self.awsEcsTaskDefinition?.validate(name: "\(name).awsEcsTaskDefinition")
             try self.awsElasticBeanstalkEnvironment?.validate(name: "\(name).awsElasticBeanstalkEnvironment")
             try self.awsElasticsearchDomain?.validate(name: "\(name).awsElasticsearchDomain")
             try self.awsElbLoadBalancer?.validate(name: "\(name).awsElbLoadBalancer")
@@ -11254,6 +12883,8 @@ extension SecurityHub {
             case awsEc2Subnet = "AwsEc2Subnet"
             case awsEc2Volume = "AwsEc2Volume"
             case awsEc2Vpc = "AwsEc2Vpc"
+            case awsEcsCluster = "AwsEcsCluster"
+            case awsEcsTaskDefinition = "AwsEcsTaskDefinition"
             case awsElasticBeanstalkEnvironment = "AwsElasticBeanstalkEnvironment"
             case awsElasticsearchDomain = "AwsElasticsearchDomain"
             case awsElbLoadBalancer = "AwsElbLoadBalancer"

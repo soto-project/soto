@@ -233,19 +233,52 @@ extension Outposts {
 
     public struct ListOutpostsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "availabilityZoneFilter", location: .querystring(locationName: "AvailabilityZoneFilter")),
+            AWSMemberEncoding(label: "availabilityZoneIdFilter", location: .querystring(locationName: "AvailabilityZoneIdFilter")),
+            AWSMemberEncoding(label: "lifeCycleStatusFilter", location: .querystring(locationName: "LifeCycleStatusFilter")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
+        ///  A filter for the Availibility Zone (us-east-1a) of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let availabilityZoneFilter: [String]?
+        ///  A filter for the AZ IDs (use1-az1) of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let availabilityZoneIdFilter: [String]?
+        ///  A filter for the lifecycle status of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let lifeCycleStatusFilter: [String]?
         public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(availabilityZoneFilter: [String]? = nil, availabilityZoneIdFilter: [String]? = nil, lifeCycleStatusFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.availabilityZoneFilter = availabilityZoneFilter
+            self.availabilityZoneIdFilter = availabilityZoneIdFilter
+            self.lifeCycleStatusFilter = lifeCycleStatusFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZoneFilter?.forEach {
+                try validate($0, name: "availabilityZoneFilter[]", parent: name, max: 1000)
+                try validate($0, name: "availabilityZoneFilter[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneFilter[]", parent: name, pattern: "^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\\d+[a-zA-Z]?)?$")
+            }
+            try self.validate(self.availabilityZoneFilter, name: "availabilityZoneFilter", parent: name, max: 5)
+            try self.validate(self.availabilityZoneFilter, name: "availabilityZoneFilter", parent: name, min: 1)
+            try self.availabilityZoneIdFilter?.forEach {
+                try validate($0, name: "availabilityZoneIdFilter[]", parent: name, max: 255)
+                try validate($0, name: "availabilityZoneIdFilter[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneIdFilter[]", parent: name, pattern: "^[a-zA-Z]+\\d-[a-zA-Z]+\\d$")
+            }
+            try self.validate(self.availabilityZoneIdFilter, name: "availabilityZoneIdFilter", parent: name, max: 5)
+            try self.validate(self.availabilityZoneIdFilter, name: "availabilityZoneIdFilter", parent: name, min: 1)
+            try self.lifeCycleStatusFilter?.forEach {
+                try validate($0, name: "lifeCycleStatusFilter[]", parent: name, max: 20)
+                try validate($0, name: "lifeCycleStatusFilter[]", parent: name, min: 1)
+                try validate($0, name: "lifeCycleStatusFilter[]", parent: name, pattern: "^[ A-Za-z]+$")
+            }
+            try self.validate(self.lifeCycleStatusFilter, name: "lifeCycleStatusFilter", parent: name, max: 5)
+            try self.validate(self.lifeCycleStatusFilter, name: "lifeCycleStatusFilter", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)

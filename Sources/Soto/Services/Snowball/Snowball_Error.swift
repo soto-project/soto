@@ -50,7 +50,7 @@ public struct SnowballErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Job creation failed. Currently, clusters support five nodes. If you have less than five nodes for your cluster and you have more nodes to create for this cluster, try again and create jobs until your cluster has exactly five notes.
+    /// Job creation failed. Currently, clusters support five nodes. If you have fewer than five nodes for your cluster and you have more nodes to create for this cluster, try again and create jobs until your cluster has exactly five nodes.
     public static var clusterLimitExceededException: Self { .init(.clusterLimitExceededException) }
     /// You get this exception when you call CreateReturnShippingLabel more than once when other requests are not completed.
     public static var conflictException: Self { .init(.conflictException) }

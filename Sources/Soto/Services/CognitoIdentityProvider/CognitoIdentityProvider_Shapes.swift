@@ -2281,6 +2281,8 @@ extension CognitoIdentityProvider {
         public let clientName: String
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let defaultRedirectURI: String?
+        /// Enables or disables token revocation. For more information about revoking tokens, see RevokeToken. If you don't include this parameter, token revocation is automatically enabled for the new user pool client.
+        public let enableTokenRevocation: Bool?
         /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
@@ -2304,7 +2306,7 @@ extension CognitoIdentityProvider {
         /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an identity provider, this array must include all attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If your app client lacks write access to a mapped attribute, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientName: String, defaultRedirectURI: String? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, generateSecret: Bool? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -2313,6 +2315,7 @@ extension CognitoIdentityProvider {
             self.callbackURLs = callbackURLs
             self.clientName = clientName
             self.defaultRedirectURI = defaultRedirectURI
+            self.enableTokenRevocation = enableTokenRevocation
             self.explicitAuthFlows = explicitAuthFlows
             self.generateSecret = generateSecret
             self.idTokenValidity = idTokenValidity
@@ -2389,6 +2392,7 @@ extension CognitoIdentityProvider {
             case callbackURLs = "CallbackURLs"
             case clientName = "ClientName"
             case defaultRedirectURI = "DefaultRedirectURI"
+            case enableTokenRevocation = "EnableTokenRevocation"
             case explicitAuthFlows = "ExplicitAuthFlows"
             case generateSecret = "GenerateSecret"
             case idTokenValidity = "IdTokenValidity"
@@ -3855,7 +3859,7 @@ extension CognitoIdentityProvider {
         public let idpIdentifiers: [String]?
         /// The date the identity provider was last modified.
         public let lastModifiedDate: Date?
-        /// The identity provider details. The following list describes the provider detail keys for each identity provider type.   For Google and Login with Amazon:   client_id   client_secret   authorize_scopes     For Facebook:   client_id   client_secret   authorize_scopes   api_version     For Sign in with Apple:   client_id   team_id   key_id   private_key   authorize_scopes     For OIDC providers:   client_id   client_secret   attributes_request_method   oidc_issuer   authorize_scopes   authorize_url if not available from discovery URL specified by oidc_issuer key    token_url if not available from discovery URL specified by oidc_issuer key    attributes_url if not available from discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL specified by oidc_issuer key    authorize_scopes     For SAML providers:   MetadataFile OR MetadataURL   IDPSignOut optional
+        /// The identity provider details. The following list describes the provider detail keys for each identity provider type.   For Google and Login with Amazon:   client_id   client_secret   authorize_scopes     For Facebook:   client_id   client_secret   authorize_scopes   api_version     For Sign in with Apple:   client_id   team_id   key_id   private_key   authorize_scopes     For OIDC providers:   client_id   client_secret   attributes_request_method   oidc_issuer   authorize_scopes   authorize_url if not available from discovery URL specified by oidc_issuer key    token_url if not available from discovery URL specified by oidc_issuer key    attributes_url if not available from discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL specified by oidc_issuer key      For SAML providers:   MetadataFile OR MetadataURL   IDPSignOut optional
         public let providerDetails: [String: String]?
         /// The identity provider name.
         public let providerName: String?
@@ -4983,6 +4987,41 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct RevokeTokenRequest: AWSEncodableShape {
+        /// The client ID for the token that you want to revoke.
+        public let clientId: String
+        /// The secret for the client ID. This is required only if the client ID has a secret.
+        public let clientSecret: String?
+        /// The token that you want to revoke.
+        public let token: String
+
+        public init(clientId: String, clientSecret: String? = nil, token: String) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.token = token
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\w+]+")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 64)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "[\\w+]+")
+            try self.validate(self.token, name: "token", parent: name, pattern: "[A-Za-z0-9-_=.]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case token = "Token"
+        }
+    }
+
+    public struct RevokeTokenResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct RiskConfigurationType: AWSDecodableShape {
         /// The account takeover risk configuration object including the NotifyConfiguration object and Actions to take in the case of an account takeover.
         public let accountTakeoverRiskConfiguration: AccountTakeoverRiskConfigurationType?
@@ -5999,6 +6038,8 @@ extension CognitoIdentityProvider {
         public let clientName: String?
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let defaultRedirectURI: String?
+        /// Enables or disables token revocation. For more information about revoking tokens, see RevokeToken.
+        public let enableTokenRevocation: Bool?
         /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// The time limit, after which the ID token is no longer valid and cannot be used.
@@ -6020,7 +6061,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes of the user pool.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String, clientName: String? = nil, defaultRedirectURI: String? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -6030,6 +6071,7 @@ extension CognitoIdentityProvider {
             self.clientId = clientId
             self.clientName = clientName
             self.defaultRedirectURI = defaultRedirectURI
+            self.enableTokenRevocation = enableTokenRevocation
             self.explicitAuthFlows = explicitAuthFlows
             self.idTokenValidity = idTokenValidity
             self.logoutURLs = logoutURLs
@@ -6109,6 +6151,7 @@ extension CognitoIdentityProvider {
             case clientId = "ClientId"
             case clientName = "ClientName"
             case defaultRedirectURI = "DefaultRedirectURI"
+            case enableTokenRevocation = "EnableTokenRevocation"
             case explicitAuthFlows = "ExplicitAuthFlows"
             case idTokenValidity = "IdTokenValidity"
             case logoutURLs = "LogoutURLs"
@@ -6422,6 +6465,8 @@ extension CognitoIdentityProvider {
         public let creationDate: Date?
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
         public let defaultRedirectURI: String?
+        /// Indicates whether token revocation is enabled for the user pool client. When you create a new user pool client, token revocation is enabled by default. For more information about revoking tokens, see RevokeToken.
+        public let enableTokenRevocation: Bool?
         /// The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
         public let explicitAuthFlows: [ExplicitAuthFlowsType]?
         /// The time limit, specified by tokenValidityUnits, defaulting to hours, after which the refresh token is no longer valid and cannot be used.
@@ -6445,7 +6490,7 @@ extension CognitoIdentityProvider {
         /// The writeable attributes.
         public let writeAttributes: [String]?
 
-        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
+        public init(accessTokenValidity: Int? = nil, allowedOAuthFlows: [OAuthFlowType]? = nil, allowedOAuthFlowsUserPoolClient: Bool? = nil, allowedOAuthScopes: [String]? = nil, analyticsConfiguration: AnalyticsConfigurationType? = nil, callbackURLs: [String]? = nil, clientId: String? = nil, clientName: String? = nil, clientSecret: String? = nil, creationDate: Date? = nil, defaultRedirectURI: String? = nil, enableTokenRevocation: Bool? = nil, explicitAuthFlows: [ExplicitAuthFlowsType]? = nil, idTokenValidity: Int? = nil, lastModifiedDate: Date? = nil, logoutURLs: [String]? = nil, preventUserExistenceErrors: PreventUserExistenceErrorTypes? = nil, readAttributes: [String]? = nil, refreshTokenValidity: Int? = nil, supportedIdentityProviders: [String]? = nil, tokenValidityUnits: TokenValidityUnitsType? = nil, userPoolId: String? = nil, writeAttributes: [String]? = nil) {
             self.accessTokenValidity = accessTokenValidity
             self.allowedOAuthFlows = allowedOAuthFlows
             self.allowedOAuthFlowsUserPoolClient = allowedOAuthFlowsUserPoolClient
@@ -6457,6 +6502,7 @@ extension CognitoIdentityProvider {
             self.clientSecret = clientSecret
             self.creationDate = creationDate
             self.defaultRedirectURI = defaultRedirectURI
+            self.enableTokenRevocation = enableTokenRevocation
             self.explicitAuthFlows = explicitAuthFlows
             self.idTokenValidity = idTokenValidity
             self.lastModifiedDate = lastModifiedDate
@@ -6482,6 +6528,7 @@ extension CognitoIdentityProvider {
             case clientSecret = "ClientSecret"
             case creationDate = "CreationDate"
             case defaultRedirectURI = "DefaultRedirectURI"
+            case enableTokenRevocation = "EnableTokenRevocation"
             case explicitAuthFlows = "ExplicitAuthFlows"
             case idTokenValidity = "IdTokenValidity"
             case lastModifiedDate = "LastModifiedDate"
@@ -6593,7 +6640,7 @@ extension CognitoIdentityProvider {
         public let smsAuthenticationMessage: String?
         /// The SMS configuration.
         public let smsConfiguration: SmsConfigurationType?
-        /// The reason why the SMS configuration cannot send the messages to your users.
+        /// The reason why the SMS configuration cannot send the messages to your users. This message might include comma-separated values to describe why your SMS configuration can't send messages to user pool end users.   InvalidSmsRoleAccessPolicyException - The IAM role which Cognito uses to send SMS messages is not properly configured. For more information, see SmsConfigurationType.   SNSSandbox - The AWS account is in SNS Sandbox and messages won’t reach unverified end users. This parameter won’t get populated with SNSSandbox if the IAM user creating the user pool doesn’t have SNS permissions. To learn how to move your AWS account out of the sandbox, see Moving out of the SMS sandbox.
         public let smsConfigurationFailure: String?
         /// The contents of the SMS verification message.
         public let smsVerificationMessage: String?

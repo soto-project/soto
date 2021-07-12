@@ -67,6 +67,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "AssociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    @discardableResult public func associateBot(_ input: AssociateBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     public func associateInstanceStorageConfig(_ input: AssociateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateInstanceStorageConfigResponse> {
         return self.client.execute(operation: "AssociateInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -117,7 +122,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateQueue", path: "/queues/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a quick connect for the specified Amazon Connect instance.
+    /// Creates a quick connect for the specified Amazon Connect instance.
     public func createQuickConnect(_ input: CreateQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateQuickConnectResponse> {
         return self.client.execute(operation: "CreateQuickConnect", path: "/quick-connects/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -152,7 +157,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DeleteIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a quick connect.
+    /// Deletes a quick connect.
     @discardableResult public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -202,7 +207,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DescribeQueue", path: "/queues/{InstanceId}/{QueueId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the quick connect.
+    /// Describes the quick connect.
     public func describeQuickConnect(_ input: DescribeQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeQuickConnectResponse> {
         return self.client.execute(operation: "DescribeQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -230,6 +235,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
     @discardableResult public func disassociateApprovedOrigin(_ input: DisassociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    @discardableResult public func disassociateBot(_ input: DisassociateBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
@@ -285,6 +295,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     public func listApprovedOrigins(_ input: ListApprovedOriginsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApprovedOriginsResponse> {
         return self.client.execute(operation: "ListApprovedOrigins", path: "/instance/{InstanceId}/approved-origins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+    public func listBots(_ input: ListBotsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBotsResponse> {
+        return self.client.execute(operation: "ListBots", path: "/instance/{InstanceId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
@@ -347,7 +362,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListQueues", path: "/queues-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Provides information about the quick connects for the specified Amazon Connect instance.
+    /// Provides information about the quick connects for the specified Amazon Connect instance.
     public func listQuickConnects(_ input: ListQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQuickConnectsResponse> {
         return self.client.execute(operation: "ListQuickConnects", path: "/quick-connects/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -492,12 +507,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateQueueStatus", path: "/queues/{InstanceId}/{QueueId}/status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the configuration settings for the specified quick connect.
+    /// Updates the configuration settings for the specified quick connect.
     @discardableResult public func updateQuickConnectConfig(_ input: UpdateQuickConnectConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateQuickConnectConfig", path: "/quick-connects/{InstanceId}/{QuickConnectId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
+    /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
     @discardableResult public func updateQuickConnectName(_ input: UpdateQuickConnectNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateQuickConnectName", path: "/quick-connects/{InstanceId}/{QuickConnectId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

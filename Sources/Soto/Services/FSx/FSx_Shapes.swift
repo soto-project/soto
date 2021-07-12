@@ -165,6 +165,14 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum WindowsAccessAuditLogLevel: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case failureOnly = "FAILURE_ONLY"
+        case successAndFailure = "SUCCESS_AND_FAILURE"
+        case successOnly = "SUCCESS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WindowsDeploymentType: String, CustomStringConvertible, Codable {
         case multiAz1 = "MULTI_AZ_1"
         case singleAz1 = "SINGLE_AZ_1"
@@ -876,6 +884,8 @@ extension FSx {
         public let activeDirectoryId: String?
         /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
         public let aliases: [String]?
+        /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system.
+        public let auditLogConfiguration: WindowsAuditLogCreateConfiguration?
         /// The number of days to retain automatic backups. The default is to retain backups for 7 days. Setting this value to 0 disables the creation of automatic backups. The maximum retention period for backups is 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -892,9 +902,10 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
+            self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -915,6 +926,7 @@ extension FSx {
                 try validate($0, name: "aliases[]", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{4,253}$")
             }
             try self.validate(self.aliases, name: "aliases", parent: name, max: 50)
+            try self.auditLogConfiguration?.validate(name: "\(name).auditLogConfiguration")
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
@@ -934,6 +946,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
             case aliases = "Aliases"
+            case auditLogConfiguration = "AuditLogConfiguration"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
@@ -2086,6 +2099,8 @@ extension FSx {
     }
 
     public struct UpdateFileSystemWindowsConfiguration: AWSEncodableShape {
+        /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system..
+        public let auditLogConfiguration: WindowsAuditLogCreateConfiguration?
         /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 90 days. For more information, see Working with Automatic Daily Backups.
         public let automaticBackupRetentionDays: Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00
@@ -2097,7 +2112,8 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Where d is the weekday number, from 1 through 7, with 1 = Monday and 7 = Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+            self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
@@ -2106,6 +2122,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
+            try self.auditLogConfiguration?.validate(name: "\(name).auditLogConfiguration")
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, max: 90)
             try self.validate(self.automaticBackupRetentionDays, name: "automaticBackupRetentionDays", parent: name, min: 0)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
@@ -2120,6 +2137,7 @@ extension FSx {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auditLogConfiguration = "AuditLogConfiguration"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
@@ -2128,10 +2146,60 @@ extension FSx {
         }
     }
 
+    public struct WindowsAuditLogConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehouse delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same AWS partition, AWS region, and AWS account as your Amazon FSx file system.
+        public let auditLogDestination: String?
+        /// Sets which attempt type is logged by Amazon FSx for file and folder accesses.    SUCCESS_ONLY - only successful attempts to access files or folders are logged.    FAILURE_ONLY - only failed attempts to access files or folders are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access files or folders are logged.    DISABLED - access auditing of files and folders is turned off.
+        public let fileAccessAuditLogLevel: WindowsAccessAuditLogLevel
+        /// Sets which attempt type is logged by Amazon FSx for file share accesses.    SUCCESS_ONLY - only successful attempts to access file shares are logged.    FAILURE_ONLY - only failed attempts to access file shares are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access file shares are logged.    DISABLED - access auditing of file shares is turned off.
+        public let fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel
+
+        public init(auditLogDestination: String? = nil, fileAccessAuditLogLevel: WindowsAccessAuditLogLevel, fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel) {
+            self.auditLogDestination = auditLogDestination
+            self.fileAccessAuditLogLevel = fileAccessAuditLogLevel
+            self.fileShareAccessAuditLogLevel = fileShareAccessAuditLogLevel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogDestination = "AuditLogDestination"
+            case fileAccessAuditLogLevel = "FileAccessAuditLogLevel"
+            case fileShareAccessAuditLogLevel = "FileShareAccessAuditLogLevel"
+        }
+    }
+
+    public struct WindowsAuditLogCreateConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that specifies the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN, with the following requirements:   The destination ARN that you provide (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same AWS partition, AWS region, and AWS account as your Amazon FSx file system.   The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehouse delivery stream must begin with the aws-fsx prefix.   If you do not provide a destination in AuditLogDestination, Amazon FSx will create and use a log stream in the CloudWatch Logs /aws/fsx/windows log group.   If AuditLogDestination is provided and the resource does not exist, the request will fail with a BadRequest error.   If FileAccessAuditLogLevel and FileShareAccessAuditLogLevel are both set to DISABLED, you cannot specify a destination in AuditLogDestination.
+        public let auditLogDestination: String?
+        /// Sets which attempt type is logged by Amazon FSx for file and folder accesses.    SUCCESS_ONLY - only successful attempts to access files or folders are logged.    FAILURE_ONLY - only failed attempts to access files or folders are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access files or folders are logged.    DISABLED - access auditing of files and folders is turned off.
+        public let fileAccessAuditLogLevel: WindowsAccessAuditLogLevel
+        /// Sets which attempt type is logged by Amazon FSx for file share accesses.    SUCCESS_ONLY - only successful attempts to access file shares are logged.    FAILURE_ONLY - only failed attempts to access file shares are logged.    SUCCESS_AND_FAILURE - both successful attempts and failed attempts to access file shares are logged.    DISABLED - access auditing of file shares is turned off.
+        public let fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel
+
+        public init(auditLogDestination: String? = nil, fileAccessAuditLogLevel: WindowsAccessAuditLogLevel, fileShareAccessAuditLogLevel: WindowsAccessAuditLogLevel) {
+            self.auditLogDestination = auditLogDestination
+            self.fileAccessAuditLogLevel = fileAccessAuditLogLevel
+            self.fileShareAccessAuditLogLevel = fileShareAccessAuditLogLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.auditLogDestination, name: "auditLogDestination", parent: name, max: 1024)
+            try self.validate(self.auditLogDestination, name: "auditLogDestination", parent: name, min: 8)
+            try self.validate(self.auditLogDestination, name: "auditLogDestination", parent: name, pattern: "^arn:[^:]{1,63}:[^:]{0,63}:[^:]{0,63}:(?:|\\d{12}):[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogDestination = "AuditLogDestination"
+            case fileAccessAuditLogLevel = "FileAccessAuditLogLevel"
+            case fileShareAccessAuditLogLevel = "FileShareAccessAuditLogLevel"
+        }
+    }
+
     public struct WindowsFileSystemConfiguration: AWSDecodableShape {
         /// The ID for an existing AWS Managed Microsoft Active Directory instance that the file system is joined to.
         public let activeDirectoryId: String?
         public let aliases: [Alias]?
+        /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system.
+        public let auditLogConfiguration: WindowsAuditLogConfiguration?
         /// The number of days to retain automatic backups. Setting this to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days.
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags on the file system should be copied to backups. This value defaults to false. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -2154,9 +2222,10 @@ extension FSx {
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
+            self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -2173,6 +2242,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case activeDirectoryId = "ActiveDirectoryId"
             case aliases = "Aliases"
+            case auditLogConfiguration = "AuditLogConfiguration"
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case copyTagsToBackups = "CopyTagsToBackups"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"

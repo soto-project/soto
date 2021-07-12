@@ -47,6 +47,7 @@ extension ManagedBlockchain {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case inaccessibleEncryptionKey = "INACCESSIBLE_ENCRYPTION_KEY"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -67,6 +68,7 @@ extension ManagedBlockchain {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case inaccessibleEncryptionKey = "INACCESSIBLE_ENCRYPTION_KEY"
         case unhealthy = "UNHEALTHY"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -1044,23 +1046,26 @@ extension ManagedBlockchain {
         public let frameworkAttributes: MemberFrameworkAttributes?
         /// The unique identifier of the member.
         public let id: String?
+        /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) that the member uses for encryption at rest. If the value of this parameter is "AWS Owned KMS Key", the member uses an AWS owned KMS key for encryption. This parameter is inherited by the nodes that this member owns.
+        public let kmsKeyArn: String?
         /// Configuration properties for logging events associated with a member.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
         public let name: String?
         /// The unique identifier of the network to which the member belongs.
         public let networkId: String?
-        /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.
+        /// The status of a member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in AWS KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key, or revoking a grant is not immediate. The member resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
         /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, frameworkAttributes: MemberFrameworkAttributes? = nil, id: String? = nil, kmsKeyArn: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String? = nil, networkId: String? = nil, status: MemberStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
             self.frameworkAttributes = frameworkAttributes
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.logPublishingConfiguration = logPublishingConfiguration
             self.name = name
             self.networkId = networkId
@@ -1074,6 +1079,7 @@ extension ManagedBlockchain {
             case description = "Description"
             case frameworkAttributes = "FrameworkAttributes"
             case id = "Id"
+            case kmsKeyArn = "KmsKeyArn"
             case logPublishingConfiguration = "LogPublishingConfiguration"
             case name = "Name"
             case networkId = "NetworkId"
@@ -1087,6 +1093,8 @@ extension ManagedBlockchain {
         public let description: String?
         /// Configuration properties of the blockchain framework relevant to the member.
         public let frameworkConfiguration: MemberFrameworkConfiguration
+        /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) to use for encryption at rest in the member. This parameter is inherited by any nodes that this member creates. Use one of the following options to specify this parameter:    Undefined or empty string - The member uses an AWS owned KMS key for encryption by default.    A valid symmetric customer managed KMS key - The member uses the specified key for encryption. Amazon Managed Blockchain doesn't support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the AWS Key Management Service Developer Guide. The following is an example of a KMS key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+        public let kmsKeyArn: String?
         /// Configuration properties for logging events associated with a member of a Managed Blockchain network.
         public let logPublishingConfiguration: MemberLogPublishingConfiguration?
         /// The name of the member.
@@ -1094,9 +1102,10 @@ extension ManagedBlockchain {
         /// Tags assigned to the member. Tags consist of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 tags added to each resource.
         public let tags: [String: String]?
 
-        public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, frameworkConfiguration: MemberFrameworkConfiguration, kmsKeyArn: String? = nil, logPublishingConfiguration: MemberLogPublishingConfiguration? = nil, name: String, tags: [String: String]? = nil) {
             self.description = description
             self.frameworkConfiguration = frameworkConfiguration
+            self.kmsKeyArn = kmsKeyArn
             self.logPublishingConfiguration = logPublishingConfiguration
             self.name = name
             self.tags = tags
@@ -1105,6 +1114,9 @@ extension ManagedBlockchain {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 128)
             try self.frameworkConfiguration.validate(name: "\(name).frameworkConfiguration")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 1011)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:.+:.+:.+:.+:.+")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!-|[0-9])(?!.*-$)(?!.*?--)[a-zA-Z0-9-]+$")
@@ -1119,6 +1131,7 @@ extension ManagedBlockchain {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case frameworkConfiguration = "FrameworkConfiguration"
+            case kmsKeyArn = "KmsKeyArn"
             case logPublishingConfiguration = "LogPublishingConfiguration"
             case name = "Name"
             case tags = "Tags"
@@ -1238,7 +1251,7 @@ extension ManagedBlockchain {
         public let isOwned: Bool?
         /// The name of the member.
         public let name: String?
-        /// The status of the member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.
+        /// The status of the member.    CREATING - The AWS account is in the process of creating a member.    AVAILABLE - The member has been created and can participate in the network.    CREATE_FAILED - The AWS account attempted to create a member and creation failed.    UPDATING - The member is in the process of being updated.    DELETING - The member and all associated resources are in the process of being deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    DELETED - The member can no longer participate on the network and all associated resources are deleted. Either the AWS account that owns the member deleted it, or the member is being deleted as the result of an APPROVED PROPOSAL to remove the member.    INACCESSIBLE_ENCRYPTION_KEY - The member is impaired and might not function as expected because it cannot access the specified customer managed key in AWS Key Management Service (AWS KMS) for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key, or revoking a grant is not immediate. The member resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: MemberStatus?
 
         public init(arn: String? = nil, creationDate: Date? = nil, description: String? = nil, id: String? = nil, isOwned: Bool? = nil, name: String? = nil, status: MemberStatus? = nil) {
@@ -1449,6 +1462,8 @@ extension ManagedBlockchain {
         public let id: String?
         /// The instance type of the node.
         public let instanceType: String?
+        /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key Management Service (AWS KMS) that the node uses for encryption at rest. If the value of this parameter is "AWS Owned KMS Key", the node uses an AWS owned KMS key for encryption. The node inherits this parameter from the member that it belongs to. Applies only to Hyperledger Fabric.
+        public let kmsKeyArn: String?
         /// Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain.
         public let logPublishingConfiguration: NodeLogPublishingConfiguration?
         /// The unique identifier of the member to which the node belongs. Applies only to Hyperledger Fabric.
@@ -1457,18 +1472,19 @@ extension ManagedBlockchain {
         public let networkId: String?
         /// The state database that the node uses. Values are LevelDB or CouchDB. Applies only to Hyperledger Fabric.
         public let stateDB: StateDBType?
-        /// The status of the node.
+        /// The status of the node.    CREATING - The AWS account is in the process of creating a node.    AVAILABLE - The node has been created and can participate in the network.    UNHEALTHY - The node is impaired and might not function as expected. Amazon Managed Blockchain automatically finds nodes in this state and tries to recover them. If a node is recoverable, it returns to AVAILABLE. Otherwise, it moves to FAILED status.    CREATE_FAILED - The AWS account attempted to create a node and creation failed.    UPDATING - The node is in the process of being updated.    DELETING - The node is in the process of being deleted.    DELETED - The node can no longer participate on the network.    FAILED - The node is no longer functional, cannot be recovered, and must be deleted.    INACCESSIBLE_ENCRYPTION_KEY - The node is impaired and might not function as expected because it cannot access the specified customer managed key in AWS KMS for encryption at rest. Either the KMS key was disabled or deleted, or the grants on the key were revoked. The effect of disabling or deleting a key, or revoking a grant is not immediate. The node resource might take some time to find that the key is inaccessible. When a resource is in this state, we recommend deleting and recreating the resource.
         public let status: NodeStatus?
         /// Tags assigned to the node. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, stateDB: StateDBType? = nil, status: NodeStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, availabilityZone: String? = nil, creationDate: Date? = nil, frameworkAttributes: NodeFrameworkAttributes? = nil, id: String? = nil, instanceType: String? = nil, kmsKeyArn: String? = nil, logPublishingConfiguration: NodeLogPublishingConfiguration? = nil, memberId: String? = nil, networkId: String? = nil, stateDB: StateDBType? = nil, status: NodeStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
             self.frameworkAttributes = frameworkAttributes
             self.id = id
             self.instanceType = instanceType
+            self.kmsKeyArn = kmsKeyArn
             self.logPublishingConfiguration = logPublishingConfiguration
             self.memberId = memberId
             self.networkId = networkId
@@ -1484,6 +1500,7 @@ extension ManagedBlockchain {
             case frameworkAttributes = "FrameworkAttributes"
             case id = "Id"
             case instanceType = "InstanceType"
+            case kmsKeyArn = "KmsKeyArn"
             case logPublishingConfiguration = "LogPublishingConfiguration"
             case memberId = "MemberId"
             case networkId = "NetworkId"

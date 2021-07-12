@@ -116,11 +116,14 @@ extension KMS {
     }
 
     public enum KeyState: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
         case disabled = "Disabled"
         case enabled = "Enabled"
         case pendingdeletion = "PendingDeletion"
         case pendingimport = "PendingImport"
+        case pendingreplicadeletion = "PendingReplicaDeletion"
         case unavailable = "Unavailable"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -133,6 +136,12 @@ extension KMS {
     public enum MessageType: String, CustomStringConvertible, Codable {
         case digest = "DIGEST"
         case raw = "RAW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable {
+        case primary = "PRIMARY"
+        case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
@@ -168,9 +177,11 @@ extension KMS {
         public let aliasArn: String?
         /// String that contains the alias. This value begins with alias/.
         public let aliasName: String?
+        /// Date and time that the alias was most recently created in the account and Region. Formatted as Unix time.
         public let creationDate: Date?
+        /// Date and time that the alias was most recently associated with a CMK in the account and Region. Formatted as Unix time.
         public let lastUpdatedDate: Date?
-        /// String that contains the key identifier referred to by the alias.
+        /// String that contains the key identifier of the CMK associated with the alias.
         public let targetKeyId: String?
 
         public init(aliasArn: String? = nil, aliasName: String? = nil, creationDate: Date? = nil, lastUpdatedDate: Date? = nil, targetKeyId: String? = nil) {
@@ -191,7 +202,7 @@ extension KMS {
     }
 
     public struct CancelKeyDeletionRequest: AWSEncodableShape {
-        /// The unique identifier for the customer master key (CMK) for which to cancel deletion. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies the customer master key (CMK) whose deletion is being canceled. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -246,7 +257,7 @@ extension KMS {
     public struct CreateAliasRequest: AWSEncodableShape {
         /// Specifies the alias name. This value must begin with alias/ followed by a name, such as alias/ExampleAlias.  The AliasName value must be string of 1-256 characters. It can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). The alias name cannot begin with alias/aws/. The alias/aws/ prefix is reserved for AWS managed CMKs.
         public let aliasName: String
-        /// Associates the alias with the specified customer managed CMK. The CMK must be in the same AWS Region.  A valid CMK ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Finding the Key ID and ARN in the AWS Key Management Service Developer Guide. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Associates the alias with the specified customer managed CMK. The CMK must be in the same AWS Region.  A valid CMK ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Finding the Key ID and ARN in the AWS Key Management Service Developer Guide. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let targetKeyId: String
 
         public init(aliasName: String, targetKeyId: String) {
@@ -318,17 +329,17 @@ extension KMS {
     }
 
     public struct CreateGrantRequest: AWSEncodableShape {
-        /// Allows a cryptographic operation only when the encryption context matches or includes the encryption context specified in this structure. For more information about encryption context, see Encryption Context in the  AWS Key Management Service Developer Guide . Grant constraints are not applied to operations that do not support an encryption context, such as cryptographic operations with asymmetric CMKs and management operations, such as DescribeKey or RetireGrant.
+        /// Specifies a grant constraint.  AWS KMS supports the EncryptionContextEquals and EncryptionContextSubset grant constraints. Each constraint value can include up to 8 encryption context pairs. The encryption context value in each constraint cannot exceed 384 characters. These grant constraints allow a cryptographic operation only when the encryption context in the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the encryption context specified in this structure. For more information about encryption context, see Encryption Context in the  AWS Key Management Service Developer Guide . For information about grant constraints, see Using grant constraints in the AWS Key Management Service Developer Guide. The encryption context grant constraints are supported only on operations that include an encryption context. You cannot use an encryption context grant constraint for cryptographic operations with asymmetric CMKs or for management operations, such as DescribeKey or RetireGrant.
         public let constraints: GrantConstraints?
-        /// The principal that is given permission to perform the operations that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
+        /// The identity that gets the permissions specified in the grant. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
         public let granteePrincipal: String
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens.  Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// The unique identifier for the customer master key (CMK) that the grant applies to. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies the customer master key (CMK) for the grant. The grant gives principals permission to use this CMK. Specify the key ID or key ARN of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// A friendly name for the grant. Use this value to prevent the unintended creation of duplicate grants when retrying this request. When this value is absent, all CreateGrant requests result in a new grant with a unique GrantId even if all the supplied parameters are identical. This can result in unintended duplicates when you retry the CreateGrant request. When this value is present, you can retry a CreateGrant request with identical parameters; if the grant already exists, the original GrantId is returned without creating a new grant. Note that the returned grant token is unique with every CreateGrant request, even when a duplicate GrantId is returned. All grant tokens for the same grant ID can be used interchangeably.
         public let name: String?
-        /// A list of operations that the grant permits.
+        /// A list of operations that the grant permits.  The operation must be supported on the CMK. For example, you cannot create a grant for a symmetric CMK that allows the Sign operation, or a grant for an asymmetric CMK that allows the GenerateDataKey operation. If you try, AWS KMS returns a ValidationError exception. For details, see Grant operations in the AWS Key Management Service Developer Guide.
         public let operations: [GrantOperation]
         /// The principal that is given permission to retire the grant by using RetireGrant operation. To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference.
         public let retiringPrincipal: String?
@@ -377,7 +388,7 @@ extension KMS {
     public struct CreateGrantResponse: AWSDecodableShape {
         /// The unique identifier for the grant. You can use the GrantId in a ListGrants, RetireGrant, or RevokeGrant operation.
         public let grantId: String?
-        /// The grant token. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// The grant token. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantToken: String?
 
         public init(grantId: String? = nil, grantToken: String? = nil) {
@@ -396,25 +407,28 @@ extension KMS {
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// Specifies the type of CMK to create. The default value, SYMMETRIC_DEFAULT, creates a CMK with a 256-bit symmetric key for encryption and decryption. For help choosing a key spec for your CMK, see How to Choose Your CMK Configuration in the AWS Key Management Service Developer Guide. The CustomerMasterKeySpec determines whether the CMK contains a symmetric key or an asymmetric key pair. It also determines the encryption algorithms or signing algorithms that the CMK supports. You can't change the CustomerMasterKeySpec after the CMK is created. To further restrict the algorithms that can be used with the CMK, use a condition key in its key policy or IAM policy. For more information, see kms:EncryptionAlgorithm or kms:Signing Algorithm in the AWS Key Management Service Developer Guide.   AWS services that are integrated with AWS KMS use symmetric CMKs to protect your data. These services do not support asymmetric CMKs. For help determining whether a CMK is symmetric or asymmetric, see Identifying Symmetric and Asymmetric CMKs in the AWS Key Management Service Developer Guide.  AWS KMS supports the following key specs for CMKs:   Symmetric key (default)    SYMMETRIC_DEFAULT (AES-256-GCM)     Asymmetric RSA key pairs    RSA_2048     RSA_3072     RSA_4096      Asymmetric NIST-recommended elliptic curve key pairs    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384 (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric elliptic curve key pairs    ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.
         public let customerMasterKeySpec: CustomerMasterKeySpec?
-        /// Creates the CMK in the specified custom key store and the key material in its associated AWS CloudHSM cluster. To create a CMK in a custom key store, you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated with the custom key store must have at least two active HSMs, each in a different Availability Zone in the Region. This parameter is valid only for symmetric CMKs. You cannot create an asymmetric CMK in a custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive integration of AWS KMS with the isolation and control of a single-tenant key store.
+        /// Creates the CMK in the specified custom key store and the key material in its associated AWS CloudHSM cluster. To create a CMK in a custom key store, you must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated with the custom key store must have at least two active HSMs, each in a different Availability Zone in the Region. This parameter is valid only for symmetric CMKs and regional CMKs. You cannot create an asymmetric CMK or a multi-Region CMK in a custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive integration of AWS KMS with the isolation and control of a single-tenant key store.
         public let customKeyStoreId: String?
-        /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task.
+        /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task. The default value is an empty string (no description).
         public let description: String?
         /// Determines the cryptographic operations for which you can use the CMK. The default value is ENCRYPT_DECRYPT. This parameter is required only for asymmetric CMKs. You can't change the KeyUsage value after the CMK is created. Select only one valid value.   For symmetric CMKs, omit the parameter or specify ENCRYPT_DECRYPT.   For asymmetric CMKs with RSA key material, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric CMKs with ECC key material, specify SIGN_VERIFY.
         public let keyUsage: KeyUsageType?
-        /// The source of the key material for the CMK. You cannot change the origin after you create the CMK. The default is AWS_KMS, which means AWS KMS creates the key material. When the parameter value is EXTERNAL, AWS KMS creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. This value is valid only for symmetric CMKs. When the parameter value is AWS_CLOUDHSM, AWS KMS creates the CMK in an AWS KMS custom key store and creates its key material in the associated AWS CloudHSM cluster. You must also use the CustomKeyStoreId parameter to identify the custom key store. This value is valid only for symmetric CMKs.
+        /// Creates a multi-Region primary key that you can replicate into other AWS Regions. You cannot change this value after you create the CMK.  For a multi-Region key, set this parameter to True. For a single-Region CMK, omit this parameter or set it to False. The default value is False. This operation supports multi-Region keys, an AWS KMS feature that lets you create multiple interoperable CMKs in different AWS Regions. Because these CMKs have the same key ID, key material, and other metadata, you can use them to encrypt data in one AWS Region and decrypt it in a different AWS Region without making a cross-Region call or exposing the plaintext data. For more information about multi-Region keys, see Using multi-Region keys in the AWS Key Management Service Developer Guide. This value creates a primary key, not a replica. To create a replica key, use the ReplicateKey operation.  You can create a symmetric or asymmetric multi-Region CMK, and you can create a multi-Region CMK with imported key material. However, you cannot create a multi-Region CMK in a custom key store.
+        public let multiRegion: Bool?
+        /// The source of the key material for the CMK. You cannot change the origin after you create the CMK. The default is AWS_KMS, which means that AWS KMS creates the key material. To create a CMK with no key material (for imported key material), set the value to EXTERNAL. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide. This value is valid only for symmetric CMKs. To create a CMK in an AWS KMS custom key store and create its key material in the associated AWS CloudHSM cluster, set this value to AWS_CLOUDHSM. You must also use the CustomKeyStoreId parameter to identify the custom key store. This value is valid only for symmetric CMKs.
         public let origin: OriginType?
         /// The key policy to attach to the CMK. If you provide a key policy, it must meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the  AWS Key Management Service Developer Guide .   Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide.   If you do not provide a key policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide.  The key policy size quota is 32 kilobytes (32768 bytes). For help writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the  IAM User Guide .
         public let policy: String?
-        /// One or more tags. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string.  When you add tags to an AWS resource, AWS generates a cost allocation report with usage and costs aggregated by tags. For information about adding, changing, deleting and listing tags for CMKs, see Tagging Keys. Use this parameter to tag the CMK when it is created. To add tags to an existing CMK, use the TagResource operation. To use this parameter, you must have kms:TagResource permission in an IAM policy.
+        /// Assigns one or more tags to the CMK. Use this parameter to tag the CMK when it is created. To tag an existing CMK, use the TagResource operation.  Tagging or untagging a CMK can allow or deny permission to the CMK. For details, see Using ABAC in AWS KMS in the AWS Key Management Service Developer Guide.  To use this parameter, you must have kms:TagResource permission in an IAM policy. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a CMK with the same tag key. If you specify an existing tag key with a different tag value, AWS KMS replaces the current tag value with the specified one. When you assign tags to an AWS resource, AWS generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a CMK. For details, see Tagging Keys.
         public let tags: [Tag]?
 
-        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, description: String? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil) {
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, description: String? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.customerMasterKeySpec = customerMasterKeySpec
             self.customKeyStoreId = customKeyStoreId
             self.description = description
             self.keyUsage = keyUsage
+            self.multiRegion = multiRegion
             self.origin = origin
             self.policy = policy
             self.tags = tags
@@ -439,6 +453,7 @@ extension KMS {
             case customKeyStoreId = "CustomKeyStoreId"
             case description = "Description"
             case keyUsage = "KeyUsage"
+            case multiRegion = "MultiRegion"
             case origin = "Origin"
             case policy = "Policy"
             case tags = "Tags"
@@ -502,9 +517,9 @@ extension KMS {
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens.  Use a grant token when your permission to call this operation comes from a newly created grant that has not yet achieved eventual consistency. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the customer master key (CMK) that AWS KMS uses to decrypt the ciphertext. Enter a key ID of the CMK that was used to encrypt the ciphertext. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the CMK that you intend. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the customer master key (CMK) that AWS KMS uses to decrypt the ciphertext. Enter a key ID of the CMK that was used to encrypt the ciphertext. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the CMK that you intend. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String?
 
         public init(ciphertextBlob: Data, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil) {
@@ -600,7 +615,7 @@ extension KMS {
     }
 
     public struct DeleteImportedKeyMaterialRequest: AWSEncodableShape {
-        /// Identifies the CMK from which you are deleting imported key material. The Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies the CMK from which you are deleting imported key material. The Origin of the CMK must be EXTERNAL. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -618,9 +633,9 @@ extension KMS {
     }
 
     public struct DescribeCustomKeyStoresRequest: AWSEncodableShape {
-        /// Gets only information about the specified custom key store. Enter the key store ID. By default, this operation gets information about all custom key stores in the account and region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
+        /// Gets only information about the specified custom key store. Enter the key store ID. By default, this operation gets information about all custom key stores in the account and Region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
         public let customKeyStoreId: String?
-        /// Gets only information about the specified custom key store. Enter the friendly name of the custom key store. By default, this operation gets information about all custom key stores in the account and region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
+        /// Gets only information about the specified custom key store. Enter the friendly name of the custom key store. By default, this operation gets information about all custom key stores in the account and Region. To limit the output to a particular custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
         public let customKeyStoreName: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
         public let limit: Int?
@@ -676,9 +691,9 @@ extension KMS {
     }
 
     public struct DescribeKeyRequest: AWSEncodableShape {
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Describes the specified customer master key (CMK).  If you specify a predefined AWS alias (an AWS alias with no key ID), KMS associates the alias with an AWS managed CMK and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Describes the specified customer master key (CMK).  If you specify a predefined AWS alias (an AWS alias with no key ID), KMS associates the alias with an AWS managed CMK and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
 
         public init(grantTokens: [String]? = nil, keyId: String) {
@@ -717,7 +732,7 @@ extension KMS {
     }
 
     public struct DisableKeyRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies the customer master key (CMK) to disable. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -735,7 +750,7 @@ extension KMS {
     }
 
     public struct DisableKeyRotationRequest: AWSEncodableShape {
-        /// Identifies a symmetric customer master key (CMK). You cannot enable or disable automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies a symmetric customer master key (CMK). You cannot enable or disable automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -775,7 +790,7 @@ extension KMS {
     }
 
     public struct EnableKeyRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies the customer master key (CMK) to enable. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -793,7 +808,7 @@ extension KMS {
     }
 
     public struct EnableKeyRotationRequest: AWSEncodableShape {
-        /// Identifies a symmetric customer master key (CMK). You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies a symmetric customer master key (CMK). You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. To enable or disable automatic rotation of a set of related multi-Region keys, set the property on the primary key. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -815,9 +830,9 @@ extension KMS {
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies the encryption context that will be used to encrypt the data. An encryption context is valid only for cryptographic operations with a symmetric CMK. The standard asymmetric encryption algorithms that AWS KMS uses do not support an encryption context.  An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// A unique identifier for the customer master key (CMK). To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Identifies the customer master key (CMK) to use in the encryption operation. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Data to be encrypted.
         public let plaintext: Data
@@ -876,9 +891,9 @@ extension KMS {
     public struct GenerateDataKeyPairRequest: AWSEncodableShape {
         /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the symmetric CMK that encrypts the private key in the data key pair. You cannot specify an asymmetric CMK or a CMK in a custom key store. To get the type and origin of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the symmetric CMK that encrypts the private key in the data key pair. You cannot specify an asymmetric CMK or a CMK in a custom key store. To get the type and origin of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Determines the type of data key pair that is generated.  The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are not effective outside of AWS KMS.
         public let keyPairSpec: DataKeyPairSpec
@@ -941,9 +956,9 @@ extension KMS {
     public struct GenerateDataKeyPairWithoutPlaintextRequest: AWSEncodableShape {
         /// Specifies the encryption context that will be used when encrypting the private key in the data key pair. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the CMK that encrypts the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK or a CMK in a custom key store. To get the type and origin of your CMK, use the DescribeKey operation.  To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the CMK that encrypts the private key in the data key pair. You must specify a symmetric CMK. You cannot use an asymmetric CMK or a CMK in a custom key store. To get the type and origin of your CMK, use the DescribeKey operation.  To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Determines the type of data key pair that is generated. The AWS KMS rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are not effective outside of AWS KMS.
         public let keyPairSpec: DataKeyPairSpec
@@ -1002,9 +1017,9 @@ extension KMS {
     public struct GenerateDataKeyRequest: AWSEncodableShape {
         /// Specifies the encryption context that will be used when encrypting the data key. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Identifies the symmetric CMK that encrypts the data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Identifies the symmetric CMK that encrypts the data key. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Specifies the length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key. You must specify either the KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
         public let keySpec: DataKeySpec?
@@ -1065,9 +1080,9 @@ extension KMS {
     public struct GenerateDataKeyWithoutPlaintextRequest: AWSEncodableShape {
         /// Specifies the encryption context that will be used when encrypting the data key. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let encryptionContext: [String: String]?
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// The identifier of the symmetric customer master key (CMK) that encrypts the data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// The identifier of the symmetric customer master key (CMK) that encrypts the data key. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// The length of the data key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
         public let keySpec: DataKeySpec?
@@ -1159,7 +1174,7 @@ extension KMS {
     }
 
     public struct GetKeyPolicyRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Gets the key policy for the specified customer master key (CMK). Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Specifies the name of the key policy. The only valid name is default. To get the names of key policies, use ListKeyPolicies.
         public let policyName: String
@@ -1197,7 +1212,7 @@ extension KMS {
     }
 
     public struct GetKeyRotationStatusRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Gets the rotation status for the specified customer master key (CMK). Specify the key ID or key ARN of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(keyId: String) {
@@ -1228,7 +1243,7 @@ extension KMS {
     }
 
     public struct GetParametersForImportRequest: AWSEncodableShape {
-        /// The identifier of the symmetric CMK into which you will import key material. The Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// The identifier of the symmetric CMK into which you will import key material. The Origin of the CMK must be EXTERNAL. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide.
         public let wrappingAlgorithm: AlgorithmSpec
@@ -1279,9 +1294,9 @@ extension KMS {
     }
 
     public struct GetPublicKeyRequest: AWSEncodableShape {
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Identifies the asymmetric CMK that includes the public key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Identifies the asymmetric CMK that includes the public key. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
 
         public init(grantTokens: [String]? = nil, keyId: String) {
@@ -1408,7 +1423,7 @@ extension KMS {
         public let expirationModel: ExpirationModelType?
         /// The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
         public let importToken: Data
-        /// The identifier of the symmetric CMK that receives the imported key material. The CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID parameter of the corresponding GetParametersForImport request. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// The identifier of the symmetric CMK that receives the imported key material. The CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID parameter of the corresponding GetParametersForImport request. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE. Otherwise it is required.
         public let validTo: Date?
@@ -1473,13 +1488,13 @@ extension KMS {
         public let customerMasterKeySpec: CustomerMasterKeySpec?
         /// A unique identifier for the custom key store that contains the CMK. This value is present only when the CMK is created in a custom key store.
         public let customKeyStoreId: String?
-        /// The date and time after which AWS KMS deletes the CMK. This value is present only when KeyState is PendingDeletion.
+        /// The date and time after which AWS KMS deletes this CMK. This value is present only when the CMK is scheduled for deletion, that is, when its KeyState is PendingDeletion. When the primary key in a multi-Region key is scheduled for deletion but still has replica keys, its key state is PendingReplicaDeletion and the length of its waiting period is displayed in the PendingDeletionWindowInDays field.
         public let deletionDate: Date?
         /// The description of the CMK.
         public let description: String?
         /// Specifies whether the CMK is enabled. When KeyState is Enabled this value is true, otherwise it is false.
         public let enabled: Bool?
-        /// The encryption algorithms that the CMK supports. You cannot use the CMK with other encryption algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is ENCRYPT_DECRYPT.
+        /// The encryption algorithms that the CMK supports. You cannot use the CMK with other encryption algorithms within AWS KMS. This value is present only when the KeyUsage of the CMK is ENCRYPT_DECRYPT.
         public let encryptionAlgorithms: [EncryptionAlgorithmSpec]?
         /// Specifies whether the CMK's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
         public let expirationModel: ExpirationModelType?
@@ -1491,14 +1506,20 @@ extension KMS {
         public let keyState: KeyState?
         /// The cryptographic operations for which you can use the CMK.
         public let keyUsage: KeyUsageType?
+        /// Indicates whether the CMK is a multi-Region (True) or regional (False) key. This value is True for multi-Region primary and replica CMKs and False for regional CMKs. For more information about multi-Region keys, see Using multi-Region keys in the AWS Key Management Service Developer Guide.
+        public let multiRegion: Bool?
+        /// Lists the primary and replica CMKs in same multi-Region CMK. This field is present only when the value of the MultiRegion field is True. For more information about any listed CMK, use the DescribeKey operation.    MultiRegionKeyType indicates whether the CMK is a PRIMARY or REPLICA key.    PrimaryKey displays the key ARN and Region of the primary key. This field displays the current CMK if it is the primary key.    ReplicaKeys displays the key ARNs and Regions of all replica keys. This field includes the current CMK if it is a replica key.
+        public let multiRegionConfiguration: MultiRegionConfiguration?
         /// The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the AWS CloudHSM cluster associated with a custom key store.
         public let origin: OriginType?
+        /// The waiting period before the primary key in a multi-Region key is deleted. This waiting period begins when the last of its replica keys is deleted. This value is present only when the KeyState of the CMK is PendingReplicaDeletion. That indicates that the CMK is the primary key in a multi-Region key, it is scheduled for deletion, and it still has existing replica keys. When a regional CMK or a replica key in a multi-Region key is scheduled for deletion, its deletion date is displayed in the DeletionDate field. However, when the primary key in a multi-Region key is scheduled for deletion, its waiting period doesn't begin until all of its replica keys are deleted. This value displays that waiting period. When the last replica key in the multi-Region key is deleted, the KeyState of the scheduled primary key changes from PendingReplicaDeletion to PendingDeletion and the deletion date appears in the DeletionDate field.
+        public let pendingDeletionWindowInDays: Int?
         /// The signing algorithms that the CMK supports. You cannot use the CMK with other signing algorithms within AWS KMS. This field appears only when the KeyUsage of the CMK is SIGN_VERIFY.
         public let signingAlgorithms: [SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. This value is present only for CMKs whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: Date?
 
-        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, origin: OriginType? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
+        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
             self.arn = arn
             self.aWSAccountId = aWSAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -1514,7 +1535,10 @@ extension KMS {
             self.keyManager = keyManager
             self.keyState = keyState
             self.keyUsage = keyUsage
+            self.multiRegion = multiRegion
+            self.multiRegionConfiguration = multiRegionConfiguration
             self.origin = origin
+            self.pendingDeletionWindowInDays = pendingDeletionWindowInDays
             self.signingAlgorithms = signingAlgorithms
             self.validTo = validTo
         }
@@ -1535,14 +1559,17 @@ extension KMS {
             case keyManager = "KeyManager"
             case keyState = "KeyState"
             case keyUsage = "KeyUsage"
+            case multiRegion = "MultiRegion"
+            case multiRegionConfiguration = "MultiRegionConfiguration"
             case origin = "Origin"
+            case pendingDeletionWindowInDays = "PendingDeletionWindowInDays"
             case signingAlgorithms = "SigningAlgorithms"
             case validTo = "ValidTo"
         }
     }
 
     public struct ListAliasesRequest: AWSEncodableShape {
-        /// Lists only aliases that are associated with the specified CMK. Enter a CMK in your AWS account.  This parameter is optional. If you omit it, ListAliases returns all aliases in the account and Region. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Lists only aliases that are associated with the specified CMK. Enter a CMK in your AWS account.  This parameter is optional. If you omit it, ListAliases returns all aliases in the account and Region. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String?
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
         public let limit: Int?
@@ -1598,7 +1625,7 @@ extension KMS {
         public let granteePrincipal: String?
         /// Returns only the grant with the specified grant ID. The grant ID uniquely identifies the grant.
         public let grantId: String?
-        /// Returns only grants for the specified customer master key (CMK). This parameter is required. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Returns only grants for the specified customer master key (CMK). This parameter is required. Specify the key ID or key ARN of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
         public let limit: Int?
@@ -1659,7 +1686,7 @@ extension KMS {
     }
 
     public struct ListKeyPoliciesRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Gets the names of key policies for the specified customer master key (CMK). Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Only one policy can be attached to a key.
         public let limit: Int?
@@ -1757,7 +1784,7 @@ extension KMS {
     }
 
     public struct ListResourceTagsRequest: AWSEncodableShape {
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Gets tags on the specified customer master key (CMK). Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 50, inclusive. If you do not include a value, it defaults to 50.
         public let limit: Int?
@@ -1790,7 +1817,7 @@ extension KMS {
     public struct ListResourceTagsResponse: AWSDecodableShape {
         /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request. Do not assume or infer any information from this value.
         public let nextMarker: String?
-        /// A list of tags. Each tag consists of a tag key and a tag value.
+        /// A list of tags. Each tag consists of a tag key and a tag value.  Tagging or untagging a CMK can allow or deny permission to the CMK. For details, see Using ABAC in AWS KMS in the AWS Key Management Service Developer Guide.
         public let tags: [Tag]?
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
         public let truncated: Bool?
@@ -1840,10 +1867,48 @@ extension KMS {
         }
     }
 
+    public struct MultiRegionConfiguration: AWSDecodableShape {
+        /// Indicates whether the CMK is a PRIMARY or REPLICA key.
+        public let multiRegionKeyType: MultiRegionKeyType?
+        /// Displays the key ARN and Region of the primary key. This field includes the current CMK if it is the primary key.
+        public let primaryKey: MultiRegionKey?
+        /// displays the key ARNs and Regions of all replica keys. This field includes the current CMK if it is a replica key.
+        public let replicaKeys: [MultiRegionKey]?
+
+        public init(multiRegionKeyType: MultiRegionKeyType? = nil, primaryKey: MultiRegionKey? = nil, replicaKeys: [MultiRegionKey]? = nil) {
+            self.multiRegionKeyType = multiRegionKeyType
+            self.primaryKey = primaryKey
+            self.replicaKeys = replicaKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiRegionKeyType = "MultiRegionKeyType"
+            case primaryKey = "PrimaryKey"
+            case replicaKeys = "ReplicaKeys"
+        }
+    }
+
+    public struct MultiRegionKey: AWSDecodableShape {
+        /// Displays the key ARN of a primary or replica key of a multi-Region key.
+        public let arn: String?
+        /// Displays the AWS Region of a primary or replica key in a multi-Region key.
+        public let region: String?
+
+        public init(arn: String? = nil, region: String? = nil) {
+            self.arn = arn
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case region = "Region"
+        }
+    }
+
     public struct PutKeyPolicyRequest: AWSEncodableShape {
         /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
         public let bypassPolicyLockoutSafetyCheck: Bool?
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Sets the key policy on the specified customer master key (CMK). Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// The key policy to attach to the CMK. The key policy must meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the AWS Key Management Service Developer Guide.   Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide.   The key policy cannot exceed 32 kilobytes (32768 bytes). For more information, see Resource Quotas in the AWS Key Management Service Developer Guide.
         public let policy: String
@@ -1883,15 +1948,15 @@ extension KMS {
         public let destinationEncryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies that encryption context to use when the reencrypting the data. A destination encryption context is valid only when the destination CMK is a symmetric CMK. The standard ciphertext format for asymmetric CMKs does not include fields for metadata. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let destinationEncryptionContext: [String: String]?
-        /// A unique identifier for the CMK that is used to reencrypt the data. Specify a symmetric or asymmetric CMK with a KeyUsage value of ENCRYPT_DECRYPT. To find the KeyUsage value of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// A unique identifier for the CMK that is used to reencrypt the data. Specify a symmetric or asymmetric CMK with a KeyUsage value of ENCRYPT_DECRYPT. To find the KeyUsage value of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let destinationKeyId: String
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Specifies the encryption algorithm that AWS KMS will use to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT, represents the algorithm used for symmetric CMKs. Specify the same algorithm that was used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK.
         public let sourceEncryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies the encryption context to use to decrypt the ciphertext. Enter the same encryption context that was used to encrypt the ciphertext. An encryption context is a collection of non-secret key-value pairs that represents additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is optional when encrypting with a symmetric CMK, but it is highly recommended. For more information, see Encryption Context in the AWS Key Management Service Developer Guide.
         public let sourceEncryptionContext: [String: String]?
-        /// Specifies the customer master key (CMK) that AWS KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the CMK that was used to encrypt the ciphertext. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the CMK that you intend. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the customer master key (CMK) that AWS KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the CMK that was used to encrypt the ciphertext. This parameter is required only when the ciphertext was encrypted under an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the CMK that you intend. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let sourceKeyId: String?
 
         public init(ciphertextBlob: Data, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
@@ -1961,12 +2026,82 @@ extension KMS {
         }
     }
 
+    public struct ReplicateKeyRequest: AWSEncodableShape {
+        /// A flag to indicate whether to bypass the key policy lockout safety check.  Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide.  Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK. The default value is false.
+        public let bypassPolicyLockoutSafetyCheck: Bool?
+        /// A description of the CMK. Use a description that helps you decide whether the CMK is appropriate for a task. The default value is an empty string (no description). The description is not a shared property of multi-Region keys. You can specify the same description or a different description for each key in a set of related multi-Region keys. AWS KMS does not synchronize this property.
+        public let description: String?
+        /// Identifies the multi-Region primary key that is being replicated. To determine whether a CMK is a multi-Region primary key, use the DescribeKey operation to check the value of the MultiRegionKeyType property. Specify the key ID or key ARN of a multi-Region primary key. For example:   Key ID: mrk-1234abcd12ab34cd56ef1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        public let keyId: String
+        /// The key policy to attach to the CMK. This parameter is optional. If you do not provide a key policy, AWS KMS attaches the default key policy to the CMK. The key policy is not a shared property of multi-Region keys. You can specify the same key policy or a different key policy for each key in a set of related multi-Region keys. AWS KMS does not synchronize this property. If you provide a key policy, it must meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must give the caller kms:PutKeyPolicy permission on the replica CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the  AWS Key Management Service Developer Guide .   Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide.   The key policy size quota is 32 kilobytes (32768 bytes).
+        public let policy: String?
+        /// The Region ID of the AWS Region for this replica key.  Enter the Region ID, such as us-east-1 or ap-southeast-2. For a list of AWS Regions in which AWS KMS is supported, see AWS KMS service endpoints in the Amazon Web Services General Reference. The replica must be in a different AWS Region than its primary key and other replicas of that primary key, but in the same AWS partition. AWS KMS must be available in the replica Region. If the Region is not enabled by default, the AWS account must be enabled in the Region.  For information about AWS partitions, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference. For information about enabling and disabling Regions, see Enabling a Region and Disabling a Region in the Amazon Web Services General Reference.
+        public let replicaRegion: String
+        /// Assigns one or more tags to the replica key. Use this parameter to tag the CMK when it is created. To tag an existing CMK, use the TagResource operation.  Tagging or untagging a CMK can allow or deny permission to the CMK. For details, see Using ABAC in AWS KMS in the AWS Key Management Service Developer Guide.  To use this parameter, you must have kms:TagResource permission in an IAM policy. Tags are not a shared property of multi-Region keys. You can specify the same tags or different tags for each key in a set of related multi-Region keys. AWS KMS does not synchronize this property. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a CMK with the same tag key. If you specify an existing tag key with a different tag value, AWS KMS replaces the current tag value with the specified one. When you assign tags to an AWS resource, AWS generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a CMK. For details, see Tagging Keys.
+        public let tags: [Tag]?
+
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, description: String? = nil, keyId: String, policy: String? = nil, replicaRegion: String, tags: [Tag]? = nil) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.description = description
+            self.keyId = keyId
+            self.policy = policy
+            self.replicaRegion = replicaRegion
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 8192)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, max: 131_072)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
+            try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, max: 32)
+            try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, min: 1)
+            try self.validate(self.replicaRegion, name: "replicaRegion", parent: name, pattern: "^([a-z]+-){2,3}\\d+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "BypassPolicyLockoutSafetyCheck"
+            case description = "Description"
+            case keyId = "KeyId"
+            case policy = "Policy"
+            case replicaRegion = "ReplicaRegion"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ReplicateKeyResponse: AWSDecodableShape {
+        /// Displays details about the new replica CMK, including its Amazon Resource Name (key ARN) and key state. It also includes the ARN and AWS Region of its primary key and other replica keys.
+        public let replicaKeyMetadata: KeyMetadata?
+        /// The key policy of the new replica key. The value is a key policy document in JSON format.
+        public let replicaPolicy: String?
+        /// The tags on the new replica key. The value is a list of tag key and tag value pairs.
+        public let replicaTags: [Tag]?
+
+        public init(replicaKeyMetadata: KeyMetadata? = nil, replicaPolicy: String? = nil, replicaTags: [Tag]? = nil) {
+            self.replicaKeyMetadata = replicaKeyMetadata
+            self.replicaPolicy = replicaPolicy
+            self.replicaTags = replicaTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicaKeyMetadata = "ReplicaKeyMetadata"
+            case replicaPolicy = "ReplicaPolicy"
+            case replicaTags = "ReplicaTags"
+        }
+    }
+
     public struct RetireGrantRequest: AWSEncodableShape {
-        /// Unique identifier of the grant to retire. The grant ID is returned in the response to a CreateGrant operation.   Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
+        /// Identifies the grant to retire. To get the grant ID, use CreateGrant, ListGrants, or ListRetirableGrants.   Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
         public let grantId: String?
-        /// Token that identifies the grant to be retired.
+        /// Identifies the grant to be retired. You can use a grant token to identify a new grant even before it has achieved eventual consistency. Only the CreateGrant operation returns a grant token. For details, see Grant token and Eventual consistency in the AWS Key Management Service Developer Guide.
         public let grantToken: String?
-        /// The Amazon Resource Name (ARN) of the CMK associated with the grant.  For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
+        /// The key ARN CMK associated with the grant. To find the key ARN, use the ListKeys operation. For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
         public let keyId: String?
 
         public init(grantId: String? = nil, grantToken: String? = nil, keyId: String? = nil) {
@@ -1992,9 +2127,9 @@ extension KMS {
     }
 
     public struct RevokeGrantRequest: AWSEncodableShape {
-        /// Identifier of the grant to be revoked.
+        /// Identifies the grant to revoke. To get the grant ID, use CreateGrant, ListGrants, or ListRetirableGrants.
         public let grantId: String
-        /// A unique identifier for the customer master key associated with the grant. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// A unique identifier for the customer master key (CMK) associated with the grant. To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. Specify the key ID or key ARN of the CMK. To specify a CMK in a different AWS account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(grantId: String, keyId: String) {
@@ -2016,9 +2151,9 @@ extension KMS {
     }
 
     public struct ScheduleKeyDeletionRequest: AWSEncodableShape {
-        /// The unique identifier of the customer master key (CMK) to delete. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// The unique identifier of the customer master key (CMK) to delete. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
-        /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
+        /// The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK). If the CMK is a multi-Region primary key with replicas, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
         public let pendingWindowInDays: Int?
 
         public init(keyId: String, pendingWindowInDays: Int? = nil) {
@@ -2040,26 +2175,34 @@ extension KMS {
     }
 
     public struct ScheduleKeyDeletionResponse: AWSDecodableShape {
-        /// The date and time after which AWS KMS deletes the customer master key (CMK).
+        /// The date and time after which AWS KMS deletes the customer master key (CMK). If the CMK is a multi-Region primary key with replica keys, this field does not appear. The deletion date for the primary key isn't known until its last replica key is deleted.
         public let deletionDate: Date?
         /// The Amazon Resource Name (key ARN) of the CMK whose deletion is scheduled.
         public let keyId: String?
+        /// The current status of the CMK. For more information about how key state affects the use of a CMK, see Key state: Effect on your CMK in the AWS Key Management Service Developer Guide.
+        public let keyState: KeyState?
+        /// The waiting period before the CMK is deleted.  If the CMK is a multi-Region primary key with replicas, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately.
+        public let pendingWindowInDays: Int?
 
-        public init(deletionDate: Date? = nil, keyId: String? = nil) {
+        public init(deletionDate: Date? = nil, keyId: String? = nil, keyState: KeyState? = nil, pendingWindowInDays: Int? = nil) {
             self.deletionDate = deletionDate
             self.keyId = keyId
+            self.keyState = keyState
+            self.pendingWindowInDays = pendingWindowInDays
         }
 
         private enum CodingKeys: String, CodingKey {
             case deletionDate = "DeletionDate"
             case keyId = "KeyId"
+            case keyState = "KeyState"
+            case pendingWindowInDays = "PendingWindowInDays"
         }
     }
 
     public struct SignRequest: AWSEncodableShape {
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric CMK to sign the message. The KeyUsage type of the CMK must be SIGN_VERIFY. To find the KeyUsage of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric CMK to sign the message. The KeyUsage type of the CMK must be SIGN_VERIFY. To find the KeyUsage of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide the message digest. If you provide a message, AWS KMS generates a hash digest of the message and then signs it.
         public let message: Data
@@ -2144,7 +2287,7 @@ extension KMS {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// Identifies a customer managed CMK in the account and Region. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies a customer managed CMK in the account and Region. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// One or more tags.  Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string.  You cannot have more than one tag on a CMK with the same tag key. If you specify an existing tag key with a different tag value, AWS KMS replaces the current tag value with the specified one.
         public let tags: [Tag]
@@ -2169,7 +2312,7 @@ extension KMS {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// Identifies the CMK from which you are removing tags. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Identifies the CMK from which you are removing tags. Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
         /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
@@ -2197,7 +2340,7 @@ extension KMS {
     public struct UpdateAliasRequest: AWSEncodableShape {
         /// Identifies the alias that is changing its CMK. This value must begin with alias/ followed by the alias name, such as alias/ExampleAlias. You cannot use UpdateAlias to change the alias name.
         public let aliasName: String
-        /// Identifies the customer managed CMK to associate with the alias. You don't have permission to associate an alias with an AWS managed CMK. The CMK must be in the same AWS account and Region as the alias. Also, the new target CMK must be the same type as the current target CMK (both symmetric or both asymmetric) and they must have the same key usage.  Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To verify that the alias is mapped to the correct CMK, use ListAliases.
+        /// Identifies the customer managed CMK to associate with the alias. You don't have permission to associate an alias with an AWS managed CMK. The CMK must be in the same AWS account and Region as the alias. Also, the new target CMK must be the same type as the current target CMK (both symmetric or both asymmetric) and they must have the same key usage.  Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To verify that the alias is mapped to the correct CMK, use ListAliases.
         public let targetKeyId: String
 
         public init(aliasName: String, targetKeyId: String) {
@@ -2262,7 +2405,7 @@ extension KMS {
     public struct UpdateKeyDescriptionRequest: AWSEncodableShape {
         /// New description for the CMK.
         public let description: String
-        /// A unique identifier for the customer master key (CMK). Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        /// Updates the description of the specified customer master key (CMK). Specify the key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
         public let keyId: String
 
         public init(description: String, keyId: String) {
@@ -2283,10 +2426,35 @@ extension KMS {
         }
     }
 
+    public struct UpdatePrimaryRegionRequest: AWSEncodableShape {
+        /// Identifies the current primary key. When the operation completes, this CMK will be a replica key. Specify the key ID or key ARN of a multi-Region primary key. For example:   Key ID: mrk-1234abcd12ab34cd56ef1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+        public let keyId: String
+        /// The AWS Region of the new primary key. Enter the Region ID, such as us-east-1 or ap-southeast-2. There must be an existing replica key in this Region.  When the operation completes, the multi-Region key in this Region will be the primary key.
+        public let primaryRegion: String
+
+        public init(keyId: String, primaryRegion: String) {
+            self.keyId = keyId
+            self.primaryRegion = primaryRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.validate(self.primaryRegion, name: "primaryRegion", parent: name, max: 32)
+            try self.validate(self.primaryRegion, name: "primaryRegion", parent: name, min: 1)
+            try self.validate(self.primaryRegion, name: "primaryRegion", parent: name, pattern: "^([a-z]+-){2,3}\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case primaryRegion = "PrimaryRegion"
+        }
+    }
+
     public struct VerifyRequest: AWSEncodableShape {
-        /// A list of grant tokens. For more information, see Grant Tokens in the AWS Key Management Service Developer Guide.
+        /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token in the AWS Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Identifies the asymmetric CMK that will be used to verify the signature. This must be the same CMK that was used to generate the signature. If you specify a different CMK, the signature verification fails. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Identifies the asymmetric CMK that will be used to verify the signature. This must be the same CMK that was used to generate the signature. If you specify a different CMK, the signature verification fails. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
         /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
         public let message: Data

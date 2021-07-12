@@ -68,6 +68,11 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "BatchDeleteDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the indexing status for one or more documents submitted with the  BatchPutDocument operation. When you use the BatchPutDocument operation, documents are indexed asynchronously. You can use the BatchGetDocumentStatus operation to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus operation to check the status of the  BatchDeleteDocument operation. When a document is deleted from the index, Amazon Kendra returns NOT_FOUND as the status.
+    public func batchGetDocumentStatus(_ input: BatchGetDocumentStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDocumentStatusResponse> {
+        return self.client.execute(operation: "BatchGetDocumentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Adds one or more documents to an index. The BatchPutDocument operation enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this operation to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using AWS CloudWatch. Any error messages related to processing the batch are sent to your AWS CloudWatch log.
     public func batchPutDocument(_ input: BatchPutDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutDocumentResponse> {
         return self.client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

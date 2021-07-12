@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS GlueDataBrew service.
 ///
-/// AWS Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew simplifies data preparation tasks, targeting data issues that are hard to spot and time-consuming to fix. DataBrew empowers users of all technical levels to visualize the data and perform one-click data transformations, with no coding required.
+/// Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew simplifies data preparation tasks, targeting data issues that are hard to spot and time-consuming to fix. DataBrew empowers users of all technical levels to visualize the data and perform one-click data transformations, with no coding required.
 public struct GlueDataBrew: AWSService {
     // MARK: Member variables
 
@@ -87,7 +87,7 @@ public struct GlueDataBrew: AWSService {
         return self.client.execute(operation: "CreateRecipe", path: "/recipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new job to transform input data, using steps defined in an existing AWS Glue DataBrew recipe
+    /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
     public func createRecipeJob(_ input: CreateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeJobResponse> {
         return self.client.execute(operation: "CreateRecipeJob", path: "/recipeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -49,7 +49,7 @@ public struct AmplifyBackendErrorType: AWSErrorType {
     public static var gatewayTimeoutException: Self { .init(.gatewayTimeoutException) }
     /// An error returned when a specific resource type is not found.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// An error that is returned when a limit of a specific type is exceeded.
+    /// An error that is returned when a limit of a specific type has been exceeded.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

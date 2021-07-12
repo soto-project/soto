@@ -679,6 +679,7 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
@@ -1034,6 +1035,7 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.validate(self.dataLocation, name: "dataLocation", parent: name, max: 256)
+            try self.validate(self.dataLocation, name: "dataLocation", parent: name, pattern: "(s3|http|https)://.+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3072,7 +3074,9 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "arn:aws.*:kms:.*:[0-9]{12}:key/.*")
             try self.validate(self.path, name: "path", parent: name, max: 256)
+            try self.validate(self.path, name: "path", parent: name, pattern: "(s3|http|https)://.+")
         }
 
         private enum CodingKeys: String, CodingKey {

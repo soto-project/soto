@@ -20,6 +20,18 @@ import SotoCore
 extension AppMesh {
     // MARK: Enums
 
+    public enum DefaultGatewayRouteRewrite: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsResponseType: String, CustomStringConvertible, Codable {
+        case endpoints = "ENDPOINTS"
+        case loadbalancer = "LOADBALANCER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DurationUnit: String, CustomStringConvertible, Codable {
         case ms
         case s
@@ -163,9 +175,9 @@ extension AppMesh {
     }
 
     public struct AwsCloudMapInstanceAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service instance that contains the specified key and value is returned.
+        /// The name of an Cloud Map service instance attribute key. Any Cloud Map service instance that contains the specified key and value is returned.
         public let key: String
-        /// The value of an AWS Cloud Map service instance attribute key. Any AWS Cloud Map service instance that contains the specified key and value is returned.
+        /// The value of an Cloud Map service instance attribute key. Any Cloud Map service instance that contains the specified key and value is returned.
         public let value: String
 
         public init(key: String, value: String) {
@@ -191,9 +203,9 @@ extension AppMesh {
     public struct AwsCloudMapServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
         /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all of the specified key/value pairs will be returned.
         public let attributes: [AwsCloudMapInstanceAttribute]?
-        /// The name of the AWS Cloud Map namespace to use.
+        /// The name of the Cloud Map namespace to use.
         public let namespaceName: String
-        /// The name of the AWS Cloud Map service to use.
+        /// The name of the Cloud Map service to use.
         public let serviceName: String
 
         public init(attributes: [AwsCloudMapInstanceAttribute]? = nil, namespaceName: String, serviceName: String) {
@@ -305,6 +317,7 @@ extension AppMesh {
     }
 
     public struct ClientTlsCertificate: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see Transport Layer Security (TLS).
         public let file: ListenerTlsFileCertificate?
         /// A reference to an object that represents a client's TLS Secret Discovery Service certificate.
         public let sds: ListenerTlsSdsCertificate?
@@ -1464,13 +1477,17 @@ extension AppMesh {
     public struct DnsServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the DNS service discovery hostname for the virtual node.
         public let hostname: String
+        /// Specifies the DNS response type for the virtual node.
+        public let responseType: DnsResponseType?
 
-        public init(hostname: String) {
+        public init(hostname: String, responseType: DnsResponseType? = nil) {
             self.hostname = hostname
+            self.responseType = responseType
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostname
+            case responseType
         }
     }
 
@@ -1496,7 +1513,7 @@ extension AppMesh {
     }
 
     public struct EgressFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The egress filter type. By default, the type is DROP_ALL, which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for AWS API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh.
+        /// The egress filter type. By default, the type is DROP_ALL, which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh.
         public let type: EgressFilterType
 
         public init(type: EgressFilterType) {
@@ -1558,6 +1575,43 @@ extension AppMesh {
         }
     }
 
+    public struct GatewayRouteHostnameMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The exact host name to match on.
+        public let exact: String?
+        /// The specified ending characters of the host name to match on.
+        public let suffix: String?
+
+        public init(exact: String? = nil, suffix: String? = nil) {
+            self.exact = exact
+            self.suffix = suffix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exact, name: "exact", parent: name, max: 253)
+            try self.validate(self.exact, name: "exact", parent: name, min: 1)
+            try self.validate(self.suffix, name: "suffix", parent: name, max: 253)
+            try self.validate(self.suffix, name: "suffix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact
+            case suffix
+        }
+    }
+
+    public struct GatewayRouteHostnameRewrite: AWSEncodableShape & AWSDecodableShape {
+        /// The default target host name to write to.
+        public let defaultTargetHostname: DefaultGatewayRouteRewrite?
+
+        public init(defaultTargetHostname: DefaultGatewayRouteRewrite? = nil) {
+            self.defaultTargetHostname = defaultTargetHostname
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultTargetHostname
+        }
+    }
+
     public struct GatewayRouteRef: AWSDecodableShape {
         /// The full Amazon Resource Name (ARN) for the gateway route.
         public let arn: String
@@ -1610,23 +1664,29 @@ extension AppMesh {
         public let http2Route: HttpGatewayRoute?
         /// An object that represents the specification of an HTTP gateway route.
         public let httpRoute: HttpGatewayRoute?
+        /// The ordering of the gateway routes spec.
+        public let priority: Int?
 
-        public init(grpcRoute: GrpcGatewayRoute? = nil, http2Route: HttpGatewayRoute? = nil, httpRoute: HttpGatewayRoute? = nil) {
+        public init(grpcRoute: GrpcGatewayRoute? = nil, http2Route: HttpGatewayRoute? = nil, httpRoute: HttpGatewayRoute? = nil, priority: Int? = nil) {
             self.grpcRoute = grpcRoute
             self.http2Route = http2Route
             self.httpRoute = httpRoute
+            self.priority = priority
         }
 
         public func validate(name: String) throws {
             try self.grpcRoute?.validate(name: "\(name).grpcRoute")
             try self.http2Route?.validate(name: "\(name).http2Route")
             try self.httpRoute?.validate(name: "\(name).httpRoute")
+            try self.validate(self.priority, name: "priority", parent: name, max: 1000)
+            try self.validate(self.priority, name: "priority", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case grpcRoute
             case http2Route
             case httpRoute
+            case priority
         }
     }
 
@@ -1691,6 +1751,7 @@ extension AppMesh {
 
         public func validate(name: String) throws {
             try self.action.validate(name: "\(name).action")
+            try self.match.validate(name: "\(name).match")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1700,10 +1761,13 @@ extension AppMesh {
     }
 
     public struct GrpcGatewayRouteAction: AWSEncodableShape & AWSDecodableShape {
+        /// The gateway route action to rewrite.
+        public let rewrite: GrpcGatewayRouteRewrite?
         /// An object that represents the target that traffic is routed to when a request matches the gateway route.
         public let target: GatewayRouteTarget
 
-        public init(target: GatewayRouteTarget) {
+        public init(rewrite: GrpcGatewayRouteRewrite? = nil, target: GatewayRouteTarget) {
+            self.rewrite = rewrite
             self.target = target
         }
 
@@ -1712,20 +1776,117 @@ extension AppMesh {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rewrite
             case target
         }
     }
 
     public struct GrpcGatewayRouteMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The gateway route host name to be matched on.
+        public let hostname: GatewayRouteHostnameMatch?
+        /// The gateway route metadata to be matched on.
+        public let metadata: [GrpcGatewayRouteMetadata]?
         /// The fully qualified domain name for the service to match from the request.
         public let serviceName: String?
 
-        public init(serviceName: String? = nil) {
+        public init(hostname: GatewayRouteHostnameMatch? = nil, metadata: [GrpcGatewayRouteMetadata]? = nil, serviceName: String? = nil) {
+            self.hostname = hostname
+            self.metadata = metadata
             self.serviceName = serviceName
         }
 
+        public func validate(name: String) throws {
+            try self.hostname?.validate(name: "\(name).hostname")
+            try self.metadata?.forEach {
+                try $0.validate(name: "\(name).metadata[]")
+            }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 10)
+            try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case hostname
+            case metadata
             case serviceName
+        }
+    }
+
+    public struct GrpcGatewayRouteMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// Specify True to match anything except the match criteria. The default value is False.
+        public let invert: Bool?
+        /// The criteria for determining a metadata match.
+        public let match: GrpcMetadataMatchMethod?
+        /// A name for the gateway route metadata.
+        public let name: String
+
+        public init(invert: Bool? = nil, match: GrpcMetadataMatchMethod? = nil, name: String) {
+            self.invert = invert
+            self.match = match
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.match?.validate(name: "\(name).match")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invert
+            case match
+            case name
+        }
+    }
+
+    public struct GrpcGatewayRouteRewrite: AWSEncodableShape & AWSDecodableShape {
+        /// The host name of the gateway route to rewrite.
+        public let hostname: GatewayRouteHostnameRewrite?
+
+        public init(hostname: GatewayRouteHostnameRewrite? = nil) {
+            self.hostname = hostname
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname
+        }
+    }
+
+    public struct GrpcMetadataMatchMethod: AWSEncodableShape & AWSDecodableShape {
+        /// The exact method header to be matched on.
+        public let exact: String?
+        /// The specified beginning characters of the method header to be matched on.
+        public let prefix: String?
+        public let range: MatchRange?
+        /// The regex used to match the method header.
+        public let regex: String?
+        /// The specified ending characters of the method header to match on.
+        public let suffix: String?
+
+        public init(exact: String? = nil, prefix: String? = nil, range: MatchRange? = nil, regex: String? = nil, suffix: String? = nil) {
+            self.exact = exact
+            self.prefix = prefix
+            self.range = range
+            self.regex = regex
+            self.suffix = suffix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exact, name: "exact", parent: name, max: 255)
+            try self.validate(self.exact, name: "exact", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 255)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.regex, name: "regex", parent: name, max: 255)
+            try self.validate(self.regex, name: "regex", parent: name, min: 1)
+            try self.validate(self.suffix, name: "suffix", parent: name, max: 255)
+            try self.validate(self.suffix, name: "suffix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact
+            case prefix
+            case range
+            case regex
+            case suffix
         }
     }
 
@@ -2049,6 +2210,7 @@ extension AppMesh {
 
         public func validate(name: String) throws {
             try self.action.validate(name: "\(name).action")
+            try self.match.validate(name: "\(name).match")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2058,32 +2220,202 @@ extension AppMesh {
     }
 
     public struct HttpGatewayRouteAction: AWSEncodableShape & AWSDecodableShape {
+        /// The gateway route action to rewrite.
+        public let rewrite: HttpGatewayRouteRewrite?
         /// An object that represents the target that traffic is routed to when a request matches the gateway route.
         public let target: GatewayRouteTarget
 
-        public init(target: GatewayRouteTarget) {
+        public init(rewrite: HttpGatewayRouteRewrite? = nil, target: GatewayRouteTarget) {
+            self.rewrite = rewrite
             self.target = target
         }
 
         public func validate(name: String) throws {
+            try self.rewrite?.validate(name: "\(name).rewrite")
             try self.target.validate(name: "\(name).target")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case rewrite
             case target
         }
     }
 
-    public struct HttpGatewayRouteMatch: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
-        public let prefix: String
+    public struct HttpGatewayRouteHeader: AWSEncodableShape & AWSDecodableShape {
+        /// Specify True to match anything except the match criteria. The default value is False.
+        public let invert: Bool?
+        public let match: HeaderMatchMethod?
+        /// A name for the HTTP header in the gateway route that will be matched on.
+        public let name: String
 
-        public init(prefix: String) {
-            self.prefix = prefix
+        public init(invert: Bool? = nil, match: HeaderMatchMethod? = nil, name: String) {
+            self.invert = invert
+            self.match = match
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.match?.validate(name: "\(name).match")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case invert
+            case match
+            case name
+        }
+    }
+
+    public struct HttpGatewayRouteMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The client request headers to match on.
+        public let headers: [HttpGatewayRouteHeader]?
+        /// The host name to match on.
+        public let hostname: GatewayRouteHostnameMatch?
+        /// The method to match on.
+        public let method: HttpMethod?
+        /// The path to match on.
+        public let path: HttpPathMatch?
+        /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
+        public let prefix: String?
+        /// The query parameter to match on.
+        public let queryParameters: [HttpQueryParameter]?
+
+        public init(headers: [HttpGatewayRouteHeader]? = nil, hostname: GatewayRouteHostnameMatch? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil) {
+            self.headers = headers
+            self.hostname = hostname
+            self.method = method
+            self.path = path
+            self.prefix = prefix
+            self.queryParameters = queryParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.headers?.forEach {
+                try $0.validate(name: "\(name).headers[]")
+            }
+            try self.validate(self.headers, name: "headers", parent: name, max: 10)
+            try self.validate(self.headers, name: "headers", parent: name, min: 1)
+            try self.hostname?.validate(name: "\(name).hostname")
+            try self.path?.validate(name: "\(name).path")
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headers
+            case hostname
+            case method
+            case path
             case prefix
+            case queryParameters
+        }
+    }
+
+    public struct HttpGatewayRoutePathRewrite: AWSEncodableShape & AWSDecodableShape {
+        /// The exact path to rewrite.
+        public let exact: String?
+
+        public init(exact: String? = nil) {
+            self.exact = exact
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exact, name: "exact", parent: name, max: 255)
+            try self.validate(self.exact, name: "exact", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact
+        }
+    }
+
+    public struct HttpGatewayRoutePrefixRewrite: AWSEncodableShape & AWSDecodableShape {
+        /// The default prefix used to replace the incoming route prefix when rewritten.
+        public let defaultPrefix: DefaultGatewayRouteRewrite?
+        /// The value used to replace the incoming route prefix when rewritten.
+        public let value: String?
+
+        public init(defaultPrefix: DefaultGatewayRouteRewrite? = nil, value: String? = nil) {
+            self.defaultPrefix = defaultPrefix
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultPrefix
+            case value
+        }
+    }
+
+    public struct HttpGatewayRouteRewrite: AWSEncodableShape & AWSDecodableShape {
+        /// The host name to rewrite.
+        public let hostname: GatewayRouteHostnameRewrite?
+        /// The path to rewrite.
+        public let path: HttpGatewayRoutePathRewrite?
+        /// The specified beginning characters to rewrite.
+        public let prefix: HttpGatewayRoutePrefixRewrite?
+
+        public init(hostname: GatewayRouteHostnameRewrite? = nil, path: HttpGatewayRoutePathRewrite? = nil, prefix: HttpGatewayRoutePrefixRewrite? = nil) {
+            self.hostname = hostname
+            self.path = path
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.path?.validate(name: "\(name).path")
+            try self.prefix?.validate(name: "\(name).prefix")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostname
+            case path
+            case prefix
+        }
+    }
+
+    public struct HttpPathMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The exact path to match on.
+        public let exact: String?
+        /// The regex used to match the path.
+        public let regex: String?
+
+        public init(exact: String? = nil, regex: String? = nil) {
+            self.exact = exact
+            self.regex = regex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exact, name: "exact", parent: name, max: 255)
+            try self.validate(self.exact, name: "exact", parent: name, min: 1)
+            try self.validate(self.regex, name: "regex", parent: name, max: 255)
+            try self.validate(self.regex, name: "regex", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact
+            case regex
+        }
+    }
+
+    public struct HttpQueryParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The query parameter to match on.
+        public let match: QueryParameterMatch?
+        /// A name for the query parameter that will be matched on.
+        public let name: String
+
+        public init(match: QueryParameterMatch? = nil, name: String) {
+            self.match = match
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case match
+            case name
         }
     }
 
@@ -2206,19 +2538,25 @@ extension AppMesh {
     }
 
     public struct HttpRouteMatch: AWSEncodableShape & AWSDecodableShape {
-        /// An object that represents the client request headers to match on.
+        /// The client request headers to match on.
         public let headers: [HttpRouteHeader]?
         /// The client request method to match on. Specify only one.
         public let method: HttpMethod?
+        /// The client request path to match on.
+        public let path: HttpPathMatch?
         /// Specifies the path to match requests with. This parameter must always start with /, which by itself matches all requests to the virtual service name. You can also match for path-based routing of requests. For example, if your virtual service name is my-service.local and you want the route to match requests to my-service.local/metrics, your prefix should be /metrics.
-        public let prefix: String
-        /// The client request scheme to match on. Specify only one.
+        public let prefix: String?
+        /// The client request query parameters to match on.
+        public let queryParameters: [HttpQueryParameter]?
+        /// The client request scheme to match on. Specify only one. Applicable only for HTTP2 routes.
         public let scheme: HttpScheme?
 
-        public init(headers: [HttpRouteHeader]? = nil, method: HttpMethod? = nil, prefix: String, scheme: HttpScheme? = nil) {
+        public init(headers: [HttpRouteHeader]? = nil, method: HttpMethod? = nil, path: HttpPathMatch? = nil, prefix: String? = nil, queryParameters: [HttpQueryParameter]? = nil, scheme: HttpScheme? = nil) {
             self.headers = headers
             self.method = method
+            self.path = path
             self.prefix = prefix
+            self.queryParameters = queryParameters
             self.scheme = scheme
         }
 
@@ -2228,12 +2566,17 @@ extension AppMesh {
             }
             try self.validate(self.headers, name: "headers", parent: name, max: 10)
             try self.validate(self.headers, name: "headers", parent: name, min: 1)
+            try self.path?.validate(name: "\(name).path")
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, max: 10)
+            try self.validate(self.queryParameters, name: "queryParameters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case headers
             case method
+            case path
             case prefix
+            case queryParameters
             case scheme
         }
     }
@@ -2719,6 +3062,7 @@ extension AppMesh {
     }
 
     public struct ListenerTimeout: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents types of timeouts.
         public let grpc: GrpcTimeout?
         /// An object that represents types of timeouts.
         public let http: HttpTimeout?
@@ -2873,6 +3217,7 @@ extension AppMesh {
     }
 
     public struct ListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         public let file: TlsValidationContextFileTrust?
         /// A reference to an object that represents a listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
         public let sds: TlsValidationContextSdsTrust?
@@ -3069,6 +3414,19 @@ extension AppMesh {
         }
     }
 
+    public struct QueryParameterMatch: AWSEncodableShape & AWSDecodableShape {
+        /// The exact query parameter to match on.
+        public let exact: String?
+
+        public init(exact: String? = nil) {
+            self.exact = exact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exact
+        }
+    }
+
     public struct ResourceMetadata: AWSDecodableShape {
         /// The full Amazon Resource Name (ARN) for the resource.
         public let arn: String
@@ -3236,7 +3594,7 @@ extension AppMesh {
     }
 
     public struct ServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies any AWS Cloud Map information for the virtual node.
+        /// Specifies any Cloud Map information for the virtual node.
         public let awsCloudMap: AwsCloudMapServiceDiscovery?
         /// Specifies the DNS information for the virtual node.
         public let dns: DnsServiceDiscovery?
@@ -3481,7 +3839,7 @@ extension AppMesh {
     }
 
     public struct TlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an AWS Certicate Manager (ACM) certificate.
+        /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
         public let acm: TlsValidationContextAcmTrust?
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         public let file: TlsValidationContextFileTrust?
@@ -4027,6 +4385,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayClientTlsCertificate: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents a local file certificate. The certificate must meet specific requirements and you must have proxy authorization enabled. For more information, see  Transport Layer Security (TLS) .
         public let file: VirtualGatewayListenerTlsFileCertificate?
         /// A reference to an object that represents a virtual gateway's client's Secret Discovery Service certificate.
         public let sds: VirtualGatewayListenerTlsSdsCertificate?
@@ -4297,7 +4656,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents an AWS Certicate Manager (ACM) certificate.
+        /// A reference to an object that represents an Certificate Manager certificate.
         public let acm: VirtualGatewayListenerTlsAcmCertificate?
         /// A reference to an object that represents a local file certificate.
         public let file: VirtualGatewayListenerTlsFileCertificate?
@@ -4381,6 +4740,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayListenerTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
+        /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         public let file: VirtualGatewayTlsValidationContextFileTrust?
         /// A reference to an object that represents a virtual gateway's listener's Transport Layer Security (TLS) Secret Discovery Service validation context trust.
         public let sds: VirtualGatewayTlsValidationContextSdsTrust?
@@ -4595,7 +4955,7 @@ extension AppMesh {
     }
 
     public struct VirtualGatewayTlsValidationContextTrust: AWSEncodableShape & AWSDecodableShape {
-        /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an AWS Certicate Manager (ACM) certificate.
+        /// A reference to an object that represents a Transport Layer Security (TLS) validation context trust for an Certificate Manager certificate.
         public let acm: VirtualGatewayTlsValidationContextAcmTrust?
         /// An object that represents a Transport Layer Security (TLS) validation context trust for a local file.
         public let file: VirtualGatewayTlsValidationContextFileTrust?

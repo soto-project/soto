@@ -63,6 +63,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailoverMode: String, CustomStringConvertible, Codable {
+        case failover = "FAILOVER"
+        case merge = "MERGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyType: String, CustomStringConvertible, Codable {
         case speke
         case srtPassword = "srt-password"
@@ -740,17 +746,25 @@ extension MediaConnect {
     }
 
     public struct FailoverConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
+        public let failoverMode: FailoverMode?
         /// Search window time to look for dash-7 packets
         public let recoveryWindow: Int?
+        /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
+        public let sourcePriority: SourcePriority?
         public let state: State?
 
-        public init(recoveryWindow: Int? = nil, state: State? = nil) {
+        public init(failoverMode: FailoverMode? = nil, recoveryWindow: Int? = nil, sourcePriority: SourcePriority? = nil, state: State? = nil) {
+            self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
+            self.sourcePriority = sourcePriority
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failoverMode
             case recoveryWindow
+            case sourcePriority
             case state
         }
     }
@@ -1948,6 +1962,19 @@ extension MediaConnect {
         }
     }
 
+    public struct SourcePriority: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the source you choose as the primary source for this flow.
+        public let primarySource: String?
+
+        public init(primarySource: String? = nil) {
+            self.primarySource = primarySource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primarySource
+        }
+    }
+
     public struct StartFlowRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
@@ -2137,17 +2164,25 @@ extension MediaConnect {
     }
 
     public struct UpdateFailoverConfig: AWSEncodableShape {
+        /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
+        public let failoverMode: FailoverMode?
         /// Recovery window time to look for dash-7 packets
         public let recoveryWindow: Int?
+        /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
+        public let sourcePriority: SourcePriority?
         public let state: State?
 
-        public init(recoveryWindow: Int? = nil, state: State? = nil) {
+        public init(failoverMode: FailoverMode? = nil, recoveryWindow: Int? = nil, sourcePriority: SourcePriority? = nil, state: State? = nil) {
+            self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
+            self.sourcePriority = sourcePriority
             self.state = state
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failoverMode
             case recoveryWindow
+            case sourcePriority
             case state
         }
     }

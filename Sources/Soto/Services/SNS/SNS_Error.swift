@@ -72,7 +72,7 @@ public struct SNSErrorType: AWSErrorType {
     public static var concurrentAccessException: Self { .init(.concurrentAccessException) }
     /// Exception error indicating endpoint disabled.
     public static var endpointDisabledException: Self { .init(.endpointDisabledException) }
-    /// Indicates that the number of filter polices in your AWS account exceeds the limit. To add more filter polices, submit an SNS Limit Increase case in the AWS Support Center.
+    /// Indicates that the number of filter polices in your account exceeds the limit. To add more filter polices, submit an SNS Limit Increase case in the Amazon Web Services Support Center.
     public static var filterPolicyLimitExceededException: Self { .init(.filterPolicyLimitExceededException) }
     /// Indicates an internal service error.
     public static var internalErrorException: Self { .init(.internalErrorException) }
@@ -86,17 +86,17 @@ public struct SNSErrorType: AWSErrorType {
     public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
     /// The request was rejected because the specified customer master key (CMK) isn't enabled.
     public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
-    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
+    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Key Management Service Developer Guide.
     public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
     /// The request was rejected because the specified entity or resource can't be found.
     public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
-    /// The AWS access key ID needs a subscription for the service.
+    /// The Amazon Web Services access key ID needs a subscription for the service.
     public static var kMSOptInRequired: Self { .init(.kMSOptInRequired) }
-    /// The request was denied due to request throttling. For more information about throttling, see Limits in the AWS Key Management Service Developer Guide.
+    /// The request was denied due to request throttling. For more information about throttling, see Limits in the Key Management Service Developer Guide.
     public static var kMSThrottlingException: Self { .init(.kMSThrottlingException) }
     /// Indicates that the requested resource does not exist.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// Indicates that the specified phone number opted out of receiving SMS messages from your AWS account. You can't send SMS messages to phone numbers that opt out.
+    /// Indicates that the specified phone number opted out of receiving SMS messages from your account. You can't send SMS messages to phone numbers that opt out.
     public static var optedOutException: Self { .init(.optedOutException) }
     /// Exception error indicating platform application disabled.
     public static var platformApplicationDisabledException: Self { .init(.platformApplicationDisabledException) }

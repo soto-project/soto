@@ -113,16 +113,19 @@ extension RAM {
     public struct AssociateResourceSharePermissionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The ARN of the AWS RAM permission to associate with the resource share.
+        /// The Amazon Resource Name (ARN) of the AWS RAM permissions to associate with the resource share.
         public let permissionArn: String
+        /// The version of the AWS RAM permissions to associate with the resource share.
+        public let permissionVersion: Int?
         /// Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission.
         public let replace: Bool?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String
 
-        public init(clientToken: String? = nil, permissionArn: String, replace: Bool? = nil, resourceShareArn: String) {
+        public init(clientToken: String? = nil, permissionArn: String, permissionVersion: Int? = nil, replace: Bool? = nil, resourceShareArn: String) {
             self.clientToken = clientToken
             self.permissionArn = permissionArn
+            self.permissionVersion = permissionVersion
             self.replace = replace
             self.resourceShareArn = resourceShareArn
         }
@@ -130,6 +133,7 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case clientToken
             case permissionArn
+            case permissionVersion
             case replace
             case resourceShareArn
         }
@@ -571,19 +575,22 @@ extension RAM {
         public let name: String?
         /// The token for the next page of results.
         public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS RAM permission that is associated with the resource share.
+        public let permissionArn: String?
         /// The type of owner.
         public let resourceOwner: ResourceOwner
-        /// The Amazon Resource Names (ARN) of the resource shares.
+        /// The ARNs of the resource shares.
         public let resourceShareArns: [String]?
         /// The status of the resource share.
         public let resourceShareStatus: ResourceShareStatus?
         /// One or more tag filters.
         public let tagFilters: [TagFilter]?
 
-        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, permissionArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+            self.permissionArn = permissionArn
             self.resourceOwner = resourceOwner
             self.resourceShareArns = resourceShareArns
             self.resourceShareStatus = resourceShareStatus
@@ -599,6 +606,7 @@ extension RAM {
             case maxResults
             case name
             case nextToken
+            case permissionArn
             case resourceOwner
             case resourceShareArns
             case resourceShareStatus
@@ -722,7 +730,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
+        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -863,7 +871,7 @@ extension RAM {
         public let resourceOwner: ResourceOwner
         /// The Amazon Resource Names (ARN) of the resource shares.
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
+        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -1140,6 +1148,8 @@ extension RAM {
         public let invitationTimestamp: Date?
         /// The ID of the AWS account that received the invitation.
         public let receiverAccountId: String?
+        /// The Amazon Resource Name (ARN) of the IAM user or IAM role that received the invitation.
+        public let receiverArn: String?
         /// The Amazon Resource Name (ARN) of the resource share.
         public let resourceShareArn: String?
         /// The Amazon Resource Name (ARN) of the invitation.
@@ -1151,9 +1161,10 @@ extension RAM {
         /// The status of the invitation.
         public let status: ResourceShareInvitationStatus?
 
-        public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
+        public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, receiverArn: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
             self.invitationTimestamp = invitationTimestamp
             self.receiverAccountId = receiverAccountId
+            self.receiverArn = receiverArn
             self.resourceShareArn = resourceShareArn
             self.resourceShareInvitationArn = resourceShareInvitationArn
             self.resourceShareName = resourceShareName
@@ -1164,6 +1175,7 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case invitationTimestamp
             case receiverAccountId
+            case receiverArn
             case resourceShareArn
             case resourceShareInvitationArn
             case resourceShareName
@@ -1177,8 +1189,10 @@ extension RAM {
         public let arn: String?
         /// The date and time when the permission was created.
         public let creationTime: Date?
-        /// The identifier for the version of the permission that is set as the default version.
+        /// Specifies whether the version of the permission is set to the default version for this permission.
         public let defaultVersion: Bool?
+        /// Specifies whether the version of the permission is set to the default version for this resource type.
+        public let isResourceTypeDefault: Bool?
         /// The date and time when the permission was last updated.
         public let lastUpdatedTime: Date?
         /// The name of the permission.
@@ -1190,10 +1204,11 @@ extension RAM {
         /// The identifier for the version of the permission.
         public let version: String?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, resourceType: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, resourceType: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
+            self.isResourceTypeDefault = isResourceTypeDefault
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.permission = permission
@@ -1205,6 +1220,7 @@ extension RAM {
             case arn
             case creationTime
             case defaultVersion
+            case isResourceTypeDefault
             case lastUpdatedTime
             case name
             case permission
@@ -1218,8 +1234,10 @@ extension RAM {
         public let arn: String?
         /// The date and time when the permission was created.
         public let creationTime: Date?
-        /// The identifier for the version of the permission that is set as the default version.
+        /// Specifies whether the version of the permission is set to the default version for this permission.
         public let defaultVersion: Bool?
+        /// Specifies whether the version of the permission is set to the default version for this resource type.
+        public let isResourceTypeDefault: Bool?
         /// The date and time when the permission was last updated.
         public let lastUpdatedTime: Date?
         /// The name of the permission.
@@ -1231,10 +1249,11 @@ extension RAM {
         /// The identifier for the version of the permission.
         public let version: String?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, resourceType: String? = nil, status: String? = nil, version: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, resourceType: String? = nil, status: String? = nil, version: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.defaultVersion = defaultVersion
+            self.isResourceTypeDefault = isResourceTypeDefault
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.resourceType = resourceType
@@ -1246,6 +1265,7 @@ extension RAM {
             case arn
             case creationTime
             case defaultVersion
+            case isResourceTypeDefault
             case lastUpdatedTime
             case name
             case resourceType

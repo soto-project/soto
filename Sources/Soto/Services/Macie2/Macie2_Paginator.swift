@@ -231,7 +231,7 @@ extension Macie2 {
         )
     }
 
-    ///   Retrieves a subset of information about one or more findings.
+    ///  Retrieves a subset of information about one or more findings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -443,7 +443,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the delegated Amazon Macie administrator account for an AWS organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an Amazon Web Services organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -496,7 +496,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves (queries) statistical data and other information about AWS resources that Amazon Macie monitors and analyzes.
+    ///  Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
