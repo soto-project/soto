@@ -125,7 +125,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the AWS Region that you're currently using.
+    ///  Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Region that you're currently using.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2086,7 +2086,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes your managed prefix lists and any AWS-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
+    ///  Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2510,7 +2510,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
+    ///  Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2982,6 +2982,59 @@ extension EC2 {
             command: describeScheduledInstances,
             inputKey: \DescribeScheduledInstancesRequest.nextToken,
             outputKey: \DescribeScheduledInstancesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes one or more of your security group rules.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeSecurityGroupRulesPaginator<Result>(
+        _ input: DescribeSecurityGroupRulesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeSecurityGroupRulesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeSecurityGroupRules,
+            inputKey: \DescribeSecurityGroupRulesRequest.nextToken,
+            outputKey: \DescribeSecurityGroupRulesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeSecurityGroupRulesPaginator(
+        _ input: DescribeSecurityGroupRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeSecurityGroupRulesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeSecurityGroupRules,
+            inputKey: \DescribeSecurityGroupRulesRequest.nextToken,
+            outputKey: \DescribeSecurityGroupRulesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -5897,6 +5950,18 @@ extension EC2.DescribeScheduledInstancesRequest: AWSPaginateToken {
             nextToken: token,
             scheduledInstanceIds: self.scheduledInstanceIds,
             slotStartTimeRange: self.slotStartTimeRange
+        )
+    }
+}
+
+extension EC2.DescribeSecurityGroupRulesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSecurityGroupRulesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityGroupRuleIds: self.securityGroupRuleIds
         )
     }
 }

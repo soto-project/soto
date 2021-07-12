@@ -194,6 +194,23 @@ extension DevOpsGuru {
         }
     }
 
+    public struct AnomalyReportedTimeRange: AWSDecodableShape {
+        ///  The time when an anomaly is closed.
+        public let closeTime: Date?
+        ///  The time when an anomaly is opened.
+        public let openTime: Date
+
+        public init(closeTime: Date? = nil, openTime: Date) {
+            self.closeTime = closeTime
+            self.openTime = openTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case closeTime = "CloseTime"
+            case openTime = "OpenTime"
+        }
+    }
+
     public struct AnomalySourceDetails: AWSDecodableShape {
         ///  An array of CloudWatchMetricsDetail object that contains information about the analyzed metrics that displayed anomalous behavior.
         public let cloudWatchMetrics: [CloudWatchMetricsDetail]?
@@ -1298,6 +1315,8 @@ extension DevOpsGuru {
     }
 
     public struct ProactiveAnomaly: AWSDecodableShape {
+        ///  A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public let associatedInsightId: String?
@@ -1316,7 +1335,8 @@ extension DevOpsGuru {
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
-        public init(anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+            self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
             self.id = id
@@ -1330,6 +1350,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
             case id = "Id"
@@ -1344,6 +1365,8 @@ extension DevOpsGuru {
     }
 
     public struct ProactiveAnomalySummary: AWSDecodableShape {
+        ///  A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public let associatedInsightId: String?
@@ -1362,7 +1385,8 @@ extension DevOpsGuru {
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
-        public init(anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+            self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
             self.id = id
@@ -1376,6 +1400,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
             case id = "Id"
@@ -1487,6 +1512,8 @@ extension DevOpsGuru {
     }
 
     public struct ReactiveAnomaly: AWSDecodableShape {
+        ///  A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public let associatedInsightId: String?
@@ -1500,7 +1527,8 @@ extension DevOpsGuru {
         ///  The status of the anomaly.
         public let status: AnomalyStatus?
 
-        public init(anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil) {
+            self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
             self.id = id
@@ -1511,6 +1539,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
             case id = "Id"
@@ -1522,6 +1551,8 @@ extension DevOpsGuru {
     }
 
     public struct ReactiveAnomalySummary: AWSDecodableShape {
+        ///  A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public let associatedInsightId: String?
@@ -1535,7 +1566,8 @@ extension DevOpsGuru {
         ///  The status of the reactive anomaly.
         public let status: AnomalyStatus?
 
-        public init(anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil) {
+            self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
             self.id = id
@@ -1546,6 +1578,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
             case id = "Id"

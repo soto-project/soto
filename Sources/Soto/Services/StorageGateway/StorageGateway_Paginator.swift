@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension StorageGateway {
-    ///  Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. If a specific TapeARN is not specified, AWS Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
+    ///  Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This operation is only supported in the tape gateway type. If a specific TapeARN is not specified, Storage Gateway returns a description of all virtual tapes found in the VTS associated with your account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +178,7 @@ extension StorageGateway {
         )
     }
 
-    ///  Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, AWS Storage Gateway returns VTL device information. This operation is only supported in the tape gateway type.
+    ///  Returns a description of virtual tape library (VTL) devices for the specified tape gateway. In the response, Storage Gateway returns VTL device information. This operation is only supported in the tape gateway type.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +231,7 @@ extension StorageGateway {
         )
     }
 
-    ///  Gets a list of the file shares for a specific file gateway, or the list of file shares that belong to the calling user account. This operation is only supported for file gateways.
+    ///  Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares that belong to the calling user account. This operation is only supported for S3 File Gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension StorageGateway {
         )
     }
 
-    ///  Gets a list of FileSystemAssociationSummary objects. Each object contains a summary of a file system association. This operation is only supported for Amazon FSx file gateways.
+    ///  Gets a list of FileSystemAssociationSummary objects. Each object contains a summary of a file system association. This operation is only supported for FSx File Gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension StorageGateway {
         )
     }
 
-    ///  Lists gateways owned by an AWS account in an AWS Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response. If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
+    ///  Lists gateways owned by an account in an Region specified in the request. The returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a maximum of 100 gateways. This operation supports pagination that allows you to optionally reduce the number of gateways returned in a response. If you have more gateways than are returned in a response (that is, the response returns only a truncated list of your gateways), the response contains a marker that you can specify in your next request to fetch the next page of gateways.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

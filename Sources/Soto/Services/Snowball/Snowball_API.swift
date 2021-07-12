@@ -83,12 +83,12 @@ public struct Snowball: AWSService {
         return self.client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster.   Only the Snowball; Edge device type is supported when ordering clustered jobs. The device capacity is optional. Availability of device types differ by AWS Region. For more information about region availability, see AWS Regional Services.    AWS Snow Family device types and their capacities.    Snow Family device type: SNC1_SSD    Capacity: T14   Description: Snowcone       Snow Family device type: SNC1_HDD    Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore AWS Regions.        Device type: STANDARD    Capacity: T80   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore AWS Regions.
+    /// Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster.   Only the Snowball; Edge device type is supported when ordering clustered jobs. The device capacity is optional. Availability of device types differ by AWS Region. For more information about Region availability, see AWS Regional Services.    AWS Snow Family device types and their capacities.    Snow Family device type: SNC1_SSD    Capacity: T14   Description: Snowcone       Snow Family device type: SNC1_HDD    Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore AWS Regions.        Device type: STANDARD    Capacity: T80   Description: Original Snowball device  This device is only available in the Ningxia, Beijing, and Singapore AWS Regions.
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResult> {
         return self.client.execute(operation: "CreateJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a job with long term usage option for a device. The long term usage is a one year or three year long term pricing type for the device. You are billed upfront and AWS give discounts for long term pricing. For detailed information see XXXXXXXX
+    /// Creates a job with the long-term usage option for a device. The long-term usage is a 1-year or 3-year long-term pricing type for the device. You are billed upfront, and AWS provides discounts for long-term pricing.
     public func createLongTermPricing(_ input: CreateLongTermPricingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLongTermPricingResult> {
         return self.client.execute(operation: "CreateLongTermPricing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -163,7 +163,7 @@ public struct Snowball: AWSService {
         return self.client.execute(operation: "ListJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all long term pricing types.
+    /// Lists all long-term pricing types.
     public func listLongTermPricing(_ input: ListLongTermPricingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLongTermPricingResult> {
         return self.client.execute(operation: "ListLongTermPricing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -178,12 +178,12 @@ public struct Snowball: AWSService {
         return self.client.execute(operation: "UpdateJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the state when a the shipment states changes to a different state.
+    /// Updates the state when a shipment state changes to a different state.
     public func updateJobShipmentState(_ input: UpdateJobShipmentStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateJobShipmentStateResult> {
         return self.client.execute(operation: "UpdateJobShipmentState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the long term pricing type.
+    /// Updates the long-term pricing type.
     public func updateLongTermPricing(_ input: UpdateLongTermPricingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLongTermPricingResult> {
         return self.client.execute(operation: "UpdateLongTermPricing", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

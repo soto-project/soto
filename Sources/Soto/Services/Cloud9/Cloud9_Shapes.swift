@@ -85,23 +85,23 @@ extension Cloud9 {
     public struct CreateEnvironmentEC2Request: AWSEncodableShape {
         /// The number of minutes until the running instance is shut down after the environment has last been used.
         public let automaticStopTimeMinutes: Int?
-        /// A unique, case-sensitive string that helps AWS Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive string that helps Cloud9 to ensure this operation completes no more than one time. For more information, see Client Tokens in the Amazon EC2 API Reference.
         public let clientRequestToken: String?
-        /// The connection type used for connecting to an Amazon EC2 environment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through AWS Systems Manager). For more information, see Accessing no-ingress EC2 instances with AWS Systems Manager in the AWS Cloud9 User Guide.
+        /// The connection type used for connecting to an Amazon EC2 environment. Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through Amazon EC2 Systems Manager). For more information, see Accessing no-ingress EC2 instances with Amazon EC2 Systems Manager in the Cloud9 User Guide.
         public let connectionType: ConnectionType?
         /// The description of the environment to create.
         public let description: String?
-        /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid AWS Systems Manager (SSM) path. The default AMI is used if the parameter isn't explicitly assigned a value in the request.   AMI aliases      Amazon Linux (default): amazonlinux-1-x86_64     Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64     SSM paths     Amazon Linux (default): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64     Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
+        /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. The default AMI is used if the parameter isn't explicitly assigned a value in the request. Because Amazon Linux AMI has ended standard support as of December 31, 2020, we recommend you choose Amazon Linux 2, which includes long term support through 2023.  AMI aliases      Amazon Linux (default): amazonlinux-1-x86_64     Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu 18.04: ubuntu-18.04-x86_64     SSM paths     Amazon Linux (default): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64     Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
         public let imageId: String?
         /// The type of instance to connect to the environment (for example, t2.micro).
         public let instanceType: String
-        /// The name of the environment to create. This name is visible to other AWS IAM users in the same AWS account.
+        /// The name of the environment to create. This name is visible to other IAM users in the same Amazon Web Services account.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any AWS IAM principal. If this value is not specified, the ARN defaults to this environment's creator.
+        /// The Amazon Resource Name (ARN) of the environment owner. This ARN can be the ARN of any IAM principal. If this value is not specified, the ARN defaults to this environment's creator.
         public let ownerArn: String?
-        /// The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance.
+        /// The ID of the subnet in Amazon VPC that Cloud9 will use to communicate with the Amazon EC2 instance.
         public let subnetId: String?
-        /// An array of key-value pairs that will be associated with the new AWS Cloud9 development environment.
+        /// An array of key-value pairs that will be associated with the new Cloud9 development environment.
         public let tags: [Tag]?
 
         public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, imageId: String? = nil, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
@@ -383,7 +383,7 @@ extension Cloud9 {
         public let id: String?
         /// The state of the environment in its creation or deletion lifecycle.
         public let lifecycle: EnvironmentLifecycle?
-        /// Describes the status of AWS managed temporary credentials for the AWS Cloud9 environment. Available values are:    ENABLED_ON_CREATE     ENABLED_BY_OWNER     DISABLED_BY_DEFAULT     DISABLED_BY_OWNER     DISABLED_BY_COLLABORATOR     PENDING_REMOVAL_BY_COLLABORATOR     PENDING_REMOVAL_BY_OWNER     FAILED_REMOVAL_BY_COLLABORATOR     ENABLED_BY_OWNER     DISABLED_BY_DEFAULT
+        /// Describes the status of Amazon Web Services managed temporary credentials for the Cloud9 environment. Available values are:    ENABLED_ON_CREATE     ENABLED_BY_OWNER     DISABLED_BY_DEFAULT     DISABLED_BY_OWNER     DISABLED_BY_COLLABORATOR     PENDING_REMOVAL_BY_COLLABORATOR     PENDING_REMOVAL_BY_OWNER     FAILED_REMOVAL_BY_COLLABORATOR     ENABLED_BY_OWNER     DISABLED_BY_DEFAULT
         public let managedCredentialsStatus: ManagedCredentialsStatus?
         /// The name of the environment.
         public let name: String?
@@ -418,7 +418,7 @@ extension Cloud9 {
     }
 
     public struct EnvironmentLifecycle: AWSDecodableShape {
-        /// If the environment failed to delete, the Amazon Resource Name (ARN) of the related AWS resource.
+        /// If the environment failed to delete, the Amazon Resource Name (ARN) of the related Amazon Web Services resource.
         public let failureResource: String?
         /// Any informational message about the lifecycle state of the environment.
         public let reason: String?
@@ -447,7 +447,7 @@ extension Cloud9 {
         public let permissions: Permissions
         /// The Amazon Resource Name (ARN) of the environment member.
         public let userArn: String
-        /// The user ID in AWS Identity and Access Management (AWS IAM) of the environment member.
+        /// The user ID in Identity and Access Management (IAM) of the environment member.
         public let userId: String
 
         public init(environmentId: String, lastAccess: Date? = nil, permissions: Permissions, userArn: String, userId: String) {
@@ -507,7 +507,7 @@ extension Cloud9 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to get the tags for.
+        /// The Amazon Resource Name (ARN) of the Cloud9 development environment to get the tags for.
         public let resourceARN: String
 
         public init(resourceARN: String) {
@@ -524,7 +524,7 @@ extension Cloud9 {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// The list of tags associated with the AWS Cloud9 development environment.
+        /// The list of tags associated with the Cloud9 development environment.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -561,9 +561,9 @@ extension Cloud9 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to add tags to.
+        /// The Amazon Resource Name (ARN) of the Cloud9 development environment to add tags to.
         public let resourceARN: String
-        /// The list of tags to add to the given AWS Cloud9 development environment.
+        /// The list of tags to add to the given Cloud9 development environment.
         public let tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
@@ -591,9 +591,9 @@ extension Cloud9 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to remove tags from.
+        /// The Amazon Resource Name (ARN) of the Cloud9 development environment to remove tags from.
         public let resourceARN: String
-        /// The tag names of the tags to remove from the given AWS Cloud9 development environment.
+        /// The tag names of the tags to remove from the given Cloud9 development environment.
         public let tagKeys: [String]
 
         public init(resourceARN: String, tagKeys: [String]) {

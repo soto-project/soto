@@ -1556,7 +1556,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the model groups in your AWS account.
+    ///  Gets a list of the model groups in your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1927,7 +1927,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an AWS Region.
+    ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2245,7 +2245,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the projects in an AWS account.
+    ///  Gets a list of the projects in an Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2298,7 +2298,7 @@ extension SageMaker {
         )
     }
 
-    ///  Gets a list of the work teams that you are subscribed to in the AWS Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
+    ///  Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2404,7 +2404,7 @@ extension SageMaker {
         )
     }
 
-    ///  Lists training jobs.  When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters:  { ... MaxResults: 100, StatusEquals: InProgress ... }  First, 100 trainings jobs with any status, including those other than InProgress, are selected (sorted according to the creation time, from the most current to the oldest). Next, those with a status of InProgress are returned. You can quickly test the API using the following AWS CLI code.  aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress
+    ///  Lists training jobs.  When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters:  { ... MaxResults: 100, StatusEquals: InProgress ... }  First, 100 trainings jobs with any status, including those other than InProgress, are selected (sorted according to the creation time, from the most current to the oldest). Next, those with a status of InProgress are returned. You can quickly test the API using the following Amazon Web Services CLI code.  aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2722,7 +2722,7 @@ extension SageMaker {
         )
     }
 
-    ///  Use this operation to list all private and vendor workforces in an AWS Region. Note that you can only have one private workforce per AWS Region.
+    ///  Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

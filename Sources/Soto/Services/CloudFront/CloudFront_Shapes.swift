@@ -110,6 +110,7 @@ extension CloudFront {
         case tlsv12016 = "TLSv1_2016"
         case tlsv122018 = "TLSv1.2_2018"
         case tlsv122019 = "TLSv1.2_2019"
+        case tlsv122021 = "TLSv1.2_2021"
         public var description: String { return self.rawValue }
     }
 
@@ -212,12 +213,12 @@ extension CloudFront {
     public struct ActiveTrustedSigners: AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "Signer" }
 
-        /// This field is true if any of the AWS accounts in the list have active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        /// This field is true if any of the accounts in the list have active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        /// A list of AWS accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
+        /// A list of accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, Signer>>
         public var items: [Signer]?
-        /// The number of AWS accounts in the list.
+        /// The number of accounts in the list.
         public let quantity: Int
 
         public init(enabled: Bool, items: [Signer]? = nil, quantity: Int) {
@@ -293,6 +294,25 @@ extension CloudFront {
         }
     }
 
+    public struct AssociateAliasRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring(locationName: "Alias")),
+            AWSMemberEncoding(label: "targetDistributionId", location: .uri(locationName: "TargetDistributionId"))
+        ]
+
+        /// The alias (also known as a CNAME) to add to the target distribution.
+        public let alias: String
+        /// The ID of the distribution that you’re associating the alias with.
+        public let targetDistributionId: String
+
+        public init(alias: String, targetDistributionId: String) {
+            self.alias = alias
+            self.targetDistributionId = targetDistributionId
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
         public let allowedMethods: AllowedMethods?
         /// The unique identifier of the cache policy that is attached to this cache behavior. For more information, see Creating cache policies or Using the managed cache policies in the Amazon CloudFront Developer Guide. A CacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId.
@@ -303,7 +323,7 @@ extension CloudFront {
         public let fieldLevelEncryptionId: String?
         /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
         public let functionAssociations: FunctionAssociations?
-        /// A complex type that contains zero or more Lambda function associations for a cache behavior.
+        /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The unique identifier of the origin request policy that is attached to this cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
@@ -317,7 +337,7 @@ extension CloudFront {
         public let targetOriginId: String
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of AWS account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer’s AWS account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer’s account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
@@ -523,7 +543,7 @@ extension CloudFront {
     public struct CachePolicySummary: AWSDecodableShape {
         /// The cache policy.
         public let cachePolicy: CachePolicy
-        /// The type of cache policy, either managed (created by AWS) or custom (created in this AWS account).
+        /// The type of cache policy, either managed (created by Amazon Web Services) or custom (created in this account).
         public let type: CachePolicyType
 
         public init(cachePolicy: CachePolicy, type: CachePolicyType) {
@@ -602,7 +622,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
+        /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, CloudFrontOriginAccessIdentitySummary>>
         public var items: [CloudFrontOriginAccessIdentitySummary]?
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
@@ -611,7 +631,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off.
         public let nextMarker: String?
-        /// The number of CloudFront origin access identities that were created by the current AWS account.
+        /// The number of CloudFront origin access identities that were created by the current account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -651,6 +671,55 @@ extension CloudFront {
             case comment = "Comment"
             case id = "Id"
             case s3CanonicalUserId = "S3CanonicalUserId"
+        }
+    }
+
+    public struct ConflictingAlias: AWSDecodableShape {
+        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that’s associated with the alias.
+        public let accountId: String?
+        /// An alias (also called a CNAME).
+        public let alias: String?
+        /// The (partially hidden) ID of the CloudFront distribution associated with the alias.
+        public let distributionId: String?
+
+        public init(accountId: String? = nil, alias: String? = nil, distributionId: String? = nil) {
+            self.accountId = accountId
+            self.alias = alias
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case alias = "Alias"
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct ConflictingAliasesList: AWSDecodableShape {
+        public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "ConflictingAlias" }
+
+        /// Contains the conflicting aliases in the list.
+        @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, ConflictingAlias>>
+        public var items: [ConflictingAlias]?
+        /// The maximum number of conflicting aliases requested.
+        public let maxItems: Int?
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing conflicting aliases where you left off.
+        public let nextMarker: String?
+        /// The number of conflicting aliases returned in the response.
+        public let quantity: Int?
+
+        public init(items: [ConflictingAlias]? = nil, maxItems: Int? = nil, nextMarker: String? = nil, quantity: Int? = nil) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
         }
     }
 
@@ -1572,7 +1641,7 @@ extension CloudFront {
         public let fieldLevelEncryptionId: String?
         /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
         public let functionAssociations: FunctionAssociations?
-        /// A complex type that contains zero or more Lambda function associations for a cache behavior.
+        /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see Creating origin request policies or Using the managed origin request policies in the Amazon CloudFront Developer Guide.
         public let originRequestPolicyId: String?
@@ -1584,7 +1653,7 @@ extension CloudFront {
         public let targetOriginId: String
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedKeyGroups: TrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of AWS account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer’s AWS account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer’s account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
@@ -1902,12 +1971,12 @@ extension CloudFront {
 
         /// CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using key groups. This field contains a list of key groups and the public keys in each key group that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public let activeTrustedKeyGroups: ActiveTrustedKeyGroups?
-        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using trusted signers. This field contains a list of AWS account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using trusted signers. This field contains a list of account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
         public let activeTrustedSigners: ActiveTrustedSigners?
-        /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
+        /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
         public let arn: String
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
         public let distributionConfig: DistributionConfig
@@ -1970,7 +2039,7 @@ extension CloudFront {
         public let enabled: Bool
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization."
         public let httpVersion: HttpVersion?
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
+        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Route 53 Amazon Web Services Integration Developer Guide. If you created a CNAME resource record set, either with Route 53 Amazon Web Services Integration or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
         public let isIPV6Enabled: Bool?
         /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
         public let logging: LoggingConfig?
@@ -1984,7 +2053,7 @@ extension CloudFront {
         public let restrictions: Restrictions?
         /// A complex type that determines the distribution’s SSL/TLS configuration for communicating with viewers.
         public let viewerCertificate: ViewerCertificate?
-        /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of AWS WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using AWS WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide.
+        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the WAF Developer Guide.
         public let webACLId: String?
 
         public init(aliases: Aliases? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
@@ -2100,7 +2169,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
+        /// A complex type that contains one DistributionSummary element for each distribution that was created by the current account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, DistributionSummary>>
         public var items: [DistributionSummary]?
         /// The value you provided for the Marker request parameter.
@@ -2109,7 +2178,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off.
         public let nextMarker: String?
-        /// The number of distributions that were created by the current AWS account.
+        /// The number of distributions that were created by the current account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -2136,10 +2205,10 @@ extension CloudFront {
 
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public let aliases: Aliases
-        /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
+        /// Amazon Web Services services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with Amazon Web Services services in China.
         @OptionalCustomCoding<ArrayCoder<_AliasICPRecordalsEncoding, AliasICPRecordal>>
         public var aliasICPRecordals: [AliasICPRecordal]?
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
         public let arn: String
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors
@@ -3602,7 +3671,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
+        /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, InvalidationSummary>>
         public var items: [InvalidationSummary]?
         /// The value that you provided for the Marker request parameter.
@@ -3611,7 +3680,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
         public let nextMarker: String?
-        /// The number of invalidation batches that were created by the current AWS account.
+        /// The number of invalidation batches that were created by the current account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -3778,7 +3847,7 @@ extension CloudFront {
     }
 
     public struct KinesisStreamConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide.
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFront can use to send real-time log data to your Kinesis data stream. For more information the IAM role, see Real-time log configuration IAM role in the Amazon CloudFront Developer Guide.
         public let roleARN: String
         /// The Amazon Resource Name (ARN) of the Kinesis data stream where you are sending real-time log data.
         public let streamARN: String
@@ -3795,11 +3864,11 @@ extension CloudFront {
     }
 
     public struct LambdaFunctionAssociation: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the event type that triggers a Lambda function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront sends a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+        /// Specifies the event type that triggers a Lambda@Edge function invocation. You can specify the following values:    viewer-request: The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.     origin-request: The function executes only when CloudFront sends a request to your origin. When the requested object is in the edge cache, the function doesn't execute.    origin-response: The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute.    viewer-response: The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
         public let eventType: EventType
-        /// A flag that allows a Lambda function to have read access to the body content. For more information, see Accessing the Request Body by Choosing the Include Body Option in the Amazon CloudFront Developer Guide.
+        /// A flag that allows a Lambda@Edge function to have read access to the body content. For more information, see Accessing the Request Body by Choosing the Include Body Option in the Amazon CloudFront Developer Guide.
         public let includeBody: Bool?
-        /// The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+        /// The ARN of the Lambda@Edge function. You must specify the ARN of a function version; you can't specify an alias or $LATEST.
         public let lambdaFunctionARN: String
 
         public init(eventType: EventType, includeBody: Bool? = nil, lambdaFunctionARN: String) {
@@ -3821,7 +3890,7 @@ extension CloudFront {
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, LambdaFunctionAssociation>>
         public var items: [LambdaFunctionAssociation]?
-        /// The number of Lambda function associations for this cache behavior.
+        /// The number of Lambda@Edge function associations for this cache behavior.
         public let quantity: Int
 
         public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int) {
@@ -3846,7 +3915,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of cache policies that you want in the response.
         public let maxItems: String?
-        /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.
+        /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your account.
         public let type: CachePolicyType?
 
         public init(marker: String? = nil, maxItems: String? = nil, type: CachePolicyType? = nil) {
@@ -3912,6 +3981,58 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
+        }
+    }
+
+    public struct ListConflictingAliasesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring(locationName: "Alias")),
+            AWSMemberEncoding(label: "distributionId", location: .querystring(locationName: "DistributionId")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
+        ]
+
+        /// The alias (also called a CNAME) to search for conflicting aliases.
+        public let alias: String
+        /// The ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias.
+        public let distributionId: String
+        /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of conflicting aliases that you want in the response.
+        public let maxItems: Int?
+
+        public init(alias: String, distributionId: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.alias = alias
+            self.distributionId = distributionId
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 253)
+            try self.validate(self.distributionId, name: "distributionId", parent: name, max: 25)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConflictingAliasesResult: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "conflictingAliasesList"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "conflictingAliasesList", location: .body(locationName: "ConflictingAliasesList"))
+        ]
+
+        /// A list of conflicting aliases.
+        public let conflictingAliasesList: ConflictingAliasesList?
+
+        public init(conflictingAliasesList: ConflictingAliasesList? = nil) {
+            self.conflictingAliasesList = conflictingAliasesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictingAliasesList = "ConflictingAliasesList"
         }
     }
 
@@ -4096,7 +4217,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
         public let maxItems: String?
-        /// The ID of the AWS WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL.
+        /// The ID of the WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL.
         public let webACLId: String
 
         public init(marker: String? = nil, maxItems: String? = nil, webACLId: String) {
@@ -4374,7 +4495,7 @@ extension CloudFront {
         public let marker: String?
         /// The maximum number of origin request policies that you want in the response.
         public let maxItems: String?
-        /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.
+        /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by Amazon Web Services.    custom – Returns only the custom policies created in your account.
         public let type: OriginRequestPolicyType?
 
         public init(marker: String? = nil, maxItems: String? = nil, type: OriginRequestPolicyType? = nil) {
@@ -4902,7 +5023,7 @@ extension CloudFront {
     public struct OriginRequestPolicySummary: AWSDecodableShape {
         /// The origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
-        /// The type of origin request policy, either managed (created by AWS) or custom (created in this AWS account).
+        /// The type of origin request policy, either managed (created by Amazon Web Services) or custom (created in this account).
         public let type: OriginRequestPolicyType
 
         public init(originRequestPolicy: OriginRequestPolicy, type: OriginRequestPolicyType) {
@@ -4919,7 +5040,7 @@ extension CloudFront {
     public struct OriginShield: AWSEncodableShape & AWSDecodableShape {
         /// A flag that specifies whether Origin Shield is enabled. When it’s enabled, CloudFront routes all requests through Origin Shield, which can help protect your origin. When it’s disabled, CloudFront might send requests directly to your origin from multiple edge locations or regional edge caches.
         public let enabled: Bool
-        /// The AWS Region for Origin Shield. Specify the AWS Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the AWS Region for Origin Shield. For the list of AWS Regions that you can specify, and for help choosing the best Region for your origin, see Choosing the AWS Region for Origin Shield in the Amazon CloudFront Developer Guide.
+        /// The Region for Origin Shield. Specify the Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the Region for Origin Shield. For the list of Regions that you can specify, and for help choosing the best Region for your origin, see Choosing the Region for Origin Shield in the Amazon CloudFront Developer Guide.
         public let originShieldRegion: String?
 
         public init(enabled: Bool, originShieldRegion: String? = nil) {
@@ -5372,7 +5493,7 @@ extension CloudFront {
     }
 
     public struct Signer: AWSDecodableShape {
-        /// An AWS account number that contains active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If the AWS account that owns the key pairs is the same account that owns the CloudFront distribution, the value of this field is self.
+        /// An account number that contains active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If the account that owns the key pairs is the same account that owns the CloudFront distribution, the value of this field is self.
         public let awsAccountNumber: String?
         /// A list of CloudFront key pair identifiers.
         public let keyPairIds: KeyPairIds?
@@ -5413,9 +5534,9 @@ extension CloudFront {
     }
 
     public struct StreamingDistribution: AWSDecodableShape {
-        /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that lists the accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the account number of the trusted signer or self if the signer is the account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let activeTrustedSigners: ActiveTrustedSigners
-        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
         public let arn: String
         /// The domain name that corresponds to the streaming distribution, for example, s5c39gqb8ow64r.cloudfront.net.
         public let domainName: String
@@ -5466,7 +5587,7 @@ extension CloudFront {
         public let priceClass: PriceClass?
         /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
         public let s3Origin: S3Origin
-        /// A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that specifies any accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
         public init(aliases: Aliases? = nil, callerReference: String, comment: String, enabled: Bool, logging: StreamingLoggingConfig? = nil, priceClass: PriceClass? = nil, s3Origin: S3Origin, trustedSigners: TrustedSigners) {
@@ -5520,7 +5641,7 @@ extension CloudFront {
 
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
         public let isTruncated: Bool
-        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
+        /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current account.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, StreamingDistributionSummary>>
         public var items: [StreamingDistributionSummary]?
         /// The value you provided for the Marker request parameter.
@@ -5529,7 +5650,7 @@ extension CloudFront {
         public let maxItems: Int
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off.
         public let nextMarker: String?
-        /// The number of streaming distributions that were created by the current AWS account.
+        /// The number of streaming distributions that were created by the current account.
         public let quantity: Int
 
         public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -5554,7 +5675,7 @@ extension CloudFront {
     public struct StreamingDistributionSummary: AWSDecodableShape {
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
         public let aliases: Aliases
-        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
+        ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your account ID.
         public let arn: String
         /// The comment originally specified when this distribution was created.
         public let comment: String
@@ -5572,7 +5693,7 @@ extension CloudFront {
         public let s3Origin: S3Origin
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
         public let status: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
+        /// A complex type that specifies the accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
         public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: Date, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
@@ -5836,12 +5957,12 @@ extension CloudFront {
     public struct TrustedSigners: AWSEncodableShape & AWSDecodableShape {
         public struct _ItemsEncoding: ArrayCoderProperties { public static let member = "AwsAccountNumber" }
 
-        /// This field is true if any of the AWS accounts have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        /// This field is true if any of the accounts have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        /// A list of AWS account identifiers.
+        /// A list of account identifiers.
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
-        /// The number of AWS accounts in the list.
+        /// The number of accounts in the list.
         public let quantity: Int
 
         public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
@@ -6454,15 +6575,15 @@ extension CloudFront {
     }
 
     public struct ViewerCertificate: AWSEncodableShape & AWSDecodableShape {
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in AWS Certificate Manager (ACM), provide the Amazon Resource Name (ARN) of the ACM certificate. CloudFront only supports ACM certificates in the US East (N. Virginia) Region (us-east-1). If you specify an ACM certificate ARN, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in Certificate Manager (ACM), provide the Amazon Resource Name (ARN) of the ACM certificate. CloudFront only supports ACM certificates in the US East (N. Virginia) Region (us-east-1). If you specify an ACM certificate ARN, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
         public let aCMCertificateArn: String?
         /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, set this field to true. If the distribution uses Aliases (alternate domain names or CNAMEs), set this field to false and specify values for the following fields:    ACMCertificateArn or IAMCertificateId (specify a value for one, not both)    MinimumProtocolVersion     SSLSupportMethod
         public let cloudFrontDefaultCertificate: Bool?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in AWS Identity and Access Management (AWS IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in Identity and Access Management (IAM), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
         public let iAMCertificateId: String?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you’re using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher.  If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you’re using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the AWS Support Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don’t support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the Amazon Web Services Support Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don’t set a value for this field.
         public let sSLSupportMethod: SSLSupportMethod?
 
         public init(aCMCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sSLSupportMethod: SSLSupportMethod? = nil) {

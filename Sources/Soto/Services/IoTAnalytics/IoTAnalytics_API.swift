@@ -87,7 +87,7 @@ public struct IoTAnalytics: AWSService {
         return self.client.execute(operation: "CreateDatasetContent", path: "/datasets/{datasetName}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a data store, which is a repository for messages.
+    /// Creates a data store, which is a repository for messages. Only data stores that are used to save pipeline data can be configured with ParquetConfiguration.
     public func createDatastore(_ input: CreateDatastoreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatastoreResponse> {
         return self.client.execute(operation: "CreateDatastore", path: "/datastores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -54,35 +54,35 @@ public struct WAFV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// AWS WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
+    /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
     public static var wAFAssociatedItemException: Self { .init(.wAFAssociatedItemException) }
-    /// AWS WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
+    /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
     public static var wAFDuplicateItemException: Self { .init(.wAFDuplicateItemException) }
-    /// Your request is valid, but AWS WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     public static var wAFInternalErrorException: Self { .init(.wAFInternalErrorException) }
     /// The operation isn't valid.
     public static var wAFInvalidOperationException: Self { .init(.wAFInvalidOperationException) }
-    /// The operation failed because AWS WAF didn't recognize a parameter in the request. For example:    You specified an invalid parameter name or value.   Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.    You tried to update a WebACL with a DefaultAction that isn't among the types available at DefaultAction.   Your request references an ARN that is malformed, or corresponds to a resource with which a Web ACL cannot be associated.
+    /// The operation failed because WAF didn't recognize a parameter in the request. For example:    You specified a parameter name or value that isn't valid.   Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.    You tried to update a WebACL with a DefaultAction that isn't among the types available at DefaultAction.   Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     public static var wAFInvalidParameterException: Self { .init(.wAFInvalidParameterException) }
-    /// The operation failed because the specified policy isn't in the proper format.  The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups. AWS WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
+    /// The operation failed because the specified policy isn't in the proper format.  The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups. WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
     public static var wAFInvalidPermissionPolicyException: Self { .init(.wAFInvalidPermissionPolicyException) }
-    /// AWS WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
+    /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     public static var wAFInvalidResourceException: Self { .init(.wAFInvalidResourceException) }
-    /// AWS WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see Limits in the AWS WAF Developer Guide.
+    /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an account. For more information, see Limits in the WAF Developer Guide.
     public static var wAFLimitsExceededException: Self { .init(.wAFLimitsExceededException) }
-    /// AWS WAF couldn’t perform the operation because your resource doesn’t exist.
+    /// WAF couldn’t perform the operation because your resource doesn’t exist.
     public static var wAFNonexistentItemException: Self { .init(.wAFNonexistentItemException) }
-    /// AWS WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
+    /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
     public static var wAFOptimisticLockException: Self { .init(.wAFOptimisticLockException) }
-    /// AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
+    /// WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     public static var wAFServiceLinkedRoleErrorException: Self { .init(.wAFServiceLinkedRoleErrorException) }
     /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
     public static var wAFSubscriptionNotFoundException: Self { .init(.wAFSubscriptionNotFoundException) }
     /// An error occurred during the tagging operation. Retry your request.
     public static var wAFTagOperationException: Self { .init(.wAFTagOperationException) }
-    /// AWS WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
+    /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
     public static var wAFTagOperationInternalErrorException: Self { .init(.wAFTagOperationInternalErrorException) }
-    /// AWS WAF couldn’t retrieve the resource that you requested. Retry your request.
+    /// WAF couldn’t retrieve the resource that you requested. Retry your request.
     public static var wAFUnavailableEntityException: Self { .init(.wAFUnavailableEntityException) }
 }
 

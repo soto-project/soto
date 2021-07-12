@@ -100,16 +100,39 @@ extension Imagebuilder {
 
     // MARK: Shapes
 
+    public struct AdditionalInstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains settings for the SSM agent on your build instance.
+        public let systemsManagerAgent: SystemsManagerAgent?
+        /// Use this property to provide commands or a command script to run when you launch your build instance.  The userDataOverride property replaces any commands that Image Builder might have added to ensure that SSM is installed on your Linux build instance. If you override the user data, make sure that you add commands to install SSM, if it is not pre-installed on your source image.
+        public let userDataOverride: String?
+
+        public init(systemsManagerAgent: SystemsManagerAgent? = nil, userDataOverride: String? = nil) {
+            self.systemsManagerAgent = systemsManagerAgent
+            self.userDataOverride = userDataOverride
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.userDataOverride, name: "userDataOverride", parent: name, max: 21847)
+            try self.validate(self.userDataOverride, name: "userDataOverride", parent: name, min: 1)
+            try self.validate(self.userDataOverride, name: "userDataOverride", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemsManagerAgent
+            case userDataOverride
+        }
+    }
+
     public struct Ami: AWSDecodableShape {
         /// The account ID of the owner of the AMI.
         public let accountId: String?
-        /// The description of the EC2 AMI. Minimum and maximum length are in characters.
+        /// The description of the Amazon EC2 AMI. Minimum and maximum length are in characters.
         public let description: String?
-        /// The AMI ID of the EC2 AMI.
+        /// The AMI ID of the Amazon EC2 AMI.
         public let image: String?
-        /// The name of the EC2 AMI.
+        /// The name of the Amazon EC2 AMI.
         public let name: String?
-        /// The AWS Region of the EC2 AMI.
+        /// The Region of the Amazon EC2 AMI.
         public let region: String?
         public let state: ImageState?
 
@@ -139,7 +162,7 @@ extension Imagebuilder {
         public let description: String?
         /// The KMS key identifier used to encrypt the distributed image.
         public let kmsKeyId: String?
-        ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances.
+        ///  Launch permissions can be used to configure which accounts can use the AMI to launch instances.
         public let launchPermission: LaunchPermissionConfiguration?
         /// The name of the distribution configuration.
         public let name: String?
@@ -250,6 +273,8 @@ extension Imagebuilder {
         public let name: String?
         /// The owner of the component.
         public let owner: String?
+        /// Contains parameter details for each of the parameters that are defined for the component.
+        public let parameters: [ComponentParameterDetail]?
         /// The platform of the component.
         public let platform: Platform?
         /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
@@ -261,7 +286,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
-        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, parameters: [ComponentParameterDetail]? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
             self.data = data
@@ -271,6 +296,7 @@ extension Imagebuilder {
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.owner = owner
+            self.parameters = parameters
             self.platform = platform
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
@@ -288,6 +314,7 @@ extension Imagebuilder {
             case kmsKeyId
             case name
             case owner
+            case parameters
             case platform
             case supportedOsVersions
             case tags
@@ -299,17 +326,77 @@ extension Imagebuilder {
     public struct ComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the component.
         public let componentArn: String
+        /// A group of parameter settings that are used to configure the component for a specific recipe.
+        public let parameters: [ComponentParameter]?
 
-        public init(componentArn: String) {
+        public init(componentArn: String, parameters: [ComponentParameter]? = nil) {
             self.componentArn = componentArn
+            self.parameters = parameters
         }
 
         public func validate(name: String) throws {
             try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case componentArn
+            case parameters
+        }
+    }
+
+    public struct ComponentParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the component parameter to set.
+        public let name: String
+        /// Sets the value for the named component parameter.
+        public let value: [String]
+
+        public init(name: String, value: [String]) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[^\\x00]+")
+            try self.value.forEach {
+                try validate($0, name: "value[]", parent: name, min: 1)
+                try validate($0, name: "value[]", parent: name, pattern: "[^\\x00]+")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case value
+        }
+    }
+
+    public struct ComponentParameterDetail: AWSDecodableShape {
+        /// The default value of this parameter if no input is provided.
+        public let defaultValue: [String]?
+        /// Describes this parameter.
+        public let description: String?
+        /// The name of this input parameter.
+        public let name: String
+        /// The type of input this parameter provides. The currently supported value is "string".
+        public let type: String
+
+        public init(defaultValue: [String]? = nil, description: String? = nil, name: String, type: String) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue
+            case description
+            case name
+            case type
         }
     }
 
@@ -598,7 +685,7 @@ extension Imagebuilder {
         public let supportedOsVersions: [String]?
         /// The tags of the component.
         public let tags: [String: String]?
-        /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
+        /// The uri of the component. Must be an Amazon S3 URL and the requester must have permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
 
         public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
@@ -689,7 +776,7 @@ extension Imagebuilder {
         public let description: String?
         /// The Dockerfile template used to build your image as an inline data blob.
         public let dockerfileTemplateData: String?
-        /// The S3 URI for the Dockerfile that will be used to build your container image.
+        /// The Amazon S3 URI for the Dockerfile that will be used to build your container image.
         public let dockerfileTemplateUri: String?
         /// Specifies the operating system version for the source image.
         public let imageOsVersionOverride: String?
@@ -970,6 +1057,8 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRecipeRequest: AWSEncodableShape {
+        /// Specify additional settings and launch scripts for your build instances.
+        public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
         /// The block device mappings of the image recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// The idempotency token used to make this request idempotent.
@@ -986,10 +1075,11 @@ extension Imagebuilder {
         public let semanticVersion: String
         ///  The tags of the image recipe.
         public let tags: [String: String]?
-        /// The working directory to be used during build and test workflows.
+        /// The working directory used during build and test workflows.
         public let workingDirectory: String?
 
-        public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
+            self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.blockDeviceMappings = blockDeviceMappings
             self.clientToken = clientToken
             self.components = components
@@ -1002,6 +1092,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
+            try self.additionalInstanceConfiguration?.validate(name: "\(name).additionalInstanceConfiguration")
             try self.blockDeviceMappings?.forEach {
                 try $0.validate(name: "\(name).blockDeviceMappings[]")
             }
@@ -1028,6 +1119,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalInstanceConfiguration
             case blockDeviceMappings
             case clientToken
             case components
@@ -1144,7 +1236,7 @@ extension Imagebuilder {
         public let clientToken: String
         /// The description of the infrastructure configuration.
         public let description: String?
-        /// The instance profile to associate with the instance used to customize your EC2 AMI.
+        /// The instance profile to associate with the instance used to customize your Amazon EC2 AMI.
         public let instanceProfileName: String
         /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability.
         public let instanceTypes: [String]?
@@ -1156,11 +1248,11 @@ extension Imagebuilder {
         public let name: String
         /// The tags attached to the resource created by Image Builder.
         public let resourceTags: [String: String]?
-        /// The security group IDs to associate with the instance used to customize your EC2 AMI.
+        /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
         public let securityGroupIds: [String]?
         /// The SNS topic on which to send image build events.
         public let snsTopicArn: String?
-        /// The subnet ID in which to place the instance used to customize your EC2 AMI.
+        /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
         public let subnetId: String?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
@@ -2276,6 +2368,8 @@ extension Imagebuilder {
     }
 
     public struct ImageRecipe: AWSDecodableShape {
+        /// Before you create a new AMI, Image Builder launches temporary Amazon EC2 instances to build and test your image configuration. Instance configuration adds a layer of control over those instances. You can define settings and add scripts to run when an instance is launched from your AMI.
+        public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
         /// The block device mappings to apply when creating images from this recipe.
@@ -2303,7 +2397,8 @@ extension Imagebuilder {
         /// The working directory to be used during build and test workflows.
         public let workingDirectory: String?
 
-        public init(arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
+            self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -2320,6 +2415,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalInstanceConfiguration
             case arn
             case blockDeviceMappings
             case components
@@ -2529,7 +2625,7 @@ extension Imagebuilder {
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let type: ComponentType
-        /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
+        /// The uri of the component. Must be an Amazon S3 URL and the requester must have permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
 
         public init(changeDescription: String? = nil, clientToken: String = ImportComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, format: ComponentFormat, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, type: ComponentType, uri: String? = nil) {
@@ -2618,7 +2714,7 @@ extension Imagebuilder {
         public let instanceProfileName: String?
         /// The instance types of the infrastructure configuration.
         public let instanceTypes: [String]?
-        /// The EC2 key pair of the infrastructure configuration.
+        /// The Amazon EC2 key pair of the infrastructure configuration.
         public let keyPair: String?
         /// The logging configuration of the infrastructure configuration.
         public let logging: Logging?
@@ -2782,7 +2878,7 @@ extension Imagebuilder {
     public struct LaunchPermissionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the group.
         public let userGroups: [String]?
-        /// The AWS account ID.
+        /// The account ID.
         public let userIds: [String]?
 
         public init(userGroups: [String]? = nil, userIds: [String]? = nil) {
@@ -2811,9 +2907,9 @@ extension Imagebuilder {
     public struct LaunchTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The account ID that this configuration applies to.
         public let accountId: String?
-        /// Identifies the EC2 launch template to use.
+        /// Identifies the Amazon EC2 launch template to use.
         public let launchTemplateId: String
-        /// Set the specified EC2 launch template as the default launch template for the specified account.
+        /// Set the specified Amazon EC2 launch template as the default launch template for the specified account.
         public let setDefaultVersion: Bool?
 
         public init(accountId: String? = nil, launchTemplateId: String, setDefaultVersion: Bool? = nil) {
@@ -3508,7 +3604,7 @@ extension Imagebuilder {
     }
 
     public struct OutputResources: AWSDecodableShape {
-        /// The EC2 AMIs created by this image.
+        /// The Amazon EC2 AMIs created by this image.
         public let amis: [Ami]?
         /// Container images that the pipeline has generated and stored in the output repository.
         public let containers: [Container]?
@@ -3781,6 +3877,19 @@ extension Imagebuilder {
         }
     }
 
+    public struct SystemsManagerAgent: AWSEncodableShape & AWSDecodableShape {
+        /// This property defaults to true. If Image Builder installs the SSM agent on a build instance, it removes the agent before creating a snapshot for the AMI. To ensure that the AMI you create includes the SSM agent, set this property to false.
+        public let uninstallAfterBuild: Bool?
+
+        public init(uninstallAfterBuild: Bool? = nil) {
+            self.uninstallAfterBuild = uninstallAfterBuild
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uninstallAfterBuild
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -4023,7 +4132,7 @@ extension Imagebuilder {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update.
         public let infrastructureConfigurationArn: String
-        /// The instance profile to associate with the instance used to customize your EC2 AMI.
+        /// The instance profile to associate with the instance used to customize your Amazon EC2 AMI.
         public let instanceProfileName: String
         /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability.
         public let instanceTypes: [String]?
@@ -4033,11 +4142,11 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The tags attached to the resource created by Image Builder.
         public let resourceTags: [String: String]?
-        /// The security group IDs to associate with the instance used to customize your EC2 AMI.
+        /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
         public let securityGroupIds: [String]?
         /// The SNS topic on which to send image build events.
         public let snsTopicArn: String?
-        /// The subnet ID to place the instance used to customize your EC2 AMI in.
+        /// The subnet ID to place the instance used to customize your Amazon EC2 AMI in.
         public let subnetId: String?
         /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails.
         public let terminateInstanceOnFailure: Bool?

@@ -35,6 +35,7 @@ extension EKS {
         case configurationconflict = "ConfigurationConflict"
         case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
         case internalfailure = "InternalFailure"
+        case unsupportedaddonmodification = "UnsupportedAddonModification"
         public var description: String { return self.rawValue }
     }
 
@@ -79,6 +80,7 @@ extension EKS {
         case securitygroupnotfound = "SecurityGroupNotFound"
         case subnetnotfound = "SubnetNotFound"
         case unknown = "Unknown"
+        case unsupportedaddonmodification = "UnsupportedAddonModification"
         case vpcidnotfound = "VpcIdNotFound"
         public var description: String { return self.rawValue }
     }
@@ -160,6 +162,8 @@ extension EKS {
         case launchtemplatename = "LaunchTemplateName"
         case launchtemplateversion = "LaunchTemplateVersion"
         case maxsize = "MaxSize"
+        case maxunavailable = "MaxUnavailable"
+        case maxunavailablepercentage = "MaxUnavailablePercentage"
         case minsize = "MinSize"
         case platformversion = "PlatformVersion"
         case publicaccesscidrs = "PublicAccessCidrs"
@@ -772,10 +776,11 @@ extension EKS {
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group.
         public let taints: [Taint]?
+        public let updateConfig: NodegroupUpdateConfig?
         /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clientRequestToken = clientRequestToken
@@ -792,6 +797,7 @@ extension EKS {
             self.subnets = subnets
             self.tags = tags
             self.taints = taints
+            self.updateConfig = updateConfig
             self.version = version
         }
 
@@ -811,6 +817,7 @@ extension EKS {
             try self.taints?.forEach {
                 try $0.validate(name: "\(name).taints[]")
             }
+            try self.updateConfig?.validate(name: "\(name).updateConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -829,6 +836,7 @@ extension EKS {
             case subnets
             case tags
             case taints
+            case updateConfig
             case version
         }
     }
@@ -1851,10 +1859,11 @@ extension EKS {
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group when they are created. Effect is one of NoSchedule, PreferNoSchedule, or NoExecute. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes.
         public let taints: [Taint]?
+        public let updateConfig: NodegroupUpdateConfig?
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clusterName = clusterName
@@ -1876,6 +1885,7 @@ extension EKS {
             self.subnets = subnets
             self.tags = tags
             self.taints = taints
+            self.updateConfig = updateConfig
             self.version = version
         }
 
@@ -1901,6 +1911,7 @@ extension EKS {
             case subnets
             case tags
             case taints
+            case updateConfig
             case version
         }
     }
@@ -1959,6 +1970,27 @@ extension EKS {
             case desiredSize
             case maxSize
             case minSize
+        }
+    }
+
+    public struct NodegroupUpdateConfig: AWSEncodableShape & AWSDecodableShape {
+        public let maxUnavailable: Int?
+        public let maxUnavailablePercentage: Int?
+
+        public init(maxUnavailable: Int? = nil, maxUnavailablePercentage: Int? = nil) {
+            self.maxUnavailable = maxUnavailable
+            self.maxUnavailablePercentage = maxUnavailablePercentage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxUnavailable, name: "maxUnavailable", parent: name, min: 1)
+            try self.validate(self.maxUnavailablePercentage, name: "maxUnavailablePercentage", parent: name, max: 100)
+            try self.validate(self.maxUnavailablePercentage, name: "maxUnavailablePercentage", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxUnavailable
+            case maxUnavailablePercentage
         }
     }
 
@@ -2413,20 +2445,23 @@ extension EKS {
         public let scalingConfig: NodegroupScalingConfig?
         /// The Kubernetes taints to be applied to the nodes in the node group after the update.
         public let taints: UpdateTaintsPayload?
+        public let updateConfig: NodegroupUpdateConfig?
 
-        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil) {
+        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.labels = labels
             self.nodegroupName = nodegroupName
             self.scalingConfig = scalingConfig
             self.taints = taints
+            self.updateConfig = updateConfig
         }
 
         public func validate(name: String) throws {
             try self.labels?.validate(name: "\(name).labels")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.taints?.validate(name: "\(name).taints")
+            try self.updateConfig?.validate(name: "\(name).updateConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2434,6 +2469,7 @@ extension EKS {
             case labels
             case scalingConfig
             case taints
+            case updateConfig
         }
     }
 

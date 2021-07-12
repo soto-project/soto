@@ -63,6 +63,16 @@ public struct GreengrassV2: AWSService {
 
     // MARK: API Calls
 
+    /// Associate a list of client devices with a core device. Use this API operation to specify which client devices can discover a core device through cloud discovery. With cloud discovery, client devices connect to AWS IoT Greengrass to retrieve associated core devices' connectivity information and certificates. For more information, see Configure cloud discovery in the AWS IoT Greengrass V2 Developer Guide.  Client devices are local IoT devices that connect to and communicate with an AWS IoT Greengrass core device over MQTT. You can connect client devices to a core device to sync MQTT messages and data to AWS IoT Core and interact with client devices in AWS IoT Greengrass components. For more information, see Interact with local IoT devices in the AWS IoT Greengrass V2 Developer Guide.
+    public func batchAssociateClientDeviceWithCoreDevice(_ input: BatchAssociateClientDeviceWithCoreDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateClientDeviceWithCoreDeviceResponse> {
+        return self.client.execute(operation: "BatchAssociateClientDeviceWithCoreDevice", path: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associateClientDevices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociate a list of client devices from a core device. After you disassociate a client device from a core device, the client device won't be able to use cloud discovery to retrieve the core device's connectivity information and certificates.
+    public func batchDisassociateClientDeviceFromCoreDevice(_ input: BatchDisassociateClientDeviceFromCoreDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisassociateClientDeviceFromCoreDeviceResponse> {
+        return self.client.execute(operation: "BatchDisassociateClientDeviceFromCoreDevice", path: "/greengrass/v2/coreDevices/{coreDeviceThingName}/disassociateClientDevices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels a deployment. This operation cancels the deployment for devices that haven't yet received it. If a device already received the deployment, this operation doesn't change anything for that device.
     public func cancelDeployment(_ input: CancelDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelDeploymentResponse> {
         return self.client.execute(operation: "CancelDeployment", path: "/greengrass/v2/deployments/{deploymentId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -113,7 +123,12 @@ public struct GreengrassV2: AWSService {
         return self.client.execute(operation: "GetDeployment", path: "/greengrass/v2/deployments/{deploymentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a paginated list of all versions for a component.
+    /// Retrieves a paginated list of client devices that are associated with a core device.
+    public func listClientDevicesAssociatedWithCoreDevice(_ input: ListClientDevicesAssociatedWithCoreDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClientDevicesAssociatedWithCoreDeviceResponse> {
+        return self.client.execute(operation: "ListClientDevicesAssociatedWithCoreDevice", path: "/greengrass/v2/coreDevices/{coreDeviceThingName}/associatedClientDevices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a paginated list of all versions for a component. Greater versions are listed first.
     public func listComponentVersions(_ input: ListComponentVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentVersionsResponse> {
         return self.client.execute(operation: "ListComponentVersions", path: "/greengrass/v2/components/{arn}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

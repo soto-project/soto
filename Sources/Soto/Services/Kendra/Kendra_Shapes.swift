@@ -122,6 +122,7 @@ extension Kendra {
         case salesforce = "SALESFORCE"
         case servicenow = "SERVICENOW"
         case sharepoint = "SHAREPOINT"
+        case webcrawler = "WEBCRAWLER"
         public var description: String { return self.rawValue }
     }
 
@@ -138,6 +139,16 @@ extension Kendra {
         case longValue = "LONG_VALUE"
         case stringListValue = "STRING_LIST_VALUE"
         case stringValue = "STRING_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case indexed = "INDEXED"
+        case notFound = "NOT_FOUND"
+        case processing = "PROCESSING"
+        case updateFailed = "UPDATE_FAILED"
+        case updated = "UPDATED"
         public var description: String { return self.rawValue }
     }
 
@@ -305,6 +316,8 @@ extension Kendra {
     }
 
     public enum SharePointVersion: String, CustomStringConvertible, Codable {
+        case sharepoint2013 = "SHAREPOINT_2013"
+        case sharepoint2016 = "SHAREPOINT_2016"
         case sharepointOnline = "SHAREPOINT_ONLINE"
         public var description: String { return self.rawValue }
     }
@@ -328,6 +341,13 @@ extension Kendra {
     public enum UserContextPolicy: String, CustomStringConvertible, Codable {
         case attributeFilter = "ATTRIBUTE_FILTER"
         case userToken = "USER_TOKEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebCrawlerMode: String, CustomStringConvertible, Codable {
+        case everything = "EVERYTHING"
+        case hostOnly = "HOST_ONLY"
+        case subdomains = "SUBDOMAINS"
         public var description: String { return self.rawValue }
     }
 
@@ -470,6 +490,59 @@ extension Kendra {
         }
     }
 
+    public struct AuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of configuration information that's required to connect to and crawl a website host using basic authentication credentials. The list includes the name and port number of the website host.
+        public let basicAuthentication: [BasicAuthenticationConfiguration]?
+
+        public init(basicAuthentication: [BasicAuthenticationConfiguration]? = nil) {
+            self.basicAuthentication = basicAuthentication
+        }
+
+        public func validate(name: String) throws {
+            try self.basicAuthentication?.forEach {
+                try $0.validate(name: "\(name).basicAuthentication[]")
+            }
+            try self.validate(self.basicAuthentication, name: "basicAuthentication", parent: name, max: 10)
+            try self.validate(self.basicAuthentication, name: "basicAuthentication", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basicAuthentication = "BasicAuthentication"
+        }
+    }
+
+    public struct BasicAuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Your secret ARN, which you can create in AWS Secrets Manager  You use a secret if basic authentication credentials are required to connect to a website. The secret stores your credentials of user name and password.
+        public let credentials: String
+        /// The name of the website host you want to connect to using authentication credentials. For example, the host name of https://a.example.com/page1.html is "a.example.com".
+        public let host: String
+        /// The port number of the website host you want to connect to using authentication credentials. For example, the port for https://a.example.com/page1.html is 443, the standard port for HTTPS.
+        public let port: Int
+
+        public init(credentials: String, host: String, port: Int) {
+            self.credentials = credentials
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentials, name: "credentials", parent: name, max: 1284)
+            try self.validate(self.credentials, name: "credentials", parent: name, min: 1)
+            try self.validate(self.credentials, name: "credentials", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.host, name: "host", parent: name, max: 253)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, pattern: "([^\\s]*)")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
     public struct BatchDeleteDocumentRequest: AWSEncodableShape {
         public let dataSourceSyncJobMetricTarget: DataSourceSyncJobMetricTarget?
         /// One or more identifiers for documents to delete from the index.
@@ -534,6 +607,72 @@ extension Kendra {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case id = "Id"
+        }
+    }
+
+    public struct BatchGetDocumentStatusRequest: AWSEncodableShape {
+        /// A list of DocumentInfo objects that identify the documents for which to get the status. You identify the documents by their document ID and optional attributes.
+        public let documentInfoList: [DocumentInfo]
+        /// The identifier of the index to add documents to. The index ID is returned by the  CreateIndex  operation.
+        public let indexId: String
+
+        public init(documentInfoList: [DocumentInfo], indexId: String) {
+            self.documentInfoList = documentInfoList
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.documentInfoList.forEach {
+                try $0.validate(name: "\(name).documentInfoList[]")
+            }
+            try self.validate(self.documentInfoList, name: "documentInfoList", parent: name, max: 10)
+            try self.validate(self.documentInfoList, name: "documentInfoList", parent: name, min: 1)
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentInfoList = "DocumentInfoList"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct BatchGetDocumentStatusResponse: AWSDecodableShape {
+        /// The status of documents. The status indicates if the document is waiting to be indexed, is in the process of indexing, has completed indexing, or failed indexing. If a document failed indexing, the status provides the reason why.
+        public let documentStatusList: [Status]?
+        /// A list of documents that Amazon Kendra couldn't get the status for. The list includes the ID of the document and the reason that the status couldn't be found.
+        public let errors: [BatchGetDocumentStatusResponseError]?
+
+        public init(documentStatusList: [Status]? = nil, errors: [BatchGetDocumentStatusResponseError]? = nil) {
+            self.documentStatusList = documentStatusList
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentStatusList = "DocumentStatusList"
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchGetDocumentStatusResponseError: AWSDecodableShape {
+        /// The unique identifier of the document whose status could not be retrieved.
+        public let documentId: String?
+        /// Indicates the source of the error.
+        public let errorCode: ErrorCode?
+        /// States that the API could not get the status of a document. This could be because the request is not valid or there is a system error.
+        public let errorMessage: String?
+
+        public init(documentId: String? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
+            self.documentId = documentId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "DocumentId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
         }
     }
 
@@ -607,9 +746,9 @@ extension Kendra {
     }
 
     public struct CapacityUnitsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of extra query capacity for an index. Each capacity unit provides 0.5 queries per second and 40,000 queries per day.
+        /// The amount of extra query capacity for an index and GetQuerySuggestions capacity. A single extra capacity unit for an index provides 0.1 queries per second or approximately 8,000 queries per day.  GetQuerySuggestions capacity is five times the provisioned query capacity for an index, or the base capacity of 2.5 calls per second, whichever is higher. For example, the base capacity for an index is 0.1 queries per second, and GetQuerySuggestions capacity has a base of 2.5 calls per second. If you add another 0.1 queries per second to total 0.2 queries per second for an index, the GetQuerySuggestions capacity is 2.5 calls per second (higher than five times 0.2 queries per second).
         public let queryCapacityUnits: Int
-        /// The amount of extra storage capacity for an index. Each capacity unit provides 150 Gb of storage space or 500,000 documents, whichever is reached first.
+        /// The amount of extra storage capacity for an index. A single capacity unit provides 30 GB of storage space or 100,000 documents, whichever is reached first.
         public let storageCapacityUnits: Int
 
         public init(queryCapacityUnits: Int, storageCapacityUnits: Int) {
@@ -1241,7 +1380,7 @@ extension Kendra {
         public let clientToken: String?
         /// A description for the index.
         public let description: String?
-        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION.
+        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer editions, see Quotas.
         public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
@@ -1481,8 +1620,9 @@ extension Kendra {
         public let serviceNowConfiguration: ServiceNowConfiguration?
         /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
+        public let webCrawlerConfiguration: WebCrawlerConfiguration?
 
-        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil) {
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.googleDriveConfiguration = googleDriveConfiguration
@@ -1491,6 +1631,7 @@ extension Kendra {
             self.salesforceConfiguration = salesforceConfiguration
             self.serviceNowConfiguration = serviceNowConfiguration
             self.sharePointConfiguration = sharePointConfiguration
+            self.webCrawlerConfiguration = webCrawlerConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1502,6 +1643,7 @@ extension Kendra {
             try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
             try self.serviceNowConfiguration?.validate(name: "\(name).serviceNowConfiguration")
             try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
+            try self.webCrawlerConfiguration?.validate(name: "\(name).webCrawlerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1513,6 +1655,7 @@ extension Kendra {
             case salesforceConfiguration = "SalesforceConfiguration"
             case serviceNowConfiguration = "ServiceNowConfiguration"
             case sharePointConfiguration = "SharePointConfiguration"
+            case webCrawlerConfiguration = "WebCrawlerConfiguration"
         }
     }
 
@@ -2429,7 +2572,7 @@ extension Kendra {
     }
 
     public struct DocumentAttributeValue: AWSEncodableShape & AWSDecodableShape {
-        /// A date expressed as an ISO 8601 string.
+        /// A date expressed as an ISO 8601 string. It is important for the time zone to be included in the ISO 8601 date-time format. For example, 20120325T123010+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time.
         public let dateValue: Date?
         /// A long integer value.
         public let longValue: Int64?
@@ -2476,6 +2619,31 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case documentAttributeValue = "DocumentAttributeValue"
+        }
+    }
+
+    public struct DocumentInfo: AWSEncodableShape {
+        /// Attributes that identify a specific version of a document to check. The only valid attributes are:   version   datasourceId   jobExecutionId   The attributes follow these rules:    dataSourceId and jobExecutionId must be used together.    version is ignored if dataSourceId and jobExecutionId are not provided.   If dataSourceId and jobExecutionId are provided, but version is not, the version defaults to "0".
+        public let attributes: [DocumentAttribute]?
+        /// The unique identifier of the document.
+        public let documentId: String
+
+        public init(attributes: [DocumentAttribute]? = nil, documentId: String) {
+            self.attributes = attributes
+            self.documentId = documentId
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 2048)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case documentId = "DocumentId"
         }
     }
 
@@ -3365,6 +3533,38 @@ extension Kendra {
         }
     }
 
+    public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Your secret ARN, which you can create in AWS Secrets Manager  The credentials are optional. You use a secret if web proxy credentials are required to connect to a website host. Amazon Kendra currently support basic authentication to connect to a web proxy server. The secret stores your credentials.
+        public let credentials: String?
+        /// The name of the website host you want to connect to via a web proxy server. For example, the host name of https://a.example.com/page1.html is "a.example.com".
+        public let host: String
+        /// The port number of the website host you want to connect to via a web proxy server.  For example, the port for https://a.example.com/page1.html is 443, the standard port for HTTPS.
+        public let port: Int
+
+        public init(credentials: String? = nil, host: String, port: Int) {
+            self.credentials = credentials
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentials, name: "credentials", parent: name, max: 1284)
+            try self.validate(self.credentials, name: "credentials", parent: name, min: 1)
+            try self.validate(self.credentials, name: "credentials", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.host, name: "host", parent: name, max: 253)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, pattern: "([^\\s]*)")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
     public struct QueryRequest: AWSEncodableShape {
         /// Enables filtered searches based on document attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter enables you to create a set of filtering rules that a document must satisfy to be included in the query results.
         public let attributeFilter: AttributeFilter?
@@ -4036,6 +4236,33 @@ extension Kendra {
         }
     }
 
+    public struct SeedUrlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of seed or starting point URLs of the websites you want to crawl. The list can include a maximum of 100 seed URLs.
+        public let seedUrls: [String]
+        /// You can choose one of the following modes:    HOST_ONLY – crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.    SUBDOMAINS – crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.    EVERYTHING – crawl the website host names with subdomains and other domains that the webpages link to.   The default mode is set to HOST_ONLY.
+        public let webCrawlerMode: WebCrawlerMode?
+
+        public init(seedUrls: [String], webCrawlerMode: WebCrawlerMode? = nil) {
+            self.seedUrls = seedUrls
+            self.webCrawlerMode = webCrawlerMode
+        }
+
+        public func validate(name: String) throws {
+            try self.seedUrls.forEach {
+                try validate($0, name: "seedUrls[]", parent: name, max: 2048)
+                try validate($0, name: "seedUrls[]", parent: name, min: 1)
+                try validate($0, name: "seedUrls[]", parent: name, pattern: "^(https?):\\/\\/([^\\s]*)")
+            }
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, max: 100)
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case seedUrls = "SeedUrls"
+            case webCrawlerMode = "WebCrawlerMode"
+        }
+    }
+
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The identifier of the AWS KMS customer master key (CMK). Amazon Kendra doesn't support asymmetric CMKs.
         public let kmsKeyId: String?
@@ -4240,13 +4467,14 @@ extension Kendra {
         public let secretArn: String
         /// The version of Microsoft SharePoint that you are using as a data source.
         public let sharePointVersion: SharePointVersion
+        public let sslCertificateS3Path: S3Path?
         /// The URLs of the Microsoft SharePoint site that contains the documents that should be indexed.
         public let urls: [String]
         /// Set to TRUE to use the Microsoft SharePoint change log to determine the documents that need to be updated in the index. Depending on the size of the SharePoint change log, it may take longer for Amazon Kendra to use the change log than it takes it to determine the changed documents using the Amazon Kendra document crawler.
         public let useChangeLog: Bool?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
-        public init(crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, sslCertificateS3Path: S3Path? = nil, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.crawlAttachments = crawlAttachments
             self.disableLocalGroups = disableLocalGroups
             self.documentTitleFieldName = documentTitleFieldName
@@ -4255,6 +4483,7 @@ extension Kendra {
             self.inclusionPatterns = inclusionPatterns
             self.secretArn = secretArn
             self.sharePointVersion = sharePointVersion
+            self.sslCertificateS3Path = sslCertificateS3Path
             self.urls = urls
             self.useChangeLog = useChangeLog
             self.vpcConfiguration = vpcConfiguration
@@ -4284,6 +4513,7 @@ extension Kendra {
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.sslCertificateS3Path?.validate(name: "\(name).sslCertificateS3Path")
             try self.urls.forEach {
                 try validate($0, name: "urls[]", parent: name, max: 2048)
                 try validate($0, name: "urls[]", parent: name, min: 1)
@@ -4303,9 +4533,33 @@ extension Kendra {
             case inclusionPatterns = "InclusionPatterns"
             case secretArn = "SecretArn"
             case sharePointVersion = "SharePointVersion"
+            case sslCertificateS3Path = "SslCertificateS3Path"
             case urls = "Urls"
             case useChangeLog = "UseChangeLog"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct SiteMapsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of sitemap URLs of the websites you want to crawl. The list can include a maximum of three sitemap URLs.
+        public let siteMaps: [String]
+
+        public init(siteMaps: [String]) {
+            self.siteMaps = siteMaps
+        }
+
+        public func validate(name: String) throws {
+            try self.siteMaps.forEach {
+                try validate($0, name: "siteMaps[]", parent: name, max: 2048)
+                try validate($0, name: "siteMaps[]", parent: name, min: 1)
+                try validate($0, name: "siteMaps[]", parent: name, pattern: "^(https?):\\/\\/([^\\s]*)")
+            }
+            try self.validate(self.siteMaps, name: "siteMaps", parent: name, max: 3)
+            try self.validate(self.siteMaps, name: "siteMaps", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteMaps = "SiteMaps"
         }
     }
 
@@ -4381,6 +4635,31 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case executionId = "ExecutionId"
+        }
+    }
+
+    public struct Status: AWSDecodableShape {
+        /// The unique identifier of the document.
+        public let documentId: String?
+        /// The current status of a document. If the document was submitted for deletion, the status is NOT_FOUND after the document is deleted.
+        public let documentStatus: DocumentStatus?
+        /// Indicates the source of the error.
+        public let failureCode: String?
+        /// Provides detailed information about why the document couldn't be indexed. Use this information to correct the error before you resubmit the document for indexing.
+        public let failureReason: String?
+
+        public init(documentId: String? = nil, documentStatus: DocumentStatus? = nil, failureCode: String? = nil, failureReason: String? = nil) {
+            self.documentId = documentId
+            self.documentStatus = documentStatus
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "DocumentId"
+            case documentStatus = "DocumentStatus"
+            case failureCode = "FailureCode"
+            case failureReason = "FailureReason"
         }
     }
 
@@ -4948,6 +5227,28 @@ extension Kendra {
         }
     }
 
+    public struct Urls: AWSEncodableShape & AWSDecodableShape {
+        /// Provides the configuration of the seed or starting point URLs of the websites you want to crawl. You can choose to crawl only the website host names, or the website host names with subdomains, or the website host names with subdomains and other domains that the webpages link to. You can list up to 100 seed URLs.
+        public let seedUrlConfiguration: SeedUrlConfiguration?
+        /// Provides the configuration of the sitemap URLs of the websites you want to crawl. Only URLs belonging to the same website host names are crawled. You can list up to three sitemap URLs.
+        public let siteMapsConfiguration: SiteMapsConfiguration?
+
+        public init(seedUrlConfiguration: SeedUrlConfiguration? = nil, siteMapsConfiguration: SiteMapsConfiguration? = nil) {
+            self.seedUrlConfiguration = seedUrlConfiguration
+            self.siteMapsConfiguration = siteMapsConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.seedUrlConfiguration?.validate(name: "\(name).seedUrlConfiguration")
+            try self.siteMapsConfiguration?.validate(name: "\(name).siteMapsConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case seedUrlConfiguration = "SeedUrlConfiguration"
+            case siteMapsConfiguration = "SiteMapsConfiguration"
+        }
+    }
+
     public struct UserContext: AWSEncodableShape {
         /// The user context token. It must be a JWT or a JSON token.
         public let token: String?
@@ -4986,6 +5287,77 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case jsonTokenTypeConfiguration = "JsonTokenTypeConfiguration"
             case jwtTokenTypeConfiguration = "JwtTokenTypeConfiguration"
+        }
+    }
+
+    public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Provides configuration information required to connect to websites using authentication. You can connect to websites using basic authentication of user name and password. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. You use a secret in AWS Secrets Manager to store your authentication credentials.
+        public let authenticationConfiguration: AuthenticationConfiguration?
+        /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL. For example, if a website has 3 levels – index level (i.e. seed in this example), sections level, and subsections level – and you are only interested in crawling information up to the sections level (i.e. levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
+        public let crawlDepth: Int?
+        /// The maximum size (in MB) of a webpage or attachment to crawl. Files larger than this size (in MB) are skipped/not crawled. The default maximum size of a webpage or attachment is set to 50 MB.
+        public let maxContentSizePerPageInMegaBytes: Float?
+        /// The maximum number of URLs on a webpage to include when crawling a website. This number is per webpage. As a website’s webpages are crawled, any URLs the webpages link to are also crawled. URLs on a webpage are crawled in order of appearance. The default maximum links per page is 100.
+        public let maxLinksPerPage: Int?
+        /// The maximum number of URLs crawled per website host per minute. A minimum of one URL is required. The default maximum number of URLs crawled per website host per minute is 300.
+        public let maxUrlsPerMinuteCrawlRate: Int?
+        /// Provides configuration information required to connect to your internal websites via a web proxy. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy server that requires basic authentication. To store web proxy credentials, you use a secret in AWS Secrets Manager.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// The regular expression pattern to exclude certain URLs to crawl. If there is a regular expression pattern to include certain URLs that conflicts with the exclude pattern, the exclude pattern takes precedence.
+        public let urlExclusionPatterns: [String]?
+        /// The regular expression pattern to include certain URLs to crawl. If there is a regular expression pattern to exclude certain URLs that conflicts with the include pattern, the exclude pattern takes precedence.
+        public let urlInclusionPatterns: [String]?
+        /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs.  When selecting websites to index, you must adhere to the Amazon Acceptable Use Policy and all other Amazon terms. Remember that you must only use the Amazon Kendra web crawler to index your own webpages, or webpages that you have authorization to index.
+        public let urls: Urls
+
+        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, crawlDepth: Int? = nil, maxContentSizePerPageInMegaBytes: Float? = nil, maxLinksPerPage: Int? = nil, maxUrlsPerMinuteCrawlRate: Int? = nil, proxyConfiguration: ProxyConfiguration? = nil, urlExclusionPatterns: [String]? = nil, urlInclusionPatterns: [String]? = nil, urls: Urls) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.crawlDepth = crawlDepth
+            self.maxContentSizePerPageInMegaBytes = maxContentSizePerPageInMegaBytes
+            self.maxLinksPerPage = maxLinksPerPage
+            self.maxUrlsPerMinuteCrawlRate = maxUrlsPerMinuteCrawlRate
+            self.proxyConfiguration = proxyConfiguration
+            self.urlExclusionPatterns = urlExclusionPatterns
+            self.urlInclusionPatterns = urlInclusionPatterns
+            self.urls = urls
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
+            try self.validate(self.crawlDepth, name: "crawlDepth", parent: name, max: 10)
+            try self.validate(self.crawlDepth, name: "crawlDepth", parent: name, min: 0)
+            try self.validate(self.maxContentSizePerPageInMegaBytes, name: "maxContentSizePerPageInMegaBytes", parent: name, max: 50)
+            try self.validate(self.maxContentSizePerPageInMegaBytes, name: "maxContentSizePerPageInMegaBytes", parent: name, min: 0)
+            try self.validate(self.maxLinksPerPage, name: "maxLinksPerPage", parent: name, max: 1000)
+            try self.validate(self.maxLinksPerPage, name: "maxLinksPerPage", parent: name, min: 1)
+            try self.validate(self.maxUrlsPerMinuteCrawlRate, name: "maxUrlsPerMinuteCrawlRate", parent: name, max: 300)
+            try self.validate(self.maxUrlsPerMinuteCrawlRate, name: "maxUrlsPerMinuteCrawlRate", parent: name, min: 1)
+            try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
+            try self.urlExclusionPatterns?.forEach {
+                try validate($0, name: "urlExclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "urlExclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.urlExclusionPatterns, name: "urlExclusionPatterns", parent: name, max: 100)
+            try self.validate(self.urlExclusionPatterns, name: "urlExclusionPatterns", parent: name, min: 0)
+            try self.urlInclusionPatterns?.forEach {
+                try validate($0, name: "urlInclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "urlInclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.urlInclusionPatterns, name: "urlInclusionPatterns", parent: name, max: 100)
+            try self.validate(self.urlInclusionPatterns, name: "urlInclusionPatterns", parent: name, min: 0)
+            try self.urls.validate(name: "\(name).urls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "AuthenticationConfiguration"
+            case crawlDepth = "CrawlDepth"
+            case maxContentSizePerPageInMegaBytes = "MaxContentSizePerPageInMegaBytes"
+            case maxLinksPerPage = "MaxLinksPerPage"
+            case maxUrlsPerMinuteCrawlRate = "MaxUrlsPerMinuteCrawlRate"
+            case proxyConfiguration = "ProxyConfiguration"
+            case urlExclusionPatterns = "UrlExclusionPatterns"
+            case urlInclusionPatterns = "UrlInclusionPatterns"
+            case urls = "Urls"
         }
     }
 }

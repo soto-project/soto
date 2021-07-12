@@ -125,7 +125,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the invitations for resource sharing that you've received.
+    ///  Gets the invitations that you have received for resource shares.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,6 +284,59 @@ extension RAM {
         )
     }
 
+    ///  Lists the AWS RAM permissions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPermissionsPaginator<Result>(
+        _ input: ListPermissionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPermissionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPermissions,
+            inputKey: \ListPermissionsRequest.nextToken,
+            outputKey: \ListPermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPermissionsPaginator(
+        _ input: ListPermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPermissions,
+            inputKey: \ListPermissionsRequest.nextToken,
+            outputKey: \ListPermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the principals that you have shared resources with or that have shared resources with you.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -332,6 +385,112 @@ extension RAM {
             command: listPrincipals,
             inputKey: \ListPrincipalsRequest.nextToken,
             outputKey: \ListPrincipalsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the AWS RAM permissions that are associated with a resource share.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listResourceSharePermissionsPaginator<Result>(
+        _ input: ListResourceSharePermissionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListResourceSharePermissionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listResourceSharePermissions,
+            inputKey: \ListResourceSharePermissionsRequest.nextToken,
+            outputKey: \ListResourceSharePermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listResourceSharePermissionsPaginator(
+        _ input: ListResourceSharePermissionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListResourceSharePermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listResourceSharePermissions,
+            inputKey: \ListResourceSharePermissionsRequest.nextToken,
+            outputKey: \ListResourceSharePermissionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the shareable resource types supported by AWS RAM.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listResourceTypesPaginator<Result>(
+        _ input: ListResourceTypesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListResourceTypesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listResourceTypes,
+            inputKey: \ListResourceTypesRequest.nextToken,
+            outputKey: \ListResourceTypesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listResourceTypesPaginator(
+        _ input: ListResourceTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListResourceTypesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listResourceTypes,
+            inputKey: \ListResourceTypesRequest.nextToken,
+            outputKey: \ListResourceTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -433,6 +592,7 @@ extension RAM.GetResourceSharesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token,
+            permissionArn: self.permissionArn,
             resourceOwner: self.resourceOwner,
             resourceShareArns: self.resourceShareArns,
             resourceShareStatus: self.resourceShareStatus,
@@ -451,6 +611,16 @@ extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateToken {
     }
 }
 
+extension RAM.ListPermissionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RAM.ListPermissionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )
+    }
+}
+
 extension RAM.ListPrincipalsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListPrincipalsRequest {
         return .init(
@@ -461,6 +631,25 @@ extension RAM.ListPrincipalsRequest: AWSPaginateToken {
             resourceOwner: self.resourceOwner,
             resourceShareArns: self.resourceShareArns,
             resourceType: self.resourceType
+        )
+    }
+}
+
+extension RAM.ListResourceSharePermissionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RAM.ListResourceSharePermissionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceShareArn: self.resourceShareArn
+        )
+    }
+}
+
+extension RAM.ListResourceTypesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> RAM.ListResourceTypesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

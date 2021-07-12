@@ -56,6 +56,7 @@ extension LookoutMetrics {
         case deleting = "DELETING"
         case failed = "FAILED"
         case inactive = "INACTIVE"
+        case learning = "LEARNING"
         public var description: String { return self.rawValue }
     }
 
@@ -632,7 +633,7 @@ extension LookoutMetrics {
         public let metricSetName: String
         /// Contains information about how the source data should be interpreted.
         public let metricSource: MetricSource
-        /// After an interval ends, the amount of time that the detector waits before importing data.
+        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3 and Redshift datasources.
         public let offset: Int?
         /// A list of tags to apply to the dataset.
         public let tags: [String: String]?
@@ -993,7 +994,7 @@ extension LookoutMetrics {
         public let metricSetName: String?
         /// Contains information about the dataset's source data.
         public let metricSource: MetricSource?
-        /// The offset for the dataset.
+        /// The offset in seconds. Only supported for S3 and Redshift datasources.
         public let offset: Int?
         /// Contains information about the column used for tracking time in your source data.
         public let timestampColumn: TimestampColumn?
@@ -2193,7 +2194,7 @@ extension LookoutMetrics {
         /// The dataset's interval.
         public let metricSetFrequency: Frequency?
         public let metricSource: MetricSource?
-        /// After an interval ends, the amount of time that the detector waits before importing data.
+        /// After an interval ends, the amount of seconds that the detector waits before importing data. Offset is only supported for S3 and Redshift datasources.
         public let offset: Int?
         /// The timestamp column.
         public let timestampColumn: TimestampColumn?

@@ -44,15 +44,15 @@ public struct CodeBuildErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// An AWS service limit was exceeded for the calling AWS account.
+    /// An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     public static var accountLimitExceededException: Self { .init(.accountLimitExceededException) }
     /// The input value that was provided is not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// There was a problem with the underlying OAuth provider.
     public static var oAuthProviderException: Self { .init(.oAuthProviderException) }
-    /// The specified AWS resource cannot be created, because an AWS resource with the same settings already exists.
+    /// The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
-    /// The specified AWS resource cannot be found.
+    /// The specified Amazon Web Services resource cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

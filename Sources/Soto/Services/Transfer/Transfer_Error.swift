@@ -52,7 +52,7 @@ public struct TransferErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// This exception is thrown when the UpdatServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
     public static var conflictException: Self { .init(.conflictException) }
-    /// This exception is thrown when an error occurs in the AWS Transfer Family service.
+    /// This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
     public static var internalServiceError: Self { .init(.internalServiceError) }
     /// The NextToken parameter that was passed is invalid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
@@ -60,9 +60,9 @@ public struct TransferErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The requested resource does not exist.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
-    /// This exception is thrown when a resource is not found by the AWS Transfer Family service.
+    /// This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request has failed because the AWS Transfer Family service is not available.
+    /// The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The request was denied due to request throttling.  HTTP Status Code: 400
     public static var throttlingException: Self { .init(.throttlingException) }

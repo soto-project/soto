@@ -81,9 +81,9 @@ public struct LambdaErrorType: AWSErrorType {
     public static var codeVerificationFailedException: Self { .init(.codeVerificationFailedException) }
     /// Need additional permissions to configure VPC settings.
     public static var eC2AccessDeniedException: Self { .init(.eC2AccessDeniedException) }
-    /// AWS Lambda was throttled by Amazon EC2 during Lambda function initialization using the execution role provided for the Lambda function.
+    /// Lambda was throttled by Amazon EC2 during Lambda function initialization using the execution role provided for the Lambda function.
     public static var eC2ThrottledException: Self { .init(.eC2ThrottledException) }
-    /// AWS Lambda received an unexpected EC2 client exception while setting up for the Lambda function.
+    /// Lambda received an unexpected EC2 client exception while setting up for the Lambda function.
     public static var eC2UnexpectedException: Self { .init(.eC2UnexpectedException) }
     /// An error occured when reading from or writing to a connected file system.
     public static var eFSIOException: Self { .init(.eFSIOException) }
@@ -93,7 +93,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var eFSMountFailureException: Self { .init(.eFSMountFailureException) }
     /// The function was able to make a network connection to the configured file system, but the mount operation timed out.
     public static var eFSMountTimeoutException: Self { .init(.eFSMountTimeoutException) }
-    /// AWS Lambda was not able to create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached.
+    /// Lambda was not able to create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached.
     public static var eNILimitReachedException: Self { .init(.eNILimitReachedException) }
     /// The code signature failed the integrity check. Lambda always blocks deployment if the integrity check fails, even if code signing policy is set to WARN.
     public static var invalidCodeSignatureException: Self { .init(.invalidCodeSignatureException) }
@@ -107,7 +107,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var invalidSecurityGroupIDException: Self { .init(.invalidSecurityGroupIDException) }
     /// The Subnet ID provided in the Lambda function VPC configuration is invalid.
     public static var invalidSubnetIDException: Self { .init(.invalidSubnetIDException) }
-    /// AWS Lambda could not unzip the deployment package.
+    /// Lambda could not unzip the deployment package.
     public static var invalidZipFileException: Self { .init(.invalidZipFileException) }
     /// Lambda was unable to decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
     public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
@@ -133,9 +133,9 @@ public struct LambdaErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
-    /// The AWS Lambda service encountered an internal error.
+    /// The Lambda service encountered an internal error.
     public static var serviceException: Self { .init(.serviceException) }
-    /// AWS Lambda was not able to set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
+    /// Lambda was not able to set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     public static var subnetIPAddressLimitReachedException: Self { .init(.subnetIPAddressLimitReachedException) }
     /// The request throughput limit was exceeded.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }

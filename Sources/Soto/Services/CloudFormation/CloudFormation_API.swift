@@ -63,6 +63,16 @@ public struct CloudFormation: AWSService {
 
     // MARK: API Calls
 
+    /// Activates a public third-party extension, making it available for use in stack templates. For more information, see Using public extensions in the CloudFormation User Guide. Once you have activated a public third-party extension in your account and region, use SetTypeConfiguration to specify configuration properties for the extension. For more information, see Configuring extensions at the account level in the CloudFormation User Guide.
+    public func activateType(_ input: ActivateTypeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateTypeOutput> {
+        return self.client.execute(operation: "ActivateType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns configuration data for the specified CloudFormation extensions, from the CloudFormation registry for the account and region. For more information, see Configuring extensions at the account level in the CloudFormation User Guide.
+    public func batchDescribeTypeConfigurations(_ input: BatchDescribeTypeConfigurationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDescribeTypeConfigurationsOutput> {
+        return self.client.execute(operation: "BatchDescribeTypeConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.  You can cancel only stacks that are in the UPDATE_IN_PROGRESS state.
     @discardableResult public func cancelUpdateStack(_ input: CancelUpdateStackInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "CancelUpdateStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -91,6 +101,11 @@ public struct CloudFormation: AWSService {
     /// Creates a stack set.
     public func createStackSet(_ input: CreateStackSetInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateStackSetOutput> {
         return self.client.execute(operation: "CreateStackSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deactivates a public extension that was previously activated in this account and region. Once deactivated, an extension cannot be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions are not automatically updated if a new version of the extension is released.
+    public func deactivateType(_ input: DeactivateTypeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivateTypeOutput> {
+        return self.client.execute(operation: "DeactivateType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, AWS CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that belong to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS.
@@ -126,6 +141,11 @@ public struct CloudFormation: AWSService {
     /// Returns the inputs for the change set and a list of changes that AWS CloudFormation will make if you execute the change set. For more information, see Updating Stacks Using Change Sets in the AWS CloudFormation User Guide.
     public func describeChangeSet(_ input: DescribeChangeSetInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChangeSetOutput> {
         return self.client.execute(operation: "DescribeChangeSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns information about a CloudFormation extension publisher. If you do not supply a PublisherId, and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account.  For more information on registering as a publisher, see:    RegisterPublisher     Publishing extensions to make them available for public use in the CloudFormation CLI User Guide
+    public func describePublisher(_ input: DescribePublisherInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePublisherOutput> {
+        return self.client.execute(operation: "DescribePublisher", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from it's expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information on stack and resource drift, see Detecting Unregulated Configuration Changes to Stacks and Resources. Use DetectStackDrift to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use DescribeStackResourceDrifts to return drift information about the stack and its resources.
@@ -283,12 +303,22 @@ public struct CloudFormation: AWSService {
         return self.client.execute(operation: "ListTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Publishes the specified extension to the CloudFormation registry as a public extension in this region. Public extensions are available for use by all CloudFormation users. For more information on publishing extensions, see Publishing extensions to make them available for public use in the CloudFormation CLI User Guide. To publish an extension, you must be registered as a publisher with CloudFormation. For more information, see RegisterPublisher.
+    public func publishType(_ input: PublishTypeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishTypeOutput> {
+        return self.client.execute(operation: "PublishType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Reports progress of a resource handler to CloudFormation. Reserved for use by the CloudFormation CLI. Do not use this API in your code.
     public func recordHandlerProgress(_ input: RecordHandlerProgressInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RecordHandlerProgressOutput> {
         return self.client.execute(operation: "RecordHandlerProgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your AWS account, and includes:   Validating the extension schema   Determining which handlers, if any, have been specified for the extension   Making the extension available for use in your account   For more information on how to develop extensions and ready them for registeration, see Creating Resource Providers in the CloudFormation CLI User Guide. You can have a maximum of 50 resource extension versions registered at a time. This maximum is per account and per region. Use DeregisterType to deregister specific extension versions if necessary. Once you have initiated a registration request using  RegisterType , you can use  DescribeTypeRegistration  to monitor the progress of the registration request.
+    /// Registers your account as a publisher of public extensions in the CloudFormation registry. Public extensions are available for use by all CloudFormation users. This publisher ID applies to your account in all AWS regions. For information on requirements for registering as a public extension publisher, see Registering your account to publish CloudFormation extensions in the CloudFormation CLI User Guide.
+    public func registerPublisher(_ input: RegisterPublisherInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterPublisherOutput> {
+        return self.client.execute(operation: "RegisterPublisher", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Registers an extension with the CloudFormation service. Registering an extension makes it available for use in CloudFormation templates in your AWS account, and includes:   Validating the extension schema   Determining which handlers, if any, have been specified for the extension   Making the extension available for use in your account   For more information on how to develop extensions and ready them for registeration, see Creating Resource Providers in the CloudFormation CLI User Guide. You can have a maximum of 50 resource extension versions registered at a time. This maximum is per account and per region. Use DeregisterType to deregister specific extension versions if necessary. Once you have initiated a registration request using  RegisterType , you can use  DescribeTypeRegistration  to monitor the progress of the registration request. Once you have registered a private extension in your account and region, use SetTypeConfiguration to specify configuration properties for the extension. For more information, see Configuring extensions at the account level in the CloudFormation User Guide.
     public func registerType(_ input: RegisterTypeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTypeOutput> {
         return self.client.execute(operation: "RegisterType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -296,6 +326,11 @@ public struct CloudFormation: AWSService {
     /// Sets a stack policy for a specified stack.
     @discardableResult public func setStackPolicy(_ input: SetStackPolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "SetStackPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Specifies the configuration data for a registered CloudFormation extension, in the given account and region. To view the current configuration data for an extension, refer to the ConfigurationSchema element of DescribeType. For more information, see Configuring extensions at the account level in the CloudFormation User Guide.  It is strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party credentials. For more details on dynamic references, see Using dynamic references to specify template values in the AWS CloudFormation User Guide.
+    public func setTypeConfiguration(_ input: SetTypeConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SetTypeConfigurationOutput> {
+        return self.client.execute(operation: "SetTypeConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Specify the default version of an extension. The default version of an extension will be used in CloudFormation operations.
@@ -311,6 +346,11 @@ public struct CloudFormation: AWSService {
     /// Stops an in-progress operation on a stack set and its associated stack instances.
     public func stopStackSetOperation(_ input: StopStackSetOperationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopStackSetOperationOutput> {
         return self.client.execute(operation: "StopStackSetOperation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Tests a registered extension to make sure it meets all necessary requirements for being published in the CloudFormation registry.   For resource types, this includes passing all contracts tests defined for the type.   For modules, this includes determining if the module's model meets all necessary requirements.   For more information, see Testing your public extension prior to publishing in the CloudFormation CLI User Guide. If you do not specify a version, CloudFormation uses the default version of the extension in your account and region for testing. To perform testing, CloudFormation assumes the execution role specified when the test was registered. For more information, see RegisterType. Once you've initiated testing on an extension using TestType, you can use DescribeType to monitor the current test status and test status description for the extension. An extension must have a test status of PASSED before it can be published. For more information, see Publishing extensions to make them available for public use in the CloudFormation CLI User Guide.
+    public func testType(_ input: TestTypeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestTypeOutput> {
+        return self.client.execute(operation: "TestType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack via the DescribeStacks action. To get a copy of the template for an existing stack, you can use the GetTemplate action. For more information about creating an update template, updating a stack, and monitoring the progress of the update, see Updating a Stack.

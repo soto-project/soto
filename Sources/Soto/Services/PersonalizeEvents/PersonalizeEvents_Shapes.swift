@@ -96,7 +96,7 @@ extension PersonalizeEvents {
         public func validate(name: String) throws {
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.itemId, name: "itemId", parent: name, min: 1)
-            try self.validate(self.properties, name: "properties", parent: name, max: 4096)
+            try self.validate(self.properties, name: "properties", parent: name, max: 24262)
             try self.validate(self.properties, name: "properties", parent: name, min: 1)
         }
 

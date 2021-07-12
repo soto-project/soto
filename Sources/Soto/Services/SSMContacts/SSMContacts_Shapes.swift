@@ -259,7 +259,7 @@ extension SSMContacts {
     }
 
     public struct CreateContactChannelRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the contact channel.
+        /// The Amazon Resource Name (ARN) of the contact you are adding the contact channel to.
         public let contactId: String
         /// If you want to activate the channel at a later time, you can choose to defer activation. Incident Manager can't engage your contact channel until it has been activated.
         public let deferActivation: Bool?
@@ -290,7 +290,7 @@ extension SSMContacts {
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s\\.]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.\\-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,8 +344,8 @@ extension SSMContacts {
             try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.alias, name: "alias", parent: name, pattern: "^[a-z0-9_\\-]*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
-            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s\\.]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 0)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.\\-]*$")
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, max: 2048)
             try self.validate(self.idempotencyToken, name: "idempotencyToken", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
             try self.plan.validate(name: "\(name).plan")
@@ -1369,10 +1369,10 @@ extension SSMContacts {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 255)
+            try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
-            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
             try self.validate(self.value, name: "value", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@]*$")
         }
@@ -1468,7 +1468,7 @@ extension SSMContacts {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.tagKeys.forEach {
-                try validate($0, name: "tagKeys[]", parent: name, max: 255)
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\\\\\/a-zA-Z0-9_+=\\-]*$")
             }
@@ -1507,7 +1507,7 @@ extension SSMContacts {
             try self.deliveryAddress?.validate(name: "\(name).deliveryAddress")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s\\.]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.\\-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1540,8 +1540,8 @@ extension SSMContacts {
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
             try self.validate(self.contactId, name: "contactId", parent: name, pattern: "arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\\w+=\\/,.@]*:[0-9]+:([\\w+=\\/,.@:-]+)*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
-            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\s\\.]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 0)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.\\-]*$")
             try self.plan?.validate(name: "\(name).plan")
         }
 

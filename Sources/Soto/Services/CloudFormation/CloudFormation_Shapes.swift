@@ -40,6 +40,14 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum Category: String, CustomStringConvertible, Codable {
+        case activated = "ACTIVATED"
+        case awsTypes = "AWS_TYPES"
+        case registered = "REGISTERED"
+        case thirdParty = "THIRD_PARTY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeAction: String, CustomStringConvertible, Codable {
         case add = "Add"
         case dynamic = "Dynamic"
@@ -118,6 +126,7 @@ extension CloudFormation {
         case internalfailure = "InternalFailure"
         case invalidcredentials = "InvalidCredentials"
         case invalidrequest = "InvalidRequest"
+        case invalidtypeconfiguration = "InvalidTypeConfiguration"
         case networkfailure = "NetworkFailure"
         case notfound = "NotFound"
         case notstabilized = "NotStabilized"
@@ -126,6 +135,13 @@ extension CloudFormation {
         case serviceinternalerror = "ServiceInternalError"
         case servicelimitexceeded = "ServiceLimitExceeded"
         case throttling = "Throttling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityProvider: String, CustomStringConvertible, Codable {
+        case awsMarketplace = "AWS_Marketplace"
+        case bitbucket = "Bitbucket"
+        case github = "GitHub"
         public var description: String { return self.rawValue }
     }
 
@@ -154,6 +170,12 @@ extension CloudFormation {
         case fullyMutable = "FULLY_MUTABLE"
         case immutable = "IMMUTABLE"
         case nonProvisionable = "NON_PROVISIONABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PublisherStatus: String, CustomStringConvertible, Codable {
+        case unverified = "UNVERIFIED"
+        case verified = "VERIFIED"
         public var description: String { return self.rawValue }
     }
 
@@ -352,6 +374,26 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThirdPartyType: String, CustomStringConvertible, Codable {
+        case module = "MODULE"
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TypeTestsStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notTested = "NOT_TESTED"
+        case passed = "PASSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VersionBump: String, CustomStringConvertible, Codable {
+        case major = "MAJOR"
+        case minor = "MINOR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Visibility: String, CustomStringConvertible, Codable {
         case `private` = "PRIVATE"
         case `public` = "PUBLIC"
@@ -394,6 +436,87 @@ extension CloudFormation {
         }
     }
 
+    public struct ActivateTypeInput: AWSEncodableShape {
+        /// Whether to automatically update the extension in this account and region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. The default is true.
+        public let autoUpdate: Bool?
+        /// The name of the IAM execution role to use to activate the extension.
+        public let executionRoleArn: String?
+        public let loggingConfig: LoggingConfig?
+        /// The major version of this extension you want to activate, if multiple major versions are available. The default is the latest major version. CloudFormation uses the latest available minor version of the major version selected. You can specify MajorVersion or VersionBump, but not both.
+        public let majorVersion: Int64?
+        /// The Amazon Resource Number (ARN) of the public extension. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
+        public let publicTypeArn: String?
+        /// The ID of the extension publisher. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
+        public let publisherId: String?
+        /// The extension type. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
+        public let type: ThirdPartyType?
+        /// The name of the extension. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
+        public let typeName: String?
+        /// An alias to assign to the public extension, in this account and region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and region. You can activate the same public resource multiple times in the same account and region, using different type name aliases.
+        public let typeNameAlias: String?
+        /// Manually updates a previously-activated type to a new major or minor version, if available. You can also use this parameter to update the value of AutoUpdate.    MAJOR: CloudFormation updates the extension to the newest major version, if one is available.    MINOR: CloudFormation updates the extension to the newest minor version, if one is available.
+        public let versionBump: VersionBump?
+
+        public init(autoUpdate: Bool? = nil, executionRoleArn: String? = nil, loggingConfig: LoggingConfig? = nil, majorVersion: Int64? = nil, publicTypeArn: String? = nil, publisherId: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil, typeNameAlias: String? = nil, versionBump: VersionBump? = nil) {
+            self.autoUpdate = autoUpdate
+            self.executionRoleArn = executionRoleArn
+            self.loggingConfig = loggingConfig
+            self.majorVersion = majorVersion
+            self.publicTypeArn = publicTypeArn
+            self.publisherId = publisherId
+            self.type = type
+            self.typeName = typeName
+            self.typeNameAlias = typeNameAlias
+            self.versionBump = versionBump
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 256)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
+            try self.loggingConfig?.validate(name: "\(name).loggingConfig")
+            try self.validate(self.majorVersion, name: "majorVersion", parent: name, max: 100_000)
+            try self.validate(self.majorVersion, name: "majorVersion", parent: name, min: 1)
+            try self.validate(self.publicTypeArn, name: "publicTypeArn", parent: name, max: 1024)
+            try self.validate(self.publicTypeArn, name: "publicTypeArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}::type/.+/[0-9a-zA-Z]{12,40}/.+")
+            try self.validate(self.publisherId, name: "publisherId", parent: name, max: 40)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, pattern: "[0-9a-zA-Z]{12,40}")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+            try self.validate(self.typeNameAlias, name: "typeNameAlias", parent: name, max: 204)
+            try self.validate(self.typeNameAlias, name: "typeNameAlias", parent: name, min: 10)
+            try self.validate(self.typeNameAlias, name: "typeNameAlias", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoUpdate = "AutoUpdate"
+            case executionRoleArn = "ExecutionRoleArn"
+            case loggingConfig = "LoggingConfig"
+            case majorVersion = "MajorVersion"
+            case publicTypeArn = "PublicTypeArn"
+            case publisherId = "PublisherId"
+            case type = "Type"
+            case typeName = "TypeName"
+            case typeNameAlias = "TypeNameAlias"
+            case versionBump = "VersionBump"
+        }
+    }
+
+    public struct ActivateTypeOutput: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the activated extension, in this account and region.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct AutoDeployment: AWSEncodableShape & AWSDecodableShape {
         /// If set to true, StackSets automatically deploys additional stack instances to AWS Organizations accounts that are added to a target organization or organizational unit (OU) in the specified Regions. If an account is removed from a target organization or OU, StackSets deletes stack instances from the account in the specified Regions.
         public let enabled: Bool?
@@ -408,6 +531,71 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case retainStacksOnAccountRemoval = "RetainStacksOnAccountRemoval"
+        }
+    }
+
+    public struct BatchDescribeTypeConfigurationsError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String?
+        /// The error message.
+        public let errorMessage: String?
+        public let typeConfigurationIdentifier: TypeConfigurationIdentifier?
+
+        public init(errorCode: String? = nil, errorMessage: String? = nil, typeConfigurationIdentifier: TypeConfigurationIdentifier? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.typeConfigurationIdentifier = typeConfigurationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case typeConfigurationIdentifier = "TypeConfigurationIdentifier"
+        }
+    }
+
+    public struct BatchDescribeTypeConfigurationsInput: AWSEncodableShape {
+        /// The list of identifiers for the desired extension configurations.
+        @CustomCoding<StandardArrayCoder>
+        public var typeConfigurationIdentifiers: [TypeConfigurationIdentifier]
+
+        public init(typeConfigurationIdentifiers: [TypeConfigurationIdentifier]) {
+            self.typeConfigurationIdentifiers = typeConfigurationIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.typeConfigurationIdentifiers.forEach {
+                try $0.validate(name: "\(name).typeConfigurationIdentifiers[]")
+            }
+            try self.validate(self.typeConfigurationIdentifiers, name: "typeConfigurationIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typeConfigurationIdentifiers = "TypeConfigurationIdentifiers"
+        }
+    }
+
+    public struct BatchDescribeTypeConfigurationsOutput: AWSDecodableShape {
+        /// A list of information concerning any errors generated during the setting of the specified configurations.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var errors: [BatchDescribeTypeConfigurationsError]?
+        /// A list of any of the specified extension configurations from the CloudFormation registry.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var typeConfigurations: [TypeConfigurationDetails]?
+        /// A list of any of the specified extension configurations that CloudFormation could not process for any reason.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var unprocessedTypeConfigurations: [TypeConfigurationIdentifier]?
+
+        public init(errors: [BatchDescribeTypeConfigurationsError]? = nil, typeConfigurations: [TypeConfigurationDetails]? = nil, unprocessedTypeConfigurations: [TypeConfigurationIdentifier]? = nil) {
+            self.errors = errors
+            self.typeConfigurations = typeConfigurations
+            self.unprocessedTypeConfigurations = unprocessedTypeConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case typeConfigurations = "TypeConfigurations"
+            case unprocessedTypeConfigurations = "UnprocessedTypeConfigurations"
         }
     }
 
@@ -971,6 +1159,39 @@ extension CloudFormation {
         }
     }
 
+    public struct DeactivateTypeInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the extension, in this account and region. Conditional: You must specify either Arn, or TypeName and Type.
+        public let arn: String?
+        /// The extension type. Conditional: You must specify either Arn, or TypeName and Type.
+        public let type: ThirdPartyType?
+        /// The type name of the extension, in this account and region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
+        public let typeName: String?
+
+        public init(arn: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil) {
+            self.arn = arn
+            self.type = type
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1024)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case type = "Type"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct DeactivateTypeOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteChangeSetInput: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of the change set that you want to delete.
         public let changeSetName: String
@@ -1357,6 +1578,50 @@ extension CloudFormation {
         }
     }
 
+    public struct DescribePublisherInput: AWSEncodableShape {
+        /// The ID of the extension publisher. If you do not supply a PublisherId, and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account.
+        public let publisherId: String?
+
+        public init(publisherId: String? = nil) {
+            self.publisherId = publisherId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.publisherId, name: "publisherId", parent: name, max: 40)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, pattern: "[0-9a-zA-Z]{12,40}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publisherId = "PublisherId"
+        }
+    }
+
+    public struct DescribePublisherOutput: AWSDecodableShape {
+        /// The type of account used as the identity provider when registering this publisher with CloudFormation.
+        public let identityProvider: IdentityProvider?
+        /// The ID of the extension publisher.
+        public let publisherId: String?
+        /// The URL to the publisher's profile with the identity provider.
+        public let publisherProfile: String?
+        /// Whether the publisher is verified. Currently, all registered publishers are verified.
+        public let publisherStatus: PublisherStatus?
+
+        public init(identityProvider: IdentityProvider? = nil, publisherId: String? = nil, publisherProfile: String? = nil, publisherStatus: PublisherStatus? = nil) {
+            self.identityProvider = identityProvider
+            self.publisherId = publisherId
+            self.publisherProfile = publisherProfile
+            self.publisherStatus = publisherStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityProvider = "IdentityProvider"
+            case publisherId = "PublisherId"
+            case publisherProfile = "PublisherProfile"
+            case publisherStatus = "PublisherStatus"
+        }
+    }
+
     public struct DescribeStackDriftDetectionStatusInput: AWSEncodableShape {
         /// The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary.
         public let stackDriftDetectionId: String
@@ -1728,6 +1993,10 @@ extension CloudFormation {
     public struct DescribeTypeInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
+        /// The version number of a public third-party extension.
+        public let publicVersionNumber: String?
+        /// The publisher ID of the extension publisher. Extensions provided by Amazon are not assigned a publisher ID.
+        public let publisherId: String?
         /// The kind of extension.  Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
         /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
@@ -1735,8 +2004,10 @@ extension CloudFormation {
         /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version.
         public let versionId: String?
 
-        public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+        public init(arn: String? = nil, publicVersionNumber: String? = nil, publisherId: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
+            self.publicVersionNumber = publicVersionNumber
+            self.publisherId = publisherId
             self.type = type
             self.typeName = typeName
             self.versionId = versionId
@@ -1745,6 +2016,11 @@ extension CloudFormation {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
+            try self.validate(self.publicVersionNumber, name: "publicVersionNumber", parent: name, min: 5)
+            try self.validate(self.publicVersionNumber, name: "publicVersionNumber", parent: name, pattern: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(.*)$")
+            try self.validate(self.publisherId, name: "publisherId", parent: name, max: 40)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, pattern: "[0-9a-zA-Z]{12,40}")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
@@ -1755,6 +2031,8 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case publicVersionNumber = "PublicVersionNumber"
+            case publisherId = "PublisherId"
             case type = "Type"
             case typeName = "TypeName"
             case versionId = "VersionId"
@@ -1764,72 +2042,117 @@ extension CloudFormation {
     public struct DescribeTypeOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the extension.
         public let arn: String?
-        /// The ID of the default version of the extension. The default version is used when the extension version is not specified. To set the default version of an extension, use  SetTypeDefaultVersion .
+        /// Whether CloudFormation automatically updates the extension in this account and region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. For more information, see Activating public extensions for use in your account in the AWS CloudFormation User Guide.
+        public let autoUpdate: Bool?
+        /// A JSON string that represent the current configuration data for the extension in this account and region. To set the configuration data for an extension, use SetTypeConfiguration. For more information, see Configuring extensions at the account level in the CloudFormation User Guide.
+        public let configurationSchema: String?
+        /// The ID of the default version of the extension. The default version is used when the extension version is not specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon and published by third parties, CloudFormation returns null. For more information, see RegisterType. To set the default version of an extension, use  SetTypeDefaultVersion .
         public let defaultVersionId: String?
-        /// The deprecation status of the extension version. Valid values include:    LIVE: The extension is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The extension has been deregistered and can no longer be used in CloudFormation operations.
+        /// The deprecation status of the extension version. Valid values include:    LIVE: The extension is activated or registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The extension has been deactivated or deregistered and can no longer be used in CloudFormation operations.    For public third-party extensions, CloudFormation returns null.
         public let deprecatedStatus: DeprecatedStatus?
-        /// The description of the registered extension.
+        /// The description of the extension.
         public let description: String?
         /// The URL of a page providing detailed documentation for this extension.
         public let documentationUrl: String?
-        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the extension. If your resource type calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your extension with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM execution role used to register the extension. This applies only to private extensions you have registered in your account. For more information, see RegisterType.  If the registered extension calls any AWS APIs, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. CloudFormation then assumes that execution role to provide your extension with the appropriate credentials.
         public let executionRoleArn: String?
-        /// Whether the specified extension version is set as the default version.
+        /// Whether or not the extension is activated in the account and region. This only applies to public third-party extensions. For all other extensions, CloudFormation returns null.
+        public let isActivated: Bool?
+        /// Whether the specified extension version is set as the default version. This applies only to private extensions you have registered in your account, and extensions published by Amazon. For public third-party extensions, whether or not they are activated in your account, CloudFormation returns null.
         public let isDefaultVersion: Bool?
-        /// When the specified extension version was registered.
+        /// When the specified extension version was registered. This applies only to:   Private extensions you have registered in your account. For more information, see RegisterType.   Public extensions you have activated in your account with auto-update specified. For more information, see ActivateType.
         public let lastUpdated: Date?
-        /// Contains logging configuration information for an extension.
+        /// The latest version of a public extension that is available for use. This only applies if you specify a public extension, and you do not specify a version. For all other requests, CloudFormation returns null.
+        public let latestPublicVersion: String?
+        /// Contains logging configuration information for private extensions. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon and published by third parties, CloudFormation returns null. For more information, see RegisterType.
         public let loggingConfig: LoggingConfig?
-        /// The provisioning behavior of the extension. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The extension includes an update handler to process updates to the extension during stack update operations.    IMMUTABLE: The extension does not include an update handler, so the extension cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The extension does not include all of the following handlers, and therefore cannot actually be provisioned.   create   read   delete
+        /// For public extensions that have been activated for this account and region, the Amazon Resource Name (ARN) of the public extension.
+        public let originalTypeArn: String?
+        /// For public extensions that have been activated for this account and region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and region, CloudFormation treats that alias as the extension's type name within the account and region, not the type name of the public extension. For more information, see Specifying aliases to refer to extensions in the CloudFormation User Guide.
+        public let originalTypeName: String?
+        /// For resource type extensions, the provisioning behavior of the resource type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The resource type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The resource type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The resource type does not include all of the following handlers, and therefore cannot actually be provisioned.   create   read   delete
         public let provisioningType: ProvisioningType?
+        /// The version number of a public third-party extension. This applies only if you specify a public extension you have activated in your account, or specify a public extension without specifying a version. For all other extensions, CloudFormation returns null.
+        public let publicVersionNumber: String?
+        /// The publisher ID of the extension publisher. This applies only to public third-party extensions. For private registered extensions, and extensions provided by Amazon, CloudFormation returns null.
+        public let publisherId: String?
+        /// For extensions that are modules, the public third-party extensions that must be activated in your account in order for the module itself to be activated.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var requiredActivatedTypes: [RequiredActivatedType]?
         /// The schema that defines the extension. For more information on extension schemas, see Resource Provider Schema in the CloudFormation CLI User Guide.
         public let schema: String?
         /// The URL of the source code for the extension.
         public let sourceUrl: String?
-        /// When the specified extension version was registered.
+        /// When the specified private extension version was registered or activated in your account.
         public let timeCreated: Date?
         /// The kind of extension.
         public let type: RegistryType?
-        /// The name of the registered extension.
+        /// The name of the extension. If the extension is a public third-party type you have activated with a type name alias, CloudFormation returns the type name alias. For more information, see ActivateType.
         public let typeName: String?
-        /// The scope at which the extension is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The extension is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The extension is publically visible and usable within any Amazon account.
+        /// The contract test status of the registered extension version. To return the extension test status of a specifc extension version, you must specify VersionId.  This applies only to registered private extension versions. CloudFormation does not return this information for public extensions, whether or not they are activated in your account.    PASSED: The extension has passed all its contract tests. An extension must have a test status of PASSED before it can be published. For more information, see Publishing extensions to make them available for public use in the CloudFormation Command Line Interface User Guide.    FAILED: The extension has failed one or more contract tests.    IN_PROGRESS: Contract tests are currently being performed on the extension.    NOT_TESTED: Contract tests have not been performed on the extension.
+        public let typeTestsStatus: TypeTestsStatus?
+        /// The description of the test status. To return the extension test status of a specifc extension version, you must specify VersionId.  This applies only to registered private extension versions. CloudFormation does not return this information for public extensions, whether or not they are activated in your account.
+        public let typeTestsStatusDescription: String?
+        /// The scope at which the extension is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The extension is only visible and usable within the account in which it is registered. AWS CloudFormation marks any extensions you register as PRIVATE.    PUBLIC: The extension is publically visible and usable within any Amazon account.
         public let visibility: Visibility?
 
-        public init(arn: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isDefaultVersion: Bool? = nil, lastUpdated: Date? = nil, loggingConfig: LoggingConfig? = nil, provisioningType: ProvisioningType? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, visibility: Visibility? = nil) {
+        public init(arn: String? = nil, autoUpdate: Bool? = nil, configurationSchema: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isActivated: Bool? = nil, isDefaultVersion: Bool? = nil, lastUpdated: Date? = nil, latestPublicVersion: String? = nil, loggingConfig: LoggingConfig? = nil, originalTypeArn: String? = nil, originalTypeName: String? = nil, provisioningType: ProvisioningType? = nil, publicVersionNumber: String? = nil, publisherId: String? = nil, requiredActivatedTypes: [RequiredActivatedType]? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, typeTestsStatus: TypeTestsStatus? = nil, typeTestsStatusDescription: String? = nil, visibility: Visibility? = nil) {
             self.arn = arn
+            self.autoUpdate = autoUpdate
+            self.configurationSchema = configurationSchema
             self.defaultVersionId = defaultVersionId
             self.deprecatedStatus = deprecatedStatus
             self.description = description
             self.documentationUrl = documentationUrl
             self.executionRoleArn = executionRoleArn
+            self.isActivated = isActivated
             self.isDefaultVersion = isDefaultVersion
             self.lastUpdated = lastUpdated
+            self.latestPublicVersion = latestPublicVersion
             self.loggingConfig = loggingConfig
+            self.originalTypeArn = originalTypeArn
+            self.originalTypeName = originalTypeName
             self.provisioningType = provisioningType
+            self.publicVersionNumber = publicVersionNumber
+            self.publisherId = publisherId
+            self.requiredActivatedTypes = requiredActivatedTypes
             self.schema = schema
             self.sourceUrl = sourceUrl
             self.timeCreated = timeCreated
             self.type = type
             self.typeName = typeName
+            self.typeTestsStatus = typeTestsStatus
+            self.typeTestsStatusDescription = typeTestsStatusDescription
             self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case autoUpdate = "AutoUpdate"
+            case configurationSchema = "ConfigurationSchema"
             case defaultVersionId = "DefaultVersionId"
             case deprecatedStatus = "DeprecatedStatus"
             case description = "Description"
             case documentationUrl = "DocumentationUrl"
             case executionRoleArn = "ExecutionRoleArn"
+            case isActivated = "IsActivated"
             case isDefaultVersion = "IsDefaultVersion"
             case lastUpdated = "LastUpdated"
+            case latestPublicVersion = "LatestPublicVersion"
             case loggingConfig = "LoggingConfig"
+            case originalTypeArn = "OriginalTypeArn"
+            case originalTypeName = "OriginalTypeName"
             case provisioningType = "ProvisioningType"
+            case publicVersionNumber = "PublicVersionNumber"
+            case publisherId = "PublisherId"
+            case requiredActivatedTypes = "RequiredActivatedTypes"
             case schema = "Schema"
             case sourceUrl = "SourceUrl"
             case timeCreated = "TimeCreated"
             case type = "Type"
             case typeName = "TypeName"
+            case typeTestsStatus = "TypeTestsStatus"
+            case typeTestsStatusDescription = "TypeTestsStatusDescription"
             case visibility = "Visibility"
         }
     }
@@ -2125,7 +2448,7 @@ extension CloudFormation {
         public let changeSetName: String?
         /// The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
-        /// For templates that include transforms, the stage of the template that AWS CloudFormation returns. To get the user-submitted template, specify Original. To get the template after AWS CloudFormation has processed all transforms, specify Processed.  If the template doesn't include transforms, Original and Processed return the same template. By default, AWS CloudFormation specifies Original.
+        /// For templates that include transforms, the stage of the template that AWS CloudFormation returns. To get the user-submitted template, specify Original. To get the template after AWS CloudFormation has processed all transforms, specify Processed.  If the template doesn't include transforms, Original and Processed return the same template. By default, AWS CloudFormation specifies Processed.
         public let templateStage: TemplateStage?
 
         public init(changeSetName: String? = nil, stackName: String? = nil, templateStage: TemplateStage? = nil) {
@@ -2750,27 +3073,33 @@ extension CloudFormation {
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
+        /// The publisher ID of the extension publisher. Extensions published by Amazon are not assigned a publisher ID.
+        public let publisherId: String?
         /// The kind of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let type: RegistryType?
         /// The name of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
 
-        public init(arn: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, type: RegistryType? = nil, typeName: String? = nil) {
+        public init(arn: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, publisherId: String? = nil, type: RegistryType? = nil, typeName: String? = nil) {
             self.arn = arn
             self.deprecatedStatus = deprecatedStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.publisherId = publisherId
             self.type = type
             self.typeName = typeName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1024)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, max: 40)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, pattern: "[0-9a-zA-Z]{12,40}")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
@@ -2781,6 +3110,7 @@ extension CloudFormation {
             case deprecatedStatus = "DeprecatedStatus"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case publisherId = "PublisherId"
             case type = "Type"
             case typeName = "TypeName"
         }
@@ -2807,19 +3137,22 @@ extension CloudFormation {
     public struct ListTypesInput: AWSEncodableShape {
         /// The deprecation status of the extension that you want to get summary information about. Valid values include:    LIVE: The extension is registered for use in CloudFormation operations.    DEPRECATED: The extension has been deregistered and can no longer be used in CloudFormation operations.
         public let deprecatedStatus: DeprecatedStatus?
+        /// Filter criteria to use in determining which extensions to return. If you specify a filter, CloudFormation ignores any specified Visibility value when returning the list of types.
+        public let filters: TypeFilters?
         /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
-        /// The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The extension includes an update handler to process updates to the extension during stack update operations.    IMMUTABLE: The extension does not include an update handler, so the extension cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The extension does not include create, read, and delete handlers, and therefore cannot actually be provisioned.
+        /// For resource types, the provisioning behavior of the resource type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The resource type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The resource type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The resource type does not include create, read, and delete handlers, and therefore cannot actually be provisioned.   The default is FULLY_MUTABLE.
         public let provisioningType: ProvisioningType?
         /// The type of extension.
         public let type: RegistryType?
-        /// The scope at which the extension is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The extension is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any extension you create as PRIVATE.    PUBLIC: The extension is publically visible and usable within any Amazon account.   The default is PRIVATE.
+        /// The scope at which the extensions are visible and usable in CloudFormation operations. Valid values include:    PRIVATE: Extensions that are visible and usable within this account and region. This includes:   Private extensions you have registered in this account and region.   Public extensions that you have activated in this account and region.      PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon account. This includes extensions from Amazon, as well as third-party publishers.   The default is PRIVATE.
         public let visibility: Visibility?
 
-        public init(deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, type: RegistryType? = nil, visibility: Visibility? = nil) {
+        public init(deprecatedStatus: DeprecatedStatus? = nil, filters: TypeFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, type: RegistryType? = nil, visibility: Visibility? = nil) {
             self.deprecatedStatus = deprecatedStatus
+            self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.provisioningType = provisioningType
@@ -2828,6 +3161,7 @@ extension CloudFormation {
         }
 
         public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
@@ -2836,6 +3170,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case deprecatedStatus = "DeprecatedStatus"
+            case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case provisioningType = "ProvisioningType"
@@ -2863,7 +3198,7 @@ extension CloudFormation {
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon CloudWatch log group to which CloudFormation sends error logging information when invoking the type's handlers.
+        /// The Amazon CloudWatch log group to which CloudFormation sends error logging information when invoking the extension's handlers.
         public let logGroupName: String
         /// The ARN of the role that CloudFormation should assume when sending log entries to CloudWatch logs.
         public let logRoleArn: String
@@ -3044,6 +3379,54 @@ extension CloudFormation {
         }
     }
 
+    public struct PublishTypeInput: AWSEncodableShape {
+        /// The Amazon Resource Number (ARN) of the extension. Conditional: You must specify Arn, or TypeName and Type.
+        public let arn: String?
+        /// The version number to assign to this version of the extension. Use the following format, and adhere to semantic versioning when assigning a version number to your extension:   MAJOR.MINOR.PATCH  For more information, see Semantic Versioning 2.0.0. If you do not specify a version number, CloudFormation increments the version number by one minor version release.
+        public let publicVersionNumber: String?
+        /// The type of the extension. Conditional: You must specify Arn, or TypeName and Type.
+        public let type: ThirdPartyType?
+        /// The name of the extension. Conditional: You must specify Arn, or TypeName and Type.
+        public let typeName: String?
+
+        public init(arn: String? = nil, publicVersionNumber: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil) {
+            self.arn = arn
+            self.publicVersionNumber = publicVersionNumber
+            self.type = type
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1024)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+")
+            try self.validate(self.publicVersionNumber, name: "publicVersionNumber", parent: name, min: 5)
+            try self.validate(self.publicVersionNumber, name: "publicVersionNumber", parent: name, pattern: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(.*)$")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case publicVersionNumber = "PublicVersionNumber"
+            case type = "Type"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct PublishTypeOutput: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) assigned to the public extension upon publication.
+        public let publicTypeArn: String?
+
+        public init(publicTypeArn: String? = nil) {
+            self.publicTypeArn = publicTypeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publicTypeArn = "PublicTypeArn"
+        }
+    }
+
     public struct RecordHandlerProgressInput: AWSEncodableShape {
         /// Reserved for use by the CloudFormation CLI.
         public let bearerToken: String
@@ -3096,10 +3479,46 @@ extension CloudFormation {
         public init() {}
     }
 
+    public struct RegisterPublisherInput: AWSEncodableShape {
+        /// Whether you accept the terms and conditions for publishing extensions in the CloudFormation registry. You must accept the terms and conditions in order to register to publish public extensions to the CloudFormation registry. The default is false.
+        public let acceptTermsAndConditions: Bool?
+        /// If you are using a Bitbucket or GitHub account for identity verification, the Amazon Resource Name (ARN) for your connection to that account. For more information, see Registering your account to publish CloudFormation extensions in the CloudFormation CLI User Guide.
+        public let connectionArn: String?
+
+        public init(acceptTermsAndConditions: Bool? = nil, connectionArn: String? = nil) {
+            self.acceptTermsAndConditions = acceptTermsAndConditions
+            self.connectionArn = connectionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 256)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, pattern: "arn:aws(-[\\w]+)*:.+:.+:[0-9]{12}:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptTermsAndConditions = "AcceptTermsAndConditions"
+            case connectionArn = "ConnectionArn"
+        }
+    }
+
+    public struct RegisterPublisherOutput: AWSDecodableShape {
+        /// The ID assigned this account by CloudFormation for publishing extensions.
+        public let publisherId: String?
+
+        public init(publisherId: String? = nil) {
+            self.publisherId = publisherId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publisherId = "PublisherId"
+        }
+    }
+
     public struct RegisterTypeInput: AWSEncodableShape {
         /// A unique identifier that acts as an idempotency key for this registration request. Specifying a client request token prevents CloudFormation from generating more than one version of an extension from the same registeration request, even if the request is submitted multiple times.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. If your extension calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. When CloudFormation needs to invoke the extension handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the extension handler, thereby supplying your extension with the appropriate credentials.
+        /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to assume when invoking the extension. For CloudFormation to assume the specified execution role, the role must contain a trust relationship with the CloudFormation service principle (resources.cloudformation.amazonaws.com). For more information on adding trust relationships, see Modifying a role trust policy in the AWS Identity and Access Management User Guide. If your extension calls AWS APIs in any of its handlers, you must create an  IAM execution role  that includes the necessary permissions to call those AWS APIs, and provision that execution role in your account. When CloudFormation needs to invoke the resource type handler, CloudFormation assumes this execution role to create a temporary session token, which it then passes to the resource type handler, thereby supplying your resource type with the appropriate credentials.
         public let executionRoleArn: String?
         /// Specifies logging configuration information for an extension.
         public let loggingConfig: LoggingConfig?
@@ -3107,7 +3526,7 @@ extension CloudFormation {
         public let schemaHandlerPackage: String
         /// The kind of extension.
         public let type: RegistryType?
-        /// The name of the extension being registered. We recommend that extension names adhere to the following pattern: company_or_organization::service::type.  The following organization namespaces are reserved and cannot be used in your extension names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
+        /// The name of the extension being registered. We recommend that extension names adhere to the following patterns:    For resource types, company_or_organization::service::type.   For modules, company_or_organization::service::type::MODULE.    The following organization namespaces are reserved and cannot be used in your extension names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
         public let typeName: String
 
         public init(clientRequestToken: String? = nil, executionRoleArn: String? = nil, loggingConfig: LoggingConfig? = nil, schemaHandlerPackage: String, type: RegistryType? = nil, typeName: String) {
@@ -3154,6 +3573,32 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case registrationToken = "RegistrationToken"
+        }
+    }
+
+    public struct RequiredActivatedType: AWSDecodableShape {
+        /// The type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and region, CloudFormation treats that alias as the extension's type name within the account and region, not the type name of the public extension. For more information, see Specifying aliases to refer to extensions in the CloudFormation User Guide.
+        public let originalTypeName: String?
+        /// The publisher ID of the extension publisher.
+        public let publisherId: String?
+        /// A list of the major versions of the extension type that the macro supports.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var supportedMajorVersions: [Int]?
+        /// An alias assigned to the public extension, in this account and region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console.
+        public let typeNameAlias: String?
+
+        public init(originalTypeName: String? = nil, publisherId: String? = nil, supportedMajorVersions: [Int]? = nil, typeNameAlias: String? = nil) {
+            self.originalTypeName = originalTypeName
+            self.publisherId = publisherId
+            self.supportedMajorVersions = supportedMajorVersions
+            self.typeNameAlias = typeNameAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originalTypeName = "OriginalTypeName"
+            case publisherId = "PublisherId"
+            case supportedMajorVersions = "SupportedMajorVersions"
+            case typeNameAlias = "TypeNameAlias"
         }
     }
 
@@ -3372,6 +3817,62 @@ extension CloudFormation {
             case stackName = "StackName"
             case stackPolicyBody = "StackPolicyBody"
             case stackPolicyURL = "StackPolicyURL"
+        }
+    }
+
+    public struct SetTypeConfigurationInput: AWSEncodableShape {
+        /// The configuration data for the extension, in this account and region.  The configuration data must be formatted as JSON, and validate against the schema returned in the ConfigurationSchema response element of API_DescribeType. For more information, see Defining account-level configuration data for an extension in the CloudFormation CLI User Guide.
+        public let configuration: String
+        /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when setting a configuration for a resource type extension.
+        public let configurationAlias: String?
+        /// The type of extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
+        public let type: ThirdPartyType?
+        /// The Amazon Resource Name (ARN) for the extension, in this account and region. For public extensions, this will be the ARN assigned when you activate the type in this account and region. For private extensions, this will be the ARN assigned when you register the type in this account and region.  Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
+        public let typeArn: String?
+        /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
+        public let typeName: String?
+
+        public init(configuration: String, configurationAlias: String? = nil, type: ThirdPartyType? = nil, typeArn: String? = nil, typeName: String? = nil) {
+            self.configuration = configuration
+            self.configurationAlias = configurationAlias
+            self.type = type
+            self.typeArn = typeArn
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configuration, name: "configuration", parent: name, max: 204_800)
+            try self.validate(self.configuration, name: "configuration", parent: name, min: 1)
+            try self.validate(self.configuration, name: "configuration", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.configurationAlias, name: "configurationAlias", parent: name, max: 256)
+            try self.validate(self.configurationAlias, name: "configurationAlias", parent: name, min: 1)
+            try self.validate(self.configurationAlias, name: "configurationAlias", parent: name, pattern: "^[a-zA-Z0-9]{1,256}$")
+            try self.validate(self.typeArn, name: "typeArn", parent: name, max: 1024)
+            try self.validate(self.typeArn, name: "typeArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case configurationAlias = "ConfigurationAlias"
+            case type = "Type"
+            case typeArn = "TypeArn"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct SetTypeConfigurationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the configuration data, in this account and region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
+        public let configurationArn: String?
+
+        public init(configurationArn: String? = nil) {
+            self.configurationArn = configurationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationArn = "ConfigurationArn"
         }
     }
 
@@ -4186,13 +4687,13 @@ extension CloudFormation {
     }
 
     public struct StackSetOperationPreferences: AWSEncodableShape & AWSDecodableShape {
-        /// The number of accounts, per Region, for which this operation can fail before AWS CloudFormation stops the operation in that Region. If the operation is stopped in a Region, AWS CloudFormation doesn't attempt the operation in any subsequent Regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both).
+        /// The number of accounts, per Region, for which this operation can fail before AWS CloudFormation stops the operation in that Region. If the operation is stopped in a Region, AWS CloudFormation doesn't attempt the operation in any subsequent Regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both). By default, 0 is specified.
         public let failureToleranceCount: Int?
-        /// The percentage of accounts, per Region, for which this stack operation can fail before AWS CloudFormation stops the operation in that Region. If the operation is stopped in a Region, AWS CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both.
+        /// The percentage of accounts, per Region, for which this stack operation can fail before AWS CloudFormation stops the operation in that Region. If the operation is stopped in a Region, AWS CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public let failureTolerancePercentage: Int?
-        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of FailureToleranceCount. MaxConcurrentCount is at most one more than the FailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
+        /// The maximum number of accounts in which to perform this operation at one time. This is dependent on the value of FailureToleranceCount. MaxConcurrentCount is at most one more than the FailureToleranceCount. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public let maxConcurrentCount: Int?
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both.
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public let maxConcurrentPercentage: Int?
         /// The concurrency type of deploying StackSets operations in regions, could be in parallel or one region at a time.
         public let regionConcurrencyType: RegionConcurrencyType?
@@ -4467,24 +4968,210 @@ extension CloudFormation {
         }
     }
 
-    public struct TypeSummary: AWSDecodableShape {
-        /// The ID of the default version of the type. The default version is used when the type version is not specified. To set the default version of a type, use  SetTypeDefaultVersion .
-        public let defaultVersionId: String?
-        /// The description of the type.
-        public let description: String?
-        /// When the current default version of the type was registered.
+    public struct TestTypeInput: AWSEncodableShape {
+        /// The Amazon Resource Number (ARN) of the extension. Conditional: You must specify Arn, or TypeName and Type.
+        public let arn: String?
+        /// The S3 bucket to which CloudFormation delivers the contract test execution logs. CloudFormation delivers the logs by the time contract testing has completed and the extension has been assigned a test type status of PASSED or FAILED. The user calling TestType must be able to access items in the specified S3 bucket. Specifically, the user needs the following permissions:   GetObject   PutObject   For more information, see Actions, Resources, and Condition Keys for Amazon S3 in the AWS Identity and Access Management User Guide.
+        public let logDeliveryBucket: String?
+        /// The type of the extension to test. Conditional: You must specify Arn, or TypeName and Type.
+        public let type: ThirdPartyType?
+        /// The name of the extension to test. Conditional: You must specify Arn, or TypeName and Type.
+        public let typeName: String?
+        /// The version of the extension to test. You can specify the version id with either Arn, or with TypeName and Type. If you do not specify a version, CloudFormation uses the default version of the extension in this account and region for testing.
+        public let versionId: String?
+
+        public init(arn: String? = nil, logDeliveryBucket: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil, versionId: String? = nil) {
+            self.arn = arn
+            self.logDeliveryBucket = logDeliveryBucket
+            self.type = type
+            self.typeName = typeName
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1024)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
+            try self.validate(self.logDeliveryBucket, name: "logDeliveryBucket", parent: name, max: 63)
+            try self.validate(self.logDeliveryBucket, name: "logDeliveryBucket", parent: name, min: 3)
+            try self.validate(self.logDeliveryBucket, name: "logDeliveryBucket", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 128)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "[A-Za-z0-9-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case logDeliveryBucket = "LogDeliveryBucket"
+            case type = "Type"
+            case typeName = "TypeName"
+            case versionId = "VersionId"
+        }
+    }
+
+    public struct TestTypeOutput: AWSDecodableShape {
+        /// The Amazon Resource Number (ARN) of the extension.
+        public let typeVersionArn: String?
+
+        public init(typeVersionArn: String? = nil) {
+            self.typeVersionArn = typeVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case typeVersionArn = "TypeVersionArn"
+        }
+    }
+
+    public struct TypeConfigurationDetails: AWSDecodableShape {
+        /// The alias specified for this configuration, if one was specified when the configuration was set.
+        public let alias: String?
+        /// The Amazon Resource Name (ARN) for the configuration data, in this account and region.
+        public let arn: String?
+        /// A JSON string specifying the configuration data for the extension, in this account and region.  If a configuration has not been set for a specified extension, CloudFormation returns {}.
+        public let configuration: String?
+        /// Whether or not this configuration data is the default configuration for the extension.
+        public let isDefaultConfiguration: Bool?
+        /// When the configuration data was last updated for this extension. If a configuration has not been set for a specified extension, CloudFormation returns null.
         public let lastUpdated: Date?
-        /// The kind of type.
-        public let type: RegistryType?
-        /// The Amazon Resource Name (ARN) of the type.
+        /// The Amazon Resource Name (ARN) for the extension, in this account and region. For public extensions, this will be the ARN assigned when you activate the type in this account and region. For private extensions, this will be the ARN assigned when you register the type in this account and region.
         public let typeArn: String?
-        /// The name of the type.
+        /// The name of the extension.
         public let typeName: String?
 
-        public init(defaultVersionId: String? = nil, description: String? = nil, lastUpdated: Date? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
+        public init(alias: String? = nil, arn: String? = nil, configuration: String? = nil, isDefaultConfiguration: Bool? = nil, lastUpdated: Date? = nil, typeArn: String? = nil, typeName: String? = nil) {
+            self.alias = alias
+            self.arn = arn
+            self.configuration = configuration
+            self.isDefaultConfiguration = isDefaultConfiguration
+            self.lastUpdated = lastUpdated
+            self.typeArn = typeArn
+            self.typeName = typeName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case arn = "Arn"
+            case configuration = "Configuration"
+            case isDefaultConfiguration = "IsDefaultConfiguration"
+            case lastUpdated = "LastUpdated"
+            case typeArn = "TypeArn"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct TypeConfigurationIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The type of extension.
+        public let type: ThirdPartyType?
+        /// The Amazon Resource Name (ARN) for the extension, in this account and region. For public extensions, this will be the ARN assigned when you activate the type in this account and region. For private extensions, this will be the ARN assigned when you register the type in this account and region.
+        public let typeArn: String?
+        /// The alias specified for this configuration, if one was specified when the configuration was set.
+        public let typeConfigurationAlias: String?
+        /// The Amazon Resource Name (ARN) for the configuration, in this account and region.
+        public let typeConfigurationArn: String?
+        /// The name of the extension type to which this configuration applies.
+        public let typeName: String?
+
+        public init(type: ThirdPartyType? = nil, typeArn: String? = nil, typeConfigurationAlias: String? = nil, typeConfigurationArn: String? = nil, typeName: String? = nil) {
+            self.type = type
+            self.typeArn = typeArn
+            self.typeConfigurationAlias = typeConfigurationAlias
+            self.typeConfigurationArn = typeConfigurationArn
+            self.typeName = typeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.typeArn, name: "typeArn", parent: name, max: 1024)
+            try self.validate(self.typeArn, name: "typeArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+")
+            try self.validate(self.typeConfigurationAlias, name: "typeConfigurationAlias", parent: name, max: 256)
+            try self.validate(self.typeConfigurationAlias, name: "typeConfigurationAlias", parent: name, min: 1)
+            try self.validate(self.typeConfigurationAlias, name: "typeConfigurationAlias", parent: name, pattern: "^[a-zA-Z0-9]{1,256}$")
+            try self.validate(self.typeConfigurationArn, name: "typeConfigurationArn", parent: name, max: 1024)
+            try self.validate(self.typeConfigurationArn, name: "typeConfigurationArn", parent: name, pattern: "arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type-configuration/.+")
+            try self.validate(self.typeName, name: "typeName", parent: name, max: 204)
+            try self.validate(self.typeName, name: "typeName", parent: name, min: 10)
+            try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case typeArn = "TypeArn"
+            case typeConfigurationAlias = "TypeConfigurationAlias"
+            case typeConfigurationArn = "TypeConfigurationArn"
+            case typeName = "TypeName"
+        }
+    }
+
+    public struct TypeFilters: AWSEncodableShape {
+        /// The category of extensions to return.    REGISTERED: Private extensions that have been registered for this account and region.    ACTIVATED: Public extensions that have been activated for this account and region.    THIRD-PARTY: Extensions available for use from publishers other than Amazon. This includes:   Private extensions registered in the account.   Public extensions from publishers other than Amazon, whether activated or not.      AWS-TYPES: Extensions available for use from Amazon.
+        public let category: Category?
+        /// The id of the publisher of the extension.  Extensions published by Amazon are not assigned a publisher ID. Use the AWS-TYPES category to specify a list of types published by Amazon.
+        public let publisherId: String?
+        /// A prefix to use as a filter for results.
+        public let typeNamePrefix: String?
+
+        public init(category: Category? = nil, publisherId: String? = nil, typeNamePrefix: String? = nil) {
+            self.category = category
+            self.publisherId = publisherId
+            self.typeNamePrefix = typeNamePrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.publisherId, name: "publisherId", parent: name, max: 40)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, pattern: "[0-9a-zA-Z]{12,40}")
+            try self.validate(self.typeNamePrefix, name: "typeNamePrefix", parent: name, max: 204)
+            try self.validate(self.typeNamePrefix, name: "typeNamePrefix", parent: name, min: 1)
+            try self.validate(self.typeNamePrefix, name: "typeNamePrefix", parent: name, pattern: "([A-Za-z0-9]{2,64}::){0,2}([A-Za-z0-9]{2,64}:?){0,1}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case publisherId = "PublisherId"
+            case typeNamePrefix = "TypeNamePrefix"
+        }
+    }
+
+    public struct TypeSummary: AWSDecodableShape {
+        /// The ID of the default version of the extension. The default version is used when the extension version is not specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon and published by third parties, CloudFormation returns null. For more information, see RegisterType. To set the default version of an extension, use  SetTypeDefaultVersion .
+        public let defaultVersionId: String?
+        /// The description of the extension.
+        public let description: String?
+        /// Whether or not the extension is activated for this account and region.  This applies only to third-party public extensions. Extensions published by Amazon are activated by default.
+        public let isActivated: Bool?
+        /// When the specified extension version was registered. This applies only to:   Private extensions you have registered in your account. For more information, see RegisterType.   Public extensions you have activated in your account with auto-update specified. For more information, see ActivateType.   For all other extension types, CloudFormation returns null.
+        public let lastUpdated: Date?
+        /// For public extensions that have been activated for this account and region, the latest version of the public extension that is available. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extention in this account and region when a new version is released. For more information, see Setting CloudFormation to automatically use new versions of extensions in the CloudFormation User Guide.
+        public let latestPublicVersion: String?
+        /// For public extensions that have been activated for this account and region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and region, CloudFormation treats that alias as the extension's type name within the account and region, not the type name of the public extension. For more information, see Specifying aliases to refer to extensions in the CloudFormation User Guide.
+        public let originalTypeName: String?
+        /// For public extensions that have been activated for this account and region, the version of the public extension to be used for CloudFormation operations in this account and region. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extention in this account and region when a new version is released. For more information, see Setting CloudFormation to automatically use new versions of extensions in the CloudFormation User Guide.
+        public let publicVersionNumber: String?
+        /// The ID of the extension publisher, if the extension is published by a third party. Extensions published by Amazon do not return a publisher ID.
+        public let publisherId: String?
+        /// The service used to verify the publisher identity. For more information, see Registering your account to publish CloudFormation extensions in the  CFN-CLI User Guide for Extension Development.
+        public let publisherIdentity: IdentityProvider?
+        /// The publisher name, as defined in the public profile for that publisher in the service used to verify the publisher identity.
+        public let publisherName: String?
+        /// The kind of extension.
+        public let type: RegistryType?
+        /// The Amazon Resource Name (ARN) of the extension.
+        public let typeArn: String?
+        /// The name of the extension. If you specified a TypeNameAlias when you activate this extension in your account and region, CloudFormation considers that alias as the type name.
+        public let typeName: String?
+
+        public init(defaultVersionId: String? = nil, description: String? = nil, isActivated: Bool? = nil, lastUpdated: Date? = nil, latestPublicVersion: String? = nil, originalTypeName: String? = nil, publicVersionNumber: String? = nil, publisherId: String? = nil, publisherIdentity: IdentityProvider? = nil, publisherName: String? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
             self.defaultVersionId = defaultVersionId
             self.description = description
+            self.isActivated = isActivated
             self.lastUpdated = lastUpdated
+            self.latestPublicVersion = latestPublicVersion
+            self.originalTypeName = originalTypeName
+            self.publicVersionNumber = publicVersionNumber
+            self.publisherId = publisherId
+            self.publisherIdentity = publisherIdentity
+            self.publisherName = publisherName
             self.type = type
             self.typeArn = typeArn
             self.typeName = typeName
@@ -4493,7 +5180,14 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case defaultVersionId = "DefaultVersionId"
             case description = "Description"
+            case isActivated = "IsActivated"
             case lastUpdated = "LastUpdated"
+            case latestPublicVersion = "LatestPublicVersion"
+            case originalTypeName = "OriginalTypeName"
+            case publicVersionNumber = "PublicVersionNumber"
+            case publisherId = "PublisherId"
+            case publisherIdentity = "PublisherIdentity"
+            case publisherName = "PublisherName"
             case type = "Type"
             case typeArn = "TypeArn"
             case typeName = "TypeName"
@@ -4501,25 +5195,28 @@ extension CloudFormation {
     }
 
     public struct TypeVersionSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the type version.
+        /// The Amazon Resource Name (ARN) of the extension version.
         public let arn: String?
-        /// The description of the type version.
+        /// The description of the extension version.
         public let description: String?
-        /// Whether the specified type version is set as the default version.
+        /// Whether the specified extension version is set as the default version. This applies only to private extensions you have registered in your account, and extensions published by Amazon. For public third-party extensions, whether or not they are activated in your account, CloudFormation returns null.
         public let isDefaultVersion: Bool?
+        /// For public extensions that have been activated for this account and region, the version of the public extension to be used for CloudFormation operations in this account and region. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extention in this account and region when a new version is released. For more information, see Setting CloudFormation to automatically use new versions of extensions in the CloudFormation User Guide.
+        public let publicVersionNumber: String?
         /// When the version was registered.
         public let timeCreated: Date?
-        /// The kind of type.
+        /// The kind of extension.
         public let type: RegistryType?
-        /// The name of the type.
+        /// The name of the extension.
         public let typeName: String?
-        /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
+        /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
         public let versionId: String?
 
-        public init(arn: String? = nil, description: String? = nil, isDefaultVersion: Bool? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
+        public init(arn: String? = nil, description: String? = nil, isDefaultVersion: Bool? = nil, publicVersionNumber: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.description = description
             self.isDefaultVersion = isDefaultVersion
+            self.publicVersionNumber = publicVersionNumber
             self.timeCreated = timeCreated
             self.type = type
             self.typeName = typeName
@@ -4530,6 +5227,7 @@ extension CloudFormation {
             case arn = "Arn"
             case description = "Description"
             case isDefaultVersion = "IsDefaultVersion"
+            case publicVersionNumber = "PublicVersionNumber"
             case timeCreated = "TimeCreated"
             case type = "Type"
             case typeName = "TypeName"
