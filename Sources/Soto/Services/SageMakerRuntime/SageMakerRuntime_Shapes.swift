@@ -27,14 +27,14 @@ extension SageMakerRuntime {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")),
-            AWSMemberEncoding(label: "inferenceId", location: .header(locationName: "X-Amzn-SageMaker-Inference-Id")),
-            AWSMemberEncoding(label: "targetContainerHostname", location: .header(locationName: "X-Amzn-SageMaker-Target-Container-Hostname")),
-            AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model")),
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
+            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")), 
+            AWSMemberEncoding(label: "inferenceId", location: .header(locationName: "X-Amzn-SageMaker-Inference-Id")), 
+            AWSMemberEncoding(label: "targetContainerHostname", location: .header(locationName: "X-Amzn-SageMaker-Target-Container-Hostname")), 
+            AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model")), 
             AWSMemberEncoding(label: "targetVariant", location: .header(locationName: "X-Amzn-SageMaker-Target-Variant"))
         ]
 
@@ -72,7 +72,7 @@ extension SageMakerRuntime {
         public func validate(name: String) throws {
             try self.validate(self.accept, name: "accept", parent: name, max: 1024)
             try self.validate(self.accept, name: "accept", parent: name, pattern: "\\p{ASCII}*")
-            try self.validate(self.body, name: "body", parent: name, max: 6_291_456)
+            try self.validate(self.body, name: "body", parent: name, max: 6291456)
             try self.validate(self.contentType, name: "contentType", parent: name, max: 1024)
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "\\p{ASCII}*")
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 1024)
@@ -99,9 +99,9 @@ extension SageMakerRuntime {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
             AWSMemberEncoding(label: "invokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"))
         ]
 

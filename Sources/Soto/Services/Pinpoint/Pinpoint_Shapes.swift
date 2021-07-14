@@ -213,6 +213,7 @@ extension Pinpoint {
     // MARK: Shapes
 
     public struct ADMChannelRequest: AWSEncodableShape {
+
         /// The Client ID that you received from Amazon to send messages by using ADM.
         public let clientId: String
         /// The Client Secret that you received from Amazon to send messages by using ADM.
@@ -234,6 +235,7 @@ extension Pinpoint {
     }
 
     public struct ADMChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the ADM channel applies to.
         public let applicationId: String?
         /// The date and time when the ADM channel was enabled.
@@ -283,6 +285,7 @@ extension Pinpoint {
     }
 
     public struct ADMMessage: AWSEncodableShape {
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message.
@@ -356,6 +359,7 @@ extension Pinpoint {
     }
 
     public struct APNSChannelRequest: AWSEncodableShape {
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate.
@@ -397,6 +401,7 @@ extension Pinpoint {
     }
 
     public struct APNSChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the APNs channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs channel was enabled.
@@ -454,6 +459,7 @@ extension Pinpoint {
     }
 
     public struct APNSMessage: AWSEncodableShape {
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The type of push notification to send. Valid values are: alert - For a standard notification that's displayed on recipients' devices and prompts a recipient to interact with the notification. background - For a silent notification that delivers content in the background and isn't displayed on recipients' devices. complication - For a notification that contains update information for an app’s complication timeline. fileprovider - For a notification that signals changes to a File Provider extension. mdm - For a notification that tells managed devices to contact the MDM server. voip - For a notification that provides information about an incoming VoIP call. Amazon Pinpoint specifies this value in the apns-push-type request header when it sends the notification message to APNs. If you don't specify a value for this property, Amazon Pinpoint sets the value to alert or background automatically, based on the value that you specify for the SilentPush or RawContent property of the message. For more information about the apns-push-type request header, see Sending Notification Requests to APNs on the Apple Developer website.
@@ -535,6 +541,7 @@ extension Pinpoint {
     }
 
     public struct APNSPushNotificationTemplate: AWSEncodableShape & AWSDecodableShape {
+
         /// The action to occur if a recipient taps a push notification that's based on the message template. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The message body to use in push notifications that are based on the message template.
@@ -572,6 +579,7 @@ extension Pinpoint {
     }
 
     public struct APNSSandboxChannelRequest: AWSEncodableShape {
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate.
@@ -613,6 +621,7 @@ extension Pinpoint {
     }
 
     public struct APNSSandboxChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the APNs sandbox channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs sandbox channel was enabled.
@@ -670,6 +679,7 @@ extension Pinpoint {
     }
 
     public struct APNSVoipChannelRequest: AWSEncodableShape {
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate.
@@ -711,6 +721,7 @@ extension Pinpoint {
     }
 
     public struct APNSVoipChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the APNs VoIP channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs VoIP channel was enabled.
@@ -768,6 +779,7 @@ extension Pinpoint {
     }
 
     public struct APNSVoipSandboxChannelRequest: AWSEncodableShape {
+
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public let bundleId: String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate.
@@ -809,6 +821,7 @@ extension Pinpoint {
     }
 
     public struct APNSVoipSandboxChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the APNs VoIP sandbox channel applies to.
         public let applicationId: String?
         /// The date and time when the APNs VoIP sandbox channel was enabled.
@@ -866,6 +879,7 @@ extension Pinpoint {
     }
 
     public struct ActivitiesResponse: AWSDecodableShape {
+
         /// An array of responses, one for each activity that was performed by the campaign.
         public let item: [ActivityResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -883,6 +897,7 @@ extension Pinpoint {
     }
 
     public struct Activity: AWSEncodableShape & AWSDecodableShape {
+
         /// The settings for a yes/no split activity. This type of activity sends participants down one of two paths in a journey, based on conditions that you specify.
         public let conditionalSplit: ConditionalSplitActivity?
         /// The settings for a custom message activity. This type of activity calls an AWS Lambda function or web hook that sends messages to participants.
@@ -932,6 +947,7 @@ extension Pinpoint {
     }
 
     public struct ActivityResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the campaign applies to.
         public let applicationId: String
         /// The unique identifier for the campaign that the activity applies to.
@@ -993,6 +1009,7 @@ extension Pinpoint {
     }
 
     public struct AddressConfiguration: AWSEncodableShape {
+
         /// The message body to use instead of the default message body. This value overrides the default message body.
         public let bodyOverride: String?
         /// The channel to use when sending the message.
@@ -1026,6 +1043,7 @@ extension Pinpoint {
     }
 
     public struct AndroidPushNotificationTemplate: AWSEncodableShape & AWSDecodableShape {
+
         /// The action to occur if a recipient taps a push notification that's based on the message template. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The message body to use in a push notification that's based on the message template.
@@ -1071,6 +1089,7 @@ extension Pinpoint {
     }
 
     public struct ApplicationDateRangeKpiResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the metric applies to.
         public let applicationId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
@@ -1106,6 +1125,7 @@ extension Pinpoint {
     }
 
     public struct ApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the application.
         public let arn: String
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
@@ -1126,11 +1146,12 @@ extension Pinpoint {
             case arn = "Arn"
             case id = "Id"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ApplicationSettingsResource: AWSDecodableShape {
+
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application.
@@ -1160,6 +1181,7 @@ extension Pinpoint {
     }
 
     public struct ApplicationsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each application that was returned.
         public let item: [ApplicationResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -1177,6 +1199,7 @@ extension Pinpoint {
     }
 
     public struct AttributeDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// INCLUSIVE - endpoints that have attributes matching the values are included in the segment.EXCLUSIVE - endpoints that have attributes matching the values are excluded in the segment.CONTAINS - endpoints that have attributes' substrings match the values are included in the segment.BEFORE - endpoints with attributes read as ISO_INSTANT datetimes before the value are included in the segment.AFTER - endpoints with attributes read as ISO_INSTANT datetimes after the value are included in the segment.ON - endpoints with attributes read as ISO_INSTANT dates on the value are included in the segment. Time is ignored in this comparison.BETWEEN - endpoints with attributes read as ISO_INSTANT datetimes between the values are included in the segment.
         public let attributeType: AttributeType?
         /// The criteria values to use for the segment dimension. Depending on the value of the AttributeType property, endpoints are included or excluded from the segment if their attribute values match the criteria values.
@@ -1194,6 +1217,7 @@ extension Pinpoint {
     }
 
     public struct AttributesResource: AWSDecodableShape {
+
         /// The unique identifier for the application.
         public let applicationId: String
         /// An array that specifies the names of the attributes that were removed from the endpoints.
@@ -1215,6 +1239,7 @@ extension Pinpoint {
     }
 
     public struct BaiduChannelRequest: AWSEncodableShape {
+
         /// The API key that you received from the Baidu Cloud Push service to communicate with the service.
         public let apiKey: String
         /// Specifies whether to enable the Baidu channel for the application.
@@ -1236,6 +1261,7 @@ extension Pinpoint {
     }
 
     public struct BaiduChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the Baidu channel applies to.
         public let applicationId: String?
         /// The date and time when the Baidu channel was enabled.
@@ -1289,6 +1315,7 @@ extension Pinpoint {
     }
 
     public struct BaiduMessage: AWSEncodableShape {
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message.
@@ -1354,6 +1381,7 @@ extension Pinpoint {
     }
 
     public struct BaseKpiResult: AWSDecodableShape {
+
         /// An array of objects that provides the results of a query that retrieved the data for a standard metric that applies to an application, campaign, or journey.
         public let rows: [ResultRow]
 
@@ -1367,6 +1395,7 @@ extension Pinpoint {
     }
 
     public struct CampaignCustomMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The raw, JSON-formatted string to use as the payload for the message. The maximum size is 5 KB.
         public let data: String?
 
@@ -1380,6 +1409,7 @@ extension Pinpoint {
     }
 
     public struct CampaignDateRangeKpiResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the metric applies to.
         public let applicationId: String
         /// The unique identifier for the campaign that the metric applies to.
@@ -1419,6 +1449,7 @@ extension Pinpoint {
     }
 
     public struct CampaignEmailMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The body of the email for recipients whose email clients don't render HTML content.
         public let body: String?
         /// The verified email address to send the email from. The default address is the FromAddress specified for the email channel for the application.
@@ -1444,6 +1475,7 @@ extension Pinpoint {
     }
 
     public struct CampaignEventFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimension settings of the event filter for the campaign.
         public let dimensions: EventDimensions
         /// The type of event that causes the campaign to be sent. Valid values are: SYSTEM, sends the campaign when a system event occurs; and, ENDPOINT, sends the campaign when an endpoint event (Events resource) occurs.
@@ -1461,6 +1493,7 @@ extension Pinpoint {
     }
 
     public struct CampaignHook: AWSEncodableShape & AWSDecodableShape {
+
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to customize a segment for a campaign.
         public let lambdaFunctionName: String?
         /// The mode that Amazon Pinpoint uses to invoke the AWS Lambda function. Possible values are: FILTER - Invoke the function to customize the segment that's used by a campaign. DELIVERY - (Deprecated) Previously, invoked the function to send a campaign through a custom channel. This functionality is not supported anymore. To send a campaign through a custom channel, use the CustomDeliveryConfiguration and CampaignCustomMessage objects of the campaign.
@@ -1482,6 +1515,7 @@ extension Pinpoint {
     }
 
     public struct CampaignLimits: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. For an application, this value specifies the default limit for the number of messages that campaigns and journeys can send to a single endpoint during a 24-hour period. The maximum value is 100.
         public let daily: Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
@@ -1507,6 +1541,7 @@ extension Pinpoint {
     }
 
     public struct CampaignResponse: AWSDecodableShape {
+
         /// An array of responses, one for each treatment that you defined for the campaign, in addition to the default treatment.
         public let additionalTreatments: [TreatmentResource]?
         /// The unique identifier for the application that the campaign applies to.
@@ -1603,7 +1638,7 @@ extension Pinpoint {
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
             case state = "State"
-            case tags
+            case tags = "tags"
             case templateConfiguration = "TemplateConfiguration"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
@@ -1612,6 +1647,7 @@ extension Pinpoint {
     }
 
     public struct CampaignSmsMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The body of the SMS message.
         public let body: String?
         /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
@@ -1645,6 +1681,7 @@ extension Pinpoint {
     }
 
     public struct CampaignState: AWSDecodableShape {
+
         /// The current status of the campaign, or the current status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only if all campaign treatments have a status of COMPLETED. If you delete the segment that's associated with a campaign, the campaign fails and has a status of DELETED.
         public let campaignStatus: CampaignStatus?
 
@@ -1658,6 +1695,7 @@ extension Pinpoint {
     }
 
     public struct CampaignsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each campaign that's associated with the application.
         public let item: [CampaignResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -1675,6 +1713,7 @@ extension Pinpoint {
     }
 
     public struct ChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application.
         public let applicationId: String?
         /// The date and time, in ISO 8601 format, when the channel was enabled.
@@ -1720,6 +1759,7 @@ extension Pinpoint {
     }
 
     public struct ChannelsResponse: AWSDecodableShape {
+
         /// A map that contains a multipart response for each channel. For each item in this object, the ChannelType is the key and the Channel is the value.
         public let channels: [String: ChannelResponse]
 
@@ -1733,6 +1773,7 @@ extension Pinpoint {
     }
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
+
         /// The conditions to evaluate for the activity.
         public let conditions: [SimpleCondition]?
         /// Specifies how to handle multiple conditions for the activity. For example, if you specify two conditions for an activity, whether both or only one of the conditions must be met for the activity to be performed.
@@ -1750,6 +1791,7 @@ extension Pinpoint {
     }
 
     public struct ConditionalSplitActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The conditions that define the paths for the activity, and the relationship between the conditions.
         public let condition: Condition?
         /// The amount of time to wait before determining whether the conditions are met, or the date and time when Amazon Pinpoint determines whether the conditions are met.
@@ -1811,6 +1853,7 @@ extension Pinpoint {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
         public let name: String
         /// A string-to-string map of key-value pairs that defines the tags to associate with the application. Each tag consists of a required tag key and an associated tag value.
@@ -1823,7 +1866,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1831,7 +1874,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeCampaignRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
         ]
 
@@ -1870,7 +1913,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")),
+            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -1909,7 +1952,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "exportJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "exportJobRequest", location: .body(locationName: "ExportJobRequest"))
         ]
 
@@ -1948,7 +1991,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "importJobRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "importJobRequest", location: .body(locationName: "ImportJobRequest"))
         ]
 
@@ -1987,7 +2030,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeJourneyRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
         ]
 
@@ -2026,7 +2069,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "pushNotificationTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")),
+            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -2062,6 +2105,7 @@ extension Pinpoint {
     }
 
     public struct CreateRecommenderConfiguration: AWSEncodableShape {
+
         /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (RecommendationTransformerUri) to process recommendation data. Otherwise, don't include this object in your request.
         public let attributes: [String: String]?
         /// A custom description of the configuration for the recommender model. The description can contain up to 128 characters. The characters can be letters, numbers, spaces, or the following symbols: _ ; () , ‐.
@@ -2146,7 +2190,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeSegmentRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
         ]
 
@@ -2185,7 +2229,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")),
+            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")), 
             AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name"))
         ]
 
@@ -2221,6 +2265,7 @@ extension Pinpoint {
     }
 
     public struct CreateTemplateMessageBody: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the message template that was created.
         public let arn: String?
         /// The message that's returned from the API for the request to create the message template.
@@ -2245,7 +2290,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
         ]
 
@@ -2281,6 +2326,7 @@ extension Pinpoint {
     }
 
     public struct CustomDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The destination to send the campaign or treatment to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol.
         public let deliveryUri: String
         /// The types of endpoints to send the campaign or treatment to. Each valid value maps to a type of channel that you can associate with an endpoint by using the ChannelType property of an endpoint.
@@ -2298,6 +2344,7 @@ extension Pinpoint {
     }
 
     public struct CustomMessageActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The destination to send the campaign or treatment to. This value can be one of the following: The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment. The URL for a web application or service that supports HTTPS and can receive the message. The URL has to be a full URL, including the HTTPS protocol.
         public let deliveryUri: String?
         /// The types of endpoints to send the custom message to. Each valid value maps to a type of channel that you can associate with an endpoint by using the ChannelType property of an endpoint.
@@ -2331,6 +2378,7 @@ extension Pinpoint {
     }
 
     public struct DefaultMessage: AWSEncodableShape {
+
         /// The default body of the message.
         public let body: String?
         /// The default message variables to use in the message. You can override these default variables with individual address variables.
@@ -2348,6 +2396,7 @@ extension Pinpoint {
     }
 
     public struct DefaultPushNotificationMessage: AWSEncodableShape {
+
         /// The default action to occur if a recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS and Android platforms. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The default body of the notification message.
@@ -2385,6 +2434,7 @@ extension Pinpoint {
     }
 
     public struct DefaultPushNotificationTemplate: AWSEncodableShape & AWSDecodableShape {
+
         /// The action to occur if a recipient taps a push notification that's based on the message template. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS and Android platforms. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The message body to use in push notifications that are based on the message template.
@@ -2639,7 +2689,7 @@ extension Pinpoint {
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id"))
         ]
 
@@ -2706,7 +2756,7 @@ extension Pinpoint {
 
     public struct DeleteEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -2741,7 +2791,7 @@ extension Pinpoint {
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id"))
         ]
 
@@ -2840,7 +2890,7 @@ extension Pinpoint {
 
     public struct DeleteJourneyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
         ]
 
@@ -2875,7 +2925,7 @@ extension Pinpoint {
 
     public struct DeletePushTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -2942,7 +2992,7 @@ extension Pinpoint {
 
     public struct DeleteSegmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id"))
         ]
 
@@ -3009,7 +3059,7 @@ extension Pinpoint {
 
     public struct DeleteSmsTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -3044,7 +3094,7 @@ extension Pinpoint {
 
     public struct DeleteUserEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "user-id"))
         ]
 
@@ -3111,7 +3161,7 @@ extension Pinpoint {
 
     public struct DeleteVoiceTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -3145,6 +3195,7 @@ extension Pinpoint {
     }
 
     public struct DirectMessageConfiguration: AWSEncodableShape {
+
         /// The default push notification message for the ADM (Amazon Device Messaging) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
         public let aDMMessage: ADMMessage?
         /// The default push notification message for the APNs (Apple Push Notification service) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
@@ -3190,6 +3241,7 @@ extension Pinpoint {
     }
 
     public struct EmailChannelRequest: AWSEncodableShape {
+
         /// The Amazon SES configuration set that you want to apply to messages that you send through the channel.
         public let configurationSet: String?
         /// Specifies whether to enable the email channel for the application.
@@ -3219,6 +3271,7 @@ extension Pinpoint {
     }
 
     public struct EmailChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the email channel applies to.
         public let applicationId: String?
         /// The Amazon SES configuration set that's applied to messages that are sent through the channel.
@@ -3288,6 +3341,7 @@ extension Pinpoint {
     }
 
     public struct EmailMessage: AWSEncodableShape {
+
         /// The body of the email message.
         public let body: String?
         /// The email address to forward bounces and complaints to, if feedback forwarding is enabled.
@@ -3325,6 +3379,7 @@ extension Pinpoint {
     }
 
     public struct EmailMessageActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the sender address for an email message that's sent to participants in the journey.
         public let messageConfig: JourneyEmailMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
@@ -3350,6 +3405,7 @@ extension Pinpoint {
     }
 
     public struct EmailTemplateRequest: AWSEncodableShape {
+
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
         public let defaultSubstitutions: String?
         /// The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
@@ -3380,13 +3436,14 @@ extension Pinpoint {
             case htmlPart = "HtmlPart"
             case recommenderId = "RecommenderId"
             case subject = "Subject"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case textPart = "TextPart"
         }
     }
 
     public struct EmailTemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The date, in ISO 8601 format, when the message template was created.
@@ -3438,7 +3495,7 @@ extension Pinpoint {
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
             case subject = "Subject"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -3448,6 +3505,7 @@ extension Pinpoint {
     }
 
     public struct EndpointBatchItem: AWSEncodableShape {
+
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address.
         public let address: String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values.
@@ -3505,6 +3563,7 @@ extension Pinpoint {
     }
 
     public struct EndpointBatchRequest: AWSEncodableShape {
+
         /// An array that defines the endpoints to create or update and, for each endpoint, the property values to set or change. An array can contain a maximum of 100 items.
         public let item: [EndpointBatchItem]
 
@@ -3518,6 +3577,7 @@ extension Pinpoint {
     }
 
     public struct EndpointDemographic: AWSEncodableShape & AWSDecodableShape {
+
         /// The version of the app that's associated with the endpoint.
         public let appVersion: String?
         /// The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed by an underscore (_), followed by an ISO 3166-1 alpha-2 value.
@@ -3559,6 +3619,7 @@ extension Pinpoint {
     }
 
     public struct EndpointItemResponse: AWSDecodableShape {
+
         /// The custom message that's returned in the response as a result of processing the endpoint data.
         public let message: String?
         /// The status code that's returned in the response as a result of processing the endpoint data.
@@ -3576,6 +3637,7 @@ extension Pinpoint {
     }
 
     public struct EndpointLocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the city where the endpoint is located.
         public let city: String?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the endpoint is located. For example, US for the United States.
@@ -3609,6 +3671,7 @@ extension Pinpoint {
     }
 
     public struct EndpointMessageResult: AWSDecodableShape {
+
         /// The endpoint address that the message was delivered to.
         public let address: String?
         /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again. OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.    SUCCESSFUL - The message was successfully delivered to the endpoint. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
@@ -3642,6 +3705,7 @@ extension Pinpoint {
     }
 
     public struct EndpointRequest: AWSEncodableShape {
+
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address.
         public let address: String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values.
@@ -3695,6 +3759,7 @@ extension Pinpoint {
     }
 
     public struct EndpointResponse: AWSDecodableShape {
+
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For example, the address for a push-notification channel is typically the token provided by a push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. The address for the SMS channel is a phone number in E.164 format, such as +12065550100. The address for the email channel is an email address.
         public let address: String?
         /// The unique identifier for the application that's associated with the endpoint.
@@ -3764,6 +3829,7 @@ extension Pinpoint {
     }
 
     public struct EndpointSendConfiguration: AWSEncodableShape {
+
         /// The body of the message. If specified, this value overrides the default message body.
         public let bodyOverride: String?
         /// A map of custom attributes to attach to the message for the address. Attribute names are case sensitive. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
@@ -3793,6 +3859,7 @@ extension Pinpoint {
     }
 
     public struct EndpointUser: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more custom attributes that describe the user by associating a name with an array of values. For example, the value of an attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values.
         public let userAttributes: [String: [String]]?
         /// The unique identifier for the user.
@@ -3810,6 +3877,7 @@ extension Pinpoint {
     }
 
     public struct EndpointsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each endpoint that's associated with the user ID.
         public let item: [EndpointResponse]
 
@@ -3823,6 +3891,7 @@ extension Pinpoint {
     }
 
     public struct Event: AWSEncodableShape {
+
         /// The package name of the app that's recording the event.
         public let appPackageName: String?
         /// The title of the app that's recording the event.
@@ -3872,6 +3941,7 @@ extension Pinpoint {
     }
 
     public struct EventCondition: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimensions for the event filter to use for the activity.
         public let dimensions: EventDimensions?
         /// The message identifier (message_id) for the message to use when determining whether message events meet the condition.
@@ -3889,6 +3959,7 @@ extension Pinpoint {
     }
 
     public struct EventDimensions: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more custom attributes that your application reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create an event filter.
         public let attributes: [String: AttributeDimension]?
         /// The name of the event that causes the campaign to be sent or the journey activity to be performed. This can be a standard event that Amazon Pinpoint generates, such as _email.delivered. For campaigns, this can also be a custom event that's specific to your application. For information about standard events, see Streaming Amazon Pinpoint Events in the Amazon Pinpoint Developer Guide.
@@ -3910,6 +3981,7 @@ extension Pinpoint {
     }
 
     public struct EventFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimensions for the event filter to use for the campaign or the journey activity.
         public let dimensions: EventDimensions
         /// The type of event that causes the campaign to be sent or the journey activity to be performed. Valid values are: SYSTEM, sends the campaign or performs the activity when a system event occurs; and, ENDPOINT, sends the campaign or performs the activity when an endpoint event (Events resource) occurs.
@@ -3927,6 +3999,7 @@ extension Pinpoint {
     }
 
     public struct EventItemResponse: AWSDecodableShape {
+
         /// A custom message that's returned in the response as a result of processing the event.
         public let message: String?
         /// The status code that's returned in the response as a result of processing the event. Possible values are: 202, for events that were accepted; and, 400, for events that weren't valid.
@@ -3944,6 +4017,7 @@ extension Pinpoint {
     }
 
     public struct EventStartCondition: AWSEncodableShape & AWSDecodableShape {
+
         public let eventFilter: EventFilter?
         public let segmentId: String?
 
@@ -3959,6 +4033,7 @@ extension Pinpoint {
     }
 
     public struct EventStream: AWSDecodableShape {
+
         /// The unique identifier for the application to publish event data for.
         public let applicationId: String
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name
@@ -3993,6 +4068,7 @@ extension Pinpoint {
     }
 
     public struct EventsBatch: AWSEncodableShape {
+
         /// A set of properties and attributes that are associated with the endpoint.
         public let endpoint: PublicEndpoint
         /// A set of properties that are associated with the event.
@@ -4010,6 +4086,7 @@ extension Pinpoint {
     }
 
     public struct EventsRequest: AWSEncodableShape {
+
         /// The batch of events to process. For each item in a batch, the endpoint ID acts as a key that has an EventsBatch object as its value.
         public let batchItem: [String: EventsBatch]
 
@@ -4023,6 +4100,7 @@ extension Pinpoint {
     }
 
     public struct EventsResponse: AWSDecodableShape {
+
         /// A map that contains a multipart response for each endpoint. For each item in this object, the endpoint ID is the key and the item response is the value. If no item response exists, the value can also be one of the following: 202, the request was processed successfully; or 400, the payload wasn't valid or required fields were missing.
         public let results: [String: ItemResponse]?
 
@@ -4036,6 +4114,7 @@ extension Pinpoint {
     }
 
     public struct ExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint definitions to.
         public let roleArn: String
         /// The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where you want to export endpoint definitions to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/.
@@ -4061,6 +4140,7 @@ extension Pinpoint {
     }
 
     public struct ExportJobResource: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorized Amazon Pinpoint to access the Amazon S3 location where the endpoint definitions were exported to.
         public let roleArn: String
         /// The URL of the location in an Amazon Simple Storage Service (Amazon S3) bucket where the endpoint definitions were exported to. This location is typically a folder that contains multiple files. The URL should be in the following format: s3://bucket-name/folder-name/.
@@ -4086,6 +4166,7 @@ extension Pinpoint {
     }
 
     public struct ExportJobResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that's associated with the export job.
         public let applicationId: String
         /// The number of pieces that were processed successfully (completed) by the export job, as of the time of the request.
@@ -4147,6 +4228,7 @@ extension Pinpoint {
     }
 
     public struct ExportJobsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each export job that's associated with the application (Export Jobs resource) or segment (Segment Export Jobs resource).
         public let item: [ExportJobResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -4164,6 +4246,7 @@ extension Pinpoint {
     }
 
     public struct GCMChannelRequest: AWSEncodableShape {
+
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
         public let apiKey: String
         /// Specifies whether to enable the GCM channel for the application.
@@ -4181,6 +4264,7 @@ extension Pinpoint {
     }
 
     public struct GCMChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the GCM channel applies to.
         public let applicationId: String?
         /// The date and time when the GCM channel was enabled.
@@ -4234,6 +4318,7 @@ extension Pinpoint {
     }
 
     public struct GCMMessage: AWSEncodableShape {
+
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This action uses the deep-linking features of the Android platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message.
@@ -4311,6 +4396,7 @@ extension Pinpoint {
     }
 
     public struct GPSCoordinates: AWSEncodableShape & AWSDecodableShape {
+
         /// The latitude coordinate of the location.
         public let latitude: Double
         /// The longitude coordinate of the location.
@@ -4328,6 +4414,7 @@ extension Pinpoint {
     }
 
     public struct GPSPointDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The GPS coordinates to measure distance from.
         public let coordinates: GPSCoordinates
         /// The range, in kilometers, from the GPS coordinates.
@@ -4538,11 +4625,11 @@ extension Pinpoint {
 
     public struct GetApplicationDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
-            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")), 
+            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
         ]
 
@@ -4619,7 +4706,7 @@ extension Pinpoint {
 
     public struct GetAppsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -4686,9 +4773,9 @@ extension Pinpoint {
 
     public struct GetCampaignActivitiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -4727,12 +4814,12 @@ extension Pinpoint {
 
     public struct GetCampaignDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
-            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")), 
+            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
         ]
 
@@ -4779,7 +4866,7 @@ extension Pinpoint {
 
     public struct GetCampaignRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id"))
         ]
 
@@ -4814,8 +4901,8 @@ extension Pinpoint {
 
     public struct GetCampaignVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
         ]
 
@@ -4852,9 +4939,9 @@ extension Pinpoint {
 
     public struct GetCampaignVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -4893,8 +4980,8 @@ extension Pinpoint {
 
     public struct GetCampaignsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -4995,7 +5082,7 @@ extension Pinpoint {
 
     public struct GetEmailTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -5030,7 +5117,7 @@ extension Pinpoint {
 
     public struct GetEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id"))
         ]
 
@@ -5097,7 +5184,7 @@ extension Pinpoint {
 
     public struct GetExportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "job-id"))
         ]
 
@@ -5132,8 +5219,8 @@ extension Pinpoint {
 
     public struct GetExportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5202,7 +5289,7 @@ extension Pinpoint {
 
     public struct GetImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "job-id"))
         ]
 
@@ -5237,8 +5324,8 @@ extension Pinpoint {
 
     public struct GetImportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5275,12 +5362,12 @@ extension Pinpoint {
 
     public struct GetJourneyDateRangeKpiRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")),
-            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "end-time")), 
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
+            AWSMemberEncoding(label: "kpiName", location: .uri(locationName: "kpi-name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "start-time"))
         ]
 
@@ -5327,10 +5414,10 @@ extension Pinpoint {
 
     public struct GetJourneyExecutionActivityMetricsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "journeyActivityId", location: .uri(locationName: "journey-activity-id")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "journeyActivityId", location: .uri(locationName: "journey-activity-id")), 
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size"))
         ]
 
@@ -5371,9 +5458,9 @@ extension Pinpoint {
 
     public struct GetJourneyExecutionMetricsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size"))
         ]
 
@@ -5412,7 +5499,7 @@ extension Pinpoint {
 
     public struct GetJourneyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id"))
         ]
 
@@ -5447,7 +5534,7 @@ extension Pinpoint {
 
     public struct GetPushTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -5514,7 +5601,7 @@ extension Pinpoint {
 
     public struct GetRecommenderConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5549,9 +5636,9 @@ extension Pinpoint {
 
     public struct GetSegmentExportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5590,9 +5677,9 @@ extension Pinpoint {
 
     public struct GetSegmentImportJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5631,7 +5718,7 @@ extension Pinpoint {
 
     public struct GetSegmentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id"))
         ]
 
@@ -5666,8 +5753,8 @@ extension Pinpoint {
 
     public struct GetSegmentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
             AWSMemberEncoding(label: "version", location: .uri(locationName: "version"))
         ]
 
@@ -5704,9 +5791,9 @@ extension Pinpoint {
 
     public struct GetSegmentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5745,8 +5832,8 @@ extension Pinpoint {
 
     public struct GetSegmentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -5815,7 +5902,7 @@ extension Pinpoint {
 
     public struct GetSmsTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -5850,7 +5937,7 @@ extension Pinpoint {
 
     public struct GetUserEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "user-id"))
         ]
 
@@ -5917,7 +6004,7 @@ extension Pinpoint {
 
     public struct GetVoiceTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -5951,6 +6038,7 @@ extension Pinpoint {
     }
 
     public struct HoldoutActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the next activity to perform, after performing the holdout activity.
         public let nextActivity: String?
         /// The percentage of participants who shouldn't continue the journey. To determine which participants are held out, Amazon Pinpoint applies a probability-based algorithm to the percentage that you specify. Therefore, the actual percentage of participants who are held out may not be equal to the percentage that you specify.
@@ -5968,6 +6056,7 @@ extension Pinpoint {
     }
 
     public struct ImportJobRequest: AWSEncodableShape {
+
         /// Specifies whether to create a segment that contains the endpoints, when the endpoint definitions are imported.
         public let defineSegment: Bool?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -6009,6 +6098,7 @@ extension Pinpoint {
     }
 
     public struct ImportJobResource: AWSDecodableShape {
+
         /// Specifies whether the import job creates a segment that contains the endpoints, when the endpoint definitions are imported.
         public let defineSegment: Bool?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -6050,6 +6140,7 @@ extension Pinpoint {
     }
 
     public struct ImportJobResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that's associated with the import job.
         public let applicationId: String
         /// The number of pieces that were processed successfully (completed) by the import job, as of the time of the request.
@@ -6111,6 +6202,7 @@ extension Pinpoint {
     }
 
     public struct ImportJobsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each import job that's associated with the application (Import Jobs resource) or segment (Segment Import Jobs resource).
         public let item: [ImportJobResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -6128,6 +6220,7 @@ extension Pinpoint {
     }
 
     public struct ItemResponse: AWSDecodableShape {
+
         /// The response that was received after the endpoint data was accepted.
         public let endpointItemResponse: EndpointItemResponse?
         /// A multipart response object that contains a key and a value for each event in the request. In each object, the event ID is the key and an EventItemResponse object is the value.
@@ -6145,6 +6238,7 @@ extension Pinpoint {
     }
 
     public struct JourneyCustomMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The message content that's passed to an AWS Lambda function or to a web hook.
         public let data: String?
 
@@ -6158,6 +6252,7 @@ extension Pinpoint {
     }
 
     public struct JourneyDateRangeKpiResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the metric applies to.
         public let applicationId: String
         /// The last date and time of the date range that was used to filter the query results, in extended ISO 8601 format. The date range is inclusive.
@@ -6197,6 +6292,7 @@ extension Pinpoint {
     }
 
     public struct JourneyEmailMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The verified email address to send the email message from. The default address is the FromAddress specified for the email channel for the application.
         public let fromAddress: String?
 
@@ -6210,6 +6306,7 @@ extension Pinpoint {
     }
 
     public struct JourneyExecutionActivityMetricsResponse: AWSDecodableShape {
+
         /// The type of activity that the metric applies to. Possible values are: CONDITIONAL_SPLIT - For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey. HOLDOUT - For a holdout activity, which is an activity that stops a journey for a specified percentage of participants. MESSAGE - For an email activity, which is an activity that sends an email message to participants. MULTI_CONDITIONAL_SPLIT - For a multivariate split activity, which is an activity that sends participants down one of as many as five paths in a journey. RANDOM_SPLIT - For a random split activity, which is an activity that sends specified percentages of participants down one of as many as five paths in a journey. WAIT - For a wait activity, which is an activity that waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
         public let activityType: String
         /// The unique identifier for the application that the metric applies to.
@@ -6243,6 +6340,7 @@ extension Pinpoint {
     }
 
     public struct JourneyExecutionMetricsResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the metric applies to.
         public let applicationId: String
         /// The unique identifier for the journey that the metric applies to.
@@ -6268,6 +6366,7 @@ extension Pinpoint {
     }
 
     public struct JourneyLimits: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum number of messages that the journey can send to a single participant during a 24-hour period. The maximum value is 100.
         public let dailyCap: Int?
         /// The maximum number of times that a participant can enter the journey. The maximum value is 100. To allow participants to enter the journey an unlimited number of times, set this value to 0.
@@ -6292,6 +6391,7 @@ extension Pinpoint {
     }
 
     public struct JourneyPushMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of seconds that the push notification service should keep the message, if the service is unable to deliver the notification the first time. This value is converted to an expiration value when it's sent to a push-notification service. If this value is 0, the service treats the notification as if it expires immediately and the service doesn't store or try to deliver the notification again. This value doesn't apply to messages that are sent through the Amazon Device Messaging (ADM) service.
         public let timeToLive: String?
 
@@ -6305,6 +6405,7 @@ extension Pinpoint {
     }
 
     public struct JourneyResponse: AWSDecodableShape {
+
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity.
         public let activities: [String: Activity]?
         /// The unique identifier for the application that the journey applies to.
@@ -6369,11 +6470,12 @@ extension Pinpoint {
             case startActivity = "StartActivity"
             case startCondition = "StartCondition"
             case state = "State"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct JourneySMSMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
         public let entityId: String?
         /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
@@ -6403,6 +6505,7 @@ extension Pinpoint {
     }
 
     public struct JourneySchedule: AWSEncodableShape & AWSDecodableShape {
+
         /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
@@ -6431,6 +6534,7 @@ extension Pinpoint {
     }
 
     public struct JourneyStateRequest: AWSEncodableShape {
+
         /// The status of the journey. Currently, Supported values are ACTIVE, PAUSED, and CANCELLED If you cancel a journey, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Amazon Pinpoint also continues to collect and aggregate analytics data for those activities, until they are complete, and any activities that were complete when you cancelled the journey. After you cancel a journey, you can't add, change, or remove any activities from the journey. In addition, Amazon Pinpoint stops evaluating the journey and doesn't perform any activities that haven't started. When the journey is paused, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Endpoints will stop entering journeys when the journey is paused and will resume entering the journey after the journey is resumed. For wait activities, wait time is paused when the journey is paused. Currently, PAUSED only supports journeys with a segment refresh interval.
         public let state: State?
 
@@ -6444,6 +6548,7 @@ extension Pinpoint {
     }
 
     public struct JourneysResponse: AWSDecodableShape {
+
         /// An array of responses, one for each journey that's associated with the application.
         public let item: [JourneyResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -6462,8 +6567,8 @@ extension Pinpoint {
 
     public struct ListJourneysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
             AWSMemberEncoding(label: "token", location: .querystring(locationName: "token"))
         ]
 
@@ -6499,6 +6604,7 @@ extension Pinpoint {
     }
 
     public struct ListRecommenderConfigurationsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each recommender model configuration that's associated with your Amazon Pinpoint account.
         public let item: [RecommenderConfigurationResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -6549,9 +6655,9 @@ extension Pinpoint {
 
     public struct ListTemplateVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "templateType", location: .uri(locationName: "template-type"))
         ]
 
@@ -6590,9 +6696,9 @@ extension Pinpoint {
 
     public struct ListTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")),
-            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "page-size")), 
+            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
             AWSMemberEncoding(label: "templateType", location: .querystring(locationName: "template-type"))
         ]
 
@@ -6630,6 +6736,7 @@ extension Pinpoint {
     }
 
     public struct Message: AWSEncodableShape & AWSDecodableShape {
+
         /// The action to occur if a recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of iOS and Android. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The body of the notification message. The maximum number of characters is 200.
@@ -6687,6 +6794,7 @@ extension Pinpoint {
     }
 
     public struct MessageBody: AWSDecodableShape {
+
         /// The message that's returned from the API.
         public let message: String?
         /// The unique identifier for the request or response.
@@ -6704,6 +6812,7 @@ extension Pinpoint {
     }
 
     public struct MessageConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The message that the campaign sends through the ADM (Amazon Device Messaging) channel. If specified, this message overrides the default message.
         public let aDMMessage: Message?
         /// The message that the campaign sends through the APNs (Apple Push Notification service) channel. If specified, this message overrides the default message.
@@ -6745,6 +6854,7 @@ extension Pinpoint {
     }
 
     public struct MessageRequest: AWSEncodableShape {
+
         /// A map of key-value pairs, where each key is an address and each value is an AddressConfiguration object. An address can be a push notification token, a phone number, or an email address. You can use an AddressConfiguration object to tailor the message for an address by specifying settings such as content overrides and message variables.
         public let addresses: [String: AddressConfiguration]?
         /// A map of custom attributes to attach to the message. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
@@ -6778,6 +6888,7 @@ extension Pinpoint {
     }
 
     public struct MessageResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that was used to send the message.
         public let applicationId: String
         /// A map that contains a multipart response for each address that the message was sent to. In the map, the endpoint ID is the key and the result is the value.
@@ -6803,6 +6914,7 @@ extension Pinpoint {
     }
 
     public struct MessageResult: AWSDecodableShape {
+
         /// The delivery status of the message. Possible values are:  DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.   OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again. PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.   SUCCESSFUL - The message was successfully delivered to the endpoint address. TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again. THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address. TIMEOUT - The message couldn't be sent within the timeout period. UNKNOWN_FAILURE - An unknown error occurred.
         public let deliveryStatus: DeliveryStatus
         /// The unique identifier for the message that was sent.
@@ -6832,6 +6944,7 @@ extension Pinpoint {
     }
 
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The operator to use when comparing metric values. Valid values are: GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, and EQUAL.
         public let comparisonOperator: String
         /// The value to compare.
@@ -6849,6 +6962,7 @@ extension Pinpoint {
     }
 
     public struct MultiConditionalBranch: AWSEncodableShape & AWSDecodableShape {
+
         /// The condition to evaluate for the activity path.
         public let condition: SimpleCondition?
         /// The unique identifier for the next activity to perform, after completing the activity for the path.
@@ -6866,6 +6980,7 @@ extension Pinpoint {
     }
 
     public struct MultiConditionalSplitActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The paths for the activity, including the conditions for entering each path and the activity to perform for each path.
         public let branches: [MultiConditionalBranch]?
         /// The unique identifier for the activity to perform for participants who don't meet any of the conditions specified for other paths in the activity.
@@ -6887,6 +7002,7 @@ extension Pinpoint {
     }
 
     public struct NumberValidateRequest: AWSEncodableShape {
+
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally registered.
         public let isoCountryCode: String?
         /// The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error.
@@ -6904,6 +7020,7 @@ extension Pinpoint {
     }
 
     public struct NumberValidateResponse: AWSDecodableShape {
+
         /// The carrier or service provider that the phone number is currently registered with. In some countries and regions, this value may be the carrier or service provider that the phone number was originally registered with.
         public let carrier: String?
         /// The name of the city where the phone number was originally registered.
@@ -7006,6 +7123,7 @@ extension Pinpoint {
     }
 
     public struct PublicEndpoint: AWSEncodableShape {
+
         /// The unique identifier for the recipient, such as a device token, email address, or mobile phone number.
         public let address: String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. You can use these attributes as filter criteria when you create segments.
@@ -7059,6 +7177,7 @@ extension Pinpoint {
     }
 
     public struct PushMessageActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the time to live (TTL) value for push notifications that are sent to participants in a journey.
         public let messageConfig: JourneyPushMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
@@ -7084,6 +7203,7 @@ extension Pinpoint {
     }
 
     public struct PushNotificationTemplateRequest: AWSEncodableShape {
+
         /// The message template to use for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let adm: AndroidPushNotificationTemplate?
         /// The message template to use for the APNs (Apple Push Notification service) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
@@ -7123,12 +7243,13 @@ extension Pinpoint {
             case defaultSubstitutions = "DefaultSubstitutions"
             case gcm = "GCM"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
         }
     }
 
     public struct PushNotificationTemplateResponse: AWSDecodableShape {
+
         /// The message template that's used for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public let adm: AndroidPushNotificationTemplate?
         /// The message template that's used for the APNs (Apple Push Notification service) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
@@ -7189,7 +7310,7 @@ extension Pinpoint {
             case gcm = "GCM"
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -7201,7 +7322,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeEventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "writeEventStream", location: .body(locationName: "WriteEventStream"))
         ]
 
@@ -7240,7 +7361,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "eventsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "eventsRequest", location: .body(locationName: "EventsRequest"))
         ]
 
@@ -7276,6 +7397,7 @@ extension Pinpoint {
     }
 
     public struct QuietTime: AWSEncodableShape & AWSDecodableShape {
+
         /// The specific time when quiet time ends. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
         public let end: String?
         /// The specific time when quiet time begins. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
@@ -7293,6 +7415,7 @@ extension Pinpoint {
     }
 
     public struct RandomSplitActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The paths for the activity, including the percentage of participants to enter each path and the activity to perform for each path.
         public let branches: [RandomSplitEntry]?
 
@@ -7306,6 +7429,7 @@ extension Pinpoint {
     }
 
     public struct RandomSplitEntry: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the next activity to perform, after completing the activity for the path.
         public let nextActivity: String?
         /// The percentage of participants to send down the activity path. To determine which participants are sent down each path, Amazon Pinpoint applies a probability-based algorithm to the percentages that you specify for the paths. Therefore, the actual percentage of participants who are sent down a path may not be equal to the percentage that you specify.
@@ -7323,6 +7447,7 @@ extension Pinpoint {
     }
 
     public struct RawEmail: AWSEncodableShape {
+
         /// The email message, represented as a raw MIME message. The entire message must be base64 encoded.
         public let data: Data?
 
@@ -7336,6 +7461,7 @@ extension Pinpoint {
     }
 
     public struct RecencyDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The duration to use when determining whether an endpoint is active or inactive.
         public let duration: Duration
         /// The type of recency dimension to use for the segment. Valid values are: ACTIVE, endpoints that were active within the specified duration are included in the segment; and, INACTIVE, endpoints that weren't active within the specified duration are included in the segment.
@@ -7353,6 +7479,7 @@ extension Pinpoint {
     }
 
     public struct RecommenderConfigurationResponse: AWSDecodableShape {
+
         /// A map that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. This value is null if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public let attributes: [String: String]?
         /// The date, in extended ISO 8601 format, when the configuration was created for the recommender model.
@@ -7413,8 +7540,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "updateAttributesRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "attributeType", location: .uri(locationName: "attribute-type")), 
             AWSMemberEncoding(label: "updateAttributesRequest", location: .body(locationName: "UpdateAttributesRequest"))
         ]
 
@@ -7452,6 +7579,7 @@ extension Pinpoint {
     }
 
     public struct ResultRow: AWSDecodableShape {
+
         /// An array of objects that defines the field and field values that were used to group data in a result set that contains multiple results. This value is null if the data in a result set isn’t grouped.
         public let groupedBys: [ResultRowValue]
         /// An array of objects that provides pre-aggregated values for a standard metric that applies to an application, campaign, or journey.
@@ -7469,6 +7597,7 @@ extension Pinpoint {
     }
 
     public struct ResultRowValue: AWSDecodableShape {
+
         /// The friendly name of the metric whose value is specified by the Value property.
         public let key: String
         /// The data type of the value specified by the Value property.
@@ -7490,6 +7619,7 @@ extension Pinpoint {
     }
 
     public struct SMSChannelRequest: AWSEncodableShape {
+
         /// Specifies whether to enable the SMS channel for the application.
         public let enabled: Bool?
         /// The identity that you want to display on recipients' devices when they receive messages from the SMS channel.
@@ -7511,6 +7641,7 @@ extension Pinpoint {
     }
 
     public struct SMSChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the SMS channel applies to.
         public let applicationId: String?
         /// The date and time, in ISO 8601 format, when the SMS channel was enabled.
@@ -7576,6 +7707,7 @@ extension Pinpoint {
     }
 
     public struct SMSMessage: AWSEncodableShape {
+
         /// The body of the SMS message.
         public let body: String?
         /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
@@ -7621,6 +7753,7 @@ extension Pinpoint {
     }
 
     public struct SMSMessageActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the sender ID and message type for an SMS message that's sent to participants in a journey.
         public let messageConfig: JourneySMSMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
@@ -7646,6 +7779,7 @@ extension Pinpoint {
     }
 
     public struct SMSTemplateRequest: AWSEncodableShape {
+
         /// The message body to use in text messages that are based on the message template.
         public let body: String?
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
@@ -7669,12 +7803,13 @@ extension Pinpoint {
             case body = "Body"
             case defaultSubstitutions = "DefaultSubstitutions"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
         }
     }
 
     public struct SMSTemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The message body that's used in text messages that are based on the message template.
@@ -7719,7 +7854,7 @@ extension Pinpoint {
             case defaultSubstitutions = "DefaultSubstitutions"
             case lastModifiedDate = "LastModifiedDate"
             case recommenderId = "RecommenderId"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -7728,6 +7863,7 @@ extension Pinpoint {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
+
         /// The scheduled time, in ISO 8601 format, when the campaign ended or will end.
         public let endTime: String?
         /// The type of event that causes the campaign to be sent, if the value of the Frequency property is EVENT.
@@ -7768,6 +7904,7 @@ extension Pinpoint {
     }
 
     public struct SegmentBehaviors: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimension settings that are based on how recently an endpoint was active.
         public let recency: RecencyDimension?
 
@@ -7781,6 +7918,7 @@ extension Pinpoint {
     }
 
     public struct SegmentCondition: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the segment to associate with the activity.
         public let segmentId: String
 
@@ -7794,6 +7932,7 @@ extension Pinpoint {
     }
 
     public struct SegmentDemographics: AWSEncodableShape & AWSDecodableShape {
+
         /// The app version criteria for the segment.
         public let appVersion: SetDimension?
         /// The channel criteria for the segment.
@@ -7827,6 +7966,7 @@ extension Pinpoint {
     }
 
     public struct SegmentDimensions: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more custom attributes to use as criteria for the segment.
         public let attributes: [String: AttributeDimension]?
         /// The behavior-based criteria, such as how recently users have used your app, for the segment.
@@ -7860,6 +8000,7 @@ extension Pinpoint {
     }
 
     public struct SegmentGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// An array that defines the dimensions for the segment.
         public let dimensions: [SegmentDimensions]?
         /// The base segment to build the segment on. A base segment, also referred to as a source segment, defines the initial population of endpoints for a segment. When you add dimensions to a segment, Amazon Pinpoint filters the base segment by using the dimensions that you specify. You can specify more than one dimensional segment or only one imported segment. If you specify an imported segment, the Amazon Pinpoint console displays a segment size estimate that indicates the size of the imported segment without any filters applied to it.
@@ -7885,6 +8026,7 @@ extension Pinpoint {
     }
 
     public struct SegmentGroupList: AWSEncodableShape & AWSDecodableShape {
+
         /// An array that defines the set of segment criteria to evaluate when handling segment groups for the segment.
         public let groups: [SegmentGroup]?
         /// Specifies how to handle multiple segment groups for the segment. For example, if the segment includes three segment groups, whether the resulting segment includes endpoints that match all, any, or none of the segment groups.
@@ -7902,6 +8044,7 @@ extension Pinpoint {
     }
 
     public struct SegmentImportResource: AWSDecodableShape {
+
         /// The number of channel types in the endpoint definitions that were imported to create the segment.
         public let channelCounts: [String: Int]?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -7935,6 +8078,7 @@ extension Pinpoint {
     }
 
     public struct SegmentLocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The country or region code, in ISO 3166-1 alpha-2 format, for the segment.
         public let country: SetDimension?
         /// The GPS location and range for the segment.
@@ -7952,6 +8096,7 @@ extension Pinpoint {
     }
 
     public struct SegmentReference: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the segment.
         public let id: String
         /// The version number of the segment.
@@ -7969,6 +8114,7 @@ extension Pinpoint {
     }
 
     public struct SegmentResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the segment is associated with.
         public let applicationId: String
         /// The Amazon Resource Name (ARN) of the segment.
@@ -8020,12 +8166,13 @@ extension Pinpoint {
             case name = "Name"
             case segmentGroups = "SegmentGroups"
             case segmentType = "SegmentType"
-            case tags
+            case tags = "tags"
             case version = "Version"
         }
     }
 
     public struct SegmentsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each segment that's associated with the application (Segments resource) or each version of a segment that's associated with the application (Segment Versions resource).
         public let item: [SegmentResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -8046,7 +8193,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "messageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "messageRequest", location: .body(locationName: "MessageRequest"))
         ]
 
@@ -8082,6 +8229,7 @@ extension Pinpoint {
     }
 
     public struct SendUsersMessageRequest: AWSEncodableShape {
+
         /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public let context: [String: String]?
         /// The settings and content for the default message and any default messages that you defined for specific channels.
@@ -8111,6 +8259,7 @@ extension Pinpoint {
     }
 
     public struct SendUsersMessageResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that was used to send the message.
         public let applicationId: String
         /// The unique identifier that was assigned to the message request.
@@ -8135,7 +8284,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sendUsersMessageRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "sendUsersMessageRequest", location: .body(locationName: "SendUsersMessageRequest"))
         ]
 
@@ -8171,6 +8320,7 @@ extension Pinpoint {
     }
 
     public struct Session: AWSEncodableShape {
+
         /// The duration of the session, in milliseconds.
         public let duration: Int?
         /// The unique identifier for the session.
@@ -8196,6 +8346,7 @@ extension Pinpoint {
     }
 
     public struct SetDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of segment dimension to use. Valid values are: INCLUSIVE, endpoints that match the criteria are included in the segment; and, EXCLUSIVE, endpoints that match the criteria are excluded from the segment.
         public let dimensionType: DimensionType?
         /// The criteria values to use for the segment dimension. Depending on the value of the DimensionType property, endpoints are included or excluded from the segment if their values match the criteria values.
@@ -8213,6 +8364,7 @@ extension Pinpoint {
     }
 
     public struct SimpleCondition: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimension settings for the event that's associated with the activity.
         public let eventCondition: EventCondition?
         /// The segment that's associated with the activity.
@@ -8229,11 +8381,12 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case eventCondition = "EventCondition"
             case segmentCondition = "SegmentCondition"
-            case segmentDimensions
+            case segmentDimensions = "segmentDimensions"
         }
     }
 
     public struct SimpleEmail: AWSEncodableShape {
+
         /// The body of the email message, in HTML format. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public let htmlPart: SimpleEmailPart?
         /// The subject line, or title, of the email.
@@ -8255,6 +8408,7 @@ extension Pinpoint {
     }
 
     public struct SimpleEmailPart: AWSEncodableShape {
+
         /// The applicable character set for the message content.
         public let charset: String?
         /// The textual data of the message content.
@@ -8272,6 +8426,7 @@ extension Pinpoint {
     }
 
     public struct StartCondition: AWSEncodableShape & AWSDecodableShape {
+
         /// The custom description of the condition.
         public let description: String?
         public let eventStartCondition: EventStartCondition?
@@ -8295,7 +8450,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "tagsModel"
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagsModel", location: .body(locationName: "TagsModel"))
         ]
 
@@ -8313,6 +8468,7 @@ extension Pinpoint {
     }
 
     public struct TagsModel: AWSEncodableShape & AWSDecodableShape {
+
         /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, message template, or segment. Each of these resources can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]
 
@@ -8321,11 +8477,12 @@ extension Pinpoint {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Template: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the message template to use for the message. If specified, this value must match the name of an existing message template.
         public let name: String?
         /// The unique identifier for the version of the message template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
@@ -8343,6 +8500,7 @@ extension Pinpoint {
     }
 
     public struct TemplateActiveVersionRequest: AWSEncodableShape {
+
         /// The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any existing version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource.
         public let version: String?
 
@@ -8356,6 +8514,7 @@ extension Pinpoint {
     }
 
     public struct TemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The email template to use for the message.
         public let emailTemplate: Template?
         /// The push notification template to use for the message.
@@ -8381,6 +8540,7 @@ extension Pinpoint {
     }
 
     public struct TemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the message template. This value isn't included in a TemplateResponse object. To retrieve the ARN of a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the ARN for.
         public let arn: String?
         /// The date, in ISO 8601 format, when the message template was created.
@@ -8417,7 +8577,7 @@ extension Pinpoint {
             case creationDate = "CreationDate"
             case defaultSubstitutions = "DefaultSubstitutions"
             case lastModifiedDate = "LastModifiedDate"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -8426,6 +8586,7 @@ extension Pinpoint {
     }
 
     public struct TemplateVersionResponse: AWSDecodableShape {
+
         /// The date, in ISO 8601 format, when the version of the message template was created.
         public let creationDate: String
         /// A JSON object that specifies the default values that are used for message variables in the version of the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable.
@@ -8463,6 +8624,7 @@ extension Pinpoint {
     }
 
     public struct TemplateVersionsResponse: AWSDecodableShape {
+
         /// An array of responses, one for each version of the message template.
         public let item: [TemplateVersionResponse]
         /// The message that's returned from the API for the request to retrieve information about all the versions of the message template.
@@ -8488,6 +8650,7 @@ extension Pinpoint {
     }
 
     public struct TemplatesResponse: AWSDecodableShape {
+
         /// An array of responses, one for each message template that's associated with your Amazon Pinpoint account and meets any filter criteria that you specified in the request.
         public let item: [TemplateResponse]
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -8505,6 +8668,7 @@ extension Pinpoint {
     }
 
     public struct TreatmentResource: AWSDecodableShape {
+
         /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
         public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// The unique identifier for the treatment.
@@ -8551,7 +8715,7 @@ extension Pinpoint {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -8570,7 +8734,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aDMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelRequest", location: .body(locationName: "ADMChannelRequest")),
+            AWSMemberEncoding(label: "aDMChannelRequest", location: .body(locationName: "ADMChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8609,7 +8773,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body(locationName: "APNSChannelRequest")),
+            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body(locationName: "APNSChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8648,7 +8812,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body(locationName: "APNSSandboxChannelRequest")),
+            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body(locationName: "APNSSandboxChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8687,7 +8851,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body(locationName: "APNSVoipChannelRequest")),
+            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body(locationName: "APNSVoipChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8726,7 +8890,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "aPNSVoipSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body(locationName: "APNSVoipSandboxChannelRequest")),
+            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body(locationName: "APNSVoipSandboxChannelRequest")), 
             AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id"))
         ]
 
@@ -8765,7 +8929,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeApplicationSettingsRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "writeApplicationSettingsRequest", location: .body(locationName: "WriteApplicationSettingsRequest"))
         ]
 
@@ -8801,6 +8965,7 @@ extension Pinpoint {
     }
 
     public struct UpdateAttributesRequest: AWSEncodableShape {
+
         /// An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can specify a glob pattern that an attribute name must match in order for the attribute to be removed.
         public let blacklist: [String]?
 
@@ -8817,7 +8982,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "baiduChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "baiduChannelRequest", location: .body(locationName: "BaiduChannelRequest"))
         ]
 
@@ -8856,8 +9021,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeCampaignRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "campaignId", location: .uri(locationName: "campaign-id")), 
             AWSMemberEncoding(label: "writeCampaignRequest", location: .body(locationName: "WriteCampaignRequest"))
         ]
 
@@ -8898,7 +9063,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "emailChannelRequest", location: .body(locationName: "EmailChannelRequest"))
         ]
 
@@ -8937,9 +9102,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "emailTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "emailTemplateRequest", location: .body(locationName: "EmailTemplateRequest")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -8982,8 +9147,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "endpointId", location: .uri(locationName: "endpoint-id")), 
             AWSMemberEncoding(label: "endpointRequest", location: .body(locationName: "EndpointRequest"))
         ]
 
@@ -9024,7 +9189,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "endpointBatchRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "endpointBatchRequest", location: .body(locationName: "EndpointBatchRequest"))
         ]
 
@@ -9063,7 +9228,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "gCMChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "gCMChannelRequest", location: .body(locationName: "GCMChannelRequest"))
         ]
 
@@ -9102,8 +9267,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeJourneyRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
             AWSMemberEncoding(label: "writeJourneyRequest", location: .body(locationName: "WriteJourneyRequest"))
         ]
 
@@ -9144,8 +9309,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "journeyStateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "journeyId", location: .uri(locationName: "journey-id")), 
             AWSMemberEncoding(label: "journeyStateRequest", location: .body(locationName: "JourneyStateRequest"))
         ]
 
@@ -9186,9 +9351,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "pushNotificationTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body(locationName: "PushNotificationTemplateRequest")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -9228,6 +9393,7 @@ extension Pinpoint {
     }
 
     public struct UpdateRecommenderConfiguration: AWSEncodableShape {
+
         /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names: An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique. An attribute display name must start with a letter or number and it can contain up to 25 characters. The characters can be letters, numbers, spaces, underscores (_), or hyphens (-). This object is required if the configuration invokes an AWS Lambda function (RecommendationTransformerUri) to process recommendation data. Otherwise, don't include this object in your request.
         public let attributes: [String: String]?
         /// A custom description of the configuration for the recommender model. The description can contain up to 128 characters. The characters can be letters, numbers, spaces, or the following symbols: _ ; () , ‐.
@@ -9276,7 +9442,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "updateRecommenderConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "recommender-id")),
+            AWSMemberEncoding(label: "recommenderId", location: .uri(locationName: "recommender-id")), 
             AWSMemberEncoding(label: "updateRecommenderConfiguration", location: .body(locationName: "UpdateRecommenderConfiguration"))
         ]
 
@@ -9315,8 +9481,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "writeSegmentRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
-            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
+            AWSMemberEncoding(label: "segmentId", location: .uri(locationName: "segment-id")), 
             AWSMemberEncoding(label: "writeSegmentRequest", location: .body(locationName: "WriteSegmentRequest"))
         ]
 
@@ -9357,7 +9523,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "sMSChannelRequest", location: .body(locationName: "SMSChannelRequest"))
         ]
 
@@ -9396,9 +9562,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "sMSTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body(locationName: "SMSTemplateRequest")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "version", location: .querystring(locationName: "version"))
         ]
 
@@ -9441,8 +9607,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "templateActiveVersionRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body(locationName: "TemplateActiveVersionRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
+            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body(locationName: "TemplateActiveVersionRequest")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
             AWSMemberEncoding(label: "templateType", location: .uri(locationName: "template-type"))
         ]
 
@@ -9483,7 +9649,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")), 
             AWSMemberEncoding(label: "voiceChannelRequest", location: .body(locationName: "VoiceChannelRequest"))
         ]
 
@@ -9522,9 +9688,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let _payloadPath: String = "voiceTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")),
-            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")),
-            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version")),
+            AWSMemberEncoding(label: "createNewVersion", location: .querystring(locationName: "create-new-version")), 
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "template-name")), 
+            AWSMemberEncoding(label: "version", location: .querystring(locationName: "version")), 
             AWSMemberEncoding(label: "voiceTemplateRequest", location: .body(locationName: "VoiceTemplateRequest"))
         ]
 
@@ -9564,6 +9730,7 @@ extension Pinpoint {
     }
 
     public struct VoiceChannelRequest: AWSEncodableShape {
+
         /// Specifies whether to enable the voice channel for the application.
         public let enabled: Bool?
 
@@ -9577,6 +9744,7 @@ extension Pinpoint {
     }
 
     public struct VoiceChannelResponse: AWSDecodableShape {
+
         /// The unique identifier for the application that the voice channel applies to.
         public let applicationId: String?
         /// The date and time, in ISO 8601 format, when the voice channel was enabled.
@@ -9626,6 +9794,7 @@ extension Pinpoint {
     }
 
     public struct VoiceMessage: AWSEncodableShape {
+
         /// The text of the script to use for the voice message.
         public let body: String?
         /// The code for the language to use when synthesizing the text of the message script. For a list of supported languages and the code for each one, see the Amazon Polly Developer Guide.
@@ -9655,6 +9824,7 @@ extension Pinpoint {
     }
 
     public struct VoiceTemplateRequest: AWSEncodableShape {
+
         /// The text of the script to use in messages that are based on the message template, in plain text format.
         public let body: String?
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
@@ -9681,13 +9851,14 @@ extension Pinpoint {
             case body = "Body"
             case defaultSubstitutions = "DefaultSubstitutions"
             case languageCode = "LanguageCode"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case voiceId = "VoiceId"
         }
     }
 
     public struct VoiceTemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the message template.
         public let arn: String?
         /// The text of the script that's used in messages that are based on the message template, in plain text format.
@@ -9735,7 +9906,7 @@ extension Pinpoint {
             case defaultSubstitutions = "DefaultSubstitutions"
             case languageCode = "LanguageCode"
             case lastModifiedDate = "LastModifiedDate"
-            case tags
+            case tags = "tags"
             case templateDescription = "TemplateDescription"
             case templateName = "TemplateName"
             case templateType = "TemplateType"
@@ -9745,6 +9916,7 @@ extension Pinpoint {
     }
 
     public struct WaitActivity: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the next activity to perform, after performing the wait activity.
         public let nextActivity: String?
         /// The amount of time to wait or the date and time when the activity moves participants to the next activity in the journey.
@@ -9762,6 +9934,7 @@ extension Pinpoint {
     }
 
     public struct WaitTime: AWSEncodableShape & AWSDecodableShape {
+
         /// The amount of time to wait, as a duration in ISO 8601 format, before determining whether the activity's conditions have been met or moving participants to the next activity in the journey.
         public let waitFor: String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint determines whether the activity's conditions have been met or the activity moves participants to the next activity in the journey.
@@ -9779,6 +9952,7 @@ extension Pinpoint {
     }
 
     public struct WriteApplicationSettingsRequest: AWSEncodableShape {
+
         /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application. To override these settings and define custom settings for a specific campaign, use the CampaignHook object of the Campaign resource.
         public let campaignHook: CampaignHook?
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
@@ -9804,6 +9978,7 @@ extension Pinpoint {
     }
 
     public struct WriteCampaignRequest: AWSEncodableShape {
+
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public let additionalTreatments: [WriteTreatmentResource]?
         /// The delivery configuration settings for sending the campaign through a custom channel. This object is required if the MessageConfiguration object for the campaign specifies a CustomMessage object.
@@ -9869,7 +10044,7 @@ extension Pinpoint {
             case schedule = "Schedule"
             case segmentId = "SegmentId"
             case segmentVersion = "SegmentVersion"
-            case tags
+            case tags = "tags"
             case templateConfiguration = "TemplateConfiguration"
             case treatmentDescription = "TreatmentDescription"
             case treatmentName = "TreatmentName"
@@ -9877,6 +10052,7 @@ extension Pinpoint {
     }
 
     public struct WriteEventStream: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name
         ///                 For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name
         public let destinationStreamArn: String
@@ -9895,6 +10071,7 @@ extension Pinpoint {
     }
 
     public struct WriteJourneyRequest: AWSEncodableShape {
+
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity. An activity identifier can contain a maximum of 100 characters. The characters must be alphanumeric characters.
         public let activities: [String: Activity]?
         /// The date, in ISO 8601 format, when the journey was created.
@@ -9958,6 +10135,7 @@ extension Pinpoint {
     }
 
     public struct WriteSegmentRequest: AWSEncodableShape {
+
         /// The criteria that define the dimensions for the segment.
         public let dimensions: SegmentDimensions?
         /// The name of the segment.
@@ -9978,11 +10156,12 @@ extension Pinpoint {
             case dimensions = "Dimensions"
             case name = "Name"
             case segmentGroups = "SegmentGroups"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct WriteTreatmentResource: AWSEncodableShape {
+
         /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
         public let customDeliveryConfiguration: CustomDeliveryConfiguration?
         /// The message configuration settings for the treatment.

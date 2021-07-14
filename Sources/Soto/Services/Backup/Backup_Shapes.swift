@@ -91,6 +91,7 @@ extension Backup {
     // MARK: Shapes
 
     public struct AdvancedBackupSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a VSS Windows backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
         public let backupOptions: [String: String]?
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows VSS. For an CloudFormation example, see the sample CloudFormation template to enable Windows VSS in the AWS Backup User Guide. Valid values: EC2.
@@ -116,6 +117,7 @@ extension Backup {
     }
 
     public struct BackupJob: AWSDecodableShape {
+
         /// The account ID that owns the backup job.
         public let accountId: String?
         /// Uniquely identifies a request to AWS Backup to back up a resource.
@@ -205,6 +207,7 @@ extension Backup {
     }
 
     public struct BackupPlan: AWSDecodableShape {
+
         /// Contains a list of BackupOptions for each resource type.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// The display name of a backup plan.
@@ -226,6 +229,7 @@ extension Backup {
     }
 
     public struct BackupPlanInput: AWSEncodableShape {
+
         /// Specifies a list of BackupOptions for each resource type. These settings are only available for Windows VSS backup jobs.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// The optional display name of a backup plan.
@@ -256,6 +260,7 @@ extension Backup {
     }
 
     public struct BackupPlanTemplatesListMember: AWSDecodableShape {
+
         /// Uniquely identifies a stored backup plan template.
         public let backupPlanTemplateId: String?
         /// The optional display name of a backup plan template.
@@ -273,6 +278,7 @@ extension Backup {
     }
 
     public struct BackupPlansListMember: AWSDecodableShape {
+
         /// Contains a list of BackupOptions for a resource type.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -318,6 +324,7 @@ extension Backup {
     }
 
     public struct BackupRule: AWSDecodableShape {
+
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
@@ -367,6 +374,7 @@ extension Backup {
     }
 
     public struct BackupRuleInput: AWSEncodableShape {
+
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
         public let completionWindowMinutes: Int64?
         /// An array of CopyAction objects, which contains the details of the copy operation.
@@ -417,6 +425,7 @@ extension Backup {
     }
 
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the IAM role that AWS Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting". Assigns the backup plan to every resource with at least one matching tag.
@@ -446,6 +455,7 @@ extension Backup {
     }
 
     public struct BackupSelectionsListMember: AWSDecodableShape {
+
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -479,6 +489,7 @@ extension Backup {
     }
 
     public struct BackupVaultListMember: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -512,6 +523,7 @@ extension Backup {
     }
 
     public struct CalculatedLifecycle: AWSDecodableShape {
+
         /// A timestamp that specifies when to delete a recovery point.
         public let deleteAt: Date?
         /// A timestamp that specifies when to transition a recovery point to cold storage.
@@ -529,6 +541,7 @@ extension Backup {
     }
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
+
         /// The key in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "ec2:ResourceTag/Department" is the key.
         public let conditionKey: String
         /// An operation, such as StringEquals, that is applied to a key-value pair used to filter resources in a selection.
@@ -550,6 +563,7 @@ extension Backup {
     }
 
     public struct CopyAction: AWSEncodableShape & AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies the destination backup vault for the copied backup. For example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String
         public let lifecycle: Lifecycle?
@@ -566,6 +580,7 @@ extension Backup {
     }
 
     public struct CopyJob: AWSDecodableShape {
+
         /// The account ID that owns the copy job.
         public let accountId: String?
         /// The size, in bytes, of a copy job.
@@ -634,6 +649,7 @@ extension Backup {
     }
 
     public struct CreateBackupPlanInput: AWSEncodableShape {
+
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlanInput
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair. The specified tags are assigned to all backups created with this plan.
@@ -659,6 +675,7 @@ extension Backup {
     }
 
     public struct CreateBackupPlanOutput: AWSDecodableShape {
+
         /// A list of BackupOptions settings for a resource type. This option is only available for Windows VSS backup jobs.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -716,6 +733,7 @@ extension Backup {
     }
 
     public struct CreateBackupSelectionOutput: AWSDecodableShape {
+
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -769,6 +787,7 @@ extension Backup {
     }
 
     public struct CreateBackupVaultOutput: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -805,6 +824,7 @@ extension Backup {
     }
 
     public struct DeleteBackupPlanOutput: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
@@ -831,7 +851,7 @@ extension Backup {
 
     public struct DeleteBackupSelectionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")),
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
             AWSMemberEncoding(label: "selectionId", location: .uri(locationName: "selectionId"))
         ]
 
@@ -903,7 +923,7 @@ extension Backup {
 
     public struct DeleteRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
@@ -940,6 +960,7 @@ extension Backup {
     }
 
     public struct DescribeBackupJobOutput: AWSDecodableShape {
+
         /// Returns the account ID that owns the backup job.
         public let accountId: String?
         /// Uniquely identifies a request to AWS Backup to back up a resource.
@@ -1044,6 +1065,7 @@ extension Backup {
     }
 
     public struct DescribeBackupVaultOutput: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1092,6 +1114,7 @@ extension Backup {
     }
 
     public struct DescribeCopyJobOutput: AWSDecodableShape {
+
         /// Contains detailed information about a copy job.
         public let copyJob: CopyJob?
 
@@ -1105,10 +1128,15 @@ extension Backup {
     }
 
     public struct DescribeGlobalSettingsInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
+
         /// A list of resources along with the opt-in preferences for the account.
         public let globalSettings: [String: String]?
         /// The date and time that the global settings were last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -1141,6 +1169,7 @@ extension Backup {
     }
 
     public struct DescribeProtectedResourceOutput: AWSDecodableShape {
+
         /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastBackupTime: Date?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -1163,7 +1192,7 @@ extension Backup {
 
     public struct DescribeRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
@@ -1185,6 +1214,7 @@ extension Backup {
     }
 
     public struct DescribeRecoveryPointOutput: AWSDecodableShape {
+
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -1266,10 +1296,15 @@ extension Backup {
     }
 
     public struct DescribeRegionSettingsInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeRegionSettingsOutput: AWSDecodableShape {
+
         /// Returns a list of all services along with the opt-in preferences in the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 
@@ -1298,6 +1333,7 @@ extension Backup {
     }
 
     public struct DescribeRestoreJobOutput: AWSDecodableShape {
+
         /// Returns the account ID that owns the restore job.
         public let accountId: String?
         /// The size, in bytes, of the restored resource.
@@ -1360,7 +1396,7 @@ extension Backup {
 
     public struct DisassociateRecoveryPointInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
@@ -1397,6 +1433,7 @@ extension Backup {
     }
 
     public struct ExportBackupPlanTemplateOutput: AWSDecodableShape {
+
         /// The body of a backup plan template in JSON format.  This is a signed JSON document that cannot be modified before being passed to GetBackupPlanFromJSON.
         public let backupPlanTemplateJson: String?
 
@@ -1410,6 +1447,7 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromJSONInput: AWSEncodableShape {
+
         /// A customer-supplied backup plan document in JSON format.
         public let backupPlanTemplateJson: String
 
@@ -1423,6 +1461,7 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromJSONOutput: AWSDecodableShape {
+
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlan?
 
@@ -1451,6 +1490,7 @@ extension Backup {
     }
 
     public struct GetBackupPlanFromTemplateOutput: AWSDecodableShape {
+
         /// Returns the body of a backup plan based on the target template, including the name, rules, and backup vault of the plan.
         public let backupPlanDocument: BackupPlan?
 
@@ -1465,7 +1505,7 @@ extension Backup {
 
     public struct GetBackupPlanInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")),
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -1483,6 +1523,7 @@ extension Backup {
     }
 
     public struct GetBackupPlanOutput: AWSDecodableShape {
+
         /// Contains a list of BackupOptions for each resource type. The list is populated only if the advanced option is set for the backup plan.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
@@ -1529,7 +1570,7 @@ extension Backup {
 
     public struct GetBackupSelectionInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")),
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
             AWSMemberEncoding(label: "selectionId", location: .uri(locationName: "selectionId"))
         ]
 
@@ -1547,6 +1588,7 @@ extension Backup {
     }
 
     public struct GetBackupSelectionOutput: AWSDecodableShape {
+
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String?
         /// Specifies the body of a request to assign a set of resources to a backup plan.
@@ -1595,6 +1637,7 @@ extension Backup {
     }
 
     public struct GetBackupVaultAccessPolicyOutput: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1635,6 +1678,7 @@ extension Backup {
     }
 
     public struct GetBackupVaultNotificationsOutput: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// An array of events that indicate the status of jobs to back up resources to the backup vault.
@@ -1661,7 +1705,7 @@ extension Backup {
 
     public struct GetRecoveryPointRestoreMetadataInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
@@ -1683,6 +1727,7 @@ extension Backup {
     }
 
     public struct GetRecoveryPointRestoreMetadataOutput: AWSDecodableShape {
+
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -1704,6 +1749,7 @@ extension Backup {
     }
 
     public struct GetSupportedResourceTypesOutput: AWSDecodableShape {
+
         /// Contains a string with the supported AWS resource types:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway
         public let resourceTypes: [String]?
 
@@ -1717,6 +1763,7 @@ extension Backup {
     }
 
     public struct Lifecycle: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the number of days after creation that a recovery point is deleted. Must be greater than 90 days plus MoveToColdStorageAfterDays.
         public let deleteAfterDays: Int64?
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
@@ -1735,14 +1782,14 @@ extension Backup {
 
     public struct ListBackupJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")),
-            AWSMemberEncoding(label: "byBackupVaultName", location: .querystring(locationName: "backupVaultName")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")), 
+            AWSMemberEncoding(label: "byBackupVaultName", location: .querystring(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1789,6 +1836,7 @@ extension Backup {
     }
 
     public struct ListBackupJobsOutput: AWSDecodableShape {
+
         /// An array of structures containing metadata about your backup jobs returned in JSON format.
         public let backupJobs: [BackupJob]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -1807,7 +1855,7 @@ extension Backup {
 
     public struct ListBackupPlanTemplatesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1830,6 +1878,7 @@ extension Backup {
     }
 
     public struct ListBackupPlanTemplatesOutput: AWSDecodableShape {
+
         /// An array of template list items containing metadata about your saved templates.
         public let backupPlanTemplatesList: [BackupPlanTemplatesListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -1848,8 +1897,8 @@ extension Backup {
 
     public struct ListBackupPlanVersionsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1875,6 +1924,7 @@ extension Backup {
     }
 
     public struct ListBackupPlanVersionsOutput: AWSDecodableShape {
+
         /// An array of version list items containing metadata about your backup plans.
         public let backupPlanVersionsList: [BackupPlansListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -1893,8 +1943,8 @@ extension Backup {
 
     public struct ListBackupPlansInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeDeleted", location: .querystring(locationName: "includeDeleted")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "includeDeleted", location: .querystring(locationName: "includeDeleted")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1920,6 +1970,7 @@ extension Backup {
     }
 
     public struct ListBackupPlansOutput: AWSDecodableShape {
+
         /// An array of backup plan list items containing metadata about your saved backup plans.
         public let backupPlansList: [BackupPlansListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -1938,8 +1989,8 @@ extension Backup {
 
     public struct ListBackupSelectionsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "backupPlanId", location: .uri(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1965,6 +2016,7 @@ extension Backup {
     }
 
     public struct ListBackupSelectionsOutput: AWSDecodableShape {
+
         /// An array of backup selection list items containing metadata about each resource in the list.
         public let backupSelectionsList: [BackupSelectionsListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -1983,7 +2035,7 @@ extension Backup {
 
     public struct ListBackupVaultsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2006,6 +2058,7 @@ extension Backup {
     }
 
     public struct ListBackupVaultsOutput: AWSDecodableShape {
+
         /// An array of backup vault list members containing vault metadata, including Amazon Resource Name (ARN), display name, creation date, number of saved recovery points, and encryption information if the resources saved in the backup vault are encrypted.
         public let backupVaultList: [BackupVaultListMember]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2024,14 +2077,14 @@ extension Backup {
 
     public struct ListCopyJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring(locationName: "destinationVaultArn")), 
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "byState", location: .querystring(locationName: "state")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2077,6 +2130,7 @@ extension Backup {
     }
 
     public struct ListCopyJobsOutput: AWSDecodableShape {
+
         /// An array of structures containing metadata about your copy jobs returned in JSON format.
         public let copyJobs: [CopyJob]?
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2095,7 +2149,7 @@ extension Backup {
 
     public struct ListProtectedResourcesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2118,6 +2172,7 @@ extension Backup {
     }
 
     public struct ListProtectedResourcesOutput: AWSDecodableShape {
+
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// An array of resources successfully backed up by AWS Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
@@ -2136,13 +2191,13 @@ extension Backup {
 
     public struct ListRecoveryPointsByBackupVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
-            AWSMemberEncoding(label: "byBackupPlanId", location: .querystring(locationName: "backupPlanId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")),
-            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
+            AWSMemberEncoding(label: "byBackupPlanId", location: .querystring(locationName: "backupPlanId")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byResourceArn", location: .querystring(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "byResourceType", location: .querystring(locationName: "resourceType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2185,6 +2240,7 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByBackupVaultOutput: AWSDecodableShape {
+
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// An array of objects that contain detailed information about recovery points saved in a backup vault.
@@ -2203,8 +2259,8 @@ extension Backup {
 
     public struct ListRecoveryPointsByResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
@@ -2230,6 +2286,7 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByResourceOutput: AWSDecodableShape {
+
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// An array of objects that contain detailed information about recovery points of the specified resource type.
@@ -2248,11 +2305,11 @@ extension Backup {
 
     public struct ListRestoreJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")),
-            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "byStatus", location: .querystring(locationName: "status")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "byAccountId", location: .querystring(locationName: "accountId")), 
+            AWSMemberEncoding(label: "byCreatedAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "byCreatedBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "byStatus", location: .querystring(locationName: "status")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2288,6 +2345,7 @@ extension Backup {
     }
 
     public struct ListRestoreJobsOutput: AWSDecodableShape {
+
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// An array of objects that contain detailed information about jobs to restore saved resources.
@@ -2306,8 +2364,8 @@ extension Backup {
 
     public struct ListTagsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
@@ -2333,6 +2391,7 @@ extension Backup {
     }
 
     public struct ListTagsOutput: AWSDecodableShape {
+
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
         /// To help organize your resources, you can assign your own metadata to the resources you create. Each tag is a key-value pair.
@@ -2350,6 +2409,7 @@ extension Backup {
     }
 
     public struct ProtectedResource: AWSDecodableShape {
+
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastBackupTime: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -2423,6 +2483,7 @@ extension Backup {
     }
 
     public struct RecoveryPointByBackupVault: AWSDecodableShape {
+
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -2500,6 +2561,7 @@ extension Backup {
     }
 
     public struct RecoveryPointByResource: AWSDecodableShape {
+
         /// The size, in bytes, of a backup.
         public let backupSizeBytes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2533,6 +2595,7 @@ extension Backup {
     }
 
     public struct RecoveryPointCreator: AWSDecodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
@@ -2558,6 +2621,7 @@ extension Backup {
     }
 
     public struct RestoreJobsListMember: AWSDecodableShape {
+
         /// The account ID that owns the restore job.
         public let accountId: String?
         /// The size, in bytes, of the restored resource.
@@ -2619,6 +2683,7 @@ extension Backup {
     }
 
     public struct StartBackupJobInput: AWSEncodableShape {
+
         /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option is not enabled by default.
         public let backupOptions: [String: String]?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -2672,6 +2737,7 @@ extension Backup {
     }
 
     public struct StartBackupJobOutput: AWSDecodableShape {
+
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
         /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -2693,6 +2759,7 @@ extension Backup {
     }
 
     public struct StartCopyJobInput: AWSEncodableShape {
+
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let destinationBackupVaultArn: String
         /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -2729,6 +2796,7 @@ extension Backup {
     }
 
     public struct StartCopyJobOutput: AWSDecodableShape {
+
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
         /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -2746,6 +2814,7 @@ extension Backup {
     }
 
     public struct StartRestoreJobInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
@@ -2779,6 +2848,7 @@ extension Backup {
     }
 
     public struct StartRestoreJobOutput: AWSDecodableShape {
+
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
 
@@ -2871,6 +2941,7 @@ extension Backup {
     }
 
     public struct UpdateBackupPlanOutput: AWSDecodableShape {
+
         /// Contains a list of BackupOptions for each resource type.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -2900,6 +2971,7 @@ extension Backup {
     }
 
     public struct UpdateGlobalSettingsInput: AWSEncodableShape {
+
         /// A list of resources along with the opt-in preferences for the account.
         public let globalSettings: [String: String]?
 
@@ -2914,7 +2986,7 @@ extension Backup {
 
     public struct UpdateRecoveryPointLifecycleInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")),
+            AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName")), 
             AWSMemberEncoding(label: "recoveryPointArn", location: .uri(locationName: "recoveryPointArn"))
         ]
 
@@ -2941,6 +3013,7 @@ extension Backup {
     }
 
     public struct UpdateRecoveryPointLifecycleOutput: AWSDecodableShape {
+
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
@@ -2966,6 +3039,7 @@ extension Backup {
     }
 
     public struct UpdateRegionSettingsInput: AWSEncodableShape {
+
         /// Updates the list of services along with the opt-in preferences for the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 

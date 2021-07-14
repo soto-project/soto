@@ -84,6 +84,7 @@ extension LexRuntimeV2 {
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -91,11 +92,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct ActiveContext: AWSEncodableShape & AWSDecodableShape {
+
         /// A lis tof contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request. If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
         public let contextAttributes: [String: String]?
         /// The name of the context.
@@ -123,13 +125,14 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contextAttributes
-            case name
-            case timeToLive
+            case contextAttributes = "contextAttributes"
+            case name = "name"
+            case timeToLive = "timeToLive"
         }
     }
 
     public struct ActiveContextTimeToLive: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of seconds that the context is active. You can specify between 5 and 86400 seconds (24 hours).
         public let timeToLiveInSeconds: Int
         /// The number of turns that the context is active. You can specify up to 20 turns. Each request and response from the bot is a turn.
@@ -148,12 +151,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeToLiveInSeconds
-            case turnsToLive
+            case timeToLiveInSeconds = "timeToLiveInSeconds"
+            case turnsToLive = "turnsToLive"
         }
     }
 
     public struct AudioInputEvent: AWSEncodableShape {
+
         /// An encoded stream of audio.
         public let audioChunk: Data?
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
@@ -178,14 +182,15 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioChunk
-            case clientTimestampMillis
-            case contentType
-            case eventId
+            case audioChunk = "audioChunk"
+            case clientTimestampMillis = "clientTimestampMillis"
+            case contentType = "contentType"
+            case eventId = "eventId"
         }
     }
 
     public struct AudioResponseEvent: AWSDecodableShape {
+
         /// A chunk of the audio to play.
         public let audioChunk: Data?
         /// The encoding of the audio chunk. This is the same as the encoding configure in the contentType field of the ConfigurationEvent.
@@ -200,13 +205,14 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioChunk
-            case contentType
-            case eventId
+            case audioChunk = "audioChunk"
+            case contentType = "contentType"
+            case eventId = "eventId"
         }
     }
 
     public struct BadGatewayException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -214,11 +220,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct Button: AWSEncodableShape & AWSDecodableShape {
+
         /// The text that is displayed on the button.
         public let text: String
         /// The value returned to Amazon Lex when a user chooses the button.
@@ -237,12 +244,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
-            case value
+            case text = "text"
+            case value = "value"
         }
     }
 
     public struct ConfidenceScore: AWSDecodableShape {
+
         /// A score that indicates how confident Amazon Lex is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public let score: Double?
 
@@ -251,11 +259,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case score
+            case score = "score"
         }
     }
 
     public struct ConfigurationEvent: AWSEncodableShape {
+
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
         public let clientTimestampMillis: Int64?
         /// Determines whether Amazon Lex should send audio responses to the client application. When this parameter if false, the client application needs to create responses for the user.
@@ -296,17 +305,18 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case disablePlayback
-            case eventId
-            case requestAttributes
-            case responseContentType
-            case sessionState
-            case welcomeMessages
+            case clientTimestampMillis = "clientTimestampMillis"
+            case disablePlayback = "disablePlayback"
+            case eventId = "eventId"
+            case requestAttributes = "requestAttributes"
+            case responseContentType = "responseContentType"
+            case sessionState = "sessionState"
+            case welcomeMessages = "welcomeMessages"
         }
     }
 
     public struct ConflictException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -314,11 +324,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct DTMFInputEvent: AWSEncodableShape {
+
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -342,17 +353,17 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
-            case inputCharacter
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
+            case inputCharacter = "inputCharacter"
         }
     }
 
     public struct DeleteSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
         ]
 
@@ -386,6 +397,7 @@ extension LexRuntimeV2 {
     }
 
     public struct DeleteSessionResponse: AWSDecodableShape {
+
         /// The alias identifier in use for the bot that contained the session data.
         public let botAliasId: String?
         /// The identifier of the bot that contained the session data.
@@ -403,14 +415,15 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botId
-            case localeId
-            case sessionId
+            case botAliasId = "botAliasId"
+            case botId = "botId"
+            case localeId = "localeId"
+            case sessionId = "sessionId"
         }
     }
 
     public struct DependencyFailedException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -418,11 +431,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the slot that should be elicited from the user.
         public let slotToElicit: String?
         /// The next action that the bot should take in its interaction with the user. The possible values are:    Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate - The next action is determined by Amazon Lex.    ElicitSlot - The next action is to elicit a slot value from the user.
@@ -438,12 +452,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case slotToElicit
-            case type
+            case slotToElicit = "slotToElicit"
+            case type = "type"
         }
     }
 
     public struct DisconnectionEvent: AWSEncodableShape {
+
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -461,16 +476,16 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
         }
     }
 
     public struct GetSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
         ]
 
@@ -504,6 +519,7 @@ extension LexRuntimeV2 {
     }
 
     public struct GetSessionResponse: AWSDecodableShape {
+
         /// A list of intents that Amazon Lex determined might satisfy the user's utterance.  Each interpretation includes the intent, a score that indicates how confident Amazon Lex is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
         /// A list of messages that were last sent to the user. The messages are ordered based on the order that your returned the messages from your Lambda function or the order that messages are defined in the bot.
@@ -521,14 +537,15 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretations
-            case messages
-            case sessionId
-            case sessionState
+            case interpretations = "interpretations"
+            case messages = "messages"
+            case sessionId = "sessionId"
+            case sessionState = "sessionState"
         }
     }
 
     public struct HeartbeatEvent: AWSDecodableShape {
+
         /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
         public let eventId: String?
 
@@ -537,11 +554,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
+            case eventId = "eventId"
         }
     }
 
     public struct ImageResponseCard: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of buttons that should be displayed on the response card. The arrangement of the buttons is determined by the platform that displays the button.
         public let buttons: [Button]?
         /// The URL of an image to display on the response card. The image URL must be publicly available so that the platform displaying the response card has access to the image.
@@ -573,14 +591,15 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buttons
-            case imageUrl
-            case subtitle
-            case title
+            case buttons = "buttons"
+            case imageUrl = "imageUrl"
+            case subtitle = "subtitle"
+            case title = "title"
         }
     }
 
     public struct Intent: AWSEncodableShape & AWSDecodableShape {
+
         /// Contains information about whether fulfillment of the intent has been confirmed.
         public let confirmationState: ConfirmationState?
         /// The name of the intent.
@@ -606,14 +625,15 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case confirmationState
-            case name
-            case slots
-            case state
+            case confirmationState = "confirmationState"
+            case name = "name"
+            case slots = "slots"
+            case state = "state"
         }
     }
 
     public struct IntentResultEvent: AWSDecodableShape {
+
         /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
         public let eventId: String?
         /// Indicates whether the input to the operation was text or speech.
@@ -636,16 +656,17 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case inputMode
-            case interpretations
-            case requestAttributes
-            case sessionId
-            case sessionState
+            case eventId = "eventId"
+            case inputMode = "inputMode"
+            case interpretations = "interpretations"
+            case requestAttributes = "requestAttributes"
+            case sessionId = "sessionId"
+            case sessionState = "sessionState"
         }
     }
 
     public struct InternalServerException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -653,11 +674,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct Interpretation: AWSDecodableShape {
+
         /// A list of intents that might satisfy the user's utterance. The intents are ordered by the confidence score.
         public let intent: Intent?
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
@@ -672,13 +694,14 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case intent
-            case nluConfidence
-            case sentimentResponse
+            case intent = "intent"
+            case nluConfidence = "nluConfidence"
+            case sentimentResponse = "sentimentResponse"
         }
     }
 
     public struct Message: AWSEncodableShape & AWSDecodableShape {
+
         /// The text of the message.
         public let content: String?
         /// Indicates the type of response.
@@ -698,13 +721,14 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case contentType
-            case imageResponseCard
+            case content = "content"
+            case contentType = "contentType"
+            case imageResponseCard = "imageResponseCard"
         }
     }
 
     public struct PlaybackCompletionEvent: AWSEncodableShape {
+
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -722,12 +746,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
         }
     }
 
     public struct PlaybackInterruptionEvent: AWSDecodableShape {
+
         /// The identifier of the event that contained the audio, DTMF, or text that caused the interruption.
         public let causedByEventId: String?
         /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
@@ -742,18 +767,18 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case causedByEventId
-            case eventId
-            case eventReason
+            case causedByEventId = "causedByEventId"
+            case eventId = "eventId"
+            case eventReason = "eventReason"
         }
     }
 
     public struct PutSessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "responseContentType", location: .header(locationName: "ResponseContentType")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
+            AWSMemberEncoding(label: "responseContentType", location: .header(locationName: "ResponseContentType")), 
             AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
         ]
 
@@ -805,9 +830,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages
-            case requestAttributes
-            case sessionState
+            case messages = "messages"
+            case requestAttributes = "requestAttributes"
+            case sessionState = "sessionState"
         }
     }
 
@@ -816,10 +841,10 @@ extension LexRuntimeV2 {
         public static let _payloadPath: String = "audioStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "messages", location: .header(locationName: "x-amz-lex-messages")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "messages", location: .header(locationName: "x-amz-lex-messages")), 
+            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")), 
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
             AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
         ]
 
@@ -846,7 +871,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioStream
+            case audioStream = "audioStream"
             case contentType = "Content-Type"
             case messages = "x-amz-lex-messages"
             case requestAttributes = "x-amz-lex-request-attributes"
@@ -857,9 +882,9 @@ extension LexRuntimeV2 {
 
     public struct RecognizeTextRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
         ]
 
@@ -905,13 +930,14 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestAttributes
-            case sessionState
-            case text
+            case requestAttributes = "requestAttributes"
+            case sessionState = "sessionState"
+            case text = "text"
         }
     }
 
     public struct RecognizeTextResponse: AWSDecodableShape {
+
         /// A list of intents that Amazon Lex determined might satisfy the user's utterance.  Each interpretation includes the intent, a score that indicates now confident Amazon Lex is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
         /// A list of messages last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
@@ -932,11 +958,11 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretations
-            case messages
-            case requestAttributes
-            case sessionId
-            case sessionState
+            case interpretations = "interpretations"
+            case messages = "messages"
+            case requestAttributes = "requestAttributes"
+            case sessionId = "sessionId"
+            case sessionState = "sessionState"
         }
     }
 
@@ -945,13 +971,13 @@ extension LexRuntimeV2 {
         public static let _payloadPath: String = "inputStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "requestContentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "responseContentType", location: .header(locationName: "Response-Content-Type")),
-            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
+            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")), 
+            AWSMemberEncoding(label: "requestContentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "responseContentType", location: .header(locationName: "Response-Content-Type")), 
+            AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId")), 
             AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
         ]
 
@@ -1006,13 +1032,13 @@ extension LexRuntimeV2 {
         public static let _payloadPath: String = "audioStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "inputMode", location: .header(locationName: "x-amz-lex-input-mode")),
-            AWSMemberEncoding(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")),
-            AWSMemberEncoding(label: "interpretations", location: .header(locationName: "x-amz-lex-interpretations")),
-            AWSMemberEncoding(label: "messages", location: .header(locationName: "x-amz-lex-messages")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "inputMode", location: .header(locationName: "x-amz-lex-input-mode")), 
+            AWSMemberEncoding(label: "inputTranscript", location: .header(locationName: "x-amz-lex-input-transcript")), 
+            AWSMemberEncoding(label: "interpretations", location: .header(locationName: "x-amz-lex-interpretations")), 
+            AWSMemberEncoding(label: "messages", location: .header(locationName: "x-amz-lex-messages")), 
+            AWSMemberEncoding(label: "requestAttributes", location: .header(locationName: "x-amz-lex-request-attributes")), 
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amz-lex-session-id")), 
             AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
         ]
 
@@ -1048,7 +1074,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioStream
+            case audioStream = "audioStream"
             case contentType = "Content-Type"
             case inputMode = "x-amz-lex-input-mode"
             case inputTranscript = "x-amz-lex-input-transcript"
@@ -1061,6 +1087,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ResourceNotFoundException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -1068,11 +1095,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct SentimentResponse: AWSDecodableShape {
+
         /// The overall sentiment expressed in the user's response. This is the sentiment most likely expressed by the user based on the analysis by Amazon Comprehend.
         public let sentiment: SentimentType?
         public let sentimentScore: SentimentScore?
@@ -1083,12 +1111,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sentiment
-            case sentimentScore
+            case sentiment = "sentiment"
+            case sentimentScore = "sentimentScore"
         }
     }
 
     public struct SentimentScore: AWSDecodableShape {
+
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
         public let mixed: Double?
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEGATIVE sentiment.
@@ -1106,14 +1135,15 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mixed
-            case negative
-            case neutral
-            case positive
+            case mixed = "mixed"
+            case negative = "negative"
+            case neutral = "neutral"
+            case positive = "positive"
         }
     }
 
     public struct SessionState: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more contexts that indicate to Amazon Lex the context of a request. When a context is active, Amazon Lex considers intents with the matching context as a trigger as the next intent in a session.
         public let activeContexts: [ActiveContext]?
         /// The next step that Amazon Lex should take in the conversation with a user.
@@ -1147,15 +1177,16 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeContexts
-            case dialogAction
-            case intent
-            case originatingRequestId
-            case sessionAttributes
+            case activeContexts = "activeContexts"
+            case dialogAction = "dialogAction"
+            case intent = "intent"
+            case originatingRequestId = "originatingRequestId"
+            case sessionAttributes = "sessionAttributes"
         }
     }
 
     public struct Slot: AWSEncodableShape & AWSDecodableShape {
+
         /// The current value of the slot.
         public let value: Value?
 
@@ -1168,7 +1199,7 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
@@ -1176,10 +1207,10 @@ extension LexRuntimeV2 {
         /// The key for the payload
         public static let _payloadPath: String = "requestEventStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "conversationMode", location: .header(locationName: "x-amz-lex-conversation-mode")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "conversationMode", location: .header(locationName: "x-amz-lex-conversation-mode")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "sessionId", location: .uri(locationName: "sessionId"))
         ]
 
@@ -1217,11 +1248,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case requestEventStream
+            case requestEventStream = "requestEventStream"
         }
     }
 
     public struct StartConversationRequestEventStream: AWSEncodableShape {
+
         /// Speech audio sent from your client application to Amazon Lex. Audio starts accumulating when Amazon Lex identifies a voice and continues until a natural pause in the speech is found before processing.
         public let audioInputEvent: AudioInputEvent?
         /// Configuration information sent from your client application to Amazon Lex
@@ -1275,11 +1307,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case responseEventStream
+            case responseEventStream = "responseEventStream"
         }
     }
 
     public struct StartConversationResponseEventStream: AWSDecodableShape {
+
         /// Exception thrown when the credentials passed with the request are invalid or expired. Also thrown when the credentials in the request do not have permission to access the StartConversation operation.
         public let accessDeniedException: AccessDeniedException?
         public let audioResponseEvent: AudioResponseEvent?
@@ -1338,6 +1371,7 @@ extension LexRuntimeV2 {
     }
 
     public struct TextInputEvent: AWSEncodableShape {
+
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
@@ -1360,13 +1394,14 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientTimestampMillis
-            case eventId
-            case text
+            case clientTimestampMillis = "clientTimestampMillis"
+            case eventId = "eventId"
+            case text = "text"
         }
     }
 
     public struct TextResponseEvent: AWSDecodableShape {
+
         /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
         public let eventId: String?
         /// A list of messages to send to the user. Messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
@@ -1378,12 +1413,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case messages
+            case eventId = "eventId"
+            case messages = "messages"
         }
     }
 
     public struct ThrottlingException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -1391,11 +1427,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct TranscriptEvent: AWSDecodableShape {
+
         /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
         public let eventId: String?
         /// The transcript of the voice audio from the user.
@@ -1407,12 +1444,13 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case transcript
+            case eventId = "eventId"
+            case transcript = "transcript"
         }
     }
 
     public struct ValidationException: AWSDecodableShape {
+
         public let message: String
 
         public init(message: String) {
@@ -1420,11 +1458,12 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct Value: AWSEncodableShape & AWSDecodableShape {
+
         /// The value that Amazon Lex determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex choose the first value in the resolvedValues list.
         public let interpretedValue: String
         /// The text of the utterance from the user that was entered for the slot.
@@ -1447,9 +1486,9 @@ extension LexRuntimeV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interpretedValue
-            case originalValue
-            case resolvedValues
+            case interpretedValue = "interpretedValue"
+            case originalValue = "originalValue"
+            case resolvedValues = "resolvedValues"
         }
     }
 }

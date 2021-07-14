@@ -61,7 +61,11 @@ extension MediaStoreData {
     }
 
     public struct DeleteObjectResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeObjectRequest: AWSEncodableShape {
@@ -87,10 +91,10 @@ extension MediaStoreData {
 
     public struct DescribeObjectResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
             AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified"))
         ]
 
@@ -125,7 +129,7 @@ extension MediaStoreData {
 
     public struct GetObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")),
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
             AWSMemberEncoding(label: "range", location: .header(locationName: "Range"))
         ]
 
@@ -154,13 +158,13 @@ extension MediaStoreData {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
-            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
-            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
             AWSMemberEncoding(label: "statusCode", location: .statusCode)
         ]
 
@@ -206,6 +210,7 @@ extension MediaStoreData {
     }
 
     public struct Item: AWSDecodableShape {
+
         /// The length of the item in bytes.
         public let contentLength: Int64?
         /// The content type of the item.
@@ -240,8 +245,8 @@ extension MediaStoreData {
 
     public struct ListItemsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "path", location: .querystring(locationName: "Path"))
         ]
 
@@ -270,6 +275,7 @@ extension MediaStoreData {
     }
 
     public struct ListItemsResponse: AWSDecodableShape {
+
         /// The metadata entries for the folders and objects at the requested path.
         public let items: [Item]?
         /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
@@ -291,11 +297,11 @@ extension MediaStoreData {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")),
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
             AWSMemberEncoding(label: "uploadAvailability", location: .header(locationName: "x-amz-upload-availability"))
         ]
 
@@ -332,6 +338,7 @@ extension MediaStoreData {
     }
 
     public struct PutObjectResponse: AWSDecodableShape {
+
         /// The SHA256 digest of the object that is persisted.
         public let contentSHA256: String?
         /// Unique identifier of the object in the container.

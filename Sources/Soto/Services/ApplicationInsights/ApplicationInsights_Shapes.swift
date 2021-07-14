@@ -101,6 +101,7 @@ extension ApplicationInsights {
     // MARK: Shapes
 
     public struct ApplicationComponent: AWSDecodableShape {
+
         /// The name of the component.
         public let componentName: String?
         ///  If logging is supported for the resource type, indicates whether the component has configured logs to be monitored.
@@ -138,6 +139,7 @@ extension ApplicationInsights {
     }
 
     public struct ApplicationInfo: AWSDecodableShape {
+
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cWEMonitorEnabled: Bool?
         /// The lifecycle of the application.
@@ -171,6 +173,7 @@ extension ApplicationInsights {
     }
 
     public struct ConfigurationEvent: AWSDecodableShape {
+
         ///  The details of the event in plain text.
         public let eventDetail: String?
         ///  The name of the resource Application Insights attempted to configure.
@@ -204,6 +207,7 @@ extension ApplicationInsights {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cWEMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application.
@@ -247,6 +251,7 @@ extension ApplicationInsights {
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
+
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
 
@@ -260,6 +265,7 @@ extension ApplicationInsights {
     }
 
     public struct CreateComponentRequest: AWSEncodableShape {
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -295,10 +301,15 @@ extension ApplicationInsights {
     }
 
     public struct CreateComponentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateLogPatternRequest: AWSEncodableShape {
+
         /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public let pattern: String
         /// The name of the log pattern.
@@ -343,6 +354,7 @@ extension ApplicationInsights {
     }
 
     public struct CreateLogPatternResponse: AWSDecodableShape {
+
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
         /// The name of the resource group.
@@ -360,6 +372,7 @@ extension ApplicationInsights {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
+
         /// The name of the resource group.
         public let resourceGroupName: String
 
@@ -379,10 +392,15 @@ extension ApplicationInsights {
     }
 
     public struct DeleteApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteComponentRequest: AWSEncodableShape {
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -409,10 +427,15 @@ extension ApplicationInsights {
     }
 
     public struct DeleteComponentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteLogPatternRequest: AWSEncodableShape {
+
         /// The name of the log pattern.
         public let patternName: String
         /// The name of the log pattern set.
@@ -446,10 +469,15 @@ extension ApplicationInsights {
     }
 
     public struct DeleteLogPatternResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
+
         /// The name of the resource group.
         public let resourceGroupName: String
 
@@ -469,6 +497,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeApplicationResponse: AWSDecodableShape {
+
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
 
@@ -482,6 +511,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRecommendationRequest: AWSEncodableShape {
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -512,6 +542,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRecommendationResponse: AWSDecodableShape {
+
         /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
 
@@ -525,6 +556,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationRequest: AWSEncodableShape {
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -551,6 +583,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentConfigurationResponse: AWSDecodableShape {
+
         /// The configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
         /// Indicates whether the application component is monitored.
@@ -572,6 +605,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentRequest: AWSEncodableShape {
+
         /// The name of the component.
         public let componentName: String
         /// The name of the resource group.
@@ -598,6 +632,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeComponentResponse: AWSDecodableShape {
+
         public let applicationComponent: ApplicationComponent?
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]?
@@ -614,6 +649,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternRequest: AWSEncodableShape {
+
         /// The name of the log pattern.
         public let patternName: String
         /// The name of the log pattern set.
@@ -647,6 +683,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeLogPatternResponse: AWSDecodableShape {
+
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
         /// The name of the resource group.
@@ -664,6 +701,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeObservationRequest: AWSEncodableShape {
+
         /// The ID of the observation.
         public let observationId: String
 
@@ -683,6 +721,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeObservationResponse: AWSDecodableShape {
+
         /// Information about the observation.
         public let observation: Observation?
 
@@ -696,6 +735,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemObservationsRequest: AWSEncodableShape {
+
         /// The ID of the problem.
         public let problemId: String
 
@@ -715,6 +755,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemObservationsResponse: AWSDecodableShape {
+
         /// Observations related to the problem.
         public let relatedObservations: RelatedObservations?
 
@@ -728,6 +769,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemRequest: AWSEncodableShape {
+
         /// The ID of the problem.
         public let problemId: String
 
@@ -747,6 +789,7 @@ extension ApplicationInsights {
     }
 
     public struct DescribeProblemResponse: AWSDecodableShape {
+
         /// Information about the problem.
         public let problem: Problem?
 
@@ -760,6 +803,7 @@ extension ApplicationInsights {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -785,6 +829,7 @@ extension ApplicationInsights {
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
+
         /// The list of applications.
         public let applicationInfoList: [ApplicationInfo]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -802,6 +847,7 @@ extension ApplicationInsights {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -834,6 +880,7 @@ extension ApplicationInsights {
     }
 
     public struct ListComponentsResponse: AWSDecodableShape {
+
         /// The list of application components.
         public let applicationComponentList: [ApplicationComponent]?
         /// The token to request the next page of results.
@@ -851,6 +898,7 @@ extension ApplicationInsights {
     }
 
     public struct ListConfigurationHistoryRequest: AWSEncodableShape {
+
         /// The end time of the event.
         public let endTime: Date?
         /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
@@ -895,6 +943,7 @@ extension ApplicationInsights {
     }
 
     public struct ListConfigurationHistoryResponse: AWSDecodableShape {
+
         ///  The list of configuration events and their corresponding details.
         public let eventList: [ConfigurationEvent]?
         /// The NextToken value to include in a future ListConfigurationHistory request. When the results of a ListConfigurationHistory request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -912,6 +961,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -944,6 +994,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternSetsResponse: AWSDecodableShape {
+
         /// The list of log pattern sets.
         public let logPatternSets: [String]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -965,6 +1016,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -1004,6 +1056,7 @@ extension ApplicationInsights {
     }
 
     public struct ListLogPatternsResponse: AWSDecodableShape {
+
         /// The list of log patterns.
         public let logPatterns: [LogPattern]?
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1025,6 +1078,7 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsRequest: AWSEncodableShape {
+
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
         public let endTime: Date?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -1065,6 +1119,7 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsResponse: AWSDecodableShape {
+
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of problems.
@@ -1082,6 +1137,7 @@ extension ApplicationInsights {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for.
         public let resourceARN: String
 
@@ -1101,6 +1157,7 @@ extension ApplicationInsights {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// An array that lists all the tags that are associated with the application. Each tag consists of a required tag key (Key) and an associated tag value (Value).
         public let tags: [Tag]?
 
@@ -1114,6 +1171,7 @@ extension ApplicationInsights {
     }
 
     public struct LogPattern: AWSDecodableShape {
+
         /// A regular expression that defines the log pattern. A log pattern can contain as many as 50 characters, and it cannot be empty. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public let pattern: String?
         /// The name of the log pattern. A log pattern name can contain as many as 50 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
@@ -1139,6 +1197,7 @@ extension ApplicationInsights {
     }
 
     public struct Observation: AWSDecodableShape {
+
         ///  The detail type of the CloudWatch Event-based observation, for example, EC2 Instance State-change Notification.
         public let cloudWatchEventDetailType: String?
         ///  The ID of the CloudWatch Event-based observation related to the detected problem.
@@ -1328,6 +1387,7 @@ extension ApplicationInsights {
     }
 
     public struct Problem: AWSDecodableShape {
+
         /// The resource affected by the problem.
         public let affectedResource: String?
         /// The time when the problem ended, in epoch seconds.
@@ -1377,6 +1437,7 @@ extension ApplicationInsights {
     }
 
     public struct RelatedObservations: AWSDecodableShape {
+
         /// The list of observations related to the problem.
         public let observationList: [Observation]?
 
@@ -1390,6 +1451,7 @@ extension ApplicationInsights {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         public let key: String
         /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this parameter.
@@ -1416,6 +1478,7 @@ extension ApplicationInsights {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the application that you want to add one or more tags to.
         public let resourceARN: String
         /// A list of tags that to add to the application. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
@@ -1444,10 +1507,15 @@ extension ApplicationInsights {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the application that you want to remove one or more tags from.
         public let resourceARN: String
         /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the application, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand.
@@ -1478,10 +1546,15 @@ extension ApplicationInsights {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cWEMonitorEnabled: Bool?
         ///  When set to true, creates opsItems for any problems detected on an application.
@@ -1520,6 +1593,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
+
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
 
@@ -1533,6 +1607,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentConfigurationRequest: AWSEncodableShape {
+
         /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration.
         public let componentConfiguration: String?
         /// The name of the component.
@@ -1574,10 +1649,15 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateComponentRequest: AWSEncodableShape {
+
         /// The name of the component.
         public let componentName: String
         /// The new name of the component.
@@ -1620,10 +1700,15 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateLogPatternRequest: AWSEncodableShape {
+
         /// The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
         public let pattern: String?
         /// The name of the log pattern.
@@ -1668,6 +1753,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateLogPatternResponse: AWSDecodableShape {
+
         /// The successfully created log pattern.
         public let logPattern: LogPattern?
         /// The name of the resource group.

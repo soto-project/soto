@@ -135,6 +135,7 @@ extension NetworkFirewall {
     // MARK: Shapes
 
     public struct ActionDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// Stateless inspection criteria that publishes the specified metrics to Amazon CloudWatch for the matching packet. This setting defines a CloudWatch dimension value to be published. You can pair this custom action with any of the standard stateless rule actions. For example, you could pair this in a rule action with the standard action that forwards the packet for stateful inspection. Then, when a packet matches the rule, Network Firewall publishes metrics for the packet and forwards it.
         public let publishMetricAction: PublishMetricAction?
 
@@ -152,6 +153,7 @@ extension NetworkFirewall {
     }
 
     public struct Address: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let addressDefinition: String
 
@@ -171,6 +173,7 @@ extension NetworkFirewall {
     }
 
     public struct AssociateFirewallPolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -211,6 +214,7 @@ extension NetworkFirewall {
     }
 
     public struct AssociateFirewallPolicyResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -236,6 +240,7 @@ extension NetworkFirewall {
     }
 
     public struct AssociateSubnetsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -273,6 +278,7 @@ extension NetworkFirewall {
     }
 
     public struct AssociateSubnetsResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -298,6 +304,7 @@ extension NetworkFirewall {
     }
 
     public struct Attachment: AWSDecodableShape {
+
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public let endpointId: String?
         /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING, DELETING, or FAILED.
@@ -319,6 +326,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateFirewallPolicyRequest: AWSEncodableShape {
+
         /// A description of the firewall policy.
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
@@ -362,6 +370,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateFirewallPolicyResponse: AWSDecodableShape {
+
         /// The high-level properties of a firewall policy. This, along with the FirewallPolicy, define the policy. You can retrieve all objects for a firewall policy by calling DescribeFirewallPolicy.
         public let firewallPolicyResponse: FirewallPolicyResponse
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -379,6 +388,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateFirewallRequest: AWSEncodableShape {
+
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
         /// A description of the firewall.
@@ -443,6 +453,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateFirewallResponse: AWSDecodableShape {
+
         /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
         public let firewall: Firewall?
         /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN.
@@ -460,6 +471,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateRuleGroupRequest: AWSEncodableShape {
+
         /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.   You can't change or exceed this capacity when you update the rule group, so leave room for your rule group to grow.    Capacity for a stateless rule group  For a stateless rule group, the capacity required is the sum of the capacity requirements of the individual rules that you expect to have in the rule group.  To calculate the capacity requirement of a single rule, multiply the capacity requirement values of each of the rule's match settings:   A match setting with no criteria specified has a value of 1.    A match setting with Any specified has a value of 1.    All other match settings have a value equal to the number of elements provided in the setting. For example, a protocol setting ["UDP"] and a source setting ["10.0.0.0/24"] each have a value of 1. A protocol setting ["UDP","TCP"] has a value of 2. A source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"] has a value of 3.    A rule with no criteria specified in any of its match settings has a capacity requirement of 1. A rule with protocol setting ["UDP","TCP"], source setting ["10.0.0.0/24","10.0.0.1/24","10.0.0.2/24"], and a single specification or no specification for each of the other match settings has a capacity requirement of 6.   Capacity for a stateful rule group  For a stateful rule group, the minimum capacity required is the number of individual rules that you expect to have in the rule group.
         public let capacity: Int
         /// A description of the rule group.
@@ -495,7 +507,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.rules, name: "rules", parent: name, max: 1_000_000)
+            try self.validate(self.rules, name: "rules", parent: name, max: 1000000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -517,6 +529,7 @@ extension NetworkFirewall {
     }
 
     public struct CreateRuleGroupResponse: AWSDecodableShape {
+
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
         public let ruleGroupResponse: RuleGroupResponse
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -534,6 +547,7 @@ extension NetworkFirewall {
     }
 
     public struct CustomAction: AWSEncodableShape & AWSDecodableShape {
+
         /// The custom action associated with the action name.
         public let actionDefinition: ActionDefinition
         /// The descriptive name of the custom action. You can't change the name of a custom action after you create it.
@@ -558,6 +572,7 @@ extension NetworkFirewall {
     }
 
     public struct DeleteFirewallPolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
@@ -584,6 +599,7 @@ extension NetworkFirewall {
     }
 
     public struct DeleteFirewallPolicyResponse: AWSDecodableShape {
+
         /// The object containing the definition of the FirewallPolicyResponse that you asked to delete.
         public let firewallPolicyResponse: FirewallPolicyResponse
 
@@ -597,6 +613,7 @@ extension NetworkFirewall {
     }
 
     public struct DeleteFirewallRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -623,6 +640,7 @@ extension NetworkFirewall {
     }
 
     public struct DeleteFirewallResponse: AWSDecodableShape {
+
         public let firewall: Firewall?
         public let firewallStatus: FirewallStatus?
 
@@ -638,6 +656,7 @@ extension NetworkFirewall {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to delete.
         public let resourceArn: String
 
@@ -657,10 +676,15 @@ extension NetworkFirewall {
     }
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRuleGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
@@ -691,6 +715,7 @@ extension NetworkFirewall {
     }
 
     public struct DeleteRuleGroupResponse: AWSDecodableShape {
+
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
         public let ruleGroupResponse: RuleGroupResponse
 
@@ -704,6 +729,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFirewallPolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
         public let firewallPolicyArn: String?
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it. You must specify the ARN or the name, and you can specify both.
@@ -730,6 +756,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFirewallPolicyResponse: AWSDecodableShape {
+
         /// The policy for the specified firewall policy.
         public let firewallPolicy: FirewallPolicy?
         /// The high-level properties of a firewall policy. This, along with the FirewallPolicy, define the policy. You can retrieve all objects for a firewall policy by calling DescribeFirewallPolicy.
@@ -751,6 +778,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFirewallRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -777,6 +805,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeFirewallResponse: AWSDecodableShape {
+
         /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
         public let firewall: Firewall?
         /// Detailed information about the current status of a Firewall. You can retrieve this for a firewall by calling DescribeFirewall and providing the firewall name and ARN.
@@ -798,6 +827,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeLoggingConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -824,6 +854,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeLoggingConfigurationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         public let loggingConfiguration: LoggingConfiguration?
@@ -840,6 +871,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeResourcePolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to retrieve.
         public let resourceArn: String
 
@@ -859,6 +891,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeResourcePolicyResponse: AWSDecodableShape {
+
         /// The AWS Identity and Access Management policy for the resource.
         public let policy: String?
 
@@ -872,6 +905,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeRuleGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
@@ -902,6 +936,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeRuleGroupResponse: AWSDecodableShape {
+
         /// The object that defines the rules in a rule group. This, along with RuleGroupResponse, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.  AWS Network Firewall uses a rule group to inspect and control network traffic. You define stateless rule groups to inspect individual packets and you define stateful rule groups to inspect packets in the context of their traffic flow.  To use a rule group, you include it by reference in an Network Firewall firewall policy, then you use the policy in a firewall. You can reference a rule group from more than one firewall policy, and you can use a firewall policy in more than one firewall.
         public let ruleGroup: RuleGroup?
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
@@ -923,6 +958,7 @@ extension NetworkFirewall {
     }
 
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The value to use in the custom metric dimension.
         public let value: String
 
@@ -942,6 +978,7 @@ extension NetworkFirewall {
     }
 
     public struct DisassociateSubnetsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -984,6 +1021,7 @@ extension NetworkFirewall {
     }
 
     public struct DisassociateSubnetsResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -1009,6 +1047,7 @@ extension NetworkFirewall {
     }
 
     public struct Firewall: AWSDecodableShape {
+
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
         /// A description of the firewall.
@@ -1061,6 +1100,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallMetadata: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -1078,6 +1118,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// References to the stateless rule groups that are used in the policy. These define the inspection criteria in stateful rules.
         public let statefulRuleGroupReferences: [StatefulRuleGroupReference]?
         /// The custom action definitions that are available for use in the firewall policy's StatelessDefaultActions setting. You name each custom action that you define, and then you can use it by name in your default actions specifications.
@@ -1119,6 +1160,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicyMetadata: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall policy.
         public let arn: String?
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.
@@ -1136,6 +1178,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicyResponse: AWSDecodableShape {
+
         /// A description of the firewall policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the firewall policy.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
@@ -1169,6 +1212,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallStatus: AWSDecodableShape {
+
         /// The configuration sync state for the firewall. This summarizes the sync states reported in the Config settings for all of the Availability Zones where you have configured the firewall.  When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all zones where the firewall is in use. This summary indicates whether the configuration changes have been applied everywhere.  This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness.
         public let configurationSyncStateSummary: ConfigurationSyncState
         /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you've configured it. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the Attachment Status values for all of the configured subnets are READY.
@@ -1190,6 +1234,7 @@ extension NetworkFirewall {
     }
 
     public struct Header: AWSEncodableShape & AWSDecodableShape {
+
         /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let destination: String
         /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990-1994. To match with any port, specify ANY.
@@ -1238,6 +1283,7 @@ extension NetworkFirewall {
     }
 
     public struct IPSet: AWSEncodableShape & AWSDecodableShape {
+
         /// The list of IP addresses and address ranges, in CIDR notation.
         public let definition: [String]
 
@@ -1258,6 +1304,7 @@ extension NetworkFirewall {
     }
 
     public struct ListFirewallPoliciesRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -1283,6 +1330,7 @@ extension NetworkFirewall {
     }
 
     public struct ListFirewallPoliciesResponse: AWSDecodableShape {
+
         /// The metadata for the firewall policies. Depending on your setting for max results and the number of firewall policies that you have, this might not be the full list.
         public let firewallPolicies: [FirewallPolicyMetadata]?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -1300,6 +1348,7 @@ extension NetworkFirewall {
     }
 
     public struct ListFirewallsRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -1334,6 +1383,7 @@ extension NetworkFirewall {
     }
 
     public struct ListFirewallsResponse: AWSDecodableShape {
+
         /// The firewall metadata objects for the VPCs that you specified. Depending on your setting for max results and the number of firewalls you have, a single call might not be the full list.
         public let firewalls: [FirewallMetadata]?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -1351,6 +1401,7 @@ extension NetworkFirewall {
     }
 
     public struct ListRuleGroupsRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -1376,6 +1427,7 @@ extension NetworkFirewall {
     }
 
     public struct ListRuleGroupsResponse: AWSDecodableShape {
+
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
         /// The rule group metadata objects that you've defined. Depending on your setting for max results and the number of rule groups, this might not be the full list.
@@ -1393,6 +1445,7 @@ extension NetworkFirewall {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
@@ -1425,6 +1478,7 @@ extension NetworkFirewall {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
         /// The tags that are associated with the resource.
@@ -1442,6 +1496,7 @@ extension NetworkFirewall {
     }
 
     public struct LogDestinationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The named location for the logs, provided in a key:value mapping that is specific to the chosen destination type.    For an Amazon S3 bucket, provide the name of the bucket, with key bucketName, and optionally provide a prefix, with key prefix. The following example specifies an Amazon S3 bucket named DOC-EXAMPLE-BUCKET and the prefix alerts:   "LogDestination": { "bucketName": "DOC-EXAMPLE-BUCKET", "prefix": "alerts" }    For a CloudWatch log group, provide the name of the CloudWatch log group, with key logGroup. The following example specifies a log group named alert-log-group:   "LogDestination": { "logGroup": "alert-log-group" }    For a Kinesis Data Firehose delivery stream, provide the name of the delivery stream, with key deliveryStream. The following example specifies a delivery stream named alert-delivery-stream:   "LogDestination": { "deliveryStream": "alert-delivery-stream" }
         public let logDestination: [String: String]
         /// The type of storage destination to send these logs to. You can send logs to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis Data Firehose delivery stream.
@@ -1474,6 +1529,7 @@ extension NetworkFirewall {
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Defines the logging destinations for the logs for a firewall. Network Firewall generates logs for stateful rule groups.
         public let logDestinationConfigs: [LogDestinationConfig]
 
@@ -1493,6 +1549,7 @@ extension NetworkFirewall {
     }
 
     public struct MatchAttributes: AWSEncodableShape & AWSDecodableShape {
+
         /// The destination ports to inspect for. If not specified, this matches with any destination port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990-1994.
         public let destinationPorts: [PortRange]?
         /// The destination IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any destination address.
@@ -1545,6 +1602,7 @@ extension NetworkFirewall {
     }
 
     public struct PerObjectStatus: AWSDecodableShape {
+
         /// Indicates whether this object is in sync with the version indicated in the update token.
         public let syncStatus: PerObjectSyncStatus?
         /// The current version of the object that is either in sync or pending synchronization.
@@ -1562,6 +1620,7 @@ extension NetworkFirewall {
     }
 
     public struct PortRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The lower limit of the port range. This must be less than or equal to the ToPort specification.
         public let fromPort: Int
         /// The upper limit of the port range. This must be greater than or equal to the FromPort specification.
@@ -1586,6 +1645,7 @@ extension NetworkFirewall {
     }
 
     public struct PortSet: AWSEncodableShape & AWSDecodableShape {
+
         /// The set of port ranges.
         public let definition: [String]?
 
@@ -1606,6 +1666,7 @@ extension NetworkFirewall {
     }
 
     public struct PublishMetricAction: AWSEncodableShape & AWSDecodableShape {
+
         public let dimensions: [Dimension]
 
         public init(dimensions: [Dimension]) {
@@ -1626,6 +1687,7 @@ extension NetworkFirewall {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
+
         /// The AWS Identity and Access Management policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewall   network-firewall:UpdateFirewall   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
@@ -1637,7 +1699,7 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
@@ -1652,10 +1714,15 @@ extension NetworkFirewall {
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RuleDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// The actions to take on a packet that matches one of the stateless rule definition's match attributes. You must specify a standard action and you can add custom actions.   Network Firewall only forwards a packet for stateful rule inspection if you specify aws:forward_to_sfe for a rule that the packet matches, or if the packet doesn't match any stateless rule and you specify aws:forward_to_sfe for the StatelessDefaultActions setting for the FirewallPolicy.  For every rule, you must specify exactly one of the following standard actions.     aws:pass - Discontinues all inspection of the packet and permits it to go to its intended destination.    aws:drop - Discontinues all inspection of the packet and blocks it from going to its intended destination.    aws:forward_to_sfe - Discontinues stateless inspection of the packet and forwards it to the stateful rule engine for inspection.    Additionally, you can specify a custom action. To do this, you define a custom action by name and type, then provide the name you've assigned to the action in this Actions setting. For information about the options, see CustomAction.  To provide more than one action in this setting, separate the settings with a comma. For example, if you have a custom PublishMetrics action that you've named MyMetricsAction, then you could specify the standard action aws:pass and the custom action with [“aws:pass”, “MyMetricsAction”].
         public let actions: [String]
         /// Criteria for Network Firewall to use to inspect an individual packet in stateless rule inspection. Each match attributes set can include one or more items such as IP address, CIDR range, port number, protocol, and TCP flags.
@@ -1677,6 +1744,7 @@ extension NetworkFirewall {
     }
 
     public struct RuleGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// The stateful rules or stateless rules for the rule group.
         public let rulesSource: RulesSource
         /// Settings that are available for use in the rules in the rule group. You can only use these for stateful rule groups.
@@ -1699,6 +1767,7 @@ extension NetworkFirewall {
     }
 
     public struct RuleGroupMetadata: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule group.
         public let arn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
@@ -1716,6 +1785,7 @@ extension NetworkFirewall {
     }
 
     public struct RuleGroupResponse: AWSDecodableShape {
+
         /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation. When you update a rule group, you are limited to this capacity. When you reference a rule group from a firewall policy, Network Firewall reserves this capacity for the rule group.  You can retrieve the capacity that would be required for a rule group before you create the rule group by calling CreateRuleGroup with DryRun set to TRUE.
         public let capacity: Int?
         /// A description of the rule group.
@@ -1757,6 +1827,7 @@ extension NetworkFirewall {
     }
 
     public struct RuleOption: AWSEncodableShape & AWSDecodableShape {
+
         public let keyword: String
         public let settings: [String]?
 
@@ -1783,6 +1854,7 @@ extension NetworkFirewall {
     }
 
     public struct RuleVariables: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of IP addresses and address ranges, in CIDR notation.
         public let iPSets: [String: IPSet]?
         /// A list of port ranges.
@@ -1815,6 +1887,7 @@ extension NetworkFirewall {
     }
 
     public struct RulesSource: AWSEncodableShape & AWSDecodableShape {
+
         /// Stateful inspection criteria for a domain list rule group.
         public let rulesSourceList: RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
@@ -1832,7 +1905,7 @@ extension NetworkFirewall {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 1_000_000)
+            try self.validate(self.rulesString, name: "rulesString", parent: name, max: 1000000)
             try self.validate(self.rulesString, name: "rulesString", parent: name, min: 0)
             try self.statefulRules?.forEach {
                 try $0.validate(name: "\(name).statefulRules[]")
@@ -1849,6 +1922,7 @@ extension NetworkFirewall {
     }
 
     public struct RulesSourceList: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether you want to allow or deny access to the domains in your target list.
         public let generatedRulesType: GeneratedRulesType
         /// The domains that you want to inspect for in your traffic flows. To provide multiple domains, separate them with commas. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
@@ -1870,6 +1944,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow.  The actions for a stateful rule are defined as follows:     PASS - Permits the packets to go to the intended destination.    DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.     ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the Firewall LoggingConfiguration.  You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
         public let action: StatefulAction
         /// The stateful 5-tuple inspection criteria for this rule, used to inspect traffic flows.
@@ -1897,6 +1972,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRuleGroupReference: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the stateful rule group.
         public let resourceArn: String
 
@@ -1916,6 +1992,7 @@ extension NetworkFirewall {
     }
 
     public struct StatelessRule: AWSEncodableShape & AWSDecodableShape {
+
         /// A setting that indicates the order in which to run this rule relative to all of the rules that are defined for a stateless rule group. Network Firewall evaluates the rules in a rule group starting with the lowest priority setting. You must ensure that the priority settings are unique for the rule group.  Each stateless rule group uses exactly one StatelessRulesAndCustomActions object, and each StatelessRulesAndCustomActions contains exactly one StatelessRules object. To ensure unique priority settings for your rule groups, set unique priorities for the stateless rules that you define inside any single StatelessRules object. You can change the priority settings of your rules at any time. To make it easier to insert rules later, number them so there's a wide range in between, for example use 100, 200, and so on.
         public let priority: Int
         /// Defines the stateless 5-tuple packet inspection criteria and the action to take on a packet that matches the criteria.
@@ -1939,6 +2016,7 @@ extension NetworkFirewall {
     }
 
     public struct StatelessRuleGroupReference: AWSEncodableShape & AWSDecodableShape {
+
         /// An integer setting that indicates the order in which to run the stateless rule groups in a single FirewallPolicy. Network Firewall applies each stateless rule group to a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy.
         public let priority: Int
         /// The Amazon Resource Name (ARN) of the stateless rule group.
@@ -1964,6 +2042,7 @@ extension NetworkFirewall {
     }
 
     public struct StatelessRulesAndCustomActions: AWSEncodableShape & AWSDecodableShape {
+
         /// Defines an array of individual custom action definitions that are available for use by the stateless rules in this StatelessRulesAndCustomActions specification. You name each custom action that you define, and then you can use it by name in your StatelessRule RuleDefinition Actions specification.
         public let customActions: [CustomAction]?
         /// Defines the set of stateless rules for use in a stateless rule group.
@@ -1990,6 +2069,7 @@ extension NetworkFirewall {
     }
 
     public struct SubnetMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the subnet.
         public let subnetId: String
 
@@ -2003,6 +2083,7 @@ extension NetworkFirewall {
     }
 
     public struct SyncState: AWSDecodableShape {
+
         /// The attachment status of the firewall's association with a single VPC subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic. This is part of the FirewallStatus.
         public let attachment: Attachment?
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic. This is part of the FirewallStatus.
@@ -2020,6 +2101,7 @@ extension NetworkFirewall {
     }
 
     public struct TCPFlagField: AWSEncodableShape & AWSDecodableShape {
+
         /// Used in conjunction with the Masks setting to define the flags that must be set and flags that must not be set in order for the packet to match. This setting can only specify values that are also specified in the Masks setting. For the flags that are specified in the masks setting, the following must be true for the packet to match:    The ones that are set in this flags setting must be set in the packet.    The ones that are not set in this flags setting must also not be set in the packet.
         public let flags: [TCPFlag]
         /// The set of flags to consider in the inspection. To inspect all flags in the valid values list, leave this with no setting.
@@ -2037,6 +2119,7 @@ extension NetworkFirewall {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
         /// The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
@@ -2063,6 +2146,7 @@ extension NetworkFirewall {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         public let tags: [Tag]
@@ -2090,10 +2174,15 @@ extension NetworkFirewall {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         public let tagKeys: [String]
@@ -2123,10 +2212,15 @@ extension NetworkFirewall {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFirewallDeleteProtectionRequest: AWSEncodableShape {
+
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
@@ -2164,6 +2258,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallDeleteProtectionResponse: AWSDecodableShape {
+
         public let deleteProtection: Bool?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
@@ -2188,6 +2283,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallDescriptionRequest: AWSEncodableShape {
+
         /// The new description for the firewall. If you omit this setting, Network Firewall removes the description for the firewall.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
@@ -2227,6 +2323,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallDescriptionResponse: AWSDecodableShape {
+
         /// A description of the firewall.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the firewall.
@@ -2252,6 +2349,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallPolicyChangeProtectionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -2289,6 +2387,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallPolicyChangeProtectionResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -2314,6 +2413,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallPolicyRequest: AWSEncodableShape {
+
         /// A description of the firewall policy.
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
@@ -2362,6 +2462,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallPolicyResponse: AWSDecodableShape {
+
         /// The high-level properties of a firewall policy. This, along with the FirewallPolicy, define the policy. You can retrieve all objects for a firewall policy by calling DescribeFirewallPolicy.
         public let firewallPolicyResponse: FirewallPolicyResponse
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -2379,6 +2480,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateLoggingConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -2410,6 +2512,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateLoggingConfigurationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -2430,6 +2533,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateRuleGroupRequest: AWSEncodableShape {
+
         /// A description of the rule group.
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
@@ -2468,7 +2572,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
-            try self.validate(self.rules, name: "rules", parent: name, max: 1_000_000)
+            try self.validate(self.rules, name: "rules", parent: name, max: 1000000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
@@ -2488,6 +2592,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateRuleGroupResponse: AWSDecodableShape {
+
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
         public let ruleGroupResponse: RuleGroupResponse
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -2505,6 +2610,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateSubnetChangeProtectionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -2542,6 +2648,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateSubnetChangeProtectionResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.

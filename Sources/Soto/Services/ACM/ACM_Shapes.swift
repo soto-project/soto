@@ -155,6 +155,7 @@ extension ACM {
     // MARK: Shapes
 
     public struct AddTagsToCertificateRequest: AWSEncodableShape {
+
         /// String that contains the ARN of the ACM certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
         /// The key-value pair that defines the tag. The tag value is optional.
@@ -183,6 +184,7 @@ extension ACM {
     }
 
     public struct CertificateDetail: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
         public let certificateArn: String?
         /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
@@ -296,6 +298,7 @@ extension ACM {
     }
 
     public struct CertificateOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
 
@@ -309,6 +312,7 @@ extension ACM {
     }
 
     public struct CertificateSummary: AWSDecodableShape {
+
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
@@ -326,6 +330,7 @@ extension ACM {
     }
 
     public struct DeleteCertificateRequest: AWSEncodableShape {
+
         /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
@@ -345,6 +350,7 @@ extension ACM {
     }
 
     public struct DescribeCertificateRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
@@ -364,6 +370,7 @@ extension ACM {
     }
 
     public struct DescribeCertificateResponse: AWSDecodableShape {
+
         /// Metadata about an ACM certificate.
         public let certificate: CertificateDetail?
 
@@ -377,6 +384,7 @@ extension ACM {
     }
 
     public struct DomainValidation: AWSDecodableShape {
+
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com.
         public let domainName: String
         /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership. Note: The CNAME information that you need does not include the name of your domain. If you include&#x2028; your domain name in the DNS database CNAME record, validation fails.&#x2028; For example, if the name is "_a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com", only "_a79865eb4cd1a6ab990a45779b4e0b96" must be used.
@@ -410,6 +418,7 @@ extension ACM {
     }
 
     public struct DomainValidationOption: AWSEncodableShape {
+
         /// A fully qualified domain name (FQDN) in the certificate request.
         public let domainName: String
         /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com
@@ -436,6 +445,7 @@ extension ACM {
     }
 
     public struct ExpiryEventsConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
         public let daysBeforeExpiry: Int?
 
@@ -453,6 +463,7 @@ extension ACM {
     }
 
     public struct ExportCertificateRequest: AWSEncodableShape {
+
         /// An Amazon Resource Name (ARN) of the issued certificate. This must be of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
         /// Passphrase to associate with the encrypted exported private key. If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key:   openssl rsa -in encrypted_key.pem -out decrypted_key.pem
@@ -478,6 +489,7 @@ extension ACM {
     }
 
     public struct ExportCertificateResponse: AWSDecodableShape {
+
         /// The base64 PEM-encoded certificate.
         public let certificate: String?
         /// The base64 PEM-encoded certificate chain. This does not include the certificate that you are exporting.
@@ -499,6 +511,7 @@ extension ACM {
     }
 
     public struct ExtendedKeyUsage: AWSDecodableShape {
+
         /// The name of an Extended Key Usage value.
         public let name: ExtendedKeyUsageName?
         /// An object identifier (OID) for the extension value. OIDs are strings of numbers separated by periods. The following OIDs are defined in RFC 3280 and RFC 5280.     1.3.6.1.5.5.7.3.1 (TLS_WEB_SERVER_AUTHENTICATION)     1.3.6.1.5.5.7.3.2 (TLS_WEB_CLIENT_AUTHENTICATION)     1.3.6.1.5.5.7.3.3 (CODE_SIGNING)     1.3.6.1.5.5.7.3.4 (EMAIL_PROTECTION)     1.3.6.1.5.5.7.3.8 (TIME_STAMPING)     1.3.6.1.5.5.7.3.9 (OCSP_SIGNING)     1.3.6.1.5.5.7.3.5 (IPSEC_END_SYSTEM)     1.3.6.1.5.5.7.3.6 (IPSEC_TUNNEL)     1.3.6.1.5.5.7.3.7 (IPSEC_USER)
@@ -516,6 +529,7 @@ extension ACM {
     }
 
     public struct Filters: AWSEncodableShape {
+
         /// Specify one or more ExtendedKeyUsage extension values.
         public let extendedKeyUsage: [ExtendedKeyUsageName]?
         /// Specify one or more algorithms that can be used to generate key pairs. Default filtering returns only RSA_1024 and RSA_2048 certificates that have at least one domain. To return other certificate types, provide the desired type signatures in a comma-separated list. For example, "keyTypes": ["RSA_2048,RSA_4096"] returns both RSA_2048 and RSA_4096 certificates.
@@ -530,13 +544,14 @@ extension ACM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case extendedKeyUsage
-            case keyTypes
-            case keyUsage
+            case extendedKeyUsage = "extendedKeyUsage"
+            case keyTypes = "keyTypes"
+            case keyUsage = "keyUsage"
         }
     }
 
     public struct GetAccountConfigurationResponse: AWSDecodableShape {
+
         /// Expiration events configuration options associated with the AWS account.
         public let expiryEvents: ExpiryEventsConfiguration?
 
@@ -550,6 +565,7 @@ extension ACM {
     }
 
     public struct GetCertificateRequest: AWSEncodableShape {
+
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
@@ -569,6 +585,7 @@ extension ACM {
     }
 
     public struct GetCertificateResponse: AWSDecodableShape {
+
         /// The ACM-issued certificate corresponding to the ARN specified as input.
         public let certificate: String?
         /// Certificates forming the requested certificate's chain of trust. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs.
@@ -586,6 +603,7 @@ extension ACM {
     }
 
     public struct ImportCertificateRequest: AWSEncodableShape {
+
         /// The certificate to import.
         public let certificate: Data
         /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field.
@@ -611,7 +629,7 @@ extension ACM {
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
             try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=,.@-]+)*")
-            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2_097_152)
+            try self.validate(self.certificateChain, name: "certificateChain", parent: name, max: 2097152)
             try self.validate(self.certificateChain, name: "certificateChain", parent: name, min: 1)
             try self.validate(self.privateKey, name: "privateKey", parent: name, max: 5120)
             try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
@@ -632,6 +650,7 @@ extension ACM {
     }
 
     public struct ImportCertificateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the imported certificate.
         public let certificateArn: String?
 
@@ -645,6 +664,7 @@ extension ACM {
     }
 
     public struct KeyUsage: AWSDecodableShape {
+
         /// A string value that contains a Key Usage extension name.
         public let name: KeyUsageName?
 
@@ -658,6 +678,7 @@ extension ACM {
     }
 
     public struct ListCertificatesRequest: AWSEncodableShape {
+
         /// Filter the certificate list by status value.
         public let certificateStatuses: [CertificateStatus]?
         /// Filter the certificate list. For more information, see the Filters structure.
@@ -691,6 +712,7 @@ extension ACM {
     }
 
     public struct ListCertificatesResponse: AWSDecodableShape {
+
         /// A list of ACM certificates.
         public let certificateSummaryList: [CertificateSummary]?
         /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
@@ -708,6 +730,7 @@ extension ACM {
     }
 
     public struct ListTagsForCertificateRequest: AWSEncodableShape {
+
         /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
@@ -727,6 +750,7 @@ extension ACM {
     }
 
     public struct ListTagsForCertificateResponse: AWSDecodableShape {
+
         /// The key-value pairs that define the applied tags.
         public let tags: [Tag]?
 
@@ -740,6 +764,7 @@ extension ACM {
     }
 
     public struct PutAccountConfigurationRequest: AWSEncodableShape {
+
         /// Specifies expiration events associated with an account.
         public let expiryEvents: ExpiryEventsConfiguration?
         /// Customer-chosen string used to distinguish between calls to PutAccountConfiguration. Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unexpired idempotency token, ACM treats it as the same request and returns the original result. If you change the idempotency token for each call, ACM treats each call as a new request.
@@ -764,6 +789,7 @@ extension ACM {
     }
 
     public struct RemoveTagsFromCertificateRequest: AWSEncodableShape {
+
         /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
         /// The key-value pair that defines the tag to remove.
@@ -792,6 +818,7 @@ extension ACM {
     }
 
     public struct RenewCertificateRequest: AWSEncodableShape {
+
         /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
@@ -811,6 +838,7 @@ extension ACM {
     }
 
     public struct RenewalSummary: AWSDecodableShape {
+
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
         public let domainValidationOptions: [DomainValidation]
         /// The status of ACM's managed renewal of the certificate.
@@ -836,6 +864,7 @@ extension ACM {
     }
 
     public struct RequestCertificateRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
         ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 64 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length.
@@ -906,6 +935,7 @@ extension ACM {
     }
 
     public struct RequestCertificateResponse: AWSDecodableShape {
+
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String?
 
@@ -919,6 +949,7 @@ extension ACM {
     }
 
     public struct ResendValidationEmailRequest: AWSEncodableShape {
+
         /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:   arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
         /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
@@ -952,6 +983,7 @@ extension ACM {
     }
 
     public struct ResourceRecord: AWSDecodableShape {
+
         /// The name of the DNS record to create in your domain. This is supplied by ACM.
         public let name: String
         /// The type of DNS record. Currently this can be CNAME.
@@ -973,6 +1005,7 @@ extension ACM {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the tag.
         public let key: String
         /// The value of the tag.
@@ -999,6 +1032,7 @@ extension ACM {
     }
 
     public struct UpdateCertificateOptionsRequest: AWSEncodableShape {
+
         /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
         /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.

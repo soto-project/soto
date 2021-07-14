@@ -231,6 +231,7 @@ extension DirectoryService {
     // MARK: Shapes
 
     public struct AcceptSharedDirectoryRequest: AWSEncodableShape {
+
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
 
@@ -248,6 +249,7 @@ extension DirectoryService {
     }
 
     public struct AcceptSharedDirectoryResult: AWSDecodableShape {
+
         /// The shared directory in the directory consumer account.
         public let sharedDirectory: SharedDirectory?
 
@@ -261,6 +263,7 @@ extension DirectoryService {
     }
 
     public struct AddIpRoutesRequest: AWSEncodableShape {
+
         /// Identifier (ID) of the directory to which to add the address block.
         public let directoryId: String
         /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
@@ -289,10 +292,15 @@ extension DirectoryService {
     }
 
     public struct AddIpRoutesResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AddRegionRequest: AWSEncodableShape {
+
         /// The identifier of the directory to which you want to add Region replication.
         public let directoryId: String
         /// The name of the Region where you want to add domain controllers for replication. For example, us-east-1.
@@ -320,10 +328,15 @@ extension DirectoryService {
     }
 
     public struct AddRegionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
+
         /// Identifier (ID) for the directory to which to add the tag.
         public let resourceId: String
         /// The tags to be assigned to the directory.
@@ -348,10 +361,15 @@ extension DirectoryService {
     }
 
     public struct AddTagsToResourceResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Attribute: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the attribute.
         public let name: String?
         /// The value of the attribute.
@@ -373,6 +391,7 @@ extension DirectoryService {
     }
 
     public struct CancelSchemaExtensionRequest: AWSEncodableShape {
+
         /// The identifier of the directory whose schema extension will be canceled.
         public let directoryId: String
         /// The identifier of the schema extension that will be canceled.
@@ -395,10 +414,15 @@ extension DirectoryService {
     }
 
     public struct CancelSchemaExtensionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Certificate: AWSDecodableShape {
+
         /// The identifier of the certificate.
         public let certificateId: String?
         /// A ClientCertAuthSettings object that contains client certificate authentication settings.
@@ -440,6 +464,7 @@ extension DirectoryService {
     }
 
     public struct CertificateInfo: AWSDecodableShape {
+
         /// The identifier of the certificate.
         public let certificateId: String?
         /// The common name for the certificate.
@@ -469,6 +494,7 @@ extension DirectoryService {
     }
 
     public struct ClientCertAuthSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate.
         public let oCSPUrl: String?
 
@@ -488,6 +514,7 @@ extension DirectoryService {
     }
 
     public struct Computer: AWSDecodableShape {
+
         /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
         public let computerAttributes: [Attribute]?
         /// The identifier of the computer.
@@ -509,6 +536,7 @@ extension DirectoryService {
     }
 
     public struct ConditionalForwarder: AWSDecodableShape {
+
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public let dnsIpAddrs: [String]?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
@@ -530,6 +558,7 @@ extension DirectoryService {
     }
 
     public struct ConnectDirectoryRequest: AWSEncodableShape {
+
         /// A DirectoryConnectSettings object that contains additional information for the operation.
         public let connectSettings: DirectoryConnectSettings
         /// A description for the directory.
@@ -581,6 +610,7 @@ extension DirectoryService {
     }
 
     public struct ConnectDirectoryResult: AWSDecodableShape {
+
         /// The identifier of the new directory.
         public let directoryId: String?
 
@@ -594,6 +624,7 @@ extension DirectoryService {
     }
 
     public struct CreateAliasRequest: AWSEncodableShape {
+
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
         public let alias: String
         /// The identifier of the directory for which to create the alias.
@@ -618,6 +649,7 @@ extension DirectoryService {
     }
 
     public struct CreateAliasResult: AWSDecodableShape {
+
         /// The alias for the directory.
         public let alias: String?
         /// The identifier of the directory.
@@ -635,6 +667,7 @@ extension DirectoryService {
     }
 
     public struct CreateComputerRequest: AWSEncodableShape {
+
         /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
         public let computerAttributes: [Attribute]?
         /// The name of the computer account.
@@ -678,6 +711,7 @@ extension DirectoryService {
     }
 
     public struct CreateComputerResult: AWSDecodableShape {
+
         /// A Computer object that represents the computer account.
         public let computer: Computer?
 
@@ -691,6 +725,7 @@ extension DirectoryService {
     }
 
     public struct CreateConditionalForwarderRequest: AWSEncodableShape {
+
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
         public let directoryId: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
@@ -720,10 +755,15 @@ extension DirectoryService {
     }
 
     public struct CreateConditionalForwarderResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateDirectoryRequest: AWSEncodableShape {
+
         /// A description for the directory.
         public let description: String?
         /// The fully qualified name for the directory, such as corp.example.com.
@@ -774,6 +814,7 @@ extension DirectoryService {
     }
 
     public struct CreateDirectoryResult: AWSDecodableShape {
+
         /// The identifier of the directory that was created.
         public let directoryId: String?
 
@@ -787,6 +828,7 @@ extension DirectoryService {
     }
 
     public struct CreateLogSubscriptionRequest: AWSEncodableShape {
+
         /// Identifier of the directory to which you want to subscribe and receive real-time logs to your specified CloudWatch log group.
         public let directoryId: String
         /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
@@ -811,10 +853,15 @@ extension DirectoryService {
     }
 
     public struct CreateLogSubscriptionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateMicrosoftADRequest: AWSEncodableShape {
+
         /// A description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
         public let description: String?
         /// AWS Managed Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
@@ -865,6 +912,7 @@ extension DirectoryService {
     }
 
     public struct CreateMicrosoftADResult: AWSDecodableShape {
+
         /// The identifier of the directory that was created.
         public let directoryId: String?
 
@@ -878,6 +926,7 @@ extension DirectoryService {
     }
 
     public struct CreateSnapshotRequest: AWSEncodableShape {
+
         /// The identifier of the directory of which to take a snapshot.
         public let directoryId: String
         /// The descriptive name to apply to the snapshot.
@@ -902,6 +951,7 @@ extension DirectoryService {
     }
 
     public struct CreateSnapshotResult: AWSDecodableShape {
+
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
 
@@ -915,6 +965,7 @@ extension DirectoryService {
     }
 
     public struct CreateTrustRequest: AWSEncodableShape {
+
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
         public let conditionalForwarderIpAddrs: [String]?
         /// The Directory ID of the AWS Managed Microsoft AD directory for which to establish the trust relationship.
@@ -963,6 +1014,7 @@ extension DirectoryService {
     }
 
     public struct CreateTrustResult: AWSDecodableShape {
+
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
 
@@ -976,6 +1028,7 @@ extension DirectoryService {
     }
 
     public struct DeleteConditionalForwarderRequest: AWSEncodableShape {
+
         /// The directory ID for which you are deleting the conditional forwarder.
         public let directoryId: String
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
@@ -998,10 +1051,15 @@ extension DirectoryService {
     }
 
     public struct DeleteConditionalForwarderResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDirectoryRequest: AWSEncodableShape {
+
         /// The identifier of the directory to delete.
         public let directoryId: String
 
@@ -1019,6 +1077,7 @@ extension DirectoryService {
     }
 
     public struct DeleteDirectoryResult: AWSDecodableShape {
+
         /// The directory identifier.
         public let directoryId: String?
 
@@ -1032,6 +1091,7 @@ extension DirectoryService {
     }
 
     public struct DeleteLogSubscriptionRequest: AWSEncodableShape {
+
         /// Identifier of the directory whose log subscription you want to delete.
         public let directoryId: String
 
@@ -1049,10 +1109,15 @@ extension DirectoryService {
     }
 
     public struct DeleteLogSubscriptionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSnapshotRequest: AWSEncodableShape {
+
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
 
@@ -1070,6 +1135,7 @@ extension DirectoryService {
     }
 
     public struct DeleteSnapshotResult: AWSDecodableShape {
+
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
 
@@ -1083,6 +1149,7 @@ extension DirectoryService {
     }
 
     public struct DeleteTrustRequest: AWSEncodableShape {
+
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
         public let deleteAssociatedConditionalForwarder: Bool?
         /// The Trust ID of the trust relationship to be deleted.
@@ -1104,6 +1171,7 @@ extension DirectoryService {
     }
 
     public struct DeleteTrustResult: AWSDecodableShape {
+
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
 
@@ -1117,6 +1185,7 @@ extension DirectoryService {
     }
 
     public struct DeregisterCertificateRequest: AWSEncodableShape {
+
         /// The identifier of the certificate.
         public let certificateId: String
         /// The identifier of the directory.
@@ -1139,10 +1208,15 @@ extension DirectoryService {
     }
 
     public struct DeregisterCertificateResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeregisterEventTopicRequest: AWSEncodableShape {
+
         /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
         public let directoryId: String
         /// The name of the SNS topic from which to remove the directory as a publisher.
@@ -1167,10 +1241,15 @@ extension DirectoryService {
     }
 
     public struct DeregisterEventTopicResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeCertificateRequest: AWSEncodableShape {
+
         /// The identifier of the certificate.
         public let certificateId: String
         /// The identifier of the directory.
@@ -1193,6 +1272,7 @@ extension DirectoryService {
     }
 
     public struct DescribeCertificateResult: AWSDecodableShape {
+
         /// Information about the certificate, including registered date time, certificate state, the reason for the state, expiration date time, and certificate common name.
         public let certificate: Certificate?
 
@@ -1206,6 +1286,7 @@ extension DirectoryService {
     }
 
     public struct DescribeConditionalForwardersRequest: AWSEncodableShape {
+
         /// The directory ID for which to get the list of associated conditional forwarders.
         public let directoryId: String
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
@@ -1230,6 +1311,7 @@ extension DirectoryService {
     }
 
     public struct DescribeConditionalForwardersResult: AWSDecodableShape {
+
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
 
@@ -1243,6 +1325,7 @@ extension DirectoryService {
     }
 
     public struct DescribeDirectoriesRequest: AWSEncodableShape {
+
         /// A list of identifiers of the directories for which to obtain the information. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let directoryIds: [String]?
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
@@ -1271,6 +1354,7 @@ extension DirectoryService {
     }
 
     public struct DescribeDirectoriesResult: AWSDecodableShape {
+
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let directoryDescriptions: [DirectoryDescription]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
@@ -1288,6 +1372,7 @@ extension DirectoryService {
     }
 
     public struct DescribeDomainControllersRequest: AWSEncodableShape {
+
         /// Identifier of the directory for which to retrieve the domain controller information.
         public let directoryId: String
         /// A list of identifiers for the domain controllers whose information will be provided.
@@ -1321,6 +1406,7 @@ extension DirectoryService {
     }
 
     public struct DescribeDomainControllersResult: AWSDecodableShape {
+
         /// List of the DomainController objects that were retrieved.
         public let domainControllers: [DomainController]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDomainControllers retrieve the next set of items.
@@ -1338,6 +1424,7 @@ extension DirectoryService {
     }
 
     public struct DescribeEventTopicsRequest: AWSEncodableShape {
+
         /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
         public let directoryId: String?
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
@@ -1364,6 +1451,7 @@ extension DirectoryService {
     }
 
     public struct DescribeEventTopicsResult: AWSDecodableShape {
+
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
 
@@ -1377,6 +1465,7 @@ extension DirectoryService {
     }
 
     public struct DescribeLDAPSSettingsRequest: AWSEncodableShape {
+
         /// The identifier of the directory.
         public let directoryId: String
         /// Specifies the number of items that should be displayed on one page.
@@ -1408,6 +1497,7 @@ extension DirectoryService {
     }
 
     public struct DescribeLDAPSSettingsResult: AWSDecodableShape {
+
         /// Information about LDAP security for the specified directory, including status of enablement, state last updated date time, and the reason for the state.
         public let lDAPSSettingsInfo: [LDAPSSettingInfo]?
         /// The next token used to retrieve the LDAPS settings if the number of setting types exceeds page limit and there is another page.
@@ -1425,6 +1515,7 @@ extension DirectoryService {
     }
 
     public struct DescribeRegionsRequest: AWSEncodableShape {
+
         /// The identifier of the directory.
         public let directoryId: String
         /// The DescribeRegionsResult.NextToken value from a previous call to DescribeRegions. Pass null if this is the first call.
@@ -1452,6 +1543,7 @@ extension DirectoryService {
     }
 
     public struct DescribeRegionsResult: AWSDecodableShape {
+
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeRegions to retrieve the next set of items.
         public let nextToken: String?
         /// List of Region information related to the directory for each replicated Region.
@@ -1469,6 +1561,7 @@ extension DirectoryService {
     }
 
     public struct DescribeSharedDirectoriesRequest: AWSEncodableShape {
+
         /// The number of shared directories to return in the response object.
         public let limit: Int?
         /// The DescribeSharedDirectoriesResult.NextToken value from a previous call to DescribeSharedDirectories. Pass null if this is the first call.
@@ -1502,6 +1595,7 @@ extension DirectoryService {
     }
 
     public struct DescribeSharedDirectoriesResult: AWSDecodableShape {
+
         /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSharedDirectories to retrieve the next set of items.
         public let nextToken: String?
         /// A list of all shared directories in your account.
@@ -1519,6 +1613,7 @@ extension DirectoryService {
     }
 
     public struct DescribeSnapshotsRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which to retrieve snapshot information.
         public let directoryId: String?
         /// The maximum number of objects to return.
@@ -1552,6 +1647,7 @@ extension DirectoryService {
     }
 
     public struct DescribeSnapshotsResult: AWSDecodableShape {
+
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
         public let nextToken: String?
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
@@ -1569,6 +1665,7 @@ extension DirectoryService {
     }
 
     public struct DescribeTrustsRequest: AWSEncodableShape {
+
         /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
         public let directoryId: String?
         /// The maximum number of objects to return.
@@ -1602,6 +1699,7 @@ extension DirectoryService {
     }
 
     public struct DescribeTrustsResult: AWSDecodableShape {
+
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
         public let nextToken: String?
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
@@ -1619,6 +1717,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettings: AWSEncodableShape {
+
         /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
         public let customerDnsIps: [String]
         /// The user name of an account in the on-premises directory that is used to connect to the directory. This account must have the following permissions:   Read users and groups   Create computer objects   Join computers to the domain
@@ -1656,6 +1755,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryConnectSettingsDescription: AWSDecodableShape {
+
         /// A list of the Availability Zones that the directory is in.
         public let availabilityZones: [String]?
         /// The IP addresses of the AD Connector servers.
@@ -1689,6 +1789,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryDescription: AWSDecodableShape {
+
         /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
         public let accessUrl: String?
         /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
@@ -1798,6 +1899,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryLimits: AWSDecodableShape {
+
         /// The current number of cloud directories in the Region.
         public let cloudOnlyDirectoriesCurrentCount: Int?
         /// The maximum number of cloud directories allowed in the Region.
@@ -1843,6 +1945,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryVpcSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
         public let subnetIds: [String]
         /// The identifier of the VPC in which to create the directory.
@@ -1867,6 +1970,7 @@ extension DirectoryService {
     }
 
     public struct DirectoryVpcSettingsDescription: AWSDecodableShape {
+
         /// The list of Availability Zones that the directory is in.
         public let availabilityZones: [String]?
         /// The domain controller security group identifier for the directory.
@@ -1892,6 +1996,7 @@ extension DirectoryService {
     }
 
     public struct DisableClientAuthenticationRequest: AWSEncodableShape {
+
         /// The identifier of the directory
         public let directoryId: String
         /// The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
@@ -1913,10 +2018,15 @@ extension DirectoryService {
     }
 
     public struct DisableClientAuthenticationResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableLDAPSRequest: AWSEncodableShape {
+
         /// The identifier of the directory.
         public let directoryId: String
         /// The type of LDAP security to enable. Currently only the value Client is supported.
@@ -1938,10 +2048,15 @@ extension DirectoryService {
     }
 
     public struct DisableLDAPSResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableRadiusRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
 
@@ -1959,10 +2074,15 @@ extension DirectoryService {
     }
 
     public struct DisableRadiusResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableSsoRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which to disable single-sign on.
         public let directoryId: String
         /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
@@ -1992,10 +2112,15 @@ extension DirectoryService {
     }
 
     public struct DisableSsoResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DomainController: AWSDecodableShape {
+
         /// The Availability Zone where the domain controller is located.
         public let availabilityZone: String?
         /// Identifier of the directory where the domain controller resides.
@@ -2045,6 +2170,7 @@ extension DirectoryService {
     }
 
     public struct EnableClientAuthenticationRequest: AWSEncodableShape {
+
         /// The identifier of the specified directory.
         public let directoryId: String
         /// The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Connector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in the on-premises AD.
@@ -2066,10 +2192,15 @@ extension DirectoryService {
     }
 
     public struct EnableClientAuthenticationResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableLDAPSRequest: AWSEncodableShape {
+
         /// The identifier of the directory.
         public let directoryId: String
         /// The type of LDAP security to enable. Currently only the value Client is supported.
@@ -2091,10 +2222,15 @@ extension DirectoryService {
     }
 
     public struct EnableLDAPSResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableRadiusRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which to enable MFA.
         public let directoryId: String
         /// A RadiusSettings object that contains information about the RADIUS server.
@@ -2117,10 +2253,15 @@ extension DirectoryService {
     }
 
     public struct EnableRadiusResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableSsoRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which to enable single-sign on.
         public let directoryId: String
         /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
@@ -2150,10 +2291,15 @@ extension DirectoryService {
     }
 
     public struct EnableSsoResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EventTopic: AWSDecodableShape {
+
         /// The date and time of when you associated your directory with the SNS topic.
         public let createdDateTime: Date?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
@@ -2183,10 +2329,15 @@ extension DirectoryService {
     }
 
     public struct GetDirectoryLimitsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetDirectoryLimitsResult: AWSDecodableShape {
+
         /// A DirectoryLimits object that contains the directory limits for the current rRegion.
         public let directoryLimits: DirectoryLimits?
 
@@ -2200,6 +2351,7 @@ extension DirectoryService {
     }
 
     public struct GetSnapshotLimitsRequest: AWSEncodableShape {
+
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
 
@@ -2217,6 +2369,7 @@ extension DirectoryService {
     }
 
     public struct GetSnapshotLimitsResult: AWSDecodableShape {
+
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
 
@@ -2230,6 +2383,7 @@ extension DirectoryService {
     }
 
     public struct IpRoute: AWSEncodableShape {
+
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
         /// Description of the address block.
@@ -2254,6 +2408,7 @@ extension DirectoryService {
     }
 
     public struct IpRouteInfo: AWSDecodableShape {
+
         /// The date and time the address block was added to the directory.
         public let addedDateTime: Date?
         /// IP address block in the IpRoute.
@@ -2287,6 +2442,7 @@ extension DirectoryService {
     }
 
     public struct LDAPSSettingInfo: AWSDecodableShape {
+
         /// The date and time when the LDAPS settings were last updated.
         public let lastUpdatedDateTime: Date?
         /// The state of the LDAPS settings.
@@ -2308,6 +2464,7 @@ extension DirectoryService {
     }
 
     public struct ListCertificatesRequest: AWSEncodableShape {
+
         /// The identifier of the directory.
         public let directoryId: String
         /// The number of items that should show up on one page
@@ -2335,6 +2492,7 @@ extension DirectoryService {
     }
 
     public struct ListCertificatesResult: AWSDecodableShape {
+
         /// A list of certificates with basic details including certificate ID, certificate common name, certificate state.
         public let certificatesInfo: [CertificateInfo]?
         /// Indicates whether another page of certificates is available when the number of available certificates exceeds the page limit.
@@ -2352,6 +2510,7 @@ extension DirectoryService {
     }
 
     public struct ListIpRoutesRequest: AWSEncodableShape {
+
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
         public let directoryId: String
         /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
@@ -2378,6 +2537,7 @@ extension DirectoryService {
     }
 
     public struct ListIpRoutesResult: AWSDecodableShape {
+
         /// A list of IpRoutes.
         public let ipRoutesInfo: [IpRouteInfo]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
@@ -2395,6 +2555,7 @@ extension DirectoryService {
     }
 
     public struct ListLogSubscriptionsRequest: AWSEncodableShape {
+
         /// If a DirectoryID is provided, lists only the log subscription associated with that directory. If no DirectoryId is provided, lists all log subscriptions associated with your AWS account. If there are no log subscriptions for the AWS account or the directory, an empty list will be returned.
         public let directoryId: String?
         /// The maximum number of items returned.
@@ -2421,6 +2582,7 @@ extension DirectoryService {
     }
 
     public struct ListLogSubscriptionsResult: AWSDecodableShape {
+
         /// A list of active LogSubscription objects for calling the AWS account.
         public let logSubscriptions: [LogSubscription]?
         /// The token for the next set of items to return.
@@ -2438,6 +2600,7 @@ extension DirectoryService {
     }
 
     public struct ListSchemaExtensionsRequest: AWSEncodableShape {
+
         /// The identifier of the directory from which to retrieve the schema extension information.
         public let directoryId: String
         /// The maximum number of items to return.
@@ -2464,6 +2627,7 @@ extension DirectoryService {
     }
 
     public struct ListSchemaExtensionsResult: AWSDecodableShape {
+
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
         public let nextToken: String?
         /// Information about the schema extensions applied to the directory.
@@ -2481,6 +2645,7 @@ extension DirectoryService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// Reserved for future use.
         public let limit: Int?
         /// Reserved for future use.
@@ -2507,6 +2672,7 @@ extension DirectoryService {
     }
 
     public struct ListTagsForResourceResult: AWSDecodableShape {
+
         /// Reserved for future use.
         public let nextToken: String?
         /// List of tags returned by the ListTagsForResource operation.
@@ -2524,6 +2690,7 @@ extension DirectoryService {
     }
 
     public struct LogSubscription: AWSDecodableShape {
+
         /// Identifier (ID) of the directory that you want to associate with the log subscription.
         public let directoryId: String?
         /// The name of the log group.
@@ -2545,6 +2712,7 @@ extension DirectoryService {
     }
 
     public struct OwnerDirectoryDescription: AWSDecodableShape {
+
         /// Identifier of the directory owner account.
         public let accountId: String?
         /// Identifier of the AWS Managed Microsoft AD directory in the directory owner account.
@@ -2578,6 +2746,7 @@ extension DirectoryService {
     }
 
     public struct RadiusSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The protocol specified for your RADIUS endpoints.
         public let authenticationProtocol: RadiusAuthenticationProtocol?
         /// Not currently used.
@@ -2636,6 +2805,7 @@ extension DirectoryService {
     }
 
     public struct RegionDescription: AWSDecodableShape {
+
         /// The desired number of domain controllers in the specified Region for the specified directory.
         public let desiredNumberOfDomainControllers: Int?
         /// The identifier of the directory.
@@ -2680,6 +2850,7 @@ extension DirectoryService {
     }
 
     public struct RegionsInfo: AWSDecodableShape {
+
         /// Lists the Regions where the directory has been replicated, excluding the primary Region.
         public let additionalRegions: [String]?
         /// The Region where the AWS Managed Microsoft AD directory was originally created.
@@ -2697,6 +2868,7 @@ extension DirectoryService {
     }
 
     public struct RegisterCertificateRequest: AWSEncodableShape {
+
         /// The certificate PEM string that needs to be registered.
         public let certificateData: String
         /// A ClientCertAuthSettings object that contains client certificate authentication settings.
@@ -2729,6 +2901,7 @@ extension DirectoryService {
     }
 
     public struct RegisterCertificateResult: AWSDecodableShape {
+
         /// The identifier of the certificate.
         public let certificateId: String?
 
@@ -2742,6 +2915,7 @@ extension DirectoryService {
     }
 
     public struct RegisterEventTopicRequest: AWSEncodableShape {
+
         /// The Directory ID that will publish status messages to the SNS topic.
         public let directoryId: String
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
@@ -2766,10 +2940,15 @@ extension DirectoryService {
     }
 
     public struct RegisterEventTopicResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RejectSharedDirectoryRequest: AWSEncodableShape {
+
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
 
@@ -2787,6 +2966,7 @@ extension DirectoryService {
     }
 
     public struct RejectSharedDirectoryResult: AWSDecodableShape {
+
         /// Identifier of the shared directory in the directory consumer account.
         public let sharedDirectoryId: String?
 
@@ -2800,6 +2980,7 @@ extension DirectoryService {
     }
 
     public struct RemoveIpRoutesRequest: AWSEncodableShape {
+
         /// IP address blocks that you want to remove.
         public let cidrIps: [String]
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
@@ -2824,10 +3005,15 @@ extension DirectoryService {
     }
 
     public struct RemoveIpRoutesResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveRegionRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which you want to remove Region replication.
         public let directoryId: String
 
@@ -2845,10 +3031,15 @@ extension DirectoryService {
     }
 
     public struct RemoveRegionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
+
         /// Identifier (ID) of the directory from which to remove the tag.
         public let resourceId: String
         /// The tag key (name) of the tag to be removed.
@@ -2875,10 +3066,15 @@ extension DirectoryService {
     }
 
     public struct RemoveTagsFromResourceResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ResetUserPasswordRequest: AWSEncodableShape {
+
         /// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which the user resides.
         public let directoryId: String
         /// The new password that will be reset.
@@ -2909,10 +3105,15 @@ extension DirectoryService {
     }
 
     public struct ResetUserPasswordResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RestoreFromSnapshotRequest: AWSEncodableShape {
+
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
 
@@ -2930,10 +3131,15 @@ extension DirectoryService {
     }
 
     public struct RestoreFromSnapshotResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SchemaExtensionInfo: AWSDecodableShape {
+
         /// A description of the schema extension.
         public let description: String?
         /// The identifier of the directory to which the schema extension is applied.
@@ -2971,6 +3177,7 @@ extension DirectoryService {
     }
 
     public struct ShareDirectoryRequest: AWSEncodableShape {
+
         /// Identifier of the AWS Managed Microsoft AD directory that you want to share with other AWS accounts.
         public let directoryId: String
         /// The method used when sharing a directory to determine whether the directory should be shared within your AWS organization (ORGANIZATIONS) or with any AWS account by sending a directory sharing request (HANDSHAKE).
@@ -3002,6 +3209,7 @@ extension DirectoryService {
     }
 
     public struct ShareDirectoryResult: AWSDecodableShape {
+
         /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
 
@@ -3015,6 +3223,7 @@ extension DirectoryService {
     }
 
     public struct ShareTarget: AWSEncodableShape {
+
         /// Identifier of the directory consumer account.
         public let id: String
         /// Type of identifier to be used in the Id field.
@@ -3037,6 +3246,7 @@ extension DirectoryService {
     }
 
     public struct SharedDirectory: AWSDecodableShape {
+
         /// The date and time that the shared directory was created.
         public let createdDateTime: Date?
         /// The date and time that the shared directory was last updated.
@@ -3082,6 +3292,7 @@ extension DirectoryService {
     }
 
     public struct Snapshot: AWSDecodableShape {
+
         /// The directory identifier.
         public let directoryId: String?
         /// The descriptive name of the snapshot.
@@ -3115,6 +3326,7 @@ extension DirectoryService {
     }
 
     public struct SnapshotLimits: AWSDecodableShape {
+
         /// The current number of manual snapshots of the directory.
         public let manualSnapshotsCurrentCount: Int?
         /// The maximum number of manual snapshots allowed.
@@ -3136,6 +3348,7 @@ extension DirectoryService {
     }
 
     public struct StartSchemaExtensionRequest: AWSEncodableShape {
+
         /// If true, creates a snapshot of the directory before applying the schema extension.
         public let createSnapshotBeforeSchemaExtension: Bool
         /// A description of the schema extension.
@@ -3157,7 +3370,7 @@ extension DirectoryService {
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
-            try self.validate(self.ldifContent, name: "ldifContent", parent: name, max: 500_000)
+            try self.validate(self.ldifContent, name: "ldifContent", parent: name, max: 500000)
             try self.validate(self.ldifContent, name: "ldifContent", parent: name, min: 1)
         }
 
@@ -3170,6 +3383,7 @@ extension DirectoryService {
     }
 
     public struct StartSchemaExtensionResult: AWSDecodableShape {
+
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
 
@@ -3183,6 +3397,7 @@ extension DirectoryService {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -3209,6 +3424,7 @@ extension DirectoryService {
     }
 
     public struct Trust: AWSDecodableShape {
+
         /// The date and time that the trust relationship was created.
         public let createdDateTime: Date?
         /// The Directory ID of the AWS directory involved in the trust relationship.
@@ -3262,6 +3478,7 @@ extension DirectoryService {
     }
 
     public struct UnshareDirectoryRequest: AWSEncodableShape {
+
         /// The identifier of the AWS Managed Microsoft AD directory that you want to stop sharing.
         public let directoryId: String
         /// Identifier for the directory consumer account with whom the directory has to be unshared.
@@ -3284,6 +3501,7 @@ extension DirectoryService {
     }
 
     public struct UnshareDirectoryResult: AWSDecodableShape {
+
         /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
 
@@ -3297,6 +3515,7 @@ extension DirectoryService {
     }
 
     public struct UnshareTarget: AWSEncodableShape {
+
         /// Identifier of the directory consumer account.
         public let id: String
         /// Type of identifier to be used in the Id field.
@@ -3319,6 +3538,7 @@ extension DirectoryService {
     }
 
     public struct UpdateConditionalForwarderRequest: AWSEncodableShape {
+
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
         public let directoryId: String
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
@@ -3348,10 +3568,15 @@ extension DirectoryService {
     }
 
     public struct UpdateConditionalForwarderResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateNumberOfDomainControllersRequest: AWSEncodableShape {
+
         /// The number of domain controllers desired in the directory.
         public let desiredNumber: Int
         /// Identifier of the directory to which the domain controllers will be added or removed.
@@ -3374,10 +3599,15 @@ extension DirectoryService {
     }
 
     public struct UpdateNumberOfDomainControllersResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateRadiusRequest: AWSEncodableShape {
+
         /// The identifier of the directory for which to update the RADIUS server information.
         public let directoryId: String
         /// A RadiusSettings object that contains information about the RADIUS server.
@@ -3400,10 +3630,15 @@ extension DirectoryService {
     }
 
     public struct UpdateRadiusResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateTrustRequest: AWSEncodableShape {
+
         /// Updates selective authentication for the trust.
         public let selectiveAuth: SelectiveAuth?
         /// Identifier of the trust relationship.
@@ -3425,6 +3660,7 @@ extension DirectoryService {
     }
 
     public struct UpdateTrustResult: AWSDecodableShape {
+
         public let requestId: String?
         /// Identifier of the trust relationship.
         public let trustId: String?
@@ -3441,6 +3677,7 @@ extension DirectoryService {
     }
 
     public struct VerifyTrustRequest: AWSEncodableShape {
+
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
 
@@ -3458,6 +3695,7 @@ extension DirectoryService {
     }
 
     public struct VerifyTrustResult: AWSDecodableShape {
+
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?
 

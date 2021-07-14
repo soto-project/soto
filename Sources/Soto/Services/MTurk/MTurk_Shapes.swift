@@ -129,6 +129,7 @@ extension MTurk {
     // MARK: Shapes
 
     public struct AcceptQualificationRequestRequest: AWSEncodableShape {
+
         ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement.
         public let integerValue: Int?
         /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
@@ -146,10 +147,15 @@ extension MTurk {
     }
 
     public struct AcceptQualificationRequestResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ApproveAssignmentRequest: AWSEncodableShape {
+
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester.
         public let assignmentId: String
         ///  A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False.
@@ -177,10 +183,15 @@ extension MTurk {
     }
 
     public struct ApproveAssignmentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Assignment: AWSDecodableShape {
+
         ///  The date and time the Worker accepted the assignment.
         public let acceptTime: Date?
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
@@ -238,6 +249,7 @@ extension MTurk {
     }
 
     public struct AssociateQualificationWithWorkerRequest: AWSEncodableShape {
+
         /// The value of the Qualification to assign.
         public let integerValue: Int?
         /// The ID of the Qualification type to use for the assigned Qualification.
@@ -272,10 +284,15 @@ extension MTurk {
     }
 
     public struct AssociateQualificationWithWorkerResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct BonusPayment: AWSDecodableShape {
+
         /// The ID of the assignment associated with this bonus payment.
         public let assignmentId: String?
         public let bonusAmount: String?
@@ -304,6 +321,7 @@ extension MTurk {
     }
 
     public struct CreateAdditionalAssignmentsForHITRequest: AWSEncodableShape {
+
         /// The ID of the HIT to extend.
         public let hITId: String
         /// The number of additional assignments to request for this HIT.
@@ -333,10 +351,15 @@ extension MTurk {
     }
 
     public struct CreateAdditionalAssignmentsForHITResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateHITRequest: AWSEncodableShape {
+
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept.
         public let assignmentDurationInSeconds: Int64
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
@@ -422,6 +445,7 @@ extension MTurk {
     }
 
     public struct CreateHITResponse: AWSDecodableShape {
+
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation.
         public let hit: HIT?
 
@@ -435,6 +459,7 @@ extension MTurk {
     }
 
     public struct CreateHITTypeRequest: AWSEncodableShape {
+
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept.
         public let assignmentDurationInSeconds: Int64
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it.
@@ -479,6 +504,7 @@ extension MTurk {
     }
 
     public struct CreateHITTypeResponse: AWSDecodableShape {
+
         ///  The ID of the newly registered HIT type.
         public let hITTypeId: String?
 
@@ -492,6 +518,7 @@ extension MTurk {
     }
 
     public struct CreateHITWithHITTypeRequest: AWSEncodableShape {
+
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
         public let assignmentReviewPolicy: ReviewPolicy?
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided.
@@ -552,6 +579,7 @@ extension MTurk {
     }
 
     public struct CreateHITWithHITTypeResponse: AWSDecodableShape {
+
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation.
         public let hit: HIT?
 
@@ -565,6 +593,7 @@ extension MTurk {
     }
 
     public struct CreateQualificationTypeRequest: AWSEncodableShape {
+
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
         public let answerKey: String?
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
@@ -614,6 +643,7 @@ extension MTurk {
     }
 
     public struct CreateQualificationTypeResponse: AWSDecodableShape {
+
         /// The created Qualification type, returned as a QualificationType data structure.
         public let qualificationType: QualificationType?
 
@@ -627,6 +657,7 @@ extension MTurk {
     }
 
     public struct CreateWorkerBlockRequest: AWSEncodableShape {
+
         /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
         public let reason: String
         /// The ID of the Worker to block.
@@ -650,10 +681,15 @@ extension MTurk {
     }
 
     public struct CreateWorkerBlockResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteHITRequest: AWSEncodableShape {
+
         /// The ID of the HIT to be deleted.
         public let hITId: String
 
@@ -673,10 +709,15 @@ extension MTurk {
     }
 
     public struct DeleteHITResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteQualificationTypeRequest: AWSEncodableShape {
+
         /// The ID of the QualificationType to dispose.
         public let qualificationTypeId: String
 
@@ -696,10 +737,15 @@ extension MTurk {
     }
 
     public struct DeleteQualificationTypeResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteWorkerBlockRequest: AWSEncodableShape {
+
         /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
         public let reason: String?
         /// The ID of the Worker to unblock.
@@ -723,10 +769,15 @@ extension MTurk {
     }
 
     public struct DeleteWorkerBlockResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateQualificationFromWorkerRequest: AWSEncodableShape {
+
         /// The ID of the Qualification type of the Qualification to be revoked.
         public let qualificationTypeId: String
         /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
@@ -757,14 +808,23 @@ extension MTurk {
     }
 
     public struct DisassociateQualificationFromWorkerResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAccountBalanceRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAccountBalanceResponse: AWSDecodableShape {
+
         public let availableBalance: String?
         public let onHoldBalance: String?
 
@@ -780,6 +840,7 @@ extension MTurk {
     }
 
     public struct GetAssignmentRequest: AWSEncodableShape {
+
         /// The ID of the Assignment to be retrieved.
         public let assignmentId: String
 
@@ -799,6 +860,7 @@ extension MTurk {
     }
 
     public struct GetAssignmentResponse: AWSDecodableShape {
+
         ///  The assignment. The response includes one Assignment element.
         public let assignment: Assignment?
         ///  The HIT associated with this assignment. The response includes one HIT element.
@@ -816,6 +878,7 @@ extension MTurk {
     }
 
     public struct GetFileUploadURLRequest: AWSEncodableShape {
+
         /// The ID of the assignment that contains the question with a FileUploadAnswer.
         public let assignmentId: String
         /// The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
@@ -839,6 +902,7 @@ extension MTurk {
     }
 
     public struct GetFileUploadURLResponse: AWSDecodableShape {
+
         ///  A temporary URL for the file that the Worker uploaded for the answer.
         public let fileUploadURL: String?
 
@@ -852,6 +916,7 @@ extension MTurk {
     }
 
     public struct GetHITRequest: AWSEncodableShape {
+
         /// The ID of the HIT to be retrieved.
         public let hITId: String
 
@@ -871,6 +936,7 @@ extension MTurk {
     }
 
     public struct GetHITResponse: AWSDecodableShape {
+
         ///  Contains the requested HIT data.
         public let hit: HIT?
 
@@ -884,6 +950,7 @@ extension MTurk {
     }
 
     public struct GetQualificationScoreRequest: AWSEncodableShape {
+
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
         /// The ID of the Worker whose Qualification is being updated.
@@ -910,6 +977,7 @@ extension MTurk {
     }
 
     public struct GetQualificationScoreResponse: AWSDecodableShape {
+
         ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score).
         public let qualification: Qualification?
 
@@ -923,6 +991,7 @@ extension MTurk {
     }
 
     public struct GetQualificationTypeRequest: AWSEncodableShape {
+
         /// The ID of the QualificationType.
         public let qualificationTypeId: String
 
@@ -942,6 +1011,7 @@ extension MTurk {
     }
 
     public struct GetQualificationTypeResponse: AWSDecodableShape {
+
         ///  The returned Qualification Type
         public let qualificationType: QualificationType?
 
@@ -955,6 +1025,7 @@ extension MTurk {
     }
 
     public struct HIT: AWSDecodableShape {
+
         ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
         public let assignmentDurationInSeconds: Int64?
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid.
@@ -1047,6 +1118,7 @@ extension MTurk {
     }
 
     public struct HITLayoutParameter: AWSEncodableShape {
+
         ///  The name of the parameter in the HITLayout.
         public let name: String
         /// The value substituted for the parameter referenced in the HITLayout.
@@ -1064,6 +1136,7 @@ extension MTurk {
     }
 
     public struct ListAssignmentsForHITRequest: AWSEncodableShape {
+
         /// The status of the assignments to return: Submitted | Approved | Rejected
         public let assignmentStatuses: [AssignmentStatus]?
         /// The ID of the HIT.
@@ -1098,6 +1171,7 @@ extension MTurk {
     }
 
     public struct ListAssignmentsForHITResponse: AWSDecodableShape {
+
         ///  The collection of Assignment data structures returned by this call.
         public let assignments: [Assignment]?
         public let nextToken: String?
@@ -1118,6 +1192,7 @@ extension MTurk {
     }
 
     public struct ListBonusPaymentsRequest: AWSEncodableShape {
+
         /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
         public let assignmentId: String?
         /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
@@ -1155,6 +1230,7 @@ extension MTurk {
     }
 
     public struct ListBonusPaymentsResponse: AWSDecodableShape {
+
         /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects.
         public let bonusPayments: [BonusPayment]?
         public let nextToken: String?
@@ -1175,6 +1251,7 @@ extension MTurk {
     }
 
     public struct ListHITsForQualificationTypeRequest: AWSEncodableShape {
+
         ///  Limit the number of results returned.
         public let maxResults: Int?
         /// Pagination Token
@@ -1206,6 +1283,7 @@ extension MTurk {
     }
 
     public struct ListHITsForQualificationTypeResponse: AWSDecodableShape {
+
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
         public let nextToken: String?
@@ -1226,6 +1304,7 @@ extension MTurk {
     }
 
     public struct ListHITsRequest: AWSEncodableShape {
+
         public let maxResults: Int?
         /// Pagination token
         public let nextToken: String?
@@ -1249,6 +1328,7 @@ extension MTurk {
     }
 
     public struct ListHITsResponse: AWSDecodableShape {
+
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
         public let nextToken: String?
@@ -1269,6 +1349,7 @@ extension MTurk {
     }
 
     public struct ListQualificationRequestsRequest: AWSEncodableShape {
+
         ///  The maximum number of results to return in a single call.
         public let maxResults: Int?
         public let nextToken: String?
@@ -1299,6 +1380,7 @@ extension MTurk {
     }
 
     public struct ListQualificationRequestsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         /// The number of Qualification requests on this page in the filtered results list, equivalent to the number of Qualification requests being returned by this call.
         public let numResults: Int?
@@ -1319,6 +1401,7 @@ extension MTurk {
     }
 
     public struct ListQualificationTypesRequest: AWSEncodableShape {
+
         ///  The maximum number of results to return in a single call.
         public let maxResults: Int?
         ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types.
@@ -1354,6 +1437,7 @@ extension MTurk {
     }
 
     public struct ListQualificationTypesResponse: AWSDecodableShape {
+
         public let nextToken: String?
         ///  The number of Qualification types on this page in the filtered results list, equivalent to the number of types this operation returns.
         public let numResults: Int?
@@ -1374,6 +1458,7 @@ extension MTurk {
     }
 
     public struct ListReviewPolicyResultsForHITRequest: AWSEncodableShape {
+
         /// The unique identifier of the HIT to retrieve review results for.
         public let hITId: String
         /// Limit the number of results returned.
@@ -1417,6 +1502,7 @@ extension MTurk {
     }
 
     public struct ListReviewPolicyResultsForHITResponse: AWSDecodableShape {
+
         ///  The name of the Assignment-level Review Policy. This contains only the PolicyName element.
         public let assignmentReviewPolicy: ReviewPolicy?
         ///  Contains both ReviewResult and ReviewAction elements for an Assignment.
@@ -1449,6 +1535,7 @@ extension MTurk {
     }
 
     public struct ListReviewableHITsRequest: AWSEncodableShape {
+
         ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered
         public let hITTypeId: String?
         ///  Limit the number of results returned.
@@ -1484,6 +1571,7 @@ extension MTurk {
     }
 
     public struct ListReviewableHITsResponse: AWSDecodableShape {
+
         ///  The list of HIT elements returned by the query.
         public let hITs: [HIT]?
         public let nextToken: String?
@@ -1504,6 +1592,7 @@ extension MTurk {
     }
 
     public struct ListWorkerBlocksRequest: AWSEncodableShape {
+
         public let maxResults: Int?
         /// Pagination token
         public let nextToken: String?
@@ -1527,6 +1616,7 @@ extension MTurk {
     }
 
     public struct ListWorkerBlocksResponse: AWSDecodableShape {
+
         public let nextToken: String?
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
         public let numResults: Int?
@@ -1547,6 +1637,7 @@ extension MTurk {
     }
 
     public struct ListWorkersWithQualificationTypeRequest: AWSEncodableShape {
+
         ///  Limit the number of results returned.
         public let maxResults: Int?
         /// Pagination Token
@@ -1582,6 +1673,7 @@ extension MTurk {
     }
 
     public struct ListWorkersWithQualificationTypeResponse: AWSDecodableShape {
+
         public let nextToken: String?
         ///  The number of Qualifications on this page in the filtered results list, equivalent to the number of Qualifications being returned by this call.
         public let numResults: Int?
@@ -1602,6 +1694,7 @@ extension MTurk {
     }
 
     public struct Locale: AWSEncodableShape & AWSDecodableShape {
+
         ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America.
         public let country: String
         /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
@@ -1626,6 +1719,7 @@ extension MTurk {
     }
 
     public struct NotificationSpecification: AWSEncodableShape {
+
         ///  The target for notification messages. The Destination’s format is determined by the specified Transport:    When Transport is Email, the Destination is your email address.   When Transport is SQS, the Destination is your queue URL.   When Transport is SNS, the Destination is the ARN of your topic.
         public let destination: String
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation.
@@ -1651,6 +1745,7 @@ extension MTurk {
     }
 
     public struct NotifyWorkersFailureStatus: AWSDecodableShape {
+
         ///  Encoded value for the failure type.
         public let notifyWorkersFailureCode: NotifyWorkersFailureCode?
         ///  A message detailing the reason the Worker could not be notified.
@@ -1672,6 +1767,7 @@ extension MTurk {
     }
 
     public struct NotifyWorkersRequest: AWSEncodableShape {
+
         /// The text of the email message to send. Can include up to 4,096 characters
         public let messageText: String
         /// The subject line of the email message to send. Can include up to 200 characters.
@@ -1701,6 +1797,7 @@ extension MTurk {
     }
 
     public struct NotifyWorkersResponse: AWSDecodableShape {
+
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects.
         public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
 
@@ -1714,6 +1811,7 @@ extension MTurk {
     }
 
     public struct ParameterMapEntry: AWSEncodableShape & AWSDecodableShape {
+
         ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy.
         public let key: String?
         ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly.
@@ -1731,6 +1829,7 @@ extension MTurk {
     }
 
     public struct PolicyParameter: AWSEncodableShape & AWSDecodableShape {
+
         ///  Name of the parameter from the list of Review Polices.
         public let key: String?
         ///  List of ParameterMapEntry objects.
@@ -1752,6 +1851,7 @@ extension MTurk {
     }
 
     public struct Qualification: AWSDecodableShape {
+
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
         public let grantTime: Date?
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
@@ -1784,6 +1884,7 @@ extension MTurk {
     }
 
     public struct QualificationRequest: AWSDecodableShape {
+
         ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty.
         public let answer: String?
         /// The ID of the Qualification request, a unique identifier generated when the request was submitted.
@@ -1817,6 +1918,7 @@ extension MTurk {
     }
 
     public struct QualificationRequirement: AWSEncodableShape & AWSDecodableShape {
+
         ///  Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include "Accept" (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), "PreviewAndAccept" (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and "DiscoverPreviewAndAccept" (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field.
         public let actionsGuarded: HITAccessActions?
         /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value.
@@ -1852,6 +1954,7 @@ extension MTurk {
     }
 
     public struct QualificationType: AWSDecodableShape {
+
         /// The answers to the Qualification test specified in the Test parameter.
         public let answerKey: String?
         /// Specifies that requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Valid values are True | False.
@@ -1913,6 +2016,7 @@ extension MTurk {
     }
 
     public struct RejectAssignmentRequest: AWSEncodableShape {
+
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester.
         public let assignmentId: String
         ///  A message for the Worker, which the Worker can see in the Status section of the web site.
@@ -1936,10 +2040,15 @@ extension MTurk {
     }
 
     public struct RejectAssignmentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RejectQualificationRequestRequest: AWSEncodableShape {
+
         ///  The ID of the Qualification request, as returned by the ListQualificationRequests operation.
         public let qualificationRequestId: String
         /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
@@ -1957,10 +2066,15 @@ extension MTurk {
     }
 
     public struct RejectQualificationRequestResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ReviewActionDetail: AWSDecodableShape {
+
         /// The unique identifier for the action.
         public let actionId: String?
         ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary.
@@ -2002,6 +2116,7 @@ extension MTurk {
     }
 
     public struct ReviewPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// Name of the parameter from the Review policy.
         public let parameters: [PolicyParameter]?
         ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
@@ -2019,6 +2134,7 @@ extension MTurk {
     }
 
     public struct ReviewReport: AWSDecodableShape {
+
         ///  A list of ReviewAction objects for each action specified in the Review Policy.
         public let reviewActions: [ReviewActionDetail]?
         ///  A list of ReviewResults objects for each action specified in the Review Policy.
@@ -2036,6 +2152,7 @@ extension MTurk {
     }
 
     public struct ReviewResultDetail: AWSDecodableShape {
+
         ///  A unique identifier of the Review action result.
         public let actionId: String?
         ///  Key identifies the particular piece of reviewed information.
@@ -2069,6 +2186,7 @@ extension MTurk {
     }
 
     public struct SendBonusRequest: AWSEncodableShape {
+
         /// The ID of the assignment for which this bonus is paid.
         public let assignmentId: String
         ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes.
@@ -2110,10 +2228,15 @@ extension MTurk {
     }
 
     public struct SendBonusResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SendTestEventNotificationRequest: AWSEncodableShape {
+
         ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type.
         public let notification: NotificationSpecification
         ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event.
@@ -2131,10 +2254,15 @@ extension MTurk {
     }
 
     public struct SendTestEventNotificationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateExpirationForHITRequest: AWSEncodableShape {
+
         ///  The date and time at which you want the HIT to expire
         public let expireAt: Date
         ///  The HIT to update.
@@ -2158,10 +2286,15 @@ extension MTurk {
     }
 
     public struct UpdateExpirationForHITResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateHITReviewStatusRequest: AWSEncodableShape {
+
         ///  The ID of the HIT to update.
         public let hITId: String
         ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable
@@ -2185,10 +2318,15 @@ extension MTurk {
     }
 
     public struct UpdateHITReviewStatusResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateHITTypeOfHITRequest: AWSEncodableShape {
+
         /// The HIT to update.
         public let hITId: String
         /// The ID of the new HIT type.
@@ -2215,10 +2353,15 @@ extension MTurk {
     }
 
     public struct UpdateHITTypeOfHITResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateNotificationSettingsRequest: AWSEncodableShape {
+
         ///  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed.
         public let active: Bool?
         ///  The ID of the HIT type whose notification specification is being updated.
@@ -2246,10 +2389,15 @@ extension MTurk {
     }
 
     public struct UpdateNotificationSettingsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateQualificationTypeRequest: AWSEncodableShape {
+
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
         public let answerKey: String?
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
@@ -2301,6 +2449,7 @@ extension MTurk {
     }
 
     public struct UpdateQualificationTypeResponse: AWSDecodableShape {
+
         ///  Contains a QualificationType data structure.
         public let qualificationType: QualificationType?
 
@@ -2314,6 +2463,7 @@ extension MTurk {
     }
 
     public struct WorkerBlock: AWSDecodableShape {
+
         ///  A message explaining the reason the Worker was blocked.
         public let reason: String?
         ///  The ID of the Worker who accepted the HIT.

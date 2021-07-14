@@ -63,73 +63,73 @@ public struct FIS: AWSService {
     // MARK: API Calls
 
     /// Creates an experiment template.  To create a template, specify the following information:     Targets: A target can be a specific resource in your AWS environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags.    Actions: The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.    Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.   For more information, see the AWS Fault Injection Simulator User Guide.
-    public func createExperimentTemplate(_ input: CreateExperimentTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExperimentTemplateResponse> {
-        return self.client.execute(operation: "CreateExperimentTemplate", path: "/experimentTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createExperimentTemplate(_ input: CreateExperimentTemplateRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExperimentTemplateResponse> {
+        return self.client.execute(operation: "CreateExperimentTemplate", path: "/experimentTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified experiment template.
-    public func deleteExperimentTemplate(_ input: DeleteExperimentTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteExperimentTemplateResponse> {
-        return self.client.execute(operation: "DeleteExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteExperimentTemplate(_ input: DeleteExperimentTemplateRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteExperimentTemplateResponse> {
+        return self.client.execute(operation: "DeleteExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets information about the specified AWS FIS action.
-    public func getAction(_ input: GetActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetActionResponse> {
-        return self.client.execute(operation: "GetAction", path: "/actions/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getAction(_ input: GetActionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetActionResponse> {
+        return self.client.execute(operation: "GetAction", path: "/actions/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets information about the specified experiment.
-    public func getExperiment(_ input: GetExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExperimentResponse> {
-        return self.client.execute(operation: "GetExperiment", path: "/experiments/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getExperiment(_ input: GetExperimentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExperimentResponse> {
+        return self.client.execute(operation: "GetExperiment", path: "/experiments/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets information about the specified experiment template.
-    public func getExperimentTemplate(_ input: GetExperimentTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExperimentTemplateResponse> {
-        return self.client.execute(operation: "GetExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getExperimentTemplate(_ input: GetExperimentTemplateRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetExperimentTemplateResponse> {
+        return self.client.execute(operation: "GetExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the available AWS FIS actions.
-    public func listActions(_ input: ListActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListActionsResponse> {
-        return self.client.execute(operation: "ListActions", path: "/actions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listActions(_ input: ListActionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListActionsResponse> {
+        return self.client.execute(operation: "ListActions", path: "/actions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists your experiment templates.
-    public func listExperimentTemplates(_ input: ListExperimentTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperimentTemplatesResponse> {
-        return self.client.execute(operation: "ListExperimentTemplates", path: "/experimentTemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listExperimentTemplates(_ input: ListExperimentTemplatesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperimentTemplatesResponse> {
+        return self.client.execute(operation: "ListExperimentTemplates", path: "/experimentTemplates", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists your experiments.
-    public func listExperiments(_ input: ListExperimentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperimentsResponse> {
-        return self.client.execute(operation: "ListExperiments", path: "/experiments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listExperiments(_ input: ListExperimentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExperimentsResponse> {
+        return self.client.execute(operation: "ListExperiments", path: "/experiments", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the tags for the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Starts running an experiment from the specified experiment template.
-    public func startExperiment(_ input: StartExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartExperimentResponse> {
-        return self.client.execute(operation: "StartExperiment", path: "/experiments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startExperiment(_ input: StartExperimentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartExperimentResponse> {
+        return self.client.execute(operation: "StartExperiment", path: "/experiments", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Stops the specified experiment.
-    public func stopExperiment(_ input: StopExperimentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopExperimentResponse> {
-        return self.client.execute(operation: "StopExperiment", path: "/experiments/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func stopExperiment(_ input: StopExperimentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopExperimentResponse> {
+        return self.client.execute(operation: "StopExperiment", path: "/experiments/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Applies the specified tags to the specified resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes the specified tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the specified experiment template.
-    public func updateExperimentTemplate(_ input: UpdateExperimentTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateExperimentTemplateResponse> {
-        return self.client.execute(operation: "UpdateExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateExperimentTemplate(_ input: UpdateExperimentTemplateRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateExperimentTemplateResponse> {
+        return self.client.execute(operation: "UpdateExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

@@ -111,11 +111,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
+            case channels = "channels"
         }
     }
 
     public struct AddNotificationChannelsResponse: AWSDecodableShape {
+
         /// The new notification configuration for this profiling group.
         public let notificationConfiguration: NotificationConfiguration?
 
@@ -124,11 +125,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
     public struct AgentConfiguration: AWSDecodableShape {
+
         ///  Parameters used by the profiler. The valid parameters are:     MaxStackDepth - The maximum depth of the stacks in the code that is represented in the profile. For example, if CodeGuru Profiler finds a method A, which calls method B, which calls method C, which calls method D, then the depth is 4. If the maxDepth is set to 2, then the profiler evaluates A and B.     MemoryUsageLimitPercent - The percentage of memory that is used by the profiler.    MinimumTimeForReportingInMilliseconds - The minimum time in milliseconds between sending reports.     ReportingIntervalInMilliseconds - The reporting interval in milliseconds used to report profiles.     SamplingIntervalInMilliseconds - The sampling interval in milliseconds that is used to profile samples.
         public let agentParameters: [AgentParameterField: String]?
         ///  How long a profiling agent should send profiling data using  ConfigureAgent . For example, if this is set to 300, the profiling agent calls  ConfigureAgent  every 5 minutes to submit the profiled data collected during that period.
@@ -143,13 +145,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentParameters
-            case periodInSeconds
-            case shouldProfile
+            case agentParameters = "agentParameters"
+            case periodInSeconds = "periodInSeconds"
+            case shouldProfile = "shouldProfile"
         }
     }
 
     public struct AgentOrchestrationConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling.
         public let profilingEnabled: Bool
 
@@ -158,11 +161,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingEnabled
+            case profilingEnabled = "profilingEnabled"
         }
     }
 
     public struct AggregatedProfileTime: AWSDecodableShape {
+
         ///  The aggregation period. This indicates the period during which an aggregation profile collects posted agent profiles for a profiling group. Use one of three valid durations that are specified using the ISO 8601 format.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes
         public let period: AggregationPeriod?
         ///  The time that aggregation of posted agent profiles for a profiling group starts. The aggregation profile contains profiles posted by the agent starting at this time for an aggregation period specified by the period property of the AggregatedProfileTime object.   Specify start using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -175,12 +179,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case period
-            case start
+            case period = "period"
+            case start = "start"
         }
     }
 
     public struct Anomaly: AWSDecodableShape {
+
         ///  A list of the instances of the detected anomalies during the requested period.
         public let instances: [AnomalyInstance]
         ///  Details about the metric that the analysis used when it detected the anomaly. The metric includes the name of the frame that was analyzed with the type and thread states used to derive the metric value for that frame.
@@ -195,13 +200,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
-            case metric
-            case reason
+            case instances = "instances"
+            case metric = "metric"
+            case reason = "reason"
         }
     }
 
     public struct AnomalyInstance: AWSDecodableShape {
+
         ///  The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
@@ -221,19 +227,19 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case id
-            case startTime
-            case userFeedback
+            case endTime = "endTime"
+            case id = "id"
+            case startTime = "startTime"
+            case userFeedback = "userFeedback"
         }
     }
 
     public struct BatchGetFrameMetricDataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
+            AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime")), 
             AWSMemberEncoding(label: "targetResolution", location: .querystring(locationName: "targetResolution"))
         ]
 
@@ -270,11 +276,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameMetrics
+            case frameMetrics = "frameMetrics"
         }
     }
 
     public struct BatchGetFrameMetricDataResponse: AWSDecodableShape {
+
         ///  The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         @CustomCoding<ISO8601DateCoder>
         public var endTime: Date
@@ -300,16 +307,17 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case endTimes
-            case frameMetricData
-            case resolution
-            case startTime
-            case unprocessedEndTimes
+            case endTime = "endTime"
+            case endTimes = "endTimes"
+            case frameMetricData = "frameMetricData"
+            case resolution = "resolution"
+            case startTime = "startTime"
+            case unprocessedEndTimes = "unprocessedEndTimes"
         }
     }
 
     public struct Channel: AWSEncodableShape & AWSDecodableShape {
+
         /// List of publishers for different type of events that may be detected in an application from the profile. Anomaly detection is the only event publisher in Profiler.
         public let eventPublishers: [EventPublisher]
         /// Unique identifier for each Channel in the notification configuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configuration if not specified in the request.
@@ -330,9 +338,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventPublishers
-            case id
-            case uri
+            case eventPublishers = "eventPublishers"
+            case id = "id"
+            case uri = "uri"
         }
     }
 
@@ -363,8 +371,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetInstanceId
-            case metadata
+            case fleetInstanceId = "fleetInstanceId"
+            case metadata = "metadata"
         }
     }
 
@@ -380,7 +388,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
@@ -418,10 +426,10 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentOrchestrationConfig
-            case computePlatform
-            case profilingGroupName
-            case tags
+            case agentOrchestrationConfig = "agentOrchestrationConfig"
+            case computePlatform = "computePlatform"
+            case profilingGroupName = "profilingGroupName"
+            case tags = "tags"
         }
     }
 
@@ -437,7 +445,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingGroup
+            case profilingGroup = "profilingGroup"
         }
     }
 
@@ -463,7 +471,11 @@ extension CodeGuruProfiler {
     }
 
     public struct DeleteProfilingGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeProfilingGroupRequest: AWSEncodableShape {
@@ -499,11 +511,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingGroup
+            case profilingGroup = "profilingGroup"
         }
     }
 
     public struct FindingsReportSummary: AWSDecodableShape {
+
         /// The universally unique identifier (UUID) of the recommendation report.
         public let id: String?
         ///  The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -526,15 +539,16 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case profileEndTime
-            case profileStartTime
-            case profilingGroupName
-            case totalNumberOfFindings
+            case id = "id"
+            case profileEndTime = "profileEndTime"
+            case profileStartTime = "profileStartTime"
+            case profilingGroupName = "profilingGroupName"
+            case totalNumberOfFindings = "totalNumberOfFindings"
         }
     }
 
     public struct FrameMetric: AWSEncodableShape & AWSDecodableShape {
+
         ///  Name of the method common across the multiple occurrences of a frame in an application profile.
         public let frameName: String
         /// List of application runtime thread states used to get the counts for a frame a derive a metric value.
@@ -549,13 +563,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameName
-            case threadStates
-            case type
+            case frameName = "frameName"
+            case threadStates = "threadStates"
+            case type = "type"
         }
     }
 
     public struct FrameMetricDatum: AWSDecodableShape {
+
         public let frameMetric: FrameMetric
         ///  A list of values that are associated with a frame metric.
         public let values: [Double]
@@ -566,15 +581,15 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameMetric
-            case values
+            case frameMetric = "frameMetric"
+            case values = "values"
         }
     }
 
     public struct GetFindingsReportAccountSummaryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -603,6 +618,7 @@ extension CodeGuruProfiler {
     }
 
     public struct GetFindingsReportAccountSummaryResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future GetFindingsReportAccountSummary request. When the results of a GetFindingsReportAccountSummary request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The return list of  FindingsReportSummary  objects taht contain summaries of analysis results for all profiling groups in your AWS account.
@@ -614,8 +630,8 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reportSummaries
+            case nextToken = "nextToken"
+            case reportSummaries = "reportSummaries"
         }
     }
 
@@ -641,6 +657,7 @@ extension CodeGuruProfiler {
     }
 
     public struct GetNotificationConfigurationResponse: AWSDecodableShape {
+
         /// The current notification configuration for this profiling group.
         public let notificationConfiguration: NotificationConfiguration
 
@@ -649,7 +666,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
@@ -675,6 +692,7 @@ extension CodeGuruProfiler {
     }
 
     public struct GetPolicyResponse: AWSDecodableShape {
+
         /// The JSON-formatted resource-based policy attached to the ProfilingGroup.
         public let policy: String
         /// A unique identifier for the current revision of the returned policy.
@@ -686,18 +704,18 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case revisionId
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
     public struct GetProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxDepth", location: .querystring(locationName: "maxDepth")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxDepth", location: .querystring(locationName: "maxDepth")), 
+            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
@@ -743,7 +761,7 @@ extension CodeGuruProfiler {
         public static let _payloadPath: String = "profile"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
         ]
 
@@ -763,15 +781,15 @@ extension CodeGuruProfiler {
         private enum CodingKeys: String, CodingKey {
             case contentEncoding = "Content-Encoding"
             case contentType = "Content-Type"
-            case profile
+            case profile = "profile"
         }
     }
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "locale", location: .querystring(locationName: "locale")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
@@ -803,6 +821,7 @@ extension CodeGuruProfiler {
     }
 
     public struct GetRecommendationsResponse: AWSDecodableShape {
+
         ///  The list of anomalies that the analysis has found for this profile.
         public let anomalies: [Anomaly]
         ///  The end time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
@@ -825,21 +844,21 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case anomalies
-            case profileEndTime
-            case profileStartTime
-            case profilingGroupName
-            case recommendations
+            case anomalies = "anomalies"
+            case profileEndTime = "profileEndTime"
+            case profileStartTime = "profileStartTime"
+            case profilingGroupName = "profilingGroupName"
+            case recommendations = "recommendations"
         }
     }
 
     public struct ListFindingsReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
+            AWSMemberEncoding(label: "dailyReportsOnly", location: .querystring(locationName: "dailyReportsOnly")), 
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
@@ -882,6 +901,7 @@ extension CodeGuruProfiler {
     }
 
     public struct ListFindingsReportsResponse: AWSDecodableShape {
+
         /// The list of analysis results summaries.
         public let findingsReportSummaries: [FindingsReportSummary]
         /// The nextToken value to include in a future ListFindingsReports request. When the results of a ListFindingsReports request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -893,19 +913,19 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findingsReportSummaries
-            case nextToken
+            case findingsReportSummaries = "findingsReportSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListProfileTimesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "orderBy", location: .querystring(locationName: "orderBy")),
-            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
+            AWSMemberEncoding(label: "_endTime", location: .querystring(locationName: "endTime")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "orderBy", location: .querystring(locationName: "orderBy")), 
+            AWSMemberEncoding(label: "period", location: .querystring(locationName: "period")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
             AWSMemberEncoding(label: "_startTime", location: .querystring(locationName: "startTime"))
         ]
 
@@ -951,6 +971,7 @@ extension CodeGuruProfiler {
     }
 
     public struct ListProfileTimesResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future ListProfileTimes request. When the results of a ListProfileTimes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of start times of the available profiles for the aggregation period in the specified time range.
@@ -962,15 +983,15 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case profileTimes
+            case nextToken = "nextToken"
+            case profileTimes = "profileTimes"
         }
     }
 
     public struct ListProfilingGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "includeDescription", location: .querystring(locationName: "includeDescription")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "includeDescription", location: .querystring(locationName: "includeDescription")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -999,6 +1020,7 @@ extension CodeGuruProfiler {
     }
 
     public struct ListProfilingGroupsResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future ListProfilingGroups request. When the results of a ListProfilingGroups request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         ///  A returned list of profiling group names. A list of the names is returned only if includeDescription is false, otherwise a list of  ProfilingGroupDescription  objects is returned.
@@ -1013,9 +1035,9 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case profilingGroupNames
-            case profilingGroups
+            case nextToken = "nextToken"
+            case profilingGroupNames = "profilingGroupNames"
+            case profilingGroups = "profilingGroups"
         }
     }
 
@@ -1035,6 +1057,7 @@ extension CodeGuruProfiler {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         ///  The list of tags assigned to the specified resource. This is the list of tags returned in the response.
         public let tags: [String: String]?
 
@@ -1043,11 +1066,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Match: AWSDecodableShape {
+
         /// The location in the profiling graph that contains a recommendation found during analysis.
         public let frameAddress: String?
         /// The target frame that triggered a match.
@@ -1062,13 +1086,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameAddress
-            case targetFramesIndex
-            case thresholdBreachValue
+            case frameAddress = "frameAddress"
+            case targetFramesIndex = "targetFramesIndex"
+            case thresholdBreachValue = "thresholdBreachValue"
         }
     }
 
     public struct Metric: AWSDecodableShape {
+
         ///  The name of the method that appears as a frame in any stack in a profile.
         public let frameName: String
         ///  The list of application runtime thread states that is used to calculate the metric value for the frame.
@@ -1083,13 +1108,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case frameName
-            case threadStates
-            case type
+            case frameName = "frameName"
+            case threadStates = "threadStates"
+            case type = "type"
         }
     }
 
     public struct NotificationConfiguration: AWSDecodableShape {
+
         /// List of up to two channels to be used for sending notifications for events detected from the application profile.
         public let channels: [Channel]?
 
@@ -1098,11 +1124,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
+            case channels = "channels"
         }
     }
 
     public struct Pattern: AWSDecodableShape {
+
         ///  A list of the different counters used to determine if there is a match.
         public let countersToAggregate: [String]?
         /// The description of the recommendation. This explains a potential inefficiency in a profiled application.
@@ -1129,13 +1156,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case countersToAggregate
-            case description
-            case id
-            case name
-            case resolutionSteps
-            case targetFrames
-            case thresholdPercent
+            case countersToAggregate = "countersToAggregate"
+            case description = "description"
+            case id = "id"
+            case name = "name"
+            case resolutionSteps = "resolutionSteps"
+            case targetFrames = "targetFrames"
+            case thresholdPercent = "thresholdPercent"
         }
     }
 
@@ -1144,8 +1171,8 @@ extension CodeGuruProfiler {
         public static let _payloadPath: String = "agentProfile"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "profileToken", location: .querystring(locationName: "profileToken")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "profileToken", location: .querystring(locationName: "profileToken")), 
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
@@ -1178,10 +1205,15 @@ extension CodeGuruProfiler {
     }
 
     public struct PostAgentProfileResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ProfileTime: AWSDecodableShape {
+
         /// The start time of a profile. It is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var start: Date?
@@ -1191,11 +1223,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case start
+            case start = "start"
         }
     }
 
     public struct ProfilingGroupDescription: AWSDecodableShape {
+
         ///  An  AgentOrchestrationConfig  object that indicates if the profiling group is enabled for profiled or not.
         public let agentOrchestrationConfig: AgentOrchestrationConfig?
         /// The Amazon Resource Name (ARN) identifying the profiling group resource.
@@ -1227,18 +1260,19 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentOrchestrationConfig
-            case arn
-            case computePlatform
-            case createdAt
-            case name
-            case profilingStatus
-            case tags
-            case updatedAt
+            case agentOrchestrationConfig = "agentOrchestrationConfig"
+            case arn = "arn"
+            case computePlatform = "computePlatform"
+            case createdAt = "createdAt"
+            case name = "name"
+            case profilingStatus = "profilingStatus"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct ProfilingStatus: AWSDecodableShape {
+
         /// The date and time when the profiling agent most recently pinged back. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var latestAgentOrchestratedAt: Date?
@@ -1255,15 +1289,15 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestAgentOrchestratedAt
-            case latestAgentProfileReportedAt
-            case latestAggregatedProfile
+            case latestAgentOrchestratedAt = "latestAgentOrchestratedAt"
+            case latestAgentProfileReportedAt = "latestAgentProfileReportedAt"
+            case latestAggregatedProfile = "latestAggregatedProfile"
         }
     }
 
     public struct PutPermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")),
+            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")), 
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
@@ -1293,12 +1327,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case principals
-            case revisionId
+            case principals = "principals"
+            case revisionId = "revisionId"
         }
     }
 
     public struct PutPermissionResponse: AWSDecodableShape {
+
         ///  The JSON-formatted resource-based policy on the profiling group that includes the added permissions.
         public let policy: String
         ///  A universally unique identifier (UUID) for the revision of the resource-based policy that includes the added permissions. The JSON-formatted policy is in the policy element of the response.
@@ -1310,12 +1345,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case revisionId
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
     public struct Recommendation: AWSDecodableShape {
+
         /// How many different places in the profile graph triggered a match.
         public let allMatchesCount: Int
         /// How much of the total sample count is potentially affected.
@@ -1341,18 +1377,18 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allMatchesCount
-            case allMatchesSum
-            case endTime
-            case pattern
-            case startTime
-            case topMatches
+            case allMatchesCount = "allMatchesCount"
+            case allMatchesSum = "allMatchesSum"
+            case endTime = "endTime"
+            case pattern = "pattern"
+            case startTime = "startTime"
+            case topMatches = "topMatches"
         }
     }
 
     public struct RemoveNotificationChannelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId")),
+            AWSMemberEncoding(label: "channelId", location: .uri(locationName: "channelId")), 
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
@@ -1377,6 +1413,7 @@ extension CodeGuruProfiler {
     }
 
     public struct RemoveNotificationChannelResponse: AWSDecodableShape {
+
         /// The new notification configuration for this profiling group.
         public let notificationConfiguration: NotificationConfiguration?
 
@@ -1385,14 +1422,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration
+            case notificationConfiguration = "notificationConfiguration"
         }
     }
 
     public struct RemovePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")),
-            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")),
+            AWSMemberEncoding(label: "actionGroup", location: .uri(locationName: "actionGroup")), 
+            AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName")), 
             AWSMemberEncoding(label: "revisionId", location: .querystring(locationName: "revisionId"))
         ]
 
@@ -1420,6 +1457,7 @@ extension CodeGuruProfiler {
     }
 
     public struct RemovePermissionResponse: AWSDecodableShape {
+
         ///  The JSON-formatted resource-based policy on the profiling group after the specified permissions were removed.
         public let policy: String
         ///  A universally unique identifier (UUID) for the revision of the resource-based policy after the specified permissions were removed. The updated JSON-formatted policy is in the policy element of the response.
@@ -1431,14 +1469,14 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
-            case revisionId
+            case policy = "policy"
+            case revisionId = "revisionId"
         }
     }
 
     public struct SubmitFeedbackRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "anomalyInstanceId", location: .uri(locationName: "anomalyInstanceId")),
+            AWSMemberEncoding(label: "anomalyInstanceId", location: .uri(locationName: "anomalyInstanceId")), 
             AWSMemberEncoding(label: "profilingGroupName", location: .uri(locationName: "profilingGroupName"))
         ]
 
@@ -1466,13 +1504,17 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case comment
-            case type
+            case comment = "comment"
+            case type = "type"
         }
     }
 
     public struct SubmitFeedbackResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -1491,15 +1533,20 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TimestampStructure: AWSDecodableShape {
+
         ///  A Timestamp. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         @CustomCoding<ISO8601DateCoder>
         public var value: Date
@@ -1509,13 +1556,13 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1533,7 +1580,11 @@ extension CodeGuruProfiler {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateProfilingGroupRequest: AWSEncodableShape {
@@ -1558,7 +1609,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentOrchestrationConfig
+            case agentOrchestrationConfig = "agentOrchestrationConfig"
         }
     }
 
@@ -1574,11 +1625,12 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case profilingGroup
+            case profilingGroup = "profilingGroup"
         }
     }
 
     public struct UserFeedback: AWSDecodableShape {
+
         /// Optional Positive or Negative feedback submitted by the user about whether the recommendation is useful or not.
         public let type: FeedbackType
 
@@ -1587,7 +1639,7 @@ extension CodeGuruProfiler {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 }

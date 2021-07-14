@@ -30,77 +30,77 @@ extension OpsWorks {
 
     public enum AppType: String, CustomStringConvertible, Codable {
         case awsFlowRuby = "aws-flow-ruby"
-        case java
-        case nodejs
-        case other
-        case php
-        case rails
-        case `static`
+        case java = "java"
+        case nodejs = "nodejs"
+        case other = "other"
+        case php = "php"
+        case rails = "rails"
+        case `static` = "static"
         public var description: String { return self.rawValue }
     }
 
     public enum Architecture: String, CustomStringConvertible, Codable {
-        case i386
+        case i386 = "i386"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoScalingType: String, CustomStringConvertible, Codable {
-        case load
-        case timer
+        case load = "load"
+        case timer = "timer"
         public var description: String { return self.rawValue }
     }
 
     public enum CloudWatchLogsEncoding: String, CustomStringConvertible, Codable {
-        case ascii
-        case big5
-        case big5hkscs
-        case cp037
-        case cp1006
-        case cp1026
-        case cp1140
-        case cp1250
-        case cp1251
-        case cp1252
-        case cp1253
-        case cp1254
-        case cp1255
-        case cp1256
-        case cp1257
-        case cp1258
-        case cp424
-        case cp437
-        case cp500
-        case cp720
-        case cp737
-        case cp775
-        case cp850
-        case cp852
-        case cp855
-        case cp856
-        case cp857
-        case cp858
-        case cp860
-        case cp861
-        case cp862
-        case cp863
-        case cp864
-        case cp865
-        case cp866
-        case cp869
-        case cp874
-        case cp875
-        case cp932
-        case cp949
-        case cp950
+        case ascii = "ascii"
+        case big5 = "big5"
+        case big5hkscs = "big5hkscs"
+        case cp037 = "cp037"
+        case cp1006 = "cp1006"
+        case cp1026 = "cp1026"
+        case cp1140 = "cp1140"
+        case cp1250 = "cp1250"
+        case cp1251 = "cp1251"
+        case cp1252 = "cp1252"
+        case cp1253 = "cp1253"
+        case cp1254 = "cp1254"
+        case cp1255 = "cp1255"
+        case cp1256 = "cp1256"
+        case cp1257 = "cp1257"
+        case cp1258 = "cp1258"
+        case cp424 = "cp424"
+        case cp437 = "cp437"
+        case cp500 = "cp500"
+        case cp720 = "cp720"
+        case cp737 = "cp737"
+        case cp775 = "cp775"
+        case cp850 = "cp850"
+        case cp852 = "cp852"
+        case cp855 = "cp855"
+        case cp856 = "cp856"
+        case cp857 = "cp857"
+        case cp858 = "cp858"
+        case cp860 = "cp860"
+        case cp861 = "cp861"
+        case cp862 = "cp862"
+        case cp863 = "cp863"
+        case cp864 = "cp864"
+        case cp865 = "cp865"
+        case cp866 = "cp866"
+        case cp869 = "cp869"
+        case cp874 = "cp874"
+        case cp875 = "cp875"
+        case cp932 = "cp932"
+        case cp949 = "cp949"
+        case cp950 = "cp950"
         case eucJis2004 = "euc_jis_2004"
         case eucJisx0213 = "euc_jisx0213"
         case eucJp = "euc_jp"
         case eucKr = "euc_kr"
-        case gb18030
-        case gb2312
-        case gbk
-        case hz
+        case gb18030 = "gb18030"
+        case gb2312 = "gb2312"
+        case gbk = "gbk"
+        case hz = "hz"
         case iso2022Jp = "iso2022_jp"
         case iso2022Jp1 = "iso2022_jp_1"
         case iso2022Jp2 = "iso2022_jp_2"
@@ -121,7 +121,7 @@ extension OpsWorks {
         case iso88597 = "iso8859_7"
         case iso88598 = "iso8859_8"
         case iso88599 = "iso8859_9"
-        case johab
+        case johab = "johab"
         case koi8R = "koi8_r"
         case koi8U = "koi8_u"
         case latin1 = "latin_1"
@@ -131,7 +131,7 @@ extension OpsWorks {
         case macLatin2 = "mac_latin2"
         case macRoman = "mac_roman"
         case macTurkish = "mac_turkish"
-        case ptcp154
+        case ptcp154 = "ptcp154"
         case shiftJis = "shift_jis"
         case shiftJis2004 = "shift_jis_2004"
         case shiftJisx0213 = "shift_jisx0213"
@@ -160,16 +160,16 @@ extension OpsWorks {
     }
 
     public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
-        case configure
-        case deploy
+        case configure = "configure"
+        case deploy = "deploy"
         case executeRecipes = "execute_recipes"
         case installDependencies = "install_dependencies"
-        case restart
-        case rollback
-        case setup
-        case start
-        case stop
-        case undeploy
+        case restart = "restart"
+        case rollback = "rollback"
+        case setup = "setup"
+        case start = "start"
+        case stop = "stop"
+        case undeploy = "undeploy"
         case updateCustomCookbooks = "update_custom_cookbooks"
         case updateDependencies = "update_dependencies"
         public var description: String { return self.rawValue }
@@ -206,31 +206,31 @@ extension OpsWorks {
 
     public enum LayerType: String, CustomStringConvertible, Codable {
         case awsFlowRuby = "aws-flow-ruby"
-        case custom
+        case custom = "custom"
         case dbMaster = "db-master"
         case ecsCluster = "ecs-cluster"
         case javaApp = "java-app"
-        case lb
-        case memcached
+        case lb = "lb"
+        case memcached = "memcached"
         case monitoringMaster = "monitoring-master"
         case nodejsApp = "nodejs-app"
         case phpApp = "php-app"
         case railsApp = "rails-app"
-        case web
+        case web = "web"
         public var description: String { return self.rawValue }
     }
 
     public enum RootDeviceType: String, CustomStringConvertible, Codable {
-        case ebs
+        case ebs = "ebs"
         case instanceStore = "instance-store"
         public var description: String { return self.rawValue }
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
-        case archive
-        case git
-        case s3
-        case svn
+        case archive = "archive"
+        case git = "git"
+        case s3 = "s3"
+        case svn = "svn"
         public var description: String { return self.rawValue }
     }
 
@@ -240,21 +240,22 @@ extension OpsWorks {
     }
 
     public enum VirtualizationType: String, CustomStringConvertible, Codable {
-        case hvm
-        case paravirtual
+        case hvm = "hvm"
+        case paravirtual = "paravirtual"
         public var description: String { return self.rawValue }
     }
 
     public enum VolumeType: String, CustomStringConvertible, Codable {
-        case gp2
-        case io1
-        case standard
+        case gp2 = "gp2"
+        case io1 = "io1"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AgentVersion: AWSDecodableShape {
+
         /// The configuration manager.
         public let configurationManager: StackConfigurationManager?
         /// The agent version.
@@ -272,6 +273,7 @@ extension OpsWorks {
     }
 
     public struct App: AWSDecodableShape {
+
         /// The app ID.
         public let appId: String?
         /// A Source object that describes the app repository.
@@ -337,6 +339,7 @@ extension OpsWorks {
     }
 
     public struct AssignInstanceRequest: AWSEncodableShape {
+
         /// The instance ID.
         public let instanceId: String
         /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
@@ -354,6 +357,7 @@ extension OpsWorks {
     }
 
     public struct AssignVolumeRequest: AWSEncodableShape {
+
         /// The instance ID.
         public let instanceId: String?
         /// The volume ID.
@@ -371,6 +375,7 @@ extension OpsWorks {
     }
 
     public struct AssociateElasticIpRequest: AWSEncodableShape {
+
         /// The Elastic IP address.
         public let elasticIp: String
         /// The instance ID.
@@ -388,6 +393,7 @@ extension OpsWorks {
     }
 
     public struct AttachElasticLoadBalancerRequest: AWSEncodableShape {
+
         /// The Elastic Load Balancing instance's name.
         public let elasticLoadBalancerName: String
         /// The ID of the layer to which the Elastic Load Balancing instance is to be attached.
@@ -405,6 +411,7 @@ extension OpsWorks {
     }
 
     public struct AutoScalingThresholds: AWSEncodableShape & AWSDecodableShape {
+
         /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing AWS OpsWorks Stacks to Act on Your Behalf.
         public let alarms: [String]?
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
@@ -449,6 +456,7 @@ extension OpsWorks {
     }
 
     public struct BlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// The device name that is exposed to the instance, such as /dev/sdh. For the root device, you can use the explicit device name or you can set this parameter to ROOT_DEVICE and AWS OpsWorks Stacks will provide the correct device name.
         public let deviceName: String?
         /// An EBSBlockDevice that defines how to configure an Amazon EBS volume when the instance is launched.
@@ -474,6 +482,7 @@ extension OpsWorks {
     }
 
     public struct ChefConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The Berkshelf version.
         public let berkshelfVersion: String?
         /// Whether to enable Berkshelf.
@@ -491,6 +500,7 @@ extension OpsWorks {
     }
 
     public struct CloneStackRequest: AWSEncodableShape {
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting.
         public let agentVersion: String?
         /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
@@ -588,6 +598,7 @@ extension OpsWorks {
     }
 
     public struct CloneStackResult: AWSDecodableShape {
+
         /// The cloned stack ID.
         public let stackId: String?
 
@@ -601,6 +612,7 @@ extension OpsWorks {
     }
 
     public struct CloudWatchLogsConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether CloudWatch Logs is enabled for a layer.
         public let enabled: Bool?
         /// A list of configuration options for CloudWatch Logs.
@@ -618,6 +630,7 @@ extension OpsWorks {
     }
 
     public struct CloudWatchLogsLogStream: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the max number of log events in a batch, up to 10000. The default value is 1000.
         public let batchCount: Int?
         /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576 bytes. The default value is 32768 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
@@ -671,6 +684,7 @@ extension OpsWorks {
     }
 
     public struct Command: AWSDecodableShape {
+
         /// Date and time when the command was acknowledged.
         public let acknowledgedAt: String?
         /// The command ID.
@@ -720,6 +734,7 @@ extension OpsWorks {
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
+
         /// A Source object that specifies the app repository.
         public let appSource: Source?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
@@ -777,6 +792,7 @@ extension OpsWorks {
     }
 
     public struct CreateAppResult: AWSDecodableShape {
+
         /// The app ID.
         public let appId: String?
 
@@ -790,6 +806,7 @@ extension OpsWorks {
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
+
         /// The app ID. This parameter is required for app deployments, but not for other deployment commands.
         public let appId: String?
         /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
@@ -827,6 +844,7 @@ extension OpsWorks {
     }
 
     public struct CreateDeploymentResult: AWSDecodableShape {
+
         /// The deployment ID, which can be used with other requests to identify the deployment.
         public let deploymentId: String?
 
@@ -840,6 +858,7 @@ extension OpsWorks {
     }
 
     public struct CreateInstanceRequest: AWSEncodableShape {
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
         public let agentVersion: String?
         /// A custom AMI ID to be used to create the instance. The AMI should be based on one of the supported operating systems. For more information, see Using Custom AMIs.  If you specify a custom AMI, you must set Os to Custom.
@@ -921,6 +940,7 @@ extension OpsWorks {
     }
 
     public struct CreateInstanceResult: AWSDecodableShape {
+
         /// The instance ID.
         public let instanceId: String?
 
@@ -934,6 +954,7 @@ extension OpsWorks {
     }
 
     public struct CreateLayerRequest: AWSEncodableShape {
+
         /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
         public let attributes: [LayerAttributesKeys: String]?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
@@ -1015,6 +1036,7 @@ extension OpsWorks {
     }
 
     public struct CreateLayerResult: AWSDecodableShape {
+
         /// The layer ID.
         public let layerId: String?
 
@@ -1028,6 +1050,7 @@ extension OpsWorks {
     }
 
     public struct CreateStackRequest: AWSEncodableShape {
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting.
         public let agentVersion: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
@@ -1113,6 +1136,7 @@ extension OpsWorks {
     }
 
     public struct CreateStackResult: AWSDecodableShape {
+
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
         public let stackId: String?
 
@@ -1126,6 +1150,7 @@ extension OpsWorks {
     }
 
     public struct CreateUserProfileRequest: AWSEncodableShape {
+
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Setting an IAM User's Public SSH Key.
         public let allowSelfManagement: Bool?
         /// The user's IAM ARN; this can also be a federated user's ARN.
@@ -1151,6 +1176,7 @@ extension OpsWorks {
     }
 
     public struct CreateUserProfileResult: AWSDecodableShape {
+
         /// The user's IAM ARN.
         public let iamUserArn: String?
 
@@ -1164,6 +1190,7 @@ extension OpsWorks {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+
         /// The data source's ARN.
         public let arn: String?
         /// The database name.
@@ -1185,6 +1212,7 @@ extension OpsWorks {
     }
 
     public struct DeleteAppRequest: AWSEncodableShape {
+
         /// The app ID.
         public let appId: String
 
@@ -1198,6 +1226,7 @@ extension OpsWorks {
     }
 
     public struct DeleteInstanceRequest: AWSEncodableShape {
+
         /// Whether to delete the instance Elastic IP address.
         public let deleteElasticIp: Bool?
         /// Whether to delete the instance's Amazon EBS volumes.
@@ -1219,6 +1248,7 @@ extension OpsWorks {
     }
 
     public struct DeleteLayerRequest: AWSEncodableShape {
+
         /// The layer ID.
         public let layerId: String
 
@@ -1232,6 +1262,7 @@ extension OpsWorks {
     }
 
     public struct DeleteStackRequest: AWSEncodableShape {
+
         /// The stack ID.
         public let stackId: String
 
@@ -1245,6 +1276,7 @@ extension OpsWorks {
     }
 
     public struct DeleteUserProfileRequest: AWSEncodableShape {
+
         /// The user's IAM ARN. This can also be a federated user's ARN.
         public let iamUserArn: String
 
@@ -1258,6 +1290,7 @@ extension OpsWorks {
     }
 
     public struct Deployment: AWSDecodableShape {
+
         /// The app ID.
         public let appId: String?
         /// Used to specify a stack or deployment command.
@@ -1315,6 +1348,7 @@ extension OpsWorks {
     }
 
     public struct DeploymentCommand: AWSEncodableShape & AWSDecodableShape {
+
         /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2016.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"] }
         public let args: [String: [String]]?
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks Stacks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.
@@ -1332,6 +1366,7 @@ extension OpsWorks {
     }
 
     public struct DeregisterEcsClusterRequest: AWSEncodableShape {
+
         /// The cluster's Amazon Resource Number (ARN).
         public let ecsClusterArn: String
 
@@ -1345,6 +1380,7 @@ extension OpsWorks {
     }
 
     public struct DeregisterElasticIpRequest: AWSEncodableShape {
+
         /// The Elastic IP address.
         public let elasticIp: String
 
@@ -1358,6 +1394,7 @@ extension OpsWorks {
     }
 
     public struct DeregisterInstanceRequest: AWSEncodableShape {
+
         /// The instance ID.
         public let instanceId: String
 
@@ -1371,6 +1408,7 @@ extension OpsWorks {
     }
 
     public struct DeregisterRdsDbInstanceRequest: AWSEncodableShape {
+
         /// The Amazon RDS instance's ARN.
         public let rdsDbInstanceArn: String
 
@@ -1384,6 +1422,7 @@ extension OpsWorks {
     }
 
     public struct DeregisterVolumeRequest: AWSEncodableShape {
+
         /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
         public let volumeId: String
 
@@ -1397,6 +1436,7 @@ extension OpsWorks {
     }
 
     public struct DescribeAgentVersionsRequest: AWSEncodableShape {
+
         /// The configuration manager.
         public let configurationManager: StackConfigurationManager?
         /// The stack ID.
@@ -1414,6 +1454,7 @@ extension OpsWorks {
     }
 
     public struct DescribeAgentVersionsResult: AWSDecodableShape {
+
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
         public let agentVersions: [AgentVersion]?
 
@@ -1427,6 +1468,7 @@ extension OpsWorks {
     }
 
     public struct DescribeAppsRequest: AWSEncodableShape {
+
         /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
         public let appIds: [String]?
         /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
@@ -1444,6 +1486,7 @@ extension OpsWorks {
     }
 
     public struct DescribeAppsResult: AWSDecodableShape {
+
         /// An array of App objects that describe the specified apps.
         public let apps: [App]?
 
@@ -1457,6 +1500,7 @@ extension OpsWorks {
     }
 
     public struct DescribeCommandsRequest: AWSEncodableShape {
+
         /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
         public let commandIds: [String]?
         /// The deployment ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified deployment.
@@ -1478,6 +1522,7 @@ extension OpsWorks {
     }
 
     public struct DescribeCommandsResult: AWSDecodableShape {
+
         /// An array of Command objects that describe each of the specified commands.
         public let commands: [Command]?
 
@@ -1491,6 +1536,7 @@ extension OpsWorks {
     }
 
     public struct DescribeDeploymentsRequest: AWSEncodableShape {
+
         /// The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
         public let appId: String?
         /// An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
@@ -1512,6 +1558,7 @@ extension OpsWorks {
     }
 
     public struct DescribeDeploymentsResult: AWSDecodableShape {
+
         /// An array of Deployment objects that describe the deployments.
         public let deployments: [Deployment]?
 
@@ -1525,6 +1572,7 @@ extension OpsWorks {
     }
 
     public struct DescribeEcsClustersRequest: AWSEncodableShape {
+
         /// A list of ARNs, one for each cluster to be described.
         public let ecsClusterArns: [String]?
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
@@ -1550,6 +1598,7 @@ extension OpsWorks {
     }
 
     public struct DescribeEcsClustersResult: AWSDecodableShape {
+
         /// A list of EcsCluster objects containing the cluster descriptions.
         public let ecsClusters: [EcsCluster]?
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
@@ -1567,6 +1616,7 @@ extension OpsWorks {
     }
 
     public struct DescribeElasticIpsRequest: AWSEncodableShape {
+
         /// The instance ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses associated with the specified instance.
         public let instanceId: String?
         /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
@@ -1588,6 +1638,7 @@ extension OpsWorks {
     }
 
     public struct DescribeElasticIpsResult: AWSDecodableShape {
+
         /// An ElasticIps object that describes the specified Elastic IP addresses.
         public let elasticIps: [ElasticIp]?
 
@@ -1601,6 +1652,7 @@ extension OpsWorks {
     }
 
     public struct DescribeElasticLoadBalancersRequest: AWSEncodableShape {
+
         /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
         public let layerIds: [String]?
         /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
@@ -1618,6 +1670,7 @@ extension OpsWorks {
     }
 
     public struct DescribeElasticLoadBalancersResult: AWSDecodableShape {
+
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
         public let elasticLoadBalancers: [ElasticLoadBalancer]?
 
@@ -1631,6 +1684,7 @@ extension OpsWorks {
     }
 
     public struct DescribeInstancesRequest: AWSEncodableShape {
+
         /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
         public let instanceIds: [String]?
         /// A layer ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified layer.
@@ -1652,6 +1706,7 @@ extension OpsWorks {
     }
 
     public struct DescribeInstancesResult: AWSDecodableShape {
+
         /// An array of Instance objects that describe the instances.
         public let instances: [Instance]?
 
@@ -1665,6 +1720,7 @@ extension OpsWorks {
     }
 
     public struct DescribeLayersRequest: AWSEncodableShape {
+
         /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
         public let layerIds: [String]?
         /// The stack ID.
@@ -1682,6 +1738,7 @@ extension OpsWorks {
     }
 
     public struct DescribeLayersResult: AWSDecodableShape {
+
         /// An array of Layer objects that describe the layers.
         public let layers: [Layer]?
 
@@ -1695,6 +1752,7 @@ extension OpsWorks {
     }
 
     public struct DescribeLoadBasedAutoScalingRequest: AWSEncodableShape {
+
         /// An array of layer IDs.
         public let layerIds: [String]
 
@@ -1708,6 +1766,7 @@ extension OpsWorks {
     }
 
     public struct DescribeLoadBasedAutoScalingResult: AWSDecodableShape {
+
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
         public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
 
@@ -1721,6 +1780,7 @@ extension OpsWorks {
     }
 
     public struct DescribeMyUserProfileResult: AWSDecodableShape {
+
         /// A UserProfile object that describes the user's SSH information.
         public let userProfile: SelfUserProfile?
 
@@ -1734,6 +1794,7 @@ extension OpsWorks {
     }
 
     public struct DescribeOperatingSystemsResponse: AWSDecodableShape {
+
         /// Contains information in response to a DescribeOperatingSystems request.
         public let operatingSystems: [OperatingSystem]?
 
@@ -1747,6 +1808,7 @@ extension OpsWorks {
     }
 
     public struct DescribePermissionsRequest: AWSEncodableShape {
+
         /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
         public let iamUserArn: String?
         /// The stack ID.
@@ -1764,6 +1826,7 @@ extension OpsWorks {
     }
 
     public struct DescribePermissionsResult: AWSDecodableShape {
+
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.
         public let permissions: [Permission]?
 
@@ -1777,6 +1840,7 @@ extension OpsWorks {
     }
 
     public struct DescribeRaidArraysRequest: AWSEncodableShape {
+
         /// The instance ID. If you use this parameter, DescribeRaidArrays returns descriptions of the RAID arrays associated with the specified instance.
         public let instanceId: String?
         /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
@@ -1798,6 +1862,7 @@ extension OpsWorks {
     }
 
     public struct DescribeRaidArraysResult: AWSDecodableShape {
+
         /// A RaidArrays object that describes the specified RAID arrays.
         public let raidArrays: [RaidArray]?
 
@@ -1811,6 +1876,7 @@ extension OpsWorks {
     }
 
     public struct DescribeRdsDbInstancesRequest: AWSEncodableShape {
+
         /// An array containing the ARNs of the instances to be described.
         public let rdsDbInstanceArns: [String]?
         /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
@@ -1828,6 +1894,7 @@ extension OpsWorks {
     }
 
     public struct DescribeRdsDbInstancesResult: AWSDecodableShape {
+
         /// An a array of RdsDbInstance objects that describe the instances.
         public let rdsDbInstances: [RdsDbInstance]?
 
@@ -1841,6 +1908,7 @@ extension OpsWorks {
     }
 
     public struct DescribeServiceErrorsRequest: AWSEncodableShape {
+
         /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
         public let instanceId: String?
         /// An array of service error IDs. If you use this parameter, DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a description of every error.
@@ -1862,6 +1930,7 @@ extension OpsWorks {
     }
 
     public struct DescribeServiceErrorsResult: AWSDecodableShape {
+
         /// An array of ServiceError objects that describe the specified service errors.
         public let serviceErrors: [ServiceError]?
 
@@ -1875,6 +1944,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStackProvisioningParametersRequest: AWSEncodableShape {
+
         /// The stack ID.
         public let stackId: String
 
@@ -1888,6 +1958,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStackProvisioningParametersResult: AWSDecodableShape {
+
         /// The AWS OpsWorks Stacks agent installer's URL.
         public let agentInstallerUrl: String?
         /// An embedded object that contains the provisioning parameters.
@@ -1905,6 +1976,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStackSummaryRequest: AWSEncodableShape {
+
         /// The stack ID.
         public let stackId: String
 
@@ -1918,6 +1990,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStackSummaryResult: AWSDecodableShape {
+
         /// A StackSummary object that contains the results.
         public let stackSummary: StackSummary?
 
@@ -1931,6 +2004,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStacksRequest: AWSEncodableShape {
+
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
         public let stackIds: [String]?
 
@@ -1944,6 +2018,7 @@ extension OpsWorks {
     }
 
     public struct DescribeStacksResult: AWSDecodableShape {
+
         /// An array of Stack objects that describe the stacks.
         public let stacks: [Stack]?
 
@@ -1957,6 +2032,7 @@ extension OpsWorks {
     }
 
     public struct DescribeTimeBasedAutoScalingRequest: AWSEncodableShape {
+
         /// An array of instance IDs.
         public let instanceIds: [String]
 
@@ -1970,6 +2046,7 @@ extension OpsWorks {
     }
 
     public struct DescribeTimeBasedAutoScalingResult: AWSDecodableShape {
+
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
         public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
 
@@ -1983,6 +2060,7 @@ extension OpsWorks {
     }
 
     public struct DescribeUserProfilesRequest: AWSEncodableShape {
+
         /// An array of IAM or federated user ARNs that identify the users to be described.
         public let iamUserArns: [String]?
 
@@ -1996,6 +2074,7 @@ extension OpsWorks {
     }
 
     public struct DescribeUserProfilesResult: AWSDecodableShape {
+
         /// A Users object that describes the specified users.
         public let userProfiles: [UserProfile]?
 
@@ -2009,6 +2088,7 @@ extension OpsWorks {
     }
 
     public struct DescribeVolumesRequest: AWSEncodableShape {
+
         /// The instance ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified instance.
         public let instanceId: String?
         /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
@@ -2034,6 +2114,7 @@ extension OpsWorks {
     }
 
     public struct DescribeVolumesResult: AWSDecodableShape {
+
         /// An array of volume IDs.
         public let volumes: [Volume]?
 
@@ -2047,6 +2128,7 @@ extension OpsWorks {
     }
 
     public struct DetachElasticLoadBalancerRequest: AWSEncodableShape {
+
         /// The Elastic Load Balancing instance's name.
         public let elasticLoadBalancerName: String
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
@@ -2064,6 +2146,7 @@ extension OpsWorks {
     }
 
     public struct DisassociateElasticIpRequest: AWSEncodableShape {
+
         /// The Elastic IP address.
         public let elasticIp: String
 
@@ -2077,6 +2160,7 @@ extension OpsWorks {
     }
 
     public struct EbsBlockDevice: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether the volume is deleted on instance termination.
         public let deleteOnTermination: Bool?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
@@ -2106,6 +2190,7 @@ extension OpsWorks {
     }
 
     public struct EcsCluster: AWSDecodableShape {
+
         /// The cluster's ARN.
         public let ecsClusterArn: String?
         /// The cluster name.
@@ -2131,6 +2216,7 @@ extension OpsWorks {
     }
 
     public struct ElasticIp: AWSDecodableShape {
+
         /// The domain.
         public let domain: String?
         /// The ID of the instance that the address is attached to.
@@ -2160,6 +2246,7 @@ extension OpsWorks {
     }
 
     public struct ElasticLoadBalancer: AWSDecodableShape {
+
         /// A list of Availability Zones.
         public let availabilityZones: [String]?
         /// The instance's public DNS name.
@@ -2205,6 +2292,7 @@ extension OpsWorks {
     }
 
     public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
+
         /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
         public let key: String
         /// (Optional) Whether the variable's value will be returned by the DescribeApps action. To conceal an environment variable's value, set Secure to true. DescribeApps then returns *****FILTERED***** instead of the actual value. The default value for Secure is false.
@@ -2226,6 +2314,7 @@ extension OpsWorks {
     }
 
     public struct GetHostnameSuggestionRequest: AWSEncodableShape {
+
         /// The layer ID.
         public let layerId: String
 
@@ -2239,6 +2328,7 @@ extension OpsWorks {
     }
 
     public struct GetHostnameSuggestionResult: AWSDecodableShape {
+
         /// The generated host name.
         public let hostname: String?
         /// The layer ID.
@@ -2256,6 +2346,7 @@ extension OpsWorks {
     }
 
     public struct GrantAccessRequest: AWSEncodableShape {
+
         /// The instance's AWS OpsWorks Stacks ID.
         public let instanceId: String
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
@@ -2278,6 +2369,7 @@ extension OpsWorks {
     }
 
     public struct GrantAccessResult: AWSDecodableShape {
+
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
         public let temporaryCredential: TemporaryCredential?
 
@@ -2291,6 +2383,7 @@ extension OpsWorks {
     }
 
     public struct Instance: AWSDecodableShape {
+
         /// The agent version. This parameter is set to INHERIT if the instance inherits the default stack setting or to a a version number for a fixed agent version.
         public let agentVersion: String?
         /// A custom AMI ID to be used to create the instance. For more information, see Instances
@@ -2464,6 +2557,7 @@ extension OpsWorks {
     }
 
     public struct InstanceIdentity: AWSEncodableShape {
+
         /// A JSON document that contains the metadata.
         public let document: String?
         /// A signature that can be used to verify the document's accuracy and authenticity.
@@ -2481,6 +2575,7 @@ extension OpsWorks {
     }
 
     public struct InstancesCount: AWSDecodableShape {
+
         /// The number of instances in the Assigning state.
         public let assigning: Int?
         /// The number of instances with booting status.
@@ -2570,6 +2665,7 @@ extension OpsWorks {
     }
 
     public struct Layer: AWSDecodableShape {
+
         /// The Amazon Resource Number (ARN) of a layer.
         public let arn: String?
         /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
@@ -2671,6 +2767,7 @@ extension OpsWorks {
     }
 
     public struct LifecycleEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
         public let shutdown: ShutdownEventConfiguration?
 
@@ -2684,6 +2781,7 @@ extension OpsWorks {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
+
         /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call.
         public let maxResults: Int?
         /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call.
@@ -2705,6 +2803,7 @@ extension OpsWorks {
     }
 
     public struct ListTagsResult: AWSDecodableShape {
+
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to get the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
         public let nextToken: String?
         /// A set of key-value pairs that contain tag keys and tag values that are attached to a stack or layer.
@@ -2722,6 +2821,7 @@ extension OpsWorks {
     }
 
     public struct LoadBasedAutoScalingConfiguration: AWSDecodableShape {
+
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Whether load-based auto scaling is enabled for the layer.
@@ -2747,6 +2847,7 @@ extension OpsWorks {
     }
 
     public struct OperatingSystem: AWSDecodableShape {
+
         /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
         public let configurationManagers: [OperatingSystemConfigurationManager]?
         /// The ID of a supported operating system, such as Amazon Linux 2018.03.
@@ -2784,6 +2885,7 @@ extension OpsWorks {
     }
 
     public struct OperatingSystemConfigurationManager: AWSDecodableShape {
+
         /// The name of the configuration manager, which is Chef.
         public let name: String?
         /// The versions of the configuration manager that are supported by an operating system.
@@ -2801,6 +2903,7 @@ extension OpsWorks {
     }
 
     public struct Permission: AWSDecodableShape {
+
         /// Whether the user can use SSH.
         public let allowSsh: Bool?
         /// Whether the user can use sudo.
@@ -2830,6 +2933,7 @@ extension OpsWorks {
     }
 
     public struct RaidArray: AWSDecodableShape {
+
         /// The array's Availability Zone. For more information, see Regions and Endpoints.
         public let availabilityZone: String?
         /// When the RAID array was created.
@@ -2891,6 +2995,7 @@ extension OpsWorks {
     }
 
     public struct RdsDbInstance: AWSDecodableShape {
+
         /// The instance's address.
         public let address: String?
         /// The DB instance identifier.
@@ -2936,6 +3041,7 @@ extension OpsWorks {
     }
 
     public struct RebootInstanceRequest: AWSEncodableShape {
+
         /// The instance ID.
         public let instanceId: String
 
@@ -2949,6 +3055,7 @@ extension OpsWorks {
     }
 
     public struct Recipes: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of custom recipe names to be run following a configure event.
         public let configure: [String]?
         /// An array of custom recipe names to be run following a deploy event.
@@ -2978,6 +3085,7 @@ extension OpsWorks {
     }
 
     public struct RegisterEcsClusterRequest: AWSEncodableShape {
+
         /// The cluster's ARN.
         public let ecsClusterArn: String
         /// The stack ID.
@@ -2995,6 +3103,7 @@ extension OpsWorks {
     }
 
     public struct RegisterEcsClusterResult: AWSDecodableShape {
+
         /// The cluster's ARN.
         public let ecsClusterArn: String?
 
@@ -3008,6 +3117,7 @@ extension OpsWorks {
     }
 
     public struct RegisterElasticIpRequest: AWSEncodableShape {
+
         /// The Elastic IP address.
         public let elasticIp: String
         /// The stack ID.
@@ -3025,6 +3135,7 @@ extension OpsWorks {
     }
 
     public struct RegisterElasticIpResult: AWSDecodableShape {
+
         /// The Elastic IP address.
         public let elasticIp: String?
 
@@ -3038,6 +3149,7 @@ extension OpsWorks {
     }
 
     public struct RegisterInstanceRequest: AWSEncodableShape {
+
         /// The instance's hostname.
         public let hostname: String?
         /// An InstanceIdentity object that contains the instance's identity.
@@ -3075,6 +3187,7 @@ extension OpsWorks {
     }
 
     public struct RegisterInstanceResult: AWSDecodableShape {
+
         /// The registered instance's AWS OpsWorks Stacks ID.
         public let instanceId: String?
 
@@ -3088,6 +3201,7 @@ extension OpsWorks {
     }
 
     public struct RegisterRdsDbInstanceRequest: AWSEncodableShape {
+
         /// The database password.
         public let dbPassword: String
         /// The database's master user name.
@@ -3113,6 +3227,7 @@ extension OpsWorks {
     }
 
     public struct RegisterVolumeRequest: AWSEncodableShape {
+
         /// The Amazon EBS volume ID.
         public let ec2VolumeId: String?
         /// The stack ID.
@@ -3130,6 +3245,7 @@ extension OpsWorks {
     }
 
     public struct RegisterVolumeResult: AWSDecodableShape {
+
         /// The volume ID.
         public let volumeId: String?
 
@@ -3143,6 +3259,7 @@ extension OpsWorks {
     }
 
     public struct ReportedOs: AWSDecodableShape {
+
         /// The operating system family.
         public let family: String?
         /// The operating system name.
@@ -3164,6 +3281,7 @@ extension OpsWorks {
     }
 
     public struct SelfUserProfile: AWSDecodableShape {
+
         /// The user's IAM ARN.
         public let iamUserArn: String?
         /// The user's name.
@@ -3189,6 +3307,7 @@ extension OpsWorks {
     }
 
     public struct ServiceError: AWSDecodableShape {
+
         /// When the error occurred.
         public let createdAt: String?
         /// The instance ID.
@@ -3222,6 +3341,7 @@ extension OpsWorks {
     }
 
     public struct SetLoadBasedAutoScalingRequest: AWSEncodableShape {
+
         /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
         public let downScaling: AutoScalingThresholds?
         /// Enables load-based auto scaling for the layer.
@@ -3252,6 +3372,7 @@ extension OpsWorks {
     }
 
     public struct SetPermissionRequest: AWSEncodableShape {
+
         /// The user is allowed to use SSH to communicate with the instance.
         public let allowSsh: Bool?
         /// The user is allowed to use sudo to elevate privileges.
@@ -3281,6 +3402,7 @@ extension OpsWorks {
     }
 
     public struct SetTimeBasedAutoScalingRequest: AWSEncodableShape {
+
         /// An AutoScalingSchedule with the instance schedule.
         public let autoScalingSchedule: WeeklyAutoScalingSchedule?
         /// The instance ID.
@@ -3298,6 +3420,7 @@ extension OpsWorks {
     }
 
     public struct ShutdownEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining
         public let delayUntilElbConnectionsDrained: Bool?
         /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
@@ -3315,6 +3438,7 @@ extension OpsWorks {
     }
 
     public struct Source: AWSEncodableShape & AWSDecodableShape {
+
         /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let password: String?
         /// The application's version. AWS OpsWorks Stacks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
@@ -3348,6 +3472,7 @@ extension OpsWorks {
     }
 
     public struct SslConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The contents of the certificate's domain.crt file.
         public let certificate: String
         /// Optional. Can be used to specify an intermediate certificate authority key or client authentication.
@@ -3369,6 +3494,7 @@ extension OpsWorks {
     }
 
     public struct Stack: AWSDecodableShape {
+
         /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
         public let agentVersion: String?
         /// The stack's ARN.
@@ -3466,6 +3592,7 @@ extension OpsWorks {
     }
 
     public struct StackConfigurationManager: AWSEncodableShape & AWSDecodableShape {
+
         /// The name. This parameter must be set to "Chef".
         public let name: String?
         /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
@@ -3483,6 +3610,7 @@ extension OpsWorks {
     }
 
     public struct StackSummary: AWSDecodableShape {
+
         /// The number of apps.
         public let appsCount: Int?
         /// The stack's ARN.
@@ -3516,6 +3644,7 @@ extension OpsWorks {
     }
 
     public struct StartInstanceRequest: AWSEncodableShape {
+
         /// The instance ID.
         public let instanceId: String
 
@@ -3529,6 +3658,7 @@ extension OpsWorks {
     }
 
     public struct StartStackRequest: AWSEncodableShape {
+
         /// The stack ID.
         public let stackId: String
 
@@ -3542,6 +3672,7 @@ extension OpsWorks {
     }
 
     public struct StopInstanceRequest: AWSEncodableShape {
+
         /// Specifies whether to force an instance to stop. If the instance's root device type is ebs, or EBS-backed, adding the Force parameter to the StopInstances API call disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the OpsWorks Stacks instance. You must also delete the formerly-associated instance in EC2 after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
         public let force: Bool?
         /// The instance ID.
@@ -3559,6 +3690,7 @@ extension OpsWorks {
     }
 
     public struct StopStackRequest: AWSEncodableShape {
+
         /// The stack ID.
         public let stackId: String
 
@@ -3572,6 +3704,7 @@ extension OpsWorks {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
         /// A map that contains tag keys and tag values that are attached to a stack or layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 40 tags is allowed for any resource.
@@ -3589,6 +3722,7 @@ extension OpsWorks {
     }
 
     public struct TemporaryCredential: AWSDecodableShape {
+
         /// The instance's AWS OpsWorks Stacks ID.
         public let instanceId: String?
         /// The password.
@@ -3614,6 +3748,7 @@ extension OpsWorks {
     }
 
     public struct TimeBasedAutoScalingConfiguration: AWSDecodableShape {
+
         /// A WeeklyAutoScalingSchedule object with the instance schedule.
         public let autoScalingSchedule: WeeklyAutoScalingSchedule?
         /// The instance ID.
@@ -3631,6 +3766,7 @@ extension OpsWorks {
     }
 
     public struct UnassignInstanceRequest: AWSEncodableShape {
+
         /// The instance ID.
         public let instanceId: String
 
@@ -3644,6 +3780,7 @@ extension OpsWorks {
     }
 
     public struct UnassignVolumeRequest: AWSEncodableShape {
+
         /// The volume ID.
         public let volumeId: String
 
@@ -3657,6 +3794,7 @@ extension OpsWorks {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The stack or layer's Amazon Resource Number (ARN).
         public let resourceArn: String
         /// A list of the keys of tags to be removed from a stack or layer.
@@ -3674,6 +3812,7 @@ extension OpsWorks {
     }
 
     public struct UpdateAppRequest: AWSEncodableShape {
+
         /// The app ID.
         public let appId: String
         /// A Source object that specifies the app repository.
@@ -3727,6 +3866,7 @@ extension OpsWorks {
     }
 
     public struct UpdateElasticIpRequest: AWSEncodableShape {
+
         /// The IP address for which you want to update the name.
         public let elasticIp: String
         /// The new name.
@@ -3744,6 +3884,7 @@ extension OpsWorks {
     }
 
     public struct UpdateInstanceRequest: AWSEncodableShape {
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
         public let agentVersion: String?
         /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using. You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs.
@@ -3801,6 +3942,7 @@ extension OpsWorks {
     }
 
     public struct UpdateLayerRequest: AWSEncodableShape {
+
         /// One or more user-defined key/value pairs to be added to the stack attributes.
         public let attributes: [LayerAttributesKeys: String]?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
@@ -3877,6 +4019,7 @@ extension OpsWorks {
     }
 
     public struct UpdateMyUserProfileRequest: AWSEncodableShape {
+
         /// The user's SSH public key.
         public let sshPublicKey: String?
 
@@ -3890,6 +4033,7 @@ extension OpsWorks {
     }
 
     public struct UpdateRdsDbInstanceRequest: AWSEncodableShape {
+
         /// The database password.
         public let dbPassword: String?
         /// The master user name.
@@ -3911,6 +4055,7 @@ extension OpsWorks {
     }
 
     public struct UpdateStackRequest: AWSEncodableShape {
+
         /// The default AWS OpsWorks Stacks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks Stacks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting.
         public let agentVersion: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
@@ -3992,6 +4137,7 @@ extension OpsWorks {
     }
 
     public struct UpdateUserProfileRequest: AWSEncodableShape {
+
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
         public let allowSelfManagement: Bool?
         /// The user IAM ARN. This can also be a federated user's ARN.
@@ -4017,6 +4163,7 @@ extension OpsWorks {
     }
 
     public struct UpdateVolumeRequest: AWSEncodableShape {
+
         /// The new mount point.
         public let mountPoint: String?
         /// The new name.
@@ -4038,6 +4185,7 @@ extension OpsWorks {
     }
 
     public struct UserProfile: AWSDecodableShape {
+
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
         public let allowSelfManagement: Bool?
         /// The user's IAM ARN.
@@ -4067,6 +4215,7 @@ extension OpsWorks {
     }
 
     public struct Volume: AWSDecodableShape {
+
         /// The volume Availability Zone. For more information, see Regions and Endpoints.
         public let availabilityZone: String?
         /// The device name.
@@ -4132,6 +4281,7 @@ extension OpsWorks {
     }
 
     public struct VolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption.
         public let encrypted: Bool?
         /// For PIOPS volumes, the IOPS per disk.
@@ -4169,6 +4319,7 @@ extension OpsWorks {
     }
 
     public struct WeeklyAutoScalingSchedule: AWSEncodableShape & AWSDecodableShape {
+
         /// The schedule for Friday.
         public let friday: [String: String]?
         /// The schedule for Monday.

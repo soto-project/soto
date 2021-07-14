@@ -21,9 +21,9 @@ extension SecretsManager {
     // MARK: Enums
 
     public enum FilterNameStringType: String, CustomStringConvertible, Codable {
-        case all
-        case description
-        case name
+        case all = "all"
+        case description = "description"
+        case name = "name"
         case primaryRegion = "primary-region"
         case tagKey = "tag-key"
         case tagValue = "tag-value"
@@ -31,8 +31,8 @@ extension SecretsManager {
     }
 
     public enum SortOrderType: String, CustomStringConvertible, Codable {
-        case asc
-        case desc
+        case asc = "asc"
+        case desc = "desc"
         public var description: String { return self.rawValue }
     }
 
@@ -46,6 +46,7 @@ extension SecretsManager {
     // MARK: Shapes
 
     public struct CancelRotateSecretRequest: AWSEncodableShape {
+
         /// Specifies the secret to cancel a rotation request. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
@@ -64,6 +65,7 @@ extension SecretsManager {
     }
 
     public struct CancelRotateSecretResponse: AWSDecodableShape {
+
         /// The ARN of the secret for which rotation was canceled.
         public let arn: String?
         /// The friendly name of the secret for which rotation was canceled.
@@ -85,6 +87,7 @@ extension SecretsManager {
     }
 
     public struct CreateSecretRequest: AWSEncodableShape {
+
         /// (Optional) Add a list of regions to replicate secrets. Secrets Manager replicates the KMSKeyID objects to the list of regions specified in the parameter.
         public let addReplicaRegions: [ReplicaRegionType]?
         /// (Optional) If you include SecretString or SecretBinary, then an initial version is created as part of the secret, and this parameter specifies a unique identifier for the new version.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for the new version and include the value in the request.  This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your versions within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and the version SecretString and SecretBinary values are the same as those in the request, then the request is ignored.   If a version with this value already exists and that version's SecretString and SecretBinary values are different from those in the request, then the request fails because you cannot modify an existing version. Instead, use PutSecretValue to create a new version.   This value becomes the VersionId of the new version.
@@ -151,6 +154,7 @@ extension SecretsManager {
     }
 
     public struct CreateSecretResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the secret that you just created.  Secrets Manager automatically adds several random characters to the name at the end of the ARN when you initially create a secret. This affects only the ARN and not the actual friendly name. This ensures that if you create a new secret with the same name as an old secret that you previously deleted, then users with access to the old secret don't automatically get access to the new secret because the ARNs are different.
         public let arn: String?
         /// The friendly name of the secret that you just created.
@@ -176,6 +180,7 @@ extension SecretsManager {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+
         /// Specifies the secret that you want to delete the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
@@ -194,6 +199,7 @@ extension SecretsManager {
     }
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+
         /// The ARN of the secret that the resource-based policy was deleted for.
         public let arn: String?
         /// The friendly name of the secret that the resource-based policy was deleted for.
@@ -211,6 +217,7 @@ extension SecretsManager {
     }
 
     public struct DeleteSecretRequest: AWSEncodableShape {
+
         /// (Optional) Specifies that the secret is to be deleted without any recovery window. You can't use both this parameter and the RecoveryWindowInDays parameter in the same API call. An asynchronous background process performs the actual deletion, so there can be a short delay before the operation completes. If you write code to delete and then immediately recreate a secret with the same name, ensure that your code includes appropriate back off and retry logic.  Use this parameter with caution. This parameter causes the operation to skip the normal waiting period before the permanent deletion that AWS would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithouRecovery parameter, then you have no opportunity to recover the secret. You lose the secret permanently.   If you use this parameter and include a previously deleted or nonexistent secret, the operation does not return the error ResourceNotFoundException in order to correctly handle retries.
         public let forceDeleteWithoutRecovery: Bool?
         /// (Optional) Specifies the number of days that Secrets Manager waits before Secrets Manager can delete the secret. You can't use both this parameter and the ForceDeleteWithoutRecovery parameter in the same API call. This value can range from 7 to 30 days with a default value of 30.
@@ -237,6 +244,7 @@ extension SecretsManager {
     }
 
     public struct DeleteSecretResponse: AWSDecodableShape {
+
         /// The ARN of the secret that is now scheduled for deletion.
         public let arn: String?
         /// The date and time after which this secret can be deleted by Secrets Manager and can no longer be restored. This value is the date and time of the delete request plus the number of days specified in RecoveryWindowInDays.
@@ -258,6 +266,7 @@ extension SecretsManager {
     }
 
     public struct DescribeSecretRequest: AWSEncodableShape {
+
         /// The identifier of the secret whose details you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
@@ -276,6 +285,7 @@ extension SecretsManager {
     }
 
     public struct DescribeSecretResponse: AWSDecodableShape {
+
         /// The ARN of the secret.
         public let arn: String?
         /// The date you created the secret.
@@ -353,6 +363,7 @@ extension SecretsManager {
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// Filters your list of secrets by a specific key.
         public let key: FilterNameStringType?
         /// Filters your list of secrets by a specific value. You can prefix your search value with an exclamation mark (!) in order to perform negation filters.
@@ -379,6 +390,7 @@ extension SecretsManager {
     }
 
     public struct GetRandomPasswordRequest: AWSEncodableShape {
+
         /// A string that includes characters that should not be included in the generated password. The default is that all characters from the included sets can be used.
         public let excludeCharacters: String?
         /// Specifies that the generated password should not include lowercase letters. The default if you do not include this switch parameter is that lowercase letters can be included.
@@ -427,6 +439,7 @@ extension SecretsManager {
     }
 
     public struct GetRandomPasswordResponse: AWSDecodableShape {
+
         /// A string with the generated password.
         public let randomPassword: String?
 
@@ -440,6 +453,7 @@ extension SecretsManager {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
+
         /// Specifies the secret that you want to retrieve the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
@@ -458,6 +472,7 @@ extension SecretsManager {
     }
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
+
         /// The ARN of the secret that the resource-based policy was retrieved for.
         public let arn: String?
         /// The friendly name of the secret that the resource-based policy was retrieved for.
@@ -479,6 +494,7 @@ extension SecretsManager {
     }
 
     public struct GetSecretValueRequest: AWSEncodableShape {
+
         /// Specifies the secret containing the version that you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
         /// Specifies the unique identifier of the version of the secret that you want to retrieve. If you specify both this parameter and VersionStage, the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT. This value is typically a UUID-type value with 32 hexadecimal digits.
@@ -509,6 +525,7 @@ extension SecretsManager {
     }
 
     public struct GetSecretValueResponse: AWSDecodableShape {
+
         /// The ARN of the secret.
         public let arn: String?
         /// The date and time that this version of the secret was created.
@@ -546,6 +563,7 @@ extension SecretsManager {
     }
 
     public struct ListSecretVersionIdsRequest: AWSEncodableShape {
+
         /// (Optional) Specifies that you want the results to include versions that do not have any staging labels attached to them. Such versions are considered deprecated and are subject to deletion by Secrets Manager as needed.
         public let includeDeprecated: Bool?
         /// (Optional) Limits the number of results you want to include in the response. If you don't include this parameter, it defaults to a value that's specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (isn't null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Secrets Manager might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -580,6 +598,7 @@ extension SecretsManager {
     }
 
     public struct ListSecretVersionIdsResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the secret.  Secrets Manager automatically adds several random characters to the name at the end of the ARN when you initially create a secret. This affects only the ARN and not the actual friendly name. This ensures that if you create a new secret with the same name as an old secret that you previously deleted, then users with access to the old secret don't automatically get access to the new secret because the ARNs are different.
         public let arn: String?
         /// The friendly name of the secret.
@@ -605,6 +624,7 @@ extension SecretsManager {
     }
 
     public struct ListSecretsRequest: AWSEncodableShape {
+
         /// Lists the secret request filters.
         public let filters: [Filter]?
         /// (Optional) Limits the number of results you want to include in the response. If you don't include this parameter, it defaults to a value that's specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (isn't null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Secrets Manager might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -641,6 +661,7 @@ extension SecretsManager {
     }
 
     public struct ListSecretsResponse: AWSDecodableShape {
+
         /// If present in the response, this value indicates that there's more output available than included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a very long list. Use this value in the NextToken request parameter in a subsequent call to the operation to continue processing and get the next part of the output. You should repeat this until the NextToken response element comes back empty (as null).
         public let nextToken: String?
         /// A list of the secrets in the account.
@@ -658,6 +679,7 @@ extension SecretsManager {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
+
         /// (Optional) If you set the parameter, BlockPublicPolicy to true, then you block resource-based policies that allow broad access to the secret.
         public let blockPublicPolicy: Bool?
         /// A JSON-formatted string constructed according to the grammar and syntax for an AWS resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
@@ -686,6 +708,7 @@ extension SecretsManager {
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
+
         /// The ARN of the secret retrieved by the resource-based policy.
         public let arn: String?
         /// The friendly name of the secret retrieved by the resource-based policy.
@@ -703,6 +726,7 @@ extension SecretsManager {
     }
 
     public struct PutSecretValueRequest: AWSEncodableShape {
+
         /// (Optional) Specifies a unique identifier for the new version of the secret.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request.   This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the Lambda rotation function's processing. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.    If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString or SecretBinary values are the same as those in the request then the request is ignored (the operation is idempotent).    If a version with this value already exists and the version of the SecretString and SecretBinary values are different from those in the request then the request fails because you cannot modify an existing secret version. You can only create new versions to store new secret values.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
         /// (Optional) Specifies binary data that you want to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then use the appropriate technique for your tool to pass the contents of the file as a parameter. Either SecretBinary or SecretString must have a value, but not both. They cannot both be empty. This parameter is not accessible if the secret using the Secrets Manager console.
@@ -749,6 +773,7 @@ extension SecretsManager {
     }
 
     public struct PutSecretValueResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the secret for which you just created a version.
         public let arn: String?
         /// The friendly name of the secret for which you just created or updated a version.
@@ -774,6 +799,7 @@ extension SecretsManager {
     }
 
     public struct RemoveRegionsFromReplicationRequest: AWSEncodableShape {
+
         /// Remove replication from specific Regions.
         public let removeReplicaRegions: [String]
         /// Remove a secret by SecretId from replica Regions.
@@ -802,6 +828,7 @@ extension SecretsManager {
     }
 
     public struct RemoveRegionsFromReplicationResponse: AWSDecodableShape {
+
         /// The secret ARN removed from replication regions.
         public let arn: String?
         /// Describes the remaining replication status after you remove regions from the replication list.
@@ -819,6 +846,7 @@ extension SecretsManager {
     }
 
     public struct ReplicaRegionType: AWSEncodableShape {
+
         /// Can be an ARN, Key ID, or Alias.
         public let kmsKeyId: String?
         /// Describes a single instance of Region objects.
@@ -844,6 +872,7 @@ extension SecretsManager {
     }
 
     public struct ReplicateSecretToRegionsRequest: AWSEncodableShape {
+
         /// Add Regions to replicate the secret.
         public let addReplicaRegions: [ReplicaRegionType]
         /// (Optional) If set, Secrets Manager replication overwrites a secret with the same name in the destination region.
@@ -874,6 +903,7 @@ extension SecretsManager {
     }
 
     public struct ReplicateSecretToRegionsResponse: AWSDecodableShape {
+
         /// Replicate a secret based on the ReplicaRegionType&gt; consisting of a Region(required) and a KMSKeyId (optional) which can be the ARN, KeyID, or Alias.
         public let arn: String?
         /// Describes the secret replication status as PENDING, SUCCESS or FAIL.
@@ -891,6 +921,7 @@ extension SecretsManager {
     }
 
     public struct ReplicationStatusType: AWSDecodableShape {
+
         /// Can be an ARN, Key ID, or Alias.
         public let kmsKeyId: String?
         /// The date that you last accessed the secret in the Region.
@@ -920,6 +951,7 @@ extension SecretsManager {
     }
 
     public struct RestoreSecretRequest: AWSEncodableShape {
+
         /// Specifies the secret that you want to restore from a previously scheduled deletion. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
 
@@ -938,6 +970,7 @@ extension SecretsManager {
     }
 
     public struct RestoreSecretResponse: AWSDecodableShape {
+
         /// The ARN of the secret that was restored.
         public let arn: String?
         /// The friendly name of the secret that was restored.
@@ -955,6 +988,7 @@ extension SecretsManager {
     }
 
     public struct RotateSecretRequest: AWSEncodableShape {
+
         /// (Optional) Specifies a unique identifier for the new version of the secret that helps ensure idempotency.  If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify your own value if you implement your own retry logic and want to ensure that a given secret is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.  Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the function's processing. This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
         /// (Optional) Specifies the ARN of the Lambda function that can rotate the secret.
@@ -990,6 +1024,7 @@ extension SecretsManager {
     }
 
     public struct RotateSecretResponse: AWSDecodableShape {
+
         /// The ARN of the secret.
         public let arn: String?
         /// The friendly name of the secret.
@@ -1011,6 +1046,7 @@ extension SecretsManager {
     }
 
     public struct RotationRulesType: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the number of days between automatic scheduled rotations of the secret. Secrets Manager schedules the next rotation when the previous one is complete. Secrets Manager schedules the date by adding the rotation interval (number of days) to the actual date of the last rotation. The service chooses the hour within that 24-hour date window randomly. The minute is also chosen somewhat randomly, but weighted towards the top of the hour and influenced by a variety of factors that help distribute load.
         public let automaticallyAfterDays: Int64?
 
@@ -1029,6 +1065,7 @@ extension SecretsManager {
     }
 
     public struct SecretListEntry: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the secret. For more information about ARNs in Secrets Manager, see Policy Resources in the AWS Secrets Manager User Guide.
         public let arn: String?
         /// The date and time when a secret was created.
@@ -1102,6 +1139,7 @@ extension SecretsManager {
     }
 
     public struct SecretVersionsListEntry: AWSDecodableShape {
+
         /// The date and time this version of the secret was created.
         public let createdDate: Date?
         /// The date that this version of the secret was last accessed. Note that the resolution of this field is at the date level and does not include the time.
@@ -1127,6 +1165,7 @@ extension SecretsManager {
     }
 
     public struct StopReplicationToReplicaRequest: AWSEncodableShape {
+
         /// Response to StopReplicationToReplica of a secret, based on the SecretId.
         public let secretId: String
 
@@ -1145,6 +1184,7 @@ extension SecretsManager {
     }
 
     public struct StopReplicationToReplicaResponse: AWSDecodableShape {
+
         /// Response StopReplicationToReplica of a secret, based on the ARN,.
         public let arn: String?
 
@@ -1158,6 +1198,7 @@ extension SecretsManager {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key identifier, or name, of the tag.
         public let key: String?
         /// The string value associated with the key of the tag.
@@ -1182,6 +1223,7 @@ extension SecretsManager {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The identifier for the secret that you want to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
         /// The tags to attach to the secret. Each element in the list consists of a Key and a Value. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For the AWS CLI, you can also use the syntax: --Tags Key="Key1",Value="Value1" Key="Key2",Value="Value2"[,…]
@@ -1207,6 +1249,7 @@ extension SecretsManager {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The identifier for the secret that you want to remove tags from. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
         public let secretId: String
         /// A list of tag key names to remove from the secret. You don't specify the value. Both the key and its associated value are removed. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
@@ -1233,6 +1276,7 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretRequest: AWSEncodableShape {
+
         /// (Optional) If you want to add a new version to the secret, this parameter specifies a unique identifier for the new version that helps ensure idempotency.  If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically only need to interact with this value if you implement your own retry logic and want to ensure that a given secret is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.  Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during the Lambda rotation function's processing.   If the ClientRequestToken value isn't already associated with a version of the secret then a new version of the secret is created.    If a version with this value already exists and that version's SecretString and SecretBinary values are the same as those in the request then the request is ignored (the operation is idempotent).    If a version with this value already exists and that version's SecretString and SecretBinary values are different from the request then an error occurs because you cannot modify an existing secret value.   This value becomes the VersionId of the new version.
         public let clientRequestToken: String?
         /// (Optional) Specifies an updated user-provided description of the secret.
@@ -1280,6 +1324,7 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretResponse: AWSDecodableShape {
+
         /// The ARN of the secret that was updated.  Secrets Manager automatically adds several random characters to the name at the end of the ARN when you initially create a secret. This affects only the ARN and not the actual friendly name. This ensures that if you create a new secret with the same name as an old secret that you previously deleted, then users with access to the old secret don't automatically get access to the new secret because the ARNs are different.
         public let arn: String?
         /// The friendly name of the secret that was updated.
@@ -1301,6 +1346,7 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretVersionStageRequest: AWSEncodableShape {
+
         /// (Optional) The secret version ID that you want to add the staging label. If you want to remove a label from a version, then do not specify this parameter. If the staging label is already attached to a different version of the secret, then you must also specify the RemoveFromVersionId parameter.
         public let moveToVersionId: String?
         /// Specifies the secret version ID of the version that the staging label is to be removed from. If the staging label you are trying to attach to one version is already attached to a different version, then you must include this parameter and specify the version that the label is to be removed from. If the label is attached and you either do not specify this parameter, or the version ID does not match, then the operation fails.
@@ -1337,6 +1383,7 @@ extension SecretsManager {
     }
 
     public struct UpdateSecretVersionStageResponse: AWSDecodableShape {
+
         /// The ARN of the secret with the modified staging label.
         public let arn: String?
         /// The friendly name of the secret with the modified staging label.
@@ -1354,6 +1401,7 @@ extension SecretsManager {
     }
 
     public struct ValidateResourcePolicyRequest: AWSEncodableShape {
+
         /// A JSON-formatted string constructed according to the grammar and syntax for an AWS resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.publi
         public let resourcePolicy: String
         ///  (Optional) The identifier of the secret with the resource-based policy you want to validate. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
@@ -1378,6 +1426,7 @@ extension SecretsManager {
     }
 
     public struct ValidateResourcePolicyResponse: AWSDecodableShape {
+
         /// Returns a message stating that your Reource Policy passed validation.
         public let policyValidationPassed: Bool?
         /// Returns an error message if your policy doesn't pass validatation.
@@ -1395,6 +1444,7 @@ extension SecretsManager {
     }
 
     public struct ValidationErrorsEntry: AWSDecodableShape {
+
         /// Checks the name of the policy.
         public let checkName: String?
         /// Displays error messages if validation encounters problems during validation of the resource policy.

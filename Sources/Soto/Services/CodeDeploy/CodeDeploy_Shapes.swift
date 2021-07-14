@@ -36,10 +36,10 @@ extension CodeDeploy {
 
     public enum BundleType: String, CustomStringConvertible, Codable {
         case json = "JSON"
-        case tar
-        case tgz
+        case tar = "tar"
+        case tgz = "tgz"
         case yaml = "YAML"
-        case zip
+        case zip = "zip"
         public var description: String { return self.rawValue }
     }
 
@@ -51,13 +51,13 @@ extension CodeDeploy {
     }
 
     public enum DeploymentCreator: String, CustomStringConvertible, Codable {
-        case autoscaling
+        case autoscaling = "autoscaling"
         case cloudformation = "CloudFormation"
         case cloudformationrollback = "CloudFormationRollback"
         case codedeploy = "CodeDeploy"
         case codedeployautoupdate = "CodeDeployAutoUpdate"
         case codedeployrollback = "codeDeployRollback"
-        case user
+        case user = "user"
         public var description: String { return self.rawValue }
     }
 
@@ -207,9 +207,9 @@ extension CodeDeploy {
     }
 
     public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
-        case exclude
-        case ignore
-        case include
+        case exclude = "exclude"
+        case ignore = "ignore"
+        case include = "include"
         public var description: String { return self.rawValue }
     }
 
@@ -240,8 +240,8 @@ extension CodeDeploy {
     }
 
     public enum SortOrder: String, CustomStringConvertible, Codable {
-        case ascending
-        case descending
+        case ascending = "ascending"
+        case descending = "descending"
         public var description: String { return self.rawValue }
     }
 
@@ -305,6 +305,7 @@ extension CodeDeploy {
     // MARK: Shapes
 
     public struct AddTagsToOnPremisesInstancesInput: AWSEncodableShape {
+
         /// The names of the on-premises instances to which to add tags.
         public let instanceNames: [String]
         /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
@@ -316,12 +317,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case tags
+            case instanceNames = "instanceNames"
+            case tags = "tags"
         }
     }
 
     public struct Alarm: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public let name: String?
 
@@ -330,11 +332,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct AlarmConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
         public let alarms: [Alarm]?
         /// Indicates whether the alarm configuration is enabled.
@@ -349,13 +352,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case enabled
-            case ignorePollAlarmFailure
+            case alarms = "alarms"
+            case enabled = "enabled"
+            case ignorePollAlarmFailure = "ignorePollAlarmFailure"
         }
     }
 
     public struct AppSpecContent: AWSEncodableShape & AWSDecodableShape {
+
         ///  The YAML-formatted or JSON-formatted revision string.   For an AWS Lambda deployment, the content includes a Lambda function name, the alias for its original version, and the alias for its replacement version. The deployment shifts traffic from the original version of the Lambda function to the replacement version.   For an Amazon ECS deployment, the content includes the task name, information about the load balancer that serves traffic to the container, and more.   For both types of deployments, the content can specify Lambda functions that run at specified hooks, such as BeforeInstall, during a deployment.
         public let content: String?
         ///  The SHA256 hash value of the revision content.
@@ -367,12 +371,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case sha256
+            case content = "content"
+            case sha256 = "sha256"
         }
     }
 
     public struct ApplicationInfo: AWSDecodableShape {
+
         /// The application ID.
         public let applicationId: String?
         /// The application name.
@@ -396,16 +401,17 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case applicationName
-            case computePlatform
-            case createTime
-            case gitHubAccountName
-            case linkedToGitHub
+            case applicationId = "applicationId"
+            case applicationName = "applicationName"
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case gitHubAccountName = "gitHubAccountName"
+            case linkedToGitHub = "linkedToGitHub"
         }
     }
 
     public struct AutoRollbackConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether a defined automatic rollback configuration is currently enabled.
         public let enabled: Bool?
         /// The event type or types that trigger a rollback.
@@ -417,12 +423,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
-            case events
+            case enabled = "enabled"
+            case events = "events"
         }
     }
 
     public struct AutoScalingGroup: AWSDecodableShape {
+
         /// An Auto Scaling lifecycle event hook name.
         public let hook: String?
         /// The Auto Scaling group name.
@@ -434,12 +441,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hook
-            case name
+            case hook = "hook"
+            case name = "name"
         }
     }
 
     public struct BatchGetApplicationRevisionsInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application about which to get revision information.
         public let applicationName: String
         /// An array of RevisionLocation objects that specify information to get about the application revisions, including type and location. The maximum number of RevisionLocation objects you can specify is 25.
@@ -456,12 +464,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case revisions
+            case applicationName = "applicationName"
+            case revisions = "revisions"
         }
     }
 
     public struct BatchGetApplicationRevisionsOutput: AWSDecodableShape {
+
         /// The name of the application that corresponds to the revisions.
         public let applicationName: String?
         /// Information about errors that might have occurred during the API call.
@@ -476,13 +485,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case errorMessage
-            case revisions
+            case applicationName = "applicationName"
+            case errorMessage = "errorMessage"
+            case revisions = "revisions"
         }
     }
 
     public struct BatchGetApplicationsInput: AWSEncodableShape {
+
         /// A list of application names separated by spaces. The maximum number of application names you can specify is 100.
         public let applicationNames: [String]
 
@@ -498,11 +508,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationNames
+            case applicationNames = "applicationNames"
         }
     }
 
     public struct BatchGetApplicationsOutput: AWSDecodableShape {
+
         /// Information about the applications.
         public let applicationsInfo: [ApplicationInfo]?
 
@@ -511,11 +522,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationsInfo
+            case applicationsInfo = "applicationsInfo"
         }
     }
 
     public struct BatchGetDeploymentGroupsInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public let applicationName: String
         /// The names of the deployment groups.
@@ -536,12 +548,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroupNames
+            case applicationName = "applicationName"
+            case deploymentGroupNames = "deploymentGroupNames"
         }
     }
 
     public struct BatchGetDeploymentGroupsOutput: AWSDecodableShape {
+
         /// Information about the deployment groups.
         public let deploymentGroupsInfo: [DeploymentGroupInfo]?
         /// Information about errors that might have occurred during the API call.
@@ -553,12 +566,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroupsInfo
-            case errorMessage
+            case deploymentGroupsInfo = "deploymentGroupsInfo"
+            case errorMessage = "errorMessage"
         }
     }
 
     public struct BatchGetDeploymentInstancesInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String
         /// The unique IDs of instances used in the deployment. The maximum number of instance IDs you can specify is 25.
@@ -570,12 +584,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceIds
+            case deploymentId = "deploymentId"
+            case instanceIds = "instanceIds"
         }
     }
 
     public struct BatchGetDeploymentInstancesOutput: AWSDecodableShape {
+
         /// Information about errors that might have occurred during the API call.
         public let errorMessage: String?
         /// Information about the instance.
@@ -587,12 +602,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case instancesSummary
+            case errorMessage = "errorMessage"
+            case instancesSummary = "instancesSummary"
         }
     }
 
     public struct BatchGetDeploymentTargetsInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.    For deployments that use the EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs, and their target type is instanceTarget.     For deployments that use the AWS Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget.     For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.     For deployments that are deployed with AWS CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.
@@ -604,12 +620,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case targetIds
+            case deploymentId = "deploymentId"
+            case targetIds = "targetIds"
         }
     }
 
     public struct BatchGetDeploymentTargetsOutput: AWSDecodableShape {
+
         ///  A list of target objects for a deployment. Each target object contains details about the target, such as its status and lifecycle events. The type of the target objects depends on the deployment' compute platform.     EC2/On-premises: Each target object is an EC2 or on-premises instance.     AWS Lambda: The target object is a specific version of an AWS Lambda function.     Amazon ECS: The target object is an Amazon ECS service.     CloudFormation: The target object is an AWS CloudFormation blue/green deployment.
         public let deploymentTargets: [DeploymentTarget]?
 
@@ -618,11 +635,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentTargets
+            case deploymentTargets = "deploymentTargets"
         }
     }
 
     public struct BatchGetDeploymentsInput: AWSEncodableShape {
+
         ///  A list of deployment IDs, separated by spaces. The maximum number of deployment IDs you can specify is 25.
         public let deploymentIds: [String]
 
@@ -631,11 +649,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentIds
+            case deploymentIds = "deploymentIds"
         }
     }
 
     public struct BatchGetDeploymentsOutput: AWSDecodableShape {
+
         ///  Information about the deployments.
         public let deploymentsInfo: [DeploymentInfo]?
 
@@ -644,11 +663,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentsInfo
+            case deploymentsInfo = "deploymentsInfo"
         }
     }
 
     public struct BatchGetOnPremisesInstancesInput: AWSEncodableShape {
+
         /// The names of the on-premises instances about which to get information. The maximum number of instance names you can specify is 25.
         public let instanceNames: [String]
 
@@ -657,11 +677,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
+            case instanceNames = "instanceNames"
         }
     }
 
     public struct BatchGetOnPremisesInstancesOutput: AWSDecodableShape {
+
         /// Information about the on-premises instances.
         public let instanceInfos: [InstanceInfo]?
 
@@ -670,11 +691,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceInfos
+            case instanceInfos = "instanceInfos"
         }
     }
 
     public struct BlueGreenDeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
         public let deploymentReadyOption: DeploymentReadyOption?
         /// Information about how instances are provisioned for a replacement environment in a blue/green deployment.
@@ -689,13 +711,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentReadyOption
-            case greenFleetProvisioningOption
-            case terminateBlueInstancesOnDeploymentSuccess
+            case deploymentReadyOption = "deploymentReadyOption"
+            case greenFleetProvisioningOption = "greenFleetProvisioningOption"
+            case terminateBlueInstancesOnDeploymentSuccess = "terminateBlueInstancesOnDeploymentSuccess"
         }
     }
 
     public struct BlueInstanceTerminationOption: AWSEncodableShape & AWSDecodableShape {
+
         /// The action to take on instances in the original environment after a successful blue/green deployment.    TERMINATE: Instances are terminated after a specified wait time.    KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.
         public let action: InstanceAction?
         /// For an Amazon EC2 deployment, the number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment.  For an Amazon ECS deployment, the number of minutes before deleting the original (blue) task set. During an Amazon ECS deployment, CodeDeploy shifts traffic from the original (blue) task set to a replacement (green) task set.   The maximum setting is 2880 minutes (2 days).
@@ -707,12 +730,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case terminationWaitTimeInMinutes
+            case action = "action"
+            case terminationWaitTimeInMinutes = "terminationWaitTimeInMinutes"
         }
     }
 
     public struct CloudFormationTarget: AWSDecodableShape {
+
         /// The unique ID of an AWS CloudFormation blue/green deployment.
         public let deploymentId: String?
         ///  The date and time when the target application was updated by an AWS CloudFormation blue/green deployment.
@@ -739,17 +763,18 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lastUpdatedAt
-            case lifecycleEvents
-            case resourceType
-            case status
-            case targetId
-            case targetVersionWeight
+            case deploymentId = "deploymentId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case resourceType = "resourceType"
+            case status = "status"
+            case targetId = "targetId"
+            case targetVersionWeight = "targetVersionWeight"
         }
     }
 
     public struct ContinueDeploymentInput: AWSEncodableShape {
+
         ///  The unique ID of a blue/green deployment for which you want to start rerouting traffic to the replacement environment.
         public let deploymentId: String?
         ///  The status of the deployment's waiting period. READY_WAIT indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates that the traffic is shifted, but the original target is not terminated.
@@ -761,12 +786,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case deploymentWaitType
+            case deploymentId = "deploymentId"
+            case deploymentWaitType = "deploymentWaitType"
         }
     }
 
     public struct CreateApplicationInput: AWSEncodableShape {
+
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
         public let applicationName: String
         ///  The destination platform type for the deployment (Lambda, Server, or ECS).
@@ -786,13 +812,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case computePlatform
-            case tags
+            case applicationName = "applicationName"
+            case computePlatform = "computePlatform"
+            case tags = "tags"
         }
     }
 
     public struct CreateApplicationOutput: AWSDecodableShape {
+
         /// A unique application ID.
         public let applicationId: String?
 
@@ -801,11 +828,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
+            case applicationId = "applicationId"
         }
     }
 
     public struct CreateDeploymentConfigInput: AWSEncodableShape {
+
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
         /// The name of the deployment configuration to create.
@@ -828,14 +856,15 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computePlatform
-            case deploymentConfigName
-            case minimumHealthyHosts
-            case trafficRoutingConfig
+            case computePlatform = "computePlatform"
+            case deploymentConfigName = "deploymentConfigName"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+            case trafficRoutingConfig = "trafficRoutingConfig"
         }
     }
 
     public struct CreateDeploymentConfigOutput: AWSDecodableShape {
+
         /// A unique deployment configuration ID.
         public let deploymentConfigId: String?
 
@@ -844,11 +873,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigId
+            case deploymentConfigId = "deploymentConfigId"
         }
     }
 
     public struct CreateDeploymentGroupInput: AWSEncodableShape {
+
         /// Information to add about Amazon CloudWatch alarms when the deployment group is created.
         public let alarmConfiguration: AlarmConfiguration?
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
@@ -917,28 +947,29 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmConfiguration
-            case applicationName
-            case autoRollbackConfiguration
-            case autoScalingGroups
-            case blueGreenDeploymentConfiguration
-            case deploymentConfigName
-            case deploymentGroupName
-            case deploymentStyle
-            case ec2TagFilters
-            case ec2TagSet
-            case ecsServices
-            case loadBalancerInfo
-            case onPremisesInstanceTagFilters
-            case onPremisesTagSet
-            case outdatedInstancesStrategy
-            case serviceRoleArn
-            case tags
-            case triggerConfigurations
+            case alarmConfiguration = "alarmConfiguration"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupName = "deploymentGroupName"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case ec2TagSet = "ec2TagSet"
+            case ecsServices = "ecsServices"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case outdatedInstancesStrategy = "outdatedInstancesStrategy"
+            case serviceRoleArn = "serviceRoleArn"
+            case tags = "tags"
+            case triggerConfigurations = "triggerConfigurations"
         }
     }
 
     public struct CreateDeploymentGroupOutput: AWSDecodableShape {
+
         /// A unique deployment group ID.
         public let deploymentGroupId: String?
 
@@ -947,11 +978,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroupId
+            case deploymentGroupId = "deploymentGroupId"
         }
     }
 
     public struct CreateDeploymentInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// Configuration information for an automatic rollback that is added when a deployment is created.
@@ -996,20 +1028,21 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case autoRollbackConfiguration
-            case deploymentConfigName
-            case deploymentGroupName
-            case description
-            case fileExistsBehavior
-            case ignoreApplicationStopFailures
-            case revision
-            case targetInstances
-            case updateOutdatedInstancesOnly
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupName = "deploymentGroupName"
+            case description = "description"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case revision = "revision"
+            case targetInstances = "targetInstances"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
         }
     }
 
     public struct CreateDeploymentOutput: AWSDecodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
 
@@ -1018,11 +1051,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct DeleteApplicationInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
 
@@ -1036,11 +1070,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
+            case applicationName = "applicationName"
         }
     }
 
     public struct DeleteDeploymentConfigInput: AWSEncodableShape {
+
         /// The name of a deployment configuration associated with the IAM user or AWS account.
         public let deploymentConfigName: String
 
@@ -1054,11 +1089,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName
+            case deploymentConfigName = "deploymentConfigName"
         }
     }
 
     public struct DeleteDeploymentGroupInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
@@ -1077,12 +1113,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroupName
+            case applicationName = "applicationName"
+            case deploymentGroupName = "deploymentGroupName"
         }
     }
 
     public struct DeleteDeploymentGroupOutput: AWSDecodableShape {
+
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
 
@@ -1091,11 +1128,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hooksNotCleanedUp
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
         }
     }
 
     public struct DeleteGitHubAccountTokenInput: AWSEncodableShape {
+
         /// The name of the GitHub account connection to delete.
         public let tokenName: String?
 
@@ -1104,11 +1142,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenName
+            case tokenName = "tokenName"
         }
     }
 
     public struct DeleteGitHubAccountTokenOutput: AWSDecodableShape {
+
         /// The name of the GitHub account connection that was deleted.
         public let tokenName: String?
 
@@ -1117,11 +1156,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tokenName
+            case tokenName = "tokenName"
         }
     }
 
     public struct DeleteResourcesByExternalIdInput: AWSEncodableShape {
+
         /// The unique ID of an external resource (for example, a CloudFormation stack ID) that is linked to one or more CodeDeploy resources.
         public let externalId: String?
 
@@ -1130,15 +1170,20 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalId
+            case externalId = "externalId"
         }
     }
 
     public struct DeleteResourcesByExternalIdOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeploymentConfigInfo: AWSDecodableShape {
+
         /// The destination platform type for the deployment (Lambda, Server, or ECS).
         public let computePlatform: ComputePlatform?
         /// The time at which the deployment configuration was created.
@@ -1162,16 +1207,17 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case computePlatform
-            case createTime
-            case deploymentConfigId
-            case deploymentConfigName
-            case minimumHealthyHosts
-            case trafficRoutingConfig
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case deploymentConfigId = "deploymentConfigId"
+            case deploymentConfigName = "deploymentConfigName"
+            case minimumHealthyHosts = "minimumHealthyHosts"
+            case trafficRoutingConfig = "trafficRoutingConfig"
         }
     }
 
     public struct DeploymentGroupInfo: AWSDecodableShape {
+
         /// A list of alarms associated with the deployment group.
         public let alarmConfiguration: AlarmConfiguration?
         /// The application name.
@@ -1243,32 +1289,33 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmConfiguration
-            case applicationName
-            case autoRollbackConfiguration
-            case autoScalingGroups
-            case blueGreenDeploymentConfiguration
-            case computePlatform
-            case deploymentConfigName
-            case deploymentGroupId
-            case deploymentGroupName
-            case deploymentStyle
-            case ec2TagFilters
-            case ec2TagSet
-            case ecsServices
-            case lastAttemptedDeployment
-            case lastSuccessfulDeployment
-            case loadBalancerInfo
-            case onPremisesInstanceTagFilters
-            case onPremisesTagSet
-            case outdatedInstancesStrategy
-            case serviceRoleArn
-            case targetRevision
-            case triggerConfigurations
+            case alarmConfiguration = "alarmConfiguration"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case computePlatform = "computePlatform"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupId = "deploymentGroupId"
+            case deploymentGroupName = "deploymentGroupName"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case ec2TagSet = "ec2TagSet"
+            case ecsServices = "ecsServices"
+            case lastAttemptedDeployment = "lastAttemptedDeployment"
+            case lastSuccessfulDeployment = "lastSuccessfulDeployment"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case outdatedInstancesStrategy = "outdatedInstancesStrategy"
+            case serviceRoleArn = "serviceRoleArn"
+            case targetRevision = "targetRevision"
+            case triggerConfigurations = "triggerConfigurations"
         }
     }
 
     public struct DeploymentInfo: AWSDecodableShape {
+
         /// Provides information about the results of a deployment, such as whether instances in the original environment in a blue/green deployment were not terminated.
         public let additionalDeploymentStatusInfo: String?
         /// The application name.
@@ -1360,39 +1407,40 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalDeploymentStatusInfo
-            case applicationName
-            case autoRollbackConfiguration
-            case blueGreenDeploymentConfiguration
-            case completeTime
-            case computePlatform
-            case createTime
-            case creator
-            case deploymentConfigName
-            case deploymentGroupName
-            case deploymentId
-            case deploymentOverview
-            case deploymentStatusMessages
-            case deploymentStyle
-            case description
-            case errorInformation
-            case externalId
-            case fileExistsBehavior
-            case ignoreApplicationStopFailures
-            case instanceTerminationWaitTimeStarted
-            case loadBalancerInfo
-            case previousRevision
-            case relatedDeployments
-            case revision
-            case rollbackInfo
-            case startTime
-            case status
-            case targetInstances
-            case updateOutdatedInstancesOnly
+            case additionalDeploymentStatusInfo = "additionalDeploymentStatusInfo"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case completeTime = "completeTime"
+            case computePlatform = "computePlatform"
+            case createTime = "createTime"
+            case creator = "creator"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentGroupName = "deploymentGroupName"
+            case deploymentId = "deploymentId"
+            case deploymentOverview = "deploymentOverview"
+            case deploymentStatusMessages = "deploymentStatusMessages"
+            case deploymentStyle = "deploymentStyle"
+            case description = "description"
+            case errorInformation = "errorInformation"
+            case externalId = "externalId"
+            case fileExistsBehavior = "fileExistsBehavior"
+            case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
+            case instanceTerminationWaitTimeStarted = "instanceTerminationWaitTimeStarted"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case previousRevision = "previousRevision"
+            case relatedDeployments = "relatedDeployments"
+            case revision = "revision"
+            case rollbackInfo = "rollbackInfo"
+            case startTime = "startTime"
+            case status = "status"
+            case targetInstances = "targetInstances"
+            case updateOutdatedInstancesOnly = "updateOutdatedInstancesOnly"
         }
     }
 
     public struct DeploymentOverview: AWSDecodableShape {
+
         /// The number of instances in the deployment in a failed state.
         public let failed: Int64?
         /// The number of instances in which the deployment is in progress.
@@ -1426,6 +1474,7 @@ extension CodeDeploy {
     }
 
     public struct DeploymentReadyOption: AWSEncodableShape & AWSDecodableShape {
+
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic rerouting is started using ContinueDeployment. If traffic rerouting is not started before the end of the specified wait period, the deployment status is changed to Stopped.
         public let actionOnTimeout: DeploymentReadyAction?
         /// The number of minutes to wait before the status of a blue/green deployment is changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout.
@@ -1437,12 +1486,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionOnTimeout
-            case waitTimeInMinutes
+            case actionOnTimeout = "actionOnTimeout"
+            case waitTimeInMinutes = "waitTimeInMinutes"
         }
     }
 
     public struct DeploymentStyle: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether to route deployment traffic behind a load balancer.
         public let deploymentOption: DeploymentOption?
         /// Indicates whether to run an in-place deployment or a blue/green deployment.
@@ -1454,12 +1504,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentOption
-            case deploymentType
+            case deploymentOption = "deploymentOption"
+            case deploymentType = "deploymentType"
         }
     }
 
     public struct DeploymentTarget: AWSDecodableShape {
+
         public let cloudFormationTarget: CloudFormationTarget?
         /// The deployment type that is specific to the deployment's compute platform or deployments initiated by a CloudFormation stack update.
         public let deploymentTargetType: DeploymentTargetType?
@@ -1479,15 +1530,16 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudFormationTarget
-            case deploymentTargetType
-            case ecsTarget
-            case instanceTarget
-            case lambdaTarget
+            case cloudFormationTarget = "cloudFormationTarget"
+            case deploymentTargetType = "deploymentTargetType"
+            case ecsTarget = "ecsTarget"
+            case instanceTarget = "instanceTarget"
+            case lambdaTarget = "lambdaTarget"
         }
     }
 
     public struct DeregisterOnPremisesInstanceInput: AWSEncodableShape {
+
         /// The name of the on-premises instance to deregister.
         public let instanceName: String
 
@@ -1496,11 +1548,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct Diagnostics: AWSDecodableShape {
+
         /// The associated error code:   Success: The specified script ran.   ScriptMissing: The specified script was not found in the specified location.   ScriptNotExecutable: The specified script is not a recognized executable file type.   ScriptTimedOut: The specified script did not finish running in the specified time period.   ScriptFailed: The specified script failed to run as expected.   UnknownError: The specified script did not run for an unknown reason.
         public let errorCode: LifecycleErrorCode?
         /// The last portion of the diagnostic log. If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic log.
@@ -1518,14 +1571,15 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case logTail
-            case message
-            case scriptName
+            case errorCode = "errorCode"
+            case logTail = "logTail"
+            case message = "message"
+            case scriptName = "scriptName"
         }
     }
 
     public struct EC2TagFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag filter key.
         public let key: String?
         /// The tag filter type:    KEY_ONLY: Key only.    VALUE_ONLY: Value only.    KEY_AND_VALUE: Key and value.
@@ -1547,6 +1601,7 @@ extension CodeDeploy {
     }
 
     public struct EC2TagSet: AWSEncodableShape & AWSDecodableShape {
+
         /// A list that contains other lists of EC2 instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let ec2TagSetList: [[EC2TagFilter]]?
 
@@ -1555,11 +1610,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ec2TagSetList
+            case ec2TagSetList = "ec2TagSetList"
         }
     }
 
     public struct ECSService: AWSEncodableShape & AWSDecodableShape {
+
         ///  The name of the cluster that the Amazon ECS service is associated with.
         public let clusterName: String?
         ///  The name of the target Amazon ECS service.
@@ -1571,12 +1627,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterName
-            case serviceName
+            case clusterName = "clusterName"
+            case serviceName = "serviceName"
         }
     }
 
     public struct ECSTarget: AWSDecodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  The date and time when the target Amazon ECS application was updated by a deployment.
@@ -1603,17 +1660,18 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
-            case targetArn
-            case targetId
-            case taskSetsInfo
+            case deploymentId = "deploymentId"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetId = "targetId"
+            case taskSetsInfo = "taskSetsInfo"
         }
     }
 
     public struct ECSTaskSet: AWSDecodableShape {
+
         ///  The number of tasks in a task set. During a deployment that uses the Amazon ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set and uses this value to determine how many tasks to create. After the updated task set is created, CodeDeploy shifts traffic to the new task set.
         public let desiredCount: Int64?
         ///  A unique ID of an ECSTaskSet.
@@ -1643,18 +1701,19 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredCount
-            case identifer
-            case pendingCount
-            case runningCount
-            case status
-            case targetGroup
-            case taskSetLabel
-            case trafficWeight
+            case desiredCount = "desiredCount"
+            case identifer = "identifer"
+            case pendingCount = "pendingCount"
+            case runningCount = "runningCount"
+            case status = "status"
+            case targetGroup = "targetGroup"
+            case taskSetLabel = "taskSetLabel"
+            case trafficWeight = "trafficWeight"
         }
     }
 
     public struct ELBInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// For blue/green deployments, the name of the load balancer that is used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public let name: String?
 
@@ -1663,11 +1722,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct ErrorInformation: AWSDecodableShape {
+
         /// For more information, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code is most likely raised if the application is deleted after the deployment is created, but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code is most likely raised if the deployment group is deleted after the deployment is created, but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to Amazon EC2.   NO_INSTANCES: No instances were specified, or no instances can be found.   OVER_MAX_INSTANCES: The maximum number of instances was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code is most likely raised if the revision is deleted after the deployment is created, but before it is started.
         public let code: ErrorCode?
         /// An accompanying error message.
@@ -1679,12 +1739,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct GenericRevisionInfo: AWSDecodableShape {
+
         /// The deployment groups for which this is the current target revision.
         public let deploymentGroups: [String]?
         /// A comment about the revision.
@@ -1705,15 +1766,16 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroups
-            case description
-            case firstUsedTime
-            case lastUsedTime
-            case registerTime
+            case deploymentGroups = "deploymentGroups"
+            case description = "description"
+            case firstUsedTime = "firstUsedTime"
+            case lastUsedTime = "lastUsedTime"
+            case registerTime = "registerTime"
         }
     }
 
     public struct GetApplicationInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
 
@@ -1727,11 +1789,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
+            case applicationName = "applicationName"
         }
     }
 
     public struct GetApplicationOutput: AWSDecodableShape {
+
         /// Information about the application.
         public let application: ApplicationInfo?
 
@@ -1740,11 +1803,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
+            case application = "application"
         }
     }
 
     public struct GetApplicationRevisionInput: AWSEncodableShape {
+
         /// The name of the application that corresponds to the revision.
         public let applicationName: String
         /// Information about the application revision to get, including type and location.
@@ -1761,12 +1825,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case revision
+            case applicationName = "applicationName"
+            case revision = "revision"
         }
     }
 
     public struct GetApplicationRevisionOutput: AWSDecodableShape {
+
         /// The name of the application that corresponds to the revision.
         public let applicationName: String?
         /// Additional information about the revision, including type and location.
@@ -1781,13 +1846,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case revision
-            case revisionInfo
+            case applicationName = "applicationName"
+            case revision = "revision"
+            case revisionInfo = "revisionInfo"
         }
     }
 
     public struct GetDeploymentConfigInput: AWSEncodableShape {
+
         /// The name of a deployment configuration associated with the IAM user or AWS account.
         public let deploymentConfigName: String
 
@@ -1801,11 +1867,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigName
+            case deploymentConfigName = "deploymentConfigName"
         }
     }
 
     public struct GetDeploymentConfigOutput: AWSDecodableShape {
+
         /// Information about the deployment configuration.
         public let deploymentConfigInfo: DeploymentConfigInfo?
 
@@ -1814,11 +1881,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigInfo
+            case deploymentConfigInfo = "deploymentConfigInfo"
         }
     }
 
     public struct GetDeploymentGroupInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// The name of a deployment group for the specified application.
@@ -1837,12 +1905,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroupName
+            case applicationName = "applicationName"
+            case deploymentGroupName = "deploymentGroupName"
         }
     }
 
     public struct GetDeploymentGroupOutput: AWSDecodableShape {
+
         /// Information about the deployment group.
         public let deploymentGroupInfo: DeploymentGroupInfo?
 
@@ -1851,11 +1920,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentGroupInfo
+            case deploymentGroupInfo = "deploymentGroupInfo"
         }
     }
 
     public struct GetDeploymentInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment associated with the IAM user or AWS account.
         public let deploymentId: String
 
@@ -1864,11 +1934,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct GetDeploymentInstanceInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String
         ///  The unique ID of an instance in the deployment group.
@@ -1880,12 +1951,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceId
+            case deploymentId = "deploymentId"
+            case instanceId = "instanceId"
         }
     }
 
     public struct GetDeploymentInstanceOutput: AWSDecodableShape {
+
         ///  Information about the instance.
         public let instanceSummary: InstanceSummary?
 
@@ -1894,11 +1966,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSummary
+            case instanceSummary = "instanceSummary"
         }
     }
 
     public struct GetDeploymentOutput: AWSDecodableShape {
+
         /// Information about the deployment.
         public let deploymentInfo: DeploymentInfo?
 
@@ -1907,11 +1980,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentInfo
+            case deploymentInfo = "deploymentInfo"
         }
     }
 
     public struct GetDeploymentTargetInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  The unique ID of a deployment target.
@@ -1923,12 +1997,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case targetId
+            case deploymentId = "deploymentId"
+            case targetId = "targetId"
         }
     }
 
     public struct GetDeploymentTargetOutput: AWSDecodableShape {
+
         ///  A deployment target that contains information about a deployment such as its status, lifecycle events, and when it was last updated. It also contains metadata about the deployment target. The deployment target metadata depends on the deployment target's type (instanceTarget, lambdaTarget, or ecsTarget).
         public let deploymentTarget: DeploymentTarget?
 
@@ -1937,11 +2012,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentTarget
+            case deploymentTarget = "deploymentTarget"
         }
     }
 
     public struct GetOnPremisesInstanceInput: AWSEncodableShape {
+
         ///  The name of the on-premises instance about which to get information.
         public let instanceName: String
 
@@ -1950,11 +2026,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetOnPremisesInstanceOutput: AWSDecodableShape {
+
         ///  Information about the on-premises instance.
         public let instanceInfo: InstanceInfo?
 
@@ -1963,11 +2040,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceInfo
+            case instanceInfo = "instanceInfo"
         }
     }
 
     public struct GitHubLocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
         public let commitId: String?
         /// The GitHub account and repository pair that stores a reference to the commit that represents the bundled artifacts for the application revision.  Specified as account/repository.
@@ -1979,12 +2057,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitId
-            case repository
+            case commitId = "commitId"
+            case repository = "repository"
         }
     }
 
     public struct GreenFleetProvisioningOption: AWSEncodableShape & AWSDecodableShape {
+
         /// The method used to add instances to a replacement environment.    DISCOVER_EXISTING: Use instances that already exist or will be created manually.    COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.
         public let action: GreenFleetProvisioningAction?
 
@@ -1993,11 +2072,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
+            case action = "action"
         }
     }
 
     public struct InstanceInfo: AWSDecodableShape {
+
         /// If the on-premises instance was deregistered, the time at which the on-premises instance was deregistered.
         public let deregisterTime: Date?
         /// The ARN of the IAM session associated with the on-premises instance.
@@ -2024,17 +2104,18 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deregisterTime
-            case iamSessionArn
-            case iamUserArn
-            case instanceArn
-            case instanceName
-            case registerTime
-            case tags
+            case deregisterTime = "deregisterTime"
+            case iamSessionArn = "iamSessionArn"
+            case iamUserArn = "iamUserArn"
+            case instanceArn = "instanceArn"
+            case instanceName = "instanceName"
+            case registerTime = "registerTime"
+            case tags = "tags"
         }
     }
 
     public struct InstanceSummary: AWSDecodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         /// The instance ID.
@@ -2058,16 +2139,17 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceId
-            case instanceType
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
+            case deploymentId = "deploymentId"
+            case instanceId = "instanceId"
+            case instanceType = "instanceType"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
         }
     }
 
     public struct InstanceTarget: AWSDecodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  A label that identifies whether the instance is an original target (BLUE) or a replacement target (GREEN).
@@ -2094,17 +2176,18 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceLabel
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
-            case targetArn
-            case targetId
+            case deploymentId = "deploymentId"
+            case instanceLabel = "instanceLabel"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetId = "targetId"
         }
     }
 
     public struct LambdaFunctionInfo: AWSDecodableShape {
+
         ///  The version of a Lambda function that production traffic points to.
         public let currentVersion: String?
         ///  The alias of a Lambda function. For more information, see AWS Lambda Function Aliases in the AWS Lambda Developer Guide.
@@ -2125,15 +2208,16 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentVersion
-            case functionAlias
-            case functionName
-            case targetVersion
-            case targetVersionWeight
+            case currentVersion = "currentVersion"
+            case functionAlias = "functionAlias"
+            case functionName = "functionName"
+            case targetVersion = "targetVersion"
+            case targetVersionWeight = "targetVersionWeight"
         }
     }
 
     public struct LambdaTarget: AWSDecodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  A LambdaFunctionInfo object that describes a target Lambda function.
@@ -2160,17 +2244,18 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lambdaFunctionInfo
-            case lastUpdatedAt
-            case lifecycleEvents
-            case status
-            case targetArn
-            case targetId
+            case deploymentId = "deploymentId"
+            case lambdaFunctionInfo = "lambdaFunctionInfo"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case lifecycleEvents = "lifecycleEvents"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetId = "targetId"
         }
     }
 
     public struct LastDeploymentInfo: AWSDecodableShape {
+
         /// A timestamp that indicates when the most recent deployment to the deployment group started.
         public let createTime: Date?
         ///  The unique ID of a deployment.
@@ -2188,14 +2273,15 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case deploymentId
-            case endTime
-            case status
+            case createTime = "createTime"
+            case deploymentId = "deploymentId"
+            case endTime = "endTime"
+            case status = "status"
         }
     }
 
     public struct LifecycleEvent: AWSDecodableShape {
+
         /// Diagnostic information about the deployment lifecycle event.
         public let diagnostics: Diagnostics?
         /// A timestamp that indicates when the deployment lifecycle event ended.
@@ -2216,15 +2302,16 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diagnostics
-            case endTime
-            case lifecycleEventName
-            case startTime
-            case status
+            case diagnostics = "diagnostics"
+            case endTime = "endTime"
+            case lifecycleEventName = "lifecycleEventName"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
     public struct ListApplicationRevisionsInput: AWSEncodableShape {
+
         ///  The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         ///  Whether to list revisions based on whether the revision is the target revision of a deployment group:     include: List revisions that are target revisions of a deployment group.    exclude: Do not list revisions that are target revisions of a deployment group.    ignore: List all revisions.
@@ -2256,17 +2343,18 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deployed
-            case nextToken
-            case s3Bucket
-            case s3KeyPrefix
-            case sortBy
-            case sortOrder
+            case applicationName = "applicationName"
+            case deployed = "deployed"
+            case nextToken = "nextToken"
+            case s3Bucket = "s3Bucket"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct ListApplicationRevisionsOutput: AWSDecodableShape {
+
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
         public let nextToken: String?
         /// A list of locations that contain the matching revisions.
@@ -2278,12 +2366,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case revisions
+            case nextToken = "nextToken"
+            case revisions = "revisions"
         }
     }
 
     public struct ListApplicationsInput: AWSEncodableShape {
+
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
 
@@ -2292,11 +2381,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListApplicationsOutput: AWSDecodableShape {
+
         /// A list of application names.
         public let applications: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications in the list.
@@ -2308,12 +2398,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applications
-            case nextToken
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentConfigsInput: AWSEncodableShape {
+
         /// An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list.
         public let nextToken: String?
 
@@ -2322,11 +2413,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentConfigsOutput: AWSDecodableShape {
+
         /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
         public let deploymentConfigsList: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
@@ -2338,12 +2430,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentConfigsList
-            case nextToken
+            case deploymentConfigsList = "deploymentConfigsList"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentGroupsInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
@@ -2360,12 +2453,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case nextToken
+            case applicationName = "applicationName"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentGroupsOutput: AWSDecodableShape {
+
         /// The application name.
         public let applicationName: String?
         /// A list of deployment group names.
@@ -2380,13 +2474,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case deploymentGroups
-            case nextToken
+            case applicationName = "applicationName"
+            case deploymentGroups = "deploymentGroups"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentInstancesInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String
         /// A subset of instances to list by status:    Pending: Include those instances with pending deployments.    InProgress: Include those instances where deployments are still in progress.    Succeeded: Include those instances with successful deployments.    Failed: Include those instances with failed deployments.    Skipped: Include those instances with skipped deployments.    Unknown: Include those instances with deployments in an unknown state.
@@ -2404,14 +2499,15 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case instanceStatusFilter
-            case instanceTypeFilter
-            case nextToken
+            case deploymentId = "deploymentId"
+            case instanceStatusFilter = "instanceStatusFilter"
+            case instanceTypeFilter = "instanceTypeFilter"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentInstancesOutput: AWSDecodableShape {
+
         /// A list of instance IDs.
         public let instancesList: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
@@ -2423,12 +2519,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instancesList
-            case nextToken
+            case instancesList = "instancesList"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentTargetsInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment.
         public let deploymentId: String?
         ///  A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list.
@@ -2443,13 +2540,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case nextToken
-            case targetFilters
+            case deploymentId = "deploymentId"
+            case nextToken = "nextToken"
+            case targetFilters = "targetFilters"
         }
     }
 
     public struct ListDeploymentTargetsOutput: AWSDecodableShape {
+
         ///  If a large amount of information is returned, a token identifier is also returned. It can be used in a subsequent ListDeploymentTargets call to return the next set of deployment targets in the list.
         public let nextToken: String?
         ///  The unique IDs of deployment targets.
@@ -2461,12 +2559,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case targetIds
+            case nextToken = "nextToken"
+            case targetIds = "targetIds"
         }
     }
 
     public struct ListDeploymentsInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.  If applicationName is specified, then deploymentGroupName must be specified. If it is not specified, then deploymentGroupName must not be specified.
         public let applicationName: String?
         /// A time range (start and end) for returning a subset of the list of deployments.
@@ -2497,16 +2596,17 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case createTimeRange
-            case deploymentGroupName
-            case externalId
-            case includeOnlyStatuses
-            case nextToken
+            case applicationName = "applicationName"
+            case createTimeRange = "createTimeRange"
+            case deploymentGroupName = "deploymentGroupName"
+            case externalId = "externalId"
+            case includeOnlyStatuses = "includeOnlyStatuses"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentsOutput: AWSDecodableShape {
+
         /// A list of deployment IDs.
         public let deployments: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
@@ -2518,12 +2618,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployments
-            case nextToken
+            case deployments = "deployments"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListGitHubAccountTokenNamesInput: AWSEncodableShape {
+
         /// An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list.
         public let nextToken: String?
 
@@ -2532,11 +2633,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListGitHubAccountTokenNamesOutput: AWSDecodableShape {
+
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent ListGitHubAccountTokenNames call to return the next set of names in the list.
         public let nextToken: String?
         /// A list of names of connections to GitHub accounts.
@@ -2548,12 +2650,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tokenNameList
+            case nextToken = "nextToken"
+            case tokenNameList = "tokenNameList"
         }
     }
 
     public struct ListOnPremisesInstancesInput: AWSEncodableShape {
+
         /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
         public let nextToken: String?
         /// The registration status of the on-premises instances:    Deregistered: Include deregistered on-premises instances in the resulting list.    Registered: Include registered on-premises instances in the resulting list.
@@ -2568,13 +2671,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case registrationStatus
-            case tagFilters
+            case nextToken = "nextToken"
+            case registrationStatus = "registrationStatus"
+            case tagFilters = "tagFilters"
         }
     }
 
     public struct ListOnPremisesInstancesOutput: AWSDecodableShape {
+
         /// The list of matching on-premises instance names.
         public let instanceNames: [String]?
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
@@ -2586,12 +2690,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case nextToken
+            case instanceNames = "instanceNames"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
+
         /// An identifier returned from the previous ListTagsForResource call. It can be used to return the next set of applications in the list.
         public let nextToken: String?
         ///  The ARN of a CodeDeploy resource. ListTagsForResource returns all the tags associated with the resource that is identified by the ResourceArn.
@@ -2614,6 +2719,7 @@ extension CodeDeploy {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
         public let nextToken: String?
         ///  A list of tags returned by ListTagsForResource. The tags are associated with the resource identified by the input ResourceArn parameter.
@@ -2631,6 +2737,7 @@ extension CodeDeploy {
     }
 
     public struct LoadBalancerInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// An array that contains information about the load balancer to use for load balancing in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load Balancers.   Adding more than one load balancer to the array is not supported.
         public let elbInfoList: [ELBInfo]?
         /// An array that contains information about the target group to use for load balancing in a deployment. In Elastic Load Balancing, target groups are used with Application Load Balancers.   Adding more than one target group to the array is not supported.
@@ -2645,13 +2752,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case elbInfoList
-            case targetGroupInfoList
-            case targetGroupPairInfoList
+            case elbInfoList = "elbInfoList"
+            case targetGroupInfoList = "targetGroupInfoList"
+            case targetGroupPairInfoList = "targetGroupPairInfoList"
         }
     }
 
     public struct MinimumHealthyHosts: AWSEncodableShape & AWSDecodableShape {
+
         /// The minimum healthy instance type:    HOST_COUNT: The minimum number of healthy instances as an absolute value.    FLEET_PERCENT: The minimum number of healthy instances as a percentage of the total number of instances in the deployment.   In an example of nine instances, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances at a time. The deployment is successful if four or more instances are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
         public let type: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
@@ -2663,12 +2771,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
     public struct OnPremisesTagSet: AWSEncodableShape & AWSDecodableShape {
+
         /// A list that contains other lists of on-premises instance tag groups. For an instance to be included in the deployment group, it must be identified by all of the tag groups in the list.
         public let onPremisesTagSetList: [[TagFilter]]?
 
@@ -2677,11 +2786,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case onPremisesTagSetList
+            case onPremisesTagSetList = "onPremisesTagSetList"
         }
     }
 
     public struct PutLifecycleEventHookExecutionStatusInput: AWSEncodableShape {
+
         ///  The unique ID of a deployment. Pass this ID to a Lambda function that validates a deployment lifecycle event.
         public let deploymentId: String?
         ///  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file.
@@ -2696,13 +2806,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
-            case lifecycleEventHookExecutionId
-            case status
+            case deploymentId = "deploymentId"
+            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
+            case status = "status"
         }
     }
 
     public struct PutLifecycleEventHookExecutionStatusOutput: AWSDecodableShape {
+
         /// The execution ID of the lifecycle event hook. A hook is specified in the hooks section of the deployment's AppSpec file.
         public let lifecycleEventHookExecutionId: String?
 
@@ -2711,11 +2822,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lifecycleEventHookExecutionId
+            case lifecycleEventHookExecutionId = "lifecycleEventHookExecutionId"
         }
     }
 
     public struct RawString: AWSEncodableShape & AWSDecodableShape {
+
         /// The YAML-formatted or JSON-formatted revision string. It includes information about which Lambda function to update and optional Lambda functions that validate deployment lifecycle events.
         public let content: String?
         /// The SHA256 hash value of the revision content.
@@ -2727,12 +2839,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case content
-            case sha256
+            case content = "content"
+            case sha256 = "sha256"
         }
     }
 
     public struct RegisterApplicationRevisionInput: AWSEncodableShape {
+
         /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         public let applicationName: String
         /// A comment about the revision.
@@ -2752,13 +2865,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case description
-            case revision
+            case applicationName = "applicationName"
+            case description = "description"
+            case revision = "revision"
         }
     }
 
     public struct RegisterOnPremisesInstanceInput: AWSEncodableShape {
+
         /// The ARN of the IAM session to associate with the on-premises instance.
         public let iamSessionArn: String?
         /// The ARN of the IAM user to associate with the on-premises instance.
@@ -2773,13 +2887,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iamSessionArn
-            case iamUserArn
-            case instanceName
+            case iamSessionArn = "iamSessionArn"
+            case iamUserArn = "iamUserArn"
+            case instanceName = "instanceName"
         }
     }
 
     public struct RelatedDeployments: AWSDecodableShape {
+
         /// The deployment IDs of 'auto-update outdated instances' deployments triggered by this deployment.
         public let autoUpdateOutdatedInstancesDeploymentIds: [String]?
         /// The deployment ID of the root deployment that triggered this deployment.
@@ -2791,12 +2906,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoUpdateOutdatedInstancesDeploymentIds
-            case autoUpdateOutdatedInstancesRootDeploymentId
+            case autoUpdateOutdatedInstancesDeploymentIds = "autoUpdateOutdatedInstancesDeploymentIds"
+            case autoUpdateOutdatedInstancesRootDeploymentId = "autoUpdateOutdatedInstancesRootDeploymentId"
         }
     }
 
     public struct RemoveTagsFromOnPremisesInstancesInput: AWSEncodableShape {
+
         /// The names of the on-premises instances from which to remove tags.
         public let instanceNames: [String]
         /// The tag key-value pairs to remove from the on-premises instances.
@@ -2808,12 +2924,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case tags
+            case instanceNames = "instanceNames"
+            case tags = "tags"
         }
     }
 
     public struct RevisionInfo: AWSDecodableShape {
+
         /// Information about an application revision, including usage details and associated deployment groups.
         public let genericRevisionInfo: GenericRevisionInfo?
         /// Information about the location and type of an application revision.
@@ -2825,12 +2942,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case genericRevisionInfo
-            case revisionLocation
+            case genericRevisionInfo = "genericRevisionInfo"
+            case revisionLocation = "revisionLocation"
         }
     }
 
     public struct RevisionLocation: AWSEncodableShape & AWSDecodableShape {
+
         ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content is formatted as JSON or YAML and stored as a RawString.
         public let appSpecContent: AppSpecContent?
         /// Information about the location of application artifacts stored in GitHub.
@@ -2851,15 +2969,16 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appSpecContent
-            case gitHubLocation
-            case revisionType
-            case s3Location
-            case string
+            case appSpecContent = "appSpecContent"
+            case gitHubLocation = "gitHubLocation"
+            case revisionType = "revisionType"
+            case s3Location = "s3Location"
+            case string = "string"
         }
     }
 
     public struct RollbackInfo: AWSDecodableShape {
+
         /// The ID of the deployment rollback.
         public let rollbackDeploymentId: String?
         /// Information that describes the status of a deployment rollback (for example, whether the deployment can't be rolled back, is in progress, failed, or succeeded).
@@ -2874,13 +2993,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rollbackDeploymentId
-            case rollbackMessage
-            case rollbackTriggeringDeploymentId
+            case rollbackDeploymentId = "rollbackDeploymentId"
+            case rollbackMessage = "rollbackMessage"
+            case rollbackTriggeringDeploymentId = "rollbackTriggeringDeploymentId"
         }
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the Amazon S3 bucket where the application revision is stored.
         public let bucket: String?
         /// The file type of the application revision. Must be one of the following:    tar: A tar archive file.    tgz: A compressed tar archive file.    zip: A zip archive file.
@@ -2901,15 +3021,16 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case bundleType
-            case eTag
-            case key
-            case version
+            case bucket = "bucket"
+            case bundleType = "bundleType"
+            case eTag = "eTag"
+            case key = "key"
+            case version = "version"
         }
     }
 
     public struct SkipWaitTimeForInstanceTerminationInput: AWSEncodableShape {
+
         ///  The unique ID of a blue/green deployment for which you want to skip the instance termination wait time.
         public let deploymentId: String?
 
@@ -2918,11 +3039,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentId
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct StopDeploymentInput: AWSEncodableShape {
+
         ///  Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision.
         public let autoRollbackEnabled: Bool?
         ///  The unique ID of a deployment.
@@ -2934,12 +3056,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoRollbackEnabled
-            case deploymentId
+            case autoRollbackEnabled = "autoRollbackEnabled"
+            case deploymentId = "deploymentId"
         }
     }
 
     public struct StopDeploymentOutput: AWSDecodableShape {
+
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.
         public let status: StopStatus?
         /// An accompanying status message.
@@ -2951,12 +3074,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusMessage
+            case status = "status"
+            case statusMessage = "statusMessage"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag's key.
         public let key: String?
         /// The tag's value.
@@ -2974,6 +3098,7 @@ extension CodeDeploy {
     }
 
     public struct TagFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The on-premises instance tag filter key.
         public let key: String?
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.
@@ -2995,6 +3120,7 @@ extension CodeDeploy {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
+
         ///  The ARN of a resource, such as a CodeDeploy application or deployment group.
         public let resourceArn: String
         ///  A list of tags that TagResource associates with a resource. The resource is identified by the ResourceArn input parameter.
@@ -3017,10 +3143,15 @@ extension CodeDeploy {
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TargetGroupInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// For blue/green deployments, the name of the target group that instances in the original environment are deregistered from, and instances in the replacement environment are registered with. For in-place deployments, the name of the target group that instances are deregistered from, so they are not serving traffic during a deployment, and then re-registered with after the deployment is complete.
         public let name: String?
 
@@ -3029,11 +3160,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct TargetGroupPairInfo: AWSEncodableShape & AWSDecodableShape {
+
         ///  The path used by a load balancer to route production traffic when an Amazon ECS deployment is complete.
         public let prodTrafficRoute: TrafficRoute?
         ///  One pair of target groups. One is associated with the original task set. The second is associated with the task set that serves traffic after the deployment is complete.
@@ -3048,13 +3180,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case prodTrafficRoute
-            case targetGroups
-            case testTrafficRoute
+            case prodTrafficRoute = "prodTrafficRoute"
+            case targetGroups = "targetGroups"
+            case testTrafficRoute = "testTrafficRoute"
         }
     }
 
     public struct TargetInstances: AWSEncodableShape & AWSDecodableShape {
+
         /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
         public let autoScalingGroups: [String]?
         /// Information about the groups of EC2 instance tags that an instance must be identified by in order for it to be included in the replacement environment for a blue/green deployment. Cannot be used in the same call as tagFilters.
@@ -3069,13 +3202,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroups
-            case ec2TagSet
-            case tagFilters
+            case autoScalingGroups = "autoScalingGroups"
+            case ec2TagSet = "ec2TagSet"
+            case tagFilters = "tagFilters"
         }
     }
 
     public struct TimeBasedCanary: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of minutes between the first and second traffic shifts of a TimeBasedCanary deployment.
         public let canaryInterval: Int?
         /// The percentage of traffic to shift in the first increment of a TimeBasedCanary deployment.
@@ -3087,12 +3221,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case canaryInterval
-            case canaryPercentage
+            case canaryInterval = "canaryInterval"
+            case canaryPercentage = "canaryPercentage"
         }
     }
 
     public struct TimeBasedLinear: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of minutes between each incremental traffic shift of a TimeBasedLinear deployment.
         public let linearInterval: Int?
         /// The percentage of traffic that is shifted at the start of each increment of a TimeBasedLinear deployment.
@@ -3104,12 +3239,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case linearInterval
-            case linearPercentage
+            case linearInterval = "linearInterval"
+            case linearPercentage = "linearPercentage"
         }
     }
 
     public struct TimeRange: AWSEncodableShape {
+
         /// The end time of the time range.  Specify null to leave the end time open-ended.
         public let end: Date?
         /// The start time of the time range.  Specify null to leave the start time open-ended.
@@ -3121,12 +3257,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case end
-            case start
+            case end = "end"
+            case start = "start"
         }
     }
 
     public struct TrafficRoute: AWSEncodableShape & AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of one listener. The listener identifies the route between a target group and a load balancer. This is an array of strings with a maximum size of one.
         public let listenerArns: [String]?
 
@@ -3135,11 +3272,12 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case listenerArns
+            case listenerArns = "listenerArns"
         }
     }
 
     public struct TrafficRoutingConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A configuration that shifts traffic from one version of a Lambda function or ECS task set to another in two increments. The original and target Lambda function versions or ECS task sets are specified in the deployment's AppSpec file.
         public let timeBasedCanary: TimeBasedCanary?
         /// A configuration that shifts traffic from one version of a Lambda function or ECS task set to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions or ECS task sets are specified in the deployment's AppSpec file.
@@ -3154,13 +3292,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case timeBasedCanary
-            case timeBasedLinear
-            case type
+            case timeBasedCanary = "timeBasedCanary"
+            case timeBasedLinear = "timeBasedLinear"
+            case type = "type"
         }
     }
 
     public struct TriggerConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The event type or types for which notifications are triggered.
         public let triggerEvents: [TriggerEventType]?
         /// The name of the notification trigger.
@@ -3175,13 +3314,14 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case triggerEvents
-            case triggerName
-            case triggerTargetArn
+            case triggerEvents = "triggerEvents"
+            case triggerName = "triggerName"
+            case triggerTargetArn = "triggerTargetArn"
         }
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
+
         ///  The Amazon Resource Name (ARN) that specifies from which resource to disassociate the tags with the keys in the TagKeys input parameter.
         public let resourceArn: String
         ///  A list of keys of Tag objects. The Tag objects identified by the keys are disassociated from the resource specified by the ResourceArn input parameter.
@@ -3204,10 +3344,15 @@ extension CodeDeploy {
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateApplicationInput: AWSEncodableShape {
+
         /// The current name of the application you want to change.
         public let applicationName: String?
         /// The new name to give the application.
@@ -3226,12 +3371,13 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationName
-            case newApplicationName
+            case applicationName = "applicationName"
+            case newApplicationName = "newApplicationName"
         }
     }
 
     public struct UpdateDeploymentGroupInput: AWSEncodableShape {
+
         /// Information to add or change about Amazon CloudWatch alarms when the deployment group is updated.
         public let alarmConfiguration: AlarmConfiguration?
         /// The application name that corresponds to the deployment group to update.
@@ -3302,28 +3448,29 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmConfiguration
-            case applicationName
-            case autoRollbackConfiguration
-            case autoScalingGroups
-            case blueGreenDeploymentConfiguration
-            case currentDeploymentGroupName
-            case deploymentConfigName
-            case deploymentStyle
-            case ec2TagFilters
-            case ec2TagSet
-            case ecsServices
-            case loadBalancerInfo
-            case newDeploymentGroupName
-            case onPremisesInstanceTagFilters
-            case onPremisesTagSet
-            case outdatedInstancesStrategy
-            case serviceRoleArn
-            case triggerConfigurations
+            case alarmConfiguration = "alarmConfiguration"
+            case applicationName = "applicationName"
+            case autoRollbackConfiguration = "autoRollbackConfiguration"
+            case autoScalingGroups = "autoScalingGroups"
+            case blueGreenDeploymentConfiguration = "blueGreenDeploymentConfiguration"
+            case currentDeploymentGroupName = "currentDeploymentGroupName"
+            case deploymentConfigName = "deploymentConfigName"
+            case deploymentStyle = "deploymentStyle"
+            case ec2TagFilters = "ec2TagFilters"
+            case ec2TagSet = "ec2TagSet"
+            case ecsServices = "ecsServices"
+            case loadBalancerInfo = "loadBalancerInfo"
+            case newDeploymentGroupName = "newDeploymentGroupName"
+            case onPremisesInstanceTagFilters = "onPremisesInstanceTagFilters"
+            case onPremisesTagSet = "onPremisesTagSet"
+            case outdatedInstancesStrategy = "outdatedInstancesStrategy"
+            case serviceRoleArn = "serviceRoleArn"
+            case triggerConfigurations = "triggerConfigurations"
         }
     }
 
     public struct UpdateDeploymentGroupOutput: AWSDecodableShape {
+
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
         public let hooksNotCleanedUp: [AutoScalingGroup]?
 
@@ -3332,7 +3479,7 @@ extension CodeDeploy {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hooksNotCleanedUp
+            case hooksNotCleanedUp = "hooksNotCleanedUp"
         }
     }
 }

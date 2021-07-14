@@ -60,6 +60,7 @@ extension DynamoDBStreams {
     // MARK: Shapes
 
     public class AttributeValue: AWSDecodableShape {
+
         /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
         public let b: Data?
         /// An attribute of type Boolean. For example:  "BOOL": true
@@ -109,6 +110,7 @@ extension DynamoDBStreams {
     }
 
     public struct DescribeStreamInput: AWSEncodableShape {
+
         /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
         public let exclusiveStartShardId: String?
         /// The maximum number of shard objects to return. The upper limit is 100.
@@ -138,6 +140,7 @@ extension DynamoDBStreams {
     }
 
     public struct DescribeStreamOutput: AWSDecodableShape {
+
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
         public let streamDescription: StreamDescription?
 
@@ -151,6 +154,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetRecordsInput: AWSEncodableShape {
+
         /// The maximum number of records to return from the shard. The upper limit is 1000.
         public let limit: Int?
         /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
@@ -174,6 +178,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetRecordsOutput: AWSDecodableShape {
+
         /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
         /// The stream records from the shard, which were retrieved using the shard iterator.
@@ -191,6 +196,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetShardIteratorInput: AWSEncodableShape {
+
         /// The sequence number of a stream record in the shard from which to start reading.
         public let sequenceNumber: String?
         /// The identifier of the shard. The iterator will be returned for this shard ID.
@@ -225,6 +231,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetShardIteratorOutput: AWSDecodableShape {
+
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
         public let shardIterator: String?
 
@@ -238,6 +245,7 @@ extension DynamoDBStreams {
     }
 
     public struct Identity: AWSDecodableShape {
+
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
         public let principalId: String?
         /// The type of the identity. For Time To Live, the type is "Service".
@@ -255,6 +263,7 @@ extension DynamoDBStreams {
     }
 
     public struct KeySchemaElement: AWSDecodableShape {
+
         /// The name of a key attribute.
         public let attributeName: String
         /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
@@ -272,6 +281,7 @@ extension DynamoDBStreams {
     }
 
     public struct ListStreamsInput: AWSEncodableShape {
+
         /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation.
         public let exclusiveStartStreamArn: String?
         /// The maximum number of streams to return. The upper limit is 100.
@@ -302,6 +312,7 @@ extension DynamoDBStreams {
     }
 
     public struct ListStreamsOutput: AWSDecodableShape {
+
         /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
         public let lastEvaluatedStreamArn: String?
         /// A list of stream descriptors associated with the current account and endpoint.
@@ -319,6 +330,7 @@ extension DynamoDBStreams {
     }
 
     public struct Record: AWSDecodableShape {
+
         /// The region in which the GetRecords request was received.
         public let awsRegion: String?
         /// The main body of the stream record, containing all of the DynamoDB-specific fields.
@@ -345,17 +357,18 @@ extension DynamoDBStreams {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case dynamodb
-            case eventID
-            case eventName
-            case eventSource
-            case eventVersion
-            case userIdentity
+            case awsRegion = "awsRegion"
+            case dynamodb = "dynamodb"
+            case eventID = "eventID"
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case eventVersion = "eventVersion"
+            case userIdentity = "userIdentity"
         }
     }
 
     public struct SequenceNumberRange: AWSDecodableShape {
+
         /// The last sequence number for the stream records contained within a shard. String contains numeric characters only.
         public let endingSequenceNumber: String?
         /// The first sequence number for the stream records contained within a shard. String contains numeric characters only.
@@ -373,6 +386,7 @@ extension DynamoDBStreams {
     }
 
     public struct Shard: AWSDecodableShape {
+
         /// The shard ID of the current shard's parent.
         public let parentShardId: String?
         /// The range of possible sequence numbers for the shard.
@@ -394,6 +408,7 @@ extension DynamoDBStreams {
     }
 
     public struct Stream: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
         /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel
@@ -415,6 +430,7 @@ extension DynamoDBStreams {
     }
 
     public struct StreamDescription: AWSDecodableShape {
+
         /// The date and time when the request to create this stream was issued.
         public let creationRequestDateTime: Date?
         /// The key attribute(s) of the stream's DynamoDB table.
@@ -460,6 +476,7 @@ extension DynamoDBStreams {
     }
 
     public struct StreamRecord: AWSDecodableShape {
+
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
         public let approximateCreationDateTime: Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.

@@ -382,6 +382,7 @@ extension WAFRegional {
     // MARK: Shapes
 
     public struct ActivatedRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:    ALLOW: CloudFront responds with the requested object.    BLOCK: CloudFront responds with an HTTP 403 (Forbidden) status code.    COUNT: AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL.     ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case, you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
         public let action: WafAction?
         /// An array of rules to exclude from a rule group. This is applicable only when the ActivatedRule refers to a RuleGroup. Sometimes it is necessary to troubleshoot rule groups that are blocking traffic unexpectedly (false positives). One troubleshooting technique is to identify the specific rule within the rule group that is blocking the legitimate traffic and then disable (exclude) that particular rule. You can exclude rules from both your own rule groups and AWS Marketplace rule groups that have been associated with a web ACL. Specifying ExcludedRules does not remove those rules from the rule group. Rather, it changes the action for the rules to COUNT. Therefore, requests that match an ExcludedRule are counted but not blocked. The RuleGroup owner will receive COUNT metrics for each ExcludedRule. If you want to exclude rules from a rule group that is already associated with a web ACL, perform the following steps:   Use the AWS WAF logs to identify the IDs of the rules that you want to exclude. For more information about the logs, see Logging Web ACL Traffic Information.   Submit an UpdateWebACL request that has two actions:   The first action deletes the existing rule group from the web ACL. That is, in the UpdateWebACL request, the first Updates:Action should be DELETE and Updates:ActivatedRule:RuleId should be the rule group that contains the rules that you want to exclude.   The second action inserts the same rule group back in, but specifying the rules to exclude. That is, the second Updates:Action should be INSERT, Updates:ActivatedRule:RuleId should be the rule group that you just removed, and ExcludedRules should contain the rules that you want to exclude.
@@ -424,6 +425,7 @@ extension WAFRegional {
     }
 
     public struct AssociateWebACLRequest: AWSEncodableShape {
+
         /// The ARN (Amazon Resource Name) of the resource to be protected, either an application load balancer or Amazon API Gateway stage.  The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
         public let resourceArn: String
         /// A unique identifier (ID) for the web ACL.
@@ -450,10 +452,15 @@ extension WAFRegional {
     }
 
     public struct AssociateWebACLResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ByteMatchSet: AWSDecodableShape {
+
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet (see GetByteMatchSet), update a ByteMatchSet (see UpdateByteMatchSet), insert a ByteMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a ByteMatchSet from AWS WAF (see DeleteByteMatchSet).  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// Specifies the bytes (typically a string that corresponds with ASCII characters) that you want AWS WAF to search for in web requests, the location in requests that you want AWS WAF to search, and other settings.
@@ -475,6 +482,7 @@ extension WAFRegional {
     }
 
     public struct ByteMatchSetSummary: AWSDecodableShape {
+
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF.  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -492,6 +500,7 @@ extension WAFRegional {
     }
 
     public struct ByteMatchSetUpdate: AWSEncodableShape {
+
         /// Specifies whether to insert or delete a ByteMatchTuple.
         public let action: ChangeAction
         /// Information about the part of a web request that you want AWS WAF to inspect and the value that you want AWS WAF to search for. If you specify DELETE for the value of Action, the ByteMatchTuple values must exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
@@ -513,6 +522,7 @@ extension WAFRegional {
     }
 
     public struct ByteMatchTuple: AWSEncodableShape & AWSDecodableShape {
+
         /// The part of a web request that you want AWS WAF to search, such as a specified header or a query string. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// Within the portion of a web request that you want to search (for example, in the query string, if any), specify where you want AWS WAF to search. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of TargetString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of TargetString, and TargetString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, TargetString must be a word, which means one of the following:    TargetString exactly matches the value of the specified part of the web request, such as the value of a header.    TargetString is at the beginning of the specified part of the web request and is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot;.    TargetString is at the end of the specified part of the web request and is preceded by a character other than an alphanumeric character or underscore (_), for example, ;BadBot.    TargetString is in the middle of the specified part of the web request and is preceded and followed by characters other than alphanumeric characters or underscore (_), for example, -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of TargetString.  STARTS_WITH  The value of TargetString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of TargetString must appear at the end of the specified part of the web request.
@@ -542,6 +552,7 @@ extension WAFRegional {
     }
 
     public struct CreateByteMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -568,6 +579,7 @@ extension WAFRegional {
     }
 
     public struct CreateByteMatchSetResponse: AWSDecodableShape {
+
         /// A ByteMatchSet that contains no ByteMatchTuple objects.
         public let byteMatchSet: ByteMatchSet?
         /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
@@ -585,6 +597,7 @@ extension WAFRegional {
     }
 
     public struct CreateGeoMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the GeoMatchSet. You can't change Name after you create the GeoMatchSet.
@@ -611,6 +624,7 @@ extension WAFRegional {
     }
 
     public struct CreateGeoMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The GeoMatchSet returned in the CreateGeoMatchSet response. The GeoMatchSet contains no GeoMatchConstraints.
@@ -628,6 +642,7 @@ extension WAFRegional {
     }
 
     public struct CreateIPSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
@@ -654,6 +669,7 @@ extension WAFRegional {
     }
 
     public struct CreateIPSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The IPSet returned in the CreateIPSet response.
@@ -671,6 +687,7 @@ extension WAFRegional {
     }
 
     public struct CreateRateBasedRuleRequest: AWSEncodableShape {
+
         /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String
         /// A friendly name or description for the metrics for this RateBasedRule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule.
@@ -702,7 +719,7 @@ extension WAFRegional {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2_000_000_000)
+            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2000000000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -721,6 +738,7 @@ extension WAFRegional {
     }
 
     public struct CreateRateBasedRuleResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The RateBasedRule that is returned in the CreateRateBasedRule response.
@@ -738,6 +756,7 @@ extension WAFRegional {
     }
 
     public struct CreateRegexMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
@@ -764,6 +783,7 @@ extension WAFRegional {
     }
 
     public struct CreateRegexMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A RegexMatchSet that contains no RegexMatchTuple objects.
@@ -781,6 +801,7 @@ extension WAFRegional {
     }
 
     public struct CreateRegexPatternSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
@@ -807,6 +828,7 @@ extension WAFRegional {
     }
 
     public struct CreateRegexPatternSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A RegexPatternSet that contains no objects.
@@ -824,6 +846,7 @@ extension WAFRegional {
     }
 
     public struct CreateRuleGroupRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
@@ -864,6 +887,7 @@ extension WAFRegional {
     }
 
     public struct CreateRuleGroupResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateRuleGroup request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// An empty RuleGroup.
@@ -881,6 +905,7 @@ extension WAFRegional {
     }
 
     public struct CreateRuleRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the Rule.
@@ -921,6 +946,7 @@ extension WAFRegional {
     }
 
     public struct CreateRuleResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The Rule returned in the CreateRule response.
@@ -938,6 +964,7 @@ extension WAFRegional {
     }
 
     public struct CreateSizeConstraintSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description of the SizeConstraintSet. You can't change Name after you create a SizeConstraintSet.
@@ -964,6 +991,7 @@ extension WAFRegional {
     }
 
     public struct CreateSizeConstraintSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A SizeConstraintSet that contains no SizeConstraint objects.
@@ -981,6 +1009,7 @@ extension WAFRegional {
     }
 
     public struct CreateSqlInjectionMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet.
@@ -1007,6 +1036,7 @@ extension WAFRegional {
     }
 
     public struct CreateSqlInjectionMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// A SqlInjectionMatchSet.
@@ -1024,6 +1054,7 @@ extension WAFRegional {
     }
 
     public struct CreateWebACLMigrationStackRequest: AWSEncodableShape {
+
         /// Indicates whether to exclude entities that can't be migrated or to stop the migration. Set this to true to ignore unsupported entities in the web ACL during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the process and throws an exception.
         public let ignoreUnsupportedType: Bool
         /// The name of the Amazon S3 bucket to store the CloudFormation template in. The S3 bucket must be configured as follows for the migration:    The bucket name must start with aws-waf-migration-. For example, aws-waf-migration-my-web-acl.   The bucket must be in the Region where you are deploying the template. For example, for a web ACL in us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template stack to us-west-2.    The bucket policies must permit the migration process to write data. For listings of the bucket policies, see the Examples section.
@@ -1054,6 +1085,7 @@ extension WAFRegional {
     }
 
     public struct CreateWebACLMigrationStackResponse: AWSDecodableShape {
+
         /// The URL of the template created in Amazon S3.
         public let s3ObjectUrl: String
 
@@ -1067,6 +1099,7 @@ extension WAFRegional {
     }
 
     public struct CreateWebACLRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The action that you want AWS WAF to take when a request doesn't match the criteria specified in any of the Rule objects that are associated with the WebACL.
@@ -1111,6 +1144,7 @@ extension WAFRegional {
     }
 
     public struct CreateWebACLResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The WebACL returned in the CreateWebACL response.
@@ -1128,6 +1162,7 @@ extension WAFRegional {
     }
 
     public struct CreateXssMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet.
@@ -1154,6 +1189,7 @@ extension WAFRegional {
     }
 
     public struct CreateXssMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// An XssMatchSet.
@@ -1171,6 +1207,7 @@ extension WAFRegional {
     }
 
     public struct DeleteByteMatchSetRequest: AWSEncodableShape {
+
         /// The ByteMatchSetId of the ByteMatchSet that you want to delete. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// The value returned by the most recent call to GetChangeToken.
@@ -1197,6 +1234,7 @@ extension WAFRegional {
     }
 
     public struct DeleteByteMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1210,6 +1248,7 @@ extension WAFRegional {
     }
 
     public struct DeleteGeoMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The GeoMatchSetID of the GeoMatchSet that you want to delete. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
@@ -1236,6 +1275,7 @@ extension WAFRegional {
     }
 
     public struct DeleteGeoMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteGeoMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1249,6 +1289,7 @@ extension WAFRegional {
     }
 
     public struct DeleteIPSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -1275,6 +1316,7 @@ extension WAFRegional {
     }
 
     public struct DeleteIPSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1288,6 +1330,7 @@ extension WAFRegional {
     }
 
     public struct DeleteLoggingConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
         public let resourceArn: String
 
@@ -1307,10 +1350,15 @@ extension WAFRegional {
     }
 
     public struct DeleteLoggingConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePermissionPolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the RuleGroup from which you want to delete the policy. The user making the request must be the owner of the RuleGroup.
         public let resourceArn: String
 
@@ -1330,10 +1378,15 @@ extension WAFRegional {
     }
 
     public struct DeletePermissionPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRateBasedRuleRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleId of the RateBasedRule that you want to delete. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
@@ -1360,6 +1413,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRateBasedRuleResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1373,6 +1427,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRegexMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexMatchSetId of the RegexMatchSet that you want to delete. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -1399,6 +1454,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRegexMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteRegexMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1412,6 +1468,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRegexPatternSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexPatternSetId of the RegexPatternSet that you want to delete. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -1438,6 +1495,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRegexPatternSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteRegexPatternSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1451,6 +1509,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRuleGroupRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleGroupId of the RuleGroup that you want to delete. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
@@ -1477,6 +1536,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRuleGroupResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteRuleGroup request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1490,6 +1550,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules.
@@ -1516,6 +1577,7 @@ extension WAFRegional {
     }
 
     public struct DeleteRuleResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1529,6 +1591,7 @@ extension WAFRegional {
     }
 
     public struct DeleteSizeConstraintSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -1555,6 +1618,7 @@ extension WAFRegional {
     }
 
     public struct DeleteSizeConstraintSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1568,6 +1632,7 @@ extension WAFRegional {
     }
 
     public struct DeleteSqlInjectionMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -1594,6 +1659,7 @@ extension WAFRegional {
     }
 
     public struct DeleteSqlInjectionMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1607,6 +1673,7 @@ extension WAFRegional {
     }
 
     public struct DeleteWebACLRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The WebACLId of the WebACL that you want to delete. WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -1633,6 +1700,7 @@ extension WAFRegional {
     }
 
     public struct DeleteWebACLResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1646,6 +1714,7 @@ extension WAFRegional {
     }
 
     public struct DeleteXssMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The XssMatchSetId of the XssMatchSet that you want to delete. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -1672,6 +1741,7 @@ extension WAFRegional {
     }
 
     public struct DeleteXssMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -1685,6 +1755,7 @@ extension WAFRegional {
     }
 
     public struct DisassociateWebACLRequest: AWSEncodableShape {
+
         /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
         public let resourceArn: String
 
@@ -1704,10 +1775,15 @@ extension WAFRegional {
     }
 
     public struct DisassociateWebACLResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ExcludedRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier for the rule to exclude from the rule group.
         public let ruleId: String
 
@@ -1727,6 +1803,7 @@ extension WAFRegional {
     }
 
     public struct FieldToMatch: AWSEncodableShape & AWSDecodableShape {
+
         /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG, enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion. The parameter name is not case sensitive. If the value of Type is any other value, omit Data.
         public let data: String?
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.     SINGLE_QUERY_ARG: The parameter in the query string that you will inspect, such as UserName or SalesRegion. The maximum length for SINGLE_QUERY_ARG is 30 characters.    ALL_QUERY_ARGS: Similar to SINGLE_QUERY_ARG, but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in TargetString.
@@ -1750,6 +1827,7 @@ extension WAFRegional {
     }
 
     public struct GeoMatchConstraint: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of geographical area you want AWS WAF to search for. Currently Country is the only valid value.
         public let type: GeoMatchConstraintType
         /// The country that you want AWS WAF to search for.
@@ -1767,6 +1845,7 @@ extension WAFRegional {
     }
 
     public struct GeoMatchSet: AWSDecodableShape {
+
         /// An array of GeoMatchConstraint objects, which contain the country that you want AWS WAF to search for.
         public let geoMatchConstraints: [GeoMatchConstraint]
         /// The GeoMatchSetId for an GeoMatchSet. You use GeoMatchSetId to get information about a GeoMatchSet (see GeoMatchSet), update a GeoMatchSet (see UpdateGeoMatchSet), insert a GeoMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a GeoMatchSet from AWS WAF (see DeleteGeoMatchSet).  GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
@@ -1788,6 +1867,7 @@ extension WAFRegional {
     }
 
     public struct GeoMatchSetSummary: AWSDecodableShape {
+
         /// The GeoMatchSetId for an GeoMatchSet. You can use GeoMatchSetId in a GetGeoMatchSet request to get detailed information about an GeoMatchSet.
         public let geoMatchSetId: String
         /// A friendly name or description of the GeoMatchSet. You can't change the name of an GeoMatchSet after you create it.
@@ -1805,6 +1885,7 @@ extension WAFRegional {
     }
 
     public struct GeoMatchSetUpdate: AWSEncodableShape {
+
         /// Specifies whether to insert or delete a country with UpdateGeoMatchSet.
         public let action: ChangeAction
         /// The country from which web requests originate that you want AWS WAF to search for.
@@ -1822,6 +1903,7 @@ extension WAFRegional {
     }
 
     public struct GetByteMatchSetRequest: AWSEncodableShape {
+
         /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
 
@@ -1841,6 +1923,7 @@ extension WAFRegional {
     }
 
     public struct GetByteMatchSetResponse: AWSDecodableShape {
+
         /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type
         public let byteMatchSet: ByteMatchSet?
 
@@ -1854,10 +1937,15 @@ extension WAFRegional {
     }
 
     public struct GetChangeTokenRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetChangeTokenResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request.
         public let changeToken: String?
 
@@ -1871,6 +1959,7 @@ extension WAFRegional {
     }
 
     public struct GetChangeTokenStatusRequest: AWSEncodableShape {
+
         /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
         public let changeToken: String
 
@@ -1890,6 +1979,7 @@ extension WAFRegional {
     }
 
     public struct GetChangeTokenStatusResponse: AWSDecodableShape {
+
         /// The status of the change token.
         public let changeTokenStatus: ChangeTokenStatus?
 
@@ -1903,6 +1993,7 @@ extension WAFRegional {
     }
 
     public struct GetGeoMatchSetRequest: AWSEncodableShape {
+
         /// The GeoMatchSetId of the GeoMatchSet that you want to get. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
         public let geoMatchSetId: String
 
@@ -1922,6 +2013,7 @@ extension WAFRegional {
     }
 
     public struct GetGeoMatchSetResponse: AWSDecodableShape {
+
         /// Information about the GeoMatchSet that you specified in the GetGeoMatchSet request. This includes the Type, which for a GeoMatchContraint is always Country, as well as the Value, which is the identifier for a specific country.
         public let geoMatchSet: GeoMatchSet?
 
@@ -1935,6 +2027,7 @@ extension WAFRegional {
     }
 
     public struct GetIPSetRequest: AWSEncodableShape {
+
         /// The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets.
         public let iPSetId: String
 
@@ -1954,6 +2047,7 @@ extension WAFRegional {
     }
 
     public struct GetIPSetResponse: AWSDecodableShape {
+
         /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value
         public let iPSet: IPSet?
 
@@ -1967,6 +2061,7 @@ extension WAFRegional {
     }
 
     public struct GetLoggingConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
         public let resourceArn: String
 
@@ -1986,6 +2081,7 @@ extension WAFRegional {
     }
 
     public struct GetLoggingConfigurationResponse: AWSDecodableShape {
+
         /// The LoggingConfiguration for the specified web ACL.
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -1999,6 +2095,7 @@ extension WAFRegional {
     }
 
     public struct GetPermissionPolicyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the RuleGroup for which you want to get the policy.
         public let resourceArn: String
 
@@ -2018,6 +2115,7 @@ extension WAFRegional {
     }
 
     public struct GetPermissionPolicyResponse: AWSDecodableShape {
+
         /// The IAM policy attached to the specified RuleGroup.
         public let policy: String?
 
@@ -2031,6 +2129,7 @@ extension WAFRegional {
     }
 
     public struct GetRateBasedRuleManagedKeysRequest: AWSEncodableShape {
+
         /// A null value and not currently used. Do not include this in your request.
         public let nextMarker: String?
         /// The RuleId of the RateBasedRule for which you want to get a list of ManagedKeys. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
@@ -2057,6 +2156,7 @@ extension WAFRegional {
     }
 
     public struct GetRateBasedRuleManagedKeysResponse: AWSDecodableShape {
+
         /// An array of IP addresses that currently are blocked by the specified RateBasedRule.
         public let managedKeys: [String]?
         /// A null value and not currently used.
@@ -2074,6 +2174,7 @@ extension WAFRegional {
     }
 
     public struct GetRateBasedRuleRequest: AWSEncodableShape {
+
         /// The RuleId of the RateBasedRule that you want to get. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
         public let ruleId: String
 
@@ -2093,6 +2194,7 @@ extension WAFRegional {
     }
 
     public struct GetRateBasedRuleResponse: AWSDecodableShape {
+
         /// Information about the RateBasedRule that you specified in the GetRateBasedRule request.
         public let rule: RateBasedRule?
 
@@ -2106,6 +2208,7 @@ extension WAFRegional {
     }
 
     public struct GetRegexMatchSetRequest: AWSEncodableShape {
+
         /// The RegexMatchSetId of the RegexMatchSet that you want to get. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
         public let regexMatchSetId: String
 
@@ -2125,6 +2228,7 @@ extension WAFRegional {
     }
 
     public struct GetRegexMatchSetResponse: AWSDecodableShape {
+
         /// Information about the RegexMatchSet that you specified in the GetRegexMatchSet request. For more information, see RegexMatchTuple.
         public let regexMatchSet: RegexMatchSet?
 
@@ -2138,6 +2242,7 @@ extension WAFRegional {
     }
 
     public struct GetRegexPatternSetRequest: AWSEncodableShape {
+
         /// The RegexPatternSetId of the RegexPatternSet that you want to get. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
         public let regexPatternSetId: String
 
@@ -2157,6 +2262,7 @@ extension WAFRegional {
     }
 
     public struct GetRegexPatternSetResponse: AWSDecodableShape {
+
         /// Information about the RegexPatternSet that you specified in the GetRegexPatternSet request, including the identifier of the pattern set and the regular expression patterns you want AWS WAF to search for.
         public let regexPatternSet: RegexPatternSet?
 
@@ -2170,6 +2276,7 @@ extension WAFRegional {
     }
 
     public struct GetRuleGroupRequest: AWSEncodableShape {
+
         /// The RuleGroupId of the RuleGroup that you want to get. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
         public let ruleGroupId: String
 
@@ -2189,6 +2296,7 @@ extension WAFRegional {
     }
 
     public struct GetRuleGroupResponse: AWSDecodableShape {
+
         /// Information about the RuleGroup that you specified in the GetRuleGroup request.
         public let ruleGroup: RuleGroup?
 
@@ -2202,6 +2310,7 @@ extension WAFRegional {
     }
 
     public struct GetRuleRequest: AWSEncodableShape {
+
         /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
 
@@ -2221,6 +2330,7 @@ extension WAFRegional {
     }
 
     public struct GetRuleResponse: AWSDecodableShape {
+
         /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type
         public let rule: Rule?
 
@@ -2234,6 +2344,7 @@ extension WAFRegional {
     }
 
     public struct GetSampledRequestsRequest: AWSEncodableShape {
+
         /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them.
         public let maxItems: Int64
         ///  RuleId is one of three values:   The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests.    Default_Action, which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL.
@@ -2270,6 +2381,7 @@ extension WAFRegional {
     }
 
     public struct GetSampledRequestsResponse: AWSDecodableShape {
+
         /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
         public let populationSize: Int64?
         /// A complex type that contains detailed information about each of the requests in the sample.
@@ -2291,6 +2403,7 @@ extension WAFRegional {
     }
 
     public struct GetSizeConstraintSetRequest: AWSEncodableShape {
+
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public let sizeConstraintSetId: String
 
@@ -2310,6 +2423,7 @@ extension WAFRegional {
     }
 
     public struct GetSizeConstraintSetResponse: AWSDecodableShape {
+
         /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type
         public let sizeConstraintSet: SizeConstraintSet?
 
@@ -2323,6 +2437,7 @@ extension WAFRegional {
     }
 
     public struct GetSqlInjectionMatchSetRequest: AWSEncodableShape {
+
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public let sqlInjectionMatchSetId: String
 
@@ -2342,6 +2457,7 @@ extension WAFRegional {
     }
 
     public struct GetSqlInjectionMatchSetResponse: AWSDecodableShape {
+
         /// Information about the SqlInjectionMatchSet that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:    SqlInjectionMatchSet: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects    SqlInjectionMatchTuple: Each SqlInjectionMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type
         public let sqlInjectionMatchSet: SqlInjectionMatchSet?
 
@@ -2355,6 +2471,7 @@ extension WAFRegional {
     }
 
     public struct GetWebACLForResourceRequest: AWSEncodableShape {
+
         /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway stage: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
         public let resourceArn: String
 
@@ -2374,6 +2491,7 @@ extension WAFRegional {
     }
 
     public struct GetWebACLForResourceResponse: AWSDecodableShape {
+
         /// Information about the web ACL that you specified in the GetWebACLForResource request. If there is no associated resource, a null WebACLSummary is returned.
         public let webACLSummary: WebACLSummary?
 
@@ -2387,6 +2505,7 @@ extension WAFRegional {
     }
 
     public struct GetWebACLRequest: AWSEncodableShape {
+
         /// The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs.
         public let webACLId: String
 
@@ -2406,6 +2525,7 @@ extension WAFRegional {
     }
 
     public struct GetWebACLResponse: AWSDecodableShape {
+
         /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type
         public let webACL: WebACL?
 
@@ -2419,6 +2539,7 @@ extension WAFRegional {
     }
 
     public struct GetXssMatchSetRequest: AWSEncodableShape {
+
         /// The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public let xssMatchSetId: String
 
@@ -2438,6 +2559,7 @@ extension WAFRegional {
     }
 
     public struct GetXssMatchSetResponse: AWSDecodableShape {
+
         /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type
         public let xssMatchSet: XssMatchSet?
 
@@ -2451,6 +2573,7 @@ extension WAFRegional {
     }
 
     public struct HTTPHeader: AWSDecodableShape {
+
         /// The name of one of the headers in the sampled web request.
         public let name: String?
         /// The value of one of the headers in the sampled web request.
@@ -2468,6 +2591,7 @@ extension WAFRegional {
     }
 
     public struct HTTPRequest: AWSDecodableShape {
+
         /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request
         public let clientIP: String?
         /// The two-letter country code for the country that the request originated from. For a current list of country codes, see the Wikipedia entry ISO 3166-1 alpha-2.
@@ -2501,6 +2625,7 @@ extension WAFRegional {
     }
 
     public struct IPSet: AWSDecodableShape {
+
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from. If the WebACL is associated with a CloudFront distribution and the viewer did not use an HTTP proxy or a load balancer to send the request, this is the value of the c-ip field in the CloudFront access logs.
         public let iPSetDescriptors: [IPSetDescriptor]
         /// The IPSetId for an IPSet. You use IPSetId to get information about an IPSet (see GetIPSet), update an IPSet (see UpdateIPSet), insert an IPSet into a Rule or delete one from a Rule (see UpdateRule), and delete an IPSet from AWS WAF (see DeleteIPSet).  IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -2522,6 +2647,7 @@ extension WAFRegional {
     }
 
     public struct IPSetDescriptor: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify IPV4 or IPV6.
         public let type: IPSetDescriptorType
         /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.
@@ -2545,6 +2671,7 @@ extension WAFRegional {
     }
 
     public struct IPSetSummary: AWSDecodableShape {
+
         /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed information about an IPSet.
         public let iPSetId: String
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
@@ -2562,6 +2689,7 @@ extension WAFRegional {
     }
 
     public struct IPSetUpdate: AWSEncodableShape {
+
         /// Specifies whether to insert or delete an IP address with UpdateIPSet.
         public let action: ChangeAction
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
@@ -2583,6 +2711,7 @@ extension WAFRegional {
     }
 
     public struct ListActivatedRulesInRuleGroupRequest: AWSEncodableShape {
+
         /// Specifies the number of ActivatedRules that you want AWS WAF to return for this request. If you have more ActivatedRules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ActivatedRules.
         public let limit: Int?
         /// If you specify a value for Limit and you have more ActivatedRules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ActivatedRules. For the second and subsequent ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous response to get information about another batch of ActivatedRules.
@@ -2615,6 +2744,7 @@ extension WAFRegional {
     }
 
     public struct ListActivatedRulesInRuleGroupResponse: AWSDecodableShape {
+
         /// An array of ActivatedRules objects.
         public let activatedRules: [ActivatedRule]?
         /// If you have more ActivatedRules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ActivatedRules, submit another ListActivatedRulesInRuleGroup request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2632,6 +2762,7 @@ extension WAFRegional {
     }
 
     public struct ListByteMatchSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
@@ -2657,6 +2788,7 @@ extension WAFRegional {
     }
 
     public struct ListByteMatchSetsResponse: AWSDecodableShape {
+
         /// An array of ByteMatchSetSummary objects.
         public let byteMatchSets: [ByteMatchSetSummary]?
         /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2674,6 +2806,7 @@ extension WAFRegional {
     }
 
     public struct ListGeoMatchSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of GeoMatchSet objects that you want AWS WAF to return for this request. If you have more GeoMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of GeoMatchSet objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more GeoMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of GeoMatchSet objects.
@@ -2699,6 +2832,7 @@ extension WAFRegional {
     }
 
     public struct ListGeoMatchSetsResponse: AWSDecodableShape {
+
         /// An array of GeoMatchSetSummary objects.
         public let geoMatchSets: [GeoMatchSetSummary]?
         /// If you have more GeoMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more GeoMatchSet objects, submit another ListGeoMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2716,6 +2850,7 @@ extension WAFRegional {
     }
 
     public struct ListIPSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
         public let limit: Int?
         /// AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
@@ -2741,6 +2876,7 @@ extension WAFRegional {
     }
 
     public struct ListIPSetsResponse: AWSDecodableShape {
+
         /// An array of IPSetSummary objects.
         public let iPSets: [IPSetSummary]?
         /// To list more IPSet objects, submit another ListIPSets request, and in the next request use the NextMarker response value as the NextMarker value.
@@ -2758,6 +2894,7 @@ extension WAFRegional {
     }
 
     public struct ListLoggingConfigurationsRequest: AWSEncodableShape {
+
         /// Specifies the number of LoggingConfigurations that you want AWS WAF to return for this request. If you have more LoggingConfigurations than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of LoggingConfigurations.
         public let limit: Int?
         /// If you specify a value for Limit and you have more LoggingConfigurations than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of LoggingConfigurations. For the second and subsequent ListLoggingConfigurations requests, specify the value of NextMarker from the previous response to get information about another batch of ListLoggingConfigurations.
@@ -2783,6 +2920,7 @@ extension WAFRegional {
     }
 
     public struct ListLoggingConfigurationsResponse: AWSDecodableShape {
+
         /// An array of LoggingConfiguration objects.
         public let loggingConfigurations: [LoggingConfiguration]?
         /// If you have more LoggingConfigurations than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more LoggingConfigurations, submit another ListLoggingConfigurations request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2800,6 +2938,7 @@ extension WAFRegional {
     }
 
     public struct ListRateBasedRulesRequest: AWSEncodableShape {
+
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int?
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
@@ -2825,6 +2964,7 @@ extension WAFRegional {
     }
 
     public struct ListRateBasedRulesResponse: AWSDecodableShape {
+
         /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRateBasedRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleSummary objects.
@@ -2842,6 +2982,7 @@ extension WAFRegional {
     }
 
     public struct ListRegexMatchSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of RegexMatchSet objects that you want AWS WAF to return for this request. If you have more RegexMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexMatchSet objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more RegexMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexMatchSet objects.
@@ -2867,6 +3008,7 @@ extension WAFRegional {
     }
 
     public struct ListRegexMatchSetsResponse: AWSDecodableShape {
+
         /// If you have more RegexMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexMatchSet objects, submit another ListRegexMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RegexMatchSetSummary objects.
@@ -2884,6 +3026,7 @@ extension WAFRegional {
     }
 
     public struct ListRegexPatternSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of RegexPatternSet objects that you want AWS WAF to return for this request. If you have more RegexPatternSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexPatternSet objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more RegexPatternSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RegexPatternSet objects. For the second and subsequent ListRegexPatternSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexPatternSet objects.
@@ -2909,6 +3052,7 @@ extension WAFRegional {
     }
 
     public struct ListRegexPatternSetsResponse: AWSDecodableShape {
+
         /// If you have more RegexPatternSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RegexPatternSet objects, submit another ListRegexPatternSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RegexPatternSetSummary objects.
@@ -2926,6 +3070,7 @@ extension WAFRegional {
     }
 
     public struct ListResourcesForWebACLRequest: AWSEncodableShape {
+
         /// The type of resource to list, either an application load balancer or Amazon API Gateway.
         public let resourceType: ResourceType?
         /// The unique identifier (ID) of the web ACL for which to list the associated resources.
@@ -2949,6 +3094,7 @@ extension WAFRegional {
     }
 
     public struct ListResourcesForWebACLResponse: AWSDecodableShape {
+
         /// An array of ARNs (Amazon Resource Names) of the resources associated with the specified web ACL. An array with zero elements is returned if there are no resources associated with the web ACL.
         public let resourceArns: [String]?
 
@@ -2962,6 +3108,7 @@ extension WAFRegional {
     }
 
     public struct ListRuleGroupsRequest: AWSEncodableShape {
+
         /// Specifies the number of RuleGroups that you want AWS WAF to return for this request. If you have more RuleGroups than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RuleGroups.
         public let limit: Int?
         /// If you specify a value for Limit and you have more RuleGroups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify the value of NextMarker from the previous response to get information about another batch of RuleGroups.
@@ -2987,6 +3134,7 @@ extension WAFRegional {
     }
 
     public struct ListRuleGroupsResponse: AWSDecodableShape {
+
         /// If you have more RuleGroups than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more RuleGroups, submit another ListRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleGroup objects.
@@ -3004,6 +3152,7 @@ extension WAFRegional {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
+
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int?
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
@@ -3029,6 +3178,7 @@ extension WAFRegional {
     }
 
     public struct ListRulesResponse: AWSDecodableShape {
+
         /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleSummary objects.
@@ -3046,6 +3196,7 @@ extension WAFRegional {
     }
 
     public struct ListSizeConstraintSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
@@ -3071,6 +3222,7 @@ extension WAFRegional {
     }
 
     public struct ListSizeConstraintSetsResponse: AWSDecodableShape {
+
         /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of SizeConstraintSetSummary objects.
@@ -3088,6 +3240,7 @@ extension WAFRegional {
     }
 
     public struct ListSqlInjectionMatchSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int?
         /// If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
@@ -3113,6 +3266,7 @@ extension WAFRegional {
     }
 
     public struct ListSqlInjectionMatchSetsResponse: AWSDecodableShape {
+
         /// If you have more SqlInjectionMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of SqlInjectionMatchSetSummary objects.
@@ -3130,6 +3284,7 @@ extension WAFRegional {
     }
 
     public struct ListSubscribedRuleGroupsRequest: AWSEncodableShape {
+
         /// Specifies the number of subscribed rule groups that you want AWS WAF to return for this request. If you have more objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of subscribed rule groups. For the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from the previous response to get information about another batch of subscribed rule groups.
@@ -3155,6 +3310,7 @@ extension WAFRegional {
     }
 
     public struct ListSubscribedRuleGroupsResponse: AWSDecodableShape {
+
         /// If you have more objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more objects, submit another ListSubscribedRuleGroups request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of RuleGroup objects.
@@ -3172,6 +3328,7 @@ extension WAFRegional {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         public let limit: Int?
         public let nextMarker: String?
         public let resourceARN: String
@@ -3201,6 +3358,7 @@ extension WAFRegional {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         public let nextMarker: String?
         public let tagInfoForResource: TagInfoForResource?
 
@@ -3216,6 +3374,7 @@ extension WAFRegional {
     }
 
     public struct ListWebACLsRequest: AWSEncodableShape {
+
         /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
         public let limit: Int?
         /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
@@ -3241,6 +3400,7 @@ extension WAFRegional {
     }
 
     public struct ListWebACLsResponse: AWSDecodableShape {
+
         /// If you have more WebACL objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more WebACL objects, submit another ListWebACLs request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of WebACLSummary objects.
@@ -3258,6 +3418,7 @@ extension WAFRegional {
     }
 
     public struct ListXssMatchSetsRequest: AWSEncodableShape {
+
         /// Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public let limit: Int?
         /// If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
@@ -3283,6 +3444,7 @@ extension WAFRegional {
     }
 
     public struct ListXssMatchSetsResponse: AWSDecodableShape {
+
         /// If you have more XssMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public let nextMarker: String?
         /// An array of XssMatchSetSummary objects.
@@ -3300,6 +3462,7 @@ extension WAFRegional {
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of Amazon Kinesis Data Firehose ARNs.
         public let logDestinationConfigs: [String]
         /// The parts of the request that you want redacted from the logs. For example, if you redact the cookie field, the cookie field in the firehose will be xxx.
@@ -3337,6 +3500,7 @@ extension WAFRegional {
     }
 
     public struct Predicate: AWSEncodableShape & AWSDecodableShape {
+
         /// A unique identifier for a predicate in a Rule, such as ByteMatchSetId or IPSetId. The ID is returned by the corresponding Create or List command.
         public let dataId: String
         /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
@@ -3364,6 +3528,7 @@ extension WAFRegional {
     }
 
     public struct PutLoggingConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor.  When specifying Type in RedactedFields, you must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD.
         public let loggingConfiguration: LoggingConfiguration
 
@@ -3381,6 +3546,7 @@ extension WAFRegional {
     }
 
     public struct PutLoggingConfigurationResponse: AWSDecodableShape {
+
         /// The LoggingConfiguration that you submitted in the request.
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -3394,6 +3560,7 @@ extension WAFRegional {
     }
 
     public struct PutPermissionPolicyRequest: AWSEncodableShape {
+
         /// The policy to attach to the specified RuleGroup.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
@@ -3405,7 +3572,7 @@ extension WAFRegional {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 395_000)
+            try self.validate(self.policy, name: "policy", parent: name, max: 395000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: ".*\\S.*")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1224)
@@ -3420,10 +3587,15 @@ extension WAFRegional {
     }
 
     public struct PutPermissionPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RateBasedRule: AWSDecodableShape {
+
         /// The Predicates object contains one Predicate element for each ByteMatchSet, IPSet, or SqlInjectionMatchSet object that you want to include in a RateBasedRule.
         public let matchPredicates: [Predicate]
         /// A friendly name or description for the metrics for a RateBasedRule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RateBasedRule.
@@ -3457,6 +3629,7 @@ extension WAFRegional {
     }
 
     public struct RegexMatchSet: AWSDecodableShape {
+
         /// A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
         public let name: String?
         /// The RegexMatchSetId for a RegexMatchSet. You use RegexMatchSetId to get information about a RegexMatchSet (see GetRegexMatchSet), update a RegexMatchSet (see UpdateRegexMatchSet), insert a RegexMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a RegexMatchSet from AWS WAF (see DeleteRegexMatchSet).  RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -3478,6 +3651,7 @@ extension WAFRegional {
     }
 
     public struct RegexMatchSetSummary: AWSDecodableShape {
+
         /// A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
         public let name: String
         /// The RegexMatchSetId for a RegexMatchSet. You use RegexMatchSetId to get information about a RegexMatchSet, update a RegexMatchSet, remove a RegexMatchSet from a Rule, and delete a RegexMatchSet from AWS WAF.  RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -3495,6 +3669,7 @@ extension WAFRegional {
     }
 
     public struct RegexMatchSetUpdate: AWSEncodableShape {
+
         /// Specifies whether to insert or delete a RegexMatchTuple.
         public let action: ChangeAction
         /// Information about the part of a web request that you want AWS WAF to inspect and the identifier of the regular expression (regex) pattern that you want AWS WAF to search for. If you specify DELETE for the value of Action, the RegexMatchTuple values must exactly match the values in the RegexMatchTuple that you want to delete from the RegexMatchSet.
@@ -3516,6 +3691,7 @@ extension WAFRegional {
     }
 
     public struct RegexMatchTuple: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies where in a web request to look for the RegexPatternSet.
         public let fieldToMatch: FieldToMatch
         /// The RegexPatternSetId for a RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet (see GetRegexPatternSet), update a RegexPatternSet (see UpdateRegexPatternSet), insert a RegexPatternSet into a RegexMatchSet or delete one from a RegexMatchSet (see UpdateRegexMatchSet), and delete an RegexPatternSet from AWS WAF (see DeleteRegexPatternSet).  RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -3544,6 +3720,7 @@ extension WAFRegional {
     }
 
     public struct RegexPatternSet: AWSDecodableShape {
+
         /// A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
         public let name: String?
         /// The identifier for the RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet, update a RegexPatternSet, remove a RegexPatternSet from a RegexMatchSet, and delete a RegexPatternSet from AWS WAF.  RegexMatchSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -3565,6 +3742,7 @@ extension WAFRegional {
     }
 
     public struct RegexPatternSetSummary: AWSDecodableShape {
+
         /// A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
         public let name: String
         /// The RegexPatternSetId for a RegexPatternSet. You use RegexPatternSetId to get information about a RegexPatternSet, update a RegexPatternSet, remove a RegexPatternSet from a RegexMatchSet, and delete a RegexPatternSet from AWS WAF.  RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -3582,6 +3760,7 @@ extension WAFRegional {
     }
 
     public struct RegexPatternSetUpdate: AWSEncodableShape {
+
         /// Specifies whether to insert or delete a RegexPatternString.
         public let action: ChangeAction
         /// Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t.
@@ -3605,6 +3784,7 @@ extension WAFRegional {
     }
 
     public struct Rule: AWSDecodableShape {
+
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change MetricName after you create the Rule.
         public let metricName: String?
         /// The friendly name or description for the Rule. You can't change the name of a Rule after you create it.
@@ -3630,6 +3810,7 @@ extension WAFRegional {
     }
 
     public struct RuleGroup: AWSDecodableShape {
+
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
         public let metricName: String?
         /// The friendly name or description for the RuleGroup. You can't change the name of a RuleGroup after you create it.
@@ -3651,6 +3832,7 @@ extension WAFRegional {
     }
 
     public struct RuleGroupSummary: AWSDecodableShape {
+
         /// A friendly name or description of the RuleGroup. You can't change the name of a RuleGroup after you create it.
         public let name: String
         /// A unique identifier for a RuleGroup. You use RuleGroupId to get more information about a RuleGroup (see GetRuleGroup), update a RuleGroup (see UpdateRuleGroup), insert a RuleGroup into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a RuleGroup from AWS WAF (see DeleteRuleGroup).  RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
@@ -3668,6 +3850,7 @@ extension WAFRegional {
     }
 
     public struct RuleGroupUpdate: AWSEncodableShape {
+
         /// Specify INSERT to add an ActivatedRule to a RuleGroup. Use DELETE to remove an ActivatedRule from a RuleGroup.
         public let action: ChangeAction
         /// The ActivatedRule object specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
@@ -3689,6 +3872,7 @@ extension WAFRegional {
     }
 
     public struct RuleSummary: AWSDecodableShape {
+
         /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
         public let name: String
         /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
@@ -3706,6 +3890,7 @@ extension WAFRegional {
     }
 
     public struct RuleUpdate: AWSEncodableShape {
+
         /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
         public let action: ChangeAction
         /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
@@ -3727,6 +3912,7 @@ extension WAFRegional {
     }
 
     public struct SampledHTTPRequest: AWSDecodableShape {
+
         /// The action for the Rule that the request matched: ALLOW, BLOCK, or COUNT.
         public let action: String?
         /// A complex type that contains detailed information about the request.
@@ -3756,6 +3942,7 @@ extension WAFRegional {
     }
 
     public struct SizeConstraint: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of comparison you want AWS WAF to perform. AWS WAF uses this in combination with the provided Size and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.  EQ: Used to test if the Size is equal to the size of the FieldToMatch   NE: Used to test if the Size is not equal to the size of the FieldToMatch   LE: Used to test if the Size is less than or equal to the size of the FieldToMatch   LT: Used to test if the Size is strictly less than the size of the FieldToMatch   GE: Used to test if the Size is greater than or equal to the size of the FieldToMatch   GT: Used to test if the Size is strictly greater than the size of the FieldToMatch
         public let comparisonOperator: ComparisonOperator
         /// Specifies where in a web request to look for the size constraint.
@@ -3774,7 +3961,7 @@ extension WAFRegional {
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
-            try self.validate(self.size, name: "size", parent: name, max: 21_474_836_480)
+            try self.validate(self.size, name: "size", parent: name, max: 21474836480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
         }
 
@@ -3787,6 +3974,7 @@ extension WAFRegional {
     }
 
     public struct SizeConstraintSet: AWSDecodableShape {
+
         /// The name, if any, of the SizeConstraintSet.
         public let name: String?
         /// Specifies the parts of web requests that you want to inspect the size of.
@@ -3808,6 +3996,7 @@ extension WAFRegional {
     }
 
     public struct SizeConstraintSetSummary: AWSDecodableShape {
+
         /// The name of the SizeConstraintSet, if any.
         public let name: String
         /// A unique identifier for a SizeConstraintSet. You use SizeConstraintSetId to get information about a SizeConstraintSet (see GetSizeConstraintSet), update a SizeConstraintSet (see UpdateSizeConstraintSet), insert a SizeConstraintSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SizeConstraintSet from AWS WAF (see DeleteSizeConstraintSet).  SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -3825,6 +4014,7 @@ extension WAFRegional {
     }
 
     public struct SizeConstraintSetUpdate: AWSEncodableShape {
+
         /// Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
         public let action: ChangeAction
         /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
@@ -3846,6 +4036,7 @@ extension WAFRegional {
     }
 
     public struct SqlInjectionMatchSet: AWSDecodableShape {
+
         /// The name, if any, of the SqlInjectionMatchSet.
         public let name: String?
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -3867,6 +4058,7 @@ extension WAFRegional {
     }
 
     public struct SqlInjectionMatchSetSummary: AWSDecodableShape {
+
         /// The name of the SqlInjectionMatchSet, if any, specified by Id.
         public let name: String
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -3884,6 +4076,7 @@ extension WAFRegional {
     }
 
     public struct SqlInjectionMatchSetUpdate: AWSEncodableShape {
+
         /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
         public let action: ChangeAction
         /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
@@ -3905,6 +4098,7 @@ extension WAFRegional {
     }
 
     public struct SqlInjectionMatchTuple: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
@@ -3926,6 +4120,7 @@ extension WAFRegional {
     }
 
     public struct SubscribedRuleGroupSummary: AWSDecodableShape {
+
         /// A friendly name or description for the metrics for this RuleGroup. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the RuleGroup.
         public let metricName: String
         /// A friendly name or description of the RuleGroup. You can't change the name of a RuleGroup after you create it.
@@ -3947,6 +4142,7 @@ extension WAFRegional {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         public let key: String
         public let value: String
 
@@ -3971,6 +4167,7 @@ extension WAFRegional {
     }
 
     public struct TagInfoForResource: AWSDecodableShape {
+
         public let resourceARN: String?
         public let tagList: [Tag]?
 
@@ -3986,6 +4183,7 @@ extension WAFRegional {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         public let resourceARN: String
         public let tags: [Tag]
 
@@ -4011,10 +4209,15 @@ extension WAFRegional {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TimeWindow: AWSEncodableShape & AWSDecodableShape {
+
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public let endTime: Date
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You must specify the date and time in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
@@ -4032,6 +4235,7 @@ extension WAFRegional {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         public let resourceARN: String
         public let tagKeys: [String]
 
@@ -4059,10 +4263,15 @@ extension WAFRegional {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateByteMatchSetRequest: AWSEncodableShape {
+
         /// The ByteMatchSetId of the ByteMatchSet that you want to update. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public let byteMatchSetId: String
         /// The value returned by the most recent call to GetChangeToken.
@@ -4097,6 +4306,7 @@ extension WAFRegional {
     }
 
     public struct UpdateByteMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4110,6 +4320,7 @@ extension WAFRegional {
     }
 
     public struct UpdateGeoMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The GeoMatchSetId of the GeoMatchSet that you want to update. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
@@ -4141,6 +4352,7 @@ extension WAFRegional {
     }
 
     public struct UpdateGeoMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateGeoMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4154,6 +4366,7 @@ extension WAFRegional {
     }
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The IPSetId of the IPSet that you want to update. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -4188,6 +4401,7 @@ extension WAFRegional {
     }
 
     public struct UpdateIPSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4201,6 +4415,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRateBasedRuleRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The maximum number of requests, which have an identical value in the field specified by the RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
@@ -4221,7 +4436,7 @@ extension WAFRegional {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2_000_000_000)
+            try self.validate(self.rateLimit, name: "rateLimit", parent: name, max: 2000000000)
             try self.validate(self.rateLimit, name: "rateLimit", parent: name, min: 100)
             try self.validate(self.ruleId, name: "ruleId", parent: name, max: 128)
             try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
@@ -4240,6 +4455,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRateBasedRuleResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateRateBasedRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4253,6 +4469,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRegexMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexMatchSetId of the RegexMatchSet that you want to update. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
@@ -4287,6 +4504,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRegexMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateRegexMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4300,6 +4518,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRegexPatternSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RegexPatternSetId of the RegexPatternSet that you want to update. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
@@ -4334,6 +4553,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRegexPatternSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateRegexPatternSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4347,6 +4567,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRuleGroupRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleGroupId of the RuleGroup that you want to update. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
@@ -4381,6 +4602,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRuleGroupResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateRuleGroup request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4394,6 +4616,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRuleRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules.
@@ -4427,6 +4650,7 @@ extension WAFRegional {
     }
 
     public struct UpdateRuleResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4440,6 +4664,7 @@ extension WAFRegional {
     }
 
     public struct UpdateSizeConstraintSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to update. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -4474,6 +4699,7 @@ extension WAFRegional {
     }
 
     public struct UpdateSizeConstraintSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4487,6 +4713,7 @@ extension WAFRegional {
     }
 
     public struct UpdateSqlInjectionMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to update. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -4521,6 +4748,7 @@ extension WAFRegional {
     }
 
     public struct UpdateSqlInjectionMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4534,6 +4762,7 @@ extension WAFRegional {
     }
 
     public struct UpdateWebACLRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
@@ -4571,6 +4800,7 @@ extension WAFRegional {
     }
 
     public struct UpdateWebACLResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4584,6 +4814,7 @@ extension WAFRegional {
     }
 
     public struct UpdateXssMatchSetRequest: AWSEncodableShape {
+
         /// The value returned by the most recent call to GetChangeToken.
         public let changeToken: String
         /// An array of XssMatchSetUpdate objects that you want to insert into or delete from an XssMatchSet. For more information, see the applicable data types:    XssMatchSetUpdate: Contains Action and XssMatchTuple     XssMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type
@@ -4618,6 +4849,7 @@ extension WAFRegional {
     }
 
     public struct UpdateXssMatchSetResponse: AWSDecodableShape {
+
         /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
 
@@ -4631,6 +4863,7 @@ extension WAFRegional {
     }
 
     public struct WafAction: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.
         public let type: WafActionType
 
@@ -4644,6 +4877,7 @@ extension WAFRegional {
     }
 
     public struct WafOverrideAction: AWSEncodableShape & AWSDecodableShape {
+
         ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action will take place.
         public let type: WafOverrideActionType
 
@@ -4657,6 +4891,7 @@ extension WAFRegional {
     }
 
     public struct WebACL: AWSDecodableShape {
+
         /// The action to perform if none of the Rules contained in the WebACL match. The action is specified by the WafAction object.
         public let defaultAction: WafAction
         /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change MetricName after you create the WebACL.
@@ -4690,6 +4925,7 @@ extension WAFRegional {
     }
 
     public struct WebACLSummary: AWSDecodableShape {
+
         /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
         public let name: String
         /// A unique identifier for a WebACL. You use WebACLId to get information about a WebACL (see GetWebACL), update a WebACL (see UpdateWebACL), and delete a WebACL from AWS WAF (see DeleteWebACL).  WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -4707,6 +4943,7 @@ extension WAFRegional {
     }
 
     public struct WebACLUpdate: AWSEncodableShape {
+
         /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
         public let action: ChangeAction
         /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
@@ -4728,6 +4965,7 @@ extension WAFRegional {
     }
 
     public struct XssMatchSet: AWSDecodableShape {
+
         /// The name, if any, of the XssMatchSet.
         public let name: String?
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about an XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -4749,6 +4987,7 @@ extension WAFRegional {
     }
 
     public struct XssMatchSetSummary: AWSDecodableShape {
+
         /// The name of the XssMatchSet, if any, specified by Id.
         public let name: String
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about a XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
@@ -4766,6 +5005,7 @@ extension WAFRegional {
     }
 
     public struct XssMatchSetUpdate: AWSEncodableShape {
+
         /// Specify INSERT to add an XssMatchSetUpdate to an XssMatchSet. Use DELETE to remove an XssMatchSetUpdate from an XssMatchSet.
         public let action: ChangeAction
         /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
@@ -4787,6 +5027,7 @@ extension WAFRegional {
     }
 
     public struct XssMatchTuple: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies where in a web request to look for cross-site scripting attacks.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.

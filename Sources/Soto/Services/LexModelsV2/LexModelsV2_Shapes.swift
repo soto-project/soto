@@ -174,6 +174,7 @@ extension LexModelsV2 {
     // MARK: Shapes
 
     public struct AudioLogDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the CreateBot operation must have permission to write to this bucket.
         public let s3Bucket: S3BucketLogDestination
 
@@ -186,11 +187,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
+            case s3Bucket = "s3Bucket"
         }
     }
 
     public struct AudioLogSetting: AWSEncodableShape & AWSDecodableShape {
+
         public let destination: AudioLogDestination
         /// Determines whether audio logging in enabled for the bot.
         public let enabled: Bool
@@ -205,12 +207,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case enabled
+            case destination = "destination"
+            case enabled = "enabled"
         }
     }
 
     public struct BotAliasHistoryEvent: AWSDecodableShape {
+
         /// The version of the bot that was used in the event.
         public let botVersion: String?
         /// The date and time that the event ended.
@@ -225,13 +228,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botVersion
-            case endDate
-            case startDate
+            case botVersion = "botVersion"
+            case endDate = "endDate"
+            case startDate = "startDate"
         }
     }
 
     public struct BotAliasLocaleSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the Lambda function that should be used in the locale.
         public let codeHookSpecification: CodeHookSpecification?
         /// Determines whether the locale is enabled for the bot. If the value is false, the locale isn't available for use.
@@ -247,12 +251,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeHookSpecification
-            case enabled
+            case codeHookSpecification = "codeHookSpecification"
+            case enabled = "enabled"
         }
     }
 
     public struct BotAliasSummary: AWSDecodableShape {
+
         /// The unique identifier assigned to the bot alias. You can use this ID to get detailed information about the alias using the DescribeBotAlias operation.
         public let botAliasId: String?
         /// The name of the bot alias.
@@ -279,17 +284,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasName
-            case botAliasStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
+            case botAliasId = "botAliasId"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
         }
     }
 
     public struct BotFilter: AWSEncodableShape {
+
         /// The name of the field to filter the list of bots.
         public let name: BotFilterName
         /// The operator to use for the filter. Specify EQ when the ListBots operation should return only aliases that equal the specified value. Specify CO when the ListBots operation should return aliases that contain the specified value.
@@ -314,13 +320,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
     public struct BotLocaleFilter: AWSEncodableShape {
+
         /// The name of the field to filter the list of bots.
         public let name: BotLocaleFilterName
         /// The operator to use for the filter. Specify EQ when the ListBotLocales operation should return only aliases that equal the specified value. Specify CO when the ListBotLocales operation should return aliases that contain the specified value.
@@ -345,13 +352,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
     public struct BotLocaleHistoryEvent: AWSDecodableShape {
+
         /// A description of the event that occurred.
         public let event: String
         /// A timestamp of the date and time that the event occurred.
@@ -363,12 +371,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case eventDate
+            case event = "event"
+            case eventDate = "eventDate"
         }
     }
 
     public struct BotLocaleSortBy: AWSEncodableShape {
+
         /// The bot locale attribute to sort by.
         public let attribute: BotLocaleSortAttribute
         /// Specifies whether to sort the bot locales in ascending or descending order.
@@ -380,12 +389,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct BotLocaleSummary: AWSDecodableShape {
+
         /// The current status of the bot locale. When the status is Built the locale is ready for use.
         public let botLocaleStatus: BotLocaleStatus?
         /// The description of the bot locale.
@@ -409,16 +419,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botLocaleStatus
-            case description
-            case lastBuildSubmittedDateTime
-            case lastUpdatedDateTime
-            case localeId
-            case localeName
+            case botLocaleStatus = "botLocaleStatus"
+            case description = "description"
+            case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case localeName = "localeName"
         }
     }
 
     public struct BotSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list of bots.
         public let attribute: BotSortAttribute
         /// The order to sort the list. You can choose ascending or descending.
@@ -430,12 +441,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct BotSummary: AWSDecodableShape {
+
         /// The unique identifier assigned to the bot. Use this ID to get detailed information about the bot with the DescribeBot operation.
         public let botId: String?
         /// The name of the bot.
@@ -459,16 +471,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case description
-            case lastUpdatedDateTime
-            case latestBotVersion
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestBotVersion = "latestBotVersion"
         }
     }
 
     public struct BotVersionLocaleDetails: AWSEncodableShape & AWSDecodableShape {
+
         /// The version of a bot used for a bot locale.
         public let sourceBotVersion: String
 
@@ -483,11 +496,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceBotVersion
+            case sourceBotVersion = "sourceBotVersion"
         }
     }
 
     public struct BotVersionSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list of versions.
         public let attribute: BotVersionSortAttribute
         /// The order to sort the list. You can specify ascending or descending order.
@@ -499,12 +513,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct BotVersionSummary: AWSDecodableShape {
+
         /// The name of the bot associated with the version.
         public let botName: String?
         /// The status of the bot. When the status is available, the version of the bot is ready for use.
@@ -525,18 +540,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case botStatus
-            case botVersion
-            case creationDateTime
-            case description
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
         }
     }
 
     public struct BuildBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -566,6 +581,7 @@ extension LexModelsV2 {
     }
 
     public struct BuildBotLocaleResponse: AWSDecodableShape {
+
         /// The identifier of the specified bot.
         public let botId: String?
         /// The bot's build status. When the status is ReadyExpressTesting you can test the bot using the utterances defined for the intents and slot types. When the status is Built, the bot is ready for use and can be tested using any utterance.
@@ -586,15 +602,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case lastBuildSubmittedDateTime
-            case localeId
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
+            case localeId = "localeId"
         }
     }
 
     public struct BuiltInIntentSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list of built-in intents.
         public let attribute: BuiltInIntentSortAttribute
         /// The order to sort the list. You can specify ascending or descending order.
@@ -606,12 +623,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct BuiltInIntentSummary: AWSDecodableShape {
+
         /// The description of the intent.
         public let description: String?
         /// The signature of the built-in intent. Use this to specify the parent intent of a derived intent.
@@ -623,12 +641,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case intentSignature
+            case description = "description"
+            case intentSignature = "intentSignature"
         }
     }
 
     public struct BuiltInSlotTypeSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list of built-in intents.
         public let attribute: BuiltInSlotTypeSortAttribute
         /// The order to sort the list. You can choose ascending or descending.
@@ -640,12 +659,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct BuiltInSlotTypeSummary: AWSDecodableShape {
+
         /// The description of the built-in slot type.
         public let description: String?
         /// The signature of the built-in slot type. Use this to specify the parent slot type of a derived slot type.
@@ -657,12 +677,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case slotTypeSignature
+            case description = "description"
+            case slotTypeSignature = "slotTypeSignature"
         }
     }
 
     public struct Button: AWSEncodableShape & AWSDecodableShape {
+
         /// The text that appears on the button. Use this to tell the user what value is returned when they choose this button.
         public let text: String
         /// The value returned to Amazon Lex when the user chooses this button. This must be one of the slot values configured for the slot.
@@ -681,12 +702,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text
-            case value
+            case text = "text"
+            case value = "value"
         }
     }
 
     public struct CloudWatchLogGroupLogDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the log group where text and metadata logs are delivered.
         public let cloudWatchLogGroupArn: String
         /// The prefix of the log stream name within the log group that you specified
@@ -705,12 +727,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogGroupArn
-            case logPrefix
+            case cloudWatchLogGroupArn = "cloudWatchLogGroupArn"
+            case logPrefix = "logPrefix"
         }
     }
 
     public struct CodeHookSpecification: AWSEncodableShape & AWSDecodableShape {
+
         public let lambdaCodeHook: LambdaCodeHook
 
         public init(lambdaCodeHook: LambdaCodeHook) {
@@ -722,11 +745,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaCodeHook
+            case lambdaCodeHook = "lambdaCodeHook"
         }
     }
 
     public struct ConversationLogSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 settings for logging audio to an S3 bucket.
         public let audioLogSettings: [AudioLogSetting]?
         /// The Amazon CloudWatch Logs settings for logging text and metadata.
@@ -751,8 +775,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioLogSettings
-            case textLogSettings
+            case audioLogSettings = "audioLogSettings"
+            case textLogSettings = "textLogSettings"
         }
     }
 
@@ -813,17 +837,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasLocaleSettings
-            case botAliasName
-            case botVersion
-            case conversationLogSettings
-            case description
-            case sentimentAnalysisSettings
-            case tags
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case description = "description"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
+            case tags = "tags"
         }
     }
 
     public struct CreateBotAliasResponse: AWSDecodableShape {
+
         /// The unique identifier of the bot alias.
         public let botAliasId: String?
         /// Configuration information for a specific locale.
@@ -861,23 +886,23 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasLocaleSettings
-            case botAliasName
-            case botAliasStatus
-            case botId
-            case botVersion
-            case conversationLogSettings
-            case creationDateTime
-            case description
-            case sentimentAnalysisSettings
-            case tags
+            case botAliasId = "botAliasId"
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
+            case tags = "tags"
         }
     }
 
     public struct CreateBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
             AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion"))
         ]
 
@@ -917,14 +942,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case localeId
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case description = "description"
+            case localeId = "localeId"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
     public struct CreateBotLocaleResponse: AWSDecodableShape {
+
         /// The specified bot identifier.
         public let botId: String?
         /// The status of the bot. When the status is Creating the bot locale is being configured. When the status is Building Amazon Lex is building the bot for testing and use. If the status of the bot is ReadyExpressTesting, you can test the bot using the exact utterances specified in the bots' intents. When the bot is ready for full testing or to run, the status is Built. If there was a problem with building the bot, the status is Failed. If the bot was saved but not built, the status is NotBuilt.
@@ -957,19 +983,20 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case localeId
-            case localeName
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case localeId = "localeId"
+            case localeName = "localeName"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
     public struct CreateBotRequest: AWSEncodableShape {
+
         /// The name of the bot. The bot name must be unique in the account that creates the bot.
         public let botName: String
         /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation.
@@ -1021,17 +1048,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case botTags
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case roleArn
-            case testBotAliasTags
+            case botName = "botName"
+            case botTags = "botTags"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
+            case testBotAliasTags = "testBotAliasTags"
         }
     }
 
     public struct CreateBotResponse: AWSDecodableShape {
+
         /// A unique identifier for a particular bot. You use this to identify the bot when you call other Amazon Lex API operations.
         public let botId: String?
         /// The name specified for the bot.
@@ -1067,16 +1095,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case botTags
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case roleArn
-            case testBotAliasTags
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case botTags = "botTags"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
+            case testBotAliasTags = "testBotAliasTags"
         }
     }
 
@@ -1110,12 +1138,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botVersionLocaleSpecification
-            case description
+            case botVersionLocaleSpecification = "botVersionLocaleSpecification"
+            case description = "description"
         }
     }
 
     public struct CreateBotVersionResponse: AWSDecodableShape {
+
         /// The bot identifier specified in the request.
         public let botId: String?
         /// When you send a request to create or update a bot, Amazon Lex sets the status response element to Creating. After Amazon Lex builds the bot, it sets status to Available. If Amazon Lex can't build the bot, it sets status to Failed.
@@ -1139,19 +1168,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botStatus
-            case botVersion
-            case botVersionLocaleSpecification
-            case creationDateTime
-            case description
+            case botId = "botId"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
+            case botVersionLocaleSpecification = "botVersionLocaleSpecification"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
         }
     }
 
     public struct CreateIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -1229,21 +1258,22 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentName
-            case kendraConfiguration
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
         }
     }
 
     public struct CreateIntentResponse: AWSDecodableShape {
+
         /// The identifier of the bot associated with the intent.
         public let botId: String?
         /// The identifier of the version of the bot associated with the intent.
@@ -1297,30 +1327,30 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentId
-            case intentName
-            case kendraConfiguration
-            case localeId
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case localeId = "localeId"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
         }
     }
 
     public struct CreateSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -1377,15 +1407,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case obfuscationSetting
-            case slotName
-            case slotTypeId
-            case valueElicitationSetting
+            case description = "description"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
     public struct CreateSlotResponse: AWSDecodableShape {
+
         /// The unique identifier of the bot associated with the slot.
         public let botId: String?
         /// The version of the bot associated with the slot.
@@ -1424,24 +1455,24 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case intentId
-            case localeId
-            case obfuscationSetting
-            case slotId
-            case slotName
-            case slotTypeId
-            case valueElicitationSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case intentId = "intentId"
+            case localeId = "localeId"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
     public struct CreateSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -1494,15 +1525,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case parentSlotTypeSignature
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case description = "description"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
     public struct CreateSlotTypeResponse: AWSDecodableShape {
+
         /// The identifier for the bot associated with the slot type.
         public let botId: String?
         /// The version of the bot associated with the slot type.
@@ -1538,20 +1570,21 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case localeId
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case localeId = "localeId"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
     public struct CustomPayload: AWSEncodableShape & AWSDecodableShape {
+
         /// The string that is sent to your application.
         public let value: String
 
@@ -1565,11 +1598,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
     public struct DataPrivacy: AWSEncodableShape & AWSDecodableShape {
+
         /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ.
         public let childDirected: Bool
 
@@ -1578,14 +1612,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childDirected
+            case childDirected = "childDirected"
         }
     }
 
     public struct DeleteBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
             AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck"))
         ]
 
@@ -1615,6 +1649,7 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotAliasResponse: AWSDecodableShape {
+
         /// The unique identifier of the bot alias to delete.
         public let botAliasId: String?
         /// The current status of the alias. The status is Deleting while the alias is in the process of being deleted. Once the alias is deleted, it will no longer appear in the list of aliases returned by the ListBotAliases operation.
@@ -1629,16 +1664,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasStatus
-            case botId
+            case botAliasId = "botAliasId"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
         }
     }
 
     public struct DeleteBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -1668,6 +1703,7 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotLocaleResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contained the deleted locale.
         public let botId: String?
         /// The status of deleting the bot locale. The locale first enters the Deleting status. Once the locale is deleted it no longer appears in the list of locales for the bot.
@@ -1685,16 +1721,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case localeId
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
         }
     }
 
     public struct DeleteBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
             AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck"))
         ]
 
@@ -1718,6 +1754,7 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotResponse: AWSDecodableShape {
+
         /// The unique identifier of the bot that Amazon Lex is deleting.
         public let botId: String?
         /// The current status of the bot. The status is Deleting while the bot and its associated resources are being deleted.
@@ -1729,15 +1766,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botStatus
+            case botId = "botId"
+            case botStatus = "botStatus"
         }
     }
 
     public struct DeleteBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck"))
         ]
 
@@ -1767,6 +1804,7 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotVersionResponse: AWSDecodableShape {
+
         /// The identifier of the bot that is being deleted.
         public let botId: String?
         /// The current status of the bot.
@@ -1781,17 +1819,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botStatus
-            case botVersion
+            case botId = "botId"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
         }
     }
 
     public struct DeleteIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -1828,10 +1866,10 @@ extension LexModelsV2 {
 
     public struct DeleteSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "slotId", location: .uri(locationName: "slotId"))
         ]
 
@@ -1874,10 +1912,10 @@ extension LexModelsV2 {
 
     public struct DeleteSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
+            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring(locationName: "skipResourceInUseCheck")), 
             AWSMemberEncoding(label: "slotTypeId", location: .uri(locationName: "slotTypeId"))
         ]
 
@@ -1917,7 +1955,7 @@ extension LexModelsV2 {
 
     public struct DescribeBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -1944,6 +1982,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotAliasResponse: AWSDecodableShape {
+
         /// A list of events that affect a bot alias. For example, an event is recorded when the version that the alias points to changes.
         public let botAliasHistoryEvents: [BotAliasHistoryEvent]?
         /// The identifier of the bot alias.
@@ -1984,25 +2023,25 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasHistoryEvents
-            case botAliasId
-            case botAliasLocaleSettings
-            case botAliasName
-            case botAliasStatus
-            case botId
-            case botVersion
-            case conversationLogSettings
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
-            case sentimentAnalysisSettings
+            case botAliasHistoryEvents = "botAliasHistoryEvents"
+            case botAliasId = "botAliasId"
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
 
     public struct DescribeBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -2032,6 +2071,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotLocaleResponse: AWSDecodableShape {
+
         /// The identifier of the bot associated with the locale.
         public let botId: String?
         /// History of changes, such as when a locale is used in an alias, that have taken place for the locale.
@@ -2082,21 +2122,21 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleHistoryEvents
-            case botLocaleStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case failureReasons
-            case intentsCount
-            case lastBuildSubmittedDateTime
-            case lastUpdatedDateTime
-            case localeId
-            case localeName
-            case nluIntentConfidenceThreshold
-            case slotTypesCount
-            case voiceSettings
+            case botId = "botId"
+            case botLocaleHistoryEvents = "botLocaleHistoryEvents"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case intentsCount = "intentsCount"
+            case lastBuildSubmittedDateTime = "lastBuildSubmittedDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case localeName = "localeName"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case slotTypesCount = "slotTypesCount"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -2122,6 +2162,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotResponse: AWSDecodableShape {
+
         /// The unique identifier of the bot.
         public let botId: String?
         /// The name of the bot.
@@ -2154,21 +2195,21 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case lastUpdatedDateTime
-            case roleArn
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
         }
     }
 
     public struct DescribeBotVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
             AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion"))
         ]
 
@@ -2195,6 +2236,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotVersionResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the version.
         public let botId: String?
         /// The name of the bot that contains the version.
@@ -2230,24 +2272,24 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case botVersion
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case failureReasons
-            case idleSessionTTLInSeconds
-            case roleArn
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
         }
     }
 
     public struct DescribeIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -2283,6 +2325,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeIntentResponse: AWSDecodableShape {
+
         /// The identifier of the bot associated with the intent.
         public let botId: String?
         /// The version of the bot associated with the intent.
@@ -2342,33 +2385,33 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentId
-            case intentName
-            case kendraConfiguration
-            case lastUpdatedDateTime
-            case localeId
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
-            case slotPriorities
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
+            case slotPriorities = "slotPriorities"
         }
     }
 
     public struct DescribeSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "slotId", location: .uri(locationName: "slotId"))
         ]
 
@@ -2410,6 +2453,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeSlotResponse: AWSDecodableShape {
+
         /// The identifier of the bot associated with the slot.
         public let botId: String?
         /// The version of the bot associated with the slot.
@@ -2451,26 +2495,26 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case intentId
-            case lastUpdatedDateTime
-            case localeId
-            case obfuscationSetting
-            case slotId
-            case slotName
-            case slotTypeId
-            case valueElicitationSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case intentId = "intentId"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
     public struct DescribeSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "slotTypeId", location: .uri(locationName: "slotTypeId"))
         ]
 
@@ -2506,6 +2550,7 @@ extension LexModelsV2 {
     }
 
     public struct DescribeSlotTypeResponse: AWSDecodableShape {
+
         /// The identifier of the bot associated with the slot type.
         public let botId: String?
         /// The version of the bot associated with the slot type.
@@ -2544,21 +2589,22 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
-            case localeId
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
     public struct DialogCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Enables the dialog code hook so that it processes user requests.
         public let enabled: Bool
 
@@ -2567,11 +2613,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
         public let enabled: Bool
 
@@ -2580,11 +2627,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
     public struct ImageResponseCard: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of buttons that should be displayed on the response card. The arrangement of the buttons is determined by the platform that displays the button.
         public let buttons: [Button]?
         /// The URL of an image to display on the response card. The image URL must be publicly available so that the platform displaying the response card has access to the image.
@@ -2616,14 +2664,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buttons
-            case imageUrl
-            case subtitle
-            case title
+            case buttons = "buttons"
+            case imageUrl = "imageUrl"
+            case subtitle = "subtitle"
+            case title = "title"
         }
     }
 
     public struct InputContext: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the context.
         public let name: String
 
@@ -2638,11 +2687,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct IntentClosingSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// The response that Amazon Lex sends to the user when the intent is complete.
         public let closingResponse: ResponseSpecification
 
@@ -2655,11 +2705,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case closingResponse
+            case closingResponse = "closingResponse"
         }
     }
 
     public struct IntentConfirmationSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// When the user answers "no" to the question defined in promptSpecification, Amazon Lex responds with this response to acknowledge that the intent was canceled.
         public let declinationResponse: ResponseSpecification
         /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.
@@ -2676,12 +2727,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case declinationResponse
-            case promptSpecification
+            case declinationResponse = "declinationResponse"
+            case promptSpecification = "promptSpecification"
         }
     }
 
     public struct IntentFilter: AWSEncodableShape {
+
         /// The name of the field to use for the filter.
         public let name: IntentFilterName
         /// The operator to use for the filter. Specify EQ when the ListIntents operation should return only aliases that equal the specified value. Specify CO when the ListIntents operation should return aliases that contain the specified value.
@@ -2706,13 +2758,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
     public struct IntentSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list of intents.
         public let attribute: IntentSortAttribute
         /// The order to sort the list. You can choose ascending or descending.
@@ -2724,12 +2777,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct IntentSummary: AWSDecodableShape {
+
         /// The description of the intent.
         public let description: String?
         /// The input contexts that must be active for this intent to be considered for recognition.
@@ -2756,17 +2810,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case inputContexts
-            case intentId
-            case intentName
-            case lastUpdatedDateTime
-            case outputContexts
-            case parentIntentSignature
+            case description = "description"
+            case inputContexts = "inputContexts"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
         }
     }
 
     public struct KendraConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the AMAZON.KendraSearchIntent intent to search. The index must be in the same account and Region as the Amazon Lex bot.
         public let kendraIndex: String
         /// A query filter that Amazon Lex sends to Amazon Kendra to filter the response from a query. The filter is in the format defined by Amazon Kendra. For more information, see Filtering queries.
@@ -2789,13 +2844,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kendraIndex
-            case queryFilterString
-            case queryFilterStringEnabled
+            case kendraIndex = "kendraIndex"
+            case queryFilterString = "queryFilterString"
+            case queryFilterStringEnabled = "queryFilterStringEnabled"
         }
     }
 
     public struct LambdaCodeHook: AWSEncodableShape & AWSDecodableShape {
+
         /// The version of the request-response that you want Amazon Lex to use to invoke your Lambda function.
         public let codeHookInterfaceVersion: String
         /// The Amazon Resource Name (ARN) of the Lambda function.
@@ -2815,8 +2871,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeHookInterfaceVersion
-            case lambdaARN
+            case codeHookInterfaceVersion = "codeHookInterfaceVersion"
+            case lambdaARN = "lambdaARN"
         }
     }
 
@@ -2847,12 +2903,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBotAliasesResponse: AWSDecodableShape {
+
         /// Summary information for the bot aliases that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more aliases available, the nextToken field contains a token to get the next page of results.
         public let botAliasSummaries: [BotAliasSummary]?
         /// The identifier of the bot associated with the aliases.
@@ -2867,15 +2924,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasSummaries
-            case botId
-            case nextToken
+            case botAliasSummaries = "botAliasSummaries"
+            case botId = "botId"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBotLocalesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
             AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion"))
         ]
 
@@ -2918,14 +2975,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListBotLocalesResponse: AWSDecodableShape {
+
         /// The identifier of the bot to list locales for.
         public let botId: String?
         /// Summary information for the locales that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more locales available, the nextToken field contains a token to get the next page of results.
@@ -2943,10 +3001,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleSummaries
-            case botVersion
-            case nextToken
+            case botId = "botId"
+            case botLocaleSummaries = "botLocaleSummaries"
+            case botVersion = "botVersion"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2980,13 +3038,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListBotVersionsResponse: AWSDecodableShape {
+
         /// The identifier of the bot to list versions for.
         public let botId: String?
         /// Summary information for the bot versions that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more versions available, the nextToken field contains a token to get the next page of results.
@@ -3001,13 +3060,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersionSummaries
-            case nextToken
+            case botId = "botId"
+            case botVersionSummaries = "botVersionSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListBotsRequest: AWSEncodableShape {
+
         /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
         public let filters: [BotFilter]?
         /// The maximum number of bots to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
@@ -3035,14 +3095,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListBotsResponse: AWSDecodableShape {
+
         /// Summary information for the bots that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more bots available, the nextToken field contains a token to the next page of results.
         public let botSummaries: [BotSummary]?
         /// A token that indicates whether there are more results to return in a response to the ListBots operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBots operation request to get the next page of results.
@@ -3054,8 +3115,8 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botSummaries
-            case nextToken
+            case botSummaries = "botSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3086,13 +3147,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListBuiltInIntentsResponse: AWSDecodableShape {
+
         /// Summary information for the built-in intents that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more intents available, the nextToken field contains a token to get the next page of results.
         public let builtInIntentSummaries: [BuiltInIntentSummary]?
         /// The language and locale of the intents in the list.
@@ -3107,9 +3169,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builtInIntentSummaries
-            case localeId
-            case nextToken
+            case builtInIntentSummaries = "builtInIntentSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3140,13 +3202,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case sortBy
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListBuiltInSlotTypesResponse: AWSDecodableShape {
+
         /// Summary information for the built-in slot types that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more slot types available, the nextToken field contains a token to get the next page of results.
         public let builtInSlotTypeSummaries: [BuiltInSlotTypeSummary]?
         /// The language and locale of the slot types in the list.
@@ -3161,16 +3224,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case builtInSlotTypeSummaries
-            case localeId
-            case nextToken
+            case builtInSlotTypeSummaries = "builtInSlotTypeSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListIntentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -3216,14 +3279,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListIntentsResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the intent.
         public let botId: String?
         /// The version of the bot that contains the intent.
@@ -3244,18 +3308,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case intentSummaries
-            case localeId
-            case nextToken
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case intentSummaries = "intentSummaries"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -3301,14 +3365,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListSlotTypesResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the slot types.
         public let botId: String?
         /// The version of the bot that contains the slot types.
@@ -3329,19 +3394,19 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case localeId
-            case nextToken
-            case slotTypeSummaries
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
+            case slotTypeSummaries = "slotTypeSummaries"
         }
     }
 
     public struct ListSlotsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -3393,14 +3458,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case sortBy
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
         }
     }
 
     public struct ListSlotsResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the slots.
         public let botId: String?
         /// The version of the bot that contains the slots.
@@ -3424,12 +3490,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case intentId
-            case localeId
-            case nextToken
-            case slotSummaries
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case intentId = "intentId"
+            case localeId = "localeId"
+            case nextToken = "nextToken"
+            case slotSummaries = "slotSummaries"
         }
     }
 
@@ -3454,6 +3520,7 @@ extension LexModelsV2 {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags associated with a resource.
         public let tags: [String: String]?
 
@@ -3462,11 +3529,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Message: AWSEncodableShape & AWSDecodableShape {
+
         /// A message in a custom format defined by the client application.
         public let customPayload: CustomPayload?
         /// A message that defines a response card that the client application can show to the user.
@@ -3491,14 +3559,15 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customPayload
-            case imageResponseCard
-            case plainTextMessage
-            case ssmlMessage
+            case customPayload = "customPayload"
+            case imageResponseCard = "imageResponseCard"
+            case plainTextMessage = "plainTextMessage"
+            case ssmlMessage = "ssmlMessage"
         }
     }
 
     public struct MessageGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// The primary message that Amazon Lex should send to the user.
         public let message: Message
         /// Message variations to send to the user. When variations are defined, Amazon Lex chooses the primary message or one of the variations to send to the user.
@@ -3519,12 +3588,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case variations
+            case message = "message"
+            case variations = "variations"
         }
     }
 
     public struct ObfuscationSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// Value that determines whether Amazon Lex obscures slot values in conversation logs. The default is to obscure the values.
         public let obfuscationSettingType: ObfuscationSettingType
 
@@ -3533,11 +3603,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case obfuscationSettingType
+            case obfuscationSettingType = "obfuscationSettingType"
         }
     }
 
     public struct OutputContext: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the output context.
         public let name: String
         /// The amount of time, in seconds, that the output context should remain active. The time is figured from the first time the context is sent to the user.
@@ -3562,13 +3633,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case timeToLiveInSeconds
-            case turnsToLive
+            case name = "name"
+            case timeToLiveInSeconds = "timeToLiveInSeconds"
+            case turnsToLive = "turnsToLive"
         }
     }
 
     public struct PlainTextMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The message to send to the user.
         public let value: String
 
@@ -3582,11 +3654,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
     public struct PromptSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether the user can interrupt a speech prompt from the bot.
         public let allowInterrupt: Bool?
         /// The maximum number of times the bot tries to elicit a resonse from the user using this prompt.
@@ -3611,13 +3684,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case maxRetries
-            case messageGroups
+            case allowInterrupt = "allowInterrupt"
+            case maxRetries = "maxRetries"
+            case messageGroups = "messageGroups"
         }
     }
 
     public struct ResponseSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether the user can interrupt a speech response from Amazon Lex.
         public let allowInterrupt: Bool?
         /// A collection of responses that Amazon Lex can send to the user. Amazon Lex chooses the actual response to send at runtime.
@@ -3637,12 +3711,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case messageGroups
+            case allowInterrupt = "allowInterrupt"
+            case messageGroups = "messageGroups"
         }
     }
 
     public struct S3BucketLogDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
         public let kmsKeyArn: String?
         /// The S3 prefix to assign to audio log files.
@@ -3667,13 +3742,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case logPrefix
-            case s3BucketArn
+            case kmsKeyArn = "kmsKeyArn"
+            case logPrefix = "logPrefix"
+            case s3BucketArn = "s3BucketArn"
         }
     }
 
     public struct SSMLMessage: AWSEncodableShape & AWSDecodableShape {
+
         /// The SSML text that defines the prompt.
         public let value: String
 
@@ -3687,11 +3763,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
     public struct SampleUtterance: AWSEncodableShape & AWSDecodableShape {
+
         /// The sample utterance that Amazon Lex uses to build its machine-learning model to recognize intents.
         public let utterance: String
 
@@ -3700,11 +3777,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case utterance
+            case utterance = "utterance"
         }
     }
 
     public struct SampleValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The value that can be used for a slot type.
         public let value: String
 
@@ -3718,11 +3796,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value
+            case value = "value"
         }
     }
 
     public struct SentimentAnalysisSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Sets whether Amazon Lex uses Amazon Comprehend to detect the sentiment of user utterances.
         public let detectSentiment: Bool
 
@@ -3731,11 +3810,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectSentiment
+            case detectSentiment = "detectSentiment"
         }
     }
 
     public struct SlotDefaultValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The default value to use when a user doesn't provide a value for a slot.
         public let defaultValue: String
 
@@ -3749,11 +3829,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
+            case defaultValue = "defaultValue"
         }
     }
 
     public struct SlotDefaultValueSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of default values. Amazon Lex chooses the default value to use in the order that they are presented in the list.
         public let defaultValueList: [SlotDefaultValue]
 
@@ -3770,11 +3851,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValueList
+            case defaultValueList = "defaultValueList"
         }
     }
 
     public struct SlotFilter: AWSEncodableShape {
+
         /// The name of the field to use for filtering.
         public let name: SlotFilterName
         /// The operator to use for the filter. Specify EQ when the ListSlots operation should return only aliases that equal the specified value. Specify CO when the ListSlots operation should return aliases that contain the specified value.
@@ -3799,13 +3881,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
     public struct SlotPriority: AWSEncodableShape & AWSDecodableShape {
+
         /// The priority that a slot should be elicited.
         public let priority: Int
         /// The unique identifier of the slot.
@@ -3825,12 +3908,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case priority
-            case slotId
+            case priority = "priority"
+            case slotId = "slotId"
         }
     }
 
     public struct SlotSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list.
         public let attribute: SlotSortAttribute
         /// The order to sort the list. You can choose ascending or descending.
@@ -3842,12 +3926,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct SlotSummary: AWSDecodableShape {
+
         /// The description of the slot.
         public let description: String?
         /// The timestamp of the last date and time that the slot was updated.
@@ -3874,17 +3959,18 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case lastUpdatedDateTime
-            case slotConstraint
-            case slotId
-            case slotName
-            case slotTypeId
-            case valueElicitationPromptSpecification
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case slotConstraint = "slotConstraint"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationPromptSpecification = "valueElicitationPromptSpecification"
         }
     }
 
     public struct SlotTypeFilter: AWSEncodableShape {
+
         /// The name of the field to use for filtering.
         public let name: SlotTypeFilterName
         /// The operator to use for the filter. Specify EQ when the ListSlotTypes operation should return only aliases that equal the specified value. Specify CO when the ListSlotTypes operation should return aliases that contain the specified value.
@@ -3909,13 +3995,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case `operator`
-            case values
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
     public struct SlotTypeSortBy: AWSEncodableShape {
+
         /// The attribute to use to sort the list of slot types.
         public let attribute: SlotTypeSortAttribute
         /// The order to sort the list. You can say ascending or descending.
@@ -3927,12 +4014,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case order
+            case attribute = "attribute"
+            case order = "order"
         }
     }
 
     public struct SlotTypeSummary: AWSDecodableShape {
+
         /// The description of the slot type.
         public let description: String?
         /// A timestamp of the date and time that the slot type was last updated.
@@ -3953,15 +4041,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case lastUpdatedDateTime
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
         }
     }
 
     public struct SlotTypeValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The value of the slot type entry.
         public let sampleValue: SampleValue?
         /// Additional values releated to the slot type entry.
@@ -3982,12 +4071,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sampleValue
-            case synonyms
+            case sampleValue = "sampleValue"
+            case synonyms = "synonyms"
         }
     }
 
     public struct SlotValueElicitationSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, sesion attributes, and defined values.
         public let defaultValueSpecification: SlotDefaultValueSpecification?
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
@@ -4013,15 +4103,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValueSpecification
-            case promptSpecification
-            case sampleUtterances
-            case slotConstraint
-            case waitAndContinueSpecification
+            case defaultValueSpecification = "defaultValueSpecification"
+            case promptSpecification = "promptSpecification"
+            case sampleUtterances = "sampleUtterances"
+            case slotConstraint = "slotConstraint"
+            case waitAndContinueSpecification = "waitAndContinueSpecification"
         }
     }
 
     public struct SlotValueRegexFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// A regular expression used to validate the value of a slot.  Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:    A-Z, a-z   0-9   Unicode characters ("\ u&lt;Unicode&gt;")    Represent Unicode characters with four digits, for example "\u0041" or "\u005A".   The following regular expression operators are not supported:    Infinite repeaters: *, +, or {x,} with no upper bound.   Wild card (.)
         public let pattern: String
 
@@ -4035,11 +4126,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pattern
+            case pattern = "pattern"
         }
     }
 
     public struct SlotValueSelectionSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// A regular expression used to validate the value of a slot.
         public let regexFilter: SlotValueRegexFilter?
         /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:   OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.   TopResolution - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is OriginalValue.
@@ -4055,12 +4147,13 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regexFilter
-            case resolutionStrategy
+            case regexFilter = "regexFilter"
+            case resolutionStrategy = "resolutionStrategy"
         }
     }
 
     public struct StillWaitingResponseSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates that the user can interrupt the response by speaking while the message is being played.
         public let allowInterrupt: Bool?
         /// How often a message should be sent to the user. Minimum of 1 second, maximum of 5 minutes.
@@ -4090,10 +4183,10 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowInterrupt
-            case frequencyInSeconds
-            case messageGroups
-            case timeoutInSeconds
+            case allowInterrupt = "allowInterrupt"
+            case frequencyInSeconds = "frequencyInSeconds"
+            case messageGroups = "messageGroups"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
@@ -4124,15 +4217,20 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TextLogDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// Defines the Amazon CloudWatch Logs log group where text and metadata logs are delivered.
         public let cloudWatch: CloudWatchLogGroupLogDestination
 
@@ -4145,11 +4243,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatch
+            case cloudWatch = "cloudWatch"
         }
     }
 
     public struct TextLogSetting: AWSEncodableShape & AWSDecodableShape {
+
         public let destination: TextLogDestination
         /// Determines whether conversation logs should be stored for an alias.
         public let enabled: Bool
@@ -4164,14 +4263,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case enabled
+            case destination = "destination"
+            case enabled = "enabled"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri(locationName: "resourceARN")),
+            AWSMemberEncoding(label: "resourceARN", location: .uri(locationName: "resourceARN")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -4200,12 +4299,16 @@ extension LexModelsV2 {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateBotAliasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")),
+            AWSMemberEncoding(label: "botAliasId", location: .uri(locationName: "botAliasId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -4258,16 +4361,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasLocaleSettings
-            case botAliasName
-            case botVersion
-            case conversationLogSettings
-            case description
-            case sentimentAnalysisSettings
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case description = "description"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
 
     public struct UpdateBotAliasResponse: AWSDecodableShape {
+
         /// The identifier of the updated bot alias.
         public let botAliasId: String?
         /// The updated Lambda functions to use in each locale for the bot alias.
@@ -4305,24 +4409,24 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botAliasId
-            case botAliasLocaleSettings
-            case botAliasName
-            case botAliasStatus
-            case botId
-            case botVersion
-            case conversationLogSettings
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
-            case sentimentAnalysisSettings
+            case botAliasId = "botAliasId"
+            case botAliasLocaleSettings = "botAliasLocaleSettings"
+            case botAliasName = "botAliasName"
+            case botAliasStatus = "botAliasStatus"
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case conversationLogSettings = "conversationLogSettings"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case sentimentAnalysisSettings = "sentimentAnalysisSettings"
         }
     }
 
     public struct UpdateBotLocaleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -4362,13 +4466,14 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case description = "description"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
     public struct UpdateBotLocaleResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the updated locale.
         public let botId: String?
         /// The current status of the locale. When the bot status is Built the locale is ready for use.
@@ -4407,17 +4512,17 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botLocaleStatus
-            case botVersion
-            case creationDateTime
-            case description
-            case failureReasons
-            case lastUpdatedDateTime
-            case localeId
-            case localeName
-            case nluIntentConfidenceThreshold
-            case voiceSettings
+            case botId = "botId"
+            case botLocaleStatus = "botLocaleStatus"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case failureReasons = "failureReasons"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case localeName = "localeName"
+            case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case voiceSettings = "voiceSettings"
         }
     }
 
@@ -4465,15 +4570,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botName
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case roleArn
+            case botName = "botName"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case roleArn = "roleArn"
         }
     }
 
     public struct UpdateBotResponse: AWSDecodableShape {
+
         /// The unique identifier of the bot that was updated.
         public let botId: String?
         /// The name of the bot after the update.
@@ -4506,23 +4612,23 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botName
-            case botStatus
-            case creationDateTime
-            case dataPrivacy
-            case description
-            case idleSessionTTLInSeconds
-            case lastUpdatedDateTime
-            case roleArn
+            case botId = "botId"
+            case botName = "botName"
+            case botStatus = "botStatus"
+            case creationDateTime = "creationDateTime"
+            case dataPrivacy = "dataPrivacy"
+            case description = "description"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
         }
     }
 
     public struct UpdateIntentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
             AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
         ]
 
@@ -4612,22 +4718,23 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentName
-            case kendraConfiguration
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
-            case slotPriorities
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
+            case slotPriorities = "slotPriorities"
         }
     }
 
     public struct UpdateIntentResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the intent.
         public let botId: String?
         /// The version of the bot that contains the intent. Will always be DRAFT.
@@ -4687,33 +4794,33 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case dialogCodeHook
-            case fulfillmentCodeHook
-            case inputContexts
-            case intentClosingSetting
-            case intentConfirmationSetting
-            case intentId
-            case intentName
-            case kendraConfiguration
-            case lastUpdatedDateTime
-            case localeId
-            case outputContexts
-            case parentIntentSignature
-            case sampleUtterances
-            case slotPriorities
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case dialogCodeHook = "dialogCodeHook"
+            case fulfillmentCodeHook = "fulfillmentCodeHook"
+            case inputContexts = "inputContexts"
+            case intentClosingSetting = "intentClosingSetting"
+            case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentId = "intentId"
+            case intentName = "intentName"
+            case kendraConfiguration = "kendraConfiguration"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case outputContexts = "outputContexts"
+            case parentIntentSignature = "parentIntentSignature"
+            case sampleUtterances = "sampleUtterances"
+            case slotPriorities = "slotPriorities"
         }
     }
 
     public struct UpdateSlotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "intentId", location: .uri(locationName: "intentId")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "slotId", location: .uri(locationName: "slotId"))
         ]
 
@@ -4776,15 +4883,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case obfuscationSetting
-            case slotName
-            case slotTypeId
-            case valueElicitationSetting
+            case description = "description"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
     public struct UpdateSlotResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the slot.
         public let botId: String?
         /// The identifier of the slot version that contains the slot. Will always be DRAFT.
@@ -4826,26 +4934,26 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case intentId
-            case lastUpdatedDateTime
-            case localeId
-            case obfuscationSetting
-            case slotId
-            case slotName
-            case slotTypeId
-            case valueElicitationSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case intentId = "intentId"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case obfuscationSetting = "obfuscationSetting"
+            case slotId = "slotId"
+            case slotName = "slotName"
+            case slotTypeId = "slotTypeId"
+            case valueElicitationSetting = "valueElicitationSetting"
         }
     }
 
     public struct UpdateSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")),
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")), 
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")), 
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId")), 
             AWSMemberEncoding(label: "slotTypeId", location: .uri(locationName: "slotTypeId"))
         ]
 
@@ -4904,15 +5012,16 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case parentSlotTypeSignature
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case description = "description"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
     public struct UpdateSlotTypeResponse: AWSDecodableShape {
+
         /// The identifier of the bot that contains the slot type.
         public let botId: String?
         /// The version of the bot that contains the slot type. This is always DRAFT.
@@ -4951,21 +5060,22 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case botId
-            case botVersion
-            case creationDateTime
-            case description
-            case lastUpdatedDateTime
-            case localeId
-            case parentSlotTypeSignature
-            case slotTypeId
-            case slotTypeName
-            case slotTypeValues
-            case valueSelectionSetting
+            case botId = "botId"
+            case botVersion = "botVersion"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case localeId = "localeId"
+            case parentSlotTypeSignature = "parentSlotTypeSignature"
+            case slotTypeId = "slotTypeId"
+            case slotTypeName = "slotTypeName"
+            case slotTypeValues = "slotTypeValues"
+            case valueSelectionSetting = "valueSelectionSetting"
         }
     }
 
     public struct VoiceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The identifier of the Amazon Polly voice to use.
         public let voiceId: String
 
@@ -4974,11 +5084,12 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case voiceId
+            case voiceId = "voiceId"
         }
     }
 
     public struct WaitAndContinueSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.
         public let continueResponse: ResponseSpecification
         /// A response that Amazon Lex sends periodically to the user to indicate that the bot is still waiting for input from the user.
@@ -4999,9 +5110,9 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continueResponse
-            case stillWaitingResponse
-            case waitingResponse
+            case continueResponse = "continueResponse"
+            case stillWaitingResponse = "stillWaitingResponse"
+            case waitingResponse = "waitingResponse"
         }
     }
 }

@@ -21,7 +21,7 @@ extension DocDB {
     // MARK: Enums
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable {
-        case immediate
+        case immediate = "immediate"
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
@@ -39,6 +39,7 @@ extension DocDB {
     // MARK: Shapes
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSEncodableShape {
+
         /// The identifier of the event source to be added:   If the source type is an instance, a DBInstanceIdentifier must be provided.   If the source type is a security group, a DBSecurityGroupName must be provided.   If the source type is a parameter group, a DBParameterGroupName must be provided.   If the source type is a snapshot, a DBSnapshotIdentifier must be provided.
         public let sourceIdentifier: String
         /// The name of the Amazon DocumentDB event notification subscription that you want to add a source identifier to.
@@ -56,6 +57,7 @@ extension DocDB {
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -68,7 +70,7 @@ extension DocDB {
     }
 
     public struct AddTagsToResourceMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The Amazon DocumentDB resource that the tags are added to. This value is an Amazon Resource Name .
         public let resourceName: String
@@ -88,6 +90,7 @@ extension DocDB {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
+
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade
         public let applyAction: String
         /// A value that specifies the type of opt-in request or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.     undo-opt-in - Cancel any existing next-maintenance opt-in requests.
@@ -109,6 +112,7 @@ extension DocDB {
     }
 
     public struct ApplyPendingMaintenanceActionResult: AWSDecodableShape {
+
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
@@ -121,6 +125,7 @@ extension DocDB {
     }
 
     public struct AvailabilityZone: AWSDecodableShape {
+
         /// The name of the Availability Zone.
         public let name: String?
 
@@ -134,6 +139,7 @@ extension DocDB {
     }
 
     public struct Certificate: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the certificate. Example: arn:aws:rds:us-east-1::cert:rds-ca-2019
         public let certificateArn: String?
         /// The unique key that identifies a certificate. Example: rds-ca-2019
@@ -167,7 +173,7 @@ extension DocDB {
     }
 
     public struct CertificateMessage: AWSDecodableShape {
-        public struct _CertificatesEncoding: ArrayCoderProperties { public static let member = "Certificate" }
+        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "Certificate" }
 
         /// A list of certificates for this AWS account.
         @OptionalCustomCoding<ArrayCoder<_CertificatesEncoding, Certificate>>
@@ -187,6 +193,7 @@ extension DocDB {
     }
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
+
         /// The list of log types to disable.
         @OptionalCustomCoding<StandardArrayCoder>
         public var disableLogTypes: [String]?
@@ -206,7 +213,7 @@ extension DocDB {
     }
 
     public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints:   Must specify a valid cluster parameter group.   If the source cluster parameter group is in the same AWS Region as the copy, specify a valid parameter group identifier; for example, my-db-cluster-param-group, or a valid ARN.   If the source parameter group is in a different AWS Region than the copy, specify a valid cluster parameter group ARN; for example, arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group.
         public let sourceDBClusterParameterGroupIdentifier: String
@@ -234,6 +241,7 @@ extension DocDB {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -246,7 +254,7 @@ extension DocDB {
     }
 
     public struct CopyDBClusterSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false. The default is false.
         public let copyTags: Bool?
@@ -282,6 +290,7 @@ extension DocDB {
     }
 
     public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -294,9 +303,9 @@ extension DocDB {
     }
 
     public struct CreateDBClusterMessage: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -387,7 +396,7 @@ extension DocDB {
     }
 
     public struct CreateDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The name of the cluster parameter group. Constraints:   Must not match the name of an existing DBClusterParameterGroup.    This value is stored as a lowercase string.
         public let dBClusterParameterGroupName: String
@@ -415,6 +424,7 @@ extension DocDB {
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
+
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -427,6 +437,7 @@ extension DocDB {
     }
 
     public struct CreateDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -439,7 +450,7 @@ extension DocDB {
     }
 
     public struct CreateDBClusterSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The identifier of the cluster to create a snapshot for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster
         public let dBClusterIdentifier: String
@@ -463,6 +474,7 @@ extension DocDB {
     }
 
     public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -475,7 +487,7 @@ extension DocDB {
     }
 
     public struct CreateDBInstanceMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Indicates that minor engine upgrades are applied automatically to the instance during the maintenance window. Default: true
         public let autoMinorVersionUpgrade: Bool?
@@ -523,6 +535,7 @@ extension DocDB {
     }
 
     public struct CreateDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -535,8 +548,8 @@ extension DocDB {
     }
 
     public struct CreateDBSubnetGroupMessage: AWSEncodableShape {
-        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// The description for the subnet group.
         public let dBSubnetGroupDescription: String
@@ -565,6 +578,7 @@ extension DocDB {
     }
 
     public struct CreateDBSubnetGroupResult: AWSDecodableShape {
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -577,9 +591,9 @@ extension DocDB {
     }
 
     public struct CreateEventSubscriptionMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
-        public struct _SourceIdsEncoding: ArrayCoderProperties { public static let member = "SourceId" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
         public let enabled: Bool?
@@ -621,6 +635,7 @@ extension DocDB {
     }
 
     public struct CreateEventSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -633,10 +648,10 @@ extension DocDB {
     }
 
     public struct DBCluster: AWSDecodableShape {
-        public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBClusterRole" }
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _DBClusterMembersEncoding: ArrayCoderProperties { public static let member = "DBClusterMember" }
-        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
+        public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBClusterRole" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
 
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the cluster. IAM roles that are associated with a cluster grant permission for the cluster to access other AWS services on your behalf.
         @OptionalCustomCoding<ArrayCoder<_AssociatedRolesEncoding, DBClusterRole>>
@@ -768,6 +783,7 @@ extension DocDB {
     }
 
     public struct DBClusterMember: AWSDecodableShape {
+
         /// Specifies the status of the cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the cluster.
@@ -793,7 +809,7 @@ extension DocDB {
     }
 
     public struct DBClusterMessage: AWSDecodableShape {
-        public struct _DBClustersEncoding: ArrayCoderProperties { public static let member = "DBCluster" }
+        public struct _DBClustersEncoding: ArrayCoderProperties { static public let member = "DBCluster" }
 
         /// A list of clusters.
         @OptionalCustomCoding<ArrayCoder<_DBClustersEncoding, DBCluster>>
@@ -813,6 +829,7 @@ extension DocDB {
     }
 
     public struct DBClusterParameterGroup: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the cluster parameter group.
         public let dBClusterParameterGroupArn: String?
         /// Provides the name of the cluster parameter group.
@@ -838,7 +855,7 @@ extension DocDB {
     }
 
     public struct DBClusterParameterGroupDetails: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -858,6 +875,7 @@ extension DocDB {
     }
 
     public struct DBClusterParameterGroupNameMessage: AWSDecodableShape {
+
         /// The name of a cluster parameter group. Constraints:   Must be from 1 to 255 letters or numbers.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    This value is stored as a lowercase string.
         public let dBClusterParameterGroupName: String?
 
@@ -871,7 +889,7 @@ extension DocDB {
     }
 
     public struct DBClusterParameterGroupsMessage: AWSDecodableShape {
-        public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBClusterParameterGroup" }
+        public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBClusterParameterGroup" }
 
         /// A list of cluster parameter groups.
         @OptionalCustomCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>>
@@ -891,6 +909,7 @@ extension DocDB {
     }
 
     public struct DBClusterRole: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the cluster. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the cluster and can be used to access other AWS services on your behalf.    PENDING - The IAM role ARN is being associated with the DB cluster.    INVALID - The IAM role ARN is associated with the cluster, but the cluster cannot assume the IAM role to access other AWS services on your behalf.
@@ -908,7 +927,7 @@ extension DocDB {
     }
 
     public struct DBClusterSnapshot: AWSDecodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
 
         /// Provides the list of Amazon EC2 Availability Zones that instances in the cluster snapshot can be restored in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -988,7 +1007,7 @@ extension DocDB {
     }
 
     public struct DBClusterSnapshotAttribute: AWSDecodableShape {
-        public struct _AttributeValuesEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
 
         /// The name of the manual cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual cluster snapshot.
         public let attributeName: String?
@@ -1008,7 +1027,7 @@ extension DocDB {
     }
 
     public struct DBClusterSnapshotAttributesResult: AWSDecodableShape {
-        public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { public static let member = "DBClusterSnapshotAttribute" }
+        public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshotAttribute" }
 
         /// The list of attributes and values for the cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>>
@@ -1028,7 +1047,7 @@ extension DocDB {
     }
 
     public struct DBClusterSnapshotMessage: AWSDecodableShape {
-        public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { public static let member = "DBClusterSnapshot" }
+        public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshot" }
 
         /// Provides a list of cluster snapshots.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>>
@@ -1048,7 +1067,7 @@ extension DocDB {
     }
 
     public struct DBEngineVersion: AWSDecodableShape {
-        public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { public static let member = "UpgradeTarget" }
+        public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
 
         /// The description of the database engine.
         public let dBEngineDescription: String?
@@ -1093,7 +1112,7 @@ extension DocDB {
     }
 
     public struct DBEngineVersionMessage: AWSDecodableShape {
-        public struct _DBEngineVersionsEncoding: ArrayCoderProperties { public static let member = "DBEngineVersion" }
+        public struct _DBEngineVersionsEncoding: ArrayCoderProperties { static public let member = "DBEngineVersion" }
 
         /// Detailed information about one or more engine versions.
         @OptionalCustomCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>>
@@ -1113,8 +1132,8 @@ extension DocDB {
     }
 
     public struct DBInstance: AWSDecodableShape {
-        public struct _StatusInfosEncoding: ArrayCoderProperties { public static let member = "DBInstanceStatusInfo" }
-        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
+        public struct _StatusInfosEncoding: ArrayCoderProperties { static public let member = "DBInstanceStatusInfo" }
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
 
         /// Indicates that minor version patches are applied automatically.
         public let autoMinorVersionUpgrade: Bool?
@@ -1232,7 +1251,7 @@ extension DocDB {
     }
 
     public struct DBInstanceMessage: AWSDecodableShape {
-        public struct _DBInstancesEncoding: ArrayCoderProperties { public static let member = "DBInstance" }
+        public struct _DBInstancesEncoding: ArrayCoderProperties { static public let member = "DBInstance" }
 
         /// Detailed information about one or more instances.
         @OptionalCustomCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>>
@@ -1252,6 +1271,7 @@ extension DocDB {
     }
 
     public struct DBInstanceStatusInfo: AWSDecodableShape {
+
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public let message: String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -1277,7 +1297,7 @@ extension DocDB {
     }
 
     public struct DBSubnetGroup: AWSDecodableShape {
-        public struct _SubnetsEncoding: ArrayCoderProperties { public static let member = "Subnet" }
+        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "Subnet" }
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
@@ -1313,7 +1333,7 @@ extension DocDB {
     }
 
     public struct DBSubnetGroupMessage: AWSDecodableShape {
-        public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { public static let member = "DBSubnetGroup" }
+        public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "DBSubnetGroup" }
 
         /// Detailed information about one or more subnet groups.
         @OptionalCustomCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>>
@@ -1333,6 +1353,7 @@ extension DocDB {
     }
 
     public struct DeleteDBClusterMessage: AWSEncodableShape {
+
         /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String
         ///  The cluster snapshot identifier of the new cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
@@ -1354,6 +1375,7 @@ extension DocDB {
     }
 
     public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
+
         /// The name of the cluster parameter group. Constraints:   Must be the name of an existing cluster parameter group.   You can't delete a default cluster parameter group.   Cannot be associated with any clusters.
         public let dBClusterParameterGroupName: String
 
@@ -1367,6 +1389,7 @@ extension DocDB {
     }
 
     public struct DeleteDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -1379,6 +1402,7 @@ extension DocDB {
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
+
         /// The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
 
@@ -1392,6 +1416,7 @@ extension DocDB {
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
+
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -1404,6 +1429,7 @@ extension DocDB {
     }
 
     public struct DeleteDBInstanceMessage: AWSEncodableShape {
+
         /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing instance.
         public let dBInstanceIdentifier: String
 
@@ -1417,6 +1443,7 @@ extension DocDB {
     }
 
     public struct DeleteDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -1429,6 +1456,7 @@ extension DocDB {
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
+
         /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dBSubnetGroupName: String
 
@@ -1442,6 +1470,7 @@ extension DocDB {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
+
         /// The name of the Amazon DocumentDB event notification subscription that you want to delete.
         public let subscriptionName: String
 
@@ -1455,6 +1484,7 @@ extension DocDB {
     }
 
     public struct DeleteEventSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -1467,7 +1497,7 @@ extension DocDB {
     }
 
     public struct DescribeCertificatesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The user-supplied certificate identifier. If this parameter is specified, information for only the specified certificate is returned. If this parameter is omitted, a list of up to MaxRecords certificates is returned. This parameter is not case sensitive. Constraints   Must match an existing CertificateIdentifier.
         public let certificateIdentifier: String?
@@ -1495,7 +1525,7 @@ extension DocDB {
     }
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific cluster parameter group to return details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String?
@@ -1523,7 +1553,7 @@ extension DocDB {
     }
 
     public struct DescribeDBClusterParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific cluster parameter group to return parameter details for. Constraints:   If provided, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String
@@ -1555,6 +1585,7 @@ extension DocDB {
     }
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
+
         /// The identifier for the cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
 
@@ -1568,6 +1599,7 @@ extension DocDB {
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -1580,7 +1612,7 @@ extension DocDB {
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The ID of the cluster to retrieve the list of cluster snapshots for. This parameter can't be used with the DBClusterSnapshotIdentifier parameter. This parameter is not case sensitive.  Constraints:   If provided, must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String?
@@ -1624,7 +1656,7 @@ extension DocDB {
     }
 
     public struct DescribeDBClustersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The user-provided cluster identifier. If this parameter is specified, information from only the specific cluster is returned. This parameter isn't case sensitive. Constraints:   If provided, must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String?
@@ -1652,7 +1684,7 @@ extension DocDB {
     }
 
     public struct DescribeDBEngineVersionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of a specific parameter group family to return details for. Constraints:   If provided, must match an existing DBParameterGroupFamily.
         public let dBParameterGroupFamily: String?
@@ -1700,7 +1732,7 @@ extension DocDB {
     }
 
     public struct DescribeDBInstancesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The user-provided instance identifier. If this parameter is specified, information from only the specific instance is returned. This parameter isn't case sensitive. Constraints:   If provided, must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String?
@@ -1728,7 +1760,7 @@ extension DocDB {
     }
 
     public struct DescribeDBSubnetGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the subnet group to return details for.
         public let dBSubnetGroupName: String?
@@ -1756,7 +1788,7 @@ extension DocDB {
     }
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The name of the cluster parameter group family to return the engine parameter information for.
         public let dBParameterGroupFamily: String
@@ -1784,6 +1816,7 @@ extension DocDB {
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSDecodableShape {
+
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -1796,7 +1829,7 @@ extension DocDB {
     }
 
     public struct DescribeEventCategoriesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -1816,7 +1849,7 @@ extension DocDB {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -1844,8 +1877,8 @@ extension DocDB {
     }
 
     public struct DescribeEventsMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int?
@@ -1894,7 +1927,7 @@ extension DocDB {
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// The instance class filter value. Specify this parameter to show only the available offerings that match the specified instance class.
         public let dBInstanceClass: String?
@@ -1938,7 +1971,7 @@ extension DocDB {
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list includes only pending maintenance actions for the clusters identified by these ARNs.    db-instance-id - Accepts instance identifiers and instance ARNs. The results list includes only pending maintenance actions for the DB instances identified by these ARNs.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -1966,6 +1999,7 @@ extension DocDB {
     }
 
     public struct Endpoint: AWSDecodableShape {
+
         /// Specifies the DNS address of the instance.
         public let address: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -1987,7 +2021,7 @@ extension DocDB {
     }
 
     public struct EngineDefaults: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the cluster parameter group family to return the engine parameter information for.
         public let dBParameterGroupFamily: String?
@@ -2011,7 +2045,7 @@ extension DocDB {
     }
 
     public struct Event: AWSDecodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// Specifies the date and time of the event.
         public let date: Date?
@@ -2047,7 +2081,7 @@ extension DocDB {
     }
 
     public struct EventCategoriesMap: AWSDecodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         /// The event categories for the specified source type.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
@@ -2067,7 +2101,7 @@ extension DocDB {
     }
 
     public struct EventCategoriesMessage: AWSDecodableShape {
-        public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { public static let member = "EventCategoriesMap" }
+        public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
 
         /// A list of event category maps.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
@@ -2083,8 +2117,8 @@ extension DocDB {
     }
 
     public struct EventSubscription: AWSDecodableShape {
-        public struct _EventCategoriesListEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
-        public struct _SourceIdsListEncoding: ArrayCoderProperties { public static let member = "SourceId" }
+        public struct _EventCategoriesListEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _SourceIdsListEncoding: ArrayCoderProperties { static public let member = "SourceId" }
 
         /// The AWS customer account that is associated with the Amazon DocumentDB event notification subscription.
         public let customerAwsId: String?
@@ -2137,7 +2171,7 @@ extension DocDB {
     }
 
     public struct EventSubscriptionsMessage: AWSDecodableShape {
-        public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { public static let member = "EventSubscription" }
+        public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
 
         /// A list of event subscriptions.
         @OptionalCustomCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>>
@@ -2157,7 +2191,7 @@ extension DocDB {
     }
 
     public struct EventsMessage: AWSDecodableShape {
-        public struct _EventsEncoding: ArrayCoderProperties { public static let member = "Event" }
+        public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
 
         /// Detailed information about one or more events.
         @OptionalCustomCoding<ArrayCoder<_EventsEncoding, Event>>
@@ -2177,6 +2211,7 @@ extension DocDB {
     }
 
     public struct FailoverDBClusterMessage: AWSEncodableShape {
+
         /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String?
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the cluster. For example, mydbcluster-replica1.
@@ -2194,6 +2229,7 @@ extension DocDB {
     }
 
     public struct FailoverDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2206,7 +2242,7 @@ extension DocDB {
     }
 
     public struct Filter: AWSEncodableShape {
-        public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
+        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "Value" }
 
         /// The name of the filter. Filter names are case sensitive.
         public let name: String
@@ -2226,7 +2262,7 @@ extension DocDB {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
 
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -2246,7 +2282,7 @@ extension DocDB {
     }
 
     public struct ModifyDBClusterMessage: AWSEncodableShape {
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
         public let applyImmediately: Bool?
@@ -2310,7 +2346,7 @@ extension DocDB {
     }
 
     public struct ModifyDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
@@ -2330,6 +2366,7 @@ extension DocDB {
     }
 
     public struct ModifyDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2342,8 +2379,8 @@ extension DocDB {
     }
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSEncodableShape {
-        public struct _ValuesToAddEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
-        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _ValuesToAddEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
 
         /// The name of the cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual cluster snapshot, set this value to restore.
         public let attributeName: String
@@ -2372,6 +2409,7 @@ extension DocDB {
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
+
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -2384,6 +2422,7 @@ extension DocDB {
     }
 
     public struct ModifyDBInstanceMessage: AWSEncodableShape {
+
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the instance.   If this parameter is set to false, changes to the instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false
         public let applyImmediately: Bool?
         /// Indicates that minor version upgrades are applied automatically to the instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case, and the change is asynchronously applied as soon as possible. An outage results if this parameter is set to true during the maintenance window, and a newer minor version is available, and Amazon DocumentDB has enabled automatic patching for that engine version.
@@ -2425,6 +2464,7 @@ extension DocDB {
     }
 
     public struct ModifyDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -2437,7 +2477,7 @@ extension DocDB {
     }
 
     public struct ModifyDBSubnetGroupMessage: AWSEncodableShape {
-        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
 
         /// The description for the subnet group.
         public let dBSubnetGroupDescription: String?
@@ -2461,6 +2501,7 @@ extension DocDB {
     }
 
     public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
+
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -2473,7 +2514,7 @@ extension DocDB {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
 
         ///  A Boolean value; set to true to activate the subscription.
         public let enabled: Bool?
@@ -2505,6 +2546,7 @@ extension DocDB {
     }
 
     public struct ModifyEventSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -2517,7 +2559,7 @@ extension DocDB {
     }
 
     public struct OrderableDBInstanceOption: AWSDecodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
 
         /// A list of Availability Zones for an instance.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, AvailabilityZone>>
@@ -2553,7 +2595,7 @@ extension DocDB {
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSDecodableShape {
-        public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { public static let member = "OrderableDBInstanceOption" }
+        public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { static public let member = "OrderableDBInstanceOption" }
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -2573,6 +2615,7 @@ extension DocDB {
     }
 
     public struct Parameter: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when to apply parameter updates.
@@ -2622,6 +2665,7 @@ extension DocDB {
     }
 
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
+
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to Amazon CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var logTypesToDisable: [String]?
@@ -2641,6 +2685,7 @@ extension DocDB {
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
+
         /// The type of pending maintenance action that is available for the resource.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -2674,7 +2719,7 @@ extension DocDB {
     }
 
     public struct PendingMaintenanceActionsMessage: AWSDecodableShape {
-        public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { public static let member = "ResourcePendingMaintenanceActions" }
+        public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { static public let member = "ResourcePendingMaintenanceActions" }
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -2694,6 +2739,7 @@ extension DocDB {
     }
 
     public struct PendingModifiedValues: AWSDecodableShape {
+
         ///  Contains the new AllocatedStorage size for then instance that will be applied or is currently being applied.
         public let allocatedStorage: Int?
         /// Specifies the pending number of days for which automated backups are retained.
@@ -2759,6 +2805,7 @@ extension DocDB {
     }
 
     public struct RebootDBInstanceMessage: AWSEncodableShape {
+
         /// The instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         ///  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
@@ -2776,6 +2823,7 @@ extension DocDB {
     }
 
     public struct RebootDBInstanceResult: AWSDecodableShape {
+
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -2788,6 +2836,7 @@ extension DocDB {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSEncodableShape {
+
         ///  The source identifier to be removed from the subscription, such as the instance identifier for an instance, or the name of a security group.
         public let sourceIdentifier: String
         /// The name of the Amazon DocumentDB event notification subscription that you want to remove a source identifier from.
@@ -2805,6 +2854,7 @@ extension DocDB {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSDecodableShape {
+
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -2817,6 +2867,7 @@ extension DocDB {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
+
         /// The Amazon DocumentDB resource that the tags are removed from. This value is an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
@@ -2835,7 +2886,7 @@ extension DocDB {
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
 
         /// The name of the cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
@@ -2859,7 +2910,7 @@ extension DocDB {
     }
 
     public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
-        public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { public static let member = "PendingMaintenanceAction" }
+        public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { static public let member = "PendingMaintenanceAction" }
 
         /// A list that provides details about the pending maintenance actions for the resource.
         @OptionalCustomCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>>
@@ -2879,9 +2930,9 @@ extension DocDB {
     }
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -2944,6 +2995,7 @@ extension DocDB {
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -2956,8 +3008,8 @@ extension DocDB {
     }
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
+        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
 
         /// The name of the new cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let dBClusterIdentifier: String
@@ -3015,6 +3067,7 @@ extension DocDB {
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3027,6 +3080,7 @@ extension DocDB {
     }
 
     public struct StartDBClusterMessage: AWSEncodableShape {
+
         /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52
         public let dBClusterIdentifier: String
 
@@ -3040,6 +3094,7 @@ extension DocDB {
     }
 
     public struct StartDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3052,6 +3107,7 @@ extension DocDB {
     }
 
     public struct StopDBClusterMessage: AWSEncodableShape {
+
         /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52
         public let dBClusterIdentifier: String
 
@@ -3065,6 +3121,7 @@ extension DocDB {
     }
 
     public struct StopDBClusterResult: AWSDecodableShape {
+
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3077,6 +3134,7 @@ extension DocDB {
     }
 
     public struct Subnet: AWSDecodableShape {
+
         /// Specifies the Availability Zone for the subnet.
         public let subnetAvailabilityZone: AvailabilityZone?
         /// Specifies the identifier of the subnet.
@@ -3098,6 +3156,7 @@ extension DocDB {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String?
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -3115,7 +3174,7 @@ extension DocDB {
     }
 
     public struct TagListMessage: AWSDecodableShape {
-        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A list of one or more tags.
         @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
@@ -3131,6 +3190,7 @@ extension DocDB {
     }
 
     public struct UpgradeTarget: AWSDecodableShape {
+
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
         /// The version of the database engine that an instance can be upgraded to.
@@ -3160,6 +3220,7 @@ extension DocDB {
     }
 
     public struct VpcSecurityGroupMembership: AWSDecodableShape {
+
         /// The status of the VPC security group.
         public let status: String?
         /// The name of the VPC security group.

@@ -59,9 +59,9 @@ extension ElasticBeanstalk {
     }
 
     public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
-        case deployed
-        case failed
-        case pending
+        case deployed = "deployed"
+        case failed = "failed"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -105,8 +105,8 @@ extension ElasticBeanstalk {
     }
 
     public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
-        case bundle
-        case tail
+        case bundle = "bundle"
+        case tail = "tail"
         public var description: String { return self.rawValue }
     }
 
@@ -180,14 +180,15 @@ extension ElasticBeanstalk {
     }
 
     public enum ValidationSeverity: String, CustomStringConvertible, Codable {
-        case error
-        case warning
+        case error = "error"
+        case warning = "warning"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AbortEnvironmentUpdateMessage: AWSEncodableShape {
+
         /// This specifies the ID of the environment with the in-progress update that you want to cancel.
         public let environmentId: String?
         /// This specifies the name of the environment with the in-progress update that you want to cancel.
@@ -210,6 +211,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationArn: String?
         /// The name of the application.
@@ -253,6 +255,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationDescriptionMessage: AWSDecodableShape {
+
         ///  The ApplicationDescription of the application.
         public let application: ApplicationDescription?
 
@@ -266,6 +269,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationDescriptionsMessage: AWSDecodableShape {
+
         /// This parameter contains a list of ApplicationDescription.
         @OptionalCustomCoding<StandardArrayCoder>
         public var applications: [ApplicationDescription]?
@@ -280,6 +284,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationMetrics: AWSDecodableShape {
+
         /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
         public let duration: Int?
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
@@ -305,6 +310,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationResourceLifecycleConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume. The ServiceRole property is required the first time that you provide a VersionLifecycleConfig for the application in one of the supporting calls (CreateApplication or UpdateApplicationResourceLifecycle). After you provide it once, in either one of the calls, Elastic Beanstalk persists the Service Role with the application, and you don't need to specify it again in subsequent UpdateApplicationResourceLifecycle calls. You can, however, specify it in subsequent calls to change the Service Role to another value.
         public let serviceRole: String?
         /// Defines lifecycle settings for application versions.
@@ -322,6 +328,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationResourceLifecycleDescriptionMessage: AWSDecodableShape {
+
         /// The name of the application.
         public let applicationName: String?
         /// The lifecycle configuration.
@@ -339,6 +346,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationVersionDescription: AWSDecodableShape {
+
         /// The name of the application to which the application version belongs.
         public let applicationName: String?
         /// The Amazon Resource Name (ARN) of the application version.
@@ -388,6 +396,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationVersionDescriptionMessage: AWSDecodableShape {
+
         ///  The ApplicationVersionDescription of the application version.
         public let applicationVersion: ApplicationVersionDescription?
 
@@ -401,6 +410,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationVersionDescriptionsMessage: AWSDecodableShape {
+
         /// List of ApplicationVersionDescription objects sorted in order of creation.
         @OptionalCustomCoding<StandardArrayCoder>
         public var applicationVersions: [ApplicationVersionDescription]?
@@ -419,6 +429,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplicationVersionLifecycleConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
         public let maxAgeRule: MaxAgeRule?
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
@@ -436,6 +447,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplyEnvironmentManagedActionRequest: AWSEncodableShape {
+
         /// The action ID of the scheduled managed action to execute.
         public let actionId: String
         /// The environment ID of the target environment.
@@ -457,6 +469,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ApplyEnvironmentManagedActionResult: AWSDecodableShape {
+
         /// A description of the managed action.
         public let actionDescription: String?
         /// The action ID of the managed action.
@@ -482,6 +495,7 @@ extension ElasticBeanstalk {
     }
 
     public struct AssociateEnvironmentOperationsRoleMessage: AWSEncodableShape {
+
         /// The name of the environment to which to set the operations role.
         public let environmentName: String
         /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role.
@@ -506,6 +520,7 @@ extension ElasticBeanstalk {
     }
 
     public struct AutoScalingGroup: AWSDecodableShape {
+
         /// The name of the AutoScalingGroup .
         public let name: String?
 
@@ -519,6 +534,7 @@ extension ElasticBeanstalk {
     }
 
     public struct BuildConfiguration: AWSEncodableShape {
+
         /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip.
         public let artifactName: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
@@ -553,6 +569,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Builder: AWSDecodableShape {
+
         /// The ARN of the builder.
         public let arn: String?
 
@@ -566,6 +583,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CPUUtilization: AWSDecodableShape {
+
         /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
         public let idle: Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
@@ -607,6 +625,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CheckDNSAvailabilityMessage: AWSEncodableShape {
+
         /// The prefix used when this CNAME is reserved.
         public let cNAMEPrefix: String
 
@@ -625,6 +644,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CheckDNSAvailabilityResultMessage: AWSDecodableShape {
+
         /// Indicates if the specified CNAME is available:    true : The CNAME is available.    false : The CNAME is not available.
         public let available: Bool?
         /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
@@ -642,6 +662,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ComposeEnvironmentsMessage: AWSEncodableShape {
+
         /// The name of the application to which the specified source bundles belong.
         public let applicationName: String?
         /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
@@ -675,6 +696,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationOptionDescription: AWSDecodableShape {
+
         /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.
         public let changeSeverity: String?
         /// The default value for this configuration option.
@@ -729,6 +751,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationOptionSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// A unique namespace that identifies the option's associated AWS resource.
         public let namespace: String?
         /// The name of the configuration option.
@@ -759,6 +782,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationOptionsDescription: AWSDecodableShape {
+
         ///  A list of ConfigurationOptionDescription.
         @OptionalCustomCoding<StandardArrayCoder>
         public var options: [ConfigurationOptionDescription]?
@@ -781,6 +805,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationSettingsDescription: AWSDecodableShape {
+
         /// The name of the application associated with this configuration set.
         public let applicationName: String?
         /// The date (in UTC time) when this configuration set was created.
@@ -831,6 +856,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationSettingsDescriptions: AWSDecodableShape {
+
         ///  A list of ConfigurationSettingsDescription.
         @OptionalCustomCoding<StandardArrayCoder>
         public var configurationSettings: [ConfigurationSettingsDescription]?
@@ -845,6 +871,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ConfigurationSettingsValidationMessages: AWSDecodableShape {
+
         ///  A list of ValidationMessage.
         @OptionalCustomCoding<StandardArrayCoder>
         public var messages: [ValidationMessage]?
@@ -859,6 +886,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateApplicationMessage: AWSEncodableShape {
+
         /// The name of the application. Must be unique within your account.
         public let applicationName: String
         /// Your description of the application.
@@ -894,6 +922,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateApplicationVersionMessage: AWSEncodableShape {
+
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error.
         public let applicationName: String
         /// Set to true to create an application with the specified name if it doesn't already exist.
@@ -954,6 +983,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateConfigurationTemplateMessage: AWSEncodableShape {
+
         /// The name of the Elastic Beanstalk application to associate with this configuration template.
         public let applicationName: String
         /// An optional description for this configuration.
@@ -1016,6 +1046,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateEnvironmentMessage: AWSEncodableShape {
+
         /// The name of the application that is associated with this environment.
         public let applicationName: String
         /// If specified, the environment attempts to use this value as the prefix for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
@@ -1111,6 +1142,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreatePlatformVersionRequest: AWSEncodableShape {
+
         /// The name of the builder environment.
         public let environmentName: String?
         /// The configuration option settings to apply to the builder environment.
@@ -1158,6 +1190,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreatePlatformVersionResult: AWSDecodableShape {
+
         /// The builder used to create the custom platform.
         public let builder: Builder?
         /// Detailed information about the new version of the custom platform.
@@ -1175,6 +1208,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CreateStorageLocationResultMessage: AWSDecodableShape {
+
         /// The name of the Amazon S3 bucket created.
         public let s3Bucket: String?
 
@@ -1188,6 +1222,7 @@ extension ElasticBeanstalk {
     }
 
     public struct CustomAmi: AWSDecodableShape {
+
         /// THe ID of the image used to create the custom AMI.
         public let imageId: String?
         /// The type of virtualization used to create the custom AMI.
@@ -1205,6 +1240,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DeleteApplicationMessage: AWSEncodableShape {
+
         /// The name of the application to delete.
         public let applicationName: String
         /// When set to true, running environments will be terminated before deleting the application.
@@ -1227,6 +1263,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DeleteApplicationVersionMessage: AWSEncodableShape {
+
         /// The name of the application to which the version belongs.
         public let applicationName: String
         /// Set to true to delete the source bundle from your storage bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the source bundle remains in Amazon S3.
@@ -1255,6 +1292,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DeleteConfigurationTemplateMessage: AWSEncodableShape {
+
         /// The name of the application to delete the configuration template from.
         public let applicationName: String
         /// The name of the configuration template to delete.
@@ -1279,6 +1317,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DeleteEnvironmentConfigurationMessage: AWSEncodableShape {
+
         /// The name of the application the environment is associated with.
         public let applicationName: String
         /// The name of the environment to delete the draft configuration from.
@@ -1303,6 +1342,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DeletePlatformVersionRequest: AWSEncodableShape {
+
         /// The ARN of the version of the custom platform.
         public let platformArn: String?
 
@@ -1316,6 +1356,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DeletePlatformVersionResult: AWSDecodableShape {
+
         /// Detailed information about the version of the custom platform.
         public let platformSummary: PlatformSummary?
 
@@ -1329,6 +1370,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Deployment: AWSDecodableShape {
+
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
         public let deploymentId: Int64?
         /// For in-progress deployments, the time that the deployment started. For completed deployments, the time that the deployment ended.
@@ -1354,6 +1396,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeAccountAttributesResult: AWSDecodableShape {
+
         /// The Elastic Beanstalk resource quotas associated with the calling AWS account.
         public let resourceQuotas: ResourceQuotas?
 
@@ -1367,6 +1410,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeApplicationVersionsMessage: AWSEncodableShape {
+
         /// Specify an application name to show only application versions for that application.
         public let applicationName: String?
         /// For a paginated request. Specify a maximum number of application versions to include in each response. If no MaxRecords is specified, all available application versions are retrieved in a single response.
@@ -1404,6 +1448,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeApplicationsMessage: AWSEncodableShape {
+
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
         @OptionalCustomCoding<StandardArrayCoder>
         public var applicationNames: [String]?
@@ -1425,6 +1470,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeConfigurationOptionsMessage: AWSEncodableShape {
+
         /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
         public let applicationName: String?
         /// The name of the environment whose configuration options you want to describe.
@@ -1471,6 +1517,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeConfigurationSettingsMessage: AWSEncodableShape {
+
         /// The application for the environment or configuration template.
         public let applicationName: String
         /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -1501,6 +1548,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentHealthRequest: AWSEncodableShape {
+
         /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
         @OptionalCustomCoding<StandardArrayCoder>
         public var attributeNames: [EnvironmentHealthAttribute]?
@@ -1528,6 +1576,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentHealthResult: AWSDecodableShape {
+
         /// Application request metrics for the environment.
         public let applicationMetrics: ApplicationMetrics?
         /// Descriptions of the data that contributed to the environment's current health status.
@@ -1570,6 +1619,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentManagedActionHistoryRequest: AWSEncodableShape {
+
         /// The environment ID of the target environment.
         public let environmentId: String?
         /// The name of the target environment.
@@ -1602,6 +1652,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSDecodableShape {
+
         /// A list of completed and failed managed actions.
         @OptionalCustomCoding<StandardArrayCoder>
         public var managedActionHistoryItems: [ManagedActionHistoryItem]?
@@ -1620,6 +1671,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentManagedActionsRequest: AWSEncodableShape {
+
         /// The environment ID of the target environment.
         public let environmentId: String?
         /// The name of the target environment.
@@ -1641,6 +1693,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentManagedActionsResult: AWSDecodableShape {
+
         /// A list of upcoming and in-progress managed actions.
         @OptionalCustomCoding<StandardArrayCoder>
         public var managedActions: [ManagedAction]?
@@ -1655,6 +1708,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentResourcesMessage: AWSEncodableShape {
+
         /// The ID of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -1677,6 +1731,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEnvironmentsMessage: AWSEncodableShape {
+
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
         public let applicationName: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
@@ -1733,6 +1788,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeEventsMessage: AWSEncodableShape {
+
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
         public let applicationName: String?
         ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
@@ -1803,6 +1859,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeInstancesHealthRequest: AWSEncodableShape {
+
         /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
         @OptionalCustomCoding<StandardArrayCoder>
         public var attributeNames: [InstancesHealthAttribute]?
@@ -1836,6 +1893,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribeInstancesHealthResult: AWSDecodableShape {
+
         /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the &lt;CPUUtilization&gt; type.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instanceHealthList: [SingleInstanceHealth]?
@@ -1858,6 +1916,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribePlatformVersionRequest: AWSEncodableShape {
+
         /// The ARN of the platform version.
         public let platformArn: String?
 
@@ -1871,6 +1930,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DescribePlatformVersionResult: AWSDecodableShape {
+
         /// Detailed information about the platform version.
         public let platformDescription: PlatformDescription?
 
@@ -1884,6 +1944,7 @@ extension ElasticBeanstalk {
     }
 
     public struct DisassociateEnvironmentOperationsRoleMessage: AWSEncodableShape {
+
         /// The name of the environment from which to disassociate the operations role.
         public let environmentName: String
 
@@ -1902,6 +1963,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentDescription: AWSDecodableShape {
+
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress.
         public let abortableOperationInProgress: Bool?
         /// The name of the application associated with this environment.
@@ -1996,6 +2058,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentDescriptionsMessage: AWSDecodableShape {
+
         ///  Returns an EnvironmentDescription list.
         @OptionalCustomCoding<StandardArrayCoder>
         public var environments: [EnvironmentDescription]?
@@ -2014,6 +2077,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentInfoDescription: AWSDecodableShape {
+
         /// The Amazon EC2 Instance ID for this information.
         public let ec2InstanceId: String?
         /// The type of information retrieved.
@@ -2039,6 +2103,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentLink: AWSDecodableShape {
+
         /// The name of the linked environment (the dependency).
         public let environmentName: String?
         /// The name of the link.
@@ -2056,6 +2121,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentResourceDescription: AWSDecodableShape {
+
         ///  The AutoScalingGroups used by this environment.
         @OptionalCustomCoding<StandardArrayCoder>
         public var autoScalingGroups: [AutoScalingGroup]?
@@ -2104,6 +2170,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentResourceDescriptionsMessage: AWSDecodableShape {
+
         ///  A list of EnvironmentResourceDescription.
         public let environmentResources: EnvironmentResourceDescription?
 
@@ -2117,6 +2184,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentResourcesDescription: AWSDecodableShape {
+
         /// Describes the LoadBalancer.
         public let loadBalancer: LoadBalancerDescription?
 
@@ -2130,6 +2198,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EnvironmentTier: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of this environment tier. Valid values:   For Web server tier – WebServer    For Worker tier – Worker
         public let name: String?
         /// The type of this environment tier. Valid values:   For Web server tier – Standard    For Worker tier – SQS/HTTP
@@ -2151,6 +2220,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EventDescription: AWSDecodableShape {
+
         /// The application associated with the event.
         public let applicationName: String?
         /// The name of the environment associated with this event.
@@ -2196,6 +2266,7 @@ extension ElasticBeanstalk {
     }
 
     public struct EventDescriptionsMessage: AWSDecodableShape {
+
         ///  A list of EventDescription.
         @OptionalCustomCoding<StandardArrayCoder>
         public var events: [EventDescription]?
@@ -2214,6 +2285,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Instance: AWSDecodableShape {
+
         /// The ID of the Amazon EC2 instance.
         public let id: String?
 
@@ -2227,6 +2299,7 @@ extension ElasticBeanstalk {
     }
 
     public struct InstanceHealthSummary: AWSDecodableShape {
+
         ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
         public let degraded: Int?
         ///  Green. An operation is in progress on an instance.
@@ -2268,6 +2341,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Latency: AWSDecodableShape {
+
         /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
         public let p10: Double?
         /// The average latency for the slowest 50 percent of requests over the last 10 seconds.
@@ -2309,6 +2383,7 @@ extension ElasticBeanstalk {
     }
 
     public struct LaunchConfiguration: AWSDecodableShape {
+
         /// The name of the launch configuration.
         public let name: String?
 
@@ -2322,6 +2397,7 @@ extension ElasticBeanstalk {
     }
 
     public struct LaunchTemplate: AWSDecodableShape {
+
         /// The ID of the launch template.
         public let id: String?
 
@@ -2335,6 +2411,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ListAvailableSolutionStacksResultMessage: AWSDecodableShape {
+
         ///  A list of available solution stacks and their SolutionStackDescription.
         @OptionalCustomCoding<StandardArrayCoder>
         public var solutionStackDetails: [SolutionStackDescription]?
@@ -2354,6 +2431,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ListPlatformBranchesRequest: AWSEncodableShape {
+
         /// Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values.    Attribute = BranchName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = LifecycleState:    Operator: = | != | in | not_in     Values: beta | supported | deprecated | retired       Attribute = PlatformName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = TierType:    Operator: = | !=     Values: WebServer/Standard | Worker/SQS/HTTP      Array size: limited to 10 SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10 items.
         @OptionalCustomCoding<StandardArrayCoder>
         public var filters: [SearchFilter]?
@@ -2380,6 +2458,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ListPlatformBranchesResult: AWSDecodableShape {
+
         /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
         /// Summary information about the platform branches.
@@ -2398,6 +2477,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ListPlatformVersionsRequest: AWSEncodableShape {
+
         /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms.
         @OptionalCustomCoding<StandardArrayCoder>
         public var filters: [PlatformFilter]?
@@ -2424,6 +2504,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ListPlatformVersionsResult: AWSDecodableShape {
+
         /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
         /// Summary information about the platform versions.
@@ -2442,6 +2523,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk resource.
         public let resourceArn: String
 
@@ -2455,6 +2537,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Listener: AWSDecodableShape {
+
         /// The port that is used by the Listener.
         public let port: Int?
         /// The protocol that is used by the Listener.
@@ -2472,6 +2555,7 @@ extension ElasticBeanstalk {
     }
 
     public struct LoadBalancer: AWSDecodableShape {
+
         /// The name of the LoadBalancer.
         public let name: String?
 
@@ -2485,6 +2569,7 @@ extension ElasticBeanstalk {
     }
 
     public struct LoadBalancerDescription: AWSDecodableShape {
+
         /// The domain name of the LoadBalancer.
         public let domain: String?
         /// A list of Listeners used by the LoadBalancer.
@@ -2507,6 +2592,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ManagedAction: AWSDecodableShape {
+
         /// A description of the managed action.
         public let actionDescription: String?
         /// A unique identifier for the managed action.
@@ -2536,6 +2622,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ManagedActionHistoryItem: AWSDecodableShape {
+
         /// A description of the managed action.
         public let actionDescription: String?
         /// A unique identifier for the managed action.
@@ -2577,6 +2664,7 @@ extension ElasticBeanstalk {
     }
 
     public struct MaxAgeRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
         public let deleteSourceFromS3: Bool?
         /// Specify true to apply the rule, or false to disable it.
@@ -2598,6 +2686,7 @@ extension ElasticBeanstalk {
     }
 
     public struct MaxCountRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
         public let deleteSourceFromS3: Bool?
         /// Specify true to apply the rule, or false to disable it.
@@ -2619,6 +2708,7 @@ extension ElasticBeanstalk {
     }
 
     public struct OptionRestrictionRegex: AWSDecodableShape {
+
         /// A unique name representing this regular expression.
         public let label: String?
         /// The regular expression pattern that a string configuration option value with this restriction must match.
@@ -2636,6 +2726,7 @@ extension ElasticBeanstalk {
     }
 
     public struct OptionSpecification: AWSEncodableShape {
+
         /// A unique namespace identifying the option's associated AWS resource.
         public let namespace: String?
         /// The name of the configuration option.
@@ -2662,6 +2753,7 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformBranchSummary: AWSDecodableShape {
+
         /// The name of the platform branch.
         public let branchName: String?
         /// An ordinal number that designates the order in which platform branches have been added to a platform. This can be helpful, for example, if your code calls the ListPlatformBranches action and then displays a list of platform branches. A larger BranchOrder value designates a newer platform branch within the platform.
@@ -2692,6 +2784,7 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformDescription: AWSDecodableShape {
+
         /// The custom AMIs supported by the platform version.
         @OptionalCustomCoding<StandardArrayCoder>
         public var customAmiList: [CustomAmi]?
@@ -2790,6 +2883,7 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformFilter: AWSEncodableShape {
+
         /// The operator to apply to the Type with each of the Values. Valid values: = | != | &lt; | &lt;= | &gt; | &gt;= | contains | begins_with | ends_with
         public let `operator`: String?
         /// The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName
@@ -2812,6 +2906,7 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformFramework: AWSDecodableShape {
+
         /// The name of the framework.
         public let name: String?
         /// The version of the framework.
@@ -2829,6 +2924,7 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformProgrammingLanguage: AWSDecodableShape {
+
         /// The name of the programming language.
         public let name: String?
         /// The version of the programming language.
@@ -2846,6 +2942,7 @@ extension ElasticBeanstalk {
     }
 
     public struct PlatformSummary: AWSDecodableShape {
+
         /// The operating system used by the platform version.
         public let operatingSystemName: String?
         /// The version of the operating system used by the platform version.
@@ -2905,6 +3002,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Queue: AWSDecodableShape {
+
         /// The name of the queue.
         public let name: String?
         /// The URL of the queue.
@@ -2922,6 +3020,7 @@ extension ElasticBeanstalk {
     }
 
     public struct RebuildEnvironmentMessage: AWSEncodableShape {
+
         /// The ID of the environment to rebuild.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -2944,6 +3043,7 @@ extension ElasticBeanstalk {
     }
 
     public struct RequestEnvironmentInfoMessage: AWSEncodableShape {
+
         /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -2970,6 +3070,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ResourceQuota: AWSDecodableShape {
+
         /// The maximum number of instances of this Elastic Beanstalk resource type that an AWS account can use.
         public let maximum: Int?
 
@@ -2983,6 +3084,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ResourceQuotas: AWSDecodableShape {
+
         /// The quota for applications in the AWS account.
         public let applicationQuota: ResourceQuota?
         /// The quota for application versions in the AWS account.
@@ -3012,6 +3114,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ResourceTagsDescriptionMessage: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource for which a tag list was requested.
         public let resourceArn: String?
         /// A list of tag key-value pairs.
@@ -3030,6 +3133,7 @@ extension ElasticBeanstalk {
     }
 
     public struct RestartAppServerMessage: AWSEncodableShape {
+
         /// The ID of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -3052,6 +3156,7 @@ extension ElasticBeanstalk {
     }
 
     public struct RetrieveEnvironmentInfoMessage: AWSEncodableShape {
+
         /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -3078,6 +3183,7 @@ extension ElasticBeanstalk {
     }
 
     public struct RetrieveEnvironmentInfoResultMessage: AWSDecodableShape {
+
         ///  The EnvironmentInfoDescription of the environment.
         @OptionalCustomCoding<StandardArrayCoder>
         public var environmentInfo: [EnvironmentInfoDescription]?
@@ -3092,6 +3198,7 @@ extension ElasticBeanstalk {
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket where the data is located.
         public let s3Bucket: String?
         /// The Amazon S3 key where the data is located.
@@ -3114,6 +3221,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SearchFilter: AWSEncodableShape {
+
         /// The result attribute to which the filter values are applied. Valid values vary by API action.
         public let attribute: String?
         /// The operator to apply to the Attribute with each of the Values. Valid values vary by Attribute.
@@ -3136,6 +3244,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SingleInstanceHealth: AWSDecodableShape {
+
         /// Request metrics from your application.
         public let applicationMetrics: ApplicationMetrics?
         /// The availability zone in which the instance runs.
@@ -3186,6 +3295,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SolutionStackDescription: AWSDecodableShape {
+
         /// The permitted file types allowed for a solution stack.
         @OptionalCustomCoding<StandardArrayCoder>
         public var permittedFileTypes: [String]?
@@ -3204,6 +3314,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SourceBuildInformation: AWSEncodableShape & AWSDecodableShape {
+
         /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.
         public let sourceLocation: String
         /// Location where the repository is stored.    CodeCommit     S3
@@ -3231,6 +3342,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SourceConfiguration: AWSEncodableShape {
+
         /// The name of the application associated with the configuration.
         public let applicationName: String?
         /// The name of the configuration template.
@@ -3255,6 +3367,7 @@ extension ElasticBeanstalk {
     }
 
     public struct StatusCodes: AWSDecodableShape {
+
         /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
         public let status2xx: Int?
         /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
@@ -3280,6 +3393,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SwapEnvironmentCNAMEsMessage: AWSEncodableShape {
+
         /// The ID of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentId with the DestinationEnvironmentId.
         public let destinationEnvironmentId: String?
         /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName.
@@ -3312,6 +3426,7 @@ extension ElasticBeanstalk {
     }
 
     public struct SystemStatus: AWSDecodableShape {
+
         /// CPU utilization metrics for the instance.
         public let cPUUtilization: CPUUtilization?
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
@@ -3330,6 +3445,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the tag.
         public let key: String?
         /// The value of the tag.
@@ -3354,6 +3470,7 @@ extension ElasticBeanstalk {
     }
 
     public struct TerminateEnvironmentMessage: AWSEncodableShape {
+
         /// The ID of the environment to terminate.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
         public let environmentId: String?
         /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
@@ -3384,6 +3501,7 @@ extension ElasticBeanstalk {
     }
 
     public struct Trigger: AWSDecodableShape {
+
         /// The name of the trigger.
         public let name: String?
 
@@ -3397,6 +3515,7 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateApplicationMessage: AWSEncodableShape {
+
         /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error.
         public let applicationName: String
         /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
@@ -3420,6 +3539,7 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateApplicationResourceLifecycleMessage: AWSEncodableShape {
+
         /// The name of the application.
         public let applicationName: String
         /// The lifecycle configuration.
@@ -3442,6 +3562,7 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateApplicationVersionMessage: AWSEncodableShape {
+
         /// The name of the application associated with this version.  If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
         public let applicationName: String
         /// A new description for this version.
@@ -3471,6 +3592,7 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateConfigurationTemplateMessage: AWSEncodableShape {
+
         /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error.
         public let applicationName: String
         /// A new description for the configuration.
@@ -3516,6 +3638,7 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateEnvironmentMessage: AWSEncodableShape {
+
         /// The name of the application with which the environment is associated.
         public let applicationName: String?
         /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
@@ -3595,6 +3718,7 @@ extension ElasticBeanstalk {
     }
 
     public struct UpdateTagsForResourceMessage: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.
         public let resourceArn: String
         /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
@@ -3628,6 +3752,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ValidateConfigurationSettingsMessage: AWSEncodableShape {
+
         /// The name of the application that the configuration template or environment belongs to.
         public let applicationName: String
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
@@ -3666,6 +3791,7 @@ extension ElasticBeanstalk {
     }
 
     public struct ValidationMessage: AWSDecodableShape {
+
         /// A message describing the error or warning.
         public let message: String?
         /// The namespace to which the option belongs.

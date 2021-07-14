@@ -157,6 +157,7 @@ extension CodePipeline {
     // MARK: Shapes
 
     public struct AWSSessionCredentials: AWSDecodableShape {
+
         /// The access key for the session.
         public let accessKeyId: String
         /// The secret access key for the session.
@@ -171,13 +172,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId
-            case secretAccessKey
-            case sessionToken
+            case accessKeyId = "accessKeyId"
+            case secretAccessKey = "secretAccessKey"
+            case sessionToken = "sessionToken"
         }
     }
 
     public struct AcknowledgeJobInput: AWSEncodableShape {
+
         /// The unique system-generated ID of the job for which you want to confirm receipt.
         public let jobId: String
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
@@ -195,12 +197,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case nonce
+            case jobId = "jobId"
+            case nonce = "nonce"
         }
     }
 
     public struct AcknowledgeJobOutput: AWSDecodableShape {
+
         /// Whether the job worker has received the specified job.
         public let status: JobStatus?
 
@@ -209,11 +212,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct AcknowledgeThirdPartyJobInput: AWSEncodableShape {
+
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
         /// The unique system-generated ID of the job.
@@ -237,13 +241,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case jobId
-            case nonce
+            case clientToken = "clientToken"
+            case jobId = "jobId"
+            case nonce = "nonce"
         }
     }
 
     public struct AcknowledgeThirdPartyJobOutput: AWSDecodableShape {
+
         /// The status information for the third party job, if any.
         public let status: JobStatus?
 
@@ -252,11 +257,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct ActionConfiguration: AWSDecodableShape {
+
         /// The configuration data for the action.
         public let configuration: [String: String]?
 
@@ -265,11 +271,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
+            case configuration = "configuration"
         }
     }
 
     public struct ActionConfigurationProperty: AWSEncodableShape & AWSDecodableShape {
+
         /// The description of the action configuration property that is displayed to users.
         public let description: String?
         /// Whether the configuration property is a key.
@@ -303,17 +310,18 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case key
-            case name
-            case queryable
-            case required
-            case secret
-            case type
+            case description = "description"
+            case key = "key"
+            case name = "name"
+            case queryable = "queryable"
+            case required = "required"
+            case secret = "secret"
+            case type = "type"
         }
     }
 
     public struct ActionContext: AWSDecodableShape {
+
         /// The system-generated unique ID that corresponds to an action's execution.
         public let actionExecutionId: String?
         /// The name of the action in the context of a job.
@@ -325,12 +333,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionId
-            case name
+            case actionExecutionId = "actionExecutionId"
+            case name = "name"
         }
     }
 
     public struct ActionDeclaration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the action type and the provider of the action.
         public let actionTypeId: ActionTypeId
         /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see Action Structure Requirements in CodePipeline. For the list of configuration properties for the AWS CloudFormation action type in CodePipeline, see Configuration Properties Reference in the AWS CloudFormation User Guide. For template snippets with examples, see Using Parameter Override Functions with CodePipeline Pipelines in the AWS CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows:   JSON:   "Configuration" : { Key : Value },
@@ -391,19 +400,20 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case configuration
-            case inputArtifacts
-            case name
-            case namespace
-            case outputArtifacts
-            case region
-            case roleArn
-            case runOrder
+            case actionTypeId = "actionTypeId"
+            case configuration = "configuration"
+            case inputArtifacts = "inputArtifacts"
+            case name = "name"
+            case namespace = "namespace"
+            case outputArtifacts = "outputArtifacts"
+            case region = "region"
+            case roleArn = "roleArn"
+            case runOrder = "runOrder"
         }
     }
 
     public struct ActionExecution: AWSDecodableShape {
+
         /// ID of the workflow action execution in the current stage. Use the GetPipelineState action to retrieve the current action execution details of the current stage.  For older executions, this field might be empty. The action execution ID is available for executions run on or after March 2020.
         public let actionExecutionId: String?
         /// The details of an error returned by a URL external to AWS.
@@ -439,20 +449,21 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionId
-            case errorDetails
-            case externalExecutionId
-            case externalExecutionUrl
-            case lastStatusChange
-            case lastUpdatedBy
-            case percentComplete
-            case status
-            case summary
-            case token
+            case actionExecutionId = "actionExecutionId"
+            case errorDetails = "errorDetails"
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionUrl = "externalExecutionUrl"
+            case lastStatusChange = "lastStatusChange"
+            case lastUpdatedBy = "lastUpdatedBy"
+            case percentComplete = "percentComplete"
+            case status = "status"
+            case summary = "summary"
+            case token = "token"
         }
     }
 
     public struct ActionExecutionDetail: AWSDecodableShape {
+
         /// The action execution ID.
         public let actionExecutionId: String?
         /// The name of the action.
@@ -488,20 +499,21 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionId
-            case actionName
-            case input
-            case lastUpdateTime
-            case output
-            case pipelineExecutionId
-            case pipelineVersion
-            case stageName
-            case startTime
-            case status
+            case actionExecutionId = "actionExecutionId"
+            case actionName = "actionName"
+            case input = "input"
+            case lastUpdateTime = "lastUpdateTime"
+            case output = "output"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineVersion = "pipelineVersion"
+            case stageName = "stageName"
+            case startTime = "startTime"
+            case status = "status"
         }
     }
 
     public struct ActionExecutionFilter: AWSEncodableShape {
+
         /// The pipeline execution ID used to filter action execution history.
         public let pipelineExecutionId: String?
 
@@ -514,11 +526,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct ActionExecutionInput: AWSDecodableShape {
+
         public let actionTypeId: ActionTypeId?
         /// Configuration data for an action execution.
         public let configuration: [String: String]?
@@ -544,17 +557,18 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case configuration
-            case inputArtifacts
-            case namespace
-            case region
-            case resolvedConfiguration
-            case roleArn
+            case actionTypeId = "actionTypeId"
+            case configuration = "configuration"
+            case inputArtifacts = "inputArtifacts"
+            case namespace = "namespace"
+            case region = "region"
+            case resolvedConfiguration = "resolvedConfiguration"
+            case roleArn = "roleArn"
         }
     }
 
     public struct ActionExecutionOutput: AWSDecodableShape {
+
         /// Execution result information listed in the output details for an action execution.
         public let executionResult: ActionExecutionResult?
         /// Details of output artifacts of the action that correspond to the action execution.
@@ -569,13 +583,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionResult
-            case outputArtifacts
-            case outputVariables
+            case executionResult = "executionResult"
+            case outputArtifacts = "outputArtifacts"
+            case outputVariables = "outputVariables"
         }
     }
 
     public struct ActionExecutionResult: AWSDecodableShape {
+
         /// The action provider's external ID for the action execution.
         public let externalExecutionId: String?
         /// The action provider's summary for the action execution.
@@ -590,13 +605,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalExecutionId
-            case externalExecutionSummary
-            case externalExecutionUrl
+            case externalExecutionId = "externalExecutionId"
+            case externalExecutionSummary = "externalExecutionSummary"
+            case externalExecutionUrl = "externalExecutionUrl"
         }
     }
 
     public struct ActionRevision: AWSEncodableShape & AWSDecodableShape {
+
         /// The date and time when the most recent version of the action was created, in timestamp format.
         public let created: Date
         /// The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp).
@@ -618,13 +634,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case revisionChangeId
-            case revisionId
+            case created = "created"
+            case revisionChangeId = "revisionChangeId"
+            case revisionId = "revisionId"
         }
     }
 
     public struct ActionState: AWSDecodableShape {
+
         /// The name of the action.
         public let actionName: String?
         /// Represents information about the version (or revision) of an action.
@@ -645,15 +662,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case currentRevision
-            case entityUrl
-            case latestExecution
-            case revisionUrl
+            case actionName = "actionName"
+            case currentRevision = "currentRevision"
+            case entityUrl = "entityUrl"
+            case latestExecution = "latestExecution"
+            case revisionUrl = "revisionUrl"
         }
     }
 
     public struct ActionType: AWSDecodableShape {
+
         /// The configuration properties for the action type.
         public let actionConfigurationProperties: [ActionConfigurationProperty]?
         /// Represents information about an action type.
@@ -674,15 +692,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionConfigurationProperties
-            case id
-            case inputArtifactDetails
-            case outputArtifactDetails
-            case settings
+            case actionConfigurationProperties = "actionConfigurationProperties"
+            case id = "id"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case settings = "settings"
         }
     }
 
     public struct ActionTypeArtifactDetails: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum number of artifacts that can be used with the actiontype. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
         public let maximumCount: Int
         /// The minimum number of artifacts that can be used with the action type. For example, you should specify a minimum and maximum of zero input artifacts for an action type with a category of source.
@@ -701,12 +720,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumCount
-            case minimumCount
+            case maximumCount = "maximumCount"
+            case minimumCount = "minimumCount"
         }
     }
 
     public struct ActionTypeDeclaration: AWSEncodableShape & AWSDecodableShape {
+
         /// The description for the action type to be updated.
         public let description: String?
         /// Information about the executor for an action type that was created with any supported integration model.
@@ -751,18 +771,19 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case executor
-            case id
-            case inputArtifactDetails
-            case outputArtifactDetails
-            case permissions
-            case properties
-            case urls
+            case description = "description"
+            case executor = "executor"
+            case id = "id"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case permissions = "permissions"
+            case properties = "properties"
+            case urls = "urls"
         }
     }
 
     public struct ActionTypeExecutor: AWSEncodableShape & AWSDecodableShape {
+
         /// The action configuration properties for the action type. These properties are specified in the action definition when the action type is created.
         public let configuration: ExecutorConfiguration
         /// The timeout in seconds for the job. An action execution can have multiple jobs. This is the timeout for a single job, not the entire action execution.
@@ -788,14 +809,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case jobTimeout
-            case policyStatementsTemplate
-            case type
+            case configuration = "configuration"
+            case jobTimeout = "jobTimeout"
+            case policyStatementsTemplate = "policyStatementsTemplate"
+            case type = "type"
         }
     }
 
     public struct ActionTypeId: AWSEncodableShape & AWSDecodableShape {
+
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the following values.    Source   Build   Test   Deploy   Invoke   Approval
         public let category: ActionCategory
         /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see Valid Action Types and Providers in CodePipeline.
@@ -822,14 +844,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case owner
-            case provider
-            case version
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
     public struct ActionTypeIdentifier: AWSEncodableShape & AWSDecodableShape {
+
         /// Defines what kind of action can be taken in the stage, one of the following:    Source     Build     Test     Deploy     Approval     Invoke
         public let category: ActionCategory
         /// The creator of the action type being called: AWS or ThirdParty.
@@ -857,14 +880,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case owner
-            case provider
-            case version
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
     public struct ActionTypePermissions: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of AWS account IDs with access to use the action type in their pipelines.
         public let allowedAccounts: [String]
 
@@ -881,11 +905,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedAccounts
+            case allowedAccounts = "allowedAccounts"
         }
     }
 
     public struct ActionTypeProperty: AWSEncodableShape & AWSDecodableShape {
+
         /// The description of the property that is displayed to users.
         public let description: String?
         /// Whether the configuration property is a key.
@@ -916,16 +941,17 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case key
-            case name
-            case noEcho
-            case optional
-            case queryable
+            case description = "description"
+            case key = "key"
+            case name = "name"
+            case noEcho = "noEcho"
+            case optional = "optional"
+            case queryable = "queryable"
         }
     }
 
     public struct ActionTypeSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display in the pipeline.
         public let entityUrlTemplate: String?
         /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as the console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
@@ -954,14 +980,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityUrlTemplate
-            case executionUrlTemplate
-            case revisionUrlTemplate
-            case thirdPartyConfigurationUrl
+            case entityUrlTemplate = "entityUrlTemplate"
+            case executionUrlTemplate = "executionUrlTemplate"
+            case revisionUrlTemplate = "revisionUrlTemplate"
+            case thirdPartyConfigurationUrl = "thirdPartyConfigurationUrl"
         }
     }
 
     public struct ActionTypeUrls: AWSEncodableShape & AWSDecodableShape {
+
         /// The URL returned to the CodePipeline console that contains a link to the page where customers can configure the external action.
         public let configurationUrl: String?
         /// The URL returned to the CodePipeline console that provides a deep link to the resources of the external system, such as a status page. This link is provided as part of the action display in the pipeline.
@@ -990,14 +1017,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationUrl
-            case entityUrlTemplate
-            case executionUrlTemplate
-            case revisionUrlTemplate
+            case configurationUrl = "configurationUrl"
+            case entityUrlTemplate = "entityUrlTemplate"
+            case executionUrlTemplate = "executionUrlTemplate"
+            case revisionUrlTemplate = "revisionUrlTemplate"
         }
     }
 
     public struct ApprovalResult: AWSEncodableShape {
+
         /// The response submitted by a reviewer assigned to an approval action request.
         public let status: ApprovalStatus
         /// The summary of the current status of the approval request.
@@ -1014,12 +1042,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case summary
+            case status = "status"
+            case summary = "summary"
         }
     }
 
     public struct Artifact: AWSDecodableShape {
+
         /// The location of an artifact.
         public let location: ArtifactLocation?
         /// The artifact's name.
@@ -1034,13 +1063,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case location
-            case name
-            case revision
+            case location = "location"
+            case name = "name"
+            case revision = "revision"
         }
     }
 
     public struct ArtifactDetail: AWSDecodableShape {
+
         /// The artifact object name for the action execution.
         public let name: String?
         /// The Amazon S3 artifact location for the action execution.
@@ -1052,12 +1082,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case s3location
+            case name = "name"
+            case s3location = "s3location"
         }
     }
 
     public struct ArtifactDetails: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum number of artifacts allowed for the action type.
         public let maximumCount: Int
         /// The minimum number of artifacts allowed for the action type.
@@ -1076,12 +1107,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maximumCount
-            case minimumCount
+            case maximumCount = "maximumCount"
+            case minimumCount = "minimumCount"
         }
     }
 
     public struct ArtifactLocation: AWSDecodableShape {
+
         /// The S3 bucket that contains the artifact.
         public let s3Location: S3ArtifactLocation?
         /// The type of artifact in the location.
@@ -1093,12 +1125,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Location
-            case type
+            case s3Location = "s3Location"
+            case type = "type"
         }
     }
 
     public struct ArtifactRevision: AWSDecodableShape {
+
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
         public let created: Date?
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or defined by the user when an action is created.
@@ -1122,16 +1155,17 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case name
-            case revisionChangeIdentifier
-            case revisionId
-            case revisionSummary
-            case revisionUrl
+            case created = "created"
+            case name = "name"
+            case revisionChangeIdentifier = "revisionChangeIdentifier"
+            case revisionId = "revisionId"
+            case revisionSummary = "revisionSummary"
+            case revisionUrl = "revisionUrl"
         }
     }
 
     public struct ArtifactStore: AWSEncodableShape & AWSDecodableShape {
+
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
         public let encryptionKey: EncryptionKey?
         /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
@@ -1153,13 +1187,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKey
-            case location
-            case type
+            case encryptionKey = "encryptionKey"
+            case location = "location"
+            case type = "type"
         }
     }
 
     public struct BlockerDeclaration: AWSEncodableShape & AWSDecodableShape {
+
         /// Reserved for future use.
         public let name: String
         /// Reserved for future use.
@@ -1176,12 +1211,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
+            case name = "name"
+            case type = "type"
         }
     }
 
     public struct CreateCustomActionTypeInput: AWSEncodableShape {
+
         /// The category of the custom action, such as a build action or a test action.
         public let category: ActionCategory
         /// The configuration properties for the custom action.  You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline.
@@ -1230,18 +1266,19 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case configurationProperties
-            case inputArtifactDetails
-            case outputArtifactDetails
-            case provider
-            case settings
-            case tags
-            case version
+            case category = "category"
+            case configurationProperties = "configurationProperties"
+            case inputArtifactDetails = "inputArtifactDetails"
+            case outputArtifactDetails = "outputArtifactDetails"
+            case provider = "provider"
+            case settings = "settings"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
     public struct CreateCustomActionTypeOutput: AWSDecodableShape {
+
         /// Returns information about the details of an action type.
         public let actionType: ActionType
         /// Specifies the tags applied to the custom action.
@@ -1253,12 +1290,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
-            case tags
+            case actionType = "actionType"
+            case tags = "tags"
         }
     }
 
     public struct CreatePipelineInput: AWSEncodableShape {
+
         /// Represents the structure of actions and stages to be performed in the pipeline.
         public let pipeline: PipelineDeclaration
         /// The tags for the pipeline.
@@ -1277,12 +1315,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
-            case tags
+            case pipeline = "pipeline"
+            case tags = "tags"
         }
     }
 
     public struct CreatePipelineOutput: AWSDecodableShape {
+
         /// Represents the structure of actions and stages to be performed in the pipeline.
         public let pipeline: PipelineDeclaration?
         /// Specifies the tags applied to the pipeline.
@@ -1294,12 +1333,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
-            case tags
+            case pipeline = "pipeline"
+            case tags = "tags"
         }
     }
 
     public struct CurrentRevision: AWSEncodableShape {
+
         /// The change identifier for the current revision.
         public let changeIdentifier: String
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
@@ -1326,14 +1366,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeIdentifier
-            case created
-            case revision
-            case revisionSummary
+            case changeIdentifier = "changeIdentifier"
+            case created = "created"
+            case revision = "revision"
+            case revisionSummary = "revisionSummary"
         }
     }
 
     public struct DeleteCustomActionTypeInput: AWSEncodableShape {
+
         /// The category of the custom action that you want to delete, such as source or deploy.
         public let category: ActionCategory
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
@@ -1357,13 +1398,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case provider
-            case version
+            case category = "category"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
     public struct DeletePipelineInput: AWSEncodableShape {
+
         /// The name of the pipeline to be deleted.
         public let name: String
 
@@ -1378,11 +1420,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct DeleteWebhookInput: AWSEncodableShape {
+
         /// The name of the webhook you want to delete.
         public let name: String
 
@@ -1397,15 +1440,20 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct DeleteWebhookOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeregisterWebhookWithThirdPartyInput: AWSEncodableShape {
+
         /// The name of the webhook you want to deregister.
         public let webhookName: String?
 
@@ -1420,15 +1468,20 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhookName
+            case webhookName = "webhookName"
         }
     }
 
     public struct DeregisterWebhookWithThirdPartyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableStageTransitionInput: AWSEncodableShape {
+
         /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
         public let pipelineName: String
         /// The reason given to the user that a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
@@ -1458,14 +1511,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineName
-            case reason
-            case stageName
-            case transitionType
+            case pipelineName = "pipelineName"
+            case reason = "reason"
+            case stageName = "stageName"
+            case transitionType = "transitionType"
         }
     }
 
     public struct EnableStageTransitionInput: AWSEncodableShape {
+
         /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
         public let pipelineName: String
         /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound).
@@ -1489,13 +1543,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineName
-            case stageName
-            case transitionType
+            case pipelineName = "pipelineName"
+            case stageName = "stageName"
+            case transitionType = "transitionType"
         }
     }
 
     public struct EncryptionKey: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID used to identify the key. For an AWS KMS key, you can use the key ID, the key ARN, or the alias ARN.  Aliases are recognized only in the account that created the customer master key (CMK). For cross-account actions, you can only use the key ID or key ARN to identify the key.
         public let id: String
         /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
@@ -1512,12 +1567,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case type
+            case id = "id"
+            case type = "type"
         }
     }
 
     public struct ErrorDetails: AWSDecodableShape {
+
         /// The system ID or number code of the error.
         public let code: String?
         /// The text of the error message.
@@ -1529,12 +1585,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct ExecutionDetails: AWSEncodableShape {
+
         /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
         public let externalExecutionId: String?
         /// The percentage of work completed on the action, represented on a scale of 0 to 100 percent.
@@ -1558,13 +1615,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalExecutionId
-            case percentComplete
-            case summary
+            case externalExecutionId = "externalExecutionId"
+            case percentComplete = "percentComplete"
+            case summary = "summary"
         }
     }
 
     public struct ExecutionTrigger: AWSDecodableShape {
+
         /// Detail related to the event that started a pipeline execution, such as the webhook ARN of the webhook that triggered the pipeline execution or the user ARN for a user-initiated start-pipeline-execution CLI command.
         public let triggerDetail: String?
         /// The type of change-detection method, command, or user interaction that started a pipeline execution.
@@ -1576,12 +1634,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case triggerDetail
-            case triggerType
+            case triggerDetail = "triggerDetail"
+            case triggerType = "triggerType"
         }
     }
 
     public struct ExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Details about the JobWorker executor of the action type.
         public let jobWorkerExecutorConfiguration: JobWorkerExecutorConfiguration?
         /// Details about the Lambda executor of the action type.
@@ -1598,12 +1657,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobWorkerExecutorConfiguration
-            case lambdaExecutorConfiguration
+            case jobWorkerExecutorConfiguration = "jobWorkerExecutorConfiguration"
+            case lambdaExecutorConfiguration = "lambdaExecutorConfiguration"
         }
     }
 
     public struct FailureDetails: AWSEncodableShape {
+
         /// The external ID of the run of the action that failed.
         public let externalExecutionId: String?
         /// The message about the failure.
@@ -1625,13 +1685,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalExecutionId
-            case message
-            case type
+            case externalExecutionId = "externalExecutionId"
+            case message = "message"
+            case type = "type"
         }
     }
 
     public struct GetActionTypeInput: AWSEncodableShape {
+
         /// Defines what kind of action can be taken in the stage. The following are the valid values:    Source     Build     Test     Deploy     Approval     Invoke
         public let category: ActionCategory
         /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
@@ -1659,14 +1720,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case owner
-            case provider
-            case version
+            case category = "category"
+            case owner = "owner"
+            case provider = "provider"
+            case version = "version"
         }
     }
 
     public struct GetActionTypeOutput: AWSDecodableShape {
+
         /// The action type information for the requested action type, such as the action type ID.
         public let actionType: ActionTypeDeclaration?
 
@@ -1675,11 +1737,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
+            case actionType = "actionType"
         }
     }
 
     public struct GetJobDetailsInput: AWSEncodableShape {
+
         /// The unique system-generated ID for the job.
         public let jobId: String
 
@@ -1692,11 +1755,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
+            case jobId = "jobId"
         }
     }
 
     public struct GetJobDetailsOutput: AWSDecodableShape {
+
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials.
         public let jobDetails: JobDetails?
 
@@ -1705,11 +1769,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDetails
+            case jobDetails = "jobDetails"
         }
     }
 
     public struct GetPipelineExecutionInput: AWSEncodableShape {
+
         /// The ID of the pipeline execution about which you want to get execution details.
         public let pipelineExecutionId: String
         /// The name of the pipeline about which you want to get execution details.
@@ -1728,12 +1793,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
-            case pipelineName
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
         }
     }
 
     public struct GetPipelineExecutionOutput: AWSDecodableShape {
+
         /// Represents information about the execution of a pipeline.
         public let pipelineExecution: PipelineExecution?
 
@@ -1742,11 +1808,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecution
+            case pipelineExecution = "pipelineExecution"
         }
     }
 
     public struct GetPipelineInput: AWSEncodableShape {
+
         /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an AWS user account.
         public let name: String
         /// The version number of the pipeline. If you do not specify a version, defaults to the current version.
@@ -1765,12 +1832,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct GetPipelineOutput: AWSDecodableShape {
+
         /// Represents the pipeline metadata information returned as part of the output of a GetPipeline action.
         public let metadata: PipelineMetadata?
         /// Represents the structure of actions and stages to be performed in the pipeline.
@@ -1782,12 +1850,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metadata
-            case pipeline
+            case metadata = "metadata"
+            case pipeline = "pipeline"
         }
     }
 
     public struct GetPipelineStateInput: AWSEncodableShape {
+
         /// The name of the pipeline about which you want to get information.
         public let name: String
 
@@ -1802,11 +1871,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct GetPipelineStateOutput: AWSDecodableShape {
+
         /// The date and time the pipeline was created, in timestamp format.
         public let created: Date?
         /// The name of the pipeline for which you want to get the state.
@@ -1827,15 +1897,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case pipelineName
-            case pipelineVersion
-            case stageStates
-            case updated
+            case created = "created"
+            case pipelineName = "pipelineName"
+            case pipelineVersion = "pipelineVersion"
+            case stageStates = "stageStates"
+            case updated = "updated"
         }
     }
 
     public struct GetThirdPartyJobDetailsInput: AWSEncodableShape {
+
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
         /// The unique system-generated ID used for identifying the job.
@@ -1854,12 +1925,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case jobId
+            case clientToken = "clientToken"
+            case jobId = "jobId"
         }
     }
 
     public struct GetThirdPartyJobDetailsOutput: AWSDecodableShape {
+
         /// The details of the job, including any protected values defined for the job.
         public let jobDetails: ThirdPartyJobDetails?
 
@@ -1868,11 +1940,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobDetails
+            case jobDetails = "jobDetails"
         }
     }
 
     public struct InputArtifact: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the artifact to be worked on (for example, "My App"). The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public let name: String
 
@@ -1887,11 +1960,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct Job: AWSDecodableShape {
+
         /// The ID of the AWS account to use when performing the job.
         public let accountId: String?
         /// Other data about a job.
@@ -1909,14 +1983,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case data
-            case id
-            case nonce
+            case accountId = "accountId"
+            case data = "data"
+            case id = "id"
+            case nonce = "nonce"
         }
     }
 
     public struct JobData: AWSDecodableShape {
+
         /// Represents information about an action configuration.
         public let actionConfiguration: ActionConfiguration?
         /// Represents information about an action type.
@@ -1946,18 +2021,19 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionConfiguration
-            case actionTypeId
-            case artifactCredentials
-            case continuationToken
-            case encryptionKey
-            case inputArtifacts
-            case outputArtifacts
-            case pipelineContext
+            case actionConfiguration = "actionConfiguration"
+            case actionTypeId = "actionTypeId"
+            case artifactCredentials = "artifactCredentials"
+            case continuationToken = "continuationToken"
+            case encryptionKey = "encryptionKey"
+            case inputArtifacts = "inputArtifacts"
+            case outputArtifacts = "outputArtifacts"
+            case pipelineContext = "pipelineContext"
         }
     }
 
     public struct JobDetails: AWSDecodableShape {
+
         /// The AWS account ID associated with the job.
         public let accountId: String?
         /// Represents other information about a job required for a job worker to complete the job.
@@ -1972,13 +2048,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case data
-            case id
+            case accountId = "accountId"
+            case data = "data"
+            case id = "id"
         }
     }
 
     public struct JobWorkerExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The accounts in which the job worker is configured and might poll for jobs as part of the action execution.
         public let pollingAccounts: [String]?
         /// The service Principals in which the job worker is configured and might poll for jobs as part of the action execution.
@@ -2004,12 +2081,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pollingAccounts
-            case pollingServicePrincipals
+            case pollingAccounts = "pollingAccounts"
+            case pollingServicePrincipals = "pollingServicePrincipals"
         }
     }
 
     public struct LambdaExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Lambda function used by the action engine.
         public let lambdaFunctionArn: String
 
@@ -2024,11 +2102,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionArn
+            case lambdaFunctionArn = "lambdaFunctionArn"
         }
     }
 
     public struct ListActionExecutionsInput: AWSEncodableShape {
+
         /// Input information used to filter action execution history.
         public let filter: ActionExecutionFilter?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100.   Detailed execution history is available for executions run on or after February 21, 2019.
@@ -2057,14 +2136,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case maxResults
-            case nextToken
-            case pipelineName
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
         }
     }
 
     public struct ListActionExecutionsOutput: AWSDecodableShape {
+
         /// The details for a list of recent executions, such as action execution ID.
         public let actionExecutionDetails: [ActionExecutionDetail]?
         /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListActionExecutions call to return the next set of action executions in the list.
@@ -2076,12 +2156,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionExecutionDetails
-            case nextToken
+            case actionExecutionDetails = "actionExecutionDetails"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListActionTypesInput: AWSEncodableShape {
+
         /// Filters the list of action types to those created by a specified entity.
         public let actionOwnerFilter: ActionOwner?
         /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
@@ -2103,13 +2184,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionOwnerFilter
-            case nextToken
-            case regionFilter
+            case actionOwnerFilter = "actionOwnerFilter"
+            case nextToken = "nextToken"
+            case regionFilter = "regionFilter"
         }
     }
 
     public struct ListActionTypesOutput: AWSDecodableShape {
+
         /// Provides details of the action types.
         public let actionTypes: [ActionType]
         /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list action types call to return the next set of action types in the list.
@@ -2121,12 +2203,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypes
-            case nextToken
+            case actionTypes = "actionTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPipelineExecutionsInput: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
         public let maxResults: Int?
         /// The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
@@ -2151,13 +2234,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case pipelineName
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pipelineName = "pipelineName"
         }
     }
 
     public struct ListPipelineExecutionsOutput: AWSDecodableShape {
+
         /// A token that can be used in the next ListPipelineExecutions call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
         public let nextToken: String?
         /// A list of executions in the history of a pipeline.
@@ -2169,12 +2253,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pipelineExecutionSummaries
+            case nextToken = "nextToken"
+            case pipelineExecutionSummaries = "pipelineExecutionSummaries"
         }
     }
 
     public struct ListPipelinesInput: AWSEncodableShape {
+
         /// The maximum number of pipelines to return in a single call. To retrieve the remaining pipelines, make another call with the returned nextToken value. The minimum value you can specify is 1. The maximum accepted value is 1000.
         public let maxResults: Int?
         /// An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
@@ -2193,12 +2278,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPipelinesOutput: AWSDecodableShape {
+
         /// If the amount of returned information is significantly large, an identifier is also returned. It can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
         public let nextToken: String?
         /// The list of pipelines.
@@ -2210,12 +2296,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case pipelines
+            case nextToken = "nextToken"
+            case pipelines = "pipelines"
         }
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token that was returned from the previous API call, which would be used to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
@@ -2238,13 +2325,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case resourceArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent API call to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
         public let nextToken: String?
         /// The tags for the resource.
@@ -2256,12 +2344,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
     public struct ListWebhookItem: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the webhook.
         public let arn: String?
         /// The detail returned for each webhook, such as the webhook authentication type and filter rules.
@@ -2288,17 +2377,18 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case definition
-            case errorCode
-            case errorMessage
-            case lastTriggered
-            case tags
-            case url
+            case arn = "arn"
+            case definition = "definition"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case lastTriggered = "lastTriggered"
+            case tags = "tags"
+            case url = "url"
         }
     }
 
     public struct ListWebhooksInput: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token that was returned from the previous ListWebhooks call, which can be used to return the next set of webhooks in the list.
@@ -2323,6 +2413,7 @@ extension CodePipeline {
     }
 
     public struct ListWebhooksOutput: AWSDecodableShape {
+
         /// If the amount of returned information is significantly large, an identifier is also returned and can be used in a subsequent ListWebhooks call to return the next set of webhooks in the list.
         public let nextToken: String?
         /// The JSON detail returned for each webhook in the list output for the ListWebhooks call.
@@ -2335,11 +2426,12 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
-            case webhooks
+            case webhooks = "webhooks"
         }
     }
 
     public struct OutputArtifact: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         public let name: String
 
@@ -2354,11 +2446,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct PipelineContext: AWSDecodableShape {
+
         /// The context of an action to a job worker in the stage of a pipeline.
         public let action: ActionContext?
         /// The Amazon Resource Name (ARN) of the pipeline.
@@ -2379,15 +2472,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case pipelineArn
-            case pipelineExecutionId
-            case pipelineName
-            case stage
+            case action = "action"
+            case pipelineArn = "pipelineArn"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case stage = "stage"
         }
     }
 
     public struct PipelineDeclaration: AWSEncodableShape & AWSDecodableShape {
+
         /// Represents information about the S3 bucket where artifacts are stored for the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
         public let artifactStore: ArtifactStore?
         /// A mapping of artifactStore objects and their corresponding AWS Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline.  You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
@@ -2429,16 +2523,17 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactStore
-            case artifactStores
-            case name
-            case roleArn
-            case stages
-            case version
+            case artifactStore = "artifactStore"
+            case artifactStores = "artifactStores"
+            case name = "name"
+            case roleArn = "roleArn"
+            case stages = "stages"
+            case version = "version"
         }
     }
 
     public struct PipelineExecution: AWSDecodableShape {
+
         /// A list of ArtifactRevision objects included in a pipeline execution.
         public let artifactRevisions: [ArtifactRevision]?
         /// The ID of the pipeline execution.
@@ -2462,16 +2557,17 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifactRevisions
-            case pipelineExecutionId
-            case pipelineName
-            case pipelineVersion
-            case status
-            case statusSummary
+            case artifactRevisions = "artifactRevisions"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case pipelineVersion = "pipelineVersion"
+            case status = "status"
+            case statusSummary = "statusSummary"
         }
     }
 
     public struct PipelineExecutionSummary: AWSDecodableShape {
+
         /// The date and time of the last change to the pipeline execution, in timestamp format.
         public let lastUpdateTime: Date?
         /// The ID of the pipeline execution.
@@ -2498,17 +2594,18 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdateTime
-            case pipelineExecutionId
-            case sourceRevisions
-            case startTime
-            case status
-            case stopTrigger
-            case trigger
+            case lastUpdateTime = "lastUpdateTime"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case sourceRevisions = "sourceRevisions"
+            case startTime = "startTime"
+            case status = "status"
+            case stopTrigger = "stopTrigger"
+            case trigger = "trigger"
         }
     }
 
     public struct PipelineMetadata: AWSDecodableShape {
+
         /// The date and time the pipeline was created, in timestamp format.
         public let created: Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
@@ -2523,13 +2620,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case pipelineArn
-            case updated
+            case created = "created"
+            case pipelineArn = "pipelineArn"
+            case updated = "updated"
         }
     }
 
     public struct PipelineSummary: AWSDecodableShape {
+
         /// The date and time the pipeline was created, in timestamp format.
         public let created: Date?
         /// The name of the pipeline.
@@ -2547,14 +2645,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case created
-            case name
-            case updated
-            case version
+            case created = "created"
+            case name = "name"
+            case updated = "updated"
+            case version = "version"
         }
     }
 
     public struct PollForJobsInput: AWSEncodableShape {
+
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
@@ -2581,13 +2680,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case maxBatchSize
-            case queryParam
+            case actionTypeId = "actionTypeId"
+            case maxBatchSize = "maxBatchSize"
+            case queryParam = "queryParam"
         }
     }
 
     public struct PollForJobsOutput: AWSDecodableShape {
+
         /// Information about the jobs to take action on.
         public let jobs: [Job]?
 
@@ -2596,11 +2696,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
     public struct PollForThirdPartyJobsInput: AWSEncodableShape {
+
         /// Represents information about an action type.
         public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
@@ -2617,12 +2718,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionTypeId
-            case maxBatchSize
+            case actionTypeId = "actionTypeId"
+            case maxBatchSize = "maxBatchSize"
         }
     }
 
     public struct PollForThirdPartyJobsOutput: AWSDecodableShape {
+
         /// Information about the jobs to take action on.
         public let jobs: [ThirdPartyJob]?
 
@@ -2631,11 +2733,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
     public struct PutActionRevisionInput: AWSEncodableShape {
+
         /// The name of the action that processes the revision.
         public let actionName: String
         /// Represents information about the version (or revision) of an action.
@@ -2666,14 +2769,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case actionRevision
-            case pipelineName
-            case stageName
+            case actionName = "actionName"
+            case actionRevision = "actionRevision"
+            case pipelineName = "pipelineName"
+            case stageName = "stageName"
         }
     }
 
     public struct PutActionRevisionOutput: AWSDecodableShape {
+
         /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
         public let newRevision: Bool?
         /// The ID of the current workflow state of the pipeline.
@@ -2685,12 +2789,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newRevision
-            case pipelineExecutionId
+            case newRevision = "newRevision"
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct PutApprovalResultInput: AWSEncodableShape {
+
         /// The name of the action for which approval is requested.
         public let actionName: String
         /// The name of the pipeline that contains the action.
@@ -2725,15 +2830,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case pipelineName
-            case result
-            case stageName
-            case token
+            case actionName = "actionName"
+            case pipelineName = "pipelineName"
+            case result = "result"
+            case stageName = "stageName"
+            case token = "token"
         }
     }
 
     public struct PutApprovalResultOutput: AWSDecodableShape {
+
         /// The timestamp showing when the approval or rejection was submitted.
         public let approvedAt: Date?
 
@@ -2742,11 +2848,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case approvedAt
+            case approvedAt = "approvedAt"
         }
     }
 
     public struct PutJobFailureResultInput: AWSEncodableShape {
+
         /// The details about the failure of a job.
         public let failureDetails: FailureDetails
         /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
@@ -2763,12 +2870,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureDetails
-            case jobId
+            case failureDetails = "failureDetails"
+            case jobId = "jobId"
         }
     }
 
     public struct PutJobSuccessResultInput: AWSEncodableShape {
+
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
         public let continuationToken: String?
         /// The ID of the current revision of the artifact successfully worked on by the job.
@@ -2800,15 +2908,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case continuationToken
-            case currentRevision
-            case executionDetails
-            case jobId
-            case outputVariables
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
+            case executionDetails = "executionDetails"
+            case jobId = "jobId"
+            case outputVariables = "outputVariables"
         }
     }
 
     public struct PutThirdPartyJobFailureResultInput: AWSEncodableShape {
+
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
         /// Represents information about failure details.
@@ -2831,13 +2940,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case failureDetails
-            case jobId
+            case clientToken = "clientToken"
+            case failureDetails = "failureDetails"
+            case jobId = "jobId"
         }
     }
 
     public struct PutThirdPartyJobSuccessResultInput: AWSEncodableShape {
+
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientToken: String
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs use this token to identify the running instance of the action. It can be reused to return more information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
@@ -2869,15 +2979,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case continuationToken
-            case currentRevision
-            case executionDetails
-            case jobId
+            case clientToken = "clientToken"
+            case continuationToken = "continuationToken"
+            case currentRevision = "currentRevision"
+            case executionDetails = "executionDetails"
+            case jobId = "jobId"
         }
     }
 
     public struct PutWebhookInput: AWSEncodableShape {
+
         /// The tags for the webhook.
         public let tags: [Tag]?
         /// The detail provided in an input file to create the webhook, such as the webhook name, the pipeline name, and the action name. Give the webhook a unique name that helps you identify it. You might name the webhook after the pipeline and action it targets so that you can easily recognize what it's used for later.
@@ -2896,12 +3007,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case webhook
+            case tags = "tags"
+            case webhook = "webhook"
         }
     }
 
     public struct PutWebhookOutput: AWSDecodableShape {
+
         /// The detail returned from creating the webhook, such as the webhook name, webhook URL, and webhook ARN.
         public let webhook: ListWebhookItem?
 
@@ -2910,11 +3022,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhook
+            case webhook = "webhook"
         }
     }
 
     public struct RegisterWebhookWithThirdPartyInput: AWSEncodableShape {
+
         /// The name of an existing webhook created with PutWebhook to register with a supported third party.
         public let webhookName: String?
 
@@ -2929,15 +3042,20 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case webhookName
+            case webhookName = "webhookName"
         }
     }
 
     public struct RegisterWebhookWithThirdPartyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RetryStageExecutionInput: AWSEncodableShape {
+
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
         public let pipelineExecutionId: String
         /// The name of the pipeline that contains the failed stage.
@@ -2965,14 +3083,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
-            case pipelineName
-            case retryMode
-            case stageName
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case retryMode = "retryMode"
+            case stageName = "stageName"
         }
     }
 
     public struct RetryStageExecutionOutput: AWSDecodableShape {
+
         /// The ID of the current workflow execution in the failed stage.
         public let pipelineExecutionId: String?
 
@@ -2981,11 +3100,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct S3ArtifactLocation: AWSDecodableShape {
+
         /// The name of the S3 bucket.
         public let bucketName: String
         /// The key of the object in the S3 bucket, which uniquely identifies the object in the bucket.
@@ -2997,12 +3117,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketName
-            case objectKey
+            case bucketName = "bucketName"
+            case objectKey = "objectKey"
         }
     }
 
     public struct S3Location: AWSDecodableShape {
+
         /// The Amazon S3 artifact bucket for an action's artifacts.
         public let bucket: String?
         /// The artifact name.
@@ -3014,12 +3135,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
+            case bucket = "bucket"
+            case key = "key"
         }
     }
 
     public struct SourceRevision: AWSDecodableShape {
+
         /// The name of the action that processed the revision to the source artifact.
         public let actionName: String
         /// The system-generated unique ID that identifies the revision number of the artifact.
@@ -3037,14 +3159,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionName
-            case revisionId
-            case revisionSummary
-            case revisionUrl
+            case actionName = "actionName"
+            case revisionId = "revisionId"
+            case revisionSummary = "revisionSummary"
+            case revisionUrl = "revisionUrl"
         }
     }
 
     public struct StageContext: AWSDecodableShape {
+
         /// The name of the stage.
         public let name: String?
 
@@ -3053,11 +3176,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
+            case name = "name"
         }
     }
 
     public struct StageDeclaration: AWSEncodableShape & AWSDecodableShape {
+
         /// The actions included in a stage.
         public let actions: [ActionDeclaration]
         /// Reserved for future use.
@@ -3084,13 +3208,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case blockers
-            case name
+            case actions = "actions"
+            case blockers = "blockers"
+            case name = "name"
         }
     }
 
     public struct StageExecution: AWSDecodableShape {
+
         /// The ID of the pipeline execution associated with the stage.
         public let pipelineExecutionId: String
         /// The status of the stage, or for a completed stage, the last status of the stage.  A status of cancelled means that the pipeline’s definition was updated before the stage execution could be completed.
@@ -3102,12 +3227,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
-            case status
+            case pipelineExecutionId = "pipelineExecutionId"
+            case status = "status"
         }
     }
 
     public struct StageState: AWSDecodableShape {
+
         /// The state of the stage.
         public let actionStates: [ActionState]?
         public let inboundExecution: StageExecution?
@@ -3127,15 +3253,16 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionStates
-            case inboundExecution
-            case inboundTransitionState
-            case latestExecution
-            case stageName
+            case actionStates = "actionStates"
+            case inboundExecution = "inboundExecution"
+            case inboundTransitionState = "inboundTransitionState"
+            case latestExecution = "latestExecution"
+            case stageName = "stageName"
         }
     }
 
     public struct StartPipelineExecutionInput: AWSEncodableShape {
+
         /// The system-generated unique ID used to identify a unique execution request.
         public let clientRequestToken: String?
         /// The name of the pipeline to start.
@@ -3156,12 +3283,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case name
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
         }
     }
 
     public struct StartPipelineExecutionOutput: AWSDecodableShape {
+
         /// The unique system-generated ID of the pipeline execution that was started.
         public let pipelineExecutionId: String?
 
@@ -3170,11 +3298,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct StopExecutionTrigger: AWSDecodableShape {
+
         /// The user-specified reason the pipeline was stopped.
         public let reason: String?
 
@@ -3183,11 +3312,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason
+            case reason = "reason"
         }
     }
 
     public struct StopPipelineExecutionInput: AWSEncodableShape {
+
         /// Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions.  This option can lead to failed or out-of-sequence tasks.
         public let abandon: Bool?
         /// The ID of the pipeline execution to be stopped in the current stage. Use the GetPipelineState action to retrieve the current pipelineExecutionId.
@@ -3213,14 +3343,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case abandon
-            case pipelineExecutionId
-            case pipelineName
-            case reason
+            case abandon = "abandon"
+            case pipelineExecutionId = "pipelineExecutionId"
+            case pipelineName = "pipelineName"
+            case reason = "reason"
         }
     }
 
     public struct StopPipelineExecutionOutput: AWSDecodableShape {
+
         /// The unique system-generated ID of the pipeline execution that was stopped.
         public let pipelineExecutionId: String?
 
@@ -3229,11 +3360,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionId
+            case pipelineExecutionId = "pipelineExecutionId"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag's key.
         public let key: String
         /// The tag's value.
@@ -3252,12 +3384,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceArn: String
         /// The tags you want to modify or add to the resource.
@@ -3276,16 +3409,21 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ThirdPartyJob: AWSDecodableShape {
+
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public let clientId: String?
         /// The identifier used to identify the job in AWS CodePipeline.
@@ -3297,12 +3435,13 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case jobId
+            case clientId = "clientId"
+            case jobId = "jobId"
         }
     }
 
     public struct ThirdPartyJobData: AWSDecodableShape {
+
         /// Represents information about an action configuration.
         public let actionConfiguration: ActionConfiguration?
         /// Represents information about an action type.
@@ -3332,18 +3471,19 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionConfiguration
-            case actionTypeId
-            case artifactCredentials
-            case continuationToken
-            case encryptionKey
-            case inputArtifacts
-            case outputArtifacts
-            case pipelineContext
+            case actionConfiguration = "actionConfiguration"
+            case actionTypeId = "actionTypeId"
+            case artifactCredentials = "artifactCredentials"
+            case continuationToken = "continuationToken"
+            case encryptionKey = "encryptionKey"
+            case inputArtifacts = "inputArtifacts"
+            case outputArtifacts = "outputArtifacts"
+            case pipelineContext = "pipelineContext"
         }
     }
 
     public struct ThirdPartyJobDetails: AWSDecodableShape {
+
         /// The data to be returned by the third party job worker.
         public let data: ThirdPartyJobData?
         /// The identifier used to identify the job details in AWS CodePipeline.
@@ -3358,13 +3498,14 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case id
-            case nonce
+            case data = "data"
+            case id = "id"
+            case nonce = "nonce"
         }
     }
 
     public struct TransitionState: AWSDecodableShape {
+
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
         public let disabledReason: String?
         /// Whether the transition between stages is enabled (true) or disabled (false).
@@ -3382,14 +3523,15 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disabledReason
-            case enabled
-            case lastChangedAt
-            case lastChangedBy
+            case disabledReason = "disabledReason"
+            case enabled = "enabled"
+            case lastChangedAt = "lastChangedAt"
+            case lastChangedBy = "lastChangedBy"
         }
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
+
         ///  The Amazon Resource Name (ARN) of the resource to remove tags from.
         public let resourceArn: String
         /// The list of keys for the tags to be removed from the resource.
@@ -3409,16 +3551,21 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateActionTypeInput: AWSEncodableShape {
+
         /// The action type definition for the action type to be updated.
         public let actionType: ActionTypeDeclaration
 
@@ -3431,11 +3578,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actionType
+            case actionType = "actionType"
         }
     }
 
     public struct UpdatePipelineInput: AWSEncodableShape {
+
         /// The name of the pipeline to be updated.
         public let pipeline: PipelineDeclaration
 
@@ -3448,11 +3596,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
     public struct UpdatePipelineOutput: AWSDecodableShape {
+
         /// The structure of the updated pipeline.
         public let pipeline: PipelineDeclaration?
 
@@ -3461,11 +3610,12 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipeline
+            case pipeline = "pipeline"
         }
     }
 
     public struct WebhookAuthConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The property used to configure acceptance of webhooks in an IP address range. For IP, only the AllowedIPRange property must be set. This property must be set to a valid CIDR range.
         public let allowedIPRange: String?
         /// The property used to configure GitHub authentication. For GITHUB_HMAC, only the SecretToken property must be set.
@@ -3490,6 +3640,7 @@ extension CodePipeline {
     }
 
     public struct WebhookDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.   For information about the authentication scheme implemented by GITHUB_HMAC, see Securing your webhooks on the GitHub Developer website.    IP rejects webhooks trigger requests unless they originate from an IP address in the IP range whitelisted in the authentication configuration.    UNAUTHENTICATED accepts all webhook trigger requests regardless of origin.
         public let authentication: WebhookAuthenticationType
         /// Properties that configure the authentication applied to incoming webhook trigger requests. The required properties depend on the authentication type. For GITHUB_HMAC, only the SecretToken property must be set. For IP, only the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED, no properties can be set.
@@ -3530,16 +3681,17 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authentication
-            case authenticationConfiguration
-            case filters
-            case name
-            case targetAction
-            case targetPipeline
+            case authentication = "authentication"
+            case authenticationConfiguration = "authenticationConfiguration"
+            case filters = "filters"
+            case name = "name"
+            case targetAction = "targetAction"
+            case targetPipeline = "targetPipeline"
         }
     }
 
     public struct WebhookFilterRule: AWSEncodableShape & AWSDecodableShape {
+
         /// A JsonPath expression that is applied to the body/payload of the webhook. The value selected by the JsonPath expression must match the value specified in the MatchEquals field. Otherwise, the request is ignored. For more information, see Java JsonPath implementation in GitHub.
         public let jsonPath: String
         /// The value selected by the JsonPath expression must match what is supplied in the MatchEquals field. Otherwise, the request is ignored. Properties from the target action configuration can be included as placeholders in this value by surrounding the action configuration key with curly brackets. For example, if the value supplied here is "refs/heads/{Branch}" and the target action has an action configuration property called "Branch" with a value of "master", the MatchEquals value is evaluated as "refs/heads/master". For a list of action configuration properties for built-in action types, see Pipeline Structure Reference Action Requirements.
@@ -3558,8 +3710,8 @@ extension CodePipeline {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jsonPath
-            case matchEquals
+            case jsonPath = "jsonPath"
+            case matchEquals = "matchEquals"
         }
     }
 }

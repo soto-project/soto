@@ -21,14 +21,14 @@ extension AutoScaling {
     // MARK: Enums
 
     public enum InstanceMetadataEndpointState: String, CustomStringConvertible, Codable {
-        case disabled
-        case enabled
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceMetadataHttpTokensState: String, CustomStringConvertible, Codable {
-        case optional
-        case required
+        case optional = "optional"
+        case required = "required"
         public var description: String { return self.rawValue }
     }
 
@@ -120,6 +120,7 @@ extension AutoScaling {
     // MARK: Shapes
 
     public struct ActivitiesType: AWSDecodableShape {
+
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
         @CustomCoding<StandardArrayCoder>
         public var activities: [Activity]
@@ -138,6 +139,7 @@ extension AutoScaling {
     }
 
     public struct Activity: AWSDecodableShape {
+
         /// The ID of the activity.
         public let activityId: String
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -195,6 +197,7 @@ extension AutoScaling {
     }
 
     public struct ActivityType: AWSDecodableShape {
+
         /// A scaling activity.
         public let activity: Activity?
 
@@ -208,6 +211,7 @@ extension AutoScaling {
     }
 
     public struct AdjustmentType: AWSDecodableShape {
+
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
 
@@ -221,6 +225,7 @@ extension AutoScaling {
     }
 
     public struct Alarm: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmARN: String?
         /// The name of the alarm.
@@ -238,6 +243,7 @@ extension AutoScaling {
     }
 
     public struct AttachInstancesQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -267,10 +273,15 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancerTargetGroupsResultType: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AttachLoadBalancerTargetGroupsType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing DescribeTargetGroups API operation.
@@ -300,10 +311,15 @@ extension AutoScaling {
     }
 
     public struct AttachLoadBalancersResultType: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AttachLoadBalancersType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
@@ -333,6 +349,7 @@ extension AutoScaling {
     }
 
     public struct AutoScalingGroup: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         public let autoScalingGroupARN: String?
         /// The name of the Auto Scaling group.
@@ -466,6 +483,7 @@ extension AutoScaling {
     }
 
     public struct AutoScalingGroupNamesType: AWSEncodableShape {
+
         /// The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords parameter. If you omit this parameter, all Auto Scaling groups are described.
         @OptionalCustomCoding<StandardArrayCoder>
         public var autoScalingGroupNames: [String]?
@@ -497,6 +515,7 @@ extension AutoScaling {
     }
 
     public struct AutoScalingGroupsType: AWSDecodableShape {
+
         /// The groups.
         @CustomCoding<StandardArrayCoder>
         public var autoScalingGroups: [AutoScalingGroup]
@@ -515,6 +534,7 @@ extension AutoScaling {
     }
 
     public struct AutoScalingInstanceDetails: AWSDecodableShape {
+
         /// The name of the Auto Scaling group for the instance.
         public let autoScalingGroupName: String
         /// The Availability Zone for the instance.
@@ -564,6 +584,7 @@ extension AutoScaling {
     }
 
     public struct AutoScalingInstancesType: AWSDecodableShape {
+
         /// The instances.
         @OptionalCustomCoding<StandardArrayCoder>
         public var autoScalingInstances: [AutoScalingInstanceDetails]?
@@ -582,6 +603,7 @@ extension AutoScaling {
     }
 
     public struct BatchDeleteScheduledActionAnswer: AWSDecodableShape {
+
         /// The names of the scheduled actions that could not be deleted, including an error message.
         @OptionalCustomCoding<StandardArrayCoder>
         public var failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
@@ -596,6 +618,7 @@ extension AutoScaling {
     }
 
     public struct BatchDeleteScheduledActionType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the scheduled actions to delete. The maximum number allowed is 50.
@@ -625,6 +648,7 @@ extension AutoScaling {
     }
 
     public struct BatchPutScheduledUpdateGroupActionAnswer: AWSDecodableShape {
+
         /// The names of the scheduled actions that could not be created or updated, including an error message.
         @OptionalCustomCoding<StandardArrayCoder>
         public var failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
@@ -639,6 +663,7 @@ extension AutoScaling {
     }
 
     public struct BatchPutScheduledUpdateGroupActionType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more scheduled actions. The maximum number allowed is 50.
@@ -666,6 +691,7 @@ extension AutoScaling {
     }
 
     public struct BlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// The device name exposed to the EC2 instance (for example, /dev/sdh or xvdh). For more information, see Device Naming on Linux Instances in the Amazon EC2 User Guide for Linux Instances.
         public let deviceName: String
         /// Parameters used to automatically set up EBS volumes when an instance is launched. You can specify either VirtualName or Ebs, but not both.
@@ -701,6 +727,7 @@ extension AutoScaling {
     }
 
     public struct CancelInstanceRefreshAnswer: AWSDecodableShape {
+
         /// The instance refresh ID.
         public let instanceRefreshId: String?
 
@@ -714,6 +741,7 @@ extension AutoScaling {
     }
 
     public struct CancelInstanceRefreshType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
 
@@ -733,10 +761,15 @@ extension AutoScaling {
     }
 
     public struct CompleteLifecycleActionAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CompleteLifecycleActionType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The ID of the instance.
@@ -780,6 +813,7 @@ extension AutoScaling {
     }
 
     public struct CreateAutoScalingGroupType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group. This name must be unique per Region per account.
         public let autoScalingGroupName: String
         /// A list of Availability Zones where instances in the Auto Scaling group can be created. This parameter is optional if you specify one or more subnets for VPCZoneIdentifier. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into EC2-Classic.
@@ -939,6 +973,7 @@ extension AutoScaling {
     }
 
     public struct CreateLaunchConfigurationType: AWSEncodableShape {
+
         /// For Auto Scaling groups that are running in a virtual private cloud (VPC), specifies whether to assign a public IP address to the group's instances. If you specify true, each instance in the Auto Scaling group receives a unique public IP address. For more information, see Launching Auto Scaling instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, you must specify at least one subnet for VPCZoneIdentifier when you create your group.  If the instance is launched into a default subnet, the default is to assign a public IP address, unless you disabled the option to assign a public IP address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IP address, unless you enabled the option to assign a public IP address on the subnet.
         public let associatePublicIpAddress: Bool?
         /// A block device mapping, which specifies the block devices for the instance. You can specify virtual devices and EBS volumes. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
@@ -1076,6 +1111,7 @@ extension AutoScaling {
     }
 
     public struct CreateOrUpdateTagsType: AWSEncodableShape {
+
         /// One or more tags.
         @CustomCoding<StandardArrayCoder>
         public var tags: [Tag]
@@ -1096,6 +1132,7 @@ extension AutoScaling {
     }
 
     public struct CustomizedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [MetricDimension]?
@@ -1126,6 +1163,7 @@ extension AutoScaling {
     }
 
     public struct DeleteAutoScalingGroupType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Specifies that the group is to be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the group.
@@ -1149,10 +1187,15 @@ extension AutoScaling {
     }
 
     public struct DeleteLifecycleHookAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteLifecycleHookType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The name of the lifecycle hook.
@@ -1179,6 +1222,7 @@ extension AutoScaling {
     }
 
     public struct DeleteNotificationConfigurationType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
@@ -1205,6 +1249,7 @@ extension AutoScaling {
     }
 
     public struct DeletePolicyType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The name or Amazon Resource Name (ARN) of the policy.
@@ -1231,6 +1276,7 @@ extension AutoScaling {
     }
 
     public struct DeleteScheduledActionType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The name of the action to delete.
@@ -1257,6 +1303,7 @@ extension AutoScaling {
     }
 
     public struct DeleteTagsType: AWSEncodableShape {
+
         /// One or more tags.
         @CustomCoding<StandardArrayCoder>
         public var tags: [Tag]
@@ -1277,10 +1324,15 @@ extension AutoScaling {
     }
 
     public struct DeleteWarmPoolAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteWarmPoolType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Specifies that the warm pool is to be deleted along with all instances associated with the warm pool, without waiting for all instances to be terminated. This parameter also deletes any outstanding lifecycle actions associated with the warm pool instances.
@@ -1304,6 +1356,7 @@ extension AutoScaling {
     }
 
     public struct DescribeAccountLimitsAnswer: AWSDecodableShape {
+
         /// The maximum number of groups allowed for your AWS account. The default is 200 groups per AWS Region.
         public let maxNumberOfAutoScalingGroups: Int?
         /// The maximum number of launch configurations allowed for your AWS account. The default is 200 launch configurations per AWS Region.
@@ -1329,6 +1382,7 @@ extension AutoScaling {
     }
 
     public struct DescribeAdjustmentTypesAnswer: AWSDecodableShape {
+
         /// The policy adjustment types.
         @OptionalCustomCoding<StandardArrayCoder>
         public var adjustmentTypes: [AdjustmentType]?
@@ -1343,6 +1397,7 @@ extension AutoScaling {
     }
 
     public struct DescribeAutoScalingInstancesType: AWSEncodableShape {
+
         /// The IDs of the instances. You can specify up to MaxRecords IDs. If you omit this parameter, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instanceIds: [String]?
@@ -1374,6 +1429,7 @@ extension AutoScaling {
     }
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSDecodableShape {
+
         /// The notification types.
         @OptionalCustomCoding<StandardArrayCoder>
         public var autoScalingNotificationTypes: [String]?
@@ -1388,6 +1444,7 @@ extension AutoScaling {
     }
 
     public struct DescribeInstanceRefreshesAnswer: AWSDecodableShape {
+
         /// The instance refreshes for the specified group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instanceRefreshes: [InstanceRefresh]?
@@ -1406,6 +1463,7 @@ extension AutoScaling {
     }
 
     public struct DescribeInstanceRefreshesType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more instance refresh IDs.
@@ -1444,6 +1502,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLifecycleHookTypesAnswer: AWSDecodableShape {
+
         /// The lifecycle hook types.
         @OptionalCustomCoding<StandardArrayCoder>
         public var lifecycleHookTypes: [String]?
@@ -1458,6 +1517,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLifecycleHooksAnswer: AWSDecodableShape {
+
         /// The lifecycle hooks for the specified group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var lifecycleHooks: [LifecycleHook]?
@@ -1472,6 +1532,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLifecycleHooksType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
@@ -1502,6 +1563,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLoadBalancerTargetGroupsRequest: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -1530,6 +1592,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSDecodableShape {
+
         /// Information about the target groups.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
@@ -1548,6 +1611,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLoadBalancersRequest: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -1576,6 +1640,7 @@ extension AutoScaling {
     }
 
     public struct DescribeLoadBalancersResponse: AWSDecodableShape {
+
         /// The load balancers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancers: [LoadBalancerState]?
@@ -1594,6 +1659,7 @@ extension AutoScaling {
     }
 
     public struct DescribeMetricCollectionTypesAnswer: AWSDecodableShape {
+
         /// The granularities for the metrics.
         @OptionalCustomCoding<StandardArrayCoder>
         public var granularities: [MetricGranularityType]?
@@ -1613,6 +1679,7 @@ extension AutoScaling {
     }
 
     public struct DescribeNotificationConfigurationsAnswer: AWSDecodableShape {
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The notification configurations.
@@ -1631,6 +1698,7 @@ extension AutoScaling {
     }
 
     public struct DescribeNotificationConfigurationsType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var autoScalingGroupNames: [String]?
@@ -1662,6 +1730,7 @@ extension AutoScaling {
     }
 
     public struct DescribePoliciesType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
@@ -1710,6 +1779,7 @@ extension AutoScaling {
     }
 
     public struct DescribeScalingActivitiesType: AWSEncodableShape {
+
         /// The activity IDs of the desired scaling activities. You can specify up to 50 IDs. If you omit this parameter, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var activityIds: [String]?
@@ -1750,6 +1820,7 @@ extension AutoScaling {
     }
 
     public struct DescribeScheduledActionsType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The latest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
@@ -1796,6 +1867,7 @@ extension AutoScaling {
     }
 
     public struct DescribeTagsType: AWSEncodableShape {
+
         /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
         @OptionalCustomCoding<StandardArrayCoder>
         public var filters: [Filter]?
@@ -1825,6 +1897,7 @@ extension AutoScaling {
     }
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSDecodableShape {
+
         /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicyTypes: [String]?
@@ -1839,6 +1912,7 @@ extension AutoScaling {
     }
 
     public struct DescribeWarmPoolAnswer: AWSDecodableShape {
+
         /// The instances that are currently in the warm pool.
         @OptionalCustomCoding<StandardArrayCoder>
         public var instances: [Instance]?
@@ -1861,6 +1935,7 @@ extension AutoScaling {
     }
 
     public struct DescribeWarmPoolType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The maximum number of instances to return with this call. The maximum value is 50.
@@ -1889,6 +1964,7 @@ extension AutoScaling {
     }
 
     public struct DetachInstancesAnswer: AWSDecodableShape {
+
         /// The activities related to detaching the instances from the Auto Scaling group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var activities: [Activity]?
@@ -1903,6 +1979,7 @@ extension AutoScaling {
     }
 
     public struct DetachInstancesQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -1936,10 +2013,15 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancerTargetGroupsResultType: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DetachLoadBalancerTargetGroupsType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
@@ -1969,10 +2051,15 @@ extension AutoScaling {
     }
 
     public struct DetachLoadBalancersResultType: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DetachLoadBalancersType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
@@ -2002,6 +2089,7 @@ extension AutoScaling {
     }
 
     public struct DisableMetricsCollectionQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Specifies one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this parameter, all metrics are disabled.
@@ -2031,6 +2119,7 @@ extension AutoScaling {
     }
 
     public struct Ebs: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether the volume is deleted on instance termination. For Amazon EC2 Auto Scaling, the default value is true.
         public let deleteOnTermination: Bool?
         /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot specify an encryption value. Volumes that are created from encrypted snapshots are automatically encrypted, and volumes that are created from unencrypted snapshots are automatically unencrypted. By default, encrypted snapshots use the AWS managed CMK that is used for EBS encryption, but you can specify a custom CMK when you create the snapshot. The ability to encrypt a snapshot during copying also allows you to apply a new CMK to an already-encrypted snapshot. Volumes restored from the resulting copy are only accessible using the new CMK. Enabling encryption by default results in all EBS volumes being encrypted with the AWS managed CMK or a customer managed CMK, whether or not the snapshot was encrypted.  For more information, see Using Encryption with EBS-Backed AMIs in the Amazon EC2 User Guide for Linux Instances and Required CMK key policy for use with encrypted volumes in the Amazon EC2 Auto Scaling User Guide.
@@ -2076,6 +2165,7 @@ extension AutoScaling {
     }
 
     public struct EnableMetricsCollectionQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
@@ -2112,6 +2202,7 @@ extension AutoScaling {
     }
 
     public struct EnabledMetric: AWSDecodableShape {
+
         /// The granularity of the metric. The only valid value is 1Minute.
         public let granularity: String?
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
@@ -2129,6 +2220,7 @@ extension AutoScaling {
     }
 
     public struct EnterStandbyAnswer: AWSDecodableShape {
+
         /// The activities related to moving instances into Standby mode.
         @OptionalCustomCoding<StandardArrayCoder>
         public var activities: [Activity]?
@@ -2143,6 +2235,7 @@ extension AutoScaling {
     }
 
     public struct EnterStandbyQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -2176,6 +2269,7 @@ extension AutoScaling {
     }
 
     public struct ExecutePolicyType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The breach threshold for the alarm. Required if the policy type is StepScaling and not supported otherwise.
@@ -2214,6 +2308,7 @@ extension AutoScaling {
     }
 
     public struct ExitStandbyAnswer: AWSDecodableShape {
+
         /// The activities related to moving instances out of Standby mode.
         @OptionalCustomCoding<StandardArrayCoder>
         public var activities: [Activity]?
@@ -2228,6 +2323,7 @@ extension AutoScaling {
     }
 
     public struct ExitStandbyQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
@@ -2257,6 +2353,7 @@ extension AutoScaling {
     }
 
     public struct FailedScheduledUpdateGroupActionRequest: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: String?
         /// The error message accompanying the error code.
@@ -2278,6 +2375,7 @@ extension AutoScaling {
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// The name of the filter. The valid values are: auto-scaling-group, key, value, and propagate-at-launch.
         public let name: String?
         /// One or more filter values. Filter values are case-sensitive.
@@ -2303,6 +2401,7 @@ extension AutoScaling {
     }
 
     public struct Instance: AWSDecodableShape {
+
         /// The Availability Zone in which the instance is running.
         public let availabilityZone: String
         /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
@@ -2348,6 +2447,7 @@ extension AutoScaling {
     }
 
     public struct InstanceMetadataOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// This parameter enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled.  If you specify a value of disabled, you will not be able to access your instance metadata.
         public let httpEndpoint: InstanceMetadataEndpointState?
         /// The desired HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel. Default: 1
@@ -2374,6 +2474,7 @@ extension AutoScaling {
     }
 
     public struct InstanceMonitoring: AWSEncodableShape & AWSDecodableShape {
+
         /// If true, detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public let enabled: Bool?
 
@@ -2387,6 +2488,7 @@ extension AutoScaling {
     }
 
     public struct InstanceRefresh: AWSDecodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The date and time at which the instance refresh ended.
@@ -2432,6 +2534,7 @@ extension AutoScaling {
     }
 
     public struct InstanceRefreshLivePoolProgress: AWSDecodableShape {
+
         /// The number of instances remaining to update.
         public let instancesToUpdate: Int?
         /// The percentage of instances in the Auto Scaling group that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
@@ -2449,6 +2552,7 @@ extension AutoScaling {
     }
 
     public struct InstanceRefreshProgressDetails: AWSDecodableShape {
+
         /// Indicates the progress of an instance fresh on instances that are in the Auto Scaling group.
         public let livePoolProgress: InstanceRefreshLivePoolProgress?
         /// Indicates the progress of an instance fresh on instances that are in the warm pool.
@@ -2466,6 +2570,7 @@ extension AutoScaling {
     }
 
     public struct InstanceRefreshWarmPoolProgress: AWSDecodableShape {
+
         /// The number of instances remaining to update.
         public let instancesToUpdate: Int?
         /// The percentage of instances in the warm pool that have been replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and added to the percentage complete.
@@ -2483,6 +2588,7 @@ extension AutoScaling {
     }
 
     public struct InstancesDistribution: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates how to allocate instance types to fulfill On-Demand capacity. The only valid value is prioritized, which is also the default value. This strategy uses the order of instance types in the LaunchTemplateOverrides to define the launch priority of each instance type. The first instance type in the array is prioritized higher than the last. If all your On-Demand capacity cannot be fulfilled using your highest priority instance, then the Auto Scaling groups launches the remaining capacity using the second priority instance type, and so on.
         public let onDemandAllocationStrategy: String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is provisioned first as your group scales. Defaults to 0 if not specified. If you specify weights for the instance types in the overrides, set the value of OnDemandBaseCapacity in terms of the number of capacity units, and not the number of instances.
@@ -2523,6 +2629,7 @@ extension AutoScaling {
     }
 
     public struct LaunchConfiguration: AWSDecodableShape {
+
         /// For Auto Scaling groups that are running in a VPC, specifies whether to assign a public IP address to the group's instances. For more information, see Launching Auto Scaling instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
         public let associatePublicIpAddress: Bool?
         /// A block device mapping, which specifies the block devices for the instance. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
@@ -2615,6 +2722,7 @@ extension AutoScaling {
     }
 
     public struct LaunchConfigurationNameType: AWSEncodableShape {
+
         /// The name of the launch configuration.
         public let launchConfigurationName: String
 
@@ -2634,6 +2742,7 @@ extension AutoScaling {
     }
 
     public struct LaunchConfigurationNamesType: AWSEncodableShape {
+
         /// The launch configuration names. If you omit this parameter, all launch configurations are described.
         @OptionalCustomCoding<StandardArrayCoder>
         public var launchConfigurationNames: [String]?
@@ -2665,6 +2774,7 @@ extension AutoScaling {
     }
 
     public struct LaunchConfigurationsType: AWSDecodableShape {
+
         /// The launch configurations.
         @CustomCoding<StandardArrayCoder>
         public var launchConfigurations: [LaunchConfiguration]
@@ -2683,6 +2793,7 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplate: AWSEncodableShape & AWSDecodableShape {
+
         /// The launch template to use.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
         /// Any properties that you specify override the same properties in the launch template. If not provided, Amazon EC2 Auto Scaling uses the instance type specified in the launch template when it launches an instance.
@@ -2708,6 +2819,7 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
+
         /// The instance type, such as m3.xlarge. You must use an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide.
         public let instanceType: String?
         /// Provides the launch template to be used when launching the instance type. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's defined for your mixed instances policy. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.
@@ -2739,6 +2851,7 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the launch template. To get the template ID, use the Amazon EC2 DescribeLaunchTemplates API operation. New launch templates can be created using the Amazon EC2 CreateLaunchTemplate API.  Conditional: You must specify either a LaunchTemplateId or a LaunchTemplateName.
         public let launchTemplateId: String?
         /// The name of the launch template. To get the template name, use the Amazon EC2 DescribeLaunchTemplates API operation. New launch templates can be created using the Amazon EC2 CreateLaunchTemplate API.  Conditional: You must specify either a LaunchTemplateId or a LaunchTemplateName.
@@ -2772,6 +2885,7 @@ extension AutoScaling {
     }
 
     public struct LifecycleHook: AWSDecodableShape {
+
         /// The name of the Auto Scaling group for the lifecycle hook.
         public let autoScalingGroupName: String?
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The possible values are CONTINUE and ABANDON.
@@ -2817,6 +2931,7 @@ extension AutoScaling {
     }
 
     public struct LifecycleHookSpecification: AWSEncodableShape {
+
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. The valid values are CONTINUE and ABANDON. The default value is ABANDON.
         public let defaultResult: String?
         /// The maximum time, in seconds, that can elapse before the lifecycle hook times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that you specified in the DefaultResult parameter. You can prevent the lifecycle hook from timing out by calling RecordLifecycleActionHeartbeat.
@@ -2869,6 +2984,7 @@ extension AutoScaling {
     }
 
     public struct LoadBalancerState: AWSDecodableShape {
+
         /// The name of the load balancer.
         public let loadBalancerName: String?
         /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.
@@ -2886,6 +3002,7 @@ extension AutoScaling {
     }
 
     public struct LoadBalancerTargetGroupState: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let loadBalancerTargetGroupARN: String?
         /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.
@@ -2903,6 +3020,7 @@ extension AutoScaling {
     }
 
     public struct MetricCollectionType: AWSDecodableShape {
+
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
         public let metric: String?
 
@@ -2916,6 +3034,7 @@ extension AutoScaling {
     }
 
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the dimension.
         public let name: String
         /// The value of the dimension.
@@ -2933,6 +3052,7 @@ extension AutoScaling {
     }
 
     public struct MetricGranularityType: AWSDecodableShape {
+
         /// The granularity. The only valid value is 1Minute.
         public let granularity: String?
 
@@ -2946,6 +3066,7 @@ extension AutoScaling {
     }
 
     public struct MixedInstancesPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the instances distribution. If not provided, the value for each property in InstancesDistribution uses a default value.
         public let instancesDistribution: InstancesDistribution?
         /// Specifies the launch template to use and optionally the instance types (overrides) that are used to provision EC2 instances to fulfill On-Demand and Spot capacities. Required when creating a mixed instances policy.
@@ -2968,6 +3089,7 @@ extension AutoScaling {
     }
 
     public struct NotificationConfiguration: AWSDecodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// One of the following event notification types:    autoscaling:EC2_INSTANCE_LAUNCH     autoscaling:EC2_INSTANCE_LAUNCH_ERROR     autoscaling:EC2_INSTANCE_TERMINATE     autoscaling:EC2_INSTANCE_TERMINATE_ERROR     autoscaling:TEST_NOTIFICATION
@@ -2989,6 +3111,7 @@ extension AutoScaling {
     }
 
     public struct PoliciesType: AWSDecodableShape {
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scaling policies.
@@ -3007,6 +3130,7 @@ extension AutoScaling {
     }
 
     public struct PolicyARNType: AWSDecodableShape {
+
         /// The CloudWatch alarms created for the target tracking scaling policy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var alarms: [Alarm]?
@@ -3025,6 +3149,7 @@ extension AutoScaling {
     }
 
     public struct PredefinedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// The metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.
         public let predefinedMetricType: MetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   This is an example: app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
@@ -3048,6 +3173,7 @@ extension AutoScaling {
     }
 
     public struct ProcessType: AWSDecodableShape {
+
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions
         public let processName: String
 
@@ -3061,6 +3187,7 @@ extension AutoScaling {
     }
 
     public struct ProcessesType: AWSDecodableShape {
+
         /// The names of the process types.
         @OptionalCustomCoding<StandardArrayCoder>
         public var processes: [ProcessType]?
@@ -3075,10 +3202,15 @@ extension AutoScaling {
     }
 
     public struct PutLifecycleHookAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutLifecycleHookType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Defines the action the Auto Scaling group should take when the lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be either CONTINUE or ABANDON. The default value is ABANDON.
@@ -3138,6 +3270,7 @@ extension AutoScaling {
     }
 
     public struct PutNotificationConfigurationType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the DescribeAutoScalingNotificationTypes API.
@@ -3174,6 +3307,7 @@ extension AutoScaling {
     }
 
     public struct PutScalingPolicyType: AWSEncodableShape {
+
         /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For more information, see Scaling adjustment types in the Amazon EC2 Auto Scaling User Guide.
         public let adjustmentType: String?
         /// The name of the Auto Scaling group.
@@ -3255,6 +3389,7 @@ extension AutoScaling {
     }
 
     public struct PutScheduledUpdateGroupActionType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain. It can scale beyond this capacity if you add more scaling conditions.
@@ -3319,10 +3454,15 @@ extension AutoScaling {
     }
 
     public struct PutWarmPoolAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutWarmPoolType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Specifies the total maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group. This is an optional property. Specify it only if the warm pool size should not be determined by the difference between the group's maximum capacity and its desired capacity.   Amazon EC2 Auto Scaling will launch and maintain either the difference between the group's maximum capacity and its desired capacity, if a value for MaxGroupPreparedCapacity is not specified, or the difference between the MaxGroupPreparedCapacity and the desired capacity, if a value for MaxGroupPreparedCapacity is specified.  The size of the warm pool is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0. To remove a value that you previously set, include the property but specify -1 for the value.
@@ -3356,10 +3496,15 @@ extension AutoScaling {
     }
 
     public struct RecordLifecycleActionHeartbeatAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RecordLifecycleActionHeartbeatType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The ID of the instance.
@@ -3399,6 +3544,7 @@ extension AutoScaling {
     }
 
     public struct RefreshPreferences: AWSEncodableShape {
+
         /// The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public let checkpointDelay: Int?
         /// Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Adding checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
@@ -3417,7 +3563,7 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, max: 172_800)
+            try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, max: 172800)
             try self.validate(self.checkpointDelay, name: "checkpointDelay", parent: name, min: 0)
             try self.checkpointPercentages?.forEach {
                 try validate($0, name: "checkpointPercentages[]", parent: name, max: 100)
@@ -3437,6 +3583,7 @@ extension AutoScaling {
     }
 
     public struct ScalingPolicy: AWSDecodableShape {
+
         /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         /// The CloudWatch alarms related to the policy.
@@ -3508,6 +3655,7 @@ extension AutoScaling {
     }
 
     public struct ScalingProcessQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are specified.
@@ -3537,6 +3685,7 @@ extension AutoScaling {
     }
 
     public struct ScheduledActionsType: AWSDecodableShape {
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scheduled actions.
@@ -3555,6 +3704,7 @@ extension AutoScaling {
     }
 
     public struct ScheduledUpdateGroupAction: AWSDecodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
@@ -3608,6 +3758,7 @@ extension AutoScaling {
     }
 
     public struct ScheduledUpdateGroupActionRequest: AWSEncodableShape {
+
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public let desiredCapacity: Int?
         /// The date and time for the recurring schedule to end, in UTC.
@@ -3661,6 +3812,7 @@ extension AutoScaling {
     }
 
     public struct SetDesiredCapacityType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain.
@@ -3688,6 +3840,7 @@ extension AutoScaling {
     }
 
     public struct SetInstanceHealthQuery: AWSEncodableShape {
+
         /// The health status of the instance. Set to Healthy to have the instance remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto Scaling terminates and replaces the unhealthy instance.
         public let healthStatus: String
         /// The ID of the instance.
@@ -3718,10 +3871,15 @@ extension AutoScaling {
     }
 
     public struct SetInstanceProtectionAnswer: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SetInstanceProtectionQuery: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more instance IDs. You can specify up to 50 instances.
@@ -3755,6 +3913,7 @@ extension AutoScaling {
     }
 
     public struct StartInstanceRefreshAnswer: AWSDecodableShape {
+
         /// A unique ID for tracking the progress of the request.
         public let instanceRefreshId: String?
 
@@ -3768,6 +3927,7 @@ extension AutoScaling {
     }
 
     public struct StartInstanceRefreshType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Set of preferences associated with the instance refresh request. If not provided, the default values are used. For MinHealthyPercentage, the default value is 90. For InstanceWarmup, the default is to use the value specified for the health check grace period for the Auto Scaling group. For more information, see RefreshPreferences in the Amazon EC2 Auto Scaling API Reference.
@@ -3796,6 +3956,7 @@ extension AutoScaling {
     }
 
     public struct StepAdjustment: AWSEncodableShape & AWSDecodableShape {
+
         /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public let metricIntervalLowerBound: Double?
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
@@ -3817,6 +3978,7 @@ extension AutoScaling {
     }
 
     public struct SuspendedProcess: AWSDecodableShape {
+
         /// The name of the suspended process.
         public let processName: String?
         /// The reason that the process was suspended.
@@ -3834,6 +3996,7 @@ extension AutoScaling {
     }
 
     public struct Tag: AWSEncodableShape {
+
         /// The tag key.
         public let key: String
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -3874,6 +4037,7 @@ extension AutoScaling {
     }
 
     public struct TagDescription: AWSDecodableShape {
+
         /// The tag key.
         public let key: String?
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -3903,6 +4067,7 @@ extension AutoScaling {
     }
 
     public struct TagsType: AWSDecodableShape {
+
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// One or more tags.
@@ -3921,6 +4086,7 @@ extension AutoScaling {
     }
 
     public struct TargetTrackingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A customized metric. You must specify either a predefined metric or a customized metric.
         public let customizedMetricSpecification: CustomizedMetricSpecification?
         /// Indicates whether scaling in by the target tracking scaling policy is disabled. If scaling in is disabled, the target tracking scaling policy doesn't remove instances from the Auto Scaling group. Otherwise, the target tracking scaling policy can remove instances from the Auto Scaling group. The default is false.
@@ -3950,6 +4116,7 @@ extension AutoScaling {
     }
 
     public struct TerminateInstanceInAutoScalingGroupType: AWSEncodableShape {
+
         /// The ID of the instance.
         public let instanceId: String
         /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
@@ -3973,6 +4140,7 @@ extension AutoScaling {
     }
 
     public struct UpdateAutoScalingGroupType: AWSEncodableShape {
+
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group.
@@ -4089,6 +4257,7 @@ extension AutoScaling {
     }
 
     public struct WarmPoolConfiguration: AWSDecodableShape {
+
         /// The total maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group.
         public let maxGroupPreparedCapacity: Int?
         /// The minimum number of instances to maintain in the warm pool.

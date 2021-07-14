@@ -68,7 +68,7 @@ extension Honeycode {
 
     public struct BatchCreateTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -106,12 +106,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowsToCreate
+            case clientRequestToken = "clientRequestToken"
+            case rowsToCreate = "rowsToCreate"
         }
     }
 
     public struct BatchCreateTableRowsResult: AWSDecodableShape {
+
         /// The map of batch item id to the row id that was created for that item.
         public let createdRows: [String: String]
         ///  The list of batch items in the request that could not be added to the table. Each element in this list contains one item from the request that could not be added to the table along with the reason why that item could not be added.
@@ -126,15 +127,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdRows
-            case failedBatchItems
-            case workbookCursor
+            case createdRows = "createdRows"
+            case failedBatchItems = "failedBatchItems"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct BatchDeleteTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -174,12 +175,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowIds
+            case clientRequestToken = "clientRequestToken"
+            case rowIds = "rowIds"
         }
     }
 
     public struct BatchDeleteTableRowsResult: AWSDecodableShape {
+
         ///  The list of row ids in the request that could not be deleted from the table. Each element in this list contains one row id from the request that could not be deleted along with the reason why that item could not be deleted.
         public let failedBatchItems: [FailedBatchItem]?
         /// The updated workbook cursor after deleting the rows from the table.
@@ -191,14 +193,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedBatchItems
-            case workbookCursor
+            case failedBatchItems = "failedBatchItems"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct BatchUpdateTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -236,12 +238,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowsToUpdate
+            case clientRequestToken = "clientRequestToken"
+            case rowsToUpdate = "rowsToUpdate"
         }
     }
 
     public struct BatchUpdateTableRowsResult: AWSDecodableShape {
+
         ///  The list of batch items in the request that could not be updated in the table. Each element in this list contains one item from the request that could not be updated in the table along with the reason why that item could not be updated.
         public let failedBatchItems: [FailedBatchItem]?
         /// The updated workbook cursor after adding the new rows at the end of the table.
@@ -253,14 +256,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedBatchItems
-            case workbookCursor
+            case failedBatchItems = "failedBatchItems"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct BatchUpsertTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -296,12 +299,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowsToUpsert
+            case clientRequestToken = "clientRequestToken"
+            case rowsToUpsert = "rowsToUpsert"
         }
     }
 
     public struct BatchUpsertTableRowsResult: AWSDecodableShape {
+
         ///  The list of batch items in the request that could not be updated or appended in the table. Each element in this list contains one item from the request that could not be updated in the table along with the reason why that item could not be updated or appended.
         public let failedBatchItems: [FailedBatchItem]?
         ///  A map with the batch item id as the key and the result of the upsert operation as the value. The result of the upsert operation specifies whether existing rows were updated or a new row was appended, along with the list of row ids that were affected.
@@ -316,13 +320,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedBatchItems
-            case rows
-            case workbookCursor
+            case failedBatchItems = "failedBatchItems"
+            case rows = "rows"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct Cell: AWSDecodableShape {
+
         /// The format of the cell. If this field is empty, then the format is either not specified in the workbook or the format is set to AUTO.
         public let format: Format?
         ///  The formatted value of the cell. This is the value that you see displayed in the cell in the UI.   Note that the formatted value of a cell is always represented as a string irrespective of the data that is stored in the cell. For example, if a cell contains a date, the formatted value of the cell is the string representation of the formatted date being shown in the cell in the UI. See details in the rawValue field below for how cells of different formats will have different raw and formatted values.
@@ -340,14 +345,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case formattedValue
-            case formula
-            case rawValue
+            case format = "format"
+            case formattedValue = "formattedValue"
+            case formula = "formula"
+            case rawValue = "rawValue"
         }
     }
 
     public struct CellInput: AWSEncodableShape {
+
         ///  Fact represents the data that is entered into a cell. This data can be free text or a formula. Formulas need to start with the equals (=) sign.
         public let fact: String?
 
@@ -362,11 +368,12 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fact
+            case fact = "fact"
         }
     }
 
     public struct ColumnMetadata: AWSDecodableShape {
+
         /// The format of the column.
         public let format: Format
         /// The name of the column.
@@ -378,12 +385,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case name
+            case format = "format"
+            case name = "name"
         }
     }
 
     public struct CreateRowData: AWSEncodableShape {
+
         ///  An external identifier that represents the single row that is being created as part of the BatchCreateTableRows request. This can be any string that you can use to identify the row in the request. The BatchCreateTableRows API puts the batch item id in the results to allow you to link data in the request to data in the results.
         public let batchItemId: String
         ///  A map representing the cells to create in the new row. The key is the column id of the cell and the value is the CellInput object that represents the data to set in that cell.
@@ -407,12 +415,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchItemId
-            case cellsToCreate
+            case batchItemId = "batchItemId"
+            case cellsToCreate = "cellsToCreate"
         }
     }
 
     public struct DataItem: AWSDecodableShape {
+
         /// The formatted value of the data. e.g. John Smith.
         public let formattedValue: String?
         ///  The overrideFormat is optional and is specified only if a particular row of data has a different format for the data than the default format defined on the screen or the table.
@@ -427,13 +436,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case formattedValue
-            case overrideFormat
-            case rawValue
+            case formattedValue = "formattedValue"
+            case overrideFormat = "overrideFormat"
+            case rawValue = "rawValue"
         }
     }
 
     public struct DelimitedTextImportOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// The encoding of the data in the input file.
         public let dataCharacterEncoding: ImportDataCharacterEncoding?
         /// The delimiter to use for separating columns in a single row of the input.
@@ -457,17 +467,17 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataCharacterEncoding
-            case delimiter
-            case hasHeaderRow
-            case ignoreEmptyRows
+            case dataCharacterEncoding = "dataCharacterEncoding"
+            case delimiter = "delimiter"
+            case hasHeaderRow = "hasHeaderRow"
+            case ignoreEmptyRows = "ignoreEmptyRows"
         }
     }
 
     public struct DescribeTableDataImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -500,6 +510,7 @@ extension Honeycode {
     }
 
     public struct DescribeTableDataImportJobResult: AWSDecodableShape {
+
         ///  The metadata about the job that was submitted for import.
         public let jobMetadata: TableDataImportJobMetadata
         ///  The current status of the import job.
@@ -514,13 +525,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobMetadata
-            case jobStatus
-            case message
+            case jobMetadata = "jobMetadata"
+            case jobStatus = "jobStatus"
+            case message = "message"
         }
     }
 
     public struct DestinationOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// A map of the column id to the import properties for each column.
         public let columnMap: [String: SourceDataColumnProperties]?
 
@@ -538,11 +550,12 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnMap
+            case columnMap = "columnMap"
         }
     }
 
     public struct FailedBatchItem: AWSDecodableShape {
+
         ///  The error message that indicates why the batch item failed.
         public let errorMessage: String
         ///  The id of the batch item that failed. This is the batch item id for the BatchCreateTableRows and BatchUpsertTableRows operations and the row id for the BatchUpdateTableRows and BatchDeleteTableRows operations.
@@ -554,12 +567,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case id
+            case errorMessage = "errorMessage"
+            case id = "id"
         }
     }
 
     public struct Filter: AWSEncodableShape {
+
         ///  The optional contextRowId attribute can be used to specify the row id of the context row if the filter formula contains unqualified references to table columns and needs a context row to evaluate them successfully.
         public let contextRowId: String?
         ///  A formula representing a filter function that returns zero or more matching rows from a table. Valid formulas in this field return a list of rows from a table. The most common ways of writing a formula to return a list of rows are to use the FindRow() or Filter() functions. Any other formula that returns zero or more rows is also acceptable. For example, you can use a formula that points to a cell that contains a filter function.
@@ -580,12 +594,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contextRowId
-            case formula
+            case contextRowId = "contextRowId"
+            case formula = "formula"
         }
     }
 
     public struct GetScreenDataRequest: AWSEncodableShape {
+
         /// The ID of the app that contains the screem.
         public let appId: String
         ///  The number of results to be returned on a single page. Specify a number between 1 and 100. The maximum value is 100.   This parameter is optional. If you don't specify this parameter, the default page size is 100.
@@ -630,16 +645,17 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case maxResults
-            case nextToken
-            case screenId
-            case variables
-            case workbookId
+            case appId = "appId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case screenId = "screenId"
+            case variables = "variables"
+            case workbookId = "workbookId"
         }
     }
 
     public struct GetScreenDataResult: AWSDecodableShape {
+
         ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the query has been loaded.
         public let nextToken: String?
         /// A map of all the rows on the screen keyed by block name.
@@ -654,13 +670,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case results
-            case workbookCursor
+            case nextToken = "nextToken"
+            case results = "results"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct ImportDataSource: AWSEncodableShape & AWSDecodableShape {
+
         /// The configuration parameters for the data source of the import
         public let dataSourceConfig: ImportDataSourceConfig
 
@@ -673,11 +690,12 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceConfig
+            case dataSourceConfig = "dataSourceConfig"
         }
     }
 
     public struct ImportDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
+
         ///  The URL from which source data will be downloaded for the import request.
         public let dataSourceUrl: String?
 
@@ -692,11 +710,12 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSourceUrl
+            case dataSourceUrl = "dataSourceUrl"
         }
     }
 
     public struct ImportJobSubmitter: AWSDecodableShape {
+
         /// The email id of the submitter of the import job, if available.
         public let email: String?
         /// The AWS user ARN of the submitter of the import job, if available.
@@ -708,12 +727,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case email
-            case userArn
+            case email = "email"
+            case userArn = "userArn"
         }
     }
 
     public struct ImportOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Options relating to parsing delimited text. Required if dataFormat is DELIMITED_TEXT.
         public let delimitedTextOptions: DelimitedTextImportOptions?
         /// Options relating to the destination of the import request.
@@ -730,16 +750,16 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case delimitedTextOptions
-            case destinationOptions
+            case delimitedTextOptions = "delimitedTextOptions"
+            case destinationOptions = "destinationOptions"
         }
     }
 
     public struct InvokeScreenAutomationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "screenAutomationId", location: .uri(locationName: "automationId")),
-            AWSMemberEncoding(label: "screenId", location: .uri(locationName: "screenId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "screenAutomationId", location: .uri(locationName: "automationId")), 
+            AWSMemberEncoding(label: "screenId", location: .uri(locationName: "screenId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -794,13 +814,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowId
-            case variables
+            case clientRequestToken = "clientRequestToken"
+            case rowId = "rowId"
+            case variables = "variables"
         }
     }
 
     public struct InvokeScreenAutomationResult: AWSDecodableShape {
+
         /// The updated workbook cursor after performing the automation action.
         public let workbookCursor: Int64
 
@@ -809,14 +830,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workbookCursor
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct ListTableColumnsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -849,6 +870,7 @@ extension Honeycode {
     }
 
     public struct ListTableColumnsResult: AWSDecodableShape {
+
         ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the request has been loaded.
         public let nextToken: String?
         ///  The list of columns in the table.
@@ -863,15 +885,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tableColumns
-            case workbookCursor
+            case nextToken = "nextToken"
+            case tableColumns = "tableColumns"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct ListTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -916,13 +938,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case rowIds
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case rowIds = "rowIds"
         }
     }
 
     public struct ListTableRowsResult: AWSDecodableShape {
+
         ///  The list of columns in the table whose row data is returned in the result.
         public let columnIds: [String]
         ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the request has been loaded.
@@ -943,18 +966,18 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnIds
-            case nextToken
-            case rowIdsNotFound
-            case rows
-            case workbookCursor
+            case columnIds = "columnIds"
+            case nextToken = "nextToken"
+            case rowIdsNotFound = "rowIdsNotFound"
+            case rows = "rows"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct ListTablesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -986,6 +1009,7 @@ extension Honeycode {
     }
 
     public struct ListTablesResult: AWSDecodableShape {
+
         ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the request has been loaded.
         public let nextToken: String?
         ///  The list of tables in the workbook.
@@ -1000,15 +1024,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tables
-            case workbookCursor
+            case nextToken = "nextToken"
+            case tables = "tables"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct QueryTableRowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "tableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -1047,13 +1071,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterFormula
-            case maxResults
-            case nextToken
+            case filterFormula = "filterFormula"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct QueryTableRowsResult: AWSDecodableShape {
+
         ///  The list of columns in the table whose row data is returned in the result.
         public let columnIds: [String]
         ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the request has been loaded.
@@ -1071,14 +1096,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnIds
-            case nextToken
-            case rows
-            case workbookCursor
+            case columnIds = "columnIds"
+            case nextToken = "nextToken"
+            case rows = "rows"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct ResultRow: AWSDecodableShape {
+
         /// List of all the data cells in a row.
         public let dataItems: [DataItem]
         /// The ID for a particular row.
@@ -1090,12 +1116,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataItems
-            case rowId
+            case dataItems = "dataItems"
+            case rowId = "rowId"
         }
     }
 
     public struct ResultSet: AWSDecodableShape {
+
         ///  List of headers for all the data cells in the block. The header identifies the name and default format of the data cell. Data cells appear in the same order in all rows as defined in the header. The names and formats are not repeated in the rows. If a particular row does not have a value for a data cell, a blank value is used.   For example, a task list that displays the task name, due date and assigned person might have headers [ { "name": "Task Name"}, {"name": "Due Date", "format": "DATE"}, {"name": "Assigned", "format": "CONTACT"} ]. Every row in the result will have the task name as the first item, due date as the second item and assigned person as the third item. If a particular task does not have a due date, that row will still have a blank value in the second element and the assigned person will still be in the third element.
         public let headers: [ColumnMetadata]
         ///  List of rows returned by the request. Each row has a row Id and a list of data cells in that row. The data cells will be present in the same order as they are defined in the header.
@@ -1107,12 +1134,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headers
-            case rows
+            case headers = "headers"
+            case rows = "rows"
         }
     }
 
     public struct SourceDataColumnProperties: AWSEncodableShape & AWSDecodableShape {
+
         /// The index of the column in the input file.
         public let columnIndex: Int?
 
@@ -1125,13 +1153,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case columnIndex
+            case columnIndex = "columnIndex"
         }
     }
 
     public struct StartTableDataImportJobRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationTableId", location: .uri(locationName: "tableId")),
+            AWSMemberEncoding(label: "destinationTableId", location: .uri(locationName: "tableId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
@@ -1172,14 +1200,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case dataFormat
-            case dataSource
-            case importOptions
+            case clientRequestToken = "clientRequestToken"
+            case dataFormat = "dataFormat"
+            case dataSource = "dataSource"
+            case importOptions = "importOptions"
         }
     }
 
     public struct StartTableDataImportJobResult: AWSDecodableShape {
+
         ///  The id that is assigned to this import job. Future requests to find out the status of this import job need to send this id in the appropriate parameter in the request.
         public let jobId: String
         ///  The status of the import job immediately after submitting the request.
@@ -1191,12 +1220,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case jobStatus
+            case jobId = "jobId"
+            case jobStatus = "jobStatus"
         }
     }
 
     public struct Table: AWSDecodableShape {
+
         /// The id of the table.
         public let tableId: String?
         /// The name of the table.
@@ -1208,12 +1238,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tableId
-            case tableName
+            case tableId = "tableId"
+            case tableName = "tableName"
         }
     }
 
     public struct TableColumn: AWSDecodableShape {
+
         ///  The column level format that is applied in the table. An empty value in this field means that the column format is the default value 'AUTO'.
         public let format: Format?
         /// The id of the column in the table.
@@ -1228,13 +1259,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case tableColumnId
-            case tableColumnName
+            case format = "format"
+            case tableColumnId = "tableColumnId"
+            case tableColumnName = "tableColumnName"
         }
     }
 
     public struct TableDataImportJobMetadata: AWSDecodableShape {
+
         /// The source of the data that was submitted for import.
         public let dataSource: ImportDataSource
         /// The options that was specified at the time of submitting the import request.
@@ -1252,14 +1284,15 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case importOptions
-            case submitter
-            case submitTime
+            case dataSource = "dataSource"
+            case importOptions = "importOptions"
+            case submitter = "submitter"
+            case submitTime = "submitTime"
         }
     }
 
     public struct TableRow: AWSDecodableShape {
+
         /// A list of cells in the table row. The cells appear in the same order as the columns of the table.
         public let cells: [Cell]
         /// The id of the row in the table.
@@ -1271,12 +1304,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cells
-            case rowId
+            case cells = "cells"
+            case rowId = "rowId"
         }
     }
 
     public struct UpdateRowData: AWSEncodableShape {
+
         ///  A map representing the cells to update in the given row. The key is the column id of the cell and the value is the CellInput object that represents the data to set in that cell.
         public let cellsToUpdate: [String: CellInput]
         ///  The id of the row that needs to be updated.
@@ -1300,12 +1334,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cellsToUpdate
-            case rowId
+            case cellsToUpdate = "cellsToUpdate"
+            case rowId = "rowId"
         }
     }
 
     public struct UpsertRowData: AWSEncodableShape {
+
         ///  An external identifier that represents a single item in the request that is being upserted as part of the BatchUpsertTableRows request. This can be any string that you can use to identify the item in the request. The BatchUpsertTableRows API puts the batch item id in the results to allow you to link data in the request to data in the results.
         public let batchItemId: String
         ///  A map representing the cells to update for the matching rows or an appended row. The key is the column id of the cell and the value is the CellInput object that represents the data to set in that cell.
@@ -1333,13 +1368,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchItemId
-            case cellsToUpdate
-            case filter
+            case batchItemId = "batchItemId"
+            case cellsToUpdate = "cellsToUpdate"
+            case filter = "filter"
         }
     }
 
     public struct UpsertRowsResult: AWSDecodableShape {
+
         ///  The list of row ids that were changed as part of an upsert row operation. If the upsert resulted in an update, this list could potentially contain multiple rows that matched the filter and hence got updated. If the upsert resulted in an append, this list would only have the single row that was appended.
         public let rowIds: [String]
         ///  The result of the upsert action.
@@ -1351,12 +1387,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rowIds
-            case upsertAction
+            case rowIds = "rowIds"
+            case upsertAction = "upsertAction"
         }
     }
 
     public struct VariableValue: AWSEncodableShape {
+
         /// Raw value of the variable.
         public let rawValue: String
 
@@ -1371,7 +1408,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rawValue
+            case rawValue = "rawValue"
         }
     }
 }

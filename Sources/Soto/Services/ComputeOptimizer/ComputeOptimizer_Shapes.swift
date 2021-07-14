@@ -242,6 +242,7 @@ extension ComputeOptimizer {
     // MARK: Shapes
 
     public struct AutoScalingGroupConfiguration: AWSDecodableShape {
+
         /// The desired capacity, or number of instances, for the Auto Scaling group.
         public let desiredCapacity: Int?
         /// The instance type for the Auto Scaling group.
@@ -259,14 +260,15 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case desiredCapacity
-            case instanceType
-            case maxSize
-            case minSize
+            case desiredCapacity = "desiredCapacity"
+            case instanceType = "instanceType"
+            case maxSize = "maxSize"
+            case minSize = "minSize"
         }
     }
 
     public struct AutoScalingGroupRecommendation: AWSDecodableShape {
+
         /// The AWS account ID of the Auto Scaling group.
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
@@ -299,19 +301,20 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case autoScalingGroupArn
-            case autoScalingGroupName
-            case currentConfiguration
-            case finding
-            case lastRefreshTimestamp
-            case lookBackPeriodInDays
-            case recommendationOptions
-            case utilizationMetrics
+            case accountId = "accountId"
+            case autoScalingGroupArn = "autoScalingGroupArn"
+            case autoScalingGroupName = "autoScalingGroupName"
+            case currentConfiguration = "currentConfiguration"
+            case finding = "finding"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case recommendationOptions = "recommendationOptions"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
     public struct AutoScalingGroupRecommendationOption: AWSDecodableShape {
+
         /// An array of objects that describe an Auto Scaling group configuration.
         public let configuration: AutoScalingGroupConfiguration?
         /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk is the likelihood of the recommended instance type not meeting the performance requirement of your workload. The lowest performance risk is categorized as 0, and the highest as 5.
@@ -329,14 +332,15 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case performanceRisk
-            case projectedUtilizationMetrics
-            case rank
+            case configuration = "configuration"
+            case performanceRisk = "performanceRisk"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
         }
     }
 
     public struct DescribeRecommendationExportJobsRequest: AWSEncodableShape {
+
         /// An array of objects that describe a filter to return a more specific list of export jobs.
         public let filters: [JobFilter]?
         /// The identification numbers of the export jobs to return. An export job ID is returned when you create an export using the ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions. All export jobs created in the last seven days are returned if this parameter is omitted.
@@ -354,14 +358,15 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case jobIds
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case jobIds = "jobIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeRecommendationExportJobsResponse: AWSDecodableShape {
+
         /// The token to use to advance to the next page of export jobs. This value is null when there are no more pages of export jobs to return.
         public let nextToken: String?
         /// An array of objects that describe recommendation export jobs.
@@ -373,12 +378,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommendationExportJobs
+            case nextToken = "nextToken"
+            case recommendationExportJobs = "recommendationExportJobs"
         }
     }
 
     public struct EBSFilter: AWSEncodableShape {
+
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (e.g., Optimized).
         public let name: EBSFilterName?
         /// The value of the filter. The valid values are Optimized, or NotOptimized.
@@ -390,12 +396,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct EBSUtilizationMetric: AWSDecodableShape {
+
         /// The name of the utilization metric. The following utilization metrics are available:    VolumeReadOpsPerSecond - The completed read operations per second from the volume in a specified period of time. Unit: Count    VolumeWriteOpsPerSecond - The completed write operations per second to the volume in a specified period of time. Unit: Count    VolumeReadBytesPerSecond - The bytes read per second from the volume in a specified period of time. Unit: Bytes    VolumeWriteBytesPerSecond - The bytes written to the volume in a specified period of time. Unit: Bytes
         public let name: EBSMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the AWS Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
@@ -410,13 +417,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
     public struct ExportAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
+
         /// The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
@@ -440,16 +448,17 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
     public struct ExportAutoScalingGroupRecommendationsResponse: AWSDecodableShape {
+
         /// The identification number of the export job. Use the DescribeRecommendationExportJobs action, and specify the job ID to view the status of an export job.
         public let jobId: String?
         /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -461,12 +470,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
     public struct ExportDestination: AWSDecodableShape {
+
         /// An object that describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
         public let s3: S3Destination?
 
@@ -475,11 +485,12 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3
+            case s3 = "s3"
         }
     }
 
     public struct ExportEC2InstanceRecommendationsRequest: AWSEncodableShape {
+
         /// The IDs of the AWS accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
         /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
@@ -503,16 +514,17 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case fieldsToExport
-            case fileFormat
-            case filters
-            case includeMemberAccounts
-            case s3DestinationConfig
+            case accountIds = "accountIds"
+            case fieldsToExport = "fieldsToExport"
+            case fileFormat = "fileFormat"
+            case filters = "filters"
+            case includeMemberAccounts = "includeMemberAccounts"
+            case s3DestinationConfig = "s3DestinationConfig"
         }
     }
 
     public struct ExportEC2InstanceRecommendationsResponse: AWSDecodableShape {
+
         /// The identification number of the export job. Use the DescribeRecommendationExportJobs action, and specify the job ID to view the status of an export job.
         public let jobId: String?
         /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
@@ -524,12 +536,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobId
-            case s3Destination
+            case jobId = "jobId"
+            case s3Destination = "s3Destination"
         }
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (e.g., Overprovisioned). Specify RecommendationSourceType to return recommendations of a specific resource type (e.g., AutoScalingGroup).
         public let name: FilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:   Specify Optimized or NotOptimized if you specified the name parameter as Finding and you want to filter results for Auto Scaling groups.   Specify Underprovisioned, Overprovisioned, or Optimized if you specified the name parameter as Finding and you want to filter results for EC2 instances.   Specify Ec2Instance or AutoScalingGroup if you specified the name parameter as RecommendationSourceType.
@@ -541,12 +554,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct GetAutoScalingGroupRecommendationsRequest: AWSEncodableShape {
+
         /// The ID of the AWS account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
@@ -567,15 +581,16 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case autoScalingGroupArns
-            case filters
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case autoScalingGroupArns = "autoScalingGroupArns"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetAutoScalingGroupRecommendationsResponse: AWSDecodableShape {
+
         /// An array of objects that describe Auto Scaling group recommendations.
         public let autoScalingGroupRecommendations: [AutoScalingGroupRecommendation]?
         /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported Auto Scaling group.
@@ -590,13 +605,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupRecommendations
-            case errors
-            case nextToken
+            case autoScalingGroupRecommendations = "autoScalingGroupRecommendations"
+            case errors = "errors"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEBSVolumeRecommendationsRequest: AWSEncodableShape {
+
         /// The ID of the AWS account for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return volume recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of volume recommendations.
@@ -617,15 +633,16 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case maxResults
-            case nextToken
-            case volumeArns
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case volumeArns = "volumeArns"
         }
     }
 
     public struct GetEBSVolumeRecommendationsResponse: AWSDecodableShape {
+
         /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an unsupported volume.
         public let errors: [GetRecommendationError]?
         /// The token to use to advance to the next page of volume recommendations. This value is null when there are no more pages of volume recommendations to return.
@@ -640,13 +657,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case nextToken
-            case volumeRecommendations
+            case errors = "errors"
+            case nextToken = "nextToken"
+            case volumeRecommendations = "volumeRecommendations"
         }
     }
 
     public struct GetEC2InstanceRecommendationsRequest: AWSEncodableShape {
+
         /// The ID of the AWS account for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return instance recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of instance recommendations.
@@ -667,15 +685,16 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case instanceArns
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case instanceArns = "instanceArns"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEC2InstanceRecommendationsResponse: AWSDecodableShape {
+
         /// An array of objects that describe errors of the request. For example, an error is returned if you request recommendations for an instance of an unsupported instance family.
         public let errors: [GetRecommendationError]?
         /// An array of objects that describe instance recommendations.
@@ -690,13 +709,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
-            case instanceRecommendations
-            case nextToken
+            case errors = "errors"
+            case instanceRecommendations = "instanceRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetEC2RecommendationProjectedMetricsRequest: AWSEncodableShape {
+
         /// The time stamp of the last projected metrics data point to return.
         public let endTime: Date
         /// The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.
@@ -717,15 +737,16 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case instanceArn
-            case period
-            case startTime
-            case stat
+            case endTime = "endTime"
+            case instanceArn = "instanceArn"
+            case period = "period"
+            case startTime = "startTime"
+            case stat = "stat"
         }
     }
 
     public struct GetEC2RecommendationProjectedMetricsResponse: AWSDecodableShape {
+
         /// An array of objects that describe a projected metrics.
         public let recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]?
 
@@ -734,15 +755,20 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendedOptionProjectedMetrics
+            case recommendedOptionProjectedMetrics = "recommendedOptionProjectedMetrics"
         }
     }
 
     public struct GetEnrollmentStatusRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetEnrollmentStatusResponse: AWSDecodableShape {
+
         /// Confirms the enrollment status of member accounts within the organization, if the account is a management account of an organization.
         public let memberAccountsEnrolled: Bool?
         /// The enrollment status of the account.
@@ -757,13 +783,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memberAccountsEnrolled
-            case status
-            case statusReason
+            case memberAccountsEnrolled = "memberAccountsEnrolled"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
     public struct GetLambdaFunctionRecommendationsRequest: AWSEncodableShape {
+
         /// The ID of the AWS account for which to return function recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return function recommendations. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// An array of objects that describe a filter that returns a more specific list of function recommendations.
@@ -784,15 +811,16 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case filters
-            case functionArns
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case filters = "filters"
+            case functionArns = "functionArns"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetLambdaFunctionRecommendationsResponse: AWSDecodableShape {
+
         /// An array of objects that describe function recommendations.
         public let lambdaFunctionRecommendations: [LambdaFunctionRecommendation]?
         /// The token to use to advance to the next page of function recommendations. This value is null when there are no more pages of function recommendations to return.
@@ -804,12 +832,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lambdaFunctionRecommendations
-            case nextToken
+            case lambdaFunctionRecommendations = "lambdaFunctionRecommendations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetRecommendationError: AWSDecodableShape {
+
         /// The error code.
         public let code: String?
         /// The ID of the error.
@@ -824,13 +853,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case identifier
-            case message
+            case code = "code"
+            case identifier = "identifier"
+            case message = "message"
         }
     }
 
     public struct GetRecommendationSummariesRequest: AWSEncodableShape {
+
         /// The ID of the AWS account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
         /// The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
@@ -845,13 +875,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountIds
-            case maxResults
-            case nextToken
+            case accountIds = "accountIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetRecommendationSummariesResponse: AWSDecodableShape {
+
         /// The token to use to advance to the next page of recommendation summaries. This value is null when there are no more pages of recommendation summaries to return.
         public let nextToken: String?
         /// An array of objects that summarize a recommendation.
@@ -863,12 +894,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recommendationSummaries
+            case nextToken = "nextToken"
+            case recommendationSummaries = "recommendationSummaries"
         }
     }
 
     public struct InstanceRecommendation: AWSDecodableShape {
+
         /// The AWS account ID of the instance.
         public let accountId: String?
         /// The instance type of the current instance.
@@ -904,20 +936,21 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentInstanceType
-            case finding
-            case instanceArn
-            case instanceName
-            case lastRefreshTimestamp
-            case lookBackPeriodInDays
-            case recommendationOptions
-            case recommendationSources
-            case utilizationMetrics
+            case accountId = "accountId"
+            case currentInstanceType = "currentInstanceType"
+            case finding = "finding"
+            case instanceArn = "instanceArn"
+            case instanceName = "instanceName"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case recommendationOptions = "recommendationOptions"
+            case recommendationSources = "recommendationSources"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
     public struct InstanceRecommendationOption: AWSDecodableShape {
+
         /// The instance type of the instance recommendation.
         public let instanceType: String?
         /// The performance risk of the instance recommendation option. Performance risk is the likelihood of the recommended instance type not meeting the performance requirement of your workload. The lowest performance risk is categorized as 0, and the highest as 5.
@@ -935,14 +968,15 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceType
-            case performanceRisk
-            case projectedUtilizationMetrics
-            case rank
+            case instanceType = "instanceType"
+            case performanceRisk = "performanceRisk"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
         }
     }
 
     public struct JobFilter: AWSEncodableShape {
+
         /// The name of the filter. Specify ResourceType to return export jobs of a specific resource type (e.g., Ec2Instance). Specify JobStatus to return export jobs with a specific status (e.g, Complete).
         public let name: JobFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   Specify Ec2Instance or AutoScalingGroup if you specified the name parameter as ResourceType. There is no filter for EBS volumes because volume recommendations cannot be exported at this time.   Specify Queued, InProgress, Complete, or Failed if you specified the name parameter as JobStatus.
@@ -954,12 +988,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct LambdaFunctionMemoryProjectedMetric: AWSDecodableShape {
+
         /// The name of the projected utilization metric.
         public let name: LambdaFunctionMemoryMetricName?
         /// The statistic of the projected utilization metric.
@@ -974,13 +1009,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
     public struct LambdaFunctionMemoryRecommendationOption: AWSDecodableShape {
+
         /// The memory size, in MB, of the function recommendation option.
         public let memorySize: Int?
         /// An array of objects that describe the projected utilization metrics of the function recommendation option.
@@ -995,13 +1031,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case memorySize
-            case projectedUtilizationMetrics
-            case rank
+            case memorySize = "memorySize"
+            case projectedUtilizationMetrics = "projectedUtilizationMetrics"
+            case rank = "rank"
         }
     }
 
     public struct LambdaFunctionRecommendation: AWSDecodableShape {
+
         /// The AWS account ID of the function.
         public let accountId: String?
         /// The amount of memory, in MB, that's allocated to the current function.
@@ -1040,21 +1077,22 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentMemorySize
-            case finding
-            case findingReasonCodes
-            case functionArn
-            case functionVersion
-            case lastRefreshTimestamp
-            case lookbackPeriodInDays
-            case memorySizeRecommendationOptions
-            case numberOfInvocations
-            case utilizationMetrics
+            case accountId = "accountId"
+            case currentMemorySize = "currentMemorySize"
+            case finding = "finding"
+            case findingReasonCodes = "findingReasonCodes"
+            case functionArn = "functionArn"
+            case functionVersion = "functionVersion"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookbackPeriodInDays = "lookbackPeriodInDays"
+            case memorySizeRecommendationOptions = "memorySizeRecommendationOptions"
+            case numberOfInvocations = "numberOfInvocations"
+            case utilizationMetrics = "utilizationMetrics"
         }
     }
 
     public struct LambdaFunctionRecommendationFilter: AWSEncodableShape {
+
         /// The name of the filter. Specify Finding to return recommendations with a specific finding classification (e.g., NotOptimized). Specify FindingReasonCode to return recommendations with a specific finding reason code (e.g., MemoryUnderprovisioned).
         public let name: LambdaFunctionRecommendationFilterName?
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   Specify Optimized, NotOptimized, or Unavailable if you specified the name parameter as Finding.   Specify MemoryOverprovisioned, MemoryUnderprovisioned, InsufficientData, or Inconclusive if you specified the name parameter as FindingReasonCode.
@@ -1066,12 +1104,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct LambdaFunctionUtilizationMetric: AWSDecodableShape {
+
         /// The name of the utilization metric. The following utilization metrics are available:    Duration - The amount of time that your function code spends processing an event.    Memory - The amount of memory used per invocation.
         public let name: LambdaFunctionMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the AWS Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
@@ -1086,13 +1125,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
     public struct ProjectedMetric: AWSDecodableShape {
+
         /// The name of the projected utilization metric. The following projected utilization metrics are returned:    Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
         public let name: MetricName?
         /// The time stamps of the projected utilization metric.
@@ -1107,13 +1147,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case timestamps
-            case values
+            case name = "name"
+            case timestamps = "timestamps"
+            case values = "values"
         }
     }
 
     public struct ReasonCodeSummary: AWSDecodableShape {
+
         /// The name of the finding reason code.
         public let name: FindingReasonCode?
         /// The value of the finding reason code summary.
@@ -1125,12 +1166,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct RecommendationExportJob: AWSDecodableShape {
+
         /// The timestamp of when the export job was created.
         public let creationTimestamp: Date?
         /// An object that describes the destination of the export file.
@@ -1157,17 +1199,18 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimestamp
-            case destination
-            case failureReason
-            case jobId
-            case lastUpdatedTimestamp
-            case resourceType
-            case status
+            case creationTimestamp = "creationTimestamp"
+            case destination = "destination"
+            case failureReason = "failureReason"
+            case jobId = "jobId"
+            case lastUpdatedTimestamp = "lastUpdatedTimestamp"
+            case resourceType = "resourceType"
+            case status = "status"
         }
     }
 
     public struct RecommendationSource: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public let recommendationSourceArn: String?
         /// The resource type of the recommendation source.
@@ -1179,12 +1222,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recommendationSourceArn
-            case recommendationSourceType
+            case recommendationSourceArn = "recommendationSourceArn"
+            case recommendationSourceType = "recommendationSourceType"
         }
     }
 
     public struct RecommendationSummary: AWSDecodableShape {
+
         /// The AWS account ID of the recommendation summary.
         public let accountId: String?
         /// The resource type of the recommendation.
@@ -1199,13 +1243,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case recommendationResourceType
-            case summaries
+            case accountId = "accountId"
+            case recommendationResourceType = "recommendationResourceType"
+            case summaries = "summaries"
         }
     }
 
     public struct RecommendedOptionProjectedMetric: AWSDecodableShape {
+
         /// An array of objects that describe a projected utilization metric.
         public let projectedMetrics: [ProjectedMetric]?
         /// The rank of the recommendation option projected metric. The top recommendation option is ranked as 1. The projected metric rank correlates to the recommendation option rank. For example, the projected metric ranked as 1 is related to the recommendation option that is also ranked as 1 in the same response.
@@ -1220,13 +1265,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectedMetrics
-            case rank
-            case recommendedInstanceType
+            case projectedMetrics = "projectedMetrics"
+            case rank = "rank"
+            case recommendedInstanceType = "recommendedInstanceType"
         }
     }
 
     public struct S3Destination: AWSDecodableShape {
+
         /// The name of the Amazon S3 bucket used as the destination of an export file.
         public let bucket: String?
         /// The Amazon S3 bucket key of an export file. The key uniquely identifies the object, or export file, in the S3 bucket.
@@ -1241,13 +1287,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case key
-            case metadataKey
+            case bucket = "bucket"
+            case key = "key"
+            case metadataKey = "metadataKey"
         }
     }
 
     public struct S3DestinationConfig: AWSEncodableShape {
+
         /// The name of the Amazon S3 bucket to use as the destination for an export job.
         public let bucket: String?
         /// The Amazon S3 bucket prefix for an export job.
@@ -1259,12 +1306,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case keyPrefix
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
         }
     }
 
     public struct Summary: AWSDecodableShape {
+
         /// The finding classification of the recommendation.
         public let name: Finding?
         /// An array of objects that summarize a finding reason code.
@@ -1279,13 +1327,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case reasonCodeSummaries
-            case value
+            case name = "name"
+            case reasonCodeSummaries = "reasonCodeSummaries"
+            case value = "value"
         }
     }
 
     public struct UpdateEnrollmentStatusRequest: AWSEncodableShape {
+
         /// Indicates whether to enroll member accounts of the organization if the account is the management account of an organization.
         public let includeMemberAccounts: Bool?
         /// The new enrollment status of the account. The following status options are available:    Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your AWS resources after you opt in. For more information, see Metrics analyzed by AWS Compute Optimizer in the Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out.    The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account.
@@ -1297,12 +1346,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeMemberAccounts
-            case status
+            case includeMemberAccounts = "includeMemberAccounts"
+            case status = "status"
         }
     }
 
     public struct UpdateEnrollmentStatusResponse: AWSDecodableShape {
+
         /// The enrollment status of the account.
         public let status: Status?
         /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
@@ -1314,12 +1364,13 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case statusReason
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
     public struct UtilizationMetric: AWSDecodableShape {
+
         /// The name of the utilization metric. The following utilization metrics are available:    Cpu - The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application on the instance. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent    Memory - The percentage of memory that is currently in use on the instance. This metric identifies the amount of memory required to run an application on the instance. Units: Percent  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.     EBS_READ_OPS_PER_SECOND - The completed read operations from all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_WRITE_OPS_PER_SECOND - The completed write operations to all EBS volumes attached to the instance in a specified period of time. Unit: Count    EBS_READ_BYTES_PER_SECOND - The bytes read from all EBS volumes attached to the instance in a specified period of time. Unit: Bytes    EBS_WRITE_BYTES_PER_SECOND - The bytes written to all EBS volumes attached to the instance in a specified period of time. Unit: Bytes
         public let name: MetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see Viewing resource recommendations in the AWS Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the Amazon CloudWatch User Guide.
@@ -1334,13 +1385,14 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case statistic
-            case value
+            case name = "name"
+            case statistic = "statistic"
+            case value = "value"
         }
     }
 
     public struct VolumeConfiguration: AWSDecodableShape {
+
         /// The baseline IOPS of the volume.
         public let volumeBaselineIOPS: Int?
         /// The baseline throughput of the volume.
@@ -1364,16 +1416,17 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case volumeBaselineIOPS
-            case volumeBaselineThroughput
-            case volumeBurstIOPS
-            case volumeBurstThroughput
-            case volumeSize
-            case volumeType
+            case volumeBaselineIOPS = "volumeBaselineIOPS"
+            case volumeBaselineThroughput = "volumeBaselineThroughput"
+            case volumeBurstIOPS = "volumeBurstIOPS"
+            case volumeBurstThroughput = "volumeBurstThroughput"
+            case volumeSize = "volumeSize"
+            case volumeType = "volumeType"
         }
     }
 
     public struct VolumeRecommendation: AWSDecodableShape {
+
         /// The AWS account ID of the volume.
         public let accountId: String?
         /// An array of objects that describe the current configuration of the volume.
@@ -1403,18 +1456,19 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case currentConfiguration
-            case finding
-            case lastRefreshTimestamp
-            case lookBackPeriodInDays
-            case utilizationMetrics
-            case volumeArn
-            case volumeRecommendationOptions
+            case accountId = "accountId"
+            case currentConfiguration = "currentConfiguration"
+            case finding = "finding"
+            case lastRefreshTimestamp = "lastRefreshTimestamp"
+            case lookBackPeriodInDays = "lookBackPeriodInDays"
+            case utilizationMetrics = "utilizationMetrics"
+            case volumeArn = "volumeArn"
+            case volumeRecommendationOptions = "volumeRecommendationOptions"
         }
     }
 
     public struct VolumeRecommendationOption: AWSDecodableShape {
+
         /// An array of objects that describe a volume configuration.
         public let configuration: VolumeConfiguration?
         /// The performance risk of the volume recommendation option. Performance risk is the likelihood of the recommended volume type not meeting the performance requirement of your workload. The lowest performance risk is categorized as 0, and the highest as 5.
@@ -1429,9 +1483,9 @@ extension ComputeOptimizer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configuration
-            case performanceRisk
-            case rank
+            case configuration = "configuration"
+            case performanceRisk = "performanceRisk"
+            case rank = "rank"
         }
     }
 }

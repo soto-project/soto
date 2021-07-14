@@ -43,6 +43,7 @@ extension ResourceGroupsTaggingAPI {
     // MARK: Shapes
 
     public struct ComplianceDetails: AWSDecodableShape {
+
         /// Whether a resource is compliant with the effective tag policy.
         public let complianceStatus: Bool?
         /// These are keys defined in the effective policy that are on the resource with either incorrect case treatment or noncompliant values.
@@ -64,10 +65,15 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct DescribeReportCreationInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeReportCreationOutput: AWSDecodableShape {
+
         /// Details of the common errors that all operations return.
         public let errorMessage: String?
         /// The path to the Amazon S3 bucket where the report was stored on creation.
@@ -89,6 +95,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct FailureInfo: AWSDecodableShape {
+
         /// The code of the common error. Valid values include InternalServiceException, InvalidParameterException, and any valid error code returned by the AWS service that hosts the resource that you want to tag.
         public let errorCode: ErrorCode?
         /// The message of the common error.
@@ -110,6 +117,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetComplianceSummaryInput: AWSEncodableShape {
+
         /// Specifies a list of attributes to group the counts of noncompliant resources by. If supplied, the counts are sorted by those attributes.
         public let groupBy: [GroupByAttribute]?
         /// Specifies the maximum number of results to be returned in each page. A query can return fewer than this maximum, even if there are more results still to return. You should always check the PaginationToken response value to see if there are more results. You can specify a minimum of 1 and a maximum value of 100.
@@ -181,6 +189,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetComplianceSummaryOutput: AWSDecodableShape {
+
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
         /// A table that shows counts of noncompliant resources.
@@ -198,6 +207,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetResourcesInput: AWSEncodableShape {
+
         /// Specifies whether to exclude resources that are compliant with the tag policy. Set this to true if you are interested in retrieving information on noncompliant resources only. You can use this parameter only if the IncludeComplianceDetails parameter is also set to true.
         public let excludeCompliantResources: Bool?
         /// Specifies whether to include details regarding the compliance with the effective tag policy. Set this to true to determine whether resources are compliant with the tag policy and to get details.
@@ -262,6 +272,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetResourcesOutput: AWSDecodableShape {
+
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
         /// A list of resource ARNs and the tags (keys and values) associated with those ARNs.
@@ -279,6 +290,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagKeysInput: AWSEncodableShape {
+
         /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
         public let paginationToken: String?
 
@@ -298,6 +310,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagKeysOutput: AWSDecodableShape {
+
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
         /// A list of all tag keys in the AWS account.
@@ -315,6 +328,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesInput: AWSEncodableShape {
+
         /// Specifies the tag key for which you want to list all existing values that are currently used in the specified AWS Region for the calling AWS account.
         public let key: String
         /// Specifies a PaginationToken response value from a previous request to indicate that you want the next page of results. Leave this parameter empty in your initial request.
@@ -341,6 +355,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct GetTagValuesOutput: AWSDecodableShape {
+
         /// A string that indicates that there is more data available than this response contains. To receive the next part of the response, specify this response value as the PaginationToken value in the request for the next page.
         public let paginationToken: String?
         /// A list of all tag values for the specified key currently used in the specified AWS Region for the calling AWS account.
@@ -358,6 +373,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct ResourceTagMapping: AWSDecodableShape {
+
         /// Information that shows whether a resource is compliant with the effective tag policy, including details on any noncompliant tag keys.
         public let complianceDetails: ComplianceDetails?
         /// The ARN of the resource.
@@ -379,6 +395,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct StartReportCreationInput: AWSEncodableShape {
+
         /// The name of the Amazon S3 bucket where the report will be stored; for example:  awsexamplebucket  For more information on S3 bucket requirements, including an example bucket policy, see the example S3 bucket policy on this page.
         public let s3Bucket: String
 
@@ -398,10 +415,15 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct StartReportCreationOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Summary: AWSDecodableShape {
+
         /// The timestamp that shows when this summary was generated in this Region.
         public let lastUpdated: String?
         /// The count of noncompliant resources.
@@ -435,6 +457,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct Tag: AWSDecodableShape {
+
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
         /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
@@ -452,6 +475,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagFilter: AWSEncodableShape {
+
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
         /// One part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
@@ -482,6 +506,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagResourcesInput: AWSEncodableShape {
+
         /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
         /// Specifies a list of tags that you want to add to the specified resources. A tag consists of a key and a value that you define.
@@ -517,6 +542,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct TagResourcesOutput: AWSDecodableShape {
+
         /// A map containing a key-value pair for each failed item that couldn't be tagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
         public let failedResourcesMap: [String: FailureInfo]?
 
@@ -530,6 +556,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesInput: AWSEncodableShape {
+
         /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
         public let resourceARNList: [String]
         /// Specifies a list of tag keys that you want to remove from the specified resources.
@@ -564,6 +591,7 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public struct UntagResourcesOutput: AWSDecodableShape {
+
         /// A map containing a key-value pair for each failed item that couldn't be untagged. The key is the ARN of the failed resource. The value is a FailureInfo object that contains an error code, a status code, and an error message. If there are no errors, the FailedResourcesMap is empty.
         public let failedResourcesMap: [String: FailureInfo]?
 

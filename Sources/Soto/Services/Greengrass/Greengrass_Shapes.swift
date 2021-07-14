@@ -45,8 +45,8 @@ extension Greengrass {
     }
 
     public enum EncodingType: String, CustomStringConvertible, Codable {
-        case binary
-        case json
+        case binary = "binary"
+        case json = "json"
         public var description: String { return self.rawValue }
     }
 
@@ -78,13 +78,13 @@ extension Greengrass {
     }
 
     public enum Permission: String, CustomStringConvertible, Codable {
-        case ro
-        case rw
+        case ro = "ro"
+        case rw = "rw"
         public var description: String { return self.rawValue }
     }
 
     public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
-        case core
+        case core = "core"
         case otaAgent = "ota_agent"
         public var description: String { return self.rawValue }
     }
@@ -108,18 +108,18 @@ extension Greengrass {
     }
 
     public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
-        case aarch64
-        case armv6l
-        case armv7l
+        case aarch64 = "aarch64"
+        case armv6l = "armv6l"
+        case armv7l = "armv7l"
         case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable {
         case amazonLinux = "amazon_linux"
-        case openwrt
-        case raspbian
-        case ubuntu
+        case openwrt = "openwrt"
+        case raspbian = "raspbian"
+        case ubuntu = "ubuntu"
         public var description: String { return self.rawValue }
     }
 
@@ -145,6 +145,7 @@ extension Greengrass {
     }
 
     public struct AssociateRoleToGroupResponse: AWSDecodableShape {
+
         /// The time, in milliseconds since the epoch, when the role ARN was associated with the group.
         public let associatedAt: String?
 
@@ -158,6 +159,7 @@ extension Greengrass {
     }
 
     public struct AssociateServiceRoleToAccountRequest: AWSEncodableShape {
+
         /// The ARN of the service role you wish to associate with your account.
         public let roleArn: String
 
@@ -171,6 +173,7 @@ extension Greengrass {
     }
 
     public struct AssociateServiceRoleToAccountResponse: AWSDecodableShape {
+
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
 
@@ -184,6 +187,7 @@ extension Greengrass {
     }
 
     public struct BulkDeployment: AWSDecodableShape {
+
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
         /// The ID of the bulk deployment.
@@ -205,6 +209,7 @@ extension Greengrass {
     }
 
     public struct BulkDeploymentMetrics: AWSDecodableShape {
+
         /// The total number of records that returned a non-retryable error. For example, this can occur if a group record from the input file uses an invalid format or specifies a nonexistent group version, or if the execution role doesn't grant permission to deploy a group or group version.
         public let invalidInputRecords: Int?
         /// The total number of group records from the input file that have been processed so far, or attempted.
@@ -226,6 +231,7 @@ extension Greengrass {
     }
 
     public struct BulkDeploymentResult: AWSDecodableShape {
+
         /// The time, in ISO format, when the deployment was created.
         public let createdAt: String?
         /// The ARN of the group deployment.
@@ -267,6 +273,7 @@ extension Greengrass {
     }
 
     public struct ConnectivityInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// The endpoint for the Greengrass core. Can be an IP address or DNS.
         public let hostAddress: String?
         /// The ID of the connectivity information.
@@ -292,6 +299,7 @@ extension Greengrass {
     }
 
     public struct Connector: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the connector.
         public let connectorArn: String
         /// A descriptive or arbitrary ID for the connector. This value must be unique within the connector definition version. Max length is 128 characters with pattern [a-zA-Z0-9:_-]+.
@@ -313,6 +321,7 @@ extension Greengrass {
     }
 
     public struct ConnectorDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of references to connectors in this version, with their corresponding configuration settings.
         public let connectors: [Connector]?
 
@@ -326,6 +335,7 @@ extension Greengrass {
     }
 
     public struct Core: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the certificate associated with the core.
         public let certificateArn: String
         /// A descriptive or arbitrary ID for the core. This value must be unique within the core definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
@@ -351,6 +361,7 @@ extension Greengrass {
     }
 
     public struct CoreDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of cores in the core definition version.
         public let cores: [Core]?
 
@@ -383,11 +394,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateConnectorDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -419,7 +431,7 @@ extension Greengrass {
 
     public struct CreateConnectorDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId"))
         ]
 
@@ -439,6 +451,7 @@ extension Greengrass {
     }
 
     public struct CreateConnectorDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -479,11 +492,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateCoreDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -515,7 +529,7 @@ extension Greengrass {
 
     public struct CreateCoreDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId"))
         ]
 
@@ -535,6 +549,7 @@ extension Greengrass {
     }
 
     public struct CreateCoreDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -557,7 +572,7 @@ extension Greengrass {
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
 
@@ -586,6 +601,7 @@ extension Greengrass {
     }
 
     public struct CreateDeploymentResponse: AWSDecodableShape {
+
         /// The ARN of the deployment.
         public let deploymentArn: String?
         /// The ID of the deployment.
@@ -622,11 +638,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateDeviceDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -658,7 +675,7 @@ extension Greengrass {
 
     public struct CreateDeviceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId"))
         ]
 
@@ -678,6 +695,7 @@ extension Greengrass {
     }
 
     public struct CreateDeviceDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -718,11 +736,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateFunctionDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -754,7 +773,7 @@ extension Greengrass {
 
     public struct CreateFunctionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId"))
         ]
 
@@ -777,6 +796,7 @@ extension Greengrass {
     }
 
     public struct CreateFunctionDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -799,7 +819,7 @@ extension Greengrass {
 
     public struct CreateGroupCertificateAuthorityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
 
@@ -815,6 +835,7 @@ extension Greengrass {
     }
 
     public struct CreateGroupCertificateAuthorityResponse: AWSDecodableShape {
+
         /// The ARN of the group certificate authority.
         public let groupCertificateAuthorityArn: String?
 
@@ -847,11 +868,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateGroupResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -883,7 +905,7 @@ extension Greengrass {
 
     public struct CreateGroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
 
@@ -921,6 +943,7 @@ extension Greengrass {
     }
 
     public struct CreateGroupVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -961,11 +984,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateLoggerDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -997,7 +1021,7 @@ extension Greengrass {
 
     public struct CreateLoggerDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId"))
         ]
 
@@ -1017,6 +1041,7 @@ extension Greengrass {
     }
 
     public struct CreateLoggerDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1057,11 +1082,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateResourceDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1093,7 +1119,7 @@ extension Greengrass {
 
     public struct CreateResourceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
         ]
 
@@ -1113,6 +1139,7 @@ extension Greengrass {
     }
 
     public struct CreateResourceDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1167,6 +1194,7 @@ extension Greengrass {
     }
 
     public struct CreateSoftwareUpdateJobResponse: AWSDecodableShape {
+
         /// The IoT Job ARN corresponding to this update.
         public let iotJobArn: String?
         /// The IoT Job Id corresponding to this update.
@@ -1207,11 +1235,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case initialVersion = "InitialVersion"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct CreateSubscriptionDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1243,7 +1272,7 @@ extension Greengrass {
 
     public struct CreateSubscriptionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
         ]
 
@@ -1263,6 +1292,7 @@ extension Greengrass {
     }
 
     public struct CreateSubscriptionDefinitionVersionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1284,6 +1314,7 @@ extension Greengrass {
     }
 
     public struct DefinitionInformation: AWSDecodableShape {
+
         /// The ARN of the definition.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the definition was created.
@@ -1320,7 +1351,7 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1339,7 +1370,11 @@ extension Greengrass {
     }
 
     public struct DeleteConnectorDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteCoreDefinitionRequest: AWSEncodableShape {
@@ -1357,7 +1392,11 @@ extension Greengrass {
     }
 
     public struct DeleteCoreDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDeviceDefinitionRequest: AWSEncodableShape {
@@ -1375,7 +1414,11 @@ extension Greengrass {
     }
 
     public struct DeleteDeviceDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteFunctionDefinitionRequest: AWSEncodableShape {
@@ -1393,7 +1436,11 @@ extension Greengrass {
     }
 
     public struct DeleteFunctionDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
@@ -1411,7 +1458,11 @@ extension Greengrass {
     }
 
     public struct DeleteGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteLoggerDefinitionRequest: AWSEncodableShape {
@@ -1429,7 +1480,11 @@ extension Greengrass {
     }
 
     public struct DeleteLoggerDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteResourceDefinitionRequest: AWSEncodableShape {
@@ -1447,7 +1502,11 @@ extension Greengrass {
     }
 
     public struct DeleteResourceDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSubscriptionDefinitionRequest: AWSEncodableShape {
@@ -1465,10 +1524,15 @@ extension Greengrass {
     }
 
     public struct DeleteSubscriptionDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Deployment: AWSDecodableShape {
+
         /// The time, in milliseconds since the epoch, when the deployment was created.
         public let createdAt: String?
         /// The ARN of the deployment.
@@ -1498,6 +1562,7 @@ extension Greengrass {
     }
 
     public struct Device: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the certificate associated with the device.
         public let certificateArn: String
         /// A descriptive or arbitrary ID for the device. This value must be unique within the device definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
@@ -1523,6 +1588,7 @@ extension Greengrass {
     }
 
     public struct DeviceDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of devices in the definition version.
         public let devices: [Device]?
 
@@ -1550,6 +1616,7 @@ extension Greengrass {
     }
 
     public struct DisassociateRoleFromGroupResponse: AWSDecodableShape {
+
         /// The time, in milliseconds since the epoch, when the role was disassociated from the group.
         public let disassociatedAt: String?
 
@@ -1563,10 +1630,15 @@ extension Greengrass {
     }
 
     public struct DisassociateServiceRoleFromAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateServiceRoleFromAccountResponse: AWSDecodableShape {
+
         /// The time when the service role was disassociated from the account.
         public let disassociatedAt: String?
 
@@ -1580,6 +1652,7 @@ extension Greengrass {
     }
 
     public struct ErrorDetail: AWSDecodableShape {
+
         /// A detailed error code.
         public let detailedErrorCode: String?
         /// A detailed error message.
@@ -1597,6 +1670,7 @@ extension Greengrass {
     }
 
     public struct Function: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Lambda function.
         public let functionArn: String?
         /// The configuration of the Lambda function.
@@ -1618,6 +1692,7 @@ extension Greengrass {
     }
 
     public struct FunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The expected encoding type of the input payload for the function. The default is ''json''.
         public let encodingType: EncodingType?
         /// The environment configuration of the function.
@@ -1655,6 +1730,7 @@ extension Greengrass {
     }
 
     public struct FunctionConfigurationEnvironment: AWSEncodableShape & AWSDecodableShape {
+
         /// If true, the Lambda function is allowed to access the host's /sys folder. Use this when the Lambda function needs to read device information from /sys. This setting applies only when you run the Lambda function in a Greengrass container.
         public let accessSysfs: Bool?
         /// Configuration related to executing the Lambda function
@@ -1680,6 +1756,7 @@ extension Greengrass {
     }
 
     public struct FunctionDefaultConfig: AWSEncodableShape & AWSDecodableShape {
+
         public let execution: FunctionDefaultExecutionConfig?
 
         public init(execution: FunctionDefaultExecutionConfig? = nil) {
@@ -1692,6 +1769,7 @@ extension Greengrass {
     }
 
     public struct FunctionDefaultExecutionConfig: AWSEncodableShape & AWSDecodableShape {
+
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
 
@@ -1707,6 +1785,7 @@ extension Greengrass {
     }
 
     public struct FunctionDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// The default configuration that applies to all Lambda functions in this function definition version. Individual Lambda functions can override these settings.
         public let defaultConfig: FunctionDefaultConfig?
         /// A list of Lambda functions in this function definition version.
@@ -1724,6 +1803,7 @@ extension Greengrass {
     }
 
     public struct FunctionExecutionConfig: AWSEncodableShape & AWSDecodableShape {
+
         public let isolationMode: FunctionIsolationMode?
         public let runAs: FunctionRunAsConfig?
 
@@ -1739,6 +1819,7 @@ extension Greengrass {
     }
 
     public struct FunctionRunAsConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The group ID whose permissions are used to run a Lambda function.
         public let gid: Int?
         /// The user ID whose permissions are used to run a Lambda function.
@@ -1770,6 +1851,7 @@ extension Greengrass {
     }
 
     public struct GetAssociatedRoleResponse: AWSDecodableShape {
+
         /// The time when the role was associated with the group.
         public let associatedAt: String?
         /// The ARN of the role that is associated with the group.
@@ -1801,6 +1883,7 @@ extension Greengrass {
     }
 
     public struct GetBulkDeploymentStatusResponse: AWSDecodableShape {
+
         /// Relevant metrics on input records processed during bulk deployment.
         public let bulkDeploymentMetrics: BulkDeploymentMetrics?
         /// The status of the bulk deployment.
@@ -1828,7 +1911,7 @@ extension Greengrass {
             case createdAt = "CreatedAt"
             case errorDetails = "ErrorDetails"
             case errorMessage = "ErrorMessage"
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -1847,6 +1930,7 @@ extension Greengrass {
     }
 
     public struct GetConnectivityInfoResponse: AWSDecodableShape {
+
         /// Connectivity info list.
         public let connectivityInfo: [ConnectivityInfo]?
         /// A message about the connectivity info request.
@@ -1859,7 +1943,7 @@ extension Greengrass {
 
         private enum CodingKeys: String, CodingKey {
             case connectivityInfo = "ConnectivityInfo"
-            case message
+            case message = "message"
         }
     }
 
@@ -1878,6 +1962,7 @@ extension Greengrass {
     }
 
     public struct GetConnectorDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -1906,14 +1991,14 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetConnectorDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")),
-            AWSMemberEncoding(label: "connectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId")),
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")), 
+            AWSMemberEncoding(label: "connectorDefinitionVersionId", location: .uri(locationName: "ConnectorDefinitionVersionId")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -1931,6 +2016,7 @@ extension Greengrass {
     }
 
     public struct GetConnectorDefinitionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the connector definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the connector definition version was created.
@@ -1978,6 +2064,7 @@ extension Greengrass {
     }
 
     public struct GetCoreDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2006,13 +2093,13 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetCoreDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")),
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")), 
             AWSMemberEncoding(label: "coreDefinitionVersionId", location: .uri(locationName: "CoreDefinitionVersionId"))
         ]
 
@@ -2028,6 +2115,7 @@ extension Greengrass {
     }
 
     public struct GetCoreDefinitionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the core definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the core definition version was created.
@@ -2062,7 +2150,7 @@ extension Greengrass {
 
     public struct GetDeploymentStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId")),
+            AWSMemberEncoding(label: "deploymentId", location: .uri(locationName: "DeploymentId")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
 
@@ -2078,6 +2166,7 @@ extension Greengrass {
     }
 
     public struct GetDeploymentStatusResponse: AWSDecodableShape {
+
         /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or ''Failure''.
         public let deploymentStatus: String?
         /// The type of the deployment.
@@ -2121,6 +2210,7 @@ extension Greengrass {
     }
 
     public struct GetDeviceDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2149,14 +2239,14 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetDeviceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")),
-            AWSMemberEncoding(label: "deviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId")),
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")), 
+            AWSMemberEncoding(label: "deviceDefinitionVersionId", location: .uri(locationName: "DeviceDefinitionVersionId")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -2174,6 +2264,7 @@ extension Greengrass {
     }
 
     public struct GetDeviceDefinitionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the device definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the device definition version was created.
@@ -2221,6 +2312,7 @@ extension Greengrass {
     }
 
     public struct GetFunctionDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2249,14 +2341,14 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetFunctionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")),
-            AWSMemberEncoding(label: "functionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId")),
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")), 
+            AWSMemberEncoding(label: "functionDefinitionVersionId", location: .uri(locationName: "FunctionDefinitionVersionId")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -2274,6 +2366,7 @@ extension Greengrass {
     }
 
     public struct GetFunctionDefinitionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the function definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the function definition version was created.
@@ -2308,7 +2401,7 @@ extension Greengrass {
 
     public struct GetGroupCertificateAuthorityRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "certificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId")),
+            AWSMemberEncoding(label: "certificateAuthorityId", location: .uri(locationName: "CertificateAuthorityId")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
 
@@ -2324,6 +2417,7 @@ extension Greengrass {
     }
 
     public struct GetGroupCertificateAuthorityResponse: AWSDecodableShape {
+
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
         /// The ID of the certificate authority for the group.
@@ -2359,6 +2453,7 @@ extension Greengrass {
     }
 
     public struct GetGroupCertificateConfigurationResponse: AWSDecodableShape {
+
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String?
@@ -2391,6 +2486,7 @@ extension Greengrass {
     }
 
     public struct GetGroupResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2419,13 +2515,13 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetGroupVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")),
+            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")), 
             AWSMemberEncoding(label: "groupVersionId", location: .uri(locationName: "GroupVersionId"))
         ]
 
@@ -2441,6 +2537,7 @@ extension Greengrass {
     }
 
     public struct GetGroupVersionResponse: AWSDecodableShape {
+
         /// The ARN of the group version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the group version was created.
@@ -2484,6 +2581,7 @@ extension Greengrass {
     }
 
     public struct GetLoggerDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2512,14 +2610,14 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetLoggerDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")),
-            AWSMemberEncoding(label: "loggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId")),
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")), 
+            AWSMemberEncoding(label: "loggerDefinitionVersionId", location: .uri(locationName: "LoggerDefinitionVersionId")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -2537,6 +2635,7 @@ extension Greengrass {
     }
 
     public struct GetLoggerDefinitionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the logger definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the logger definition version was created.
@@ -2580,6 +2679,7 @@ extension Greengrass {
     }
 
     public struct GetResourceDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2608,13 +2708,13 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetResourceDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId")),
+            AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId")), 
             AWSMemberEncoding(label: "resourceDefinitionVersionId", location: .uri(locationName: "ResourceDefinitionVersionId"))
         ]
 
@@ -2630,6 +2730,7 @@ extension Greengrass {
     }
 
     public struct GetResourceDefinitionVersionResponse: AWSDecodableShape {
+
         /// Arn of the resource definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the resource definition version was created.
@@ -2659,10 +2760,15 @@ extension Greengrass {
     }
 
     public struct GetServiceRoleForAccountRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetServiceRoleForAccountResponse: AWSDecodableShape {
+
         /// The time when the service role was associated with the account.
         public let associatedAt: String?
         /// The ARN of the role which is associated with the account.
@@ -2694,6 +2800,7 @@ extension Greengrass {
     }
 
     public struct GetSubscriptionDefinitionResponse: AWSDecodableShape {
+
         public let arn: String?
         public let creationTimestamp: String?
         public let id: String?
@@ -2722,14 +2829,14 @@ extension Greengrass {
             case latestVersion = "LatestVersion"
             case latestVersionArn = "LatestVersionArn"
             case name = "Name"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct GetSubscriptionDefinitionVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
-            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId")), 
             AWSMemberEncoding(label: "subscriptionDefinitionVersionId", location: .uri(locationName: "SubscriptionDefinitionVersionId"))
         ]
 
@@ -2747,6 +2854,7 @@ extension Greengrass {
     }
 
     public struct GetSubscriptionDefinitionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the subscription definition version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the subscription definition version was created.
@@ -2794,6 +2902,7 @@ extension Greengrass {
     }
 
     public struct GetThingRuntimeConfigurationResponse: AWSDecodableShape {
+
         /// Runtime configuration for a thing.
         public let runtimeConfiguration: RuntimeConfiguration?
 
@@ -2807,6 +2916,7 @@ extension Greengrass {
     }
 
     public struct GroupCertificateAuthorityProperties: AWSDecodableShape {
+
         /// The ARN of the certificate authority for the group.
         public let groupCertificateAuthorityArn: String?
         /// The ID of the certificate authority for the group.
@@ -2824,6 +2934,7 @@ extension Greengrass {
     }
 
     public struct GroupInformation: AWSDecodableShape {
+
         /// The ARN of the group.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the group was created.
@@ -2861,6 +2972,7 @@ extension Greengrass {
     }
 
     public struct GroupOwnerSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group owner of the resource to the Lambda process privileges. Thus the Lambda process will have the file access permissions of the added Linux group.
         public let autoAddGroupOwner: Bool?
         /// The name of the Linux OS group whose privileges will be added to the Lambda process. This field is optional.
@@ -2878,6 +2990,7 @@ extension Greengrass {
     }
 
     public struct GroupVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the connector definition version for this group.
         public let connectorDefinitionVersionArn: String?
         /// The ARN of the core definition version for this group.
@@ -2916,8 +3029,8 @@ extension Greengrass {
 
     public struct ListBulkDeploymentDetailedReportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "bulkDeploymentId", location: .uri(locationName: "BulkDeploymentId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -2935,6 +3048,7 @@ extension Greengrass {
     }
 
     public struct ListBulkDeploymentDetailedReportsResponse: AWSDecodableShape {
+
         /// A list of the individual group deployments in the bulk deployment operation.
         public let deployments: [BulkDeploymentResult]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -2953,7 +3067,7 @@ extension Greengrass {
 
     public struct ListBulkDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -2969,6 +3083,7 @@ extension Greengrass {
     }
 
     public struct ListBulkDeploymentsResponse: AWSDecodableShape {
+
         /// A list of bulk deployments.
         public let bulkDeployments: [BulkDeployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -2987,8 +3102,8 @@ extension Greengrass {
 
     public struct ListConnectorDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "connectorDefinitionId", location: .uri(locationName: "ConnectorDefinitionId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3006,6 +3121,7 @@ extension Greengrass {
     }
 
     public struct ListConnectorDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3022,7 +3138,7 @@ extension Greengrass {
 
     public struct ListConnectorDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3038,6 +3154,7 @@ extension Greengrass {
     }
 
     public struct ListConnectorDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3054,8 +3171,8 @@ extension Greengrass {
 
     public struct ListCoreDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "coreDefinitionId", location: .uri(locationName: "CoreDefinitionId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3073,6 +3190,7 @@ extension Greengrass {
     }
 
     public struct ListCoreDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3089,7 +3207,7 @@ extension Greengrass {
 
     public struct ListCoreDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3105,6 +3223,7 @@ extension Greengrass {
     }
 
     public struct ListCoreDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3121,8 +3240,8 @@ extension Greengrass {
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3140,6 +3259,7 @@ extension Greengrass {
     }
 
     public struct ListDeploymentsResponse: AWSDecodableShape {
+
         /// A list of deployments for the requested groups.
         public let deployments: [Deployment]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3158,8 +3278,8 @@ extension Greengrass {
 
     public struct ListDeviceDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "deviceDefinitionId", location: .uri(locationName: "DeviceDefinitionId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3177,6 +3297,7 @@ extension Greengrass {
     }
 
     public struct ListDeviceDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3193,7 +3314,7 @@ extension Greengrass {
 
     public struct ListDeviceDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3209,6 +3330,7 @@ extension Greengrass {
     }
 
     public struct ListDeviceDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3225,8 +3347,8 @@ extension Greengrass {
 
     public struct ListFunctionDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "functionDefinitionId", location: .uri(locationName: "FunctionDefinitionId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3244,6 +3366,7 @@ extension Greengrass {
     }
 
     public struct ListFunctionDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3260,7 +3383,7 @@ extension Greengrass {
 
     public struct ListFunctionDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3276,6 +3399,7 @@ extension Greengrass {
     }
 
     public struct ListFunctionDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3305,6 +3429,7 @@ extension Greengrass {
     }
 
     public struct ListGroupCertificateAuthoritiesResponse: AWSDecodableShape {
+
         /// A list of certificate authorities associated with the group.
         public let groupCertificateAuthorities: [GroupCertificateAuthorityProperties]?
 
@@ -3319,8 +3444,8 @@ extension Greengrass {
 
     public struct ListGroupVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3338,6 +3463,7 @@ extension Greengrass {
     }
 
     public struct ListGroupVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3354,7 +3480,7 @@ extension Greengrass {
 
     public struct ListGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3370,6 +3496,7 @@ extension Greengrass {
     }
 
     public struct ListGroupsResponse: AWSDecodableShape {
+
         /// Information about a group.
         public let groups: [GroupInformation]?
         /// The token for the next set of results, or ''null'' if there are no additional results.
@@ -3388,8 +3515,8 @@ extension Greengrass {
 
     public struct ListLoggerDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "loggerDefinitionId", location: .uri(locationName: "LoggerDefinitionId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3407,6 +3534,7 @@ extension Greengrass {
     }
 
     public struct ListLoggerDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3423,7 +3551,7 @@ extension Greengrass {
 
     public struct ListLoggerDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3439,6 +3567,7 @@ extension Greengrass {
     }
 
     public struct ListLoggerDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3455,8 +3584,8 @@ extension Greengrass {
 
     public struct ListResourceDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "resourceDefinitionId", location: .uri(locationName: "ResourceDefinitionId"))
         ]
 
@@ -3474,6 +3603,7 @@ extension Greengrass {
     }
 
     public struct ListResourceDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3490,7 +3620,7 @@ extension Greengrass {
 
     public struct ListResourceDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3506,6 +3636,7 @@ extension Greengrass {
     }
 
     public struct ListResourceDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3522,8 +3653,8 @@ extension Greengrass {
 
     public struct ListSubscriptionDefinitionVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "subscriptionDefinitionId", location: .uri(locationName: "SubscriptionDefinitionId"))
         ]
 
@@ -3541,6 +3672,7 @@ extension Greengrass {
     }
 
     public struct ListSubscriptionDefinitionVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionInformation]?
 
@@ -3557,7 +3689,7 @@ extension Greengrass {
 
     public struct ListSubscriptionDefinitionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -3573,6 +3705,7 @@ extension Greengrass {
     }
 
     public struct ListSubscriptionDefinitionsResponse: AWSDecodableShape {
+
         public let definitions: [DefinitionInformation]?
         public let nextToken: String?
 
@@ -3602,6 +3735,7 @@ extension Greengrass {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -3609,11 +3743,12 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct LocalDeviceResourceData: AWSEncodableShape & AWSDecodableShape {
+
         /// Group/owner related settings for local resources.
         public let groupOwnerSetting: GroupOwnerSetting?
         /// The local absolute path of the device resource. The source path for a device resource can refer only to a character device or block device under ''/dev''.
@@ -3631,6 +3766,7 @@ extension Greengrass {
     }
 
     public struct LocalVolumeResourceData: AWSEncodableShape & AWSDecodableShape {
+
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
         /// Allows you to configure additional group privileges for the Lambda process. This field is optional.
@@ -3652,6 +3788,7 @@ extension Greengrass {
     }
 
     public struct Logger: AWSEncodableShape & AWSDecodableShape {
+
         /// The component that will be subject to logging.
         public let component: LoggerComponent
         /// A descriptive or arbitrary ID for the logger. This value must be unique within the logger definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
@@ -3681,6 +3818,7 @@ extension Greengrass {
     }
 
     public struct LoggerDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of loggers.
         public let loggers: [Logger]?
 
@@ -3695,7 +3833,7 @@ extension Greengrass {
 
     public struct ResetDeploymentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")),
+            AWSMemberEncoding(label: "amznClientToken", location: .header(locationName: "X-Amzn-Client-Token")), 
             AWSMemberEncoding(label: "groupId", location: .uri(locationName: "GroupId"))
         ]
 
@@ -3716,6 +3854,7 @@ extension Greengrass {
     }
 
     public struct ResetDeploymentsResponse: AWSDecodableShape {
+
         /// The ARN of the deployment.
         public let deploymentArn: String?
         /// The ID of the deployment.
@@ -3733,6 +3872,7 @@ extension Greengrass {
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
+
         /// The resource ID, used to refer to a resource in the Lambda function configuration. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
         public let id: String
         /// The descriptive resource name, which is displayed on the AWS IoT Greengrass console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
@@ -3754,6 +3894,7 @@ extension Greengrass {
     }
 
     public struct ResourceAccessPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// The permissions that the Lambda function has to the resource. Can be one of ''rw'' (read/write) or ''ro'' (read-only).
         public let permission: Permission?
         /// The ID of the resource. (This ID is assigned to the resource when you create the resource definiton.)
@@ -3771,6 +3912,7 @@ extension Greengrass {
     }
 
     public struct ResourceDataContainer: AWSEncodableShape & AWSDecodableShape {
+
         /// Attributes that define the local device resource.
         public let localDeviceResourceData: LocalDeviceResourceData?
         /// Attributes that define the local volume resource.
@@ -3800,6 +3942,7 @@ extension Greengrass {
     }
 
     public struct ResourceDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of resources.
         public let resources: [Resource]?
 
@@ -3813,6 +3956,7 @@ extension Greengrass {
     }
 
     public struct ResourceDownloadOwnerSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// The group owner of the resource. This is the name of an existing Linux OS group on the system or a GID. The group's permissions are added to the Lambda process.
         public let groupOwner: String
         /// The permissions that the group owner has to the resource. Valid values are ''rw'' (read/write) or ''ro'' (read-only).
@@ -3830,6 +3974,7 @@ extension Greengrass {
     }
 
     public struct RuntimeConfiguration: AWSDecodableShape {
+
         /// Configuration for telemetry service.
         public let telemetryConfiguration: TelemetryConfiguration?
 
@@ -3843,6 +3988,7 @@ extension Greengrass {
     }
 
     public struct S3MachineLearningModelResourceData: AWSEncodableShape & AWSDecodableShape {
+
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
         public let ownerSetting: ResourceDownloadOwnerSetting?
@@ -3863,6 +4009,7 @@ extension Greengrass {
     }
 
     public struct SageMakerMachineLearningModelResourceData: AWSEncodableShape & AWSDecodableShape {
+
         /// The absolute local path of the resource inside the Lambda environment.
         public let destinationPath: String?
         public let ownerSetting: ResourceDownloadOwnerSetting?
@@ -3883,6 +4030,7 @@ extension Greengrass {
     }
 
     public struct SecretsManagerSecretResourceData: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional. The staging labels whose values you want to make available on the core, in addition to ''AWSCURRENT''.
         public let additionalStagingLabelsToDownload: [String]?
         /// The ARN of the Secrets Manager secret to make available on the core. The value of the secret's latest version (represented by the ''AWSCURRENT'' staging label) is included by default.
@@ -3921,11 +4069,12 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case executionRoleArn = "ExecutionRoleArn"
             case inputFileUri = "InputFileUri"
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct StartBulkDeploymentResponse: AWSDecodableShape {
+
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
         /// The ID of the bulk deployment.
@@ -3957,10 +4106,15 @@ extension Greengrass {
     }
 
     public struct StopBulkDeploymentResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Subscription: AWSEncodableShape & AWSDecodableShape {
+
         /// A descriptive or arbitrary ID for the subscription. This value must be unique within the subscription definition version. Max length is 128 characters with pattern ''[a-zA-Z0-9:_-]+''.
         public let id: String
         /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a connector ARN, 'cloud' (which represents the AWS IoT cloud), or 'GGShadowService'.
@@ -3986,6 +4140,7 @@ extension Greengrass {
     }
 
     public struct SubscriptionDefinitionVersion: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of subscriptions.
         public let subscriptions: [Subscription]?
 
@@ -4012,11 +4167,12 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TelemetryConfiguration: AWSDecodableShape {
+
         /// Synchronization status of the device reported configuration with the desired configuration.
         public let configurationSyncStatus: ConfigurationSyncStatus?
         /// Configure telemetry to be on or off.
@@ -4034,6 +4190,7 @@ extension Greengrass {
     }
 
     public struct TelemetryConfigurationUpdate: AWSEncodableShape {
+
         /// Configure telemetry to be on or off.
         public let telemetry: Telemetry
 
@@ -4048,7 +4205,7 @@ extension Greengrass {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -4083,6 +4240,7 @@ extension Greengrass {
     }
 
     public struct UpdateConnectivityInfoResponse: AWSDecodableShape {
+
         /// A message about the connectivity info update request.
         public let message: String?
         /// The new version of the connectivity info.
@@ -4094,7 +4252,7 @@ extension Greengrass {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
             case version = "Version"
         }
     }
@@ -4118,7 +4276,11 @@ extension Greengrass {
     }
 
     public struct UpdateConnectorDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateCoreDefinitionRequest: AWSEncodableShape {
@@ -4140,7 +4302,11 @@ extension Greengrass {
     }
 
     public struct UpdateCoreDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDeviceDefinitionRequest: AWSEncodableShape {
@@ -4162,7 +4328,11 @@ extension Greengrass {
     }
 
     public struct UpdateDeviceDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFunctionDefinitionRequest: AWSEncodableShape {
@@ -4184,7 +4354,11 @@ extension Greengrass {
     }
 
     public struct UpdateFunctionDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateGroupCertificateConfigurationRequest: AWSEncodableShape {
@@ -4207,6 +4381,7 @@ extension Greengrass {
     }
 
     public struct UpdateGroupCertificateConfigurationResponse: AWSDecodableShape {
+
         public let certificateAuthorityExpiryInMilliseconds: String?
         public let certificateExpiryInMilliseconds: String?
         public let groupId: String?
@@ -4243,7 +4418,11 @@ extension Greengrass {
     }
 
     public struct UpdateGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateLoggerDefinitionRequest: AWSEncodableShape {
@@ -4265,7 +4444,11 @@ extension Greengrass {
     }
 
     public struct UpdateLoggerDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateResourceDefinitionRequest: AWSEncodableShape {
@@ -4287,7 +4470,11 @@ extension Greengrass {
     }
 
     public struct UpdateResourceDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateSubscriptionDefinitionRequest: AWSEncodableShape {
@@ -4309,7 +4496,11 @@ extension Greengrass {
     }
 
     public struct UpdateSubscriptionDefinitionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateThingRuntimeConfigurationRequest: AWSEncodableShape {
@@ -4331,10 +4522,15 @@ extension Greengrass {
     }
 
     public struct UpdateThingRuntimeConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VersionInformation: AWSDecodableShape {
+
         /// The ARN of the version.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the version was created.

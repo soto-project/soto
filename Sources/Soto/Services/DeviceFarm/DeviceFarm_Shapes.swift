@@ -328,6 +328,7 @@ extension DeviceFarm {
     // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
+
         /// The AWS account number specified in the AccountSettings container.
         public let awsAccountNumber: String?
         /// The default number of minutes (at the account level) a test run executes before it times out. The default value is 150 minutes.
@@ -357,18 +358,19 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountNumber
-            case defaultJobTimeoutMinutes
-            case maxJobTimeoutMinutes
-            case maxSlots
-            case skipAppResign
-            case trialMinutes
-            case unmeteredDevices
-            case unmeteredRemoteAccessDevices
+            case awsAccountNumber = "awsAccountNumber"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case maxJobTimeoutMinutes = "maxJobTimeoutMinutes"
+            case maxSlots = "maxSlots"
+            case skipAppResign = "skipAppResign"
+            case trialMinutes = "trialMinutes"
+            case unmeteredDevices = "unmeteredDevices"
+            case unmeteredRemoteAccessDevices = "unmeteredRemoteAccessDevices"
         }
     }
 
     public struct Artifact: AWSDecodableShape {
+
         /// The artifact's ARN.
         public let arn: String?
         /// The artifact's file extension.
@@ -389,15 +391,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case `extension`
-            case name
-            case type
-            case url
+            case arn = "arn"
+            case `extension` = "extension"
+            case name = "name"
+            case type = "type"
+            case url = "url"
         }
     }
 
     public struct CPU: AWSDecodableShape {
+
         /// The CPU's architecture (for example, x86 or ARM).
         public let architecture: String?
         /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a 1.2 GHz CPU is expressed as 1200000000.
@@ -412,13 +415,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case clock
-            case frequency
+            case architecture = "architecture"
+            case clock = "clock"
+            case frequency = "frequency"
         }
     }
 
     public struct Counters: AWSDecodableShape {
+
         /// The number of errored entities.
         public let errored: Int?
         /// The number of failed entities.
@@ -445,17 +449,18 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errored
-            case failed
-            case passed
-            case skipped
-            case stopped
-            case total
-            case warned
+            case errored = "errored"
+            case failed = "failed"
+            case passed = "passed"
+            case skipped = "skipped"
+            case stopped = "stopped"
+            case total = "total"
+            case warned = "warned"
         }
     }
 
     public struct CreateDevicePoolRequest: AWSEncodableShape {
+
         /// The device pool's description.
         public let description: String?
         /// The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
@@ -486,15 +491,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case maxDevices
-            case name
-            case projectArn
-            case rules
+            case description = "description"
+            case maxDevices = "maxDevices"
+            case name = "name"
+            case projectArn = "projectArn"
+            case rules = "rules"
         }
     }
 
     public struct CreateDevicePoolResult: AWSDecodableShape {
+
         /// The newly created device pool.
         public let devicePool: DevicePool?
 
@@ -503,11 +509,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePool
+            case devicePool = "devicePool"
         }
     }
 
     public struct CreateInstanceProfileRequest: AWSEncodableShape {
+
         /// The description of your instance profile.
         public let description: String?
         /// An array of strings that specifies the list of app packages that should not be cleaned up from the device after a test run. The list of packages is considered only if you set packageCleanup to true.
@@ -535,15 +542,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case excludeAppPackagesFromCleanup
-            case name
-            case packageCleanup
-            case rebootAfterUse
+            case description = "description"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+            case name = "name"
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
         }
     }
 
     public struct CreateInstanceProfileResult: AWSDecodableShape {
+
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
@@ -552,11 +560,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfile
+            case instanceProfile = "instanceProfile"
         }
     }
 
     public struct CreateNetworkProfileRequest: AWSEncodableShape {
+
         /// The description of the network profile.
         public let description: String?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
@@ -612,22 +621,23 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case downlinkBandwidthBits
-            case downlinkDelayMs
-            case downlinkJitterMs
-            case downlinkLossPercent
-            case name
-            case projectArn
-            case type
-            case uplinkBandwidthBits
-            case uplinkDelayMs
-            case uplinkJitterMs
-            case uplinkLossPercent
+            case description = "description"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case name = "name"
+            case projectArn = "projectArn"
+            case type = "type"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkJitterMs = "uplinkJitterMs"
+            case uplinkLossPercent = "uplinkLossPercent"
         }
     }
 
     public struct CreateNetworkProfileResult: AWSDecodableShape {
+
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
 
@@ -636,11 +646,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfile
+            case networkProfile = "networkProfile"
         }
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
+
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
         public let defaultJobTimeoutMinutes: Int?
         /// The project's name.
@@ -657,12 +668,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultJobTimeoutMinutes
-            case name
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case name = "name"
         }
     }
 
     public struct CreateProjectResult: AWSDecodableShape {
+
         /// The newly created project.
         public let project: Project?
 
@@ -671,11 +683,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
     public struct CreateRemoteAccessSessionConfiguration: AWSEncodableShape {
+
         /// The billing method for the remote access session.
         public let billingMethod: BillingMethod?
         /// An array of ARNs included in the VPC endpoint configuration.
@@ -695,12 +708,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingMethod
-            case vpceConfigurationArns
+            case billingMethod = "billingMethod"
+            case vpceConfigurationArns = "vpceConfigurationArns"
         }
     }
 
     public struct CreateRemoteAccessSessionRequest: AWSEncodableShape {
+
         /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
         public let clientId: String?
         /// The configuration information for the remote access session request.
@@ -764,22 +778,23 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId
-            case configuration
-            case deviceArn
-            case instanceArn
-            case interactionMode
-            case name
-            case projectArn
-            case remoteDebugEnabled
-            case remoteRecordAppArn
-            case remoteRecordEnabled
-            case skipAppResign
-            case sshPublicKey
+            case clientId = "clientId"
+            case configuration = "configuration"
+            case deviceArn = "deviceArn"
+            case instanceArn = "instanceArn"
+            case interactionMode = "interactionMode"
+            case name = "name"
+            case projectArn = "projectArn"
+            case remoteDebugEnabled = "remoteDebugEnabled"
+            case remoteRecordAppArn = "remoteRecordAppArn"
+            case remoteRecordEnabled = "remoteRecordEnabled"
+            case skipAppResign = "skipAppResign"
+            case sshPublicKey = "sshPublicKey"
         }
     }
 
     public struct CreateRemoteAccessSessionResult: AWSDecodableShape {
+
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
 
@@ -788,11 +803,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteAccessSession
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
     public struct CreateTestGridProjectRequest: AWSEncodableShape {
+
         /// Human-readable description of the project.
         public let description: String?
         /// Human-readable name of the Selenium testing project.
@@ -813,12 +829,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct CreateTestGridProjectResult: AWSDecodableShape {
+
         /// ARN of the Selenium testing project that was created.
         public let testGridProject: TestGridProject?
 
@@ -827,11 +844,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridProject
+            case testGridProject = "testGridProject"
         }
     }
 
     public struct CreateTestGridUrlRequest: AWSEncodableShape {
+
         /// Lifetime, in seconds, of the URL.
         public let expiresInSeconds: Int
         /// ARN (from CreateTestGridProject or ListTestGridProjects) to associate with the short-term URL.
@@ -851,12 +869,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresInSeconds
-            case projectArn
+            case expiresInSeconds = "expiresInSeconds"
+            case projectArn = "projectArn"
         }
     }
 
     public struct CreateTestGridUrlResult: AWSDecodableShape {
+
         /// The number of seconds the URL from CreateTestGridUrlResult$url stays active.
         public let expires: Date?
         /// A signed URL, expiring in CreateTestGridUrlRequest$expiresInSeconds seconds, to be passed to a RemoteWebDriver.
@@ -868,12 +887,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expires
-            case url
+            case expires = "expires"
+            case url = "url"
         }
     }
 
     public struct CreateUploadRequest: AWSEncodableShape {
+
         /// The upload's content type (for example, application/octet-stream).
         public let contentType: String?
         /// The upload's file name. The name should not contain any forward slashes (/). If you are uploading an iOS app, the file name must end with the .ipa extension. If you are uploading an Android app, the file name must end with the .apk extension. For all others, the file name must end with the .zip file extension.
@@ -901,14 +921,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contentType
-            case name
-            case projectArn
-            case type
+            case contentType = "contentType"
+            case name = "name"
+            case projectArn = "projectArn"
+            case type = "type"
         }
     }
 
     public struct CreateUploadResult: AWSDecodableShape {
+
         /// The newly created upload.
         public let upload: Upload?
 
@@ -917,11 +938,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upload
+            case upload = "upload"
         }
     }
 
     public struct CreateVPCEConfigurationRequest: AWSEncodableShape {
+
         /// The DNS name of the service running in your VPC that you want Device Farm to test.
         public let serviceDnsName: String
         /// An optional description that provides details about your VPC endpoint configuration.
@@ -950,14 +972,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceDnsName
-            case vpceConfigurationDescription
-            case vpceConfigurationName
-            case vpceServiceName
+            case serviceDnsName = "serviceDnsName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case vpceServiceName = "vpceServiceName"
         }
     }
 
     public struct CreateVPCEConfigurationResult: AWSDecodableShape {
+
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
@@ -966,11 +989,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpceConfiguration
+            case vpceConfiguration = "vpceConfiguration"
         }
     }
 
     public struct CustomerArtifactPaths: AWSEncodableShape & AWSDecodableShape {
+
         /// Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests are pulled from.
         public let androidPaths: [String]?
         /// Comma-separated list of paths in the test execution environment where the artifacts generated by the customer's tests are pulled from.
@@ -985,13 +1009,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case androidPaths
-            case deviceHostPaths
-            case iosPaths
+            case androidPaths = "androidPaths"
+            case deviceHostPaths = "deviceHostPaths"
+            case iosPaths = "iosPaths"
         }
     }
 
     public struct DeleteDevicePoolRequest: AWSEncodableShape {
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
         public let arn: String
 
@@ -1006,15 +1031,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteDevicePoolResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteInstanceProfileRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
         public let arn: String
 
@@ -1029,15 +1059,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteInstanceProfileResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteNetworkProfileRequest: AWSEncodableShape {
+
         /// The ARN of the network profile to delete.
         public let arn: String
 
@@ -1052,15 +1087,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteNetworkProfileResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
         public let arn: String
 
@@ -1075,15 +1115,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteProjectResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRemoteAccessSessionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
         public let arn: String
 
@@ -1098,15 +1143,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteRemoteAccessSessionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRunRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the run to delete.
         public let arn: String
 
@@ -1121,15 +1171,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteRunResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTestGridProjectRequest: AWSEncodableShape {
+
         /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
 
@@ -1144,15 +1199,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
+            case projectArn = "projectArn"
         }
     }
 
     public struct DeleteTestGridProjectResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteUploadRequest: AWSEncodableShape {
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
         public let arn: String
 
@@ -1167,15 +1227,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteUploadResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteVPCEConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
         public let arn: String
 
@@ -1190,15 +1255,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct DeleteVPCEConfigurationResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Device: AWSDecodableShape {
+
         /// The device's ARN.
         public let arn: String?
         /// Indicates how likely a device is available for a test run. Currently available in the ListDevices and GetDevice API methods.
@@ -1267,31 +1337,32 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availability
-            case carrier
-            case cpu
-            case fleetName
-            case fleetType
-            case formFactor
-            case heapSize
-            case image
-            case instances
-            case manufacturer
-            case memory
-            case model
-            case modelId
-            case name
-            case os
-            case platform
-            case radio
-            case remoteAccessEnabled
-            case remoteDebugEnabled
-            case resolution
+            case arn = "arn"
+            case availability = "availability"
+            case carrier = "carrier"
+            case cpu = "cpu"
+            case fleetName = "fleetName"
+            case fleetType = "fleetType"
+            case formFactor = "formFactor"
+            case heapSize = "heapSize"
+            case image = "image"
+            case instances = "instances"
+            case manufacturer = "manufacturer"
+            case memory = "memory"
+            case model = "model"
+            case modelId = "modelId"
+            case name = "name"
+            case os = "os"
+            case platform = "platform"
+            case radio = "radio"
+            case remoteAccessEnabled = "remoteAccessEnabled"
+            case remoteDebugEnabled = "remoteDebugEnabled"
+            case resolution = "resolution"
         }
     }
 
     public struct DeviceFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list.  ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   MODEL  The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.  INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS
         public let attribute: DeviceFilterAttribute?
         /// Specifies how Device Farm compares the filter's attribute to the value. See the attribute descriptions.
@@ -1306,13 +1377,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case `operator`
-            case values
+            case attribute = "attribute"
+            case `operator` = "operator"
+            case values = "values"
         }
     }
 
     public struct DeviceInstance: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String?
         /// The ARN of the device.
@@ -1336,16 +1408,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case deviceArn
-            case instanceProfile
-            case labels
-            case status
-            case udid
+            case arn = "arn"
+            case deviceArn = "deviceArn"
+            case instanceProfile = "instanceProfile"
+            case labels = "labels"
+            case status = "status"
+            case udid = "udid"
         }
     }
 
     public struct DeviceMinutes: AWSDecodableShape {
+
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
         public let metered: Double?
         /// When specified, represents the total minutes used by the resource to run tests.
@@ -1360,13 +1433,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metered
-            case total
-            case unmetered
+            case metered = "metered"
+            case total = "total"
+            case unmetered = "unmetered"
         }
     }
 
     public struct DevicePool: AWSDecodableShape {
+
         /// The device pool's ARN.
         public let arn: String?
         /// The device pool's description.
@@ -1390,16 +1464,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case maxDevices
-            case name
-            case rules
-            case type
+            case arn = "arn"
+            case description = "description"
+            case maxDevices = "maxDevices"
+            case name = "name"
+            case rules = "rules"
+            case type = "type"
         }
     }
 
     public struct DevicePoolCompatibilityResult: AWSDecodableShape {
+
         /// Whether the result was compatible with the device pool.
         public let compatible: Bool?
         /// The device (phone or tablet) to return information about.
@@ -1414,13 +1489,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatible
-            case device
-            case incompatibilityMessages
+            case compatible = "compatible"
+            case device = "device"
+            case incompatibilityMessages = "incompatibilityMessages"
         }
     }
 
     public struct DeviceSelectionConfiguration: AWSEncodableShape {
+
         /// Used to dynamically select a set of devices for a test run. A filter is made up of an attribute, an operator, and one or more values.    Attribute  The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example).   PLATFORM: The device platform. Valid values are ANDROID or IOS.   OS_VERSION: The operating system version (for example, 10.3.2).   MODEL: The device model (for example, iPad 5th Gen).   AVAILABILITY: The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.   MANUFACTURER: The device manufacturer (for example, Apple).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are TRUE or FALSE.   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Because remote debugging is no longer supported, this filter is ignored.   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.      Operator  The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.      Values  An array of one or more filter values.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to ANDROID or IOS.   The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   The FORM_FACTOR attribute can be set to PHONE or TABLET.   The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
         public let filters: [DeviceFilter]
         /// The maximum number of devices to be included in a test run.
@@ -1432,12 +1508,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxDevices
+            case filters = "filters"
+            case maxDevices = "maxDevices"
         }
     }
 
     public struct DeviceSelectionResult: AWSDecodableShape {
+
         /// The filters in a device selection result.
         public let filters: [DeviceFilter]?
         /// The number of devices that matched the device filter selection criteria.
@@ -1452,13 +1529,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case matchedDevicesCount
-            case maxDevices
+            case filters = "filters"
+            case matchedDevicesCount = "matchedDevicesCount"
+            case maxDevices = "maxDevices"
         }
     }
 
     public struct ExecutionConfiguration: AWSEncodableShape {
+
         /// True if account cleanup is enabled at the beginning of the test. Otherwise, false.
         public let accountsCleanup: Bool?
         /// True if app package cleanup is enabled at the beginning of the test. Otherwise, false.
@@ -1479,19 +1557,24 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountsCleanup
-            case appPackagesCleanup
-            case jobTimeoutMinutes
-            case skipAppResign
-            case videoCapture
+            case accountsCleanup = "accountsCleanup"
+            case appPackagesCleanup = "appPackagesCleanup"
+            case jobTimeoutMinutes = "jobTimeoutMinutes"
+            case skipAppResign = "skipAppResign"
+            case videoCapture = "videoCapture"
         }
     }
 
     public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAccountSettingsResult: AWSDecodableShape {
+
         /// The account settings.
         public let accountSettings: AccountSettings?
 
@@ -1500,11 +1583,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountSettings
+            case accountSettings = "accountSettings"
         }
     }
 
     public struct GetDeviceInstanceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         public let arn: String
 
@@ -1519,11 +1603,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetDeviceInstanceResult: AWSDecodableShape {
+
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
 
@@ -1532,11 +1617,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceInstance
+            case deviceInstance = "deviceInstance"
         }
     }
 
     public struct GetDevicePoolCompatibilityRequest: AWSEncodableShape {
+
         /// The ARN of the app that is associated with the specified device pool.
         public let appArn: String?
         /// An object that contains information about the settings for a run.
@@ -1568,15 +1654,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case configuration
-            case devicePoolArn
-            case test
-            case testType
+            case appArn = "appArn"
+            case configuration = "configuration"
+            case devicePoolArn = "devicePoolArn"
+            case test = "test"
+            case testType = "testType"
         }
     }
 
     public struct GetDevicePoolCompatibilityResult: AWSDecodableShape {
+
         /// Information about compatible devices.
         public let compatibleDevices: [DevicePoolCompatibilityResult]?
         /// Information about incompatible devices.
@@ -1588,12 +1675,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibleDevices
-            case incompatibleDevices
+            case compatibleDevices = "compatibleDevices"
+            case incompatibleDevices = "incompatibleDevices"
         }
     }
 
     public struct GetDevicePoolRequest: AWSEncodableShape {
+
         /// The device pool's ARN.
         public let arn: String
 
@@ -1608,11 +1696,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetDevicePoolResult: AWSDecodableShape {
+
         /// An object that contains information about the requested device pool.
         public let devicePool: DevicePool?
 
@@ -1621,11 +1710,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePool
+            case devicePool = "devicePool"
         }
     }
 
     public struct GetDeviceRequest: AWSEncodableShape {
+
         /// The device type's ARN.
         public let arn: String
 
@@ -1640,11 +1730,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetDeviceResult: AWSDecodableShape {
+
         /// An object that contains information about the requested device.
         public let device: Device?
 
@@ -1653,11 +1744,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device
+            case device = "device"
         }
     }
 
     public struct GetInstanceProfileRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of an instance profile.
         public let arn: String
 
@@ -1672,11 +1764,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetInstanceProfileResult: AWSDecodableShape {
+
         /// An object that contains information about an instance profile.
         public let instanceProfile: InstanceProfile?
 
@@ -1685,11 +1778,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfile
+            case instanceProfile = "instanceProfile"
         }
     }
 
     public struct GetJobRequest: AWSEncodableShape {
+
         /// The job's ARN.
         public let arn: String
 
@@ -1704,11 +1798,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetJobResult: AWSDecodableShape {
+
         /// An object that contains information about the requested job.
         public let job: Job?
 
@@ -1717,11 +1812,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct GetNetworkProfileRequest: AWSEncodableShape {
+
         /// The ARN of the network profile to return information about.
         public let arn: String
 
@@ -1736,11 +1832,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetNetworkProfileResult: AWSDecodableShape {
+
         /// The network profile.
         public let networkProfile: NetworkProfile?
 
@@ -1749,11 +1846,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfile
+            case networkProfile = "networkProfile"
         }
     }
 
     public struct GetOfferingStatusRequest: AWSEncodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
@@ -1767,11 +1865,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetOfferingStatusResult: AWSDecodableShape {
+
         /// When specified, gets the offering status for the current period.
         public let current: [String: OfferingStatus]?
         /// When specified, gets the offering status for the next period.
@@ -1786,13 +1885,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case current
-            case nextPeriod
-            case nextToken
+            case current = "current"
+            case nextPeriod = "nextPeriod"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetProjectRequest: AWSEncodableShape {
+
         /// The project's ARN.
         public let arn: String
 
@@ -1807,11 +1907,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetProjectResult: AWSDecodableShape {
+
         /// The project to get information about.
         public let project: Project?
 
@@ -1820,11 +1921,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
     public struct GetRemoteAccessSessionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
 
@@ -1839,11 +1941,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetRemoteAccessSessionResult: AWSDecodableShape {
+
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
 
@@ -1852,11 +1955,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteAccessSession
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
     public struct GetRunRequest: AWSEncodableShape {
+
         /// The run's ARN.
         public let arn: String
 
@@ -1871,11 +1975,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetRunResult: AWSDecodableShape {
+
         /// The run to get results from.
         public let run: Run?
 
@@ -1884,11 +1989,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case run
+            case run = "run"
         }
     }
 
     public struct GetSuiteRequest: AWSEncodableShape {
+
         /// The suite's ARN.
         public let arn: String
 
@@ -1903,11 +2009,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetSuiteResult: AWSDecodableShape {
+
         /// A collection of one or more tests.
         public let suite: Suite?
 
@@ -1916,11 +2023,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case suite
+            case suite = "suite"
         }
     }
 
     public struct GetTestGridProjectRequest: AWSEncodableShape {
+
         /// The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
 
@@ -1935,11 +2043,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
+            case projectArn = "projectArn"
         }
     }
 
     public struct GetTestGridProjectResult: AWSDecodableShape {
+
         /// A TestGridProject.
         public let testGridProject: TestGridProject?
 
@@ -1948,11 +2057,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridProject
+            case testGridProject = "testGridProject"
         }
     }
 
     public struct GetTestGridSessionRequest: AWSEncodableShape {
+
         /// The ARN for the project that this session belongs to. See CreateTestGridProject and ListTestGridProjects.
         public let projectArn: String?
         /// An ARN that uniquely identifies a TestGridSession.
@@ -1979,13 +2089,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case sessionArn
-            case sessionId
+            case projectArn = "projectArn"
+            case sessionArn = "sessionArn"
+            case sessionId = "sessionId"
         }
     }
 
     public struct GetTestGridSessionResult: AWSDecodableShape {
+
         /// The TestGridSession that was requested.
         public let testGridSession: TestGridSession?
 
@@ -1994,11 +2105,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridSession
+            case testGridSession = "testGridSession"
         }
     }
 
     public struct GetTestRequest: AWSEncodableShape {
+
         /// The test's ARN.
         public let arn: String
 
@@ -2013,11 +2125,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetTestResult: AWSDecodableShape {
+
         /// A test condition that is evaluated.
         public let test: Test?
 
@@ -2026,11 +2139,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case test
+            case test = "test"
         }
     }
 
     public struct GetUploadRequest: AWSEncodableShape {
+
         /// The upload's ARN.
         public let arn: String
 
@@ -2045,11 +2159,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetUploadResult: AWSDecodableShape {
+
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
 
@@ -2058,11 +2173,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upload
+            case upload = "upload"
         }
     }
 
     public struct GetVPCEConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
         public let arn: String
 
@@ -2077,11 +2193,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct GetVPCEConfigurationResult: AWSDecodableShape {
+
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
@@ -2090,11 +2207,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpceConfiguration
+            case vpceConfiguration = "vpceConfiguration"
         }
     }
 
     public struct IncompatibilityMessage: AWSDecodableShape {
+
         /// A message about the incompatibility.
         public let message: String?
         /// The type of incompatibility. Allowed values include:   ARN   FORM_FACTOR (for example, phone or tablet)   MANUFACTURER   PLATFORM (for example, Android or iOS)   REMOTE_ACCESS_ENABLED   APPIUM_VERSION
@@ -2106,12 +2224,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case type
+            case message = "message"
+            case type = "type"
         }
     }
 
     public struct InstallToRemoteAccessSessionRequest: AWSEncodableShape {
+
         /// The ARN of the app about which you are requesting information.
         public let appArn: String
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
@@ -2132,12 +2251,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case remoteAccessSessionArn
+            case appArn = "appArn"
+            case remoteAccessSessionArn = "remoteAccessSessionArn"
         }
     }
 
     public struct InstallToRemoteAccessSessionResult: AWSDecodableShape {
+
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
 
@@ -2146,11 +2266,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appUpload
+            case appUpload = "appUpload"
         }
     }
 
     public struct InstanceProfile: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String?
         /// The description of the instance profile.
@@ -2174,16 +2295,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case excludeAppPackagesFromCleanup
-            case name
-            case packageCleanup
-            case rebootAfterUse
+            case arn = "arn"
+            case description = "description"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+            case name = "name"
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
         }
     }
 
     public struct Job: AWSDecodableShape {
+
         /// The job's ARN.
         public let arn: String?
         /// The job's result counters.
@@ -2234,25 +2356,26 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case counters
-            case created
-            case device
-            case deviceMinutes
-            case instanceArn
-            case message
-            case name
-            case result
-            case started
-            case status
-            case stopped
-            case type
-            case videoCapture
-            case videoEndpoint
+            case arn = "arn"
+            case counters = "counters"
+            case created = "created"
+            case device = "device"
+            case deviceMinutes = "deviceMinutes"
+            case instanceArn = "instanceArn"
+            case message = "message"
+            case name = "name"
+            case result = "result"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case type = "type"
+            case videoCapture = "videoCapture"
+            case videoEndpoint = "videoEndpoint"
         }
     }
 
     public struct ListArtifactsRequest: AWSEncodableShape {
+
         /// The run, job, suite, or test ARN.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2275,13 +2398,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
     public struct ListArtifactsResult: AWSDecodableShape {
+
         /// Information about the artifacts.
         public let artifacts: [Artifact]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2293,12 +2417,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case nextToken
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeviceInstancesRequest: AWSEncodableShape {
+
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2315,12 +2440,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeviceInstancesResult: AWSDecodableShape {
+
         /// An object that contains information about your device instances.
         public let deviceInstances: [DeviceInstance]?
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
@@ -2332,12 +2458,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceInstances
-            case nextToken
+            case deviceInstances = "deviceInstances"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDevicePoolsRequest: AWSEncodableShape {
+
         /// The project ARN.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2360,13 +2487,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
     public struct ListDevicePoolsResult: AWSDecodableShape {
+
         /// Information about the device pools.
         public let devicePools: [DevicePool]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2378,12 +2506,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePools
-            case nextToken
+            case devicePools = "devicePools"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDevicesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project.
         public let arn: String?
         /// Used to select a set of devices. A filter is made up of an attribute, an operator, and one or more values.   Attribute: The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example).   PLATFORM: The device platform. Valid values are ANDROID or IOS.   OS_VERSION: The operating system version (for example, 10.3.2).   MODEL: The device model (for example, iPad 5th Gen).   AVAILABILITY: The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.   MANUFACTURER: The device manufacturer (for example, Apple).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are TRUE or FALSE.   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Because remote debugging is no longer supported, this attribute is ignored.   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.     Operator: The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.     Values: An array of one or more filter values.   The IN and NOT_IN operators take a values array that has one or more elements.   The other operators require an array with a single element.   In a request, the AVAILABILITY attribute takes the following values: AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.
@@ -2406,13 +2535,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case filters
-            case nextToken
+            case arn = "arn"
+            case filters = "filters"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDevicesResult: AWSDecodableShape {
+
         /// Information about the devices.
         public let devices: [Device]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2424,12 +2554,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices
-            case nextToken
+            case devices = "devices"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListInstanceProfilesRequest: AWSEncodableShape {
+
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2446,12 +2577,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListInstanceProfilesResult: AWSDecodableShape {
+
         /// An object that contains information about your instance profiles.
         public let instanceProfiles: [InstanceProfile]?
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
@@ -2463,12 +2595,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfiles
-            case nextToken
+            case instanceProfiles = "instanceProfiles"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
+
         /// The run's Amazon Resource Name (ARN).
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2488,12 +2621,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListJobsResult: AWSDecodableShape {
+
         /// Information about the jobs.
         public let jobs: [Job]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
@@ -2505,12 +2639,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListNetworkProfilesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2533,13 +2668,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
     public struct ListNetworkProfilesResult: AWSDecodableShape {
+
         /// A list of the available network profiles.
         public let networkProfiles: [NetworkProfile]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2551,12 +2687,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfiles
-            case nextToken
+            case networkProfiles = "networkProfiles"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOfferingPromotionsRequest: AWSEncodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
@@ -2570,11 +2707,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOfferingPromotionsResult: AWSDecodableShape {
+
         /// An identifier to be used in the next call to this operation, to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the offering promotions.
@@ -2586,12 +2724,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offeringPromotions
+            case nextToken = "nextToken"
+            case offeringPromotions = "offeringPromotions"
         }
     }
 
     public struct ListOfferingTransactionsRequest: AWSEncodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
@@ -2605,11 +2744,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOfferingTransactionsResult: AWSDecodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
@@ -2621,12 +2761,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offeringTransactions
+            case nextToken = "nextToken"
+            case offeringTransactions = "offeringTransactions"
         }
     }
 
     public struct ListOfferingsRequest: AWSEncodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
@@ -2640,11 +2781,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOfferingsResult: AWSDecodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// A value that represents the list offering results.
@@ -2656,12 +2798,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offerings
+            case nextToken = "nextToken"
+            case offerings = "offerings"
         }
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
+
         /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
         public let arn: String?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2681,12 +2824,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListProjectsResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the projects.
@@ -2698,12 +2842,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projects
+            case nextToken = "nextToken"
+            case projects = "projects"
         }
     }
 
     public struct ListRemoteAccessSessionsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project about which you are requesting information.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2723,12 +2868,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListRemoteAccessSessionsResult: AWSDecodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// A container that represents the metadata from the service about each remote access session you are requesting.
@@ -2740,12 +2886,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case remoteAccessSessions
+            case nextToken = "nextToken"
+            case remoteAccessSessions = "remoteAccessSessions"
         }
     }
 
     public struct ListRunsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2765,12 +2912,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListRunsResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the runs.
@@ -2782,12 +2930,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case runs
+            case nextToken = "nextToken"
+            case runs = "runs"
         }
     }
 
     public struct ListSamplesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the job used to list samples.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2807,12 +2956,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSamplesResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the samples.
@@ -2824,12 +2974,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case samples
+            case nextToken = "nextToken"
+            case samples = "samples"
         }
     }
 
     public struct ListSuitesRequest: AWSEncodableShape {
+
         /// The job's Amazon Resource Name (ARN).
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -2849,12 +3000,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSuitesResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the suites.
@@ -2866,12 +3018,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case suites
+            case nextToken = "nextToken"
+            case suites = "suites"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
 
@@ -2891,6 +3044,7 @@ extension DeviceFarm {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
@@ -2904,6 +3058,7 @@ extension DeviceFarm {
     }
 
     public struct ListTestGridProjectsRequest: AWSEncodableShape {
+
         /// Return no more than this number of results.
         public let maxResult: Int?
         /// From a response, used to continue a paginated listing.
@@ -2922,12 +3077,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResult
-            case nextToken
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTestGridProjectsResult: AWSDecodableShape {
+
         /// Used for pagination. Pass into ListTestGridProjects to get more results in a paginated request.
         public let nextToken: String?
         /// The list of TestGridProjects, based on a ListTestGridProjectsRequest.
@@ -2939,12 +3095,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testGridProjects
+            case nextToken = "nextToken"
+            case testGridProjects = "testGridProjects"
         }
     }
 
     public struct ListTestGridSessionActionsRequest: AWSEncodableShape {
+
         /// The maximum number of sessions to return per response.
         public let maxResult: Int?
         /// Pagination token.
@@ -2969,13 +3126,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResult
-            case nextToken
-            case sessionArn
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
+            case sessionArn = "sessionArn"
         }
     }
 
     public struct ListTestGridSessionActionsResult: AWSDecodableShape {
+
         /// The action taken by the session.
         public let actions: [TestGridSessionAction]?
         /// Pagination token.
@@ -2987,12 +3145,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case nextToken
+            case actions = "actions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTestGridSessionArtifactsRequest: AWSEncodableShape {
+
         /// The maximum number of results to be returned by a request.
         public let maxResult: Int?
         /// Pagination token.
@@ -3020,14 +3179,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResult
-            case nextToken
-            case sessionArn
-            case type
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
+            case sessionArn = "sessionArn"
+            case type = "type"
         }
     }
 
     public struct ListTestGridSessionArtifactsResult: AWSDecodableShape {
+
         /// A list of test grid session artifacts for a TestGridSession.
         public let artifacts: [TestGridSessionArtifact]?
         /// Pagination token.
@@ -3039,12 +3199,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case artifacts
-            case nextToken
+            case artifacts = "artifacts"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTestGridSessionsRequest: AWSEncodableShape {
+
         /// Return only sessions created after this time.
         public let creationTimeAfter: Date?
         /// Return only sessions created before this time.
@@ -3084,18 +3245,19 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTimeAfter
-            case creationTimeBefore
-            case endTimeAfter
-            case endTimeBefore
-            case maxResult
-            case nextToken
-            case projectArn
-            case status
+            case creationTimeAfter = "creationTimeAfter"
+            case creationTimeBefore = "creationTimeBefore"
+            case endTimeAfter = "endTimeAfter"
+            case endTimeBefore = "endTimeBefore"
+            case maxResult = "maxResult"
+            case nextToken = "nextToken"
+            case projectArn = "projectArn"
+            case status = "status"
         }
     }
 
     public struct ListTestGridSessionsResult: AWSDecodableShape {
+
         /// Pagination token.
         public let nextToken: String?
         /// The sessions that match the criteria in a ListTestGridSessionsRequest.
@@ -3107,12 +3269,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case testGridSessions
+            case nextToken = "nextToken"
+            case testGridSessions = "testGridSessions"
         }
     }
 
     public struct ListTestsRequest: AWSEncodableShape {
+
         /// The test suite's Amazon Resource Name (ARN).
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -3132,12 +3295,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTestsResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the tests.
@@ -3149,12 +3313,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tests
+            case nextToken = "nextToken"
+            case tests = "tests"
         }
     }
 
     public struct ListUniqueProblemsRequest: AWSEncodableShape {
+
         /// The unique problems' ARNs.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -3174,12 +3339,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
+            case arn = "arn"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListUniqueProblemsResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the unique problems. Allowed values include:   PENDING   PASSED   WARNED   FAILED   SKIPPED   ERRORED   STOPPED
@@ -3191,12 +3357,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case uniqueProblems
+            case nextToken = "nextToken"
+            case uniqueProblems = "uniqueProblems"
         }
     }
 
     public struct ListUploadsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
         public let arn: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -3219,13 +3386,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case nextToken
-            case type
+            case arn = "arn"
+            case nextToken = "nextToken"
+            case type = "type"
         }
     }
 
     public struct ListUploadsResult: AWSDecodableShape {
+
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// Information about the uploads.
@@ -3237,12 +3405,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case uploads
+            case nextToken = "nextToken"
+            case uploads = "uploads"
         }
     }
 
     public struct ListVPCEConfigurationsRequest: AWSEncodableShape {
+
         /// An integer that specifies the maximum number of items you want to return in the API response.
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
@@ -3259,12 +3428,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListVPCEConfigurationsResult: AWSDecodableShape {
+
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
         /// An array of VPCEConfiguration objects that contain information about your VPC endpoint configuration.
@@ -3276,12 +3446,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case vpceConfigurations
+            case nextToken = "nextToken"
+            case vpceConfigurations = "vpceConfigurations"
         }
     }
 
     public struct Location: AWSEncodableShape & AWSDecodableShape {
+
         /// The latitude.
         public let latitude: Double
         /// The longitude.
@@ -3293,12 +3464,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latitude
-            case longitude
+            case latitude = "latitude"
+            case longitude = "longitude"
         }
     }
 
     public struct MonetaryAmount: AWSDecodableShape {
+
         /// The numerical amount of an offering or transaction.
         public let amount: Double?
         /// The currency code of a monetary amount. For example, USD means U.S. dollars.
@@ -3310,12 +3482,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amount
-            case currencyCode
+            case amount = "amount"
+            case currencyCode = "currencyCode"
         }
     }
 
     public struct NetworkProfile: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the network profile.
         public let arn: String?
         /// The description of the network profile.
@@ -3357,22 +3530,23 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case downlinkBandwidthBits
-            case downlinkDelayMs
-            case downlinkJitterMs
-            case downlinkLossPercent
-            case name
-            case type
-            case uplinkBandwidthBits
-            case uplinkDelayMs
-            case uplinkJitterMs
-            case uplinkLossPercent
+            case arn = "arn"
+            case description = "description"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case name = "name"
+            case type = "type"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkJitterMs = "uplinkJitterMs"
+            case uplinkLossPercent = "uplinkLossPercent"
         }
     }
 
     public struct Offering: AWSDecodableShape {
+
         /// A string that describes the offering.
         public let description: String?
         /// The ID that corresponds to a device offering.
@@ -3393,15 +3567,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
-            case platform
-            case recurringCharges
-            case type
+            case description = "description"
+            case id = "id"
+            case platform = "platform"
+            case recurringCharges = "recurringCharges"
+            case type = "type"
         }
     }
 
     public struct OfferingPromotion: AWSDecodableShape {
+
         /// A string that describes the offering promotion.
         public let description: String?
         /// The ID of the offering promotion.
@@ -3413,12 +3588,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case id
+            case description = "description"
+            case id = "id"
         }
     }
 
     public struct OfferingStatus: AWSDecodableShape {
+
         /// The date on which the offering is effective.
         public let effectiveOn: Date?
         /// Represents the metadata of an offering status.
@@ -3436,14 +3612,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectiveOn
-            case offering
-            case quantity
-            case type
+            case effectiveOn = "effectiveOn"
+            case offering = "offering"
+            case quantity = "quantity"
+            case type = "type"
         }
     }
 
     public struct OfferingTransaction: AWSDecodableShape {
+
         /// The cost of an offering transaction.
         public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
@@ -3464,15 +3641,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cost
-            case createdOn
-            case offeringPromotionId
-            case offeringStatus
-            case transactionId
+            case cost = "cost"
+            case createdOn = "createdOn"
+            case offeringPromotionId = "offeringPromotionId"
+            case offeringStatus = "offeringStatus"
+            case transactionId = "transactionId"
         }
     }
 
     public struct Problem: AWSDecodableShape {
+
         /// Information about the associated device.
         public let device: Device?
         /// Information about the associated job.
@@ -3499,17 +3677,18 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device
-            case job
-            case message
-            case result
-            case run
-            case suite
-            case test
+            case device = "device"
+            case job = "job"
+            case message = "message"
+            case result = "result"
+            case run = "run"
+            case suite = "suite"
+            case test = "test"
         }
     }
 
     public struct ProblemDetail: AWSDecodableShape {
+
         /// The problem detail's ARN.
         public let arn: String?
         /// The problem detail's name.
@@ -3521,12 +3700,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
+            case arn = "arn"
+            case name = "name"
         }
     }
 
     public struct Project: AWSDecodableShape {
+
         /// The project's ARN.
         public let arn: String?
         /// When the project was created.
@@ -3544,14 +3724,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case defaultJobTimeoutMinutes
-            case name
+            case arn = "arn"
+            case created = "created"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case name = "name"
         }
     }
 
     public struct PurchaseOfferingRequest: AWSEncodableShape {
+
         /// The ID of the offering.
         public let offeringId: String?
         /// The ID of the offering promotion to be applied to the purchase.
@@ -3571,13 +3752,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringId
-            case offeringPromotionId
-            case quantity
+            case offeringId = "offeringId"
+            case offeringPromotionId = "offeringPromotionId"
+            case quantity = "quantity"
         }
     }
 
     public struct PurchaseOfferingResult: AWSDecodableShape {
+
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
 
@@ -3586,11 +3768,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringTransaction
+            case offeringTransaction = "offeringTransaction"
         }
     }
 
     public struct Radios: AWSEncodableShape & AWSDecodableShape {
+
         /// True if Bluetooth is enabled at the beginning of the test. Otherwise, false.
         public let bluetooth: Bool?
         /// True if GPS is enabled at the beginning of the test. Otherwise, false.
@@ -3608,14 +3791,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bluetooth
-            case gps
-            case nfc
-            case wifi
+            case bluetooth = "bluetooth"
+            case gps = "gps"
+            case nfc = "nfc"
+            case wifi = "wifi"
         }
     }
 
     public struct RecurringCharge: AWSDecodableShape {
+
         /// The cost of the recurring charge.
         public let cost: MonetaryAmount?
         /// The frequency in which charges recur.
@@ -3627,12 +3811,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cost
-            case frequency
+            case cost = "cost"
+            case frequency = "frequency"
         }
     }
 
     public struct RemoteAccessSession: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology.
@@ -3701,31 +3886,32 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case billingMethod
-            case clientId
-            case created
-            case device
-            case deviceMinutes
-            case deviceUdid
-            case endpoint
-            case hostAddress
-            case instanceArn
-            case interactionMode
-            case message
-            case name
-            case remoteDebugEnabled
-            case remoteRecordAppArn
-            case remoteRecordEnabled
-            case result
-            case skipAppResign
-            case started
-            case status
-            case stopped
+            case arn = "arn"
+            case billingMethod = "billingMethod"
+            case clientId = "clientId"
+            case created = "created"
+            case device = "device"
+            case deviceMinutes = "deviceMinutes"
+            case deviceUdid = "deviceUdid"
+            case endpoint = "endpoint"
+            case hostAddress = "hostAddress"
+            case instanceArn = "instanceArn"
+            case interactionMode = "interactionMode"
+            case message = "message"
+            case name = "name"
+            case remoteDebugEnabled = "remoteDebugEnabled"
+            case remoteRecordAppArn = "remoteRecordAppArn"
+            case remoteRecordEnabled = "remoteRecordEnabled"
+            case result = "result"
+            case skipAppResign = "skipAppResign"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
         }
     }
 
     public struct RenewOfferingRequest: AWSEncodableShape {
+
         /// The ID of a request to renew an offering.
         public let offeringId: String?
         /// The quantity requested in an offering renewal.
@@ -3741,12 +3927,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringId
-            case quantity
+            case offeringId = "offeringId"
+            case quantity = "quantity"
         }
     }
 
     public struct RenewOfferingResult: AWSDecodableShape {
+
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
 
@@ -3755,11 +3942,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offeringTransaction
+            case offeringTransaction = "offeringTransaction"
         }
     }
 
     public struct Resolution: AWSDecodableShape {
+
         /// The screen resolution's height, expressed in pixels.
         public let height: Int?
         /// The screen resolution's width, expressed in pixels.
@@ -3771,12 +3959,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
+            case height = "height"
+            case width = "width"
         }
     }
 
     public struct Rule: AWSEncodableShape & AWSDecodableShape {
+
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". The supported operators for each attribute are provided in the following list.  APPIUM_VERSION  The Appium version for the test. Supported operators: CONTAINS   ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example. Supported operators: EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   MODEL  The device model, such as Apple iPad Air 2 or Google Pixel. Supported operators: CONTAINS, EQUALS, IN, NOT_IN   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.
         public let attribute: DeviceAttribute?
         /// Specifies how Device Farm compares the rule's attribute to the value. For the operators that are supported by each attribute, see the attribute descriptions.
@@ -3791,13 +3980,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case `operator`
-            case value
+            case attribute = "attribute"
+            case `operator` = "operator"
+            case value = "value"
         }
     }
 
     public struct Run: AWSDecodableShape {
+
         /// An app to upload or that has been uploaded.
         public let appUpload: String?
         /// The run's ARN.
@@ -3896,41 +4086,42 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appUpload
-            case arn
-            case billingMethod
-            case completedJobs
-            case counters
-            case created
-            case customerArtifactPaths
-            case deviceMinutes
-            case devicePoolArn
-            case deviceSelectionResult
-            case eventCount
-            case jobTimeoutMinutes
-            case locale
-            case location
-            case message
-            case name
-            case networkProfile
-            case parsingResultUrl
-            case platform
-            case radios
-            case result
-            case resultCode
-            case seed
-            case skipAppResign
-            case started
-            case status
-            case stopped
-            case testSpecArn
-            case totalJobs
-            case type
-            case webUrl
+            case appUpload = "appUpload"
+            case arn = "arn"
+            case billingMethod = "billingMethod"
+            case completedJobs = "completedJobs"
+            case counters = "counters"
+            case created = "created"
+            case customerArtifactPaths = "customerArtifactPaths"
+            case deviceMinutes = "deviceMinutes"
+            case devicePoolArn = "devicePoolArn"
+            case deviceSelectionResult = "deviceSelectionResult"
+            case eventCount = "eventCount"
+            case jobTimeoutMinutes = "jobTimeoutMinutes"
+            case locale = "locale"
+            case location = "location"
+            case message = "message"
+            case name = "name"
+            case networkProfile = "networkProfile"
+            case parsingResultUrl = "parsingResultUrl"
+            case platform = "platform"
+            case radios = "radios"
+            case result = "result"
+            case resultCode = "resultCode"
+            case seed = "seed"
+            case skipAppResign = "skipAppResign"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case testSpecArn = "testSpecArn"
+            case totalJobs = "totalJobs"
+            case type = "type"
+            case webUrl = "webUrl"
         }
     }
 
     public struct Sample: AWSDecodableShape {
+
         /// The sample's ARN.
         public let arn: String?
         /// The sample's type. Must be one of the following values:   CPU: A CPU sample type. This is expressed as the app processing CPU time (including child processes) as reported by process, as a percentage.   MEMORY: A memory usage sample type. This is expressed as the total proportional set size of an app process, in kilobytes.   NATIVE_AVG_DRAWTIME   NATIVE_FPS   NATIVE_FRAMES   NATIVE_MAX_DRAWTIME   NATIVE_MIN_DRAWTIME   OPENGL_AVG_DRAWTIME   OPENGL_FPS   OPENGL_FRAMES   OPENGL_MAX_DRAWTIME   OPENGL_MIN_DRAWTIME   RX   RX_RATE: The total number of bytes per second (TCP and UDP) that are sent, by app process.   THREADS: A threads sample type. This is expressed as the total number of threads per app process.   TX   TX_RATE: The total number of bytes per second (TCP and UDP) that are received, by app process.
@@ -3945,13 +4136,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case type
-            case url
+            case arn = "arn"
+            case type = "type"
+            case url = "url"
         }
     }
 
     public struct ScheduleRunConfiguration: AWSEncodableShape {
+
         /// A list of upload ARNs for app packages to be installed with your app.
         public let auxiliaryApps: [String]?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.  If you have purchased unmetered device slots, you must set this parameter to unmetered to make use of them. Otherwise, your run counts against your metered time.
@@ -4003,19 +4195,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case auxiliaryApps
-            case billingMethod
-            case customerArtifactPaths
-            case extraDataPackageArn
-            case locale
-            case location
-            case networkProfileArn
-            case radios
-            case vpceConfigurationArns
+            case auxiliaryApps = "auxiliaryApps"
+            case billingMethod = "billingMethod"
+            case customerArtifactPaths = "customerArtifactPaths"
+            case extraDataPackageArn = "extraDataPackageArn"
+            case locale = "locale"
+            case location = "location"
+            case networkProfileArn = "networkProfileArn"
+            case radios = "radios"
+            case vpceConfigurationArns = "vpceConfigurationArns"
         }
     }
 
     public struct ScheduleRunRequest: AWSEncodableShape {
+
         /// The ARN of an application package to run tests against, created with CreateUpload. See ListUploads.
         public let appArn: String?
         /// Information about the settings for the run to be scheduled.
@@ -4061,18 +4254,19 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appArn
-            case configuration
-            case devicePoolArn
-            case deviceSelectionConfiguration
-            case executionConfiguration
-            case name
-            case projectArn
-            case test
+            case appArn = "appArn"
+            case configuration = "configuration"
+            case devicePoolArn = "devicePoolArn"
+            case deviceSelectionConfiguration = "deviceSelectionConfiguration"
+            case executionConfiguration = "executionConfiguration"
+            case name = "name"
+            case projectArn = "projectArn"
+            case test = "test"
         }
     }
 
     public struct ScheduleRunResult: AWSDecodableShape {
+
         /// Information about the scheduled run.
         public let run: Run?
 
@@ -4081,11 +4275,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case run
+            case run = "run"
         }
     }
 
     public struct ScheduleRunTest: AWSEncodableShape {
+
         /// The test's filter.
         public let filter: String?
         /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For all tests:    app_performance_monitoring: Performance monitoring is enabled by default. Set this parameter to false to disable it.   For Calabash tests:   profile: A cucumber profile (for example, my_profile_name).   tags: You can limit execution to features or scenarios that have (or don't have) certain tags (for example, @smoke or @smoke,~@wip).   For Appium tests (all types):   appium_version: The Appium version. Currently supported values are 1.6.5 (and later), latest, and default.   latest runs the latest Appium version supported by Device Farm (1.9.1).   For default, Device Farm selects a compatible version of Appium for the device. The current behavior is to run 1.7.2 on Android devices and iOS 9 and earlier and 1.7.2 for iOS 10 and later.   This behavior is subject to change.     For fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.   For Explorer tests:   username: A user name to use if the Explorer encounters a login form. If not supplied, no user name is inserted.   password: A password to use if the Explorer encounters a login form. If not supplied, no password is inserted.   For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: com.android.abc.Test1    Running a single test: com.android.abc.Test1#smoke    Running multiple tests: com.android.abc.Test1,com.android.abc.Test2      For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: LoginTests    Running a multiple test classes: LoginTests,SmokeTests    Running a single test: LoginTests/testValid    Running multiple tests: LoginTests/testValid,LoginTests/testInvalid      For UIAutomator:   filter: A test filter string. Examples:   Running a single test case: com.android.abc.Test1    Running a single test: com.android.abc.Test1#smoke    Running multiple tests: com.android.abc.Test1,com.android.abc.Test2
@@ -4117,15 +4312,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case parameters
-            case testPackageArn
-            case testSpecArn
-            case type
+            case filter = "filter"
+            case parameters = "parameters"
+            case testPackageArn = "testPackageArn"
+            case testSpecArn = "testSpecArn"
+            case type = "type"
         }
     }
 
     public struct StopJobRequest: AWSEncodableShape {
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
         public let arn: String
 
@@ -4140,11 +4336,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct StopJobResult: AWSDecodableShape {
+
         /// The job that was stopped.
         public let job: Job?
 
@@ -4153,11 +4350,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct StopRemoteAccessSessionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the remote access session to stop.
         public let arn: String
 
@@ -4172,11 +4370,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct StopRemoteAccessSessionResult: AWSDecodableShape {
+
         /// A container that represents the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
 
@@ -4185,11 +4384,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remoteAccessSession
+            case remoteAccessSession = "remoteAccessSession"
         }
     }
 
     public struct StopRunRequest: AWSEncodableShape {
+
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
         public let arn: String
 
@@ -4204,11 +4404,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct StopRunResult: AWSDecodableShape {
+
         /// The run that was stopped.
         public let run: Run?
 
@@ -4217,11 +4418,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case run
+            case run = "run"
         }
     }
 
     public struct Suite: AWSDecodableShape {
+
         /// The suite's ARN.
         public let arn: String?
         /// The suite's result counters.
@@ -4260,21 +4462,22 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case counters
-            case created
-            case deviceMinutes
-            case message
-            case name
-            case result
-            case started
-            case status
-            case stopped
-            case type
+            case arn = "arn"
+            case counters = "counters"
+            case created = "created"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case name = "name"
+            case result = "result"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case type = "type"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
         /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor in a tag category (key).
@@ -4299,6 +4502,7 @@ extension DeviceFarm {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
@@ -4326,10 +4530,15 @@ extension DeviceFarm {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Test: AWSDecodableShape {
+
         /// The test's ARN.
         public let arn: String?
         /// The test's result counters.
@@ -4368,21 +4577,22 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case counters
-            case created
-            case deviceMinutes
-            case message
-            case name
-            case result
-            case started
-            case status
-            case stopped
-            case type
+            case arn = "arn"
+            case counters = "counters"
+            case created = "created"
+            case deviceMinutes = "deviceMinutes"
+            case message = "message"
+            case name = "name"
+            case result = "result"
+            case started = "started"
+            case status = "status"
+            case stopped = "stopped"
+            case type = "type"
         }
     }
 
     public struct TestGridProject: AWSDecodableShape {
+
         /// The ARN for the project.
         public let arn: String?
         /// When the project was created.
@@ -4400,14 +4610,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case created
-            case description
-            case name
+            case arn = "arn"
+            case created = "created"
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct TestGridSession: AWSDecodableShape {
+
         /// The ARN of the session.
         public let arn: String?
         /// The number of billed minutes that were used for this session.
@@ -4431,16 +4642,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case billingMinutes
-            case created
-            case ended
-            case seleniumProperties
-            case status
+            case arn = "arn"
+            case billingMinutes = "billingMinutes"
+            case created = "created"
+            case ended = "ended"
+            case seleniumProperties = "seleniumProperties"
+            case status = "status"
         }
     }
 
     public struct TestGridSessionAction: AWSDecodableShape {
+
         /// The action taken by the session.
         public let action: String?
         /// The time, in milliseconds, that the action took to complete in the browser.
@@ -4461,15 +4673,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case duration
-            case requestMethod
-            case started
-            case statusCode
+            case action = "action"
+            case duration = "duration"
+            case requestMethod = "requestMethod"
+            case started = "started"
+            case statusCode = "statusCode"
         }
     }
 
     public struct TestGridSessionArtifact: AWSDecodableShape {
+
         /// The file name of the artifact.
         public let filename: String?
         /// The kind of artifact.
@@ -4484,13 +4697,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filename
-            case type
-            case url
+            case filename = "filename"
+            case type = "type"
+            case url = "url"
         }
     }
 
     public struct TrialMinutes: AWSDecodableShape {
+
         /// The number of free trial minutes remaining in the account.
         public let remaining: Double?
         /// The total number of free trial minutes that the account started with.
@@ -4502,12 +4716,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case remaining
-            case total
+            case remaining = "remaining"
+            case total = "total"
         }
     }
 
     public struct UniqueProblem: AWSDecodableShape {
+
         /// A message about the unique problems' result.
         public let message: String?
         /// Information about the problems.
@@ -4519,12 +4734,13 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
-            case problems
+            case message = "message"
+            case problems = "problems"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
         /// The keys of the tags to be removed.
@@ -4553,10 +4769,15 @@ extension DeviceFarm {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDeviceInstanceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the device instance.
         public let arn: String
         /// An array of strings that you want to associate with the device instance.
@@ -4580,13 +4801,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case labels
-            case profileArn
+            case arn = "arn"
+            case labels = "labels"
+            case profileArn = "profileArn"
         }
     }
 
     public struct UpdateDeviceInstanceResult: AWSDecodableShape {
+
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
 
@@ -4595,11 +4817,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceInstance
+            case deviceInstance = "deviceInstance"
         }
     }
 
     public struct UpdateDevicePoolRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Device Farm device pool to update.
         public let arn: String
         /// Sets whether the maxDevices parameter applies to your device pool. If you set this parameter to true, the maxDevices parameter does not apply, and Device Farm does not limit the number of devices that it adds to your device pool. In this case, Device Farm adds all available devices that meet the criteria specified in the rules parameter. If you use this parameter in your request, you cannot use the maxDevices parameter in the same request.
@@ -4633,16 +4856,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clearMaxDevices
-            case description
-            case maxDevices
-            case name
-            case rules
+            case arn = "arn"
+            case clearMaxDevices = "clearMaxDevices"
+            case description = "description"
+            case maxDevices = "maxDevices"
+            case name = "name"
+            case rules = "rules"
         }
     }
 
     public struct UpdateDevicePoolResult: AWSDecodableShape {
+
         /// The device pool you just updated.
         public let devicePool: DevicePool?
 
@@ -4651,11 +4875,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devicePool
+            case devicePool = "devicePool"
         }
     }
 
     public struct UpdateInstanceProfileRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the instance profile.
         public let arn: String
         /// The updated description for your instance profile.
@@ -4689,16 +4914,17 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case excludeAppPackagesFromCleanup
-            case name
-            case packageCleanup
-            case rebootAfterUse
+            case arn = "arn"
+            case description = "description"
+            case excludeAppPackagesFromCleanup = "excludeAppPackagesFromCleanup"
+            case name = "name"
+            case packageCleanup = "packageCleanup"
+            case rebootAfterUse = "rebootAfterUse"
         }
     }
 
     public struct UpdateInstanceProfileResult: AWSDecodableShape {
+
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
@@ -4707,11 +4933,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceProfile
+            case instanceProfile = "instanceProfile"
         }
     }
 
     public struct UpdateNetworkProfileRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
         public let arn: String
         /// The description of the network profile about which you are returning information.
@@ -4767,22 +4994,23 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case description
-            case downlinkBandwidthBits
-            case downlinkDelayMs
-            case downlinkJitterMs
-            case downlinkLossPercent
-            case name
-            case type
-            case uplinkBandwidthBits
-            case uplinkDelayMs
-            case uplinkJitterMs
-            case uplinkLossPercent
+            case arn = "arn"
+            case description = "description"
+            case downlinkBandwidthBits = "downlinkBandwidthBits"
+            case downlinkDelayMs = "downlinkDelayMs"
+            case downlinkJitterMs = "downlinkJitterMs"
+            case downlinkLossPercent = "downlinkLossPercent"
+            case name = "name"
+            case type = "type"
+            case uplinkBandwidthBits = "uplinkBandwidthBits"
+            case uplinkDelayMs = "uplinkDelayMs"
+            case uplinkJitterMs = "uplinkJitterMs"
+            case uplinkLossPercent = "uplinkLossPercent"
         }
     }
 
     public struct UpdateNetworkProfileResult: AWSDecodableShape {
+
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
 
@@ -4791,11 +5019,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkProfile
+            case networkProfile = "networkProfile"
         }
     }
 
     public struct UpdateProjectRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the project whose name to update.
         public let arn: String
         /// The number of minutes a test run in the project executes before it times out.
@@ -4818,13 +5047,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case defaultJobTimeoutMinutes
-            case name
+            case arn = "arn"
+            case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case name = "name"
         }
     }
 
     public struct UpdateProjectResult: AWSDecodableShape {
+
         /// The project to update.
         public let project: Project?
 
@@ -4833,11 +5063,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case project
+            case project = "project"
         }
     }
 
     public struct UpdateTestGridProjectRequest: AWSEncodableShape {
+
         /// Human-readable description for the project.
         public let description: String?
         /// Human-readable name for the project.
@@ -4864,13 +5095,14 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case projectArn
+            case description = "description"
+            case name = "name"
+            case projectArn = "projectArn"
         }
     }
 
     public struct UpdateTestGridProjectResult: AWSDecodableShape {
+
         /// The project, including updated information.
         public let testGridProject: TestGridProject?
 
@@ -4879,11 +5111,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case testGridProject
+            case testGridProject = "testGridProject"
         }
     }
 
     public struct UpdateUploadRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the uploaded test spec.
         public let arn: String
         /// The upload's content type (for example, application/x-yaml).
@@ -4911,14 +5144,15 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case contentType
-            case editContent
-            case name
+            case arn = "arn"
+            case contentType = "contentType"
+            case editContent = "editContent"
+            case name = "name"
         }
     }
 
     public struct UpdateUploadResult: AWSDecodableShape {
+
         /// A test spec uploaded to Device Farm.
         public let upload: Upload?
 
@@ -4927,11 +5161,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case upload
+            case upload = "upload"
         }
     }
 
     public struct UpdateVPCEConfigurationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to update.
         public let arn: String
         /// The DNS (domain) name used to connect to your private service in your VPC. The DNS name must not already be in use on the internet.
@@ -4966,15 +5201,16 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case serviceDnsName
-            case vpceConfigurationDescription
-            case vpceConfigurationName
-            case vpceServiceName
+            case arn = "arn"
+            case serviceDnsName = "serviceDnsName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case vpceServiceName = "vpceServiceName"
         }
     }
 
     public struct UpdateVPCEConfigurationResult: AWSDecodableShape {
+
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
@@ -4983,11 +5219,12 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpceConfiguration
+            case vpceConfiguration = "vpceConfiguration"
         }
     }
 
     public struct Upload: AWSDecodableShape {
+
         /// The upload's ARN.
         public let arn: String?
         /// The upload's category. Allowed values include:   CURATED: An upload managed by AWS Device Farm.   PRIVATE: An upload managed by the AWS Device Farm customer.
@@ -5023,20 +5260,21 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case category
-            case contentType
-            case created
-            case message
-            case metadata
-            case name
-            case status
-            case type
-            case url
+            case arn = "arn"
+            case category = "category"
+            case contentType = "contentType"
+            case created = "created"
+            case message = "message"
+            case metadata = "metadata"
+            case name = "name"
+            case status = "status"
+            case type = "type"
+            case url = "url"
         }
     }
 
     public struct VPCEConfiguration: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
         public let arn: String?
         /// The DNS name that maps to the private IP address of the service you want to access.
@@ -5057,11 +5295,11 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case serviceDnsName
-            case vpceConfigurationDescription
-            case vpceConfigurationName
-            case vpceServiceName
+            case arn = "arn"
+            case serviceDnsName = "serviceDnsName"
+            case vpceConfigurationDescription = "vpceConfigurationDescription"
+            case vpceConfigurationName = "vpceConfigurationName"
+            case vpceServiceName = "vpceServiceName"
         }
     }
 }

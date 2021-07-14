@@ -233,8 +233,8 @@ extension EMR {
     }
 
     public enum OnDemandCapacityReservationPreference: String, CustomStringConvertible, Codable {
-        case none
-        case open
+        case none = "none"
+        case open = "open"
         public var description: String { return self.rawValue }
     }
 
@@ -355,6 +355,7 @@ extension EMR {
     // MARK: Shapes
 
     public struct AddInstanceFleetInput: AWSEncodableShape {
+
         /// The unique identifier of the cluster.
         public let clusterId: String
         /// Specifies the configuration of the instance fleet.
@@ -379,6 +380,7 @@ extension EMR {
     }
 
     public struct AddInstanceFleetOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name of the cluster.
         public let clusterArn: String?
         /// The unique identifier of the cluster.
@@ -400,6 +402,7 @@ extension EMR {
     }
 
     public struct AddInstanceGroupsInput: AWSEncodableShape {
+
         /// Instance groups to add.
         public let instanceGroups: [InstanceGroupConfig]
         /// Job flow in which to add the instance groups.
@@ -426,6 +429,7 @@ extension EMR {
     }
 
     public struct AddInstanceGroupsOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name of the cluster.
         public let clusterArn: String?
         /// Instance group IDs of the newly created instance groups.
@@ -447,6 +451,7 @@ extension EMR {
     }
 
     public struct AddJobFlowStepsInput: AWSEncodableShape {
+
         /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters.
         public let jobFlowId: String
         ///  A list of StepConfig to be executed by the job flow.
@@ -473,6 +478,7 @@ extension EMR {
     }
 
     public struct AddJobFlowStepsOutput: AWSDecodableShape {
+
         /// The identifiers of the list of steps added to the job flow.
         public let stepIds: [String]?
 
@@ -486,6 +492,7 @@ extension EMR {
     }
 
     public struct AddTagsInput: AWSEncodableShape {
+
         /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
         public let resourceId: String
         /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
@@ -503,10 +510,15 @@ extension EMR {
     }
 
     public struct AddTagsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Application: AWSEncodableShape & AWSDecodableShape {
+
         /// This option is for advanced users only. This is meta information about third-party applications that third-party vendors use for testing purposes.
         public let additionalInfo: [String: String]?
         /// Arguments for Amazon EMR to pass to the application.
@@ -532,6 +544,7 @@ extension EMR {
     }
 
     public struct AutoScalingPolicy: AWSEncodableShape {
+
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
         public let constraints: ScalingConstraints
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
@@ -555,6 +568,7 @@ extension EMR {
     }
 
     public struct AutoScalingPolicyDescription: AWSDecodableShape {
+
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
         public let constraints: ScalingConstraints?
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
@@ -576,6 +590,7 @@ extension EMR {
     }
 
     public struct AutoScalingPolicyStateChangeReason: AWSDecodableShape {
+
         /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
         public let code: AutoScalingPolicyStateChangeReasonCode?
         /// A friendly, more verbose message that accompanies an automatic scaling policy state change.
@@ -593,6 +608,7 @@ extension EMR {
     }
 
     public struct AutoScalingPolicyStatus: AWSDecodableShape {
+
         /// Indicates the status of the automatic scaling policy.
         public let state: AutoScalingPolicyState?
         /// The reason for a change in status.
@@ -610,6 +626,7 @@ extension EMR {
     }
 
     public struct BlockPublicAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether Amazon EMR block public access is enabled (true) or disabled (false). By default, the value is false for accounts that have created EMR clusters before July 2019. For accounts created after this, the default is true.
         public let blockPublicSecurityGroupRules: Bool
         /// Specifies ports and port ranges that are permitted to have security group rules that allow inbound traffic from all public sources. For example, if Port 23 (Telnet) is specified for PermittedPublicSecurityGroupRuleRanges, Amazon EMR allows cluster creation if a security group associated with the cluster has a rule that allows inbound traffic on Port 23 from IPv4 0.0.0.0/0 or IPv6 port ::/0 as the source. By default, Port 22, which is used for SSH access to the cluster EC2 instances, is in the list of PermittedPublicSecurityGroupRuleRanges.
@@ -633,6 +650,7 @@ extension EMR {
     }
 
     public struct BlockPublicAccessConfigurationMetadata: AWSDecodableShape {
+
         /// The Amazon Resource Name that created or last modified the configuration.
         public let createdByArn: String
         /// The date and time that the configuration was created.
@@ -650,6 +668,7 @@ extension EMR {
     }
 
     public struct BootstrapActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the bootstrap action.
         public let name: String
         /// The script run by the bootstrap action.
@@ -674,6 +693,7 @@ extension EMR {
     }
 
     public struct BootstrapActionDetail: AWSDecodableShape {
+
         /// A description of the bootstrap action.
         public let bootstrapActionConfig: BootstrapActionConfig?
 
@@ -687,6 +707,7 @@ extension EMR {
     }
 
     public struct CancelStepsInfo: AWSDecodableShape {
+
         /// The reason for the failure if the CancelSteps request fails.
         public let reason: String?
         /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
@@ -708,6 +729,7 @@ extension EMR {
     }
 
     public struct CancelStepsInput: AWSEncodableShape {
+
         /// The ClusterID for the specified steps that will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs.
         public let clusterId: String
         /// The option to choose to cancel RUNNING steps. By default, the value is SEND_INTERRUPT.
@@ -740,6 +762,7 @@ extension EMR {
     }
 
     public struct CancelStepsOutput: AWSDecodableShape {
+
         /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
         public let cancelStepsInfoList: [CancelStepsInfo]?
 
@@ -753,6 +776,7 @@ extension EMR {
     }
 
     public struct CloudWatchAlarmDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// Determines how the metric specified by MetricName is compared to the value specified by Threshold.
         public let comparisonOperator: ComparisonOperator
         /// A CloudWatch metric dimension.
@@ -802,6 +826,7 @@ extension EMR {
     }
 
     public struct Cluster: AWSDecodableShape {
+
         /// The applications installed on this cluster.
         public let applications: [Application]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
@@ -931,6 +956,7 @@ extension EMR {
     }
 
     public struct ClusterStateChangeReason: AWSDecodableShape {
+
         /// The programmatic code for the state change reason.
         public let code: ClusterStateChangeReasonCode?
         /// The descriptive message for the state change reason.
@@ -948,6 +974,7 @@ extension EMR {
     }
 
     public struct ClusterStatus: AWSDecodableShape {
+
         /// The current state of the cluster.
         public let state: ClusterState?
         /// The reason for the cluster status change.
@@ -969,6 +996,7 @@ extension EMR {
     }
 
     public struct ClusterSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name of the cluster.
         public let clusterArn: String?
         /// The unique identifier for the cluster.
@@ -1002,6 +1030,7 @@ extension EMR {
     }
 
     public struct ClusterTimeline: AWSDecodableShape {
+
         /// The creation date and time of the cluster.
         public let creationDateTime: Date?
         /// The date and time when the cluster was terminated.
@@ -1023,6 +1052,7 @@ extension EMR {
     }
 
     public struct Command: AWSDecodableShape {
+
         /// Arguments for Amazon EMR to pass to the command for execution.
         public let args: [String]?
         /// The name of the command.
@@ -1044,6 +1074,7 @@ extension EMR {
     }
 
     public struct ComputeLimits: AWSEncodableShape & AWSDecodableShape {
+
         ///  The upper boundary of EC2 units. It is measured through vCPU cores or instances for instance groups and measured through units for instance fleets. Managed scaling activities are not allowed beyond this boundary. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public let maximumCapacityUnits: Int
         ///  The upper boundary of EC2 units for core node type in a cluster. It is measured through vCPU cores or instances for instance groups and measured through units for instance fleets. The core units are not allowed to scale beyond this boundary. The parameter is used to split capacity allocation between core and task nodes.
@@ -1073,6 +1104,7 @@ extension EMR {
     }
 
     public class Configuration: AWSEncodableShape & AWSDecodableShape {
+
         /// The classification within a configuration.
         public let classification: String?
         /// A list of additional configurations to apply within a configuration object.
@@ -1094,6 +1126,7 @@ extension EMR {
     }
 
     public struct CreateSecurityConfigurationInput: AWSEncodableShape {
+
         /// The name of the security configuration.
         public let name: String
         /// The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide.
@@ -1117,6 +1150,7 @@ extension EMR {
     }
 
     public struct CreateSecurityConfigurationOutput: AWSDecodableShape {
+
         /// The date and time the security configuration was created.
         public let creationDateTime: Date
         /// The name of the security configuration.
@@ -1134,6 +1168,7 @@ extension EMR {
     }
 
     public struct CreateStudioInput: AWSEncodableShape {
+
         /// Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM. Amazon EMR Studio currently only supports SSO authentication.
         public let authMode: AuthMode
         /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook files.
@@ -1214,6 +1249,7 @@ extension EMR {
     }
 
     public struct CreateStudioOutput: AWSDecodableShape {
+
         /// The ID of the Amazon EMR Studio.
         public let studioId: String?
         /// The unique Studio access URL.
@@ -1231,6 +1267,7 @@ extension EMR {
     }
 
     public struct CreateStudioSessionMappingInput: AWSEncodableShape {
+
         /// The globally unique identifier (GUID) of the user or group from the AWS SSO Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
         /// The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
@@ -1275,6 +1312,7 @@ extension EMR {
     }
 
     public struct DeleteSecurityConfigurationInput: AWSEncodableShape {
+
         /// The name of the security configuration.
         public let name: String
 
@@ -1294,10 +1332,15 @@ extension EMR {
     }
 
     public struct DeleteSecurityConfigurationOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteStudioInput: AWSEncodableShape {
+
         /// The ID of the Amazon EMR Studio.
         public let studioId: String
 
@@ -1317,6 +1360,7 @@ extension EMR {
     }
 
     public struct DeleteStudioSessionMappingInput: AWSEncodableShape {
+
         /// The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
         /// The name of the user name or group to remove from the Amazon EMR Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
@@ -1354,6 +1398,7 @@ extension EMR {
     }
 
     public struct DescribeClusterInput: AWSEncodableShape {
+
         /// The identifier of the cluster to describe.
         public let clusterId: String
 
@@ -1367,6 +1412,7 @@ extension EMR {
     }
 
     public struct DescribeClusterOutput: AWSDecodableShape {
+
         /// This output contains the details for the requested cluster.
         public let cluster: Cluster?
 
@@ -1380,6 +1426,7 @@ extension EMR {
     }
 
     public struct DescribeJobFlowsInput: AWSEncodableShape {
+
         /// Return only job flows created after this date and time.
         public let createdAfter: Date?
         /// Return only job flows created before this date and time.
@@ -1413,6 +1460,7 @@ extension EMR {
     }
 
     public struct DescribeJobFlowsOutput: AWSDecodableShape {
+
         /// A list of job flows matching the parameters supplied.
         public let jobFlows: [JobFlowDetail]?
 
@@ -1426,6 +1474,7 @@ extension EMR {
     }
 
     public struct DescribeNotebookExecutionInput: AWSEncodableShape {
+
         /// The unique identifier of the notebook execution.
         public let notebookExecutionId: String
 
@@ -1445,6 +1494,7 @@ extension EMR {
     }
 
     public struct DescribeNotebookExecutionOutput: AWSDecodableShape {
+
         /// Properties of the notebook execution.
         public let notebookExecution: NotebookExecution?
 
@@ -1458,6 +1508,7 @@ extension EMR {
     }
 
     public struct DescribeSecurityConfigurationInput: AWSEncodableShape {
+
         /// The name of the security configuration.
         public let name: String
 
@@ -1477,6 +1528,7 @@ extension EMR {
     }
 
     public struct DescribeSecurityConfigurationOutput: AWSDecodableShape {
+
         /// The date and time the security configuration was created
         public let creationDateTime: Date?
         /// The name of the security configuration.
@@ -1498,6 +1550,7 @@ extension EMR {
     }
 
     public struct DescribeStepInput: AWSEncodableShape {
+
         /// The identifier of the cluster with steps to describe.
         public let clusterId: String
         /// The identifier of the step to describe.
@@ -1515,6 +1568,7 @@ extension EMR {
     }
 
     public struct DescribeStepOutput: AWSDecodableShape {
+
         /// The step details for the requested step identifier.
         public let step: Step?
 
@@ -1528,6 +1582,7 @@ extension EMR {
     }
 
     public struct DescribeStudioInput: AWSEncodableShape {
+
         /// The Amazon EMR Studio ID.
         public let studioId: String
 
@@ -1547,6 +1602,7 @@ extension EMR {
     }
 
     public struct DescribeStudioOutput: AWSDecodableShape {
+
         /// The Amazon EMR Studio details.
         public let studio: Studio?
 
@@ -1560,6 +1616,7 @@ extension EMR {
     }
 
     public struct EbsBlockDevice: AWSDecodableShape {
+
         /// The device name that is exposed to the instance, such as /dev/sdh.
         public let device: String?
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
@@ -1577,6 +1634,7 @@ extension EMR {
     }
 
     public struct EbsBlockDeviceConfig: AWSEncodableShape {
+
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
         public let volumeSpecification: VolumeSpecification
         /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
@@ -1594,6 +1652,7 @@ extension EMR {
     }
 
     public struct EbsConfiguration: AWSEncodableShape {
+
         /// An array of Amazon EBS volume specifications attached to a cluster instance.
         public let ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]?
         /// Indicates whether an Amazon EBS volume is EBS-optimized.
@@ -1611,6 +1670,7 @@ extension EMR {
     }
 
     public struct EbsVolume: AWSDecodableShape {
+
         /// The device name that is exposed to the instance, such as /dev/sdh.
         public let device: String?
         /// The volume identifier of the EBS volume.
@@ -1628,6 +1688,7 @@ extension EMR {
     }
 
     public struct Ec2InstanceAttributes: AWSDecodableShape {
+
         /// A list of additional Amazon EC2 security group IDs for the master node.
         public let additionalMasterSecurityGroups: [String]?
         /// A list of additional Amazon EC2 security group IDs for the core and task nodes.
@@ -1681,6 +1742,7 @@ extension EMR {
     }
 
     public struct ExecutionEngineConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier of the execution engine. For an EMR cluster, this is the cluster ID.
         public let id: String
         /// An optional unique ID of an EC2 security group to associate with the master instance of the EMR cluster for this notebook execution. For more information see Specifying EC2 Security Groups for EMR Notebooks in the EMR Management Guide.
@@ -1711,6 +1773,7 @@ extension EMR {
     }
 
     public struct FailureDetails: AWSDecodableShape {
+
         /// The path to the log file where the step failure root cause was originally recorded.
         public let logFile: String?
         /// The descriptive message including the error the Amazon EMR service has identified as the cause of step failure. This is text from an error log that describes the root cause of the failure.
@@ -1732,10 +1795,15 @@ extension EMR {
     }
 
     public struct GetBlockPublicAccessConfigurationInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetBlockPublicAccessConfigurationOutput: AWSDecodableShape {
+
         /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating the block public access configuration to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region.
         public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
         /// Properties that describe the AWS principal that created the BlockPublicAccessConfiguration using the PutBlockPublicAccessConfiguration action as well as the date and time that the configuration was created. Each time a configuration for block public access is updated, Amazon EMR updates this metadata.
@@ -1753,6 +1821,7 @@ extension EMR {
     }
 
     public struct GetManagedScalingPolicyInput: AWSEncodableShape {
+
         /// Specifies the ID of the cluster for which the managed scaling policy will be fetched.
         public let clusterId: String
 
@@ -1766,6 +1835,7 @@ extension EMR {
     }
 
     public struct GetManagedScalingPolicyOutput: AWSDecodableShape {
+
         /// Specifies the managed scaling policy that is attached to an Amazon EMR cluster.
         public let managedScalingPolicy: ManagedScalingPolicy?
 
@@ -1779,6 +1849,7 @@ extension EMR {
     }
 
     public struct GetStudioSessionMappingInput: AWSEncodableShape {
+
         /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
         /// The name of the user or group to fetch. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
@@ -1816,6 +1887,7 @@ extension EMR {
     }
 
     public struct GetStudioSessionMappingOutput: AWSDecodableShape {
+
         /// The session mapping details for the specified Amazon EMR Studio and identity, including session policy ARN and creation time.
         public let sessionMapping: SessionMappingDetail?
 
@@ -1829,6 +1901,7 @@ extension EMR {
     }
 
     public struct HadoopJarStepConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of command line arguments passed to the JAR file's main function when executed.
         public let args: [String]?
         /// A path to a JAR file run during the step.
@@ -1871,6 +1944,7 @@ extension EMR {
     }
 
     public struct HadoopStepConfig: AWSDecodableShape {
+
         /// The list of command line arguments to pass to the JAR file's main function for execution.
         public let args: [String]?
         /// The path to the JAR file that runs during the step.
@@ -1896,6 +1970,7 @@ extension EMR {
     }
 
     public struct Instance: AWSDecodableShape {
+
         /// The list of EBS volumes that are attached to this instance.
         public let ebsVolumes: [EbsVolume]?
         /// The unique identifier of the instance in Amazon EC2.
@@ -1953,6 +2028,7 @@ extension EMR {
     }
 
     public struct InstanceFleet: AWSDecodableShape {
+
         /// The unique identifier of the instance fleet.
         public let id: String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK.
@@ -2002,6 +2078,7 @@ extension EMR {
     }
 
     public struct InstanceFleetConfig: AWSEncodableShape {
+
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, and TASK.
         public let instanceFleetType: InstanceFleetType
         /// The instance type configurations that define the EC2 instances in the instance fleet.
@@ -2047,6 +2124,7 @@ extension EMR {
     }
 
     public struct InstanceFleetModifyConfig: AWSEncodableShape {
+
         /// A unique identifier for the instance fleet.
         public let instanceFleetId: String
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
@@ -2073,6 +2151,7 @@ extension EMR {
     }
 
     public struct InstanceFleetProvisioningSpecifications: AWSEncodableShape & AWSDecodableShape {
+
         ///  The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy.   The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR version 5.12.1 and later.
         public let onDemandSpecification: OnDemandProvisioningSpecification?
         /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
@@ -2095,6 +2174,7 @@ extension EMR {
     }
 
     public struct InstanceFleetStateChangeReason: AWSDecodableShape {
+
         /// A code corresponding to the reason the state change occurred.
         public let code: InstanceFleetStateChangeReasonCode?
         /// An explanatory message.
@@ -2112,6 +2192,7 @@ extension EMR {
     }
 
     public struct InstanceFleetStatus: AWSDecodableShape {
+
         /// A code representing the instance fleet status.    PROVISIONING—The instance fleet is provisioning EC2 resources and is not yet ready to run jobs.    BOOTSTRAPPING—EC2 instances and other resources have been provisioned and the bootstrap actions specified for the instances are underway.    RUNNING—EC2 instances and other resources are running. They are either executing jobs or waiting to execute jobs.    RESIZING—A resize operation is underway. EC2 instances are either being added or removed.    SUSPENDED—A resize operation could not complete. Existing EC2 instances are running, but instances can't be added or removed.    TERMINATING—The instance fleet is terminating EC2 instances.    TERMINATED—The instance fleet is no longer active, and all EC2 instances have been terminated.
         public let state: InstanceFleetState?
         /// Provides status change reason details for the instance fleet.
@@ -2133,6 +2214,7 @@ extension EMR {
     }
 
     public struct InstanceFleetTimeline: AWSDecodableShape {
+
         /// The time and date the instance fleet was created.
         public let creationDateTime: Date?
         /// The time and date the instance fleet terminated.
@@ -2154,6 +2236,7 @@ extension EMR {
     }
 
     public struct InstanceGroup: AWSDecodableShape {
+
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
         /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
@@ -2231,6 +2314,7 @@ extension EMR {
     }
 
     public struct InstanceGroupConfig: AWSEncodableShape {
+
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
         /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
@@ -2289,6 +2373,7 @@ extension EMR {
     }
 
     public struct InstanceGroupDetail: AWSDecodableShape {
+
         /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
         public let bidPrice: String?
         /// The date/time the instance group was created.
@@ -2354,6 +2439,7 @@ extension EMR {
     }
 
     public struct InstanceGroupModifyConfig: AWSEncodableShape {
+
         /// A list of new or modified configurations to apply for an instance group.
         public let configurations: [Configuration]?
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
@@ -2389,6 +2475,7 @@ extension EMR {
     }
 
     public struct InstanceGroupStateChangeReason: AWSDecodableShape {
+
         /// The programmable code for the state change reason.
         public let code: InstanceGroupStateChangeReasonCode?
         /// The status change reason description.
@@ -2406,6 +2493,7 @@ extension EMR {
     }
 
     public struct InstanceGroupStatus: AWSDecodableShape {
+
         /// The current state of the instance group.
         public let state: InstanceGroupState?
         /// The status change reason details for the instance group.
@@ -2427,6 +2515,7 @@ extension EMR {
     }
 
     public struct InstanceGroupTimeline: AWSDecodableShape {
+
         /// The creation date and time of the instance group.
         public let creationDateTime: Date?
         /// The date and time when the instance group terminated.
@@ -2448,6 +2537,7 @@ extension EMR {
     }
 
     public struct InstanceResizePolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// Specific list of instances to be protected when shrinking an instance group.
         public let instancesToProtect: [String]?
         /// Specific list of instances to be terminated when shrinking an instance group.
@@ -2469,6 +2559,7 @@ extension EMR {
     }
 
     public struct InstanceStateChangeReason: AWSDecodableShape {
+
         /// The programmable code for the state change reason.
         public let code: InstanceStateChangeReasonCode?
         /// The status change reason description.
@@ -2486,6 +2577,7 @@ extension EMR {
     }
 
     public struct InstanceStatus: AWSDecodableShape {
+
         /// The current state of the instance.
         public let state: InstanceState?
         /// The details of the status change reason for the instance.
@@ -2507,6 +2599,7 @@ extension EMR {
     }
 
     public struct InstanceTimeline: AWSDecodableShape {
+
         /// The creation date and time of the instance.
         public let creationDateTime: Date?
         /// The date and time when the instance was terminated.
@@ -2528,6 +2621,7 @@ extension EMR {
     }
 
     public struct InstanceTypeConfig: AWSEncodableShape {
+
         /// The bid price for each EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         /// The bid price, as a percentage of On-Demand price, for each EC2 Spot Instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
@@ -2572,6 +2666,7 @@ extension EMR {
     }
 
     public struct InstanceTypeSpecification: AWSDecodableShape {
+
         /// The bid price for each EC2 Spot Instance type as defined by InstanceType. Expressed in USD.
         public let bidPrice: String?
         /// The bid price, as a percentage of On-Demand price, for each EC2 Spot Instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
@@ -2609,6 +2704,7 @@ extension EMR {
     }
 
     public struct JobFlowDetail: AWSDecodableShape {
+
         /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
         public let amiVersion: String?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
@@ -2678,6 +2774,7 @@ extension EMR {
     }
 
     public struct JobFlowExecutionStatusDetail: AWSDecodableShape {
+
         /// The creation date and time of the job flow.
         public let creationDateTime: Date
         /// The completion date and time of the job flow.
@@ -2711,6 +2808,7 @@ extension EMR {
     }
 
     public struct JobFlowInstancesConfig: AWSEncodableShape {
+
         /// A list of additional Amazon EC2 security group IDs for the master node.
         public let additionalMasterSecurityGroups: [String]?
         /// A list of additional Amazon EC2 security group IDs for the core and task nodes.
@@ -2837,6 +2935,7 @@ extension EMR {
     }
 
     public struct JobFlowInstancesDetail: AWSDecodableShape {
+
         /// The name of an Amazon EC2 key pair that can be used to connect to the master node using SSH.
         public let ec2KeyName: String?
         /// For clusters launched within Amazon Virtual Private Cloud, this is the identifier of the subnet where the cluster was launched.
@@ -2898,6 +2997,7 @@ extension EMR {
     }
 
     public struct KerberosAttributes: AWSEncodableShape & AWSDecodableShape {
+
         /// The Active Directory password for ADDomainJoinUser.
         public let aDDomainJoinPassword: String?
         /// Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain.
@@ -2945,6 +3045,7 @@ extension EMR {
     }
 
     public struct KeyValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The unique identifier of a key-value pair.
         public let key: String?
         /// The value part of the identified key.
@@ -2971,6 +3072,7 @@ extension EMR {
     }
 
     public struct ListBootstrapActionsInput: AWSEncodableShape {
+
         /// The cluster identifier for the bootstrap actions to list.
         public let clusterId: String
         /// The pagination token that indicates the next set of results to retrieve.
@@ -2988,6 +3090,7 @@ extension EMR {
     }
 
     public struct ListBootstrapActionsOutput: AWSDecodableShape {
+
         /// The bootstrap actions associated with the cluster.
         public let bootstrapActions: [Command]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3005,6 +3108,7 @@ extension EMR {
     }
 
     public struct ListClustersInput: AWSEncodableShape {
+
         /// The cluster state filters to apply when listing clusters.
         public let clusterStates: [ClusterState]?
         /// The creation date and time beginning value filter for listing clusters.
@@ -3030,6 +3134,7 @@ extension EMR {
     }
 
     public struct ListClustersOutput: AWSDecodableShape {
+
         /// The list of clusters for the account based on the given filters.
         public let clusters: [ClusterSummary]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3047,6 +3152,7 @@ extension EMR {
     }
 
     public struct ListInstanceFleetsInput: AWSEncodableShape {
+
         /// The unique identifier of the cluster.
         public let clusterId: String
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3064,6 +3170,7 @@ extension EMR {
     }
 
     public struct ListInstanceFleetsOutput: AWSDecodableShape {
+
         /// The list of instance fleets for the cluster and given filters.
         public let instanceFleets: [InstanceFleet]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3081,6 +3188,7 @@ extension EMR {
     }
 
     public struct ListInstanceGroupsInput: AWSEncodableShape {
+
         /// The identifier of the cluster for which to list the instance groups.
         public let clusterId: String
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3098,6 +3206,7 @@ extension EMR {
     }
 
     public struct ListInstanceGroupsOutput: AWSDecodableShape {
+
         /// The list of instance groups for the cluster and given filters.
         public let instanceGroups: [InstanceGroup]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3115,6 +3224,7 @@ extension EMR {
     }
 
     public struct ListInstancesInput: AWSEncodableShape {
+
         /// The identifier of the cluster for which to list the instances.
         public let clusterId: String
         /// The unique identifier of the instance fleet.
@@ -3152,6 +3262,7 @@ extension EMR {
     }
 
     public struct ListInstancesOutput: AWSDecodableShape {
+
         /// The list of instances for the cluster and given filters.
         public let instances: [Instance]?
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3169,6 +3280,7 @@ extension EMR {
     }
 
     public struct ListNotebookExecutionsInput: AWSEncodableShape {
+
         /// The unique ID of the editor associated with the notebook execution.
         public let editorId: String?
         /// The beginning of time range filter for listing notebook executions. The default is the timestamp of 30 days ago.
@@ -3204,6 +3316,7 @@ extension EMR {
     }
 
     public struct ListNotebookExecutionsOutput: AWSDecodableShape {
+
         /// A pagination token that a subsequent ListNotebookExecutions can use to determine the next set of results to retrieve.
         public let marker: String?
         /// A list of notebook executions.
@@ -3221,6 +3334,7 @@ extension EMR {
     }
 
     public struct ListSecurityConfigurationsInput: AWSEncodableShape {
+
         /// The pagination token that indicates the set of results to retrieve.
         public let marker: String?
 
@@ -3234,6 +3348,7 @@ extension EMR {
     }
 
     public struct ListSecurityConfigurationsOutput: AWSDecodableShape {
+
         /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
         public let marker: String?
         /// The creation date and time, and name, of each security configuration.
@@ -3251,6 +3366,7 @@ extension EMR {
     }
 
     public struct ListStepsInput: AWSEncodableShape {
+
         /// The identifier of the cluster for which to list the steps.
         public let clusterId: String
         /// The pagination token that indicates the next set of results to retrieve.
@@ -3284,6 +3400,7 @@ extension EMR {
     }
 
     public struct ListStepsOutput: AWSDecodableShape {
+
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The filtered list of steps for the cluster.
@@ -3301,6 +3418,7 @@ extension EMR {
     }
 
     public struct ListStudioSessionMappingsInput: AWSEncodableShape {
+
         /// Specifies whether to return session mappings for users or groups. If not specified, the results include session mapping details for both users and groups.
         public let identityType: IdentityType?
         /// The pagination token that indicates the set of results to retrieve.
@@ -3328,6 +3446,7 @@ extension EMR {
     }
 
     public struct ListStudioSessionMappingsOutput: AWSDecodableShape {
+
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// A list of session mapping summary objects. Each object includes session mapping details such as creation time, identity type (user or group), and Amazon EMR Studio ID.
@@ -3345,6 +3464,7 @@ extension EMR {
     }
 
     public struct ListStudiosInput: AWSEncodableShape {
+
         /// The pagination token that indicates the set of results to retrieve.
         public let marker: String?
 
@@ -3358,6 +3478,7 @@ extension EMR {
     }
 
     public struct ListStudiosOutput: AWSDecodableShape {
+
         /// The pagination token that indicates the next set of results to retrieve.
         public let marker: String?
         /// The list of Studio summary objects.
@@ -3375,6 +3496,7 @@ extension EMR {
     }
 
     public struct ManagedScalingPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// The EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public let computeLimits: ComputeLimits?
 
@@ -3388,6 +3510,7 @@ extension EMR {
     }
 
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
+
         /// The dimension name.
         public let key: String?
         /// The dimension value.
@@ -3405,6 +3528,7 @@ extension EMR {
     }
 
     public struct ModifyClusterInput: AWSEncodableShape {
+
         /// The unique identifier of the cluster.
         public let clusterId: String
         /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps.
@@ -3422,6 +3546,7 @@ extension EMR {
     }
 
     public struct ModifyClusterOutput: AWSDecodableShape {
+
         /// The number of steps that can be executed concurrently.
         public let stepConcurrencyLevel: Int?
 
@@ -3435,6 +3560,7 @@ extension EMR {
     }
 
     public struct ModifyInstanceFleetInput: AWSEncodableShape {
+
         /// The unique identifier of the cluster.
         public let clusterId: String
         /// The unique identifier of the instance fleet.
@@ -3456,6 +3582,7 @@ extension EMR {
     }
 
     public struct ModifyInstanceGroupsInput: AWSEncodableShape {
+
         /// The ID of the cluster to which the instance group belongs.
         public let clusterId: String?
         /// Instance groups to change.
@@ -3479,6 +3606,7 @@ extension EMR {
     }
 
     public struct NotebookExecution: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the notebook execution.
         public let arn: String?
         /// The unique identifier of the EMR Notebook that is used for the notebook execution.
@@ -3540,6 +3668,7 @@ extension EMR {
     }
 
     public struct NotebookExecutionSummary: AWSDecodableShape {
+
         /// The unique identifier of the editor associated with the notebook execution.
         public let editorId: String?
         /// The timestamp when notebook execution started.
@@ -3573,6 +3702,7 @@ extension EMR {
     }
 
     public struct OnDemandCapacityReservationOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance.
         public let capacityReservationPreference: OnDemandCapacityReservationPreference?
         /// The ARN of the Capacity Reservation resource group in which to run the instance.
@@ -3600,6 +3730,7 @@ extension EMR {
     }
 
     public struct OnDemandProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
         public let allocationStrategy: OnDemandProvisioningAllocationStrategy
         /// The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.
@@ -3621,6 +3752,7 @@ extension EMR {
     }
 
     public struct PlacementGroupConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Role of the instance in the cluster. Starting with Amazon EMR version 5.23.0, the only supported instance role is MASTER.
         public let instanceRole: InstanceRoleType
         /// EC2 Placement Group strategy associated with instance role. Starting with Amazon EMR version 5.23.0, the only supported placement strategy is SPREAD for the MASTER instance role.
@@ -3638,6 +3770,7 @@ extension EMR {
     }
 
     public struct PlacementType: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
         public let availabilityZone: String?
         /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
@@ -3666,6 +3799,7 @@ extension EMR {
     }
 
     public struct PortRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The smallest port number in a specified range of port numbers.
         public let maxRange: Int?
         /// The smallest port number in a specified range of port numbers.
@@ -3690,6 +3824,7 @@ extension EMR {
     }
 
     public struct PutAutoScalingPolicyInput: AWSEncodableShape {
+
         /// Specifies the definition of the automatic scaling policy.
         public let autoScalingPolicy: AutoScalingPolicy
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
@@ -3715,6 +3850,7 @@ extension EMR {
     }
 
     public struct PutAutoScalingPolicyOutput: AWSDecodableShape {
+
         /// The automatic scaling policy definition.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
         /// The Amazon Resource Name (ARN) of the cluster.
@@ -3740,6 +3876,7 @@ extension EMR {
     }
 
     public struct PutBlockPublicAccessConfigurationInput: AWSEncodableShape {
+
         /// A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region.
         public let blockPublicAccessConfiguration: BlockPublicAccessConfiguration
 
@@ -3757,10 +3894,15 @@ extension EMR {
     }
 
     public struct PutBlockPublicAccessConfigurationOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutManagedScalingPolicyInput: AWSEncodableShape {
+
         /// Specifies the ID of an EMR cluster where the managed scaling policy is attached.
         public let clusterId: String
         /// Specifies the constraints for the managed scaling policy.
@@ -3778,10 +3920,15 @@ extension EMR {
     }
 
     public struct PutManagedScalingPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveAutoScalingPolicyInput: AWSEncodableShape {
+
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
         public let clusterId: String
         /// Specifies the ID of the instance group to which the scaling policy is applied.
@@ -3799,10 +3946,15 @@ extension EMR {
     }
 
     public struct RemoveAutoScalingPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveManagedScalingPolicyInput: AWSEncodableShape {
+
         ///  Specifies the ID of the cluster from which the managed scaling policy will be removed.
         public let clusterId: String
 
@@ -3816,10 +3968,15 @@ extension EMR {
     }
 
     public struct RemoveManagedScalingPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveTagsInput: AWSEncodableShape {
+
         /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
         public let resourceId: String
         /// A list of tag keys to remove from a resource.
@@ -3837,10 +3994,15 @@ extension EMR {
     }
 
     public struct RemoveTagsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RunJobFlowInput: AWSEncodableShape {
+
         /// A JSON string for selecting additional features.
         public let additionalInfo: String?
         /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
@@ -4010,6 +4172,7 @@ extension EMR {
     }
 
     public struct RunJobFlowOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
         /// A unique identifier for the job flow.
@@ -4027,6 +4190,7 @@ extension EMR {
     }
 
     public struct ScalingAction: AWSEncodableShape & AWSDecodableShape {
+
         /// Not available for instance groups. Instance groups use the market type specified for the group.
         public let market: MarketType?
         /// The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
@@ -4044,6 +4208,7 @@ extension EMR {
     }
 
     public struct ScalingConstraints: AWSEncodableShape & AWSDecodableShape {
+
         /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
         public let maxCapacity: Int
         /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
@@ -4061,6 +4226,7 @@ extension EMR {
     }
 
     public struct ScalingRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The conditions that trigger an automatic scaling activity.
         public let action: ScalingAction
         /// A friendly, more verbose description of the automatic scaling rule.
@@ -4090,6 +4256,7 @@ extension EMR {
     }
 
     public struct ScalingTrigger: AWSEncodableShape & AWSDecodableShape {
+
         /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
         public let cloudWatchAlarmDefinition: CloudWatchAlarmDefinition
 
@@ -4107,6 +4274,7 @@ extension EMR {
     }
 
     public struct ScriptBootstrapActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of command line arguments to pass to the bootstrap action script.
         public let args: [String]?
         /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
@@ -4135,6 +4303,7 @@ extension EMR {
     }
 
     public struct SecurityConfigurationSummary: AWSDecodableShape {
+
         /// The date and time the security configuration was created.
         public let creationDateTime: Date?
         /// The name of the security configuration.
@@ -4152,6 +4321,7 @@ extension EMR {
     }
 
     public struct SessionMappingDetail: AWSDecodableShape {
+
         /// The time the session mapping was created.
         public let creationTime: Date?
         /// The globally unique identifier (GUID) of the user or group.
@@ -4189,6 +4359,7 @@ extension EMR {
     }
 
     public struct SessionMappingSummary: AWSDecodableShape {
+
         /// The time the session mapping was created.
         public let creationTime: Date?
         /// The globally unique identifier (GUID) of the user or group from the AWS SSO Identity Store.
@@ -4222,6 +4393,7 @@ extension EMR {
     }
 
     public struct SetTerminationProtectionInput: AWSEncodableShape {
+
         ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows .
         public let jobFlowIds: [String]
         /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
@@ -4247,6 +4419,7 @@ extension EMR {
     }
 
     public struct SetVisibleToAllUsersInput: AWSEncodableShape {
+
         /// The unique identifier of the job flow (cluster).
         public let jobFlowIds: [String]
         /// A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
@@ -4272,6 +4445,7 @@ extension EMR {
     }
 
     public struct ShrinkPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
         public let decommissionTimeout: Int?
         /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
@@ -4289,6 +4463,7 @@ extension EMR {
     }
 
     public struct SimpleScalingPolicyConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment, which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment, which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment, which should be expressed as a positive integer.
         public let adjustmentType: AdjustmentType?
         /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
@@ -4310,6 +4485,7 @@ extension EMR {
     }
 
     public struct SpotProvisioningSpecification: AWSEncodableShape & AWSDecodableShape {
+
         ///  Specifies the strategy to use in launching Spot Instance fleets. Currently, the only option is capacity-optimized (the default), which launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching.
         public let allocationStrategy: SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates.
@@ -4340,6 +4516,7 @@ extension EMR {
     }
 
     public struct StartNotebookExecutionInput: AWSEncodableShape {
+
         /// The unique identifier of the EMR Notebook to use for notebook execution.
         public let editorId: String
         /// Specifies the execution engine (cluster) that runs the notebook execution.
@@ -4403,6 +4580,7 @@ extension EMR {
     }
 
     public struct StartNotebookExecutionOutput: AWSDecodableShape {
+
         /// The unique identifier of the notebook execution.
         public let notebookExecutionId: String?
 
@@ -4416,6 +4594,7 @@ extension EMR {
     }
 
     public struct Step: AWSDecodableShape {
+
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
@@ -4445,6 +4624,7 @@ extension EMR {
     }
 
     public struct StepConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
         public let actionOnFailure: ActionOnFailure?
         /// The JAR file used for the step.
@@ -4473,6 +4653,7 @@ extension EMR {
     }
 
     public struct StepDetail: AWSDecodableShape {
+
         /// The description of the step status.
         public let executionStatusDetail: StepExecutionStatusDetail
         /// The step configuration.
@@ -4490,6 +4671,7 @@ extension EMR {
     }
 
     public struct StepExecutionStatusDetail: AWSDecodableShape {
+
         /// The creation date and time of the step.
         public let creationDateTime: Date
         /// The completion date and time of the step.
@@ -4519,6 +4701,7 @@ extension EMR {
     }
 
     public struct StepStateChangeReason: AWSDecodableShape {
+
         /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
         public let code: StepStateChangeReasonCode?
         /// The descriptive message for the state change reason.
@@ -4536,6 +4719,7 @@ extension EMR {
     }
 
     public struct StepStatus: AWSDecodableShape {
+
         /// The details for the step failure including reason, message, and log file path where the root cause was identified.
         public let failureDetails: FailureDetails?
         /// The execution state of the cluster step.
@@ -4561,6 +4745,7 @@ extension EMR {
     }
 
     public struct StepSummary: AWSDecodableShape {
+
         /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is available for backward compatibility. We recommend using TERMINATE_CLUSTER instead.
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
@@ -4590,6 +4775,7 @@ extension EMR {
     }
 
     public struct StepTimeline: AWSDecodableShape {
+
         /// The date and time when the cluster step was created.
         public let creationDateTime: Date?
         /// The date and time when the cluster step execution completed or failed.
@@ -4611,6 +4797,7 @@ extension EMR {
     }
 
     public struct StopNotebookExecutionInput: AWSEncodableShape {
+
         /// The unique identifier of the notebook execution.
         public let notebookExecutionId: String
 
@@ -4630,6 +4817,7 @@ extension EMR {
     }
 
     public struct Studio: AWSDecodableShape {
+
         /// Specifies whether the Amazon EMR Studio authenticates users using single sign-on (SSO) or IAM.
         public let authMode: AuthMode?
         /// The time the Amazon EMR Studio was created.
@@ -4699,6 +4887,7 @@ extension EMR {
     }
 
     public struct StudioSummary: AWSDecodableShape {
+
         /// The time when the Amazon EMR Studio was created.
         public let creationTime: Date?
         /// The detailed description of the Amazon EMR Studio.
@@ -4732,6 +4921,7 @@ extension EMR {
     }
 
     public struct SupportedProductConfig: AWSEncodableShape {
+
         /// The list of user-supplied arguments.
         public let args: [String]?
         /// The name of the product configuration.
@@ -4760,6 +4950,7 @@ extension EMR {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag .
         public let key: String?
         /// A user-defined value, which is optional in a tag. For more information, see Tag Clusters.
@@ -4777,6 +4968,7 @@ extension EMR {
     }
 
     public struct TerminateJobFlowsInput: AWSEncodableShape {
+
         /// A list of job flows to be shut down.
         public let jobFlowIds: [String]
 
@@ -4798,6 +4990,7 @@ extension EMR {
     }
 
     public struct UpdateStudioInput: AWSEncodableShape {
+
         /// The Amazon S3 location to back up Workspaces and notebook files for the Amazon EMR Studio.
         public let defaultS3Location: String?
         /// A detailed description to assign to the Amazon EMR Studio.
@@ -4842,6 +5035,7 @@ extension EMR {
     }
 
     public struct UpdateStudioSessionMappingInput: AWSEncodableShape {
+
         /// The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
         public let identityId: String?
         /// The name of the user or group to update. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
@@ -4886,6 +5080,7 @@ extension EMR {
     }
 
     public struct VolumeSpecification: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of I/O operations per second (IOPS) that the volume supports.
         public let iops: Int?
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.

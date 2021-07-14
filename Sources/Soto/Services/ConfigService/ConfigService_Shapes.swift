@@ -329,6 +329,7 @@ extension ConfigService {
     // MARK: Shapes
 
     public struct AccountAggregationSource: AWSEncodableShape & AWSDecodableShape {
+
         /// The 12-digit account ID of the account being aggregated.
         public let accountIds: [String]
         /// If true, aggregate existing AWS Config regions and future regions.
@@ -358,6 +359,7 @@ extension ConfigService {
     }
 
     public struct AggregateComplianceByConfigRule: AWSDecodableShape {
+
         /// The 12-digit account ID of the source account.
         public let accountId: String?
         /// The source region from where the data is aggregated.
@@ -383,6 +385,7 @@ extension ConfigService {
     }
 
     public struct AggregateComplianceByConformancePack: AWSDecodableShape {
+
         /// The 12-digit AWS account ID of the source account.
         public let accountId: String?
         /// The source AWS Region from where the data is aggregated.
@@ -408,6 +411,7 @@ extension ConfigService {
     }
 
     public struct AggregateComplianceCount: AWSDecodableShape {
+
         /// The number of compliant and noncompliant AWS Config rules.
         public let complianceSummary: ComplianceSummary?
         /// The 12-digit account ID or region based on the GroupByKey value.
@@ -425,6 +429,7 @@ extension ConfigService {
     }
 
     public struct AggregateConformancePackCompliance: AWSDecodableShape {
+
         /// The compliance status of the conformance pack.
         public let complianceType: ConformancePackComplianceType?
         /// The number of compliant AWS Config Rules.
@@ -450,6 +455,7 @@ extension ConfigService {
     }
 
     public struct AggregateConformancePackComplianceCount: AWSDecodableShape {
+
         /// Number of compliant conformance packs.
         public let compliantConformancePackCount: Int?
         /// Number of noncompliant conformance packs.
@@ -467,6 +473,7 @@ extension ConfigService {
     }
 
     public struct AggregateConformancePackComplianceFilters: AWSEncodableShape {
+
         /// The 12-digit AWS account ID of the source account.
         public let accountId: String?
         /// The source AWS Region from where the data is aggregated.
@@ -501,6 +508,7 @@ extension ConfigService {
     }
 
     public struct AggregateConformancePackComplianceSummary: AWSDecodableShape {
+
         /// Returns an AggregateConformancePackComplianceCount object.
         public let complianceSummary: AggregateConformancePackComplianceCount?
         /// Groups the result based on AWS Account ID or AWS Region.
@@ -518,6 +526,7 @@ extension ConfigService {
     }
 
     public struct AggregateConformancePackComplianceSummaryFilters: AWSEncodableShape {
+
         /// The 12-digit AWS account ID of the source account.
         public let accountId: String?
         /// The source AWS Region from where the data is aggregated.
@@ -541,6 +550,7 @@ extension ConfigService {
     }
 
     public struct AggregateEvaluationResult: AWSDecodableShape {
+
         /// The 12-digit account ID of the source account.
         public let accountId: String?
         /// Supplementary information about how the agrregate evaluation determined the compliance.
@@ -578,6 +588,7 @@ extension ConfigService {
     }
 
     public struct AggregateResourceIdentifier: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the AWS resource.
         public let resourceId: String
         /// The name of the AWS resource.
@@ -615,6 +626,7 @@ extension ConfigService {
     }
 
     public struct AggregatedSourceStatus: AWSDecodableShape {
+
         /// The region authorized to collect aggregated data.
         public let awsRegion: String?
         /// The error code that AWS Config returned when the source account aggregation last failed.
@@ -652,6 +664,7 @@ extension ConfigService {
     }
 
     public struct AggregationAuthorization: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the aggregation object.
         public let aggregationAuthorizationArn: String?
         /// The 12-digit account ID of the account authorized to aggregate data.
@@ -677,6 +690,7 @@ extension ConfigService {
     }
 
     public struct BaseConfigurationItem: AWSDecodableShape {
+
         /// The 12-digit AWS account ID associated with the resource.
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the resource.
@@ -724,24 +738,25 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case availabilityZone
-            case awsRegion
-            case configuration
-            case configurationItemCaptureTime
-            case configurationItemStatus
-            case configurationStateId
-            case resourceCreationTime
-            case resourceId
-            case resourceName
-            case resourceType
-            case supplementaryConfiguration
-            case version
+            case accountId = "accountId"
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case awsRegion = "awsRegion"
+            case configuration = "configuration"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configurationItemStatus = "configurationItemStatus"
+            case configurationStateId = "configurationStateId"
+            case resourceCreationTime = "resourceCreationTime"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case version = "version"
         }
     }
 
     public struct BatchGetAggregateResourceConfigRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// A list of aggregate ResourceIdentifiers objects.
@@ -770,6 +785,7 @@ extension ConfigService {
     }
 
     public struct BatchGetAggregateResourceConfigResponse: AWSDecodableShape {
+
         /// A list that contains the current configuration of one or more resources.
         public let baseConfigurationItems: [BaseConfigurationItem]?
         /// A list of resource identifiers that were not processed with current scope. The list is empty if all the resources are processed.
@@ -787,6 +803,7 @@ extension ConfigService {
     }
 
     public struct BatchGetResourceConfigRequest: AWSEncodableShape {
+
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
         public let resourceKeys: [ResourceKey]
 
@@ -803,11 +820,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceKeys
+            case resourceKeys = "resourceKeys"
         }
     }
 
     public struct BatchGetResourceConfigResponse: AWSDecodableShape {
+
         /// A list that contains the current configuration of one or more resources.
         public let baseConfigurationItems: [BaseConfigurationItem]?
         /// A list of resource keys that were not processed with the current response. The unprocessesResourceKeys value is in the same form as ResourceKeys, so the value can be directly provided to a subsequent BatchGetResourceConfig operation. If there are no unprocessed resource keys, the response contains an empty unprocessedResourceKeys list.
@@ -819,12 +837,13 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case baseConfigurationItems
-            case unprocessedResourceKeys
+            case baseConfigurationItems = "baseConfigurationItems"
+            case unprocessedResourceKeys = "unprocessedResourceKeys"
         }
     }
 
     public struct Compliance: AWSDecodableShape {
+
         /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
         public let complianceContributorCount: ComplianceContributorCount?
         /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it. A resource is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it. A rule is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or AWS Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
@@ -842,6 +861,7 @@ extension ConfigService {
     }
 
     public struct ComplianceByConfigRule: AWSDecodableShape {
+
         /// Indicates whether the AWS Config rule is compliant.
         public let compliance: Compliance?
         /// The name of the AWS Config rule.
@@ -859,6 +879,7 @@ extension ConfigService {
     }
 
     public struct ComplianceByResource: AWSDecodableShape {
+
         /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
         public let compliance: Compliance?
         /// The ID of the AWS resource that was evaluated.
@@ -880,6 +901,7 @@ extension ConfigService {
     }
 
     public struct ComplianceContributorCount: AWSDecodableShape {
+
         /// Indicates whether the maximum count is reached.
         public let capExceeded: Bool?
         /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
@@ -897,6 +919,7 @@ extension ConfigService {
     }
 
     public struct ComplianceSummary: AWSDecodableShape {
+
         /// The time that AWS Config created the compliance summary.
         public let complianceSummaryTimestamp: Date?
         /// The number of AWS Config rules or AWS resources that are compliant, up to a maximum of 25 for rules and 100 for resources.
@@ -918,6 +941,7 @@ extension ConfigService {
     }
 
     public struct ComplianceSummaryByResourceType: AWSDecodableShape {
+
         /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each.
         public let complianceSummary: ComplianceSummary?
         /// The type of AWS resource.
@@ -935,6 +959,7 @@ extension ConfigService {
     }
 
     public struct ConfigExportDeliveryInfo: AWSDecodableShape {
+
         /// The time of the last attempted delivery.
         public let lastAttemptTime: Date?
         /// The error code from the last attempted delivery.
@@ -958,16 +983,17 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastAttemptTime
-            case lastErrorCode
-            case lastErrorMessage
-            case lastStatus
-            case lastSuccessfulTime
-            case nextDeliveryTime
+            case lastAttemptTime = "lastAttemptTime"
+            case lastErrorCode = "lastErrorCode"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastStatus = "lastStatus"
+            case lastSuccessfulTime = "lastSuccessfulTime"
+            case nextDeliveryTime = "nextDeliveryTime"
         }
     }
 
     public struct ConfigRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
         /// The ID of the AWS Config rule.
@@ -1035,6 +1061,7 @@ extension ConfigService {
     }
 
     public struct ConfigRuleComplianceFilters: AWSEncodableShape {
+
         /// The 12-digit account ID of the source account.
         public let accountId: String?
         /// The source region where the data is aggregated.
@@ -1069,6 +1096,7 @@ extension ConfigService {
     }
 
     public struct ConfigRuleComplianceSummaryFilters: AWSEncodableShape {
+
         /// The 12-digit account ID of the source account.
         public let accountId: String?
         /// The source region where the data is aggregated.
@@ -1092,6 +1120,7 @@ extension ConfigService {
     }
 
     public struct ConfigRuleEvaluationStatus: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         public let configRuleArn: String?
         /// The ID of the AWS Config rule.
@@ -1149,6 +1178,7 @@ extension ConfigService {
     }
 
     public struct ConfigSnapshotDeliveryProperties: AWSEncodableShape & AWSDecodableShape {
+
         /// The frequency with which AWS Config delivers configuration snapshots.
         public let deliveryFrequency: MaximumExecutionFrequency?
 
@@ -1157,11 +1187,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryFrequency
+            case deliveryFrequency = "deliveryFrequency"
         }
     }
 
     public struct ConfigStreamDeliveryInfo: AWSDecodableShape {
+
         /// The error code from the last attempted delivery.
         public let lastErrorCode: String?
         /// The error message from the last attempted delivery.
@@ -1179,14 +1210,15 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastErrorCode
-            case lastErrorMessage
-            case lastStatus
-            case lastStatusChangeTime
+            case lastErrorCode = "lastErrorCode"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastStatus = "lastStatus"
+            case lastStatusChangeTime = "lastStatusChangeTime"
         }
     }
 
     public struct ConfigurationAggregator: AWSDecodableShape {
+
         /// Provides a list of source accounts and regions to be aggregated.
         public let accountAggregationSources: [AccountAggregationSource]?
         /// The Amazon Resource Name (ARN) of the aggregator.
@@ -1224,6 +1256,7 @@ extension ConfigService {
     }
 
     public struct ConfigurationItem: AWSDecodableShape {
+
         /// The 12-digit AWS account ID associated with the resource.
         public let accountId: String?
         /// Amazon Resource Name (ARN) associated with the resource.
@@ -1283,28 +1316,29 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case arn
-            case availabilityZone
-            case awsRegion
-            case configuration
-            case configurationItemCaptureTime
-            case configurationItemMD5Hash
-            case configurationItemStatus
-            case configurationStateId
-            case relatedEvents
-            case relationships
-            case resourceCreationTime
-            case resourceId
-            case resourceName
-            case resourceType
-            case supplementaryConfiguration
-            case tags
-            case version
+            case accountId = "accountId"
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case awsRegion = "awsRegion"
+            case configuration = "configuration"
+            case configurationItemCaptureTime = "configurationItemCaptureTime"
+            case configurationItemMD5Hash = "configurationItemMD5Hash"
+            case configurationItemStatus = "configurationItemStatus"
+            case configurationStateId = "configurationStateId"
+            case relatedEvents = "relatedEvents"
+            case relationships = "relationships"
+            case resourceCreationTime = "resourceCreationTime"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case supplementaryConfiguration = "supplementaryConfiguration"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
     public struct ConfigurationRecorder: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
         public let name: String?
         /// Specifies the types of AWS resources for which AWS Config records configuration changes.
@@ -1324,13 +1358,14 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case recordingGroup
-            case roleARN
+            case name = "name"
+            case recordingGroup = "recordingGroup"
+            case roleARN = "roleARN"
         }
     }
 
     public struct ConfigurationRecorderStatus: AWSDecodableShape {
+
         /// The error code indicating that the recording failed.
         public let lastErrorCode: String?
         /// The message indicating that the recording failed due to an error.
@@ -1360,18 +1395,19 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastErrorCode
-            case lastErrorMessage
-            case lastStartTime
-            case lastStatus
-            case lastStatusChangeTime
-            case lastStopTime
-            case name
-            case recording
+            case lastErrorCode = "lastErrorCode"
+            case lastErrorMessage = "lastErrorMessage"
+            case lastStartTime = "lastStartTime"
+            case lastStatus = "lastStatus"
+            case lastStatusChangeTime = "lastStatusChangeTime"
+            case lastStopTime = "lastStopTime"
+            case name = "name"
+            case recording = "recording"
         }
     }
 
     public struct ConformancePackComplianceFilters: AWSEncodableShape {
+
         /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT. INSUFFICIENT_DATA is not supported.
         public let complianceType: ConformancePackComplianceType?
         /// Filters the results by AWS Config rule names.
@@ -1398,6 +1434,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackComplianceSummary: AWSDecodableShape {
+
         /// The status of the conformance pack. The allowed values are COMPLIANT, NON_COMPLIANT and INSUFFICIENT_DATA.
         public let conformancePackComplianceStatus: ConformancePackComplianceType
         /// The name of the conformance pack name.
@@ -1415,6 +1452,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackDetail: AWSDecodableShape {
+
         /// Amazon Resource Name (ARN) of the conformance pack.
         public let conformancePackArn: String
         /// ID of the conformance pack.
@@ -1456,6 +1494,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackEvaluationFilters: AWSEncodableShape {
+
         /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT. INSUFFICIENT_DATA is not supported.
         public let complianceType: ConformancePackComplianceType?
         /// Filters the results by AWS Config rule names.
@@ -1498,6 +1537,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackEvaluationResult: AWSDecodableShape {
+
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
         /// The compliance type. The allowed values are COMPLIANT and NON_COMPLIANT. INSUFFICIENT_DATA is not supported.
@@ -1526,6 +1566,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackInputParameter: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair.
         public let parameterName: String
         /// Another part of the key-value pair.
@@ -1550,6 +1591,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackRuleCompliance: AWSDecodableShape {
+
         /// Compliance of the AWS Config rule. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
         public let complianceType: ConformancePackComplianceType?
         /// Name of the config rule.
@@ -1571,6 +1613,7 @@ extension ConfigService {
     }
 
     public struct ConformancePackStatusDetail: AWSDecodableShape {
+
         /// Amazon Resource Name (ARN) of comformance pack.
         public let conformancePackArn: String
         /// ID of the conformance pack.
@@ -1612,6 +1655,7 @@ extension ConfigService {
     }
 
     public struct DeleteAggregationAuthorizationRequest: AWSEncodableShape {
+
         /// The 12-digit account ID of the account authorized to aggregate data.
         public let authorizedAccountId: String
         /// The region authorized to collect aggregated data.
@@ -1635,6 +1679,7 @@ extension ConfigService {
     }
 
     public struct DeleteConfigRuleRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule that you want to delete.
         public let configRuleName: String
 
@@ -1654,6 +1699,7 @@ extension ConfigService {
     }
 
     public struct DeleteConfigurationAggregatorRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
 
@@ -1673,6 +1719,7 @@ extension ConfigService {
     }
 
     public struct DeleteConfigurationRecorderRequest: AWSEncodableShape {
+
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
         public let configurationRecorderName: String
 
@@ -1691,6 +1738,7 @@ extension ConfigService {
     }
 
     public struct DeleteConformancePackRequest: AWSEncodableShape {
+
         /// Name of the conformance pack you want to delete.
         public let conformancePackName: String
 
@@ -1710,6 +1758,7 @@ extension ConfigService {
     }
 
     public struct DeleteDeliveryChannelRequest: AWSEncodableShape {
+
         /// The name of the delivery channel to delete.
         public let deliveryChannelName: String
 
@@ -1728,6 +1777,7 @@ extension ConfigService {
     }
 
     public struct DeleteEvaluationResultsRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule for which you want to delete the evaluation results.
         public let configRuleName: String
 
@@ -1746,10 +1796,15 @@ extension ConfigService {
     }
 
     public struct DeleteEvaluationResultsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteOrganizationConfigRuleRequest: AWSEncodableShape {
+
         /// The name of organization config rule that you want to delete.
         public let organizationConfigRuleName: String
 
@@ -1769,6 +1824,7 @@ extension ConfigService {
     }
 
     public struct DeleteOrganizationConformancePackRequest: AWSEncodableShape {
+
         /// The name of organization conformance pack that you want to delete.
         public let organizationConformancePackName: String
 
@@ -1788,6 +1844,7 @@ extension ConfigService {
     }
 
     public struct DeletePendingAggregationRequestRequest: AWSEncodableShape {
+
         /// The 12-digit account ID of the account requesting to aggregate data.
         public let requesterAccountId: String
         /// The region requesting to aggregate data.
@@ -1811,6 +1868,7 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationConfigurationRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule for which you want to delete remediation configuration.
         public let configRuleName: String
         /// The type of a resource.
@@ -1834,10 +1892,15 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationConfigurationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRemediationExceptionsRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule for which you want to delete remediation exception configuration.
         public let configRuleName: String
         /// An exception list of resource exception keys to be processed with the current request. AWS Config adds exception for each resource key. For example, AWS Config adds 3 exceptions for 3 resource keys.
@@ -1866,6 +1929,7 @@ extension ConfigService {
     }
 
     public struct DeleteRemediationExceptionsResponse: AWSDecodableShape {
+
         /// Returns a list of failed delete remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
         public let failedBatches: [FailedDeleteRemediationExceptionsBatch]?
 
@@ -1879,6 +1943,7 @@ extension ConfigService {
     }
 
     public struct DeleteResourceConfigRequest: AWSEncodableShape {
+
         /// Unique identifier of the resource.
         public let resourceId: String
         /// The type of the resource.
@@ -1903,6 +1968,7 @@ extension ConfigService {
     }
 
     public struct DeleteRetentionConfigurationRequest: AWSEncodableShape {
+
         /// The name of the retention configuration to delete.
         public let retentionConfigurationName: String
 
@@ -1922,6 +1988,7 @@ extension ConfigService {
     }
 
     public struct DeleteStoredQueryRequest: AWSEncodableShape {
+
         /// The name of the query that you want to delete.
         public let queryName: String
 
@@ -1941,10 +2008,15 @@ extension ConfigService {
     }
 
     public struct DeleteStoredQueryResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeliverConfigSnapshotRequest: AWSEncodableShape {
+
         /// The name of the delivery channel through which the snapshot is delivered.
         public let deliveryChannelName: String
 
@@ -1958,11 +2030,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deliveryChannelName
+            case deliveryChannelName = "deliveryChannelName"
         }
     }
 
     public struct DeliverConfigSnapshotResponse: AWSDecodableShape {
+
         /// The ID of the snapshot that is being created.
         public let configSnapshotId: String?
 
@@ -1971,11 +2044,12 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configSnapshotId
+            case configSnapshotId = "configSnapshotId"
         }
     }
 
     public struct DeliveryChannel: AWSEncodableShape & AWSDecodableShape {
+
         /// The options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket.
         public let configSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties?
         /// The name of the delivery channel. By default, AWS Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
@@ -2004,16 +2078,17 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configSnapshotDeliveryProperties
-            case name
-            case s3BucketName
-            case s3KeyPrefix
-            case s3KmsKeyArn
-            case snsTopicARN
+            case configSnapshotDeliveryProperties = "configSnapshotDeliveryProperties"
+            case name = "name"
+            case s3BucketName = "s3BucketName"
+            case s3KeyPrefix = "s3KeyPrefix"
+            case s3KmsKeyArn = "s3KmsKeyArn"
+            case snsTopicARN = "snsTopicARN"
         }
     }
 
     public struct DeliveryChannelStatus: AWSDecodableShape {
+
         /// A list that contains the status of the delivery of the configuration history to the specified Amazon S3 bucket.
         public let configHistoryDeliveryInfo: ConfigExportDeliveryInfo?
         /// A list containing the status of the delivery of the snapshot to the specified Amazon S3 bucket.
@@ -2031,14 +2106,15 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configHistoryDeliveryInfo
-            case configSnapshotDeliveryInfo
-            case configStreamDeliveryInfo
-            case name
+            case configHistoryDeliveryInfo = "configHistoryDeliveryInfo"
+            case configSnapshotDeliveryInfo = "configSnapshotDeliveryInfo"
+            case configStreamDeliveryInfo = "configStreamDeliveryInfo"
+            case name = "name"
         }
     }
 
     public struct DescribeAggregateComplianceByConfigRulesRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// Filters the results by ConfigRuleComplianceFilters object.
@@ -2073,6 +2149,7 @@ extension ConfigService {
     }
 
     public struct DescribeAggregateComplianceByConfigRulesResponse: AWSDecodableShape {
+
         /// Returns a list of AggregateComplianceByConfigRule object.
         public let aggregateComplianceByConfigRules: [AggregateComplianceByConfigRule]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2090,6 +2167,7 @@ extension ConfigService {
     }
 
     public struct DescribeAggregateComplianceByConformancePacksRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// Filters the result by AggregateConformancePackComplianceFilters object.
@@ -2124,6 +2202,7 @@ extension ConfigService {
     }
 
     public struct DescribeAggregateComplianceByConformancePacksResponse: AWSDecodableShape {
+
         /// Returns the AggregateComplianceByConformancePack object.
         public let aggregateComplianceByConformancePacks: [AggregateComplianceByConformancePack]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2141,6 +2220,7 @@ extension ConfigService {
     }
 
     public struct DescribeAggregationAuthorizationsRequest: AWSEncodableShape {
+
         /// The maximum number of AggregationAuthorizations returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2163,6 +2243,7 @@ extension ConfigService {
     }
 
     public struct DescribeAggregationAuthorizationsResponse: AWSDecodableShape {
+
         /// Returns a list of authorizations granted to various aggregator accounts and regions.
         public let aggregationAuthorizations: [AggregationAuthorization]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2180,6 +2261,7 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByConfigRuleRequest: AWSEncodableShape {
+
         /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
         public let complianceTypes: [ComplianceType]?
         /// Specify one or more AWS Config rule names to filter the results by rule.
@@ -2213,6 +2295,7 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByConfigRuleResponse: AWSDecodableShape {
+
         /// Indicates whether each of the specified AWS Config rules is compliant.
         public let complianceByConfigRules: [ComplianceByConfigRule]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -2230,6 +2313,7 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByResourceRequest: AWSEncodableShape {
+
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
         public let complianceTypes: [ComplianceType]?
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
@@ -2270,6 +2354,7 @@ extension ConfigService {
     }
 
     public struct DescribeComplianceByResourceResponse: AWSDecodableShape {
+
         /// Indicates whether the specified AWS resource complies with all of the AWS Config rules that evaluate it.
         public let complianceByResources: [ComplianceByResource]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -2287,6 +2372,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSEncodableShape {
+
         /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
         public let configRuleNames: [String]?
         /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 150 rules. For information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide.
@@ -2320,6 +2406,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSDecodableShape {
+
         /// Status information about your AWS managed Config rules.
         public let configRulesEvaluationStatus: [ConfigRuleEvaluationStatus]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -2337,6 +2424,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRulesRequest: AWSEncodableShape {
+
         /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
         public let configRuleNames: [String]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2364,6 +2452,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigRulesResponse: AWSDecodableShape {
+
         /// The details about your AWS Config rules.
         public let configRules: [ConfigRule]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -2381,6 +2470,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorSourcesStatusRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// The maximum number of AggregatorSourceStatus returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
@@ -2415,6 +2505,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorSourcesStatusResponse: AWSDecodableShape {
+
         /// Returns an AggregatedSourceStatus object.
         public let aggregatedSourceStatusList: [AggregatedSourceStatus]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2432,6 +2523,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorsRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregators.
         public let configurationAggregatorNames: [String]?
         /// The maximum number of configuration aggregators returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
@@ -2465,6 +2557,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationAggregatorsResponse: AWSDecodableShape {
+
         /// Returns a ConfigurationAggregators object.
         public let configurationAggregators: [ConfigurationAggregator]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2482,6 +2575,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecorderStatusRequest: AWSEncodableShape {
+
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
         public let configurationRecorderNames: [String]?
 
@@ -2502,6 +2596,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecorderStatusResponse: AWSDecodableShape {
+
         /// A list that contains status of the specified recorders.
         public let configurationRecordersStatus: [ConfigurationRecorderStatus]?
 
@@ -2515,6 +2610,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecordersRequest: AWSEncodableShape {
+
         /// A list of configuration recorder names.
         public let configurationRecorderNames: [String]?
 
@@ -2535,6 +2631,7 @@ extension ConfigService {
     }
 
     public struct DescribeConfigurationRecordersResponse: AWSDecodableShape {
+
         /// A list that contains the descriptions of the specified configuration recorders.
         public let configurationRecorders: [ConfigurationRecorder]?
 
@@ -2548,6 +2645,7 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackComplianceRequest: AWSEncodableShape {
+
         /// Name of the conformance pack.
         public let conformancePackName: String
         /// A ConformancePackComplianceFilters object.
@@ -2582,6 +2680,7 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackComplianceResponse: AWSDecodableShape {
+
         /// Name of the conformance pack.
         public let conformancePackName: String
         /// Returns a list of ConformancePackRuleCompliance objects.
@@ -2603,6 +2702,7 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackStatusRequest: AWSEncodableShape {
+
         /// Comma-separated list of conformance pack names.
         public let conformancePackNames: [String]?
         /// The maximum number of conformance packs status returned on each page.
@@ -2636,6 +2736,7 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePackStatusResponse: AWSDecodableShape {
+
         /// A list of ConformancePackStatusDetail objects.
         public let conformancePackStatusDetails: [ConformancePackStatusDetail]?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
@@ -2653,6 +2754,7 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePacksRequest: AWSEncodableShape {
+
         /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, AWS Config returns details for all your conformance packs.
         public let conformancePackNames: [String]?
         /// The maximum number of conformance packs returned on each page.
@@ -2686,6 +2788,7 @@ extension ConfigService {
     }
 
     public struct DescribeConformancePacksResponse: AWSDecodableShape {
+
         /// Returns a list of ConformancePackDetail objects.
         public let conformancePackDetails: [ConformancePackDetail]?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
@@ -2703,6 +2806,7 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelStatusRequest: AWSEncodableShape {
+
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
 
@@ -2723,6 +2827,7 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelStatusResponse: AWSDecodableShape {
+
         /// A list that contains the status of a specified delivery channel.
         public let deliveryChannelsStatus: [DeliveryChannelStatus]?
 
@@ -2736,6 +2841,7 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelsRequest: AWSEncodableShape {
+
         /// A list of delivery channel names.
         public let deliveryChannelNames: [String]?
 
@@ -2756,6 +2862,7 @@ extension ConfigService {
     }
 
     public struct DescribeDeliveryChannelsResponse: AWSDecodableShape {
+
         /// A list that contains the descriptions of the specified delivery channel.
         public let deliveryChannels: [DeliveryChannel]?
 
@@ -2769,6 +2876,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRuleStatusesRequest: AWSEncodableShape {
+
         /// The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2801,6 +2909,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRuleStatusesResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of OrganizationConfigRuleStatus objects.
@@ -2818,6 +2927,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRulesRequest: AWSEncodableShape {
+
         /// The maximum number of organization config rules returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2850,6 +2960,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRulesResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a list of OrganizationConfigRule objects.
@@ -2867,6 +2978,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePackStatusesRequest: AWSEncodableShape {
+
         /// The maximum number of OrganizationConformancePackStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2900,6 +3012,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePackStatusesResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of OrganizationConformancePackStatus objects.
@@ -2917,6 +3030,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePacksRequest: AWSEncodableShape {
+
         /// The maximum number of organization config packs returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2950,6 +3064,7 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConformancePacksResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a list of OrganizationConformancePacks objects.
@@ -2967,6 +3082,7 @@ extension ConfigService {
     }
 
     public struct DescribePendingAggregationRequestsRequest: AWSEncodableShape {
+
         /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -2989,6 +3105,7 @@ extension ConfigService {
     }
 
     public struct DescribePendingAggregationRequestsResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a PendingAggregationRequests object.
@@ -3006,6 +3123,7 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationConfigurationsRequest: AWSEncodableShape {
+
         /// A list of AWS Config rule names of remediation configurations for which you want details.
         public let configRuleNames: [String]
 
@@ -3029,6 +3147,7 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationConfigurationsResponse: AWSDecodableShape {
+
         /// Returns a remediation configuration object.
         public let remediationConfigurations: [RemediationConfiguration]?
 
@@ -3042,6 +3161,7 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExceptionsRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule.
         public let configRuleName: String
         /// The maximum number of RemediationExceptionResourceKey returned on each page. The default is 25. If you specify 0, AWS Config uses the default.
@@ -3080,6 +3200,7 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExceptionsResponse: AWSDecodableShape {
+
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a list of remediation exception objects.
@@ -3097,6 +3218,7 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExecutionStatusRequest: AWSEncodableShape {
+
         /// A list of AWS Config rule names.
         public let configRuleName: String
         /// The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, AWS Config uses the default.
@@ -3135,6 +3257,7 @@ extension ConfigService {
     }
 
     public struct DescribeRemediationExecutionStatusResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a list of remediation execution statuses objects.
@@ -3152,6 +3275,7 @@ extension ConfigService {
     }
 
     public struct DescribeRetentionConfigurationsRequest: AWSEncodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of names of retention configurations for which you want details. If you do not specify a name, AWS Config returns details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account.
@@ -3179,6 +3303,7 @@ extension ConfigService {
     }
 
     public struct DescribeRetentionConfigurationsResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a retention configuration object.
@@ -3196,6 +3321,7 @@ extension ConfigService {
     }
 
     public struct Evaluation: AWSEncodableShape & AWSDecodableShape {
+
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
         /// The ID of the AWS resource that was evaluated.
@@ -3234,6 +3360,7 @@ extension ConfigService {
     }
 
     public struct EvaluationResult: AWSDecodableShape {
+
         /// Supplementary information about how the evaluation determined the compliance.
         public let annotation: String?
         /// Indicates whether the AWS resource complies with the AWS Config rule that evaluated it. For the EvaluationResult data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for the EvaluationResult data type.
@@ -3267,6 +3394,7 @@ extension ConfigService {
     }
 
     public struct EvaluationResultIdentifier: AWSDecodableShape {
+
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
         public let evaluationResultQualifier: EvaluationResultQualifier?
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
@@ -3284,6 +3412,7 @@ extension ConfigService {
     }
 
     public struct EvaluationResultQualifier: AWSDecodableShape {
+
         /// The name of the AWS Config rule that was used in the evaluation.
         public let configRuleName: String?
         /// The ID of the evaluated AWS resource.
@@ -3305,6 +3434,7 @@ extension ConfigService {
     }
 
     public struct ExecutionControls: AWSEncodableShape & AWSDecodableShape {
+
         /// A SsmControls object.
         public let ssmControls: SsmControls?
 
@@ -3322,6 +3452,7 @@ extension ConfigService {
     }
 
     public struct ExternalEvaluation: AWSEncodableShape {
+
         /// Supplementary information about the reason of compliance. For example, this task was completed on a specific date.
         public let annotation: String?
         /// The evaluated compliance resource ID. AWS Config accepts only AWS account ID.
@@ -3360,6 +3491,7 @@ extension ConfigService {
     }
 
     public struct FailedDeleteRemediationExceptionsBatch: AWSDecodableShape {
+
         /// Returns remediation exception resource key object of the failed items.
         public let failedItems: [RemediationExceptionResourceKey]?
         /// Returns a failure message for delete remediation exception. For example, AWS Config creates an exception due to an internal error.
@@ -3377,6 +3509,7 @@ extension ConfigService {
     }
 
     public struct FailedRemediationBatch: AWSDecodableShape {
+
         /// Returns remediation configurations of the failed items.
         public let failedItems: [RemediationConfiguration]?
         /// Returns a failure message. For example, the resource is already compliant.
@@ -3394,6 +3527,7 @@ extension ConfigService {
     }
 
     public struct FailedRemediationExceptionBatch: AWSDecodableShape {
+
         /// Returns remediation exception resource key object of the failed items.
         public let failedItems: [RemediationException]?
         /// Returns a failure message. For example, the auto-remediation has failed.
@@ -3411,6 +3545,7 @@ extension ConfigService {
     }
 
     public struct FieldInfo: AWSDecodableShape {
+
         /// Name of the field.
         public let name: String?
 
@@ -3424,6 +3559,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateComplianceDetailsByConfigRuleRequest: AWSEncodableShape {
+
         /// The 12-digit account ID of the source account.
         public let accountId: String
         /// The source region from where the data is aggregated.
@@ -3475,6 +3611,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateComplianceDetailsByConfigRuleResponse: AWSDecodableShape {
+
         /// Returns an AggregateEvaluationResults object.
         public let aggregateEvaluationResults: [AggregateEvaluationResult]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -3492,6 +3629,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateConfigRuleComplianceSummaryRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// Filters the results based on the ConfigRuleComplianceSummaryFilters object.
@@ -3530,6 +3668,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateConfigRuleComplianceSummaryResponse: AWSDecodableShape {
+
         /// Returns a list of AggregateComplianceCounts object.
         public let aggregateComplianceCounts: [AggregateComplianceCount]?
         /// Groups the result based on ACCOUNT_ID or AWS_REGION.
@@ -3551,6 +3690,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateConformancePackComplianceSummaryRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// Filters the results based on the AggregateConformancePackComplianceSummaryFilters object.
@@ -3589,6 +3729,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateConformancePackComplianceSummaryResponse: AWSDecodableShape {
+
         /// Returns a list of AggregateConformancePackComplianceSummary object.
         public let aggregateConformancePackComplianceSummaries: [AggregateConformancePackComplianceSummary]?
         /// Groups the result based on AWS Account ID or AWS Region.
@@ -3610,6 +3751,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateDiscoveredResourceCountsRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// Filters the results based on the ResourceCountFilters object.
@@ -3648,6 +3790,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateDiscoveredResourceCountsResponse: AWSDecodableShape {
+
         /// The key passed into the request object. If GroupByKey is not provided, the result will be empty.
         public let groupByKey: String?
         /// Returns a list of GroupedResourceCount objects.
@@ -3673,6 +3816,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateResourceConfigRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// An object that identifies aggregate resource.
@@ -3697,6 +3841,7 @@ extension ConfigService {
     }
 
     public struct GetAggregateResourceConfigResponse: AWSDecodableShape {
+
         /// Returns a ConfigurationItem object.
         public let configurationItem: ConfigurationItem?
 
@@ -3710,6 +3855,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSEncodableShape {
+
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
         public let complianceTypes: [ComplianceType]?
         /// The name of the AWS Config rule for which you want compliance information.
@@ -3744,6 +3890,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByConfigRuleResponse: AWSDecodableShape {
+
         /// Indicates whether the AWS resource complies with the specified AWS Config rule.
         public let evaluationResults: [EvaluationResult]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -3761,6 +3908,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByResourceRequest: AWSEncodableShape {
+
         /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
         public let complianceTypes: [ComplianceType]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -3795,6 +3943,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceDetailsByResourceResponse: AWSDecodableShape {
+
         /// Indicates whether the specified AWS resource complies each AWS Config rule.
         public let evaluationResults: [EvaluationResult]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -3812,6 +3961,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceSummaryByConfigRuleResponse: AWSDecodableShape {
+
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
         public let complianceSummary: ComplianceSummary?
 
@@ -3825,6 +3975,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceSummaryByResourceTypeRequest: AWSEncodableShape {
+
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance. You can specify that the resource type is an AWS account by specifying AWS::::Account.
         public let resourceTypes: [String]?
 
@@ -3847,6 +3998,7 @@ extension ConfigService {
     }
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSDecodableShape {
+
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
         public let complianceSummariesByResourceType: [ComplianceSummaryByResourceType]?
 
@@ -3860,6 +4012,7 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceDetailsRequest: AWSEncodableShape {
+
         /// Name of the conformance pack.
         public let conformancePackName: String
         /// A ConformancePackEvaluationFilters object.
@@ -3894,6 +4047,7 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceDetailsResponse: AWSDecodableShape {
+
         /// Name of the conformance pack.
         public let conformancePackName: String
         /// Returns a list of ConformancePackEvaluationResult objects.
@@ -3915,6 +4069,7 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceSummaryRequest: AWSEncodableShape {
+
         /// Names of conformance packs.
         public let conformancePackNames: [String]
         /// The maximum number of conformance packs returned on each page.
@@ -3948,6 +4103,7 @@ extension ConfigService {
     }
 
     public struct GetConformancePackComplianceSummaryResponse: AWSDecodableShape {
+
         /// A list of ConformancePackComplianceSummary objects.
         public let conformancePackComplianceSummaryList: [ConformancePackComplianceSummary]?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -3965,6 +4121,7 @@ extension ConfigService {
     }
 
     public struct GetDiscoveredResourceCountsRequest: AWSEncodableShape {
+
         /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -3990,13 +4147,14 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit
-            case nextToken
-            case resourceTypes
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceTypes = "resourceTypes"
         }
     }
 
     public struct GetDiscoveredResourceCountsResponse: AWSDecodableShape {
+
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The list of ResourceCount objects. Each object is listed in descending order by the number of resources.
@@ -4011,13 +4169,14 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceCounts
-            case totalDiscoveredResources
+            case nextToken = "nextToken"
+            case resourceCounts = "resourceCounts"
+            case totalDiscoveredResources = "totalDiscoveredResources"
         }
     }
 
     public struct GetOrganizationConfigRuleDetailedStatusRequest: AWSEncodableShape {
+
         /// A StatusDetailFilters object.
         public let filters: StatusDetailFilters?
         /// The maximum number of OrganizationConfigRuleDetailedStatus returned on each page. If you do not specify a number, AWS Config uses the default. The default is 100.
@@ -4052,6 +4211,7 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConfigRuleDetailedStatusResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of MemberAccountStatus objects.
@@ -4069,6 +4229,7 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConformancePackDetailedStatusRequest: AWSEncodableShape {
+
         /// An OrganizationResourceDetailedStatusFilters object.
         public let filters: OrganizationResourceDetailedStatusFilters?
         /// The maximum number of OrganizationConformancePackDetailedStatuses returned on each page. If you do not specify a number, AWS Config uses the default. The default is 100.
@@ -4103,6 +4264,7 @@ extension ConfigService {
     }
 
     public struct GetOrganizationConformancePackDetailedStatusResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// A list of OrganizationConformancePackDetailedStatus objects.
@@ -4120,6 +4282,7 @@ extension ConfigService {
     }
 
     public struct GetResourceConfigHistoryRequest: AWSEncodableShape {
+
         /// The chronological order for configuration items listed. By default, the results are listed in reverse chronological order.
         public let chronologicalOrder: ChronologicalOrder?
         /// The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start when the first configuration item was recorded.
@@ -4153,17 +4316,18 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case chronologicalOrder
-            case earlierTime
-            case laterTime
-            case limit
-            case nextToken
-            case resourceId
-            case resourceType
+            case chronologicalOrder = "chronologicalOrder"
+            case earlierTime = "earlierTime"
+            case laterTime = "laterTime"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
     public struct GetResourceConfigHistoryResponse: AWSDecodableShape {
+
         /// A list that contains the configuration history of one or more resources.
         public let configurationItems: [ConfigurationItem]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -4175,12 +4339,13 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationItems
-            case nextToken
+            case configurationItems = "configurationItems"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetStoredQueryRequest: AWSEncodableShape {
+
         /// The name of the query.
         public let queryName: String
 
@@ -4200,6 +4365,7 @@ extension ConfigService {
     }
 
     public struct GetStoredQueryResponse: AWSDecodableShape {
+
         /// Returns a StoredQuery object.
         public let storedQuery: StoredQuery?
 
@@ -4213,6 +4379,7 @@ extension ConfigService {
     }
 
     public struct GroupedResourceCount: AWSDecodableShape {
+
         /// The name of the group that can be region, account ID, or resource type. For example, region1, region2 if the region was chosen as GroupByKey.
         public let groupName: String
         /// The number of resources in the group.
@@ -4230,6 +4397,7 @@ extension ConfigService {
     }
 
     public struct ListAggregateDiscoveredResourcesRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// Filters the results based on the ResourceFilters object.
@@ -4268,6 +4436,7 @@ extension ConfigService {
     }
 
     public struct ListAggregateDiscoveredResourcesResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns a list of ResourceIdentifiers objects.
@@ -4285,6 +4454,7 @@ extension ConfigService {
     }
 
     public struct ListDiscoveredResourcesRequest: AWSEncodableShape {
+
         /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
         public let includeDeletedResources: Bool?
         /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the default.
@@ -4317,16 +4487,17 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeDeletedResources
-            case limit
-            case nextToken
-            case resourceIds
-            case resourceName
-            case resourceType
+            case includeDeletedResources = "includeDeletedResources"
+            case limit = "limit"
+            case nextToken = "nextToken"
+            case resourceIds = "resourceIds"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ListDiscoveredResourcesResponse: AWSDecodableShape {
+
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
@@ -4338,12 +4509,13 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case resourceIdentifiers
+            case nextToken = "nextToken"
+            case resourceIdentifiers = "resourceIdentifiers"
         }
     }
 
     public struct ListStoredQueriesRequest: AWSEncodableShape {
+
         /// The maximum number of results to be returned with a single call.
         public let maxResults: Int?
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
@@ -4366,6 +4538,7 @@ extension ConfigService {
     }
 
     public struct ListStoredQueriesResponse: AWSDecodableShape {
+
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// A list of StoredQueryMetadata objects.
@@ -4383,6 +4556,7 @@ extension ConfigService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, AWS Config uses the default.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -4411,6 +4585,7 @@ extension ConfigService {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
         /// The tags for the resource.
@@ -4428,6 +4603,7 @@ extension ConfigService {
     }
 
     public struct MemberAccountStatus: AWSDecodableShape {
+
         /// The 12-digit account ID of a member account.
         public let accountId: String
         /// The name of config rule deployed in the member account.
@@ -4461,6 +4637,7 @@ extension ConfigService {
     }
 
     public struct OrganizationAggregationSource: AWSEncodableShape & AWSDecodableShape {
+
         /// If true, aggregate existing AWS Config regions and future regions.
         public let allAwsRegions: Bool?
         /// The source regions being aggregated.
@@ -4486,6 +4663,7 @@ extension ConfigService {
     }
 
     public struct OrganizationConfigRule: AWSDecodableShape {
+
         /// A comma-separated list of accounts excluded from organization config rule.
         public let excludedAccounts: [String]?
         /// The timestamp of the last update.
@@ -4519,6 +4697,7 @@ extension ConfigService {
     }
 
     public struct OrganizationConfigRuleStatus: AWSDecodableShape {
+
         /// An error code that is returned when organization config rule creation or deletion has failed.
         public let errorCode: String?
         /// An error message indicating that organization config rule creation or deletion failed due to an error.
@@ -4548,6 +4727,7 @@ extension ConfigService {
     }
 
     public struct OrganizationConformancePack: AWSDecodableShape {
+
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Amazon S3 bucket where AWS Config stores conformance pack templates.   This field is optional.
@@ -4585,6 +4765,7 @@ extension ConfigService {
     }
 
     public struct OrganizationConformancePackDetailedStatus: AWSDecodableShape {
+
         /// The 12-digit account ID of a member account.
         public let accountId: String
         /// The name of conformance pack deployed in the member account.
@@ -4618,6 +4799,7 @@ extension ConfigService {
     }
 
     public struct OrganizationConformancePackStatus: AWSDecodableShape {
+
         /// An error code that is returned when organization conformance pack creation or deletion has failed in a member account.
         public let errorCode: String?
         /// An error message indicating that organization conformance pack creation or deletion failed due to an error.
@@ -4647,6 +4829,7 @@ extension ConfigService {
     }
 
     public struct OrganizationCustomRuleMetadata: AWSEncodableShape & AWSDecodableShape {
+
         /// The description that you provide for organization config rule.
         public let description: String?
         /// A string, in JSON format, that is passed to organization config rule Lambda function.
@@ -4713,6 +4896,7 @@ extension ConfigService {
     }
 
     public struct OrganizationManagedRuleMetadata: AWSEncodableShape & AWSDecodableShape {
+
         /// The description that you provide for organization config rule.
         public let description: String?
         /// A string, in JSON format, that is passed to organization config rule Lambda function.
@@ -4775,6 +4959,7 @@ extension ConfigService {
     }
 
     public struct OrganizationResourceDetailedStatusFilters: AWSEncodableShape {
+
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
         /// Indicates deployment status for conformance pack in a member account. When master account calls PutOrganizationConformancePack action for the first time, conformance pack status is created in the member account. When master account calls PutOrganizationConformancePack action for the second time, conformance pack status is updated in the member account. Conformance pack status is deleted when the master account deletes OrganizationConformancePack and disables service access for config-multiaccountsetup.amazonaws.com.   AWS Config sets the state of the conformance pack to:    CREATE_SUCCESSFUL when conformance pack has been created in the member account.     CREATE_IN_PROGRESS when conformance pack is being created in the member account.    CREATE_FAILED when conformance pack creation has failed in the member account.    DELETE_FAILED when conformance pack deletion has failed in the member account.    DELETE_IN_PROGRESS when conformance pack is being deleted in the member account.    DELETE_SUCCESSFUL when conformance pack has been deleted in the member account.     UPDATE_SUCCESSFUL when conformance pack has been updated in the member account.    UPDATE_IN_PROGRESS when conformance pack is being updated in the member account.    UPDATE_FAILED when conformance pack deletion has failed in the member account.
@@ -4796,6 +4981,7 @@ extension ConfigService {
     }
 
     public struct PendingAggregationRequest: AWSDecodableShape {
+
         /// The 12-digit account ID of the account requesting to aggregate data.
         public let requesterAccountId: String?
         /// The region requesting to aggregate data.
@@ -4813,6 +4999,7 @@ extension ConfigService {
     }
 
     public struct PutAggregationAuthorizationRequest: AWSEncodableShape {
+
         /// The 12-digit account ID of the account authorized to aggregate data.
         public let authorizedAccountId: String
         /// The region authorized to collect aggregated data.
@@ -4845,6 +5032,7 @@ extension ConfigService {
     }
 
     public struct PutAggregationAuthorizationResponse: AWSDecodableShape {
+
         /// Returns an AggregationAuthorization object.
         public let aggregationAuthorization: AggregationAuthorization?
 
@@ -4858,6 +5046,7 @@ extension ConfigService {
     }
 
     public struct PutConfigRuleRequest: AWSEncodableShape {
+
         /// The rule that you want to add to your account.
         public let configRule: ConfigRule
         /// An array of tag object.
@@ -4884,6 +5073,7 @@ extension ConfigService {
     }
 
     public struct PutConfigurationAggregatorRequest: AWSEncodableShape {
+
         /// A list of AccountAggregationSource object.
         public let accountAggregationSources: [AccountAggregationSource]?
         /// The name of the configuration aggregator.
@@ -4926,6 +5116,7 @@ extension ConfigService {
     }
 
     public struct PutConfigurationAggregatorResponse: AWSDecodableShape {
+
         /// Returns a ConfigurationAggregator object.
         public let configurationAggregator: ConfigurationAggregator?
 
@@ -4939,6 +5130,7 @@ extension ConfigService {
     }
 
     public struct PutConfigurationRecorderRequest: AWSEncodableShape {
+
         /// The configuration recorder object that records each configuration change made to the resources.
         public let configurationRecorder: ConfigurationRecorder
 
@@ -4956,6 +5148,7 @@ extension ConfigService {
     }
 
     public struct PutConformancePackRequest: AWSEncodableShape {
+
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Name of the conformance pack you want to create.
@@ -5009,6 +5202,7 @@ extension ConfigService {
     }
 
     public struct PutConformancePackResponse: AWSDecodableShape {
+
         /// ARN of the conformance pack.
         public let conformancePackArn: String?
 
@@ -5022,6 +5216,7 @@ extension ConfigService {
     }
 
     public struct PutDeliveryChannelRequest: AWSEncodableShape {
+
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
         public let deliveryChannel: DeliveryChannel
 
@@ -5039,6 +5234,7 @@ extension ConfigService {
     }
 
     public struct PutEvaluationsRequest: AWSEncodableShape {
+
         /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
         public let evaluations: [Evaluation]?
         /// An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation.
@@ -5068,6 +5264,7 @@ extension ConfigService {
     }
 
     public struct PutEvaluationsResponse: AWSDecodableShape {
+
         /// Requests that failed because of a client or server error.
         public let failedEvaluations: [Evaluation]?
 
@@ -5081,6 +5278,7 @@ extension ConfigService {
     }
 
     public struct PutExternalEvaluationRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule.
         public let configRuleName: String
         /// An ExternalEvaluation object that provides details about compliance.
@@ -5105,10 +5303,15 @@ extension ConfigService {
     }
 
     public struct PutExternalEvaluationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutOrganizationConfigRuleRequest: AWSEncodableShape {
+
         /// A comma-separated list of accounts that you want to exclude from an organization config rule.
         public let excludedAccounts: [String]?
         /// The name that you assign to an organization config rule.
@@ -5147,6 +5350,7 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConfigRuleResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of an organization config rule.
         public let organizationConfigRuleArn: String?
 
@@ -5160,6 +5364,7 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConformancePackRequest: AWSEncodableShape {
+
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Amazon S3 bucket where AWS Config stores conformance pack templates.  This field is optional. If used, it must be prefixed with awsconfigconforms.
@@ -5222,6 +5427,7 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConformancePackResponse: AWSDecodableShape {
+
         /// ARN of the organization conformance pack.
         public let organizationConformancePackArn: String?
 
@@ -5235,6 +5441,7 @@ extension ConfigService {
     }
 
     public struct PutRemediationConfigurationsRequest: AWSEncodableShape {
+
         /// A list of remediation configuration objects.
         public let remediationConfigurations: [RemediationConfiguration]
 
@@ -5256,6 +5463,7 @@ extension ConfigService {
     }
 
     public struct PutRemediationConfigurationsResponse: AWSDecodableShape {
+
         /// Returns a list of failed remediation batch objects.
         public let failedBatches: [FailedRemediationBatch]?
 
@@ -5269,6 +5477,7 @@ extension ConfigService {
     }
 
     public struct PutRemediationExceptionsRequest: AWSEncodableShape {
+
         /// The name of the AWS Config rule for which you want to create remediation exception.
         public let configRuleName: String
         /// The exception is automatically deleted after the expiration date.
@@ -5307,6 +5516,7 @@ extension ConfigService {
     }
 
     public struct PutRemediationExceptionsResponse: AWSDecodableShape {
+
         /// Returns a list of failed remediation exceptions batch objects. Each object in the batch consists of a list of failed items and failure messages.
         public let failedBatches: [FailedRemediationExceptionBatch]?
 
@@ -5320,6 +5530,7 @@ extension ConfigService {
     }
 
     public struct PutResourceConfigRequest: AWSEncodableShape {
+
         /// The configuration object of the resource in valid JSON format. It must match the schema registered with AWS CloudFormation.  The configuration JSON must not exceed 64 KB.
         public let configuration: String
         /// Unique identifier of the resource.
@@ -5363,6 +5574,7 @@ extension ConfigService {
     }
 
     public struct PutRetentionConfigurationRequest: AWSEncodableShape {
+
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history.
         public let retentionPeriodInDays: Int
 
@@ -5381,6 +5593,7 @@ extension ConfigService {
     }
 
     public struct PutRetentionConfigurationResponse: AWSDecodableShape {
+
         /// Returns a retention configuration object.
         public let retentionConfiguration: RetentionConfiguration?
 
@@ -5394,6 +5607,7 @@ extension ConfigService {
     }
 
     public struct PutStoredQueryRequest: AWSEncodableShape {
+
         /// A list of StoredQuery objects. The mandatory fields are QueryName and Expression.  When you are creating a query, you must provide a query name and an expression. When you are updating a query, you must provide a query name but updating the description is optional.
         public let storedQuery: StoredQuery
         /// A list of Tags object.
@@ -5420,6 +5634,7 @@ extension ConfigService {
     }
 
     public struct PutStoredQueryResponse: AWSDecodableShape {
+
         /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
         public let queryArn: String?
 
@@ -5433,6 +5648,7 @@ extension ConfigService {
     }
 
     public struct QueryInfo: AWSDecodableShape {
+
         /// Returns a FieldInfo object.
         public let selectFields: [FieldInfo]?
 
@@ -5446,6 +5662,7 @@ extension ConfigService {
     }
 
     public struct RecordingGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it starts recording resources of that type automatically. If you set this option to true, you cannot enumerate a list of resourceTypes.
         public let allSupported: Bool?
         /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
@@ -5460,13 +5677,14 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allSupported
-            case includeGlobalResourceTypes
-            case resourceTypes
+            case allSupported = "allSupported"
+            case includeGlobalResourceTypes = "includeGlobalResourceTypes"
+            case resourceTypes = "resourceTypes"
         }
     }
 
     public struct Relationship: AWSDecodableShape {
+
         /// The type of relationship with the related resource.
         public let relationshipName: String?
         /// The ID of the related resource (for example, sg-xxxxxx).
@@ -5484,14 +5702,15 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationshipName
-            case resourceId
-            case resourceName
-            case resourceType
+            case relationshipName = "relationshipName"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
     public struct RemediationConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Amazon Resource Name (ARN) of remediation configuration.
         public let arn: String?
         /// The remediation is triggered automatically.
@@ -5548,7 +5767,7 @@ extension ConfigService {
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
-            try self.validate(self.retryAttemptSeconds, name: "retryAttemptSeconds", parent: name, max: 2_678_000)
+            try self.validate(self.retryAttemptSeconds, name: "retryAttemptSeconds", parent: name, max: 2678000)
             try self.validate(self.retryAttemptSeconds, name: "retryAttemptSeconds", parent: name, min: 1)
             try self.validate(self.targetId, name: "targetId", parent: name, max: 256)
             try self.validate(self.targetId, name: "targetId", parent: name, min: 1)
@@ -5571,6 +5790,7 @@ extension ConfigService {
     }
 
     public struct RemediationException: AWSDecodableShape {
+
         /// The name of the AWS Config rule.
         public let configRuleName: String
         /// The time when the remediation exception will be deleted.
@@ -5600,6 +5820,7 @@ extension ConfigService {
     }
 
     public struct RemediationExceptionResourceKey: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String?
         /// The type of a resource.
@@ -5624,6 +5845,7 @@ extension ConfigService {
     }
 
     public struct RemediationExecutionStatus: AWSDecodableShape {
+
         /// Start time when the remediation was executed.
         public let invocationTime: Date?
         /// The time when the remediation execution was last updated.
@@ -5652,6 +5874,7 @@ extension ConfigService {
     }
 
     public struct RemediationExecutionStep: AWSDecodableShape {
+
         /// An error message if the step was interrupted during execution.
         public let errorMessage: String?
         /// The details of the step.
@@ -5681,6 +5904,7 @@ extension ConfigService {
     }
 
     public struct RemediationParameterValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The value is dynamic and changes at run-time.
         public let resourceValue: ResourceValue?
         /// The value is static and does not change at run-time.
@@ -5702,6 +5926,7 @@ extension ConfigService {
     }
 
     public struct ResourceCount: AWSDecodableShape {
+
         /// The number of resources.
         public let count: Int64?
         /// The resource type (for example, "AWS::EC2::Instance").
@@ -5713,12 +5938,13 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case resourceType
+            case count = "count"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ResourceCountFilters: AWSEncodableShape {
+
         /// The 12-digit ID of the account.
         public let accountId: String?
         /// The region where the account is located.
@@ -5746,6 +5972,7 @@ extension ConfigService {
     }
 
     public struct ResourceFilters: AWSEncodableShape {
+
         /// The 12-digit source account ID.
         public let accountId: String?
         /// The source region.
@@ -5779,6 +6006,7 @@ extension ConfigService {
     }
 
     public struct ResourceIdentifier: AWSDecodableShape {
+
         /// The time that the resource was deleted.
         public let resourceDeletionTime: Date?
         /// The ID of the resource (for example, sg-xxxxxx).
@@ -5796,14 +6024,15 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceDeletionTime
-            case resourceId
-            case resourceName
-            case resourceType
+            case resourceDeletionTime = "resourceDeletionTime"
+            case resourceId = "resourceId"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ResourceKey: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the resource (for example., sg-xxxxxx).
         public let resourceId: String
         /// The resource type.
@@ -5820,12 +6049,13 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceId
-            case resourceType
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ResourceValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The value is a resource ID.
         public let value: ResourceValueType
 
@@ -5839,6 +6069,7 @@ extension ConfigService {
     }
 
     public struct RetentionConfiguration: AWSDecodableShape {
+
         /// The name of the retention configuration object.
         public let name: String
         /// Number of days AWS Config stores your historical information.  Currently, only applicable to the configuration item history.
@@ -5856,6 +6087,7 @@ extension ConfigService {
     }
 
     public struct Scope: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
         public let complianceResourceId: String?
         /// The resource types of only those AWS resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
@@ -5896,6 +6128,7 @@ extension ConfigService {
     }
 
     public struct SelectAggregateResourceConfigRequest: AWSEncodableShape {
+
         /// The name of the configuration aggregator.
         public let configurationAggregatorName: String
         /// The SQL query SELECT command.
@@ -5937,6 +6170,7 @@ extension ConfigService {
     }
 
     public struct SelectAggregateResourceConfigResponse: AWSDecodableShape {
+
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
         public let queryInfo: QueryInfo?
@@ -5957,6 +6191,7 @@ extension ConfigService {
     }
 
     public struct SelectResourceConfigRequest: AWSEncodableShape {
+
         /// The SQL query SELECT command.
         public let expression: String
         /// The maximum number of query results returned on each page.
@@ -5985,6 +6220,7 @@ extension ConfigService {
     }
 
     public struct SelectResourceConfigResponse: AWSDecodableShape {
+
         /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
         public let nextToken: String?
         /// Returns the QueryInfo object.
@@ -6006,6 +6242,7 @@ extension ConfigService {
     }
 
     public struct Source: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
         public let owner: Owner
         /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
@@ -6034,6 +6271,7 @@ extension ConfigService {
     }
 
     public struct SourceDetail: AWSEncodableShape & AWSDecodableShape {
+
         /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
         public let eventSource: EventSource?
         /// The frequency at which you want AWS Config to run evaluations for a custom rule with a periodic trigger. If you specify a value for MaximumExecutionFrequency, then MessageType must use the ScheduledNotification value.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter. Based on the valid value you choose, AWS Config runs evaluations once for each valid value. For example, if you choose Three_Hours, AWS Config runs evaluations once every three hours. In this case, Three_Hours is the frequency of this rule.
@@ -6055,6 +6293,7 @@ extension ConfigService {
     }
 
     public struct SsmControls: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum percentage of remediation actions allowed to run in parallel on the non-compliant resources for that specific rule. You can specify a percentage, such as 10%. The default value is 10.
         public let concurrentExecutionRatePercentage: Int?
         /// The percentage of errors that are allowed before SSM stops running automations on non-compliant resources for that specific rule. You can specify a percentage of errors, for example 10%. If you do not specifiy a percentage, the default is 50%. For example, if you set the ErrorPercentage to 40% for 10 non-compliant resources, then SSM stops running the automations when the fifth error is received.
@@ -6079,6 +6318,7 @@ extension ConfigService {
     }
 
     public struct StartConfigRulesEvaluationRequest: AWSEncodableShape {
+
         /// The list of names of AWS Config rules that you want to run evaluations for.
         public let configRuleNames: [String]?
 
@@ -6102,10 +6342,15 @@ extension ConfigService {
     }
 
     public struct StartConfigRulesEvaluationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartConfigurationRecorderRequest: AWSEncodableShape {
+
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
 
@@ -6124,6 +6369,7 @@ extension ConfigService {
     }
 
     public struct StartRemediationExecutionRequest: AWSEncodableShape {
+
         /// The list of names of AWS Config rules that you want to run remediation execution for.
         public let configRuleName: String
         /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
@@ -6152,6 +6398,7 @@ extension ConfigService {
     }
 
     public struct StartRemediationExecutionResponse: AWSDecodableShape {
+
         /// For resources that have failed to start execution, the API returns a resource key object.
         public let failedItems: [ResourceKey]?
         /// Returns a failure message. For example, the resource is already compliant.
@@ -6169,6 +6416,7 @@ extension ConfigService {
     }
 
     public struct StaticValue: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of values. For example, the ARN of the assumed role.
         public let values: [String]
 
@@ -6191,6 +6439,7 @@ extension ConfigService {
     }
 
     public struct StatusDetailFilters: AWSEncodableShape {
+
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
         /// Indicates deployment status for config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.  AWS Config sets the state of the rule to:    CREATE_SUCCESSFUL when config rule has been created in the member account.    CREATE_IN_PROGRESS when config rule is being created in the member account.    CREATE_FAILED when config rule creation has failed in the member account.    DELETE_FAILED when config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when config rule is being deleted in the member account.    DELETE_SUCCESSFUL when config rule has been deleted in the member account.    UPDATE_SUCCESSFUL when config rule has been updated in the member account.    UPDATE_IN_PROGRESS when config rule is being updated in the member account.    UPDATE_FAILED when config rule deletion has failed in the member account.
@@ -6212,6 +6461,7 @@ extension ConfigService {
     }
 
     public struct StopConfigurationRecorderRequest: AWSEncodableShape {
+
         /// The name of the recorder object that records each configuration change made to the resources.
         public let configurationRecorderName: String
 
@@ -6230,6 +6480,7 @@ extension ConfigService {
     }
 
     public struct StoredQuery: AWSEncodableShape & AWSDecodableShape {
+
         /// A unique description for the query.
         public let description: String?
         /// The expression of the query. For example, SELECT resourceId, resourceType, supplementaryConfiguration.BucketVersioningConfiguration.status WHERE resourceType = 'AWS::S3::Bucket' AND supplementaryConfiguration.BucketVersioningConfiguration.status = 'Off'.
@@ -6277,6 +6528,7 @@ extension ConfigService {
     }
 
     public struct StoredQueryMetadata: AWSDecodableShape {
+
         /// A unique description for the query.
         public let description: String?
         /// Amazon Resource Name (ARN) of the query. For example, arn:partition:service:region:account-id:resource-type/resource-name/resource-id.
@@ -6302,6 +6554,7 @@ extension ConfigService {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
@@ -6326,6 +6579,7 @@ extension ConfigService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
         /// An array of tag object.
@@ -6353,6 +6607,7 @@ extension ConfigService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
         public let resourceArn: String
         /// The keys of the tags to be removed.

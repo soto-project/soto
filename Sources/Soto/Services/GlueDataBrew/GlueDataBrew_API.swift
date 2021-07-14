@@ -63,198 +63,198 @@ public struct GlueDataBrew: AWSService {
     // MARK: API Calls
 
     /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:   The recipe does not exist.   There is an invalid version identifier in the list of versions.   The version list is empty.   The version list size exceeds 50.   The version list contains duplicate entries.   The request will complete successfully, but with partial failures, if:   A version does not exist.   A version is being used by a job.   You specify LATEST_WORKING, but it's being used by a project.   The version fails to be deleted.   The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
-    public func batchDeleteRecipeVersion(_ input: BatchDeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteRecipeVersionResponse> {
-        return self.client.execute(operation: "BatchDeleteRecipeVersion", path: "/recipes/{name}/batchDeleteRecipeVersion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func batchDeleteRecipeVersion(_ input: BatchDeleteRecipeVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteRecipeVersionResponse> {
+        return self.client.execute(operation: "BatchDeleteRecipeVersion", path: "/recipes/{name}/batchDeleteRecipeVersion", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new DataBrew dataset.
-    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetResponse> {
-        return self.client.execute(operation: "CreateDataset", path: "/datasets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createDataset(_ input: CreateDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDatasetResponse> {
+        return self.client.execute(operation: "CreateDataset", path: "/datasets", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new job to analyze a dataset and create its data profile.
-    public func createProfileJob(_ input: CreateProfileJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileJobResponse> {
-        return self.client.execute(operation: "CreateProfileJob", path: "/profileJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createProfileJob(_ input: CreateProfileJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProfileJobResponse> {
+        return self.client.execute(operation: "CreateProfileJob", path: "/profileJobs", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new DataBrew project.
-    public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectResponse> {
-        return self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createProject(_ input: CreateProjectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectResponse> {
+        return self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new DataBrew recipe.
-    public func createRecipe(_ input: CreateRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeResponse> {
-        return self.client.execute(operation: "CreateRecipe", path: "/recipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createRecipe(_ input: CreateRecipeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeResponse> {
+        return self.client.execute(operation: "CreateRecipe", path: "/recipes", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new job to transform input data, using steps defined in an existing AWS Glue DataBrew recipe
-    public func createRecipeJob(_ input: CreateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeJobResponse> {
-        return self.client.execute(operation: "CreateRecipeJob", path: "/recipeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createRecipeJob(_ input: CreateRecipeJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecipeJobResponse> {
+        return self.client.execute(operation: "CreateRecipeJob", path: "/recipeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
-    public func createSchedule(_ input: CreateScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScheduleResponse> {
-        return self.client.execute(operation: "CreateSchedule", path: "/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createSchedule(_ input: CreateScheduleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScheduleResponse> {
+        return self.client.execute(operation: "CreateSchedule", path: "/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a dataset from DataBrew.
-    public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDatasetResponse> {
-        return self.client.execute(operation: "DeleteDataset", path: "/datasets/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteDataset(_ input: DeleteDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDatasetResponse> {
+        return self.client.execute(operation: "DeleteDataset", path: "/datasets/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified DataBrew job.
-    public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobResponse> {
-        return self.client.execute(operation: "DeleteJob", path: "/jobs/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteJob(_ input: DeleteJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteJobResponse> {
+        return self.client.execute(operation: "DeleteJob", path: "/jobs/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes an existing DataBrew project.
-    public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProjectResponse> {
-        return self.client.execute(operation: "DeleteProject", path: "/projects/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteProject(_ input: DeleteProjectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProjectResponse> {
+        return self.client.execute(operation: "DeleteProject", path: "/projects/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a single version of a DataBrew recipe.
-    public func deleteRecipeVersion(_ input: DeleteRecipeVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRecipeVersionResponse> {
-        return self.client.execute(operation: "DeleteRecipeVersion", path: "/recipes/{name}/recipeVersion/{recipeVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteRecipeVersion(_ input: DeleteRecipeVersionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRecipeVersionResponse> {
+        return self.client.execute(operation: "DeleteRecipeVersion", path: "/recipes/{name}/recipeVersion/{recipeVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified DataBrew schedule.
-    public func deleteSchedule(_ input: DeleteScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScheduleResponse> {
-        return self.client.execute(operation: "DeleteSchedule", path: "/schedules/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteSchedule(_ input: DeleteScheduleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScheduleResponse> {
+        return self.client.execute(operation: "DeleteSchedule", path: "/schedules/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew dataset.
-    public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
-        return self.client.execute(operation: "DescribeDataset", path: "/datasets/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeDataset(_ input: DescribeDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
+        return self.client.execute(operation: "DescribeDataset", path: "/datasets/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew job.
-    public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobResponse> {
-        return self.client.execute(operation: "DescribeJob", path: "/jobs/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeJob(_ input: DescribeJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobResponse> {
+        return self.client.execute(operation: "DescribeJob", path: "/jobs/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Represents one run of a DataBrew job.
-    public func describeJobRun(_ input: DescribeJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobRunResponse> {
-        return self.client.execute(operation: "DescribeJobRun", path: "/jobs/{name}/jobRun/{runId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeJobRun(_ input: DescribeJobRunRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobRunResponse> {
+        return self.client.execute(operation: "DescribeJobRun", path: "/jobs/{name}/jobRun/{runId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew project.
-    public func describeProject(_ input: DescribeProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProjectResponse> {
-        return self.client.execute(operation: "DescribeProject", path: "/projects/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeProject(_ input: DescribeProjectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProjectResponse> {
+        return self.client.execute(operation: "DescribeProject", path: "/projects/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
-    public func describeRecipe(_ input: DescribeRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecipeResponse> {
-        return self.client.execute(operation: "DescribeRecipe", path: "/recipes/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeRecipe(_ input: DescribeRecipeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRecipeResponse> {
+        return self.client.execute(operation: "DescribeRecipe", path: "/recipes/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the definition of a specific DataBrew schedule.
-    public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScheduleResponse> {
-        return self.client.execute(operation: "DescribeSchedule", path: "/schedules/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeSchedule(_ input: DescribeScheduleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeScheduleResponse> {
+        return self.client.execute(operation: "DescribeSchedule", path: "/schedules/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all of the DataBrew datasets.
-    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetsResponse> {
-        return self.client.execute(operation: "ListDatasets", path: "/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listDatasets(_ input: ListDatasetsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatasetsResponse> {
+        return self.client.execute(operation: "ListDatasets", path: "/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all of the previous runs of a particular DataBrew job.
-    public func listJobRuns(_ input: ListJobRunsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobRunsResponse> {
-        return self.client.execute(operation: "ListJobRuns", path: "/jobs/{name}/jobRuns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listJobRuns(_ input: ListJobRunsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobRunsResponse> {
+        return self.client.execute(operation: "ListJobRuns", path: "/jobs/{name}/jobRuns", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all of the DataBrew jobs that are defined.
-    public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResponse> {
-        return self.client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listJobs(_ input: ListJobsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListJobsResponse> {
+        return self.client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all of the DataBrew projects that are defined.
-    public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProjectsResponse> {
-        return self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listProjects(_ input: ListProjectsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProjectsResponse> {
+        return self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
-    public func listRecipeVersions(_ input: ListRecipeVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecipeVersionsResponse> {
-        return self.client.execute(operation: "ListRecipeVersions", path: "/recipeVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listRecipeVersions(_ input: ListRecipeVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecipeVersionsResponse> {
+        return self.client.execute(operation: "ListRecipeVersions", path: "/recipeVersions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all of the DataBrew recipes that are defined.
-    public func listRecipes(_ input: ListRecipesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecipesResponse> {
-        return self.client.execute(operation: "ListRecipes", path: "/recipes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listRecipes(_ input: ListRecipesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecipesResponse> {
+        return self.client.execute(operation: "ListRecipes", path: "/recipes", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the DataBrew schedules that are defined.
-    public func listSchedules(_ input: ListSchedulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchedulesResponse> {
-        return self.client.execute(operation: "ListSchedules", path: "/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listSchedules(_ input: ListSchedulesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchedulesResponse> {
+        return self.client.execute(operation: "ListSchedules", path: "/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all the tags for a DataBrew resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Publishes a new version of a DataBrew recipe.
-    public func publishRecipe(_ input: PublishRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishRecipeResponse> {
-        return self.client.execute(operation: "PublishRecipe", path: "/recipes/{name}/publishRecipe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func publishRecipe(_ input: PublishRecipeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishRecipeResponse> {
+        return self.client.execute(operation: "PublishRecipe", path: "/recipes/{name}/publishRecipe", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Performs a recipe step within an interactive DataBrew session that's currently open.
-    public func sendProjectSessionAction(_ input: SendProjectSessionActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendProjectSessionActionResponse> {
-        return self.client.execute(operation: "SendProjectSessionAction", path: "/projects/{name}/sendProjectSessionAction", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func sendProjectSessionAction(_ input: SendProjectSessionActionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendProjectSessionActionResponse> {
+        return self.client.execute(operation: "SendProjectSessionAction", path: "/projects/{name}/sendProjectSessionAction", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Runs a DataBrew job.
-    public func startJobRun(_ input: StartJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobRunResponse> {
-        return self.client.execute(operation: "StartJobRun", path: "/jobs/{name}/startJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startJobRun(_ input: StartJobRunRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobRunResponse> {
+        return self.client.execute(operation: "StartJobRun", path: "/jobs/{name}/startJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates an interactive session, enabling you to manipulate data in a DataBrew project.
-    public func startProjectSession(_ input: StartProjectSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartProjectSessionResponse> {
-        return self.client.execute(operation: "StartProjectSession", path: "/projects/{name}/startProjectSession", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startProjectSession(_ input: StartProjectSessionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartProjectSessionResponse> {
+        return self.client.execute(operation: "StartProjectSession", path: "/projects/{name}/startProjectSession", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Stops a particular run of a job.
-    public func stopJobRun(_ input: StopJobRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopJobRunResponse> {
-        return self.client.execute(operation: "StopJobRun", path: "/jobs/{name}/jobRun/{runId}/stopJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func stopJobRun(_ input: StopJobRunRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopJobRunResponse> {
+        return self.client.execute(operation: "StopJobRun", path: "/jobs/{name}/jobRun/{runId}/stopJobRun", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes metadata tags from a DataBrew resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Modifies the definition of an existing DataBrew dataset.
-    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDatasetResponse> {
-        return self.client.execute(operation: "UpdateDataset", path: "/datasets/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateDataset(_ input: UpdateDatasetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDatasetResponse> {
+        return self.client.execute(operation: "UpdateDataset", path: "/datasets/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Modifies the definition of an existing profile job.
-    public func updateProfileJob(_ input: UpdateProfileJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfileJobResponse> {
-        return self.client.execute(operation: "UpdateProfileJob", path: "/profileJobs/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateProfileJob(_ input: UpdateProfileJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProfileJobResponse> {
+        return self.client.execute(operation: "UpdateProfileJob", path: "/profileJobs/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Modifies the definition of an existing DataBrew project.
-    public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProjectResponse> {
-        return self.client.execute(operation: "UpdateProject", path: "/projects/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateProject(_ input: UpdateProjectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProjectResponse> {
+        return self.client.execute(operation: "UpdateProject", path: "/projects/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
-    public func updateRecipe(_ input: UpdateRecipeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecipeResponse> {
-        return self.client.execute(operation: "UpdateRecipe", path: "/recipes/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateRecipe(_ input: UpdateRecipeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecipeResponse> {
+        return self.client.execute(operation: "UpdateRecipe", path: "/recipes/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Modifies the definition of an existing DataBrew recipe job.
-    public func updateRecipeJob(_ input: UpdateRecipeJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecipeJobResponse> {
-        return self.client.execute(operation: "UpdateRecipeJob", path: "/recipeJobs/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateRecipeJob(_ input: UpdateRecipeJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRecipeJobResponse> {
+        return self.client.execute(operation: "UpdateRecipeJob", path: "/recipeJobs/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Modifies the definition of an existing DataBrew schedule.
-    public func updateSchedule(_ input: UpdateScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateScheduleResponse> {
-        return self.client.execute(operation: "UpdateSchedule", path: "/schedules/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateSchedule(_ input: UpdateScheduleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateScheduleResponse> {
+        return self.client.execute(operation: "UpdateSchedule", path: "/schedules/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

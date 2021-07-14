@@ -23,6 +23,7 @@ extension Support {
     // MARK: Shapes
 
     public struct AddAttachmentsToSetRequest: AWSEncodableShape {
+
         /// One or more attachments to add to the set. You can add up to three attachments per set. The size limit is 5 MB per attachment. In the Attachment object, use the data parameter to specify the contents of the attachment file. In the previous request syntax, the value for data appear as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
         public let attachments: [Attachment]
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
@@ -34,12 +35,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case attachmentSetId
+            case attachments = "attachments"
+            case attachmentSetId = "attachmentSetId"
         }
     }
 
     public struct AddAttachmentsToSetResponse: AWSDecodableShape {
+
         /// The ID of the attachment set. If an attachmentSetId was not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId was specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
         /// The time and date when the attachment set expires.
@@ -51,12 +53,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSetId
-            case expiryTime
+            case attachmentSetId = "attachmentSetId"
+            case expiryTime = "expiryTime"
         }
     }
 
     public struct AddCommunicationToCaseRequest: AWSEncodableShape {
+
         /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
         public let attachmentSetId: String?
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
@@ -81,14 +84,15 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSetId
-            case caseId
-            case ccEmailAddresses
-            case communicationBody
+            case attachmentSetId = "attachmentSetId"
+            case caseId = "caseId"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case communicationBody = "communicationBody"
         }
     }
 
     public struct AddCommunicationToCaseResponse: AWSDecodableShape {
+
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
 
@@ -97,11 +101,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
+            case result = "result"
         }
     }
 
     public struct Attachment: AWSEncodableShape & AWSDecodableShape {
+
         /// The content of the attachment file.
         public let data: Data?
         /// The name of the attachment file.
@@ -113,12 +118,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case fileName
+            case data = "data"
+            case fileName = "fileName"
         }
     }
 
     public struct AttachmentDetails: AWSDecodableShape {
+
         /// The ID of the attachment.
         public let attachmentId: String?
         /// The file name of the attachment.
@@ -130,12 +136,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
-            case fileName
+            case attachmentId = "attachmentId"
+            case fileName = "fileName"
         }
     }
 
     public struct CaseDetails: AWSDecodableShape {
+
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
         /// The category of problem for the AWS Support case.
@@ -177,22 +184,23 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
-            case categoryCode
-            case ccEmailAddresses
-            case displayId
-            case language
-            case recentCommunications
-            case serviceCode
-            case severityCode
-            case status
-            case subject
-            case submittedBy
-            case timeCreated
+            case caseId = "caseId"
+            case categoryCode = "categoryCode"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case displayId = "displayId"
+            case language = "language"
+            case recentCommunications = "recentCommunications"
+            case serviceCode = "serviceCode"
+            case severityCode = "severityCode"
+            case status = "status"
+            case subject = "subject"
+            case submittedBy = "submittedBy"
+            case timeCreated = "timeCreated"
         }
     }
 
     public struct Category: AWSDecodableShape {
+
         /// The category code for the support case.
         public let code: String?
         /// The category name for the support case.
@@ -204,12 +212,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
     public struct Communication: AWSDecodableShape {
+
         /// Information about the attachments to the case communication.
         public let attachmentSet: [AttachmentDetails]?
         /// The text of the communication between the customer and AWS Support.
@@ -230,15 +239,16 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSet
-            case body
-            case caseId
-            case submittedBy
-            case timeCreated
+            case attachmentSet = "attachmentSet"
+            case body = "body"
+            case caseId = "caseId"
+            case submittedBy = "submittedBy"
+            case timeCreated = "timeCreated"
         }
     }
 
     public struct CreateCaseRequest: AWSEncodableShape {
+
         /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
         public let attachmentSetId: String?
         /// The category of problem for the AWS Support case. You also use the DescribeServices operation to get the category code for a service. Each AWS service defines its own set of category codes.
@@ -278,19 +288,20 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentSetId
-            case categoryCode
-            case ccEmailAddresses
-            case communicationBody
-            case issueType
-            case language
-            case serviceCode
-            case severityCode
-            case subject
+            case attachmentSetId = "attachmentSetId"
+            case categoryCode = "categoryCode"
+            case ccEmailAddresses = "ccEmailAddresses"
+            case communicationBody = "communicationBody"
+            case issueType = "issueType"
+            case language = "language"
+            case serviceCode = "serviceCode"
+            case severityCode = "severityCode"
+            case subject = "subject"
         }
     }
 
     public struct CreateCaseResponse: AWSDecodableShape {
+
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
 
@@ -299,11 +310,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
+            case caseId = "caseId"
         }
     }
 
     public struct DescribeAttachmentRequest: AWSEncodableShape {
+
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
 
@@ -312,11 +324,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
+            case attachmentId = "attachmentId"
         }
     }
 
     public struct DescribeAttachmentResponse: AWSDecodableShape {
+
         /// This object includes the attachment content and file name. In the previous response syntax, the value for the data parameter appears as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
         public let attachment: Attachment?
 
@@ -325,11 +338,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachment
+            case attachment = "attachment"
         }
     }
 
     public struct DescribeCasesRequest: AWSEncodableShape {
+
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
         /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
@@ -369,19 +383,20 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterTime
-            case beforeTime
-            case caseIdList
-            case displayId
-            case includeCommunications
-            case includeResolvedCases
-            case language
-            case maxResults
-            case nextToken
+            case afterTime = "afterTime"
+            case beforeTime = "beforeTime"
+            case caseIdList = "caseIdList"
+            case displayId = "displayId"
+            case includeCommunications = "includeCommunications"
+            case includeResolvedCases = "includeResolvedCases"
+            case language = "language"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeCasesResponse: AWSDecodableShape {
+
         /// The details for the cases that match the request.
         public let cases: [CaseDetails]?
         /// A resumption point for pagination.
@@ -393,12 +408,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cases
-            case nextToken
+            case cases = "cases"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeCommunicationsRequest: AWSEncodableShape {
+
         /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
         public let afterTime: String?
         /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
@@ -424,15 +440,16 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afterTime
-            case beforeTime
-            case caseId
-            case maxResults
-            case nextToken
+            case afterTime = "afterTime"
+            case beforeTime = "beforeTime"
+            case caseId = "caseId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeCommunicationsResponse: AWSDecodableShape {
+
         /// The communications for the case.
         public let communications: [Communication]?
         /// A resumption point for pagination.
@@ -444,12 +461,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case communications
-            case nextToken
+            case communications = "communications"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeServicesRequest: AWSEncodableShape {
+
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
         /// A JSON-formatted list of service codes available for AWS services.
@@ -466,12 +484,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
-            case serviceCodeList
+            case language = "language"
+            case serviceCodeList = "serviceCodeList"
         }
     }
 
     public struct DescribeServicesResponse: AWSDecodableShape {
+
         /// A JSON-formatted list of AWS services.
         public let services: [Service]?
 
@@ -480,11 +499,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case services
+            case services = "services"
         }
     }
 
     public struct DescribeSeverityLevelsRequest: AWSEncodableShape {
+
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
 
@@ -493,11 +513,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
+            case language = "language"
         }
     }
 
     public struct DescribeSeverityLevelsResponse: AWSDecodableShape {
+
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
         public let severityLevels: [SeverityLevel]?
 
@@ -506,11 +527,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case severityLevels
+            case severityLevels = "severityLevels"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesRequest: AWSEncodableShape {
+
         /// The IDs of the Trusted Advisor checks to get the status of.   If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error.
         public let checkIds: [String]
 
@@ -519,11 +541,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkIds
+            case checkIds = "checkIds"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckRefreshStatusesResponse: AWSDecodableShape {
+
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
 
@@ -532,11 +555,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statuses
+            case statuses = "statuses"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSEncodableShape {
+
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
@@ -548,12 +572,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkId
-            case language
+            case checkId = "checkId"
+            case language = "language"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckResultResponse: AWSDecodableShape {
+
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
 
@@ -562,11 +587,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case result
+            case result = "result"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesRequest: AWSEncodableShape {
+
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
 
@@ -575,11 +601,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkIds
+            case checkIds = "checkIds"
         }
     }
 
     public struct DescribeTrustedAdvisorCheckSummariesResponse: AWSDecodableShape {
+
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
 
@@ -588,11 +615,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case summaries
+            case summaries = "summaries"
         }
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSEncodableShape {
+
         /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
 
@@ -601,11 +629,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case language
+            case language = "language"
         }
     }
 
     public struct DescribeTrustedAdvisorChecksResponse: AWSDecodableShape {
+
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
 
@@ -614,11 +643,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checks
+            case checks = "checks"
         }
     }
 
     public struct RecentCaseCommunications: AWSDecodableShape {
+
         /// The five most recent communications associated with the case.
         public let communications: [Communication]?
         /// A resumption point for pagination.
@@ -630,12 +660,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case communications
-            case nextToken
+            case communications = "communications"
+            case nextToken = "nextToken"
         }
     }
 
     public struct RefreshTrustedAdvisorCheckRequest: AWSEncodableShape {
+
         /// The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
 
@@ -644,11 +675,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkId
+            case checkId = "checkId"
         }
     }
 
     public struct RefreshTrustedAdvisorCheckResponse: AWSDecodableShape {
+
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
 
@@ -657,11 +689,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
+            case status = "status"
         }
     }
 
     public struct ResolveCaseRequest: AWSEncodableShape {
+
         /// The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
 
@@ -670,11 +703,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case caseId
+            case caseId = "caseId"
         }
     }
 
     public struct ResolveCaseResponse: AWSDecodableShape {
+
         /// The status of the case after the ResolveCase request was processed.
         public let finalCaseStatus: String?
         /// The status of the case when the ResolveCase request was sent.
@@ -686,12 +720,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalCaseStatus
-            case initialCaseStatus
+            case finalCaseStatus = "finalCaseStatus"
+            case initialCaseStatus = "initialCaseStatus"
         }
     }
 
     public struct Service: AWSDecodableShape {
+
         /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
         public let categories: [Category]?
         /// The code for an AWS service returned by the DescribeServices response. The name element contains the corresponding friendly name.
@@ -706,13 +741,14 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categories
-            case code
-            case name
+            case categories = "categories"
+            case code = "code"
+            case name = "name"
         }
     }
 
     public struct SeverityLevel: AWSDecodableShape {
+
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical
         public let code: String?
         /// The name of the severity level that corresponds to the severity level code.  The values returned by the API differ from the values that are displayed in the AWS Support Center. For example, for the code "low", the API name is "Low", but the name in the Support Center is "General guidance". These are the Support Center code/name mappings:    low: General guidance    normal: System impaired    high: Production system impaired    urgent: Production system down    critical: Business-critical system down    For more information, see Choosing a severity in the AWS Support User Guide.
@@ -724,12 +760,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
     public struct TrustedAdvisorCategorySpecificSummary: AWSDecodableShape {
+
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
 
@@ -738,11 +775,12 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case costOptimizing
+            case costOptimizing = "costOptimizing"
         }
     }
 
     public struct TrustedAdvisorCheckDescription: AWSDecodableShape {
+
         /// The category of the Trusted Advisor check.
         public let category: String
         /// The description of the Trusted Advisor check, which includes the alert criteria and recommended operations (contains HTML markup).
@@ -763,15 +801,16 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case id
-            case metadata
-            case name
+            case category = "category"
+            case description = "description"
+            case id = "id"
+            case metadata = "metadata"
+            case name = "name"
         }
     }
 
     public struct TrustedAdvisorCheckRefreshStatus: AWSDecodableShape {
+
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
         /// The amount of time, in milliseconds, until the Trusted Advisor check is eligible for refresh.
@@ -786,13 +825,14 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case checkId
-            case millisUntilNextRefreshable
-            case status
+            case checkId = "checkId"
+            case millisUntilNextRefreshable = "millisUntilNextRefreshable"
+            case status = "status"
         }
     }
 
     public struct TrustedAdvisorCheckResult: AWSDecodableShape {
+
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
         public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
         /// The unique identifier for the Trusted Advisor check.
@@ -815,16 +855,17 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categorySpecificSummary
-            case checkId
-            case flaggedResources
-            case resourcesSummary
-            case status
-            case timestamp
+            case categorySpecificSummary = "categorySpecificSummary"
+            case checkId = "checkId"
+            case flaggedResources = "flaggedResources"
+            case resourcesSummary = "resourcesSummary"
+            case status = "status"
+            case timestamp = "timestamp"
         }
     }
 
     public struct TrustedAdvisorCheckSummary: AWSDecodableShape {
+
         /// Summary information that relates to the category of the check. Cost Optimizing is the only category that is currently supported.
         public let categorySpecificSummary: TrustedAdvisorCategorySpecificSummary
         /// The unique identifier for the Trusted Advisor check.
@@ -847,16 +888,17 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categorySpecificSummary
-            case checkId
-            case hasFlaggedResources
-            case resourcesSummary
-            case status
-            case timestamp
+            case categorySpecificSummary = "categorySpecificSummary"
+            case checkId = "checkId"
+            case hasFlaggedResources = "hasFlaggedResources"
+            case resourcesSummary = "resourcesSummary"
+            case status = "status"
+            case timestamp = "timestamp"
         }
     }
 
     public struct TrustedAdvisorCostOptimizingSummary: AWSDecodableShape {
+
         /// The estimated monthly savings that might be realized if the recommended operations are taken.
         public let estimatedMonthlySavings: Double
         /// The estimated percentage of savings that might be realized if the recommended operations are taken.
@@ -868,12 +910,13 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case estimatedMonthlySavings
-            case estimatedPercentMonthlySavings
+            case estimatedMonthlySavings = "estimatedMonthlySavings"
+            case estimatedPercentMonthlySavings = "estimatedPercentMonthlySavings"
         }
     }
 
     public struct TrustedAdvisorResourceDetail: AWSDecodableShape {
+
         /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
         public let isSuppressed: Bool?
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
@@ -894,15 +937,16 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isSuppressed
-            case metadata
-            case region
-            case resourceId
-            case status
+            case isSuppressed = "isSuppressed"
+            case metadata = "metadata"
+            case region = "region"
+            case resourceId = "resourceId"
+            case status = "status"
         }
     }
 
     public struct TrustedAdvisorResourcesSummary: AWSDecodableShape {
+
         /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
         public let resourcesFlagged: Int64
         /// The number of AWS resources ignored by Trusted Advisor because information was unavailable.
@@ -920,10 +964,10 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcesFlagged
-            case resourcesIgnored
-            case resourcesProcessed
-            case resourcesSuppressed
+            case resourcesFlagged = "resourcesFlagged"
+            case resourcesIgnored = "resourcesIgnored"
+            case resourcesProcessed = "resourcesProcessed"
+            case resourcesSuppressed = "resourcesSuppressed"
         }
     }
 }

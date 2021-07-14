@@ -21,8 +21,8 @@ extension Lightsail {
     // MARK: Enums
 
     public enum AccessDirection: String, CustomStringConvertible, Codable {
-        case inbound
-        case outbound
+        case inbound = "inbound"
+        case outbound = "outbound"
         public var description: String { return self.rawValue }
     }
 
@@ -47,14 +47,14 @@ extension Lightsail {
     }
 
     public enum BehaviorEnum: String, CustomStringConvertible, Codable {
-        case cache
+        case cache = "cache"
         case dontCache = "dont-cache"
         public var description: String { return self.rawValue }
     }
 
     public enum BlueprintType: String, CustomStringConvertible, Codable {
-        case app
-        case os
+        case app = "app"
+        case os = "os"
         public var description: String { return self.rawValue }
     }
 
@@ -115,12 +115,12 @@ extension Lightsail {
     }
 
     public enum ContainerServicePowerName: String, CustomStringConvertible, Codable {
-        case large
-        case medium
-        case micro
-        case nano
-        case small
-        case xlarge
+        case large = "large"
+        case medium = "medium"
+        case micro = "micro"
+        case nano = "nano"
+        case small = "small"
+        case xlarge = "xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -157,19 +157,19 @@ extension Lightsail {
     }
 
     public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
-        case completed
-        case error
-        case pending
-        case unknown
+        case completed = "completed"
+        case error = "error"
+        case pending = "pending"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
     public enum DiskState: String, CustomStringConvertible, Codable {
-        case available
-        case error
+        case available = "available"
+        case error = "error"
         case inUse = "in-use"
-        case pending
-        case unknown
+        case pending = "pending"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -190,9 +190,9 @@ extension Lightsail {
     }
 
     public enum ForwardValues: String, CustomStringConvertible, Codable {
-        case all
+        case all = "all"
         case allowList = "allow-list"
-        case none
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
@@ -216,8 +216,8 @@ extension Lightsail {
     }
 
     public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
-        case rdp
-        case ssh
+        case rdp = "rdp"
+        case ssh = "ssh"
         public var description: String { return self.rawValue }
     }
 
@@ -237,12 +237,12 @@ extension Lightsail {
     }
 
     public enum InstanceHealthState: String, CustomStringConvertible, Codable {
-        case draining
-        case healthy
-        case initial
-        case unavailable
-        case unhealthy
-        case unused
+        case draining = "draining"
+        case healthy = "healthy"
+        case initial = "initial"
+        case unavailable = "unavailable"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
         public var description: String { return self.rawValue }
     }
 
@@ -265,15 +265,15 @@ extension Lightsail {
     }
 
     public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
-        case available
-        case error
-        case pending
+        case available = "available"
+        case error = "error"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
     public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case dualstack
-        case ipv4
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
         public var description: String { return self.rawValue }
     }
 
@@ -307,11 +307,11 @@ extension Lightsail {
     }
 
     public enum LoadBalancerState: String, CustomStringConvertible, Codable {
-        case active
+        case active = "active"
         case activeImpaired = "active_impaired"
-        case failed
-        case provisioning
-        case unknown
+        case failed = "failed"
+        case provisioning = "provisioning"
+        case unknown = "unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -435,10 +435,10 @@ extension Lightsail {
     }
 
     public enum NetworkProtocol: String, CustomStringConvertible, Codable {
-        case all
-        case icmp
-        case tcp
-        case udp
+        case all = "all"
+        case icmp = "icmp"
+        case tcp = "tcp"
+        case udp = "udp"
         public var description: String { return self.rawValue }
     }
 
@@ -548,8 +548,8 @@ extension Lightsail {
     }
 
     public enum PortState: String, CustomStringConvertible, Codable {
-        case closed
-        case open
+        case closed = "closed"
+        case open = "open"
         public var description: String { return self.rawValue }
     }
 
@@ -579,7 +579,7 @@ extension Lightsail {
     }
 
     public enum RelationalDatabaseEngine: String, CustomStringConvertible, Codable {
-        case mysql
+        case mysql = "mysql"
         public var description: String { return self.rawValue }
     }
 
@@ -632,9 +632,9 @@ extension Lightsail {
     }
 
     public enum TreatMissingData: String, CustomStringConvertible, Codable {
-        case breaching
-        case ignore
-        case missing
+        case breaching = "breaching"
+        case ignore = "ignore"
+        case missing = "missing"
         case notbreaching = "notBreaching"
         public var description: String { return self.rawValue }
     }
@@ -642,6 +642,7 @@ extension Lightsail {
     // MARK: Shapes
 
     public struct AddOn: AWSDecodableShape {
+
         /// The name of the add-on.
         public let name: String?
         /// The next daily time an automatic snapshot will be created. The time shown is in HH:00 format, and in Coordinated Universal Time (UTC). The snapshot is automatically created between the time shown and up to 45 minutes after.
@@ -659,14 +660,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case nextSnapshotTimeOfDay
-            case snapshotTimeOfDay
-            case status
+            case name = "name"
+            case nextSnapshotTimeOfDay = "nextSnapshotTimeOfDay"
+            case snapshotTimeOfDay = "snapshotTimeOfDay"
+            case status = "status"
         }
     }
 
     public struct AddOnRequest: AWSEncodableShape {
+
         /// The add-on type.
         public let addOnType: AddOnType
         /// An object that represents additional parameters when enabling or modifying the automatic snapshot add-on.
@@ -682,12 +684,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOnType
-            case autoSnapshotAddOnRequest
+            case addOnType = "addOnType"
+            case autoSnapshotAddOnRequest = "autoSnapshotAddOnRequest"
         }
     }
 
     public struct Alarm: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the alarm.
         public let arn: String?
         /// The arithmetic operation used when comparing the specified statistic and threshold.
@@ -753,30 +756,31 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case comparisonOperator
-            case contactProtocols
-            case createdAt
-            case datapointsToAlarm
-            case evaluationPeriods
-            case location
-            case metricName
-            case monitoredResourceInfo
-            case name
-            case notificationEnabled
-            case notificationTriggers
-            case period
-            case resourceType
-            case state
-            case statistic
-            case supportCode
-            case threshold
-            case treatMissingData
-            case unit
+            case arn = "arn"
+            case comparisonOperator = "comparisonOperator"
+            case contactProtocols = "contactProtocols"
+            case createdAt = "createdAt"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case evaluationPeriods = "evaluationPeriods"
+            case location = "location"
+            case metricName = "metricName"
+            case monitoredResourceInfo = "monitoredResourceInfo"
+            case name = "name"
+            case notificationEnabled = "notificationEnabled"
+            case notificationTriggers = "notificationTriggers"
+            case period = "period"
+            case resourceType = "resourceType"
+            case state = "state"
+            case statistic = "statistic"
+            case supportCode = "supportCode"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
+            case unit = "unit"
         }
     }
 
     public struct AllocateStaticIpRequest: AWSEncodableShape {
+
         /// The name of the static IP address.
         public let staticIpName: String
 
@@ -789,11 +793,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct AllocateStaticIpResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -802,11 +807,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct AttachCertificateToDistributionRequest: AWSEncodableShape {
+
         /// The name of the certificate to attach to a distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify.  This is the name of the certificate resource type and is used only to reference the certificate in other API actions. It can be different than the domain name of the certificate. For example, your certificate name might be WordPress-Blog-Certificate and the domain name of the certificate might be example.com.
         public let certificateName: String
         /// The name of the distribution that the certificate will be attached to. Use the GetDistributions action to get a list of distribution names that you can specify.
@@ -823,12 +829,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case distributionName
+            case certificateName = "certificateName"
+            case distributionName = "distributionName"
         }
     }
 
     public struct AttachCertificateToDistributionResult: AWSDecodableShape {
+
         /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -837,11 +844,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct AttachDiskRequest: AWSEncodableShape {
+
         /// The unique Lightsail disk name (e.g., my-disk).
         public let diskName: String
         /// The disk path to expose to the instance (e.g., /dev/xvdf).
@@ -862,13 +870,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
-            case diskPath
-            case instanceName
+            case diskName = "diskName"
+            case diskPath = "diskPath"
+            case instanceName = "instanceName"
         }
     }
 
     public struct AttachDiskResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -877,11 +886,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct AttachInstancesToLoadBalancerRequest: AWSEncodableShape {
+
         /// An array of strings representing the instance name(s) you want to attach to your load balancer. An instance must be running before you can attach it to your load balancer. There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
         public let instanceNames: [String]
         /// The name of the load balancer.
@@ -900,12 +910,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case loadBalancerName
+            case instanceNames = "instanceNames"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct AttachInstancesToLoadBalancerResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -914,11 +925,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct AttachLoadBalancerTlsCertificateRequest: AWSEncodableShape {
+
         /// The name of your SSL/TLS certificate.
         public let certificateName: String
         /// The name of the load balancer to which you want to associate the SSL/TLS certificate.
@@ -935,12 +947,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case loadBalancerName
+            case certificateName = "certificateName"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct AttachLoadBalancerTlsCertificateResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request. These SSL/TLS certificates are only usable by Lightsail load balancers. You can't get the certificate and use it for another purpose.
         public let operations: [Operation]?
 
@@ -949,11 +962,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct AttachStaticIpRequest: AWSEncodableShape {
+
         /// The instance name to which you want to attach the static IP address.
         public let instanceName: String
         /// The name of the static IP.
@@ -970,12 +984,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case staticIpName
+            case instanceName = "instanceName"
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct AttachStaticIpResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -984,11 +999,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct AttachedDisk: AWSDecodableShape {
+
         /// The path of the disk (e.g., /dev/xvdf).
         public let path: String?
         /// The size of the disk in GB.
@@ -1000,12 +1016,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case path
-            case sizeInGb
+            case path = "path"
+            case sizeInGb = "sizeInGb"
         }
     }
 
     public struct AutoSnapshotAddOnRequest: AWSEncodableShape {
+
         /// The daily time when an automatic snapshot will be created. Constraints:   Must be in HH:00 format, and in an hourly increment.   Specified in Coordinated Universal Time (UTC).   The snapshot will be automatically created between the time specified and up to 45 minutes after.
         public let snapshotTimeOfDay: String?
 
@@ -1018,11 +1035,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case snapshotTimeOfDay
+            case snapshotTimeOfDay = "snapshotTimeOfDay"
         }
     }
 
     public struct AutoSnapshotDetails: AWSDecodableShape {
+
         /// The timestamp when the automatic snapshot was created.
         public let createdAt: Date?
         /// The date of the automatic snapshot in YYYY-MM-DD format.
@@ -1040,14 +1058,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case date
-            case fromAttachedDisks
-            case status
+            case createdAt = "createdAt"
+            case date = "date"
+            case fromAttachedDisks = "fromAttachedDisks"
+            case status = "status"
         }
     }
 
     public struct AvailabilityZone: AWSDecodableShape {
+
         /// The state of the Availability Zone.
         public let state: String?
         /// The name of the Availability Zone. The format is us-east-2a (case-sensitive).
@@ -1059,12 +1078,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case zoneName
+            case state = "state"
+            case zoneName = "zoneName"
         }
     }
 
     public struct Blueprint: AWSDecodableShape {
+
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
         public let blueprintId: String?
         /// The description of the blueprint.
@@ -1106,22 +1126,23 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprintId
-            case description
-            case group
-            case isActive
-            case licenseUrl
-            case minPower
-            case name
-            case platform
-            case productUrl
-            case type
-            case version
-            case versionCode
+            case blueprintId = "blueprintId"
+            case description = "description"
+            case group = "group"
+            case isActive = "isActive"
+            case licenseUrl = "licenseUrl"
+            case minPower = "minPower"
+            case name = "name"
+            case platform = "platform"
+            case productUrl = "productUrl"
+            case type = "type"
+            case version = "version"
+            case versionCode = "versionCode"
         }
     }
 
     public struct Bundle: AWSDecodableShape {
+
         /// The bundle ID (e.g., micro_1_0).
         public let bundleId: String?
         /// The number of vCPUs included in the bundle (e.g., 2).
@@ -1160,21 +1181,22 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case cpuCount
-            case diskSizeInGb
-            case instanceType
-            case isActive
-            case name
-            case power
-            case price
-            case ramSizeInGb
-            case supportedPlatforms
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case cpuCount = "cpuCount"
+            case diskSizeInGb = "diskSizeInGb"
+            case instanceType = "instanceType"
+            case isActive = "isActive"
+            case name = "name"
+            case power = "power"
+            case price = "price"
+            case ramSizeInGb = "ramSizeInGb"
+            case supportedPlatforms = "supportedPlatforms"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
     public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
+
         /// The cache behavior of the distribution. The following cache behaviors can be specified:     cache  - This option is best for static sites. When specified, your distribution caches and serves your entire website as static content. This behavior is ideal for websites with static content that doesn't change depending on who views it, or for websites that don't use cookies, headers, or query strings to personalize content.     dont-cache  - This option is best for sites that serve a mix of static and dynamic content. When specified, your distribution caches and serve only the content that is specified in the distribution's CacheBehaviorPerPath parameter. This behavior is ideal for websites or web applications that use cookies, headers, and query strings to personalize content for individual users.
         public let behavior: BehaviorEnum?
 
@@ -1183,11 +1205,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case behavior
+            case behavior = "behavior"
         }
     }
 
     public struct CacheBehaviorPerPath: AWSEncodableShape & AWSDecodableShape {
+
         /// The cache behavior for the specified path. You can specify one of the following per-path cache behaviors:     cache  - This behavior caches the specified path.      dont-cache  - This behavior doesn't cache the specified path.
         public let behavior: BehaviorEnum?
         /// The path to a directory or file to cached, or not cache. Use an asterisk symbol to specify wildcard directories (path/to/assets/*), and file types (*.html, *jpg, *js). Directories and file paths are case-sensitive. Examples:   Specify the following to cache all files in the document root of an Apache web server running on a Lightsail instance.  var/www/html/    Specify the following file to cache only the index page in the document root of an Apache web server.  var/www/html/index.html    Specify the following to cache only the .html files in the document root of an Apache web server.  var/www/html/*.html    Specify the following to cache only the .jpg, .png, and .gif files in the images sub-directory of the document root of an Apache web server.  var/www/html/images/*.jpg   var/www/html/images/*.png   var/www/html/images/*.gif  Specify the following to cache all files in the images sub-directory of the document root of an Apache web server.  var/www/html/images/
@@ -1199,12 +1222,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case behavior
-            case path
+            case behavior = "behavior"
+            case path = "path"
         }
     }
 
     public struct CacheSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The HTTP methods that are processed and forwarded to the distribution's origin. You can specify the following options:    GET,HEAD - The distribution forwards the GET and HEAD methods.    GET,HEAD,OPTIONS - The distribution forwards the GET, HEAD, and OPTIONS methods.    GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE - The distribution forwards the GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE methods.   If you specify the third option, you might need to restrict access to your distribution's origin so users can't perform operations that you don't want them to. For example, you might not want users to have permission to delete objects from your origin.
         public let allowedHTTPMethods: String?
         /// The HTTP method responses that are cached by your distribution. You can specify the following options:    GET,HEAD - The distribution caches responses to the GET and HEAD methods.    GET,HEAD,OPTIONS - The distribution caches responses to the GET, HEAD, and OPTIONS methods.
@@ -1239,18 +1263,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedHTTPMethods
-            case cachedHTTPMethods
-            case defaultTTL
-            case forwardedCookies
-            case forwardedHeaders
-            case forwardedQueryStrings
-            case maximumTTL
-            case minimumTTL
+            case allowedHTTPMethods = "allowedHTTPMethods"
+            case cachedHTTPMethods = "cachedHTTPMethods"
+            case defaultTTL = "defaultTTL"
+            case forwardedCookies = "forwardedCookies"
+            case forwardedHeaders = "forwardedHeaders"
+            case forwardedQueryStrings = "forwardedQueryStrings"
+            case maximumTTL = "maximumTTL"
+            case minimumTTL = "minimumTTL"
         }
     }
 
     public struct Certificate: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the certificate.
         public let arn: String?
         /// The timestamp when the certificate was created.
@@ -1319,31 +1344,32 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case domainName
-            case domainValidationRecords
-            case eligibleToRenew
-            case inUseResourceCount
-            case issuedAt
-            case issuerCA
-            case keyAlgorithm
-            case name
-            case notAfter
-            case notBefore
-            case renewalSummary
-            case requestFailureReason
-            case revocationReason
-            case revokedAt
-            case serialNumber
-            case status
-            case subjectAlternativeNames
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case domainValidationRecords = "domainValidationRecords"
+            case eligibleToRenew = "eligibleToRenew"
+            case inUseResourceCount = "inUseResourceCount"
+            case issuedAt = "issuedAt"
+            case issuerCA = "issuerCA"
+            case keyAlgorithm = "keyAlgorithm"
+            case name = "name"
+            case notAfter = "notAfter"
+            case notBefore = "notBefore"
+            case renewalSummary = "renewalSummary"
+            case requestFailureReason = "requestFailureReason"
+            case revocationReason = "revocationReason"
+            case revokedAt = "revokedAt"
+            case serialNumber = "serialNumber"
+            case status = "status"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct CertificateSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
         /// An object that describes a certificate in detail.
@@ -1364,15 +1390,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case certificateDetail
-            case certificateName
-            case domainName
-            case tags
+            case certificateArn = "certificateArn"
+            case certificateDetail = "certificateDetail"
+            case certificateName = "certificateName"
+            case domainName = "domainName"
+            case tags = "tags"
         }
     }
 
     public struct CloseInstancePublicPortsRequest: AWSEncodableShape {
+
         /// The name of the instance for which to close ports.
         public let instanceName: String
         /// An object to describe the ports to close for the specified instance.
@@ -1389,12 +1416,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case portInfo
+            case instanceName = "instanceName"
+            case portInfo = "portInfo"
         }
     }
 
     public struct CloseInstancePublicPortsResult: AWSDecodableShape {
+
         /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -1403,11 +1431,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct CloudFormationStackRecord: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the CloudFormation stack record.
         public let arn: String?
         /// The date when the CloudFormation stack record was created.
@@ -1437,18 +1466,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case destinationInfo
-            case location
-            case name
-            case resourceType
-            case sourceInfo
-            case state
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case destinationInfo = "destinationInfo"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case sourceInfo = "sourceInfo"
+            case state = "state"
         }
     }
 
     public struct CloudFormationStackRecordSourceInfo: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
         /// The name of the record.
@@ -1463,13 +1493,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case resourceType
+            case arn = "arn"
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ContactMethod: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the contact method.
         public let arn: String?
         /// The destination of the contact method, such as an email address or a mobile phone number.
@@ -1501,19 +1532,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case contactEndpoint
-            case createdAt
-            case location
-            case name
-            case `protocol`
-            case resourceType
-            case status
-            case supportCode
+            case arn = "arn"
+            case contactEndpoint = "contactEndpoint"
+            case createdAt = "createdAt"
+            case location = "location"
+            case name = "name"
+            case `protocol` = "protocol"
+            case resourceType = "resourceType"
+            case status = "status"
+            case supportCode = "supportCode"
         }
     }
 
     public struct Container: AWSEncodableShape & AWSDecodableShape {
+
         /// The launch command for the container.
         public let command: [String]?
         /// The environment variables of the container.
@@ -1531,14 +1563,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case environment
-            case image
-            case ports
+            case command = "command"
+            case environment = "environment"
+            case image = "image"
+            case ports = "ports"
         }
     }
 
     public struct ContainerImage: AWSDecodableShape {
+
         /// The timestamp when the container image was created.
         public let createdAt: Date?
         /// The digest of the container image.
@@ -1553,13 +1586,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case digest
-            case image
+            case createdAt = "createdAt"
+            case digest = "digest"
+            case image = "image"
         }
     }
 
     public struct ContainerService: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the container service.
         public let arn: String?
         /// The name of the container service.
@@ -1619,28 +1653,29 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containerServiceName
-            case createdAt
-            case currentDeployment
-            case isDisabled
-            case location
-            case nextDeployment
-            case power
-            case powerId
-            case principalArn
-            case privateDomainName
-            case publicDomainNames
-            case resourceType
-            case scale
-            case state
-            case stateDetail
-            case tags
-            case url
+            case arn = "arn"
+            case containerServiceName = "containerServiceName"
+            case createdAt = "createdAt"
+            case currentDeployment = "currentDeployment"
+            case isDisabled = "isDisabled"
+            case location = "location"
+            case nextDeployment = "nextDeployment"
+            case power = "power"
+            case powerId = "powerId"
+            case principalArn = "principalArn"
+            case privateDomainName = "privateDomainName"
+            case publicDomainNames = "publicDomainNames"
+            case resourceType = "resourceType"
+            case scale = "scale"
+            case state = "state"
+            case stateDetail = "stateDetail"
+            case tags = "tags"
+            case url = "url"
         }
     }
 
     public struct ContainerServiceDeployment: AWSDecodableShape {
+
         /// An object that describes the configuration for the containers of the deployment.
         public let containers: [String: Container]?
         /// The timestamp when the deployment was created.
@@ -1661,15 +1696,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case createdAt
-            case publicEndpoint
-            case state
-            case version
+            case containers = "containers"
+            case createdAt = "createdAt"
+            case publicEndpoint = "publicEndpoint"
+            case state = "state"
+            case version = "version"
         }
     }
 
     public struct ContainerServiceDeploymentRequest: AWSEncodableShape {
+
         /// An object that describes the configuration for the containers of the deployment.
         public let containers: [String: Container]?
         /// An object that describes the endpoint of the deployment.
@@ -1689,12 +1725,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case publicEndpoint
+            case containers = "containers"
+            case publicEndpoint = "publicEndpoint"
         }
     }
 
     public struct ContainerServiceEndpoint: AWSDecodableShape {
+
         /// The name of the container entry of the deployment that the endpoint configuration applies to.
         public let containerName: String?
         /// The port of the specified container to which traffic is forwarded to.
@@ -1709,13 +1746,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case healthCheck
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case healthCheck = "healthCheck"
         }
     }
 
     public struct ContainerServiceHealthCheckConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of consecutive health checks successes required before moving the container to the Healthy state. The default value is 2.
         public let healthyThreshold: Int?
         /// The approximate interval, in seconds, between health checks of an individual container. You can specify between 5 and 300 seconds. The default value is 5.
@@ -1739,16 +1777,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthyThreshold
-            case intervalSeconds
-            case path
-            case successCodes
-            case timeoutSeconds
-            case unhealthyThreshold
+            case healthyThreshold = "healthyThreshold"
+            case intervalSeconds = "intervalSeconds"
+            case path = "path"
+            case successCodes = "successCodes"
+            case timeoutSeconds = "timeoutSeconds"
+            case unhealthyThreshold = "unhealthyThreshold"
         }
     }
 
     public struct ContainerServiceLogEvent: AWSDecodableShape {
+
         /// The timestamp when the container service log event was created.
         public let createdAt: Date?
         /// The message of the container service log event.
@@ -1760,12 +1799,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case message
+            case createdAt = "createdAt"
+            case message = "message"
         }
     }
 
     public struct ContainerServicePower: AWSDecodableShape {
+
         /// The number of vCPUs included in the power.
         public let cpuCount: Float?
         /// A Boolean value indicating whether the power is active and can be specified for container services.
@@ -1789,16 +1829,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuCount
-            case isActive
-            case name
-            case powerId
-            case price
-            case ramSizeInGb
+            case cpuCount = "cpuCount"
+            case isActive = "isActive"
+            case name = "name"
+            case powerId = "powerId"
+            case price = "price"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
     public struct ContainerServiceRegistryLogin: AWSDecodableShape {
+
         /// The timestamp of when the container image registry username and password expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
         public let expiresAt: Date?
         /// The container service registry password to use to push container images to the container image registry of a Lightsail account
@@ -1816,14 +1857,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiresAt
-            case password
-            case registry
-            case username
+            case expiresAt = "expiresAt"
+            case password = "password"
+            case registry = "registry"
+            case username = "username"
         }
     }
 
     public struct ContainerServiceStateDetail: AWSDecodableShape {
+
         /// The state code of the container service. The following state codes are possible:   The following state codes are possible if your container service is in a DEPLOYING or UPDATING state:    CREATING_SYSTEM_RESOURCES - The system resources for your container service are being created.    CREATING_NETWORK_INFRASTRUCTURE - The network infrastructure for your container service are being created.    PROVISIONING_CERTIFICATE - The SSL/TLS certificate for your container service is being created.    PROVISIONING_SERVICE - Your container service is being provisioned.    CREATING_DEPLOYMENT - Your deployment is being created on your container service.    EVALUATING_HEALTH_CHECK - The health of your deployment is being evaluated.    ACTIVATING_DEPLOYMENT - Your deployment is being activated.     The following state codes are possible if your container service is in a PENDING state:    CERTIFICATE_LIMIT_EXCEEDED - The SSL/TLS certificate required for your container service exceeds the maximum number of certificates allowed for your account.    UNKNOWN_ERROR - An error was experienced when your container service was being created.
         public let code: ContainerServiceStateDetailCode?
         /// A message that provides more information for the state code.  The state detail is populated only when a container service is in a PENDING, DEPLOYING, or UPDATING state.
@@ -1835,12 +1877,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct ContainerServicesListResult: AWSDecodableShape {
+
         /// An array of objects that describe one or more container services.
         public let containerServices: [ContainerService]?
 
@@ -1849,11 +1892,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerServices
+            case containerServices = "containerServices"
         }
     }
 
     public struct CookieObject: AWSEncodableShape & AWSDecodableShape {
+
         /// The specific cookies to forward to your distribution's origin.
         public let cookiesAllowList: [String]?
         /// Specifies which cookies to forward to the distribution's origin for a cache behavior: all, none, or allow-list to forward only the cookies specified in the cookiesAllowList parameter.
@@ -1865,12 +1909,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cookiesAllowList
-            case option
+            case cookiesAllowList = "cookiesAllowList"
+            case option = "option"
         }
     }
 
     public struct CopySnapshotRequest: AWSEncodableShape {
+
         /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.
         public let restoreDate: String?
         /// The AWS Region where the source manual or automatic snapshot is located.
@@ -1899,16 +1944,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case restoreDate
-            case sourceRegion
-            case sourceResourceName
-            case sourceSnapshotName
-            case targetSnapshotName
-            case useLatestRestorableAutoSnapshot
+            case restoreDate = "restoreDate"
+            case sourceRegion = "sourceRegion"
+            case sourceResourceName = "sourceResourceName"
+            case sourceSnapshotName = "sourceSnapshotName"
+            case targetSnapshotName = "targetSnapshotName"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
         }
     }
 
     public struct CopySnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -1917,11 +1963,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateCertificateRequest: AWSEncodableShape {
+
         /// The name for the certificate.
         public let certificateName: String
         /// The domain name (e.g., example.com) for the certificate.
@@ -1939,14 +1986,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case domainName
-            case subjectAlternativeNames
-            case tags
+            case certificateName = "certificateName"
+            case domainName = "domainName"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case tags = "tags"
         }
     }
 
     public struct CreateCertificateResult: AWSDecodableShape {
+
         /// An object that describes the certificate created.
         public let certificate: CertificateSummary?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -1958,12 +2006,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificate
-            case operations
+            case certificate = "certificate"
+            case operations = "operations"
         }
     }
 
     public struct CreateCloudFormationStackRequest: AWSEncodableShape {
+
         /// An array of parameters that will be used to create the new Amazon EC2 instance. You can only pass one instance entry at a time in this array. You will get an invalid parameter error if you pass more than one instance entry in this array.
         public let instances: [InstanceEntry]
 
@@ -1978,11 +2027,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
+            case instances = "instances"
         }
     }
 
     public struct CreateCloudFormationStackResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -1991,11 +2041,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateContactMethodRequest: AWSEncodableShape {
+
         /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 on Wikipedia.
         public let contactEndpoint: String
         /// The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following AWS Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest AWS Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
@@ -2012,12 +2063,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactEndpoint
-            case `protocol`
+            case contactEndpoint = "contactEndpoint"
+            case `protocol` = "protocol"
         }
     }
 
     public struct CreateContactMethodResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2026,11 +2078,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateContainerServiceDeploymentRequest: AWSEncodableShape {
+
         /// An object that describes the settings of the containers that will be launched on the container service.
         public let containers: [String: Container]?
         /// An object that describes the settings of the public endpoint for the container service.
@@ -2056,13 +2109,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containers
-            case publicEndpoint
-            case serviceName
+            case containers = "containers"
+            case publicEndpoint = "publicEndpoint"
+            case serviceName = "serviceName"
         }
     }
 
     public struct CreateContainerServiceDeploymentResult: AWSDecodableShape {
+
         /// An object that describes a container service.
         public let containerService: ContainerService?
 
@@ -2071,15 +2125,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerService
+            case containerService = "containerService"
         }
     }
 
     public struct CreateContainerServiceRegistryLoginRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateContainerServiceRegistryLoginResult: AWSDecodableShape {
+
         /// An object that describes the log in information for the container service registry of your Lightsail account.
         public let registryLogin: ContainerServiceRegistryLogin?
 
@@ -2088,11 +2147,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case registryLogin
+            case registryLogin = "registryLogin"
         }
     }
 
     public struct CreateContainerServiceRequest: AWSEncodableShape {
+
         /// An object that describes a deployment for the container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
         public let deployment: ContainerServiceDeploymentRequest?
         /// The power specification for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
@@ -2125,16 +2185,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployment
-            case power
-            case publicDomainNames
-            case scale
-            case serviceName
-            case tags
+            case deployment = "deployment"
+            case power = "power"
+            case publicDomainNames = "publicDomainNames"
+            case scale = "scale"
+            case serviceName = "serviceName"
+            case tags = "tags"
         }
     }
 
     public struct CreateContainerServiceResult: AWSDecodableShape {
+
         /// An object that describes a container service.
         public let containerService: ContainerService?
 
@@ -2143,11 +2204,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerService
+            case containerService = "containerService"
         }
     }
 
     public struct CreateDiskFromSnapshotRequest: AWSEncodableShape {
+
         /// An array of objects that represent the add-ons to enable for the new disk.
         public let addOns: [AddOnRequest]?
         /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
@@ -2189,19 +2251,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case availabilityZone
-            case diskName
-            case diskSnapshotName
-            case restoreDate
-            case sizeInGb
-            case sourceDiskName
-            case tags
-            case useLatestRestorableAutoSnapshot
+            case addOns = "addOns"
+            case availabilityZone = "availabilityZone"
+            case diskName = "diskName"
+            case diskSnapshotName = "diskSnapshotName"
+            case restoreDate = "restoreDate"
+            case sizeInGb = "sizeInGb"
+            case sourceDiskName = "sourceDiskName"
+            case tags = "tags"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
         }
     }
 
     public struct CreateDiskFromSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2210,11 +2273,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateDiskRequest: AWSEncodableShape {
+
         /// An array of objects that represent the add-ons to enable for the new disk.
         public let addOns: [AddOnRequest]?
         /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available.
@@ -2243,15 +2307,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case availabilityZone
-            case diskName
-            case sizeInGb
-            case tags
+            case addOns = "addOns"
+            case availabilityZone = "availabilityZone"
+            case diskName = "diskName"
+            case sizeInGb = "sizeInGb"
+            case tags = "tags"
         }
     }
 
     public struct CreateDiskResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2260,11 +2325,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateDiskSnapshotRequest: AWSEncodableShape {
+
         /// The unique name of the source disk (e.g., Disk-Virginia-1).  This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive.
         public let diskName: String?
         /// The name of the destination disk snapshot (e.g., my-disk-snapshot) based on the source disk.
@@ -2288,14 +2354,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
-            case diskSnapshotName
-            case instanceName
-            case tags
+            case diskName = "diskName"
+            case diskSnapshotName = "diskSnapshotName"
+            case instanceName = "instanceName"
+            case tags = "tags"
         }
     }
 
     public struct CreateDiskSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2304,11 +2371,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateDistributionRequest: AWSEncodableShape {
+
         /// The bundle ID to use for the distribution. A distribution bundle describes the specifications of your distribution, such as the monthly cost and monthly network transfer quota. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
         public let bundleId: String
         /// An array of objects that describe the per-path cache behavior for the distribution.
@@ -2344,18 +2412,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case cacheBehaviors
-            case cacheBehaviorSettings
-            case defaultCacheBehavior
-            case distributionName
-            case ipAddressType
-            case origin
-            case tags
+            case bundleId = "bundleId"
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case distributionName = "distributionName"
+            case ipAddressType = "ipAddressType"
+            case origin = "origin"
+            case tags = "tags"
         }
     }
 
     public struct CreateDistributionResult: AWSDecodableShape {
+
         /// An object that describes the distribution created.
         public let distribution: LightsailDistribution?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -2367,12 +2436,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distribution
-            case operation
+            case distribution = "distribution"
+            case operation = "operation"
         }
     }
 
     public struct CreateDomainEntryRequest: AWSEncodableShape {
+
         /// An array of key-value pairs containing information about the domain entry request.
         public let domainEntry: DomainEntry
         /// The domain name (e.g., example.com) for which you want to create the domain entry.
@@ -2388,12 +2458,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntry
-            case domainName
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
     public struct CreateDomainEntryResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -2402,11 +2473,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
+
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain.
         public let domainName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -2418,12 +2490,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case tags
+            case domainName = "domainName"
+            case tags = "tags"
         }
     }
 
     public struct CreateDomainResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -2432,11 +2505,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct CreateInstanceSnapshotRequest: AWSEncodableShape {
+
         /// The Lightsail instance on which to base your snapshot.
         public let instanceName: String
         /// The name for your new snapshot.
@@ -2456,13 +2530,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case instanceSnapshotName
-            case tags
+            case instanceName = "instanceName"
+            case instanceSnapshotName = "instanceSnapshotName"
+            case tags = "tags"
         }
     }
 
     public struct CreateInstanceSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2471,11 +2546,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateInstancesFromSnapshotRequest: AWSEncodableShape {
+
         /// An array of objects representing the add-ons to enable for the new instance.
         public let addOns: [AddOnRequest]?
         /// An object containing information about one or more disk mappings.
@@ -2532,23 +2608,24 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case attachedDiskMapping
-            case availabilityZone
-            case bundleId
-            case instanceNames
-            case instanceSnapshotName
-            case ipAddressType
-            case keyPairName
-            case restoreDate
-            case sourceInstanceName
-            case tags
-            case useLatestRestorableAutoSnapshot
-            case userData
+            case addOns = "addOns"
+            case attachedDiskMapping = "attachedDiskMapping"
+            case availabilityZone = "availabilityZone"
+            case bundleId = "bundleId"
+            case instanceNames = "instanceNames"
+            case instanceSnapshotName = "instanceSnapshotName"
+            case ipAddressType = "ipAddressType"
+            case keyPairName = "keyPairName"
+            case restoreDate = "restoreDate"
+            case sourceInstanceName = "sourceInstanceName"
+            case tags = "tags"
+            case useLatestRestorableAutoSnapshot = "useLatestRestorableAutoSnapshot"
+            case userData = "userData"
         }
     }
 
     public struct CreateInstancesFromSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2557,11 +2634,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateInstancesRequest: AWSEncodableShape {
+
         /// An array of objects representing the add-ons to enable for the new instance.
         public let addOns: [AddOnRequest]?
         /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the get regions operation. Be sure to add the include Availability Zones parameter to your request.
@@ -2603,19 +2681,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case availabilityZone
-            case blueprintId
-            case bundleId
-            case instanceNames
-            case ipAddressType
-            case keyPairName
-            case tags
-            case userData
+            case addOns = "addOns"
+            case availabilityZone = "availabilityZone"
+            case blueprintId = "blueprintId"
+            case bundleId = "bundleId"
+            case instanceNames = "instanceNames"
+            case ipAddressType = "ipAddressType"
+            case keyPairName = "keyPairName"
+            case tags = "tags"
+            case userData = "userData"
         }
     }
 
     public struct CreateInstancesResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2624,11 +2703,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateKeyPairRequest: AWSEncodableShape {
+
         /// The name for your new key pair.
         public let keyPairName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -2644,12 +2724,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
-            case tags
+            case keyPairName = "keyPairName"
+            case tags = "tags"
         }
     }
 
     public struct CreateKeyPairResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the new key pair you just created.
         public let keyPair: KeyPair?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -2667,14 +2748,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPair
-            case operation
-            case privateKeyBase64
-            case publicKeyBase64
+            case keyPair = "keyPair"
+            case operation = "operation"
+            case privateKeyBase64 = "privateKeyBase64"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
     public struct CreateLoadBalancerRequest: AWSEncodableShape {
+
         /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
         public let certificateAlternativeNames: [String]?
         /// The domain name with which your certificate is associated (e.g., example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
@@ -2711,18 +2793,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAlternativeNames
-            case certificateDomainName
-            case certificateName
-            case healthCheckPath
-            case instancePort
-            case ipAddressType
-            case loadBalancerName
-            case tags
+            case certificateAlternativeNames = "certificateAlternativeNames"
+            case certificateDomainName = "certificateDomainName"
+            case certificateName = "certificateName"
+            case healthCheckPath = "healthCheckPath"
+            case instancePort = "instancePort"
+            case ipAddressType = "ipAddressType"
+            case loadBalancerName = "loadBalancerName"
+            case tags = "tags"
         }
     }
 
     public struct CreateLoadBalancerResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2731,11 +2814,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateLoadBalancerTlsCertificateRequest: AWSEncodableShape {
+
         /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
         public let certificateAlternativeNames: [String]?
         /// The domain name (e.g., example.com) for your SSL/TLS certificate.
@@ -2761,15 +2845,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateAlternativeNames
-            case certificateDomainName
-            case certificateName
-            case loadBalancerName
-            case tags
+            case certificateAlternativeNames = "certificateAlternativeNames"
+            case certificateDomainName = "certificateDomainName"
+            case certificateName = "certificateName"
+            case loadBalancerName = "loadBalancerName"
+            case tags = "tags"
         }
     }
 
     public struct CreateLoadBalancerTlsCertificateResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2778,11 +2863,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateRelationalDatabaseFromSnapshotRequest: AWSEncodableShape {
+
         /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
         /// Specifies the accessibility options for your new database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
@@ -2821,19 +2907,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case publiclyAccessible
-            case relationalDatabaseBundleId
-            case relationalDatabaseName
-            case relationalDatabaseSnapshotName
-            case restoreTime
-            case sourceRelationalDatabaseName
-            case tags
-            case useLatestRestorableTime
+            case availabilityZone = "availabilityZone"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
+            case restoreTime = "restoreTime"
+            case sourceRelationalDatabaseName = "sourceRelationalDatabaseName"
+            case tags = "tags"
+            case useLatestRestorableTime = "useLatestRestorableTime"
         }
     }
 
     public struct CreateRelationalDatabaseFromSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2842,11 +2929,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateRelationalDatabaseRequest: AWSEncodableShape {
+
         /// The Availability Zone in which to create your new database. Use the us-east-2a case-sensitive format. You can get a list of Availability Zones by using the get regions operation. Be sure to add the include relational database Availability Zones parameter to your request.
         public let availabilityZone: String?
         /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, no database is created in the database resource. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9).   Can't be a word reserved by the specified database engine. For more information about reserved words in MySQL, see the Keywords and Reserved Words articles for MySQL 5.6, MySQL 5.7, and MySQL 8.0.    PostgreSQL  The name of the database to create when the Lightsail database resource is created. If this parameter isn't specified, a database named postgres is created in the database resource. Constraints:   Must contain 1 to 63 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0- 9).   Can't be a word reserved by the specified database engine. For more information about reserved words in PostgreSQL, see the SQL Key Words articles for PostgreSQL 9.6, PostgreSQL 10, PostgreSQL 11, and PostgreSQL 12.
@@ -2889,21 +2977,22 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case masterDatabaseName
-            case masterUsername
-            case masterUserPassword
-            case preferredBackupWindow
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case relationalDatabaseBlueprintId
-            case relationalDatabaseBundleId
-            case relationalDatabaseName
-            case tags
+            case availabilityZone = "availabilityZone"
+            case masterDatabaseName = "masterDatabaseName"
+            case masterUsername = "masterUsername"
+            case masterUserPassword = "masterUserPassword"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case tags = "tags"
         }
     }
 
     public struct CreateRelationalDatabaseResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2912,11 +3001,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct CreateRelationalDatabaseSnapshotRequest: AWSEncodableShape {
+
         /// The name of the database on which to base your new snapshot.
         public let relationalDatabaseName: String
         /// The name for your new database snapshot. Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.
@@ -2936,13 +3026,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
-            case relationalDatabaseSnapshotName
-            case tags
+            case relationalDatabaseName = "relationalDatabaseName"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
+            case tags = "tags"
         }
     }
 
     public struct CreateRelationalDatabaseSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2951,11 +3042,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteAlarmRequest: AWSEncodableShape {
+
         /// The name of the alarm to delete.
         public let alarmName: String
 
@@ -2968,11 +3060,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
+            case alarmName = "alarmName"
         }
     }
 
     public struct DeleteAlarmResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -2981,11 +3074,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteAutoSnapshotRequest: AWSEncodableShape {
+
         /// The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get auto snapshots operation to get the available automatic snapshots for a resource.
         public let date: String
         /// The name of the source instance or disk from which to delete the automatic snapshot.
@@ -3002,12 +3096,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case date
-            case resourceName
+            case date = "date"
+            case resourceName = "resourceName"
         }
     }
 
     public struct DeleteAutoSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3016,11 +3111,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteCertificateRequest: AWSEncodableShape {
+
         /// The name of the certificate to delete. Use the GetCertificates action to get a list of certificate names that you can specify.
         public let certificateName: String
 
@@ -3029,11 +3125,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
+            case certificateName = "certificateName"
         }
     }
 
     public struct DeleteCertificateResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3042,11 +3139,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteContactMethodRequest: AWSEncodableShape {
+
         /// The protocol that will be deleted, such as Email or SMS (text messaging).  To delete an Email and an SMS contact method if you added both, you must run separate DeleteContactMethod actions to delete each protocol.
         public let `protocol`: ContactProtocol
 
@@ -3055,11 +3153,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `protocol`
+            case `protocol` = "protocol"
         }
     }
 
     public struct DeleteContactMethodResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3068,11 +3167,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteContainerImageRequest: AWSEncodableShape {
+
         /// The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service.  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
         public let image: String
         /// The name of the container service for which to delete a registered container image.
@@ -3090,16 +3190,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case image
-            case serviceName
+            case image = "image"
+            case serviceName = "serviceName"
         }
     }
 
     public struct DeleteContainerImageResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteContainerServiceRequest: AWSEncodableShape {
+
         /// The name of the container service to delete.
         public let serviceName: String
 
@@ -3114,15 +3219,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
     public struct DeleteContainerServiceResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteDiskRequest: AWSEncodableShape {
+
         /// The unique name of the disk you want to delete (e.g., my-disk).
         public let diskName: String
         /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
@@ -3138,12 +3248,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
-            case forceDeleteAddOns
+            case diskName = "diskName"
+            case forceDeleteAddOns = "forceDeleteAddOns"
         }
     }
 
     public struct DeleteDiskResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3152,11 +3263,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteDiskSnapshotRequest: AWSEncodableShape {
+
         /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
 
@@ -3169,11 +3281,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName
+            case diskSnapshotName = "diskSnapshotName"
         }
     }
 
     public struct DeleteDiskSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3182,11 +3295,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteDistributionRequest: AWSEncodableShape {
+
         /// The name of the distribution to delete. Use the GetDistributions action to get a list of distribution names that you can specify.
         public let distributionName: String?
 
@@ -3199,11 +3313,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
     public struct DeleteDistributionResult: AWSDecodableShape {
+
         /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -3212,11 +3327,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct DeleteDomainEntryRequest: AWSEncodableShape {
+
         /// An array of key-value pairs containing information about your domain entries.
         public let domainEntry: DomainEntry
         /// The name of the domain entry to delete.
@@ -3232,12 +3348,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntry
-            case domainName
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
     public struct DeleteDomainEntryResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -3246,11 +3363,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
+
         /// The specific domain name to delete.
         public let domainName: String
 
@@ -3259,11 +3377,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
     public struct DeleteDomainResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -3272,11 +3391,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct DeleteInstanceRequest: AWSEncodableShape {
+
         /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
         public let forceDeleteAddOns: Bool?
         /// The name of the instance to delete.
@@ -3292,12 +3412,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case forceDeleteAddOns
-            case instanceName
+            case forceDeleteAddOns = "forceDeleteAddOns"
+            case instanceName = "instanceName"
         }
     }
 
     public struct DeleteInstanceResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3306,11 +3427,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteInstanceSnapshotRequest: AWSEncodableShape {
+
         /// The name of the snapshot to delete.
         public let instanceSnapshotName: String
 
@@ -3323,11 +3445,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotName
+            case instanceSnapshotName = "instanceSnapshotName"
         }
     }
 
     public struct DeleteInstanceSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3336,11 +3459,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteKeyPairRequest: AWSEncodableShape {
+
         /// The name of the key pair to delete.
         public let keyPairName: String
 
@@ -3353,11 +3477,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct DeleteKeyPairResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -3366,11 +3491,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct DeleteKnownHostKeysRequest: AWSEncodableShape {
+
         /// The name of the instance for which you want to reset the host key or certificate.
         public let instanceName: String
 
@@ -3383,11 +3509,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct DeleteKnownHostKeysResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3396,11 +3523,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteLoadBalancerRequest: AWSEncodableShape {
+
         /// The name of the load balancer you want to delete.
         public let loadBalancerName: String
 
@@ -3413,11 +3541,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct DeleteLoadBalancerResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3426,11 +3555,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteLoadBalancerTlsCertificateRequest: AWSEncodableShape {
+
         /// The SSL/TLS certificate name.
         public let certificateName: String
         /// When true, forces the deletion of an SSL/TLS certificate. There can be two certificates associated with a Lightsail load balancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance attached to the load balancer.
@@ -3450,13 +3580,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case force
-            case loadBalancerName
+            case certificateName = "certificateName"
+            case force = "force"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct DeleteLoadBalancerTlsCertificateResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3465,11 +3596,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteRelationalDatabaseRequest: AWSEncodableShape {
+
         /// The name of the database snapshot created if skip final snapshot is false, which is the default value for that parameter.  Specifying this parameter and also specifying the skip final snapshot parameter to true results in an error.  Constraints:   Must contain from 2 to 255 alphanumeric characters, or hyphens.   The first and last character must be a letter or number.
         public let finalRelationalDatabaseSnapshotName: String?
         /// The name of the database that you are deleting.
@@ -3489,13 +3621,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finalRelationalDatabaseSnapshotName
-            case relationalDatabaseName
-            case skipFinalSnapshot
+            case finalRelationalDatabaseSnapshotName = "finalRelationalDatabaseSnapshotName"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case skipFinalSnapshot = "skipFinalSnapshot"
         }
     }
 
     public struct DeleteRelationalDatabaseResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3504,11 +3637,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DeleteRelationalDatabaseSnapshotRequest: AWSEncodableShape {
+
         /// The name of the database snapshot that you are deleting.
         public let relationalDatabaseSnapshotName: String
 
@@ -3521,11 +3655,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
     public struct DeleteRelationalDatabaseSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3534,11 +3669,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DestinationInfo: AWSDecodableShape {
+
         /// The ID of the resource created at the destination.
         public let id: String?
         /// The destination service of the record.
@@ -3550,12 +3686,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case service
+            case id = "id"
+            case service = "service"
         }
     }
 
     public struct DetachCertificateFromDistributionRequest: AWSEncodableShape {
+
         /// The name of the distribution from which to detach the certificate. Use the GetDistributions action to get a list of distribution names that you can specify.
         public let distributionName: String
 
@@ -3568,11 +3705,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
     public struct DetachCertificateFromDistributionResult: AWSDecodableShape {
+
         /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -3581,11 +3719,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct DetachDiskRequest: AWSEncodableShape {
+
         /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
         public let diskName: String
 
@@ -3598,11 +3737,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
+            case diskName = "diskName"
         }
     }
 
     public struct DetachDiskResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3611,11 +3751,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DetachInstancesFromLoadBalancerRequest: AWSEncodableShape {
+
         /// An array of strings containing the names of the instances you want to detach from the load balancer.
         public let instanceNames: [String]
         /// The name of the Lightsail load balancer.
@@ -3634,12 +3775,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceNames
-            case loadBalancerName
+            case instanceNames = "instanceNames"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct DetachInstancesFromLoadBalancerResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3648,11 +3790,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DetachStaticIpRequest: AWSEncodableShape {
+
         /// The name of the static IP to detach from the instance.
         public let staticIpName: String
 
@@ -3665,11 +3808,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct DetachStaticIpResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3678,11 +3822,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct DisableAddOnRequest: AWSEncodableShape {
+
         /// The add-on type to disable.
         public let addOnType: AddOnType
         /// The name of the source resource for which to disable the add-on.
@@ -3698,12 +3843,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOnType
-            case resourceName
+            case addOnType = "addOnType"
+            case resourceName = "resourceName"
         }
     }
 
     public struct DisableAddOnResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -3712,11 +3858,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct Disk: AWSDecodableShape {
+
         /// An array of objects representing the add-ons enabled on the disk.
         public let addOns: [AddOn]?
         /// The Amazon Resource Name (ARN) of the disk.
@@ -3767,25 +3914,26 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case arn
-            case attachedTo
-            case createdAt
-            case iops
-            case isAttached
-            case isSystemDisk
-            case location
-            case name
-            case path
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case addOns = "addOns"
+            case arn = "arn"
+            case attachedTo = "attachedTo"
+            case createdAt = "createdAt"
+            case iops = "iops"
+            case isAttached = "isAttached"
+            case isSystemDisk = "isSystemDisk"
+            case location = "location"
+            case name = "name"
+            case path = "path"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct DiskInfo: AWSDecodableShape {
+
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
         public let isSystemDisk: Bool?
         /// The disk name.
@@ -3803,14 +3951,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isSystemDisk
-            case name
-            case path
-            case sizeInGb
+            case isSystemDisk = "isSystemDisk"
+            case name = "name"
+            case path = "path"
+            case sizeInGb = "sizeInGb"
         }
     }
 
     public struct DiskMap: AWSEncodableShape {
+
         /// The new disk name (e.g., my-new-disk).
         public let newDiskName: String?
         /// The original disk path exposed to the instance (for example, /dev/sdh).
@@ -3827,12 +3976,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newDiskName
-            case originalDiskPath
+            case newDiskName = "newDiskName"
+            case originalDiskPath = "originalDiskPath"
         }
     }
 
     public struct DiskSnapshot: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the disk snapshot.
         public let arn: String?
         /// The date when the disk snapshot was created.
@@ -3883,25 +4033,26 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case fromDiskArn
-            case fromDiskName
-            case fromInstanceArn
-            case fromInstanceName
-            case isFromAutoSnapshot
-            case location
-            case name
-            case progress
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fromDiskArn = "fromDiskArn"
+            case fromDiskName = "fromDiskName"
+            case fromInstanceArn = "fromInstanceArn"
+            case fromInstanceName = "fromInstanceName"
+            case isFromAutoSnapshot = "isFromAutoSnapshot"
+            case location = "location"
+            case name = "name"
+            case progress = "progress"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct DiskSnapshotInfo: AWSDecodableShape {
+
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int?
 
@@ -3910,11 +4061,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGb
+            case sizeInGb = "sizeInGb"
         }
     }
 
     public struct DistributionBundle: AWSDecodableShape {
+
         /// The ID of the bundle.
         public let bundleId: String?
         /// Indicates whether the bundle is active, and can be specified for a new distribution.
@@ -3935,15 +4087,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case isActive
-            case name
-            case price
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case isActive = "isActive"
+            case name = "name"
+            case price = "price"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
     public struct Domain: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public let arn: String?
         /// The date when the domain recordset was created.
@@ -3973,18 +4126,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case domainEntries
-            case location
-            case name
-            case resourceType
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainEntries = "domainEntries"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct DomainEntry: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the domain recordset entry.
         public let id: String?
         /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer.
@@ -4009,15 +4163,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case isAlias
-            case name
-            case target
-            case type
+            case id = "id"
+            case isAlias = "isAlias"
+            case name = "name"
+            case target = "target"
+            case type = "type"
         }
     }
 
     public struct DomainValidationRecord: AWSDecodableShape {
+
         /// The domain name of the certificate validation record. For example, example.com or www.example.com.
         public let domainName: String?
         /// An object that describes the DNS records to add to your domain's DNS to validate it for the certificate.
@@ -4029,16 +4184,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case resourceRecord
+            case domainName = "domainName"
+            case resourceRecord = "resourceRecord"
         }
     }
 
     public struct DownloadDefaultKeyPairRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DownloadDefaultKeyPairResult: AWSDecodableShape {
+
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
         /// A base64-encoded public key of the ssh-rsa type.
@@ -4050,12 +4210,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case privateKeyBase64
-            case publicKeyBase64
+            case privateKeyBase64 = "privateKeyBase64"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
     public struct EnableAddOnRequest: AWSEncodableShape {
+
         /// An array of strings representing the add-on to enable or modify.
         public let addOnRequest: AddOnRequest
         /// The name of the source resource for which to enable or modify the add-on.
@@ -4072,12 +4233,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOnRequest
-            case resourceName
+            case addOnRequest = "addOnRequest"
+            case resourceName = "resourceName"
         }
     }
 
     public struct EnableAddOnResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -4086,11 +4248,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct EndpointRequest: AWSEncodableShape {
+
         /// The name of the container for the endpoint.
         public let containerName: String
         /// The port of the container to which traffic is forwarded to.
@@ -4105,13 +4268,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case healthCheck
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case healthCheck = "healthCheck"
         }
     }
 
     public struct ExportSnapshotRecord: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the export snapshot record.
         public let arn: String?
         /// The date when the export snapshot record was created.
@@ -4141,18 +4305,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case destinationInfo
-            case location
-            case name
-            case resourceType
-            case sourceInfo
-            case state
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case destinationInfo = "destinationInfo"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case sourceInfo = "sourceInfo"
+            case state = "state"
         }
     }
 
     public struct ExportSnapshotRecordSourceInfo: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the source instance or disk snapshot.
         public let arn: String?
         /// The date when the source instance or disk snapshot was created.
@@ -4182,18 +4347,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case diskSnapshotInfo
-            case fromResourceArn
-            case fromResourceName
-            case instanceSnapshotInfo
-            case name
-            case resourceType
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case diskSnapshotInfo = "diskSnapshotInfo"
+            case fromResourceArn = "fromResourceArn"
+            case fromResourceName = "fromResourceName"
+            case instanceSnapshotInfo = "instanceSnapshotInfo"
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ExportSnapshotRequest: AWSEncodableShape {
+
         /// The name of the instance or disk snapshot to be exported to Amazon EC2.
         public let sourceSnapshotName: String
 
@@ -4206,11 +4372,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceSnapshotName
+            case sourceSnapshotName = "sourceSnapshotName"
         }
     }
 
     public struct ExportSnapshotResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -4219,11 +4386,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct GetActiveNamesRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetActiveNames request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -4232,11 +4400,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetActiveNamesResult: AWSDecodableShape {
+
         /// The list of active names returned by the get active names request.
         public let activeNames: [String]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetActiveNames request and specify the next page token using the pageToken parameter.
@@ -4248,12 +4417,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeNames
-            case nextPageToken
+            case activeNames = "activeNames"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetAlarmsRequest: AWSEncodableShape {
+
         /// The name of the alarm. Specify an alarm name to return information about a specific alarm.
         public let alarmName: String?
         /// The name of the Lightsail resource being monitored by the alarm. Specify a monitored resource name to return information about all alarms for a specific resource.
@@ -4273,13 +4443,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
-            case monitoredResourceName
-            case pageToken
+            case alarmName = "alarmName"
+            case monitoredResourceName = "monitoredResourceName"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetAlarmsResult: AWSDecodableShape {
+
         /// An array of objects that describe the alarms.
         public let alarms: [Alarm]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetAlarms request and specify the next page token using the pageToken parameter.
@@ -4291,12 +4462,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarms
-            case nextPageToken
+            case alarms = "alarms"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetAutoSnapshotsRequest: AWSEncodableShape {
+
         /// The name of the source instance or disk from which to get automatic snapshot information.
         public let resourceName: String
 
@@ -4309,11 +4481,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceName
+            case resourceName = "resourceName"
         }
     }
 
     public struct GetAutoSnapshotsResult: AWSDecodableShape {
+
         /// An array of objects that describe the automatic snapshots that are available for the specified source instance or disk.
         public let autoSnapshots: [AutoSnapshotDetails]?
         /// The name of the source instance or disk for the automatic snapshots.
@@ -4328,13 +4501,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoSnapshots
-            case resourceName
-            case resourceType
+            case autoSnapshots = "autoSnapshots"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
     public struct GetBlueprintsRequest: AWSEncodableShape {
+
         /// A Boolean value indicating whether to include inactive results in your request.
         public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -4346,12 +4520,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeInactive
-            case pageToken
+            case includeInactive = "includeInactive"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetBlueprintsResult: AWSDecodableShape {
+
         /// An array of key-value pairs that contains information about the available blueprints.
         public let blueprints: [Blueprint]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBlueprints request and specify the next page token using the pageToken parameter.
@@ -4363,12 +4538,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprints
-            case nextPageToken
+            case blueprints = "blueprints"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetBundlesRequest: AWSEncodableShape {
+
         /// A Boolean value that indicates whether to include inactive bundle results in your request.
         public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -4380,12 +4556,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeInactive
-            case pageToken
+            case includeInactive = "includeInactive"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetBundlesResult: AWSDecodableShape {
+
         /// An array of key-value pairs that contains information about the available bundles.
         public let bundles: [Bundle]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBundles request and specify the next page token using the pageToken parameter.
@@ -4397,12 +4574,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
-            case nextPageToken
+            case bundles = "bundles"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetCertificatesRequest: AWSEncodableShape {
+
         /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS Region where the request is made.
         public let certificateName: String?
         /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS Region where the request is made, regardless of their current status.
@@ -4417,13 +4595,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateName
-            case certificateStatuses
-            case includeCertificateDetails
+            case certificateName = "certificateName"
+            case certificateStatuses = "certificateStatuses"
+            case includeCertificateDetails = "includeCertificateDetails"
         }
     }
 
     public struct GetCertificatesResult: AWSDecodableShape {
+
         /// An object that describes certificates.
         public let certificates: [CertificateSummary]?
 
@@ -4432,11 +4611,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificates
+            case certificates = "certificates"
         }
     }
 
     public struct GetCloudFormationStackRecordsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetClouFormationStackRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -4445,11 +4625,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetCloudFormationStackRecordsResult: AWSDecodableShape {
+
         /// A list of objects describing the CloudFormation stack records.
         public let cloudFormationStackRecords: [CloudFormationStackRecord]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetCloudFormationStackRecords request and specify the next page token using the pageToken parameter.
@@ -4461,12 +4642,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudFormationStackRecords
-            case nextPageToken
+            case cloudFormationStackRecords = "cloudFormationStackRecords"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetContactMethodsRequest: AWSEncodableShape {
+
         /// The protocols used to send notifications, such as Email, or SMS (text messaging). Specify a protocol in your request to return information about a specific contact method protocol.
         public let protocols: [ContactProtocol]?
 
@@ -4475,11 +4657,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case protocols
+            case protocols = "protocols"
         }
     }
 
     public struct GetContactMethodsResult: AWSDecodableShape {
+
         /// An array of objects that describe the contact methods.
         public let contactMethods: [ContactMethod]?
 
@@ -4488,15 +4671,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contactMethods
+            case contactMethods = "contactMethods"
         }
     }
 
     public struct GetContainerAPIMetadataRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetContainerAPIMetadataResult: AWSDecodableShape {
+
         /// Metadata about Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
         public let metadata: [[String: String]]?
 
@@ -4505,11 +4693,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metadata
+            case metadata = "metadata"
         }
     }
 
     public struct GetContainerImagesRequest: AWSEncodableShape {
+
         /// The name of the container service for which to return registered container images.
         public let serviceName: String
 
@@ -4524,11 +4713,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
     public struct GetContainerImagesResult: AWSDecodableShape {
+
         /// An array of objects that describe container images that are registered to the container service.
         public let containerImages: [ContainerImage]?
 
@@ -4537,11 +4727,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerImages
+            case containerImages = "containerImages"
         }
     }
 
     public struct GetContainerLogRequest: AWSEncodableShape {
+
         /// The name of the container that is either running or previously ran on the container service for which to return a log.
         public let containerName: String
         /// The end of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
@@ -4571,16 +4762,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case endTime
-            case filterPattern
-            case pageToken
-            case serviceName
-            case startTime
+            case containerName = "containerName"
+            case endTime = "endTime"
+            case filterPattern = "filterPattern"
+            case pageToken = "pageToken"
+            case serviceName = "serviceName"
+            case startTime = "startTime"
         }
     }
 
     public struct GetContainerLogResult: AWSDecodableShape {
+
         /// An array of objects that describe the log events of a container.
         public let logEvents: [ContainerServiceLogEvent]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetContainerLog request and specify the next page token using the pageToken parameter.
@@ -4592,12 +4784,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logEvents
-            case nextPageToken
+            case logEvents = "logEvents"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetContainerServiceDeploymentsRequest: AWSEncodableShape {
+
         /// The name of the container service for which to return deployments.
         public let serviceName: String
 
@@ -4612,11 +4805,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
     public struct GetContainerServiceDeploymentsResult: AWSDecodableShape {
+
         /// An array of objects that describe deployments for a container service.
         public let deployments: [ContainerServiceDeployment]?
 
@@ -4625,11 +4819,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deployments
+            case deployments = "deployments"
         }
     }
 
     public struct GetContainerServiceMetricDataRequest: AWSEncodableShape {
+
         /// The end time of the time period.
         public let endTime: Date
         /// The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.    CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.    MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.
@@ -4661,16 +4856,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case metricName
-            case period
-            case serviceName
-            case startTime
-            case statistics
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case serviceName = "serviceName"
+            case startTime = "startTime"
+            case statistics = "statistics"
         }
     }
 
     public struct GetContainerServiceMetricDataResult: AWSDecodableShape {
+
         /// An array of objects that describe the metric data returned.
         public let metricData: [MetricDatapoint]?
         /// The name of the metric returned.
@@ -4682,16 +4878,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetContainerServicePowersRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetContainerServicePowersResult: AWSDecodableShape {
+
         /// An array of objects that describe the powers that can be specified for a container service.
         public let powers: [ContainerServicePower]?
 
@@ -4700,11 +4901,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case powers
+            case powers = "powers"
         }
     }
 
     public struct GetContainerServicesRequest: AWSEncodableShape {
+
         /// The name of the container service for which to return information. When omitted, the response includes all of your container services in the AWS Region where the request is made.
         public let serviceName: String?
 
@@ -4719,11 +4921,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case serviceName
+            case serviceName = "serviceName"
         }
     }
 
     public struct GetDiskRequest: AWSEncodableShape {
+
         /// The name of the disk (e.g., my-disk).
         public let diskName: String
 
@@ -4736,11 +4939,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskName
+            case diskName = "diskName"
         }
     }
 
     public struct GetDiskResult: AWSDecodableShape {
+
         /// An object containing information about the disk.
         public let disk: Disk?
 
@@ -4749,11 +4953,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disk
+            case disk = "disk"
         }
     }
 
     public struct GetDiskSnapshotRequest: AWSEncodableShape {
+
         /// The name of the disk snapshot (e.g., my-disk-snapshot).
         public let diskSnapshotName: String
 
@@ -4766,11 +4971,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshotName
+            case diskSnapshotName = "diskSnapshotName"
         }
     }
 
     public struct GetDiskSnapshotResult: AWSDecodableShape {
+
         /// An object containing information about the disk snapshot.
         public let diskSnapshot: DiskSnapshot?
 
@@ -4779,11 +4985,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshot
+            case diskSnapshot = "diskSnapshot"
         }
     }
 
     public struct GetDiskSnapshotsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDiskSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -4792,11 +4999,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetDiskSnapshotsResult: AWSDecodableShape {
+
         /// An array of objects containing information about all block storage disk snapshots.
         public let diskSnapshots: [DiskSnapshot]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDiskSnapshots request and specify the next page token using the pageToken parameter.
@@ -4808,12 +5016,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case diskSnapshots
-            case nextPageToken
+            case diskSnapshots = "diskSnapshots"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetDisksRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDisks request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -4822,11 +5031,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetDisksResult: AWSDecodableShape {
+
         /// An array of objects containing information about all block storage disks.
         public let disks: [Disk]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDisks request and specify the next page token using the pageToken parameter.
@@ -4838,16 +5048,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case disks
-            case nextPageToken
+            case disks = "disks"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetDistributionBundlesRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetDistributionBundlesResult: AWSDecodableShape {
+
         /// An object that describes a distribution bundle.
         public let bundles: [DistributionBundle]?
 
@@ -4856,11 +5071,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
+            case bundles = "bundles"
         }
     }
 
     public struct GetDistributionLatestCacheResetRequest: AWSEncodableShape {
+
         /// The name of the distribution for which to return the timestamp of the last cache reset. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes the latest cache reset timestamp of all your distributions.
         public let distributionName: String?
 
@@ -4873,11 +5089,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
     public struct GetDistributionLatestCacheResetResult: AWSDecodableShape {
+
         /// The timestamp of the last cache reset (e.g., 1479734909.17) in Unix time format.
         public let createTime: Date?
         /// The status of the last cache reset.
@@ -4889,12 +5106,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case status
+            case createTime = "createTime"
+            case status = "status"
         }
     }
 
     public struct GetDistributionMetricDataRequest: AWSEncodableShape {
+
         /// The name of the distribution for which to get metric data. Use the GetDistributions action to get a list of distribution names that you can specify.
         public let distributionName: String
         /// The end of the time interval for which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
@@ -4927,17 +5145,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
-            case endTime
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case distributionName = "distributionName"
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
     public struct GetDistributionMetricDataResult: AWSDecodableShape {
+
         /// An array of objects that describe the metric data returned.
         public let metricData: [MetricDatapoint]?
         /// The name of the metric returned.
@@ -4949,12 +5168,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetDistributionsRequest: AWSEncodableShape {
+
         /// The name of the distribution for which to return information. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes all of your distributions in the AWS Region where the request is made.
         public let distributionName: String?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -4970,12 +5190,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
-            case pageToken
+            case distributionName = "distributionName"
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetDistributionsResult: AWSDecodableShape {
+
         /// An array of objects that describe your distributions.
         public let distributions: [LightsailDistribution]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDistributions request and specify the next page token using the pageToken parameter.
@@ -4987,12 +5208,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributions
-            case nextPageToken
+            case distributions = "distributions"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetDomainRequest: AWSEncodableShape {
+
         /// The domain name for which your want to return information about.
         public let domainName: String
 
@@ -5001,11 +5223,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
+            case domainName = "domainName"
         }
     }
 
     public struct GetDomainResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about your get domain request.
         public let domain: Domain?
 
@@ -5014,11 +5237,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
     public struct GetDomainsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDomains request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5027,11 +5251,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetDomainsResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
         public let domains: [Domain]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetDomains request and specify the next page token using the pageToken parameter.
@@ -5043,12 +5268,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domains
-            case nextPageToken
+            case domains = "domains"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetExportSnapshotRecordsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetExportSnapshotRecords request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5057,11 +5283,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetExportSnapshotRecordsResult: AWSDecodableShape {
+
         /// A list of objects describing the export snapshot records.
         public let exportSnapshotRecords: [ExportSnapshotRecord]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetExportSnapshotRecords request and specify the next page token using the pageToken parameter.
@@ -5073,12 +5300,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportSnapshotRecords
-            case nextPageToken
+            case exportSnapshotRecords = "exportSnapshotRecords"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetInstanceAccessDetailsRequest: AWSEncodableShape {
+
         /// The name of the instance to access.
         public let instanceName: String
         /// The protocol to use to connect to your instance. Defaults to ssh.
@@ -5094,12 +5322,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case `protocol`
+            case instanceName = "instanceName"
+            case `protocol` = "protocol"
         }
     }
 
     public struct GetInstanceAccessDetailsResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about a get instance access request.
         public let accessDetails: InstanceAccessDetails?
 
@@ -5108,11 +5337,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessDetails
+            case accessDetails = "accessDetails"
         }
     }
 
     public struct GetInstanceMetricDataRequest: AWSEncodableShape {
+
         /// The end time of the time period.
         public let endTime: Date
         /// The name of the instance for which you want to get metrics data.
@@ -5145,17 +5375,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case instanceName
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case endTime = "endTime"
+            case instanceName = "instanceName"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
     public struct GetInstanceMetricDataResult: AWSDecodableShape {
+
         /// An array of objects that describe the metric data returned.
         public let metricData: [MetricDatapoint]?
         /// The name of the metric returned.
@@ -5167,12 +5398,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetInstancePortStatesRequest: AWSEncodableShape {
+
         /// The name of the instance for which to return firewall port states.
         public let instanceName: String
 
@@ -5185,11 +5417,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetInstancePortStatesResult: AWSDecodableShape {
+
         /// An array of objects that describe the firewall port states for the specified instance.
         public let portStates: [InstancePortState]?
 
@@ -5198,11 +5431,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portStates
+            case portStates = "portStates"
         }
     }
 
     public struct GetInstanceRequest: AWSEncodableShape {
+
         /// The name of the instance.
         public let instanceName: String
 
@@ -5215,11 +5449,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetInstanceResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the specified instance.
         public let instance: Instance?
 
@@ -5228,11 +5463,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instance
+            case instance = "instance"
         }
     }
 
     public struct GetInstanceSnapshotRequest: AWSEncodableShape {
+
         /// The name of the snapshot for which you are requesting information.
         public let instanceSnapshotName: String
 
@@ -5245,11 +5481,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshotName
+            case instanceSnapshotName = "instanceSnapshotName"
         }
     }
 
     public struct GetInstanceSnapshotResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
         public let instanceSnapshot: InstanceSnapshot?
 
@@ -5258,11 +5495,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshot
+            case instanceSnapshot = "instanceSnapshot"
         }
     }
 
     public struct GetInstanceSnapshotsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstanceSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5271,11 +5509,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetInstanceSnapshotsResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
         public let instanceSnapshots: [InstanceSnapshot]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstanceSnapshots request and specify the next page token using the pageToken parameter.
@@ -5287,12 +5526,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceSnapshots
-            case nextPageToken
+            case instanceSnapshots = "instanceSnapshots"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetInstanceStateRequest: AWSEncodableShape {
+
         /// The name of the instance to get state information about.
         public let instanceName: String
 
@@ -5305,11 +5545,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct GetInstanceStateResult: AWSDecodableShape {
+
         /// The state of the instance.
         public let state: InstanceState?
 
@@ -5318,11 +5559,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
+            case state = "state"
         }
     }
 
     public struct GetInstancesRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5331,11 +5573,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetInstancesResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about your instances.
         public let instances: [Instance]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetInstances request and specify the next page token using the pageToken parameter.
@@ -5347,12 +5590,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instances
-            case nextPageToken
+            case instances = "instances"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetKeyPairRequest: AWSEncodableShape {
+
         /// The name of the key pair for which you are requesting information.
         public let keyPairName: String
 
@@ -5365,11 +5609,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct GetKeyPairResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the key pair.
         public let keyPair: KeyPair?
 
@@ -5378,11 +5623,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPair
+            case keyPair = "keyPair"
         }
     }
 
     public struct GetKeyPairsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetKeyPairs request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5391,11 +5637,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetKeyPairsResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the key pairs.
         public let keyPairs: [KeyPair]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetKeyPairs request and specify the next page token using the pageToken parameter.
@@ -5407,12 +5654,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairs
-            case nextPageToken
+            case keyPairs = "keyPairs"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetLoadBalancerMetricDataRequest: AWSEncodableShape {
+
         /// The end time of the period.
         public let endTime: Date
         /// The name of the load balancer.
@@ -5445,17 +5693,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case loadBalancerName
-            case metricName
-            case period
-            case startTime
-            case statistics
-            case unit
+            case endTime = "endTime"
+            case loadBalancerName = "loadBalancerName"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
     public struct GetLoadBalancerMetricDataResult: AWSDecodableShape {
+
         /// An array of objects that describe the metric data returned.
         public let metricData: [MetricDatapoint]?
         /// The name of the metric returned.
@@ -5467,12 +5716,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetLoadBalancerRequest: AWSEncodableShape {
+
         /// The name of the load balancer.
         public let loadBalancerName: String
 
@@ -5485,11 +5735,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct GetLoadBalancerResult: AWSDecodableShape {
+
         /// An object containing information about your load balancer.
         public let loadBalancer: LoadBalancer?
 
@@ -5498,11 +5749,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancer
+            case loadBalancer = "loadBalancer"
         }
     }
 
     public struct GetLoadBalancerTlsCertificatesRequest: AWSEncodableShape {
+
         /// The name of the load balancer you associated with your SSL/TLS certificate.
         public let loadBalancerName: String
 
@@ -5515,11 +5767,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancerName
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct GetLoadBalancerTlsCertificatesResult: AWSDecodableShape {
+
         /// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
         public let tlsCertificates: [LoadBalancerTlsCertificate]?
 
@@ -5528,11 +5781,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tlsCertificates
+            case tlsCertificates = "tlsCertificates"
         }
     }
 
     public struct GetLoadBalancersRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetLoadBalancers request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5541,11 +5795,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetLoadBalancersResult: AWSDecodableShape {
+
         /// An array of LoadBalancer objects describing your load balancers.
         public let loadBalancers: [LoadBalancer]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetLoadBalancers request and specify the next page token using the pageToken parameter.
@@ -5557,12 +5812,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loadBalancers
-            case nextPageToken
+            case loadBalancers = "loadBalancers"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetOperationRequest: AWSEncodableShape {
+
         /// A GUID used to identify the operation.
         public let operationId: String
 
@@ -5575,11 +5831,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operationId
+            case operationId = "operationId"
         }
     }
 
     public struct GetOperationResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -5588,11 +5845,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct GetOperationsForResourceRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperationsForResource request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of the resource for which you are requesting information.
@@ -5608,12 +5866,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
-            case resourceName
+            case pageToken = "pageToken"
+            case resourceName = "resourceName"
         }
     }
 
     public struct GetOperationsForResourceResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -5625,12 +5884,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case operations
+            case nextPageToken = "nextPageToken"
+            case operations = "operations"
         }
     }
 
     public struct GetOperationsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperations request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5639,11 +5899,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetOperationsResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperations request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -5655,12 +5916,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case operations
+            case nextPageToken = "nextPageToken"
+            case operations = "operations"
         }
     }
 
     public struct GetRegionsRequest: AWSEncodableShape {
+
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
         public let includeAvailabilityZones: Bool?
         /// A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
@@ -5672,12 +5934,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case includeAvailabilityZones
-            case includeRelationalDatabaseAvailabilityZones
+            case includeAvailabilityZones = "includeAvailabilityZones"
+            case includeRelationalDatabaseAvailabilityZones = "includeRelationalDatabaseAvailabilityZones"
         }
     }
 
     public struct GetRegionsResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about your get regions request.
         public let regions: [Region]?
 
@@ -5686,11 +5949,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case regions
+            case regions = "regions"
         }
     }
 
     public struct GetRelationalDatabaseBlueprintsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5699,11 +5963,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetRelationalDatabaseBlueprintsResult: AWSDecodableShape {
+
         /// An object describing the result of your get relational database blueprints request.
         public let blueprints: [RelationalDatabaseBlueprint]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBlueprints request and specify the next page token using the pageToken parameter.
@@ -5715,12 +5980,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprints
-            case nextPageToken
+            case blueprints = "blueprints"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetRelationalDatabaseBundlesRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -5729,11 +5995,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetRelationalDatabaseBundlesResult: AWSDecodableShape {
+
         /// An object describing the result of your get relational database bundles request.
         public let bundles: [RelationalDatabaseBundle]?
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseBundles request and specify the next page token using the pageToken parameter.
@@ -5745,12 +6012,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundles
-            case nextPageToken
+            case bundles = "bundles"
+            case nextPageToken = "nextPageToken"
         }
     }
 
     public struct GetRelationalDatabaseEventsRequest: AWSEncodableShape {
+
         /// The number of minutes in the past from which to retrieve events. For example, to get all events from the past 2 hours, enter 120. Default: 60  The minimum is 1 and the maximum is 14 days (20160 minutes).
         public let durationInMinutes: Int?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseEvents request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
@@ -5769,13 +6037,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInMinutes
-            case pageToken
-            case relationalDatabaseName
+            case durationInMinutes = "durationInMinutes"
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct GetRelationalDatabaseEventsResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseEvents request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database events request.
@@ -5787,12 +6056,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case relationalDatabaseEvents
+            case nextPageToken = "nextPageToken"
+            case relationalDatabaseEvents = "relationalDatabaseEvents"
         }
     }
 
     public struct GetRelationalDatabaseLogEventsRequest: AWSEncodableShape {
+
         /// The end of the time interval from which to get log events. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.
         public let endTime: Date?
         /// The name of the log stream. Use the get relational database log streams operation to get a list of available log streams.
@@ -5820,16 +6090,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case logStreamName
-            case pageToken
-            case relationalDatabaseName
-            case startFromHead
-            case startTime
+            case endTime = "endTime"
+            case logStreamName = "logStreamName"
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case startFromHead = "startFromHead"
+            case startTime = "startTime"
         }
     }
 
     public struct GetRelationalDatabaseLogEventsResult: AWSDecodableShape {
+
         /// A token used for advancing to the previous page of results from your get relational database log events request.
         public let nextBackwardToken: String?
         /// A token used for advancing to the next page of results from your get relational database log events request.
@@ -5844,13 +6115,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextBackwardToken
-            case nextForwardToken
-            case resourceLogEvents
+            case nextBackwardToken = "nextBackwardToken"
+            case nextForwardToken = "nextForwardToken"
+            case resourceLogEvents = "resourceLogEvents"
         }
     }
 
     public struct GetRelationalDatabaseLogStreamsRequest: AWSEncodableShape {
+
         /// The name of your database for which to get log streams.
         public let relationalDatabaseName: String
 
@@ -5863,11 +6135,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct GetRelationalDatabaseLogStreamsResult: AWSDecodableShape {
+
         /// An object describing the result of your get relational database log streams request.
         public let logStreams: [String]?
 
@@ -5876,11 +6149,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logStreams
+            case logStreams = "logStreams"
         }
     }
 
     public struct GetRelationalDatabaseMasterUserPasswordRequest: AWSEncodableShape {
+
         /// The password version to return. Specifying CURRENT or PREVIOUS returns the current or previous passwords respectively. Specifying PENDING returns the newest version of the password that will rotate to CURRENT. After the PENDING password rotates to CURRENT, the PENDING password is no longer available. Default: CURRENT
         public let passwordVersion: RelationalDatabasePasswordVersion?
         /// The name of your database for which to get the master user password.
@@ -5896,12 +6170,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case passwordVersion
-            case relationalDatabaseName
+            case passwordVersion = "passwordVersion"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct GetRelationalDatabaseMasterUserPasswordResult: AWSDecodableShape {
+
         /// The timestamp when the specified version of the master user password was created.
         public let createdAt: Date?
         /// The master user password for the password version specified.
@@ -5913,12 +6188,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case masterUserPassword
+            case createdAt = "createdAt"
+            case masterUserPassword = "masterUserPassword"
         }
     }
 
     public struct GetRelationalDatabaseMetricDataRequest: AWSEncodableShape {
+
         /// The end of the time interval from which to get metric data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 8 PM UTC, then you input 1538424000 as the end time.
         public let endTime: Date
         /// The metric for which you want to return information. Valid relational database metric names are listed below, along with the most useful statistics to include in your request, and the published unit value. All relational database metric data is available in 1-minute (60 seconds) granularity.     CPUUtilization  - The percentage of CPU utilization currently in use on the database.  Statistics: The most useful statistics are Maximum and Average.  Unit: The published unit is Percent.     DatabaseConnections  - The number of database connections in use.  Statistics: The most useful statistics are Maximum and Sum.  Unit: The published unit is Count.     DiskQueueDepth  - The number of outstanding IOs (read/write requests) that are waiting to access the disk.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Count.     FreeStorageSpace  - The amount of available storage space.  Statistics: The most useful statistic is Sum.  Unit: The published unit is Bytes.     NetworkReceiveThroughput  - The incoming (Receive) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.     NetworkTransmitThroughput  - The outgoing (Transmit) network traffic on the database, including both customer database traffic and AWS traffic used for monitoring and replication.  Statistics: The most useful statistic is Average.  Unit: The published unit is Bytes/Second.
@@ -5951,17 +6227,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case metricName
-            case period
-            case relationalDatabaseName
-            case startTime
-            case statistics
-            case unit
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
         }
     }
 
     public struct GetRelationalDatabaseMetricDataResult: AWSDecodableShape {
+
         /// An array of objects that describe the metric data returned.
         public let metricData: [MetricDatapoint]?
         /// The name of the metric returned.
@@ -5973,12 +6250,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricData
-            case metricName
+            case metricData = "metricData"
+            case metricName = "metricName"
         }
     }
 
     public struct GetRelationalDatabaseParametersRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseParameters request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
         /// The name of your database for which to get parameters.
@@ -5994,12 +6272,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
-            case relationalDatabaseName
+            case pageToken = "pageToken"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct GetRelationalDatabaseParametersResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseParameters request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database parameters request.
@@ -6011,12 +6290,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case parameters
+            case nextPageToken = "nextPageToken"
+            case parameters = "parameters"
         }
     }
 
     public struct GetRelationalDatabaseRequest: AWSEncodableShape {
+
         /// The name of the database that you are looking up.
         public let relationalDatabaseName: String
 
@@ -6029,11 +6309,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct GetRelationalDatabaseResult: AWSDecodableShape {
+
         /// An object describing the specified database.
         public let relationalDatabase: RelationalDatabase?
 
@@ -6042,11 +6323,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabase
+            case relationalDatabase = "relationalDatabase"
         }
     }
 
     public struct GetRelationalDatabaseSnapshotRequest: AWSEncodableShape {
+
         /// The name of the database snapshot for which to get information.
         public let relationalDatabaseSnapshotName: String
 
@@ -6059,11 +6341,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshotName
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
     public struct GetRelationalDatabaseSnapshotResult: AWSDecodableShape {
+
         /// An object describing the specified database snapshot.
         public let relationalDatabaseSnapshot: RelationalDatabaseSnapshot?
 
@@ -6072,11 +6355,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseSnapshot
+            case relationalDatabaseSnapshot = "relationalDatabaseSnapshot"
         }
     }
 
     public struct GetRelationalDatabaseSnapshotsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseSnapshots request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -6085,11 +6369,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetRelationalDatabaseSnapshotsResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabaseSnapshots request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational database snapshots request.
@@ -6101,12 +6386,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case relationalDatabaseSnapshots
+            case nextPageToken = "nextPageToken"
+            case relationalDatabaseSnapshots = "relationalDatabaseSnapshots"
         }
     }
 
     public struct GetRelationalDatabasesRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabases request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -6115,11 +6401,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetRelationalDatabasesResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetRelationalDatabases request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An object describing the result of your get relational databases request.
@@ -6131,12 +6418,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case relationalDatabases
+            case nextPageToken = "nextPageToken"
+            case relationalDatabases = "relationalDatabases"
         }
     }
 
     public struct GetStaticIpRequest: AWSEncodableShape {
+
         /// The name of the static IP in Lightsail.
         public let staticIpName: String
 
@@ -6149,11 +6437,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct GetStaticIpResult: AWSDecodableShape {
+
         /// An array of key-value pairs containing information about the requested static IP.
         public let staticIp: StaticIp?
 
@@ -6162,11 +6451,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIp
+            case staticIp = "staticIp"
         }
     }
 
     public struct GetStaticIpsRequest: AWSEncodableShape {
+
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetStaticIps request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
@@ -6175,11 +6465,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageToken
+            case pageToken = "pageToken"
         }
     }
 
     public struct GetStaticIpsResult: AWSDecodableShape {
+
         /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetStaticIps request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
         /// An array of key-value pairs containing information about your get static IPs request.
@@ -6191,12 +6482,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextPageToken
-            case staticIps
+            case nextPageToken = "nextPageToken"
+            case staticIps = "staticIps"
         }
     }
 
     public struct HeaderObject: AWSEncodableShape & AWSDecodableShape {
+
         /// The specific headers to forward to your distribution's origin.
         public let headersAllowList: [HeaderEnum]?
         /// The headers that you want your distribution to forward to your origin and base caching on. You can configure your distribution to do one of the following:     all  - Forward all headers to your origin.     none  - Forward only the default headers.     allow-list  - Forward only the headers you specify using the headersAllowList parameter.
@@ -6208,12 +6500,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headersAllowList
-            case option
+            case headersAllowList = "headersAllowList"
+            case option = "option"
         }
     }
 
     public struct HostKeyAttributes: AWSDecodableShape {
+
         /// The SSH host key algorithm or the RDP certificate format. For SSH host keys, the algorithm may be ssh-rsa, ecdsa-sha2-nistp256, ssh-ed25519, etc. For RDP certificates, the algorithm is always x509-cert.
         public let algorithm: String?
         /// The SHA-1 fingerprint of the returned SSH host key or RDP certificate.   Example of an SHA-1 SSH fingerprint:  SHA1:1CHH6FaAaXjtFOsR/t83vf91SR0    Example of an SHA-1 RDP fingerprint:  af:34:51:fe:09:f0:e0:da:b8:4e:56:ca:60:c2:10:ff:38:06:db:45
@@ -6240,17 +6533,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case fingerprintSHA1
-            case fingerprintSHA256
-            case notValidAfter
-            case notValidBefore
-            case publicKey
-            case witnessedAt
+            case algorithm = "algorithm"
+            case fingerprintSHA1 = "fingerprintSHA1"
+            case fingerprintSHA256 = "fingerprintSHA256"
+            case notValidAfter = "notValidAfter"
+            case notValidBefore = "notValidBefore"
+            case publicKey = "publicKey"
+            case witnessedAt = "witnessedAt"
         }
     }
 
     public struct ImportKeyPairRequest: AWSEncodableShape {
+
         /// The name of the key pair for which you want to import the public key.
         public let keyPairName: String
         /// A base64-encoded public key of the ssh-rsa type.
@@ -6266,12 +6560,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyPairName
-            case publicKeyBase64
+            case keyPairName = "keyPairName"
+            case publicKeyBase64 = "publicKeyBase64"
         }
     }
 
     public struct ImportKeyPairResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -6280,11 +6575,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct InputOrigin: AWSEncodableShape {
+
         /// The name of the origin resource.
         public let name: String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -6303,13 +6599,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case protocolPolicy
-            case regionName
+            case name = "name"
+            case protocolPolicy = "protocolPolicy"
+            case regionName = "regionName"
         }
     }
 
     public struct Instance: AWSDecodableShape {
+
         /// An array of objects representing the add-ons enabled on the instance.
         public let addOns: [AddOn]?
         /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
@@ -6378,31 +6675,32 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addOns
-            case arn
-            case blueprintId
-            case blueprintName
-            case bundleId
-            case createdAt
-            case hardware
-            case ipAddressType
-            case ipv6Addresses
-            case isStaticIp
-            case location
-            case name
-            case networking
-            case privateIpAddress
-            case publicIpAddress
-            case resourceType
-            case sshKeyName
-            case state
-            case supportCode
-            case tags
-            case username
+            case addOns = "addOns"
+            case arn = "arn"
+            case blueprintId = "blueprintId"
+            case blueprintName = "blueprintName"
+            case bundleId = "bundleId"
+            case createdAt = "createdAt"
+            case hardware = "hardware"
+            case ipAddressType = "ipAddressType"
+            case ipv6Addresses = "ipv6Addresses"
+            case isStaticIp = "isStaticIp"
+            case location = "location"
+            case name = "name"
+            case networking = "networking"
+            case privateIpAddress = "privateIpAddress"
+            case publicIpAddress = "publicIpAddress"
+            case resourceType = "resourceType"
+            case sshKeyName = "sshKeyName"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case username = "username"
         }
     }
 
     public struct InstanceAccessDetails: AWSDecodableShape {
+
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
         public let certKey: String?
         /// For SSH access, the date on which the temporary keys expire.
@@ -6438,20 +6736,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certKey
-            case expiresAt
-            case hostKeys
-            case instanceName
-            case ipAddress
-            case password
-            case passwordData
-            case privateKey
-            case `protocol`
-            case username
+            case certKey = "certKey"
+            case expiresAt = "expiresAt"
+            case hostKeys = "hostKeys"
+            case instanceName = "instanceName"
+            case ipAddress = "ipAddress"
+            case password = "password"
+            case passwordData = "passwordData"
+            case privateKey = "privateKey"
+            case `protocol` = "protocol"
+            case username = "username"
         }
     }
 
     public struct InstanceEntry: AWSEncodableShape {
+
         /// The Availability Zone for the new Amazon EC2 instance.
         public let availabilityZone: String
         /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
@@ -6477,15 +6776,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case instanceType
-            case portInfoSource
-            case sourceName
-            case userData
+            case availabilityZone = "availabilityZone"
+            case instanceType = "instanceType"
+            case portInfoSource = "portInfoSource"
+            case sourceName = "sourceName"
+            case userData = "userData"
         }
     }
 
     public struct InstanceHardware: AWSDecodableShape {
+
         /// The number of vCPUs the instance has.
         public let cpuCount: Int?
         /// The disks attached to the instance.
@@ -6500,13 +6800,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuCount
-            case disks
-            case ramSizeInGb
+            case cpuCount = "cpuCount"
+            case disks = "disks"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
     public struct InstanceHealthSummary: AWSDecodableShape {
+
         /// Describes the overall instance health. Valid values are below.
         public let instanceHealth: InstanceHealthState?
         /// More information about the instance health. If the instanceHealth is healthy, then an instanceHealthReason value is not provided. If  instanceHealth  is initial, the  instanceHealthReason  value can be one of the following:     Lb.RegistrationInProgress  - The target instance is in the process of being registered with the load balancer.     Lb.InitialHealthChecking  - The Lightsail load balancer is still sending the target instance the minimum number of health checks required to determine its health status.   If  instanceHealth  is unhealthy, the  instanceHealthReason  value can be one of the following:     Instance.ResponseCodeMismatch  - The health checks did not return an expected HTTP code.     Instance.Timeout  - The health check requests timed out.     Instance.FailedHealthChecks  - The health checks failed because the connection to the target instance timed out, the target instance response was malformed, or the target instance failed the health check for an unknown reason.     Lb.InternalError  - The health checks failed due to an internal error.   If  instanceHealth  is unused, the  instanceHealthReason  value can be one of the following:     Instance.NotRegistered  - The target instance is not registered with the target group.     Instance.NotInUse  - The target group is not used by any load balancer, or the target instance is in an Availability Zone that is not enabled for its load balancer.     Instance.IpUnusable  - The target IP address is reserved for use by a Lightsail load balancer.     Instance.InvalidState  - The target is in the stopped or terminated state.   If  instanceHealth  is draining, the  instanceHealthReason  value can be one of the following:     Instance.DeregistrationInProgress  - The target instance is in the process of being deregistered and the deregistration delay period has not expired.
@@ -6521,13 +6822,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceHealth
-            case instanceHealthReason
-            case instanceName
+            case instanceHealth = "instanceHealth"
+            case instanceHealthReason = "instanceHealthReason"
+            case instanceName = "instanceName"
         }
     }
 
     public struct InstanceNetworking: AWSDecodableShape {
+
         /// The amount of data in GB allocated for monthly data transfers.
         public let monthlyTransfer: MonthlyTransfer?
         /// An array of key-value pairs containing information about the ports on the instance.
@@ -6539,12 +6841,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case monthlyTransfer
-            case ports
+            case monthlyTransfer = "monthlyTransfer"
+            case ports = "ports"
         }
     }
 
     public struct InstancePortInfo: AWSDecodableShape {
+
         /// The access direction (inbound or outbound).  Lightsail currently supports only inbound access direction.
         public let accessDirection: AccessDirection?
         /// The location from which access is allowed. For example, Anywhere (0.0.0.0/0), or Custom if a specific IP address or range of IP addresses is allowed.
@@ -6580,20 +6883,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessDirection
-            case accessFrom
-            case accessType
-            case cidrListAliases
-            case cidrs
-            case commonName
-            case fromPort
-            case ipv6Cidrs
-            case `protocol`
-            case toPort
+            case accessDirection = "accessDirection"
+            case accessFrom = "accessFrom"
+            case accessType = "accessType"
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
+            case commonName = "commonName"
+            case fromPort = "fromPort"
+            case ipv6Cidrs = "ipv6Cidrs"
+            case `protocol` = "protocol"
+            case toPort = "toPort"
         }
     }
 
     public struct InstancePortState: AWSDecodableShape {
+
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public let cidrListAliases: [String]?
         /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol.  The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance.  For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
@@ -6620,17 +6924,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrListAliases
-            case cidrs
-            case fromPort
-            case ipv6Cidrs
-            case `protocol`
-            case state
-            case toPort
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
+            case fromPort = "fromPort"
+            case ipv6Cidrs = "ipv6Cidrs"
+            case `protocol` = "protocol"
+            case state = "state"
+            case toPort = "toPort"
         }
     }
 
     public struct InstanceSnapshot: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
         public let arn: String?
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
@@ -6684,26 +6989,27 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case fromAttachedDisks
-            case fromBlueprintId
-            case fromBundleId
-            case fromInstanceArn
-            case fromInstanceName
-            case isFromAutoSnapshot
-            case location
-            case name
-            case progress
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fromAttachedDisks = "fromAttachedDisks"
+            case fromBlueprintId = "fromBlueprintId"
+            case fromBundleId = "fromBundleId"
+            case fromInstanceArn = "fromInstanceArn"
+            case fromInstanceName = "fromInstanceName"
+            case isFromAutoSnapshot = "isFromAutoSnapshot"
+            case location = "location"
+            case name = "name"
+            case progress = "progress"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct InstanceSnapshotInfo: AWSDecodableShape {
+
         /// The blueprint ID from which the source instance (e.g., os_debian_8_3).
         public let fromBlueprintId: String?
         /// The bundle ID from which the source instance was created (e.g., micro_1_0).
@@ -6718,13 +7024,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fromBlueprintId
-            case fromBundleId
-            case fromDiskInfo
+            case fromBlueprintId = "fromBlueprintId"
+            case fromBundleId = "fromBundleId"
+            case fromDiskInfo = "fromDiskInfo"
         }
     }
 
     public struct InstanceState: AWSDecodableShape {
+
         /// The status code for the instance.
         public let code: Int?
         /// The state of the instance (e.g., running or pending).
@@ -6736,16 +7043,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case name
+            case code = "code"
+            case name = "name"
         }
     }
 
     public struct IsVpcPeeredRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct IsVpcPeeredResult: AWSDecodableShape {
+
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
         public let isPeered: Bool?
 
@@ -6754,11 +7066,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isPeered
+            case isPeered = "isPeered"
         }
     }
 
     public struct KeyPair: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public let arn: String?
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
@@ -6788,18 +7101,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case fingerprint
-            case location
-            case name
-            case resourceType
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fingerprint = "fingerprint"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct LightsailDistribution: AWSDecodableShape {
+
         /// Indicates whether the bundle that is currently applied to your distribution, specified using the distributionName parameter, can be changed to another bundle. Use the UpdateDistributionBundle action to change your distribution's bundle.
         public let ableToUpdateBundle: Bool?
         /// The alternate domain names of the distribution.
@@ -6865,30 +7179,31 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ableToUpdateBundle
-            case alternativeDomainNames
-            case arn
-            case bundleId
-            case cacheBehaviors
-            case cacheBehaviorSettings
-            case certificateName
-            case createdAt
-            case defaultCacheBehavior
-            case domainName
-            case ipAddressType
-            case isEnabled
-            case location
-            case name
-            case origin
-            case originPublicDNS
-            case resourceType
-            case status
-            case supportCode
-            case tags
+            case ableToUpdateBundle = "ableToUpdateBundle"
+            case alternativeDomainNames = "alternativeDomainNames"
+            case arn = "arn"
+            case bundleId = "bundleId"
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case certificateName = "certificateName"
+            case createdAt = "createdAt"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case domainName = "domainName"
+            case ipAddressType = "ipAddressType"
+            case isEnabled = "isEnabled"
+            case location = "location"
+            case name = "name"
+            case origin = "origin"
+            case originPublicDNS = "originPublicDNS"
+            case resourceType = "resourceType"
+            case status = "status"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct LoadBalancer: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let arn: String?
         /// A string to string map of the configuration options for your load balancer. Valid values are listed below.
@@ -6945,27 +7260,28 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case configurationOptions
-            case createdAt
-            case dnsName
-            case healthCheckPath
-            case instanceHealthSummary
-            case instancePort
-            case ipAddressType
-            case location
-            case name
-            case `protocol`
-            case publicPorts
-            case resourceType
-            case state
-            case supportCode
-            case tags
-            case tlsCertificateSummaries
+            case arn = "arn"
+            case configurationOptions = "configurationOptions"
+            case createdAt = "createdAt"
+            case dnsName = "dnsName"
+            case healthCheckPath = "healthCheckPath"
+            case instanceHealthSummary = "instanceHealthSummary"
+            case instancePort = "instancePort"
+            case ipAddressType = "ipAddressType"
+            case location = "location"
+            case name = "name"
+            case `protocol` = "protocol"
+            case publicPorts = "publicPorts"
+            case resourceType = "resourceType"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case tlsCertificateSummaries = "tlsCertificateSummaries"
         }
     }
 
     public struct LoadBalancerTlsCertificate: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
         public let arn: String?
         /// The time when you created your SSL/TLS certificate.
@@ -7046,35 +7362,36 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case domainName
-            case domainValidationRecords
-            case failureReason
-            case isAttached
-            case issuedAt
-            case issuer
-            case keyAlgorithm
-            case loadBalancerName
-            case location
-            case name
-            case notAfter
-            case notBefore
-            case renewalSummary
-            case resourceType
-            case revocationReason
-            case revokedAt
-            case serial
-            case signatureAlgorithm
-            case status
-            case subject
-            case subjectAlternativeNames
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case domainValidationRecords = "domainValidationRecords"
+            case failureReason = "failureReason"
+            case isAttached = "isAttached"
+            case issuedAt = "issuedAt"
+            case issuer = "issuer"
+            case keyAlgorithm = "keyAlgorithm"
+            case loadBalancerName = "loadBalancerName"
+            case location = "location"
+            case name = "name"
+            case notAfter = "notAfter"
+            case notBefore = "notBefore"
+            case renewalSummary = "renewalSummary"
+            case resourceType = "resourceType"
+            case revocationReason = "revocationReason"
+            case revokedAt = "revokedAt"
+            case serial = "serial"
+            case signatureAlgorithm = "signatureAlgorithm"
+            case status = "status"
+            case subject = "subject"
+            case subjectAlternativeNames = "subjectAlternativeNames"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct LoadBalancerTlsCertificateDomainValidationOption: AWSDecodableShape {
+
         /// The fully qualified domain name in the certificate request.
         public let domainName: String?
         /// The status of the domain validation. Valid values are listed below.
@@ -7086,12 +7403,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case validationStatus
+            case domainName = "domainName"
+            case validationStatus = "validationStatus"
         }
     }
 
     public struct LoadBalancerTlsCertificateDomainValidationRecord: AWSDecodableShape {
+
         /// The domain name against which your SSL/TLS certificate was validated.
         public let domainName: String?
         /// A fully qualified domain name in the certificate. For example, example.com.
@@ -7112,15 +7430,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainName
-            case name
-            case type
-            case validationStatus
-            case value
+            case domainName = "domainName"
+            case name = "name"
+            case type = "type"
+            case validationStatus = "validationStatus"
+            case value = "value"
         }
     }
 
     public struct LoadBalancerTlsCertificateRenewalSummary: AWSDecodableShape {
+
         /// Contains information about the validation of each domain name in the certificate, as it pertains to Lightsail's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request.
         public let domainValidationOptions: [LoadBalancerTlsCertificateDomainValidationOption]?
         /// The renewal status of the certificate. The following renewal status are possible:     PendingAutoRenewal  - Lightsail is attempting to automatically validate the domain names of the certificate. No further action is required.      PendingValidation  - Lightsail couldn't automatically validate one or more domain names of the certificate. You must take action to validate these domain names or the certificate won't be renewed. Check to make sure your certificate's domain validation records exist in your domain's DNS, and that your certificate remains in use.     Success  - All domain names in the certificate are validated, and Lightsail renewed the certificate. No further action is required.      Failed  - One or more domain names were not validated before the certificate expired, and Lightsail did not renew the certificate. You can request a new certificate using the CreateCertificate action.
@@ -7132,12 +7451,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainValidationOptions
-            case renewalStatus
+            case domainValidationOptions = "domainValidationOptions"
+            case renewalStatus = "renewalStatus"
         }
     }
 
     public struct LoadBalancerTlsCertificateSummary: AWSDecodableShape {
+
         /// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
         public let isAttached: Bool?
         /// The name of the SSL/TLS certificate.
@@ -7149,12 +7469,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isAttached
-            case name
+            case isAttached = "isAttached"
+            case name = "name"
         }
     }
 
     public struct LogEvent: AWSDecodableShape {
+
         /// The timestamp when the database log event was created.
         public let createdAt: Date?
         /// The message of the database log event.
@@ -7166,12 +7487,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case message
+            case createdAt = "createdAt"
+            case message = "message"
         }
     }
 
     public struct MetricDatapoint: AWSDecodableShape {
+
         /// The average.
         public let average: Double?
         /// The maximum.
@@ -7198,17 +7520,18 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case average
-            case maximum
-            case minimum
-            case sampleCount
-            case sum
-            case timestamp
-            case unit
+            case average = "average"
+            case maximum = "maximum"
+            case minimum = "minimum"
+            case sampleCount = "sampleCount"
+            case sum = "sum"
+            case timestamp = "timestamp"
+            case unit = "unit"
         }
     }
 
     public struct MonitoredResourceInfo: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource being monitored.
         public let arn: String?
         /// The name of the Lightsail resource being monitored.
@@ -7223,13 +7546,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case name
-            case resourceType
+            case arn = "arn"
+            case name = "name"
+            case resourceType = "resourceType"
         }
     }
 
     public struct MonthlyTransfer: AWSDecodableShape {
+
         /// The amount allocated per month (in GB).
         public let gbPerMonthAllocated: Int?
 
@@ -7238,11 +7562,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gbPerMonthAllocated
+            case gbPerMonthAllocated = "gbPerMonthAllocated"
         }
     }
 
     public struct OpenInstancePublicPortsRequest: AWSEncodableShape {
+
         /// The name of the instance for which to open ports.
         public let instanceName: String
         /// An object to describe the ports to open for the specified instance.
@@ -7259,12 +7584,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case portInfo
+            case instanceName = "instanceName"
+            case portInfo = "portInfo"
         }
     }
 
     public struct OpenInstancePublicPortsResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -7273,11 +7599,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct Operation: AWSDecodableShape {
+
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
         public let createdAt: Date?
         /// The error code.
@@ -7319,22 +7646,23 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case errorCode
-            case errorDetails
-            case id
-            case isTerminal
-            case location
-            case operationDetails
-            case operationType
-            case resourceName
-            case resourceType
-            case status
-            case statusChangedAt
+            case createdAt = "createdAt"
+            case errorCode = "errorCode"
+            case errorDetails = "errorDetails"
+            case id = "id"
+            case isTerminal = "isTerminal"
+            case location = "location"
+            case operationDetails = "operationDetails"
+            case operationType = "operationType"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+            case status = "status"
+            case statusChangedAt = "statusChangedAt"
         }
     }
 
     public struct Origin: AWSDecodableShape {
+
         /// The name of the origin resource.
         public let name: String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -7352,14 +7680,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case protocolPolicy
-            case regionName
-            case resourceType
+            case name = "name"
+            case protocolPolicy = "protocolPolicy"
+            case regionName = "regionName"
+            case resourceType = "resourceType"
         }
     }
 
     public struct PasswordData: AWSDecodableShape {
+
         /// The encrypted password. Ciphertext will be an empty string if access to your new instance is not ready yet. When you create an instance, it can take up to 15 minutes for the instance to be ready.  If you use the default key pair (LightsailDefaultKeyPair), the decrypted password will be available in the password field. If you are using a custom key pair, you need to use your own means of decryption. If you change the Administrator password on the instance, Lightsail will continue to return the original ciphertext value. When accessing the instance using RDP, you need to manually enter the Administrator password after changing it from the default.
         public let ciphertext: String?
         /// The name of the key pair that you used when creating your instance. If no key pair name was specified when creating the instance, Lightsail uses the default key pair (LightsailDefaultKeyPair). If you are using a custom key pair, you need to use your own means of decrypting your password using the ciphertext. Lightsail creates the ciphertext by encrypting your password with the public key part of this key pair.
@@ -7371,16 +7700,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ciphertext
-            case keyPairName
+            case ciphertext = "ciphertext"
+            case keyPairName = "keyPairName"
         }
     }
 
     public struct PeerVpcRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PeerVpcResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -7389,11 +7723,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
+
         /// The type of pending database maintenance action.
         public let action: String?
         /// The effective date of the pending database maintenance action.
@@ -7408,13 +7743,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case currentApplyDate
-            case description
+            case action = "action"
+            case currentApplyDate = "currentApplyDate"
+            case description = "description"
         }
     }
 
     public struct PendingModifiedRelationalDatabaseValues: AWSDecodableShape {
+
         /// A Boolean value indicating whether automated backup retention is enabled.
         public let backupRetentionEnabled: Bool?
         /// The database engine version.
@@ -7429,13 +7765,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case backupRetentionEnabled
-            case engineVersion
-            case masterUserPassword
+            case backupRetentionEnabled = "backupRetentionEnabled"
+            case engineVersion = "engineVersion"
+            case masterUserPassword = "masterUserPassword"
         }
     }
 
     public struct PortInfo: AWSEncodableShape {
+
         /// An alias that defines access for a preconfigured range of IP addresses. The only alias currently supported is lightsail-connect, which allows IP addresses of the browser-based RDP/SSH client in the Lightsail console to connect to your instance.
         public let cidrListAliases: [String]?
         /// The IPv4 address, or range of IPv4 addresses (in CIDR notation) that are allowed to connect to an instance through the ports, and the protocol.  The ipv6Cidrs parameter lists the IPv6 addresses that are allowed to connect to an instance.  Examples:   To allow the IP address 192.0.2.44, specify 192.0.2.44 or 192.0.2.44/32.    To allow the IP addresses 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR block notation, see Classless Inter-Domain Routing on Wikipedia.
@@ -7466,16 +7803,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrListAliases
-            case cidrs
-            case fromPort
-            case ipv6Cidrs
-            case `protocol`
-            case toPort
+            case cidrListAliases = "cidrListAliases"
+            case cidrs = "cidrs"
+            case fromPort = "fromPort"
+            case ipv6Cidrs = "ipv6Cidrs"
+            case `protocol` = "protocol"
+            case toPort = "toPort"
         }
     }
 
     public struct PutAlarmRequest: AWSEncodableShape {
+
         /// The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm.
         public let alarmName: String
         /// The arithmetic operation to use when comparing the specified statistic to the threshold. The specified statistic value is used as the first operand.
@@ -7519,21 +7857,22 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
-            case comparisonOperator
-            case contactProtocols
-            case datapointsToAlarm
-            case evaluationPeriods
-            case metricName
-            case monitoredResourceName
-            case notificationEnabled
-            case notificationTriggers
-            case threshold
-            case treatMissingData
+            case alarmName = "alarmName"
+            case comparisonOperator = "comparisonOperator"
+            case contactProtocols = "contactProtocols"
+            case datapointsToAlarm = "datapointsToAlarm"
+            case evaluationPeriods = "evaluationPeriods"
+            case metricName = "metricName"
+            case monitoredResourceName = "monitoredResourceName"
+            case notificationEnabled = "notificationEnabled"
+            case notificationTriggers = "notificationTriggers"
+            case threshold = "threshold"
+            case treatMissingData = "treatMissingData"
         }
     }
 
     public struct PutAlarmResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -7542,11 +7881,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct PutInstancePublicPortsRequest: AWSEncodableShape {
+
         /// The name of the instance for which to open ports.
         public let instanceName: String
         /// An array of objects to describe the ports to open for the specified instance.
@@ -7565,12 +7905,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
-            case portInfos
+            case instanceName = "instanceName"
+            case portInfos = "portInfos"
         }
     }
 
     public struct PutInstancePublicPortsResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -7579,11 +7920,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct QueryStringObject: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates whether the distribution forwards and caches based on query strings.
         public let option: Bool?
         /// The specific query strings that the distribution forwards to the origin. Your distribution will cache content based on the specified query strings. If the option parameter is true, then your distribution forwards all query strings, regardless of what you specify using the queryStringsAllowList parameter.
@@ -7595,12 +7937,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case option
-            case queryStringsAllowList
+            case option = "option"
+            case queryStringsAllowList = "queryStringsAllowList"
         }
     }
 
     public struct RebootInstanceRequest: AWSEncodableShape {
+
         /// The name of the instance to reboot.
         public let instanceName: String
 
@@ -7613,11 +7956,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct RebootInstanceResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -7626,11 +7970,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct RebootRelationalDatabaseRequest: AWSEncodableShape {
+
         /// The name of your database to reboot.
         public let relationalDatabaseName: String
 
@@ -7643,11 +7988,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct RebootRelationalDatabaseResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -7656,11 +8002,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct Region: AWSDecodableShape {
+
         /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
         public let availabilityZones: [AvailabilityZone]?
         /// The continent code (e.g., NA, meaning North America).
@@ -7684,16 +8031,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case continentCode
-            case description
-            case displayName
-            case name
-            case relationalDatabaseAvailabilityZones
+            case availabilityZones = "availabilityZones"
+            case continentCode = "continentCode"
+            case description = "description"
+            case displayName = "displayName"
+            case name = "name"
+            case relationalDatabaseAvailabilityZones = "relationalDatabaseAvailabilityZones"
         }
     }
 
     public struct RegisterContainerImageRequest: AWSEncodableShape {
+
         /// The digest of the container image to be registered.
         public let digest: String
         /// The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;imagelabel&gt; portion of the following image name example:    :container-service-1.&lt;imagelabel&gt;.1    If the name of your container service is mycontainerservice, and the label that you specify is mystaticwebsite, then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1. The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2. If you push and register another container image, the version number will be 3, and so on.
@@ -7717,13 +8065,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case digest
-            case label
-            case serviceName
+            case digest = "digest"
+            case label = "label"
+            case serviceName = "serviceName"
         }
     }
 
     public struct RegisterContainerImageResult: AWSDecodableShape {
+
         public let containerImage: ContainerImage?
 
         public init(containerImage: ContainerImage? = nil) {
@@ -7731,11 +8080,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerImage
+            case containerImage = "containerImage"
         }
     }
 
     public struct RelationalDatabase: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the database.
         public let arn: String?
         /// A Boolean value indicating whether automated backup retention is enabled for the database.
@@ -7819,36 +8169,37 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case backupRetentionEnabled
-            case caCertificateIdentifier
-            case createdAt
-            case engine
-            case engineVersion
-            case hardware
-            case latestRestorableTime
-            case location
-            case masterDatabaseName
-            case masterEndpoint
-            case masterUsername
-            case name
-            case parameterApplyStatus
-            case pendingMaintenanceActions
-            case pendingModifiedValues
-            case preferredBackupWindow
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case relationalDatabaseBlueprintId
-            case relationalDatabaseBundleId
-            case resourceType
-            case secondaryAvailabilityZone
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case backupRetentionEnabled = "backupRetentionEnabled"
+            case caCertificateIdentifier = "caCertificateIdentifier"
+            case createdAt = "createdAt"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case hardware = "hardware"
+            case latestRestorableTime = "latestRestorableTime"
+            case location = "location"
+            case masterDatabaseName = "masterDatabaseName"
+            case masterEndpoint = "masterEndpoint"
+            case masterUsername = "masterUsername"
+            case name = "name"
+            case parameterApplyStatus = "parameterApplyStatus"
+            case pendingMaintenanceActions = "pendingMaintenanceActions"
+            case pendingModifiedValues = "pendingModifiedValues"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseBlueprintId = "relationalDatabaseBlueprintId"
+            case relationalDatabaseBundleId = "relationalDatabaseBundleId"
+            case resourceType = "resourceType"
+            case secondaryAvailabilityZone = "secondaryAvailabilityZone"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct RelationalDatabaseBlueprint: AWSDecodableShape {
+
         /// The ID for the database blueprint.
         public let blueprintId: String?
         /// The database software of the database blueprint (for example, MySQL).
@@ -7872,16 +8223,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blueprintId
-            case engine
-            case engineDescription
-            case engineVersion
-            case engineVersionDescription
-            case isEngineDefault
+            case blueprintId = "blueprintId"
+            case engine = "engine"
+            case engineDescription = "engineDescription"
+            case engineVersion = "engineVersion"
+            case engineVersionDescription = "engineVersionDescription"
+            case isEngineDefault = "isEngineDefault"
         }
     }
 
     public struct RelationalDatabaseBundle: AWSDecodableShape {
+
         /// The ID for the database bundle.
         public let bundleId: String?
         /// The number of virtual CPUs (vCPUs) for the database bundle.
@@ -7914,19 +8266,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case cpuCount
-            case diskSizeInGb
-            case isActive
-            case isEncrypted
-            case name
-            case price
-            case ramSizeInGb
-            case transferPerMonthInGb
+            case bundleId = "bundleId"
+            case cpuCount = "cpuCount"
+            case diskSizeInGb = "diskSizeInGb"
+            case isActive = "isActive"
+            case isEncrypted = "isEncrypted"
+            case name = "name"
+            case price = "price"
+            case ramSizeInGb = "ramSizeInGb"
+            case transferPerMonthInGb = "transferPerMonthInGb"
         }
     }
 
     public struct RelationalDatabaseEndpoint: AWSDecodableShape {
+
         /// Specifies the DNS address of the database.
         public let address: String?
         /// Specifies the port that the database is listening on.
@@ -7938,12 +8291,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case address
-            case port
+            case address = "address"
+            case port = "port"
         }
     }
 
     public struct RelationalDatabaseEvent: AWSDecodableShape {
+
         /// The timestamp when the database event was created.
         public let createdAt: Date?
         /// The category that the database event belongs to.
@@ -7961,14 +8315,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case eventCategories
-            case message
-            case resource
+            case createdAt = "createdAt"
+            case eventCategories = "eventCategories"
+            case message = "message"
+            case resource = "resource"
         }
     }
 
     public struct RelationalDatabaseHardware: AWSDecodableShape {
+
         /// The number of vCPUs for the database.
         public let cpuCount: Int?
         /// The size of the disk for the database.
@@ -7983,13 +8338,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cpuCount
-            case diskSizeInGb
-            case ramSizeInGb
+            case cpuCount = "cpuCount"
+            case diskSizeInGb = "diskSizeInGb"
+            case ramSizeInGb = "ramSizeInGb"
         }
     }
 
     public struct RelationalDatabaseParameter: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when parameter updates are applied. Can be immediate or pending-reboot.
@@ -8019,18 +8375,19 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedValues
-            case applyMethod
-            case applyType
-            case dataType
-            case description
-            case isModifiable
-            case parameterName
-            case parameterValue
+            case allowedValues = "allowedValues"
+            case applyMethod = "applyMethod"
+            case applyType = "applyType"
+            case dataType = "dataType"
+            case description = "description"
+            case isModifiable = "isModifiable"
+            case parameterName = "parameterName"
+            case parameterValue = "parameterValue"
         }
     }
 
     public struct RelationalDatabaseSnapshot: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the database snapshot.
         public let arn: String?
         /// The timestamp when the database snapshot was created.
@@ -8081,25 +8438,26 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case engine
-            case engineVersion
-            case fromRelationalDatabaseArn
-            case fromRelationalDatabaseBlueprintId
-            case fromRelationalDatabaseBundleId
-            case fromRelationalDatabaseName
-            case location
-            case name
-            case resourceType
-            case sizeInGb
-            case state
-            case supportCode
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case engine = "engine"
+            case engineVersion = "engineVersion"
+            case fromRelationalDatabaseArn = "fromRelationalDatabaseArn"
+            case fromRelationalDatabaseBlueprintId = "fromRelationalDatabaseBlueprintId"
+            case fromRelationalDatabaseBundleId = "fromRelationalDatabaseBundleId"
+            case fromRelationalDatabaseName = "fromRelationalDatabaseName"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case sizeInGb = "sizeInGb"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
     public struct ReleaseStaticIpRequest: AWSEncodableShape {
+
         /// The name of the static IP to delete.
         public let staticIpName: String
 
@@ -8112,11 +8470,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticIpName
+            case staticIpName = "staticIpName"
         }
     }
 
     public struct ReleaseStaticIpResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8125,11 +8484,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct RenewalSummary: AWSDecodableShape {
+
         /// An array of objects that describe the domain validation records of the certificate.
         public let domainValidationRecords: [DomainValidationRecord]?
         /// The renewal status of the certificate. The following renewal status are possible:     PendingAutoRenewal  - Lightsail is attempting to automatically validate the domain names of the certificate. No further action is required.      PendingValidation  - Lightsail couldn't automatically validate one or more domain names of the certificate. You must take action to validate these domain names or the certificate won't be renewed. Check to make sure your certificate's domain validation records exist in your domain's DNS, and that your certificate remains in use.     Success  - All domain names in the certificate are validated, and Lightsail renewed the certificate. No further action is required.      Failed  - One or more domain names were not validated before the certificate expired, and Lightsail did not renew the certificate. You can request a new certificate using the CreateCertificate action.
@@ -8147,14 +8507,15 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainValidationRecords
-            case renewalStatus
-            case renewalStatusReason
-            case updatedAt
+            case domainValidationRecords = "domainValidationRecords"
+            case renewalStatus = "renewalStatus"
+            case renewalStatusReason = "renewalStatusReason"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct ResetDistributionCacheRequest: AWSEncodableShape {
+
         /// The name of the distribution for which to reset cache. Use the GetDistributions action to get a list of distribution names that you can specify.
         public let distributionName: String?
 
@@ -8167,11 +8528,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionName
+            case distributionName = "distributionName"
         }
     }
 
     public struct ResetDistributionCacheResult: AWSDecodableShape {
+
         /// The timestamp of the reset cache request (e.g., 1479734909.17) in Unix time format.
         public let createTime: Date?
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
@@ -8186,13 +8548,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime
-            case operation
-            case status
+            case createTime = "createTime"
+            case operation = "operation"
+            case status = "status"
         }
     }
 
     public struct ResourceLocation: AWSDecodableShape {
+
         /// The Availability Zone. Follows the format us-east-2a (case-sensitive).
         public let availabilityZone: String?
         /// The AWS Region name.
@@ -8204,12 +8567,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case regionName
+            case availabilityZone = "availabilityZone"
+            case regionName = "regionName"
         }
     }
 
     public struct ResourceRecord: AWSDecodableShape {
+
         /// The name of the record.
         public let name: String?
         /// The DNS record type.
@@ -8224,13 +8588,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case type
-            case value
+            case name = "name"
+            case type = "type"
+            case value = "value"
         }
     }
 
     public struct SendContactMethodVerificationRequest: AWSEncodableShape {
+
         /// The protocol to verify, such as Email or SMS (text messaging).
         public let `protocol`: ContactMethodVerificationProtocol
 
@@ -8239,11 +8604,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `protocol`
+            case `protocol` = "protocol"
         }
     }
 
     public struct SendContactMethodVerificationResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8252,11 +8618,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct SetIpAddressTypeRequest: AWSEncodableShape {
+
         /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: IpAddressType
         /// The name of the resource for which to set the IP address type.
@@ -8275,13 +8642,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddressType
-            case resourceName
-            case resourceType
+            case ipAddressType = "ipAddressType"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
         }
     }
 
     public struct SetIpAddressTypeResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8290,11 +8658,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct StartInstanceRequest: AWSEncodableShape {
+
         /// The name of the instance (a virtual private server) to start.
         public let instanceName: String
 
@@ -8307,11 +8676,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceName
+            case instanceName = "instanceName"
         }
     }
 
     public struct StartInstanceResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8320,11 +8690,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct StartRelationalDatabaseRequest: AWSEncodableShape {
+
         /// The name of your database to start.
         public let relationalDatabaseName: String
 
@@ -8337,11 +8708,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct StartRelationalDatabaseResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8350,11 +8722,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct StaticIp: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public let arn: String?
         /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Ohio-1).
@@ -8387,19 +8760,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case attachedTo
-            case createdAt
-            case ipAddress
-            case isAttached
-            case location
-            case name
-            case resourceType
-            case supportCode
+            case arn = "arn"
+            case attachedTo = "attachedTo"
+            case createdAt = "createdAt"
+            case ipAddress = "ipAddress"
+            case isAttached = "isAttached"
+            case location = "location"
+            case name = "name"
+            case resourceType = "resourceType"
+            case supportCode = "supportCode"
         }
     }
 
     public struct StopInstanceRequest: AWSEncodableShape {
+
         /// When set to True, forces a Lightsail instance that is stuck in a stopping state to stop.  Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request.
         public let force: Bool?
         /// The name of the instance (a virtual private server) to stop.
@@ -8415,12 +8789,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case force
-            case instanceName
+            case force = "force"
+            case instanceName = "instanceName"
         }
     }
 
     public struct StopInstanceResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8429,11 +8804,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct StopRelationalDatabaseRequest: AWSEncodableShape {
+
         /// The name of your database to stop.
         public let relationalDatabaseName: String
         /// The name of your new database snapshot to be created before stopping your database.
@@ -8450,12 +8826,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case relationalDatabaseName
-            case relationalDatabaseSnapshotName
+            case relationalDatabaseName = "relationalDatabaseName"
+            case relationalDatabaseSnapshotName = "relationalDatabaseSnapshotName"
         }
     }
 
     public struct StopRelationalDatabaseResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8464,11 +8841,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
         public let key: String?
         /// The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @
@@ -8480,12 +8858,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource to which you want to add a tag.
         public let resourceArn: String?
         /// The name of the resource to which you are adding tags.
@@ -8505,13 +8884,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case resourceName
-            case tags
+            case resourceArn = "resourceArn"
+            case resourceName = "resourceName"
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8520,11 +8900,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct TestAlarmRequest: AWSEncodableShape {
+
         /// The name of the alarm to test.
         public let alarmName: String
         /// The alarm state to test. An alarm has the following possible states that can be tested:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.
@@ -8540,12 +8921,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alarmName
-            case state
+            case alarmName = "alarmName"
+            case state = "state"
         }
     }
 
     public struct TestAlarmResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8554,15 +8936,20 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UnpeerVpcRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UnpeerVpcResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -8571,11 +8958,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource from which you want to remove a tag.
         public let resourceArn: String?
         /// The name of the resource from which you are removing a tag.
@@ -8595,13 +8983,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case resourceName
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case resourceName = "resourceName"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct UntagResourceResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8610,11 +8999,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UpdateContainerServiceRequest: AWSEncodableShape {
+
         /// A Boolean value to indicate whether the container service is disabled.
         public let isDisabled: Bool?
         /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
@@ -8643,15 +9033,16 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isDisabled
-            case power
-            case publicDomainNames
-            case scale
-            case serviceName
+            case isDisabled = "isDisabled"
+            case power = "power"
+            case publicDomainNames = "publicDomainNames"
+            case scale = "scale"
+            case serviceName = "serviceName"
         }
     }
 
     public struct UpdateContainerServiceResult: AWSDecodableShape {
+
         /// An object that describes a container service.
         public let containerService: ContainerService?
 
@@ -8660,11 +9051,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerService
+            case containerService = "containerService"
         }
     }
 
     public struct UpdateDistributionBundleRequest: AWSEncodableShape {
+
         /// The bundle ID of the new bundle to apply to your distribution. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
         public let bundleId: String?
         /// The name of the distribution for which to update the bundle. Use the GetDistributions action to get a list of distribution names that you can specify.
@@ -8680,12 +9072,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bundleId
-            case distributionName
+            case bundleId = "bundleId"
+            case distributionName = "distributionName"
         }
     }
 
     public struct UpdateDistributionBundleResult: AWSDecodableShape {
+
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -8693,11 +9086,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct UpdateDistributionRequest: AWSEncodableShape {
+
         /// An array of objects that describe the per-path cache behavior for the distribution.
         public let cacheBehaviors: [CacheBehaviorPerPath]?
         /// An object that describes the cache behavior settings for the distribution.  The cacheBehaviorSettings specified in your UpdateDistributionRequest will replace your distribution's existing settings.
@@ -8727,16 +9121,17 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cacheBehaviors
-            case cacheBehaviorSettings
-            case defaultCacheBehavior
-            case distributionName
-            case isEnabled
-            case origin
+            case cacheBehaviors = "cacheBehaviors"
+            case cacheBehaviorSettings = "cacheBehaviorSettings"
+            case defaultCacheBehavior = "defaultCacheBehavior"
+            case distributionName = "distributionName"
+            case isEnabled = "isEnabled"
+            case origin = "origin"
         }
     }
 
     public struct UpdateDistributionResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
@@ -8745,11 +9140,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operation
+            case operation = "operation"
         }
     }
 
     public struct UpdateDomainEntryRequest: AWSEncodableShape {
+
         /// An array of key-value pairs containing information about the domain entry.
         public let domainEntry: DomainEntry
         /// The name of the domain recordset to update.
@@ -8765,12 +9161,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domainEntry
-            case domainName
+            case domainEntry = "domainEntry"
+            case domainName = "domainName"
         }
     }
 
     public struct UpdateDomainEntryResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8779,11 +9176,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UpdateLoadBalancerAttributeRequest: AWSEncodableShape {
+
         /// The name of the attribute you want to update. Valid values are below.
         public let attributeName: LoadBalancerAttributeName
         /// The value that you want to specify for the attribute name.
@@ -8804,13 +9202,14 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case attributeValue
-            case loadBalancerName
+            case attributeName = "attributeName"
+            case attributeValue = "attributeValue"
+            case loadBalancerName = "loadBalancerName"
         }
     }
 
     public struct UpdateLoadBalancerAttributeResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8819,11 +9218,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UpdateRelationalDatabaseParametersRequest: AWSEncodableShape {
+
         /// The database parameters to update.
         public let parameters: [RelationalDatabaseParameter]
         /// The name of your database for which to update parameters.
@@ -8839,12 +9239,13 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case parameters
-            case relationalDatabaseName
+            case parameters = "parameters"
+            case relationalDatabaseName = "relationalDatabaseName"
         }
     }
 
     public struct UpdateRelationalDatabaseParametersResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8853,11 +9254,12 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 
     public struct UpdateRelationalDatabaseRequest: AWSEncodableShape {
+
         /// When true, applies changes immediately. When false, applies changes during the preferred maintenance window. Some changes may cause an outage. Default: false
         public let applyImmediately: Bool?
         /// Indicates the certificate that needs to be associated with the database.
@@ -8897,20 +9299,21 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applyImmediately
-            case caCertificateIdentifier
-            case disableBackupRetention
-            case enableBackupRetention
-            case masterUserPassword
-            case preferredBackupWindow
-            case preferredMaintenanceWindow
-            case publiclyAccessible
-            case relationalDatabaseName
-            case rotateMasterUserPassword
+            case applyImmediately = "applyImmediately"
+            case caCertificateIdentifier = "caCertificateIdentifier"
+            case disableBackupRetention = "disableBackupRetention"
+            case enableBackupRetention = "enableBackupRetention"
+            case masterUserPassword = "masterUserPassword"
+            case preferredBackupWindow = "preferredBackupWindow"
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case publiclyAccessible = "publiclyAccessible"
+            case relationalDatabaseName = "relationalDatabaseName"
+            case rotateMasterUserPassword = "rotateMasterUserPassword"
         }
     }
 
     public struct UpdateRelationalDatabaseResult: AWSDecodableShape {
+
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
 
@@ -8919,7 +9322,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case operations
+            case operations = "operations"
         }
     }
 }

@@ -63,128 +63,128 @@ public struct LookoutMetrics: AWSService {
     // MARK: API Calls
 
     /// Activates an anomaly detector.
-    public func activateAnomalyDetector(_ input: ActivateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateAnomalyDetectorResponse> {
-        return self.client.execute(operation: "ActivateAnomalyDetector", path: "/ActivateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func activateAnomalyDetector(_ input: ActivateAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ActivateAnomalyDetectorResponse> {
+        return self.client.execute(operation: "ActivateAnomalyDetector", path: "/ActivateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Runs a backtest for anomaly detection for the specified resource.
-    public func backTestAnomalyDetector(_ input: BackTestAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BackTestAnomalyDetectorResponse> {
-        return self.client.execute(operation: "BackTestAnomalyDetector", path: "/BackTestAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func backTestAnomalyDetector(_ input: BackTestAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BackTestAnomalyDetectorResponse> {
+        return self.client.execute(operation: "BackTestAnomalyDetector", path: "/BackTestAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates an alert for an anomaly detector.
-    public func createAlert(_ input: CreateAlertRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAlertResponse> {
-        return self.client.execute(operation: "CreateAlert", path: "/CreateAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createAlert(_ input: CreateAlertRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAlertResponse> {
+        return self.client.execute(operation: "CreateAlert", path: "/CreateAlert", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates an anomaly detector.
-    public func createAnomalyDetector(_ input: CreateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnomalyDetectorResponse> {
-        return self.client.execute(operation: "CreateAnomalyDetector", path: "/CreateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createAnomalyDetector(_ input: CreateAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAnomalyDetectorResponse> {
+        return self.client.execute(operation: "CreateAnomalyDetector", path: "/CreateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a dataset.
-    public func createMetricSet(_ input: CreateMetricSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMetricSetResponse> {
-        return self.client.execute(operation: "CreateMetricSet", path: "/CreateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createMetricSet(_ input: CreateMetricSetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMetricSetResponse> {
+        return self.client.execute(operation: "CreateMetricSet", path: "/CreateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes an alert.
-    public func deleteAlert(_ input: DeleteAlertRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAlertResponse> {
-        return self.client.execute(operation: "DeleteAlert", path: "/DeleteAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteAlert(_ input: DeleteAlertRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAlertResponse> {
+        return self.client.execute(operation: "DeleteAlert", path: "/DeleteAlert", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
-    public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAnomalyDetectorResponse> {
-        return self.client.execute(operation: "DeleteAnomalyDetector", path: "/DeleteAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAnomalyDetectorResponse> {
+        return self.client.execute(operation: "DeleteAnomalyDetector", path: "/DeleteAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes an alert.
-    public func describeAlert(_ input: DescribeAlertRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlertResponse> {
-        return self.client.execute(operation: "DescribeAlert", path: "/DescribeAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeAlert(_ input: DescribeAlertRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlertResponse> {
+        return self.client.execute(operation: "DescribeAlert", path: "/DescribeAlert", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about the status of the specified anomaly detection jobs.
-    public func describeAnomalyDetectionExecutions(_ input: DescribeAnomalyDetectionExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyDetectionExecutionsResponse> {
-        return self.client.execute(operation: "DescribeAnomalyDetectionExecutions", path: "/DescribeAnomalyDetectionExecutions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeAnomalyDetectionExecutions(_ input: DescribeAnomalyDetectionExecutionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyDetectionExecutionsResponse> {
+        return self.client.execute(operation: "DescribeAnomalyDetectionExecutions", path: "/DescribeAnomalyDetectionExecutions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes a detector.
-    public func describeAnomalyDetector(_ input: DescribeAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyDetectorResponse> {
-        return self.client.execute(operation: "DescribeAnomalyDetector", path: "/DescribeAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeAnomalyDetector(_ input: DescribeAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyDetectorResponse> {
+        return self.client.execute(operation: "DescribeAnomalyDetector", path: "/DescribeAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes a dataset.
-    public func describeMetricSet(_ input: DescribeMetricSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetricSetResponse> {
-        return self.client.execute(operation: "DescribeMetricSet", path: "/DescribeMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeMetricSet(_ input: DescribeMetricSetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetricSetResponse> {
+        return self.client.execute(operation: "DescribeMetricSet", path: "/DescribeMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns details about a group of anomalous metrics.
-    public func getAnomalyGroup(_ input: GetAnomalyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnomalyGroupResponse> {
-        return self.client.execute(operation: "GetAnomalyGroup", path: "/GetAnomalyGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getAnomalyGroup(_ input: GetAnomalyGroupRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnomalyGroupResponse> {
+        return self.client.execute(operation: "GetAnomalyGroup", path: "/GetAnomalyGroup", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Get feedback for an anomaly group.
-    public func getFeedback(_ input: GetFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFeedbackResponse> {
-        return self.client.execute(operation: "GetFeedback", path: "/GetFeedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getFeedback(_ input: GetFeedbackRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFeedbackResponse> {
+        return self.client.execute(operation: "GetFeedback", path: "/GetFeedback", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a selection of sample records from an Amazon S3 datasource.
-    public func getSampleData(_ input: GetSampleDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSampleDataResponse> {
-        return self.client.execute(operation: "GetSampleData", path: "/GetSampleData", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getSampleData(_ input: GetSampleDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSampleDataResponse> {
+        return self.client.execute(operation: "GetSampleData", path: "/GetSampleData", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the alerts attached to a detector.
-    public func listAlerts(_ input: ListAlertsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlertsResponse> {
-        return self.client.execute(operation: "ListAlerts", path: "/ListAlerts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listAlerts(_ input: ListAlertsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlertsResponse> {
+        return self.client.execute(operation: "ListAlerts", path: "/ListAlerts", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the detectors in the current AWS Region.
-    public func listAnomalyDetectors(_ input: ListAnomalyDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyDetectorsResponse> {
-        return self.client.execute(operation: "ListAnomalyDetectors", path: "/ListAnomalyDetectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listAnomalyDetectors(_ input: ListAnomalyDetectorsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyDetectorsResponse> {
+        return self.client.execute(operation: "ListAnomalyDetectors", path: "/ListAnomalyDetectors", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of anomaly groups.
-    public func listAnomalyGroupSummaries(_ input: ListAnomalyGroupSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyGroupSummariesResponse> {
-        return self.client.execute(operation: "ListAnomalyGroupSummaries", path: "/ListAnomalyGroupSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listAnomalyGroupSummaries(_ input: ListAnomalyGroupSummariesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyGroupSummariesResponse> {
+        return self.client.execute(operation: "ListAnomalyGroupSummaries", path: "/ListAnomalyGroupSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets a list of anomalous metrics for a measure in an anomaly group.
-    public func listAnomalyGroupTimeSeries(_ input: ListAnomalyGroupTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyGroupTimeSeriesResponse> {
-        return self.client.execute(operation: "ListAnomalyGroupTimeSeries", path: "/ListAnomalyGroupTimeSeries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listAnomalyGroupTimeSeries(_ input: ListAnomalyGroupTimeSeriesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyGroupTimeSeriesResponse> {
+        return self.client.execute(operation: "ListAnomalyGroupTimeSeries", path: "/ListAnomalyGroupTimeSeries", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the datasets in the current AWS Region.
-    public func listMetricSets(_ input: ListMetricSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricSetsResponse> {
-        return self.client.execute(operation: "ListMetricSets", path: "/ListMetricSets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listMetricSets(_ input: ListMetricSetsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricSetsResponse> {
+        return self.client.execute(operation: "ListMetricSets", path: "/ListMetricSets", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets a list of tags for a detector, dataset, or alert.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Add feedback for an anomalous metric.
-    public func putFeedback(_ input: PutFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFeedbackResponse> {
-        return self.client.execute(operation: "PutFeedback", path: "/PutFeedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putFeedback(_ input: PutFeedbackRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFeedbackResponse> {
+        return self.client.execute(operation: "PutFeedback", path: "/PutFeedback", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds tags to a detector, dataset, or alert.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes tags from a detector, dataset, or alert.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
-    public func updateAnomalyDetector(_ input: UpdateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnomalyDetectorResponse> {
-        return self.client.execute(operation: "UpdateAnomalyDetector", path: "/UpdateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateAnomalyDetector(_ input: UpdateAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAnomalyDetectorResponse> {
+        return self.client.execute(operation: "UpdateAnomalyDetector", path: "/UpdateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a dataset.
-    public func updateMetricSet(_ input: UpdateMetricSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMetricSetResponse> {
-        return self.client.execute(operation: "UpdateMetricSet", path: "/UpdateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateMetricSet(_ input: UpdateMetricSetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMetricSetResponse> {
+        return self.client.execute(operation: "UpdateMetricSet", path: "/UpdateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

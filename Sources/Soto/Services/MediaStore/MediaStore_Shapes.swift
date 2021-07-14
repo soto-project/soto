@@ -44,6 +44,7 @@ extension MediaStore {
     // MARK: Shapes
 
     public struct Container: AWSDecodableShape {
+
         /// The state of access logging on the container. This value is false by default, indicating that AWS Elemental MediaStore does not send access logs to Amazon CloudWatch Logs. When you enable access logging on the container, MediaStore changes this value to true, indicating that the service delivers access logs for objects stored in that container to CloudWatch Logs.
         public let accessLoggingEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;  For example: arn:aws:mediastore:us-west-2:111122223333:container/movies
@@ -77,6 +78,7 @@ extension MediaStore {
     }
 
     public struct CorsRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies which headers are allowed in a preflight OPTIONS request through the Access-Control-Request-Headers header. Each header name that is specified in Access-Control-Request-Headers must have a corresponding entry in the rule. Only the headers that were requested are sent back.  This element can contain only one wildcard character (*).
         public let allowedHeaders: [String]
         /// Identifies an HTTP method that the origin that is specified in the rule is allowed to execute. Each CORS rule must contain at least one AllowedMethods and one AllowedOrigins element.
@@ -120,7 +122,7 @@ extension MediaStore {
             }
             try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, max: 100)
             try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, min: 0)
-            try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, max: 2147483647)
             try self.validate(self.maxAgeSeconds, name: "maxAgeSeconds", parent: name, min: 0)
         }
 
@@ -134,6 +136,7 @@ extension MediaStore {
     }
 
     public struct CreateContainerInput: AWSEncodableShape {
+
         /// The name for the container. The name must be from 1 to 255 characters. Container names must be unique to your AWS account within a specific region. As an example, you could create a container named movies in every region, as long as you don’t have an existing container with that name.
         public let containerName: String
         /// An array of key:value pairs that you define. These values can be anything that you want. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
@@ -162,6 +165,7 @@ extension MediaStore {
     }
 
     public struct CreateContainerOutput: AWSDecodableShape {
+
         /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container. The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that owns this container&gt;:container/&lt;name of container&gt;. For example: arn:aws:mediastore:us-west-2:111122223333:container/movies  ContainerName: The container name as specified in the request. CreationTime: Unix time stamp. Status: The status of container creation or deletion. The status is one of the following: CREATING, ACTIVE, or DELETING. While the service is creating the container, the status is CREATING. When an endpoint is available, the status changes to ACTIVE. The return value does not include the container's endpoint. To make downstream requests, you must obtain this value by using DescribeContainer or ListContainers.
         public let container: Container
 
@@ -175,6 +179,7 @@ extension MediaStore {
     }
 
     public struct DeleteContainerInput: AWSEncodableShape {
+
         /// The name of the container to delete.
         public let containerName: String
 
@@ -194,10 +199,15 @@ extension MediaStore {
     }
 
     public struct DeleteContainerOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteContainerPolicyInput: AWSEncodableShape {
+
         /// The name of the container that holds the policy.
         public let containerName: String
 
@@ -217,10 +227,15 @@ extension MediaStore {
     }
 
     public struct DeleteContainerPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteCorsPolicyInput: AWSEncodableShape {
+
         /// The name of the container to remove the policy from.
         public let containerName: String
 
@@ -240,10 +255,15 @@ extension MediaStore {
     }
 
     public struct DeleteCorsPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteLifecyclePolicyInput: AWSEncodableShape {
+
         /// The name of the container that holds the object lifecycle policy.
         public let containerName: String
 
@@ -263,10 +283,15 @@ extension MediaStore {
     }
 
     public struct DeleteLifecyclePolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteMetricPolicyInput: AWSEncodableShape {
+
         /// The name of the container that is associated with the metric policy that you want to delete.
         public let containerName: String
 
@@ -286,10 +311,15 @@ extension MediaStore {
     }
 
     public struct DeleteMetricPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeContainerInput: AWSEncodableShape {
+
         /// The name of the container to query.
         public let containerName: String?
 
@@ -309,6 +339,7 @@ extension MediaStore {
     }
 
     public struct DescribeContainerOutput: AWSDecodableShape {
+
         /// The name of the queried container.
         public let container: Container?
 
@@ -322,6 +353,7 @@ extension MediaStore {
     }
 
     public struct GetContainerPolicyInput: AWSEncodableShape {
+
         /// The name of the container.
         public let containerName: String
 
@@ -341,6 +373,7 @@ extension MediaStore {
     }
 
     public struct GetContainerPolicyOutput: AWSDecodableShape {
+
         /// The contents of the access policy.
         public let policy: String
 
@@ -354,6 +387,7 @@ extension MediaStore {
     }
 
     public struct GetCorsPolicyInput: AWSEncodableShape {
+
         /// The name of the container that the policy is assigned to.
         public let containerName: String
 
@@ -373,6 +407,7 @@ extension MediaStore {
     }
 
     public struct GetCorsPolicyOutput: AWSDecodableShape {
+
         /// The CORS policy assigned to the container.
         public let corsPolicy: [CorsRule]
 
@@ -386,6 +421,7 @@ extension MediaStore {
     }
 
     public struct GetLifecyclePolicyInput: AWSEncodableShape {
+
         /// The name of the container that the object lifecycle policy is assigned to.
         public let containerName: String
 
@@ -405,6 +441,7 @@ extension MediaStore {
     }
 
     public struct GetLifecyclePolicyOutput: AWSDecodableShape {
+
         /// The object lifecycle policy that is assigned to the container.
         public let lifecyclePolicy: String
 
@@ -418,6 +455,7 @@ extension MediaStore {
     }
 
     public struct GetMetricPolicyInput: AWSEncodableShape {
+
         /// The name of the container that is associated with the metric policy.
         public let containerName: String
 
@@ -437,6 +475,7 @@ extension MediaStore {
     }
 
     public struct GetMetricPolicyOutput: AWSDecodableShape {
+
         /// The metric policy that is associated with the specific container.
         public let metricPolicy: MetricPolicy
 
@@ -450,6 +489,7 @@ extension MediaStore {
     }
 
     public struct ListContainersInput: AWSEncodableShape {
+
         /// Enter the maximum number of containers in the response. Use from 1 to 255 characters.
         public let maxResults: Int?
         /// Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
@@ -475,6 +515,7 @@ extension MediaStore {
     }
 
     public struct ListContainersOutput: AWSDecodableShape {
+
         /// The names of the containers.
         public let containers: [Container]
         ///  NextToken is the token to use in the next call to ListContainers. This token is returned only if you included the MaxResults tag in the original command, and only if there are still containers to return.
@@ -492,6 +533,7 @@ extension MediaStore {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the container.
         public let resource: String
 
@@ -511,6 +553,7 @@ extension MediaStore {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// An array of key:value pairs that are assigned to the container.
         public let tags: [Tag]?
 
@@ -524,6 +567,7 @@ extension MediaStore {
     }
 
     public struct MetricPolicy: AWSEncodableShape & AWSDecodableShape {
+
         /// A setting to enable or disable metrics at the container level.
         public let containerLevelMetrics: ContainerLevelMetrics
         /// A parameter that holds an array of rules that enable metrics at the object level. This parameter is optional, but if you choose to include it, you must also include at least one rule. By default, you can include up to five rules. You can also request a quota increase to allow up to 300 rules per policy.
@@ -549,6 +593,7 @@ extension MediaStore {
     }
 
     public struct MetricPolicyRule: AWSEncodableShape & AWSDecodableShape {
+
         /// A path or file name that defines which objects to include in the group. Wildcards (*) are acceptable.
         public let objectGroup: String
         /// A name that allows you to refer to the object group.
@@ -575,6 +620,7 @@ extension MediaStore {
     }
 
     public struct PutContainerPolicyInput: AWSEncodableShape {
+
         /// The name of the container.
         public let containerName: String
         /// The contents of the policy, which includes the following:    One Version tag   One Statement tag that contains the standard tags for the policy.
@@ -601,10 +647,15 @@ extension MediaStore {
     }
 
     public struct PutContainerPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutCorsPolicyInput: AWSEncodableShape {
+
         /// The name of the container that you want to assign the CORS policy to.
         public let containerName: String
         /// The CORS policy to apply to the container.
@@ -633,10 +684,15 @@ extension MediaStore {
     }
 
     public struct PutCorsPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutLifecyclePolicyInput: AWSEncodableShape {
+
         /// The name of the container that you want to assign the object lifecycle policy to.
         public let containerName: String
         /// The object lifecycle policy to apply to the container.
@@ -663,10 +719,15 @@ extension MediaStore {
     }
 
     public struct PutLifecyclePolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct PutMetricPolicyInput: AWSEncodableShape {
+
         /// The name of the container that you want to add the metric policy to.
         public let containerName: String
         /// The metric policy that you want to associate with the container. In the policy, you must indicate whether you want MediaStore to send container-level metrics. You can also include up to five rules to define groups of objects that you want MediaStore to send object-level metrics for. If you include rules in the policy, construct each rule with both of the following:   An object group that defines which objects to include in the group. The definition can be a path or a file name, but it can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are acceptable.   An object group name that allows you to refer to the object group. The name can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore).
@@ -691,10 +752,15 @@ extension MediaStore {
     }
 
     public struct PutMetricPolicyOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartAccessLoggingInput: AWSEncodableShape {
+
         /// The name of the container that you want to start access logging on.
         public let containerName: String
 
@@ -714,10 +780,15 @@ extension MediaStore {
     }
 
     public struct StartAccessLoggingOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopAccessLoggingInput: AWSEncodableShape {
+
         /// The name of the container that you want to stop access logging on.
         public let containerName: String
 
@@ -737,10 +808,15 @@ extension MediaStore {
     }
 
     public struct StopAccessLoggingOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         public let key: String
         /// Part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
@@ -767,6 +843,7 @@ extension MediaStore {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the container.
         public let resource: String
         /// An array of key:value pairs that you want to add to the container. You need to specify only the tags that you want to add or update. For example, suppose a container already has two tags (customer:CompanyA and priority:High). You want to change the priority tag and also add a third tag (type:Contract). For TagResource, you specify the following tags: priority:Medium, type:Contract. The result is that your container has three tags: customer:CompanyA, priority:Medium, and type:Contract.
@@ -795,10 +872,15 @@ extension MediaStore {
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the container.
         public let resource: String
         /// A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (customer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority).
@@ -827,6 +909,10 @@ extension MediaStore {
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

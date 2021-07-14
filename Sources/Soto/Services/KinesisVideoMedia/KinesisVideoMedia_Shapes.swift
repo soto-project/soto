@@ -33,6 +33,7 @@ extension KinesisVideoMedia {
     // MARK: Shapes
 
     public struct GetMediaInput: AWSEncodableShape {
+
         /// Identifies the starting chunk to get from the specified stream.
         public let startSelector: StartSelector
         /// The ARN of the stream from where you want to get the media content. If you don't specify the streamARN, you must specify the streamName.
@@ -68,7 +69,7 @@ extension KinesisVideoMedia {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
             AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"))
         ]
 
@@ -89,6 +90,7 @@ extension KinesisVideoMedia {
     }
 
     public struct StartSelector: AWSEncodableShape {
+
         /// Specifies the fragment number from where you want the GetMedia API to start returning the fragments.
         public let afterFragmentNumber: String?
         /// Continuation token that Kinesis Video Streams returned in the previous GetMedia response. The GetMedia API then starts with the chunk identified by the continuation token.

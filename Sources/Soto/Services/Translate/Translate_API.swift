@@ -64,73 +64,73 @@ public struct Translate: AWSService {
     // MARK: API Calls
 
     /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples of source phrases and their translations from your translation memory. By adding parallel data, you can influence the style, tone, and word choice in your translation output.
-    public func createParallelData(_ input: CreateParallelDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParallelDataResponse> {
-        return self.client.execute(operation: "CreateParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createParallelData(_ input: CreateParallelDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateParallelDataResponse> {
+        return self.client.execute(operation: "CreateParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a parallel data resource in Amazon Translate.
-    public func deleteParallelData(_ input: DeleteParallelDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteParallelDataResponse> {
-        return self.client.execute(operation: "DeleteParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteParallelData(_ input: DeleteParallelDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteParallelDataResponse> {
+        return self.client.execute(operation: "DeleteParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// A synchronous action that deletes a custom terminology.
-    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteTerminology", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func deleteTerminology(_ input: DeleteTerminologyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteTerminology", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets the properties associated with an asycnhronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
-    public func describeTextTranslationJob(_ input: DescribeTextTranslationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTextTranslationJobResponse> {
-        return self.client.execute(operation: "DescribeTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeTextTranslationJob(_ input: DescribeTextTranslationJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTextTranslationJobResponse> {
+        return self.client.execute(operation: "DescribeTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides information about a parallel data resource.
-    public func getParallelData(_ input: GetParallelDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParallelDataResponse> {
-        return self.client.execute(operation: "GetParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getParallelData(_ input: GetParallelDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParallelDataResponse> {
+        return self.client.execute(operation: "GetParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a custom terminology.
-    public func getTerminology(_ input: GetTerminologyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTerminologyResponse> {
-        return self.client.execute(operation: "GetTerminology", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getTerminology(_ input: GetTerminologyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTerminologyResponse> {
+        return self.client.execute(operation: "GetTerminology", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates or updates a custom terminology, depending on whether or not one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. Currently, the only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite an existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology take up to 10 minutes to fully propagate and be available for use in a translation due to cache policies with the DataPlane service that performs the translations.
-    public func importTerminology(_ input: ImportTerminologyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportTerminologyResponse> {
-        return self.client.execute(operation: "ImportTerminology", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func importTerminology(_ input: ImportTerminologyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportTerminologyResponse> {
+        return self.client.execute(operation: "ImportTerminology", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides a list of your parallel data resources in Amazon Translate.
-    public func listParallelData(_ input: ListParallelDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListParallelDataResponse> {
-        return self.client.execute(operation: "ListParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listParallelData(_ input: ListParallelDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListParallelDataResponse> {
+        return self.client.execute(operation: "ListParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides a list of custom terminologies associated with your account.
-    public func listTerminologies(_ input: ListTerminologiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTerminologiesResponse> {
-        return self.client.execute(operation: "ListTerminologies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTerminologies(_ input: ListTerminologiesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTerminologiesResponse> {
+        return self.client.execute(operation: "ListTerminologies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Gets a list of the batch translation jobs that you have submitted.
-    public func listTextTranslationJobs(_ input: ListTextTranslationJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTextTranslationJobsResponse> {
-        return self.client.execute(operation: "ListTextTranslationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTextTranslationJobs(_ input: ListTextTranslationJobsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTextTranslationJobsResponse> {
+        return self.client.execute(operation: "ListTextTranslationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Starts an asynchronous batch translation job. Batch translation jobs can be used to translate large volumes of text across multiple documents at once. For more information, see async. Batch translation jobs can be described with the DescribeTextTranslationJob operation, listed with the ListTextTranslationJobs operation, and stopped with the StopTextTranslationJob operation.  Amazon Translate does not support batch translation of multiple source languages at once.
-    public func startTextTranslationJob(_ input: StartTextTranslationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTextTranslationJobResponse> {
-        return self.client.execute(operation: "StartTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startTextTranslationJob(_ input: StartTextTranslationJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTextTranslationJobResponse> {
+        return self.client.execute(operation: "StartTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the StartTextTranslationJob operation. You can use the DescribeTextTranslationJob or ListTextTranslationJobs operations to get a batch translation job's JobId.
-    public func stopTextTranslationJob(_ input: StopTextTranslationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTextTranslationJobResponse> {
-        return self.client.execute(operation: "StopTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func stopTextTranslationJob(_ input: StopTextTranslationJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTextTranslationJobResponse> {
+        return self.client.execute(operation: "StopTextTranslationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Translates input text from the source language to the target language. For a list of available languages and language codes, see what-is-languages.
-    public func translateText(_ input: TranslateTextRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TranslateTextResponse> {
-        return self.client.execute(operation: "TranslateText", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func translateText(_ input: TranslateTextRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TranslateTextResponse> {
+        return self.client.execute(operation: "TranslateText", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a previously created parallel data resource by importing a new input file from Amazon S3.
-    public func updateParallelData(_ input: UpdateParallelDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateParallelDataResponse> {
-        return self.client.execute(operation: "UpdateParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateParallelData(_ input: UpdateParallelDataRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateParallelDataResponse> {
+        return self.client.execute(operation: "UpdateParallelData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

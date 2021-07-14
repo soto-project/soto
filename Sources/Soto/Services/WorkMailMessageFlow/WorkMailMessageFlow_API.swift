@@ -63,13 +63,13 @@ public struct WorkMailMessageFlow: AWSService {
     // MARK: API Calls
 
     /// Retrieves the raw content of an in-transit email message, in MIME format.
-    public func getRawMessageContent(_ input: GetRawMessageContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRawMessageContentResponse> {
-        return self.client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getRawMessageContent(_ input: GetRawMessageContentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRawMessageContentResponse> {
+        return self.client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see  Updating message content with AWS Lambda.  Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous  Run Lambda rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even though GetRawMessageContent returns an updated message.
-    public func putRawMessageContent(_ input: PutRawMessageContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRawMessageContentResponse> {
-        return self.client.execute(operation: "PutRawMessageContent", path: "/messages/{messageId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putRawMessageContent(_ input: PutRawMessageContentRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRawMessageContentResponse> {
+        return self.client.execute(operation: "PutRawMessageContent", path: "/messages/{messageId}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

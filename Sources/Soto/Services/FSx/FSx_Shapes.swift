@@ -169,6 +169,7 @@ extension FSx {
     // MARK: Shapes
 
     public struct ActiveDirectoryBackupAttributes: AWSDecodableShape {
+
         /// The ID of the AWS Managed Microsoft Active Directory instance to which the file system is joined.
         public let activeDirectoryId: String?
         /// The fully qualified domain name of the self-managed AD directory.
@@ -189,6 +190,7 @@ extension FSx {
     }
 
     public struct AdministrativeAction: AWSDecodableShape {
+
         public let administrativeActionType: AdministrativeActionType?
         public let failureDetails: AdministrativeActionFailureDetails?
         /// Provides the percent complete of a STORAGE_OPTIMIZATION administrative action. Does not apply to any other administrative action type.
@@ -220,6 +222,7 @@ extension FSx {
     }
 
     public struct AdministrativeActionFailureDetails: AWSDecodableShape {
+
         /// Error message providing details about the failed administrative action.
         public let message: String?
 
@@ -233,6 +236,7 @@ extension FSx {
     }
 
     public struct Alias: AWSDecodableShape {
+
         /// Describes the state of the DNS alias.   AVAILABLE - The DNS alias is associated with an Amazon FSx file system.   CREATING - Amazon FSx is creating the DNS alias and associating it with the file system.   CREATE_FAILED - Amazon FSx was unable to associate the DNS alias with the file system.   DELETING - Amazon FSx is disassociating the DNS alias from the file system and deleting it.   DELETE_FAILED - Amazon FSx was unable to disassocate the DNS alias from the file system.
         public let lifecycle: AliasLifecycle?
         /// The name of the DNS alias. The alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
@@ -250,6 +254,7 @@ extension FSx {
     }
 
     public struct AssociateFileSystemAliasesRequest: AWSEncodableShape {
+
         /// An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements:   Formatted as a fully-qualified domain name (FQDN),  hostname.domain , for example, accounting.corp.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
         public let aliases: [String]
         public let clientRequestToken: String?
@@ -285,6 +290,7 @@ extension FSx {
     }
 
     public struct AssociateFileSystemAliasesResponse: AWSDecodableShape {
+
         /// An array of the DNS aliases that Amazon FSx is associating with the file system.
         public let aliases: [Alias]?
 
@@ -298,6 +304,7 @@ extension FSx {
     }
 
     public struct Backup: AWSDecodableShape {
+
         /// The ID of the backup.
         public let backupId: String
         /// The time when a particular backup was created.
@@ -360,6 +367,7 @@ extension FSx {
     }
 
     public struct BackupFailureDetails: AWSDecodableShape {
+
         /// A message describing the backup creation failure.
         public let message: String?
 
@@ -373,6 +381,7 @@ extension FSx {
     }
 
     public struct CancelDataRepositoryTaskRequest: AWSEncodableShape {
+
         /// Specifies the data repository task to cancel.
         public let taskId: String
 
@@ -392,6 +401,7 @@ extension FSx {
     }
 
     public struct CancelDataRepositoryTaskResponse: AWSDecodableShape {
+
         /// The lifecycle status of the data repository task, as follows:    PENDING - Amazon FSx has not started the task.    EXECUTING - Amazon FSx is processing the task.    FAILED - Amazon FSx was not able to complete the task. For example, there may be files the task failed to process. The DataRepositoryTaskFailureDetails property provides more information about task failures.    SUCCEEDED - FSx completed the task successfully.    CANCELED - Amazon FSx canceled the task and it did not complete.    CANCELING - FSx is in process of canceling the task.
         public let lifecycle: DataRepositoryTaskLifecycle?
         /// The ID of the task being canceled.
@@ -409,6 +419,7 @@ extension FSx {
     }
 
     public struct CompletionReport: AWSEncodableShape & AWSDecodableShape {
+
         /// Set Enabled to True to generate a CompletionReport when the task completes. If set to true, then you need to provide a report Scope, Path, and Format. Set Enabled to False if you do not want a CompletionReport generated when the task completes.
         public let enabled: Bool
         /// Required if Enabled is set to true. Specifies the format of the CompletionReport. REPORT_CSV_20191124 is the only format currently supported. When Format is set to REPORT_CSV_20191124, the CompletionReport is provided in CSV format, and is delivered to {path}/task-{id}/failures.csv.
@@ -440,6 +451,7 @@ extension FSx {
     }
 
     public struct CopyBackupRequest: AWSEncodableShape {
+
         public let clientRequestToken: String?
         /// A boolean flag indicating whether tags from the source backup should be copied to the backup copy. This value defaults to false. If you set CopyTags to true and the source backup has existing tags, you can use the Tags parameter to create new tags, provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both sets of tags are merged. If there are tag conflicts (for example, two tags with the same key but different values), the tags created with the Tags parameter take precedence.
         public let copyTags: Bool?
@@ -490,6 +502,7 @@ extension FSx {
     }
 
     public struct CopyBackupResponse: AWSDecodableShape {
+
         public let backup: Backup?
 
         public init(backup: Backup? = nil) {
@@ -502,6 +515,7 @@ extension FSx {
     }
 
     public struct CreateBackupRequest: AWSEncodableShape {
+
         /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
         /// The ID of the file system to back up.
@@ -537,6 +551,7 @@ extension FSx {
     }
 
     public struct CreateBackupResponse: AWSDecodableShape {
+
         /// A description of the backup.
         public let backup: Backup?
 
@@ -550,6 +565,7 @@ extension FSx {
     }
 
     public struct CreateDataRepositoryTaskRequest: AWSEncodableShape {
+
         public let clientRequestToken: String?
         public let fileSystemId: String
         /// (Optional) The path or paths on the Amazon FSx file system to use when the data repository task is processed. The default path is the file system root directory. The paths you provide need to be relative to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the path to provide is path1. If a path that you provide isn't valid, the task fails.
@@ -601,6 +617,7 @@ extension FSx {
     }
 
     public struct CreateDataRepositoryTaskResponse: AWSDecodableShape {
+
         /// The description of the data repository task that you just created.
         public let dataRepositoryTask: DataRepositoryTask?
 
@@ -614,6 +631,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemFromBackupRequest: AWSEncodableShape {
+
         public let backupId: String
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
@@ -687,6 +705,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemFromBackupResponse: AWSDecodableShape {
+
         /// A description of the file system.
         public let fileSystem: FileSystem?
 
@@ -700,6 +719,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemLustreConfiguration: AWSEncodableShape {
+
         ///  (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    For more information, see Automatically import updates from your S3 bucket.
         public let autoImportPolicy: AutoImportPolicyType?
         public let automaticBackupRetentionDays: Int?
@@ -744,7 +764,7 @@ extension FSx {
             try self.validate(self.exportPath, name: "exportPath", parent: name, max: 4357)
             try self.validate(self.exportPath, name: "exportPath", parent: name, min: 3)
             try self.validate(self.exportPath, name: "exportPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4357}$")
-            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512_000)
+            try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512000)
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, min: 1)
             try self.validate(self.importPath, name: "importPath", parent: name, max: 4357)
             try self.validate(self.importPath, name: "importPath", parent: name, min: 3)
@@ -772,6 +792,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemRequest: AWSEncodableShape {
+
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
         /// The type of Amazon FSx file system to create, either WINDOWS or LUSTRE.
@@ -818,7 +839,7 @@ extension FSx {
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^(sg-[0-9a-f]{8,})$")
             }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 50)
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.subnetIds.forEach {
                 try validate($0, name: "subnetIds[]", parent: name, max: 24)
@@ -849,6 +870,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemResponse: AWSDecodableShape {
+
         /// The configuration of the file system that was created.
         public let fileSystem: FileSystem?
 
@@ -862,6 +884,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemWindowsConfiguration: AWSEncodableShape {
+
         /// The ID for an existing AWS Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public let activeDirectoryId: String?
         /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:   Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.   Can contain alphanumeric characters, the underscore (_), and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
@@ -936,6 +959,7 @@ extension FSx {
     }
 
     public struct DataRepositoryConfiguration: AWSDecodableShape {
+
         /// Describes the file system's linked S3 data repository's AutoImportPolicy. The AutoImportPolicy configures how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    For more information, see Automatically import updates from your S3 bucket.
         public let autoImportPolicy: AutoImportPolicyType?
         /// The export path to the Amazon S3 bucket (and prefix) that you are using to store new and changed Lustre file system files in S3.
@@ -968,6 +992,7 @@ extension FSx {
     }
 
     public struct DataRepositoryFailureDetails: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -980,6 +1005,7 @@ extension FSx {
     }
 
     public struct DataRepositoryTask: AWSDecodableShape {
+
         public let creationTime: Date
         /// The time that Amazon FSx completed processing the task, populated after the task is complete.
         public let endTime: Date?
@@ -1036,6 +1062,7 @@ extension FSx {
     }
 
     public struct DataRepositoryTaskFailureDetails: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -1048,6 +1075,7 @@ extension FSx {
     }
 
     public struct DataRepositoryTaskFilter: AWSEncodableShape {
+
         /// Name of the task property to use in filtering the tasks returned in the response.   Use file-system-id to retrieve data repository tasks for specific file systems.   Use task-lifecycle to retrieve data repository tasks with one or more specific lifecycle states, as follows: CANCELED, EXECUTING, FAILED, PENDING, and SUCCEEDED.
         public let name: DataRepositoryTaskFilterName?
         /// Use Values to include the specific file system IDs and task lifecycle states for the filters you are using.
@@ -1074,6 +1102,7 @@ extension FSx {
     }
 
     public struct DataRepositoryTaskStatus: AWSDecodableShape {
+
         /// A running total of the number of files that the task failed to process.
         public let failedCount: Int64?
         /// The time at which the task status was last updated.
@@ -1099,6 +1128,7 @@ extension FSx {
     }
 
     public struct DeleteBackupRequest: AWSEncodableShape {
+
         /// The ID of the backup you want to delete.
         public let backupId: String
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
@@ -1125,6 +1155,7 @@ extension FSx {
     }
 
     public struct DeleteBackupResponse: AWSDecodableShape {
+
         /// The ID of the backup deleted.
         public let backupId: String?
         /// The lifecycle of the backup. Should be DELETED.
@@ -1142,6 +1173,7 @@ extension FSx {
     }
 
     public struct DeleteFileSystemLustreConfiguration: AWSEncodableShape {
+
         /// Use if SkipFinalBackup is set to false, and you want to apply an array of tags to the final backup. If you have set the file system property CopyTagsToBackups to true, and you specify one or more FinalBackupTags when deleting a file system, Amazon FSx will not copy any existing file system tags to the backup.
         public let finalBackupTags: [Tag]?
         /// Set SkipFinalBackup to false if you want to take a final backup of the file system you are deleting. By default, Amazon FSx will not take a final backup on your behalf when the DeleteFileSystem operation is invoked. (Default = true)
@@ -1167,6 +1199,7 @@ extension FSx {
     }
 
     public struct DeleteFileSystemLustreResponse: AWSDecodableShape {
+
         /// The ID of the final backup for this file system.
         public let finalBackupId: String?
         /// The set of tags applied to the final backup.
@@ -1184,6 +1217,7 @@ extension FSx {
     }
 
     public struct DeleteFileSystemRequest: AWSEncodableShape {
+
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
         public let clientRequestToken: String?
         /// The ID of the file system you want to delete.
@@ -1218,6 +1252,7 @@ extension FSx {
     }
 
     public struct DeleteFileSystemResponse: AWSDecodableShape {
+
         /// The ID of the file system being deleted.
         public let fileSystemId: String?
         /// The file system lifecycle for the deletion request. Should be DELETING.
@@ -1241,6 +1276,7 @@ extension FSx {
     }
 
     public struct DeleteFileSystemWindowsConfiguration: AWSEncodableShape {
+
         /// A set of tags for your final backup.
         public let finalBackupTags: [Tag]?
         /// By default, Amazon FSx for Windows takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip this backup, use this flag to do so.
@@ -1266,6 +1302,7 @@ extension FSx {
     }
 
     public struct DeleteFileSystemWindowsResponse: AWSDecodableShape {
+
         /// The ID of the final backup for this file system.
         public let finalBackupId: String?
         /// The set of tags applied to the final backup.
@@ -1283,6 +1320,7 @@ extension FSx {
     }
 
     public struct DescribeBackupsRequest: AWSEncodableShape {
+
         /// IDs of the backups you want to retrieve (String). This overrides any filters. If any IDs are not found, BackupNotFound will be thrown.
         public let backupIds: [String]?
         /// Filters structure. Supported names are file-system-id and backup-type.
@@ -1310,7 +1348,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1326,6 +1364,7 @@ extension FSx {
     }
 
     public struct DescribeBackupsResponse: AWSDecodableShape {
+
         /// An array of backups.
         public let backups: [Backup]?
         /// This is present if there are more backups than returned in the response (String). You can use the NextToken value in the later request to fetch the backups.
@@ -1343,6 +1382,7 @@ extension FSx {
     }
 
     public struct DescribeDataRepositoryTasksRequest: AWSEncodableShape {
+
         /// (Optional) You can use filters to narrow the DescribeDataRepositoryTasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state.
         public let filters: [DataRepositoryTaskFilter]?
         public let maxResults: Int?
@@ -1362,7 +1402,7 @@ extension FSx {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 3)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1384,6 +1424,7 @@ extension FSx {
     }
 
     public struct DescribeDataRepositoryTasksResponse: AWSDecodableShape {
+
         /// The collection of data repository task descriptions returned.
         public let dataRepositoryTasks: [DataRepositoryTask]?
         public let nextToken: String?
@@ -1400,6 +1441,7 @@ extension FSx {
     }
 
     public struct DescribeFileSystemAliasesRequest: AWSEncodableShape {
+
         public let clientRequestToken: String?
         /// The ID of the file system to return the associated DNS aliases for (String).
         public let fileSystemId: String
@@ -1422,7 +1464,7 @@ extension FSx {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 21)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1438,6 +1480,7 @@ extension FSx {
     }
 
     public struct DescribeFileSystemAliasesResponse: AWSDecodableShape {
+
         /// An array of one or more DNS aliases currently associated with the specified file system.
         public let aliases: [Alias]?
         /// Present if there are more DNS aliases than returned in the response (String). You can use the NextToken value in a later request to fetch additional descriptions.
@@ -1455,6 +1498,7 @@ extension FSx {
     }
 
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
+
         /// IDs of the file systems whose descriptions you want to retrieve (String).
         public let fileSystemIds: [String]?
         /// Maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
@@ -1475,7 +1519,7 @@ extension FSx {
                 try validate($0, name: "fileSystemIds[]", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             }
             try self.validate(self.fileSystemIds, name: "fileSystemIds", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1490,6 +1534,7 @@ extension FSx {
     }
 
     public struct DescribeFileSystemsResponse: AWSDecodableShape {
+
         /// An array of file system descriptions.
         public let fileSystems: [FileSystem]?
         /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions.
@@ -1507,6 +1552,7 @@ extension FSx {
     }
 
     public struct DisassociateFileSystemAliasesRequest: AWSEncodableShape {
+
         /// An array of one or more DNS alias names to disassociate, or remove, from the file system.
         public let aliases: [String]
         public let clientRequestToken: String?
@@ -1542,6 +1588,7 @@ extension FSx {
     }
 
     public struct DisassociateFileSystemAliasesResponse: AWSDecodableShape {
+
         /// An array of one or more DNS aliases that Amazon FSx is attempting to disassociate from the file system.
         public let aliases: [Alias]?
 
@@ -1555,6 +1602,7 @@ extension FSx {
     }
 
     public struct FileSystem: AWSDecodableShape {
+
         /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Windows file system that you have initiated using the UpdateFileSystem action.
         public let administrativeActions: [AdministrativeAction]?
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -1634,6 +1682,7 @@ extension FSx {
     }
 
     public struct FileSystemFailureDetails: AWSDecodableShape {
+
         /// A message describing any failures that occurred during file system creation.
         public let message: String?
 
@@ -1647,6 +1696,7 @@ extension FSx {
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// The name for this filter.
         public let name: FilterName?
         /// The values of the filter. These are all the values for any of the applied filters.
@@ -1673,6 +1723,7 @@ extension FSx {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// Maximum number of tags to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
         public let maxResults: Int?
         /// Opaque pagination token returned from a previous ListTagsForResource operation (String). If a token present, the action continues the list from where the returning call left off.
@@ -1687,7 +1738,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2147483647)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 255)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -1705,6 +1756,7 @@ extension FSx {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// This is present if there are more tags than returned in the response (String). You can use the NextToken value in the later request to fetch the tags.
         public let nextToken: String?
         /// A list of tags on the resource.
@@ -1722,6 +1774,7 @@ extension FSx {
     }
 
     public struct LustreFileSystemConfiguration: AWSDecodableShape {
+
         public let automaticBackupRetentionDays: Int?
         /// A boolean flag indicating whether tags on the file system should be copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false)
         public let copyTagsToBackups: Bool?
@@ -1764,6 +1817,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryAttributes: AWSDecodableShape {
+
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
         /// The fully qualified domain name of the self-managed AD directory.
@@ -1793,6 +1847,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfiguration: AWSEncodableShape {
+
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
@@ -1851,6 +1906,7 @@ extension FSx {
     }
 
     public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSEncodableShape {
+
         /// A list of up to two IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
         /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
@@ -1888,6 +1944,7 @@ extension FSx {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
         public let key: String
         /// A value that specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April.
@@ -1914,6 +1971,7 @@ extension FSx {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon FSx resource that you want to tag.
         public let resourceARN: String
         /// A list of tags for the resource. If a tag with a given key already exists, the value is replaced by the one specified in this parameter.
@@ -1942,10 +2000,15 @@ extension FSx {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The ARN of the Amazon FSx resource to untag.
         public let resourceARN: String
         /// A list of keys of tags on the resource to untag. In case the tag key doesn't exist, the call will still succeed to be idempotent.
@@ -1976,10 +2039,15 @@ extension FSx {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateFileSystemLustreConfiguration: AWSEncodableShape {
+
         ///  (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listing up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update the file and directory listing for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    For more information, see Automatically import updates from your S3 bucket.
         public let autoImportPolicy: AutoImportPolicyType?
         public let automaticBackupRetentionDays: Int?
@@ -2014,6 +2082,7 @@ extension FSx {
     }
 
     public struct UpdateFileSystemRequest: AWSEncodableShape {
+
         /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
         public let clientRequestToken: String?
         /// Identifies the file system that you are updating.
@@ -2040,7 +2109,7 @@ extension FSx {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, min: 11)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             try self.lustreConfiguration?.validate(name: "\(name).lustreConfiguration")
-            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2_147_483_647)
+            try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, max: 2147483647)
             try self.validate(self.storageCapacity, name: "storageCapacity", parent: name, min: 0)
             try self.windowsConfiguration?.validate(name: "\(name).windowsConfiguration")
         }
@@ -2055,6 +2124,7 @@ extension FSx {
     }
 
     public struct UpdateFileSystemResponse: AWSDecodableShape {
+
         /// A description of the file system that was updated.
         public let fileSystem: FileSystem?
 
@@ -2068,6 +2138,7 @@ extension FSx {
     }
 
     public struct UpdateFileSystemWindowsConfiguration: AWSEncodableShape {
+
         /// The number of days to retain automatic daily backups. Setting this to zero (0) disables automatic daily backups. You can retain automatic daily backups for a maximum of 90 days. For more information, see Working with Automatic Daily Backups.
         public let automaticBackupRetentionDays: Int?
         /// The preferred time to start the daily automatic backup, in the UTC time zone, for example, 02:00
@@ -2111,6 +2182,7 @@ extension FSx {
     }
 
     public struct WindowsFileSystemConfiguration: AWSDecodableShape {
+
         /// The ID for an existing AWS Managed Microsoft Active Directory instance that the file system is joined to.
         public let activeDirectoryId: String?
         public let aliases: [Alias]?

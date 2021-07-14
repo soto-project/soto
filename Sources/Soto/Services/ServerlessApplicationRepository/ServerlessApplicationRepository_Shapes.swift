@@ -38,6 +38,7 @@ extension ServerlessApplicationRepository {
     // MARK: Shapes
 
     public struct ApplicationDependencySummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the nested application.
         public let applicationId: String
         /// The semantic version of the nested application.
@@ -49,13 +50,14 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case semanticVersion
+            case applicationId = "applicationId"
+            case semanticVersion = "semanticVersion"
         }
     }
 
     public struct ApplicationPolicyStatement: AWSEncodableShape & AWSDecodableShape {
-        /// For the list of actions supported for this operation, see Application
+
+        /// For the list of actions supported for this operation, see Application 
         ///  Permissions.
         public let actions: [String]
         /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM aws:PrincipalOrgID global condition key.
@@ -73,14 +75,15 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case principalOrgIDs
-            case principals
-            case statementId
+            case actions = "actions"
+            case principalOrgIDs = "principalOrgIDs"
+            case principals = "principals"
+            case statementId = "statementId"
         }
     }
 
     public struct ApplicationSummary: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -110,18 +113,19 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case author
-            case creationTime
-            case description
-            case homePageUrl
-            case labels
-            case name
-            case spdxLicenseId
+            case applicationId = "applicationId"
+            case author = "author"
+            case creationTime = "creationTime"
+            case description = "description"
+            case homePageUrl = "homePageUrl"
+            case labels = "labels"
+            case name = "name"
+            case spdxLicenseId = "spdxLicenseId"
         }
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+
         public let author: String
         public let description: String
         public let homePageUrl: String?
@@ -157,25 +161,26 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case author
-            case description
-            case homePageUrl
-            case labels
-            case licenseBody
-            case licenseUrl
-            case name
-            case readmeBody
-            case readmeUrl
-            case semanticVersion
-            case sourceCodeArchiveUrl
-            case sourceCodeUrl
-            case spdxLicenseId
-            case templateBody
-            case templateUrl
+            case author = "author"
+            case description = "description"
+            case homePageUrl = "homePageUrl"
+            case labels = "labels"
+            case licenseBody = "licenseBody"
+            case licenseUrl = "licenseUrl"
+            case name = "name"
+            case readmeBody = "readmeBody"
+            case readmeUrl = "readmeUrl"
+            case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case templateBody = "templateBody"
+            case templateUrl = "templateUrl"
         }
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let author: String?
         public let creationTime: String?
@@ -207,25 +212,25 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case author
-            case creationTime
-            case description
-            case homePageUrl
-            case isVerifiedAuthor
-            case labels
-            case licenseUrl
-            case name
-            case readmeUrl
-            case spdxLicenseId
-            case verifiedAuthorUrl
-            case version
+            case applicationId = "applicationId"
+            case author = "author"
+            case creationTime = "creationTime"
+            case description = "description"
+            case homePageUrl = "homePageUrl"
+            case isVerifiedAuthor = "isVerifiedAuthor"
+            case labels = "labels"
+            case licenseUrl = "licenseUrl"
+            case name = "name"
+            case readmeUrl = "readmeUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case verifiedAuthorUrl = "verifiedAuthorUrl"
+            case version = "version"
         }
     }
 
     public struct CreateApplicationVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "semanticVersion", location: .uri(locationName: "semanticVersion"))
         ]
 
@@ -246,14 +251,15 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceCodeArchiveUrl
-            case sourceCodeUrl
-            case templateBody
-            case templateUrl
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case templateBody = "templateBody"
+            case templateUrl = "templateUrl"
         }
     }
 
     public struct CreateApplicationVersionResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let creationTime: String?
         public let parameterDefinitions: [ParameterDefinition]?
@@ -277,15 +283,15 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case creationTime
-            case parameterDefinitions
-            case requiredCapabilities
-            case resourcesSupported
-            case semanticVersion
-            case sourceCodeArchiveUrl
-            case sourceCodeUrl
-            case templateUrl
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case parameterDefinitions = "parameterDefinitions"
+            case requiredCapabilities = "requiredCapabilities"
+            case resourcesSupported = "resourcesSupported"
+            case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case templateUrl = "templateUrl"
         }
     }
 
@@ -325,22 +331,23 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilities
-            case changeSetName
-            case clientToken
-            case description
-            case notificationArns
-            case parameterOverrides
-            case resourceTypes
-            case rollbackConfiguration
-            case semanticVersion
-            case stackName
-            case tags
-            case templateId
+            case capabilities = "capabilities"
+            case changeSetName = "changeSetName"
+            case clientToken = "clientToken"
+            case description = "description"
+            case notificationArns = "notificationArns"
+            case parameterOverrides = "parameterOverrides"
+            case resourceTypes = "resourceTypes"
+            case rollbackConfiguration = "rollbackConfiguration"
+            case semanticVersion = "semanticVersion"
+            case stackName = "stackName"
+            case tags = "tags"
+            case templateId = "templateId"
         }
     }
 
     public struct CreateCloudFormationChangeSetResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let changeSetId: String?
         public let semanticVersion: String?
@@ -354,10 +361,10 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case changeSetId
-            case semanticVersion
-            case stackId
+            case applicationId = "applicationId"
+            case changeSetId = "changeSetId"
+            case semanticVersion = "semanticVersion"
+            case stackId = "stackId"
         }
     }
 
@@ -375,11 +382,12 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case semanticVersion
+            case semanticVersion = "semanticVersion"
         }
     }
 
     public struct CreateCloudFormationTemplateResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let creationTime: String?
         public let expirationTime: String?
@@ -399,13 +407,13 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case creationTime
-            case expirationTime
-            case semanticVersion
-            case status
-            case templateId
-            case templateUrl
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case expirationTime = "expirationTime"
+            case semanticVersion = "semanticVersion"
+            case status = "status"
+            case templateId = "templateId"
+            case templateUrl = "templateUrl"
         }
     }
 
@@ -438,6 +446,7 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationPolicyResponse: AWSDecodableShape {
+
         public let statements: [ApplicationPolicyStatement]?
 
         public init(statements: [ApplicationPolicyStatement]? = nil) {
@@ -445,13 +454,13 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statements
+            case statements = "statements"
         }
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
         ]
 
@@ -467,6 +476,7 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let author: String?
         public let creationTime: String?
@@ -498,25 +508,25 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case author
-            case creationTime
-            case description
-            case homePageUrl
-            case isVerifiedAuthor
-            case labels
-            case licenseUrl
-            case name
-            case readmeUrl
-            case spdxLicenseId
-            case verifiedAuthorUrl
-            case version
+            case applicationId = "applicationId"
+            case author = "author"
+            case creationTime = "creationTime"
+            case description = "description"
+            case homePageUrl = "homePageUrl"
+            case isVerifiedAuthor = "isVerifiedAuthor"
+            case labels = "labels"
+            case licenseUrl = "licenseUrl"
+            case name = "name"
+            case readmeUrl = "readmeUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case verifiedAuthorUrl = "verifiedAuthorUrl"
+            case version = "version"
         }
     }
 
     public struct GetCloudFormationTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "templateId", location: .uri(locationName: "templateId"))
         ]
 
@@ -532,6 +542,7 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetCloudFormationTemplateResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let creationTime: String?
         public let expirationTime: String?
@@ -551,21 +562,21 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case creationTime
-            case expirationTime
-            case semanticVersion
-            case status
-            case templateId
-            case templateUrl
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case expirationTime = "expirationTime"
+            case semanticVersion = "semanticVersion"
+            case status = "status"
+            case templateId = "templateId"
+            case templateUrl = "templateUrl"
         }
     }
 
     public struct ListApplicationDependenciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "semanticVersion", location: .querystring(locationName: "semanticVersion"))
         ]
 
@@ -590,6 +601,7 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationDependenciesResponse: AWSDecodableShape {
+
         public let dependencies: [ApplicationDependencySummary]?
         public let nextToken: String?
 
@@ -599,15 +611,15 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dependencies
-            case nextToken
+            case dependencies = "dependencies"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListApplicationVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -630,6 +642,7 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationVersionsResponse: AWSDecodableShape {
+
         public let nextToken: String?
         public let versions: [VersionSummary]?
 
@@ -639,14 +652,14 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case versions
+            case nextToken = "nextToken"
+            case versions = "versions"
         }
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "maxItems")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -667,6 +680,7 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
+
         public let applications: [ApplicationSummary]?
         public let nextToken: String?
 
@@ -676,12 +690,13 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applications
-            case nextToken
+            case applications = "applications"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ParameterDefinition: AWSDecodableShape {
+
         /// A regular expression that represents the patterns to allow for String types.
         public let allowedPattern: String?
         /// An array containing the list of values allowed for the parameter.
@@ -715,7 +730,7 @@ extension ServerlessApplicationRepository {
         /// A list of AWS SAM resources that use this parameter.
         public let referencedByResources: [String]
         /// The type of the parameter.Valid values: String | Number | List&lt;Number> | CommaDelimitedList
-        ///
+        ///  
         ///  String: A literal string.For example, users can specify "MyUserName".
         ///  Number: An integer or float. AWS CloudFormation validates the parameter value as a number. However, when you use the
         ///  parameter elsewhere in your template (for example, by using the Ref intrinsic function), the parameter value becomes a string.For example, users might specify "8888".
@@ -742,23 +757,24 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedPattern
-            case allowedValues
-            case constraintDescription
-            case defaultValue
-            case description
-            case maxLength
-            case maxValue
-            case minLength
-            case minValue
-            case name
-            case noEcho
-            case referencedByResources
-            case type
+            case allowedPattern = "allowedPattern"
+            case allowedValues = "allowedValues"
+            case constraintDescription = "constraintDescription"
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case maxLength = "maxLength"
+            case maxValue = "maxValue"
+            case minLength = "minLength"
+            case minValue = "minValue"
+            case name = "name"
+            case noEcho = "noEcho"
+            case referencedByResources = "referencedByResources"
+            case type = "type"
         }
     }
 
     public struct ParameterValue: AWSEncodableShape {
+
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation
         ///  uses the default value that is specified in your template.
         public let name: String
@@ -771,8 +787,8 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -790,11 +806,12 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statements
+            case statements = "statements"
         }
     }
 
     public struct PutApplicationPolicyResponse: AWSDecodableShape {
+
         public let statements: [ApplicationPolicyStatement]?
 
         public init(statements: [ApplicationPolicyStatement]? = nil) {
@@ -802,11 +819,12 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case statements
+            case statements = "statements"
         }
     }
 
     public struct RollbackConfiguration: AWSEncodableShape {
+
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackConfiguration
         ///   Data Type.
         public let monitoringTimeInMinutes: Int?
@@ -820,12 +838,13 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case monitoringTimeInMinutes
-            case rollbackTriggers
+            case monitoringTimeInMinutes = "monitoringTimeInMinutes"
+            case rollbackTriggers = "rollbackTriggers"
         }
     }
 
     public struct RollbackTrigger: AWSEncodableShape {
+
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
         public let arn: String
@@ -839,18 +858,19 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case type
+            case arn = "arn"
+            case type = "type"
         }
     }
 
     public struct Tag: AWSEncodableShape {
+
         /// This property corresponds to the content of the same name for the AWS CloudFormation Tag
         ///   Data Type.
         public let key: String
-        /// This property corresponds to the content of the same name for the AWS CloudFormation
+        /// This property corresponds to the content of the same name for the AWS CloudFormation 
         ///  Tag
-        ///
+        ///  
         ///  Data Type.
         public let value: String
 
@@ -860,8 +880,8 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -879,7 +899,7 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case organizationId
+            case organizationId = "organizationId"
         }
     }
 
@@ -907,16 +927,17 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case author
-            case description
-            case homePageUrl
-            case labels
-            case readmeBody
-            case readmeUrl
+            case author = "author"
+            case description = "description"
+            case homePageUrl = "homePageUrl"
+            case labels = "labels"
+            case readmeBody = "readmeBody"
+            case readmeUrl = "readmeUrl"
         }
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
+
         public let applicationId: String?
         public let author: String?
         public let creationTime: String?
@@ -948,23 +969,24 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case author
-            case creationTime
-            case description
-            case homePageUrl
-            case isVerifiedAuthor
-            case labels
-            case licenseUrl
-            case name
-            case readmeUrl
-            case spdxLicenseId
-            case verifiedAuthorUrl
-            case version
+            case applicationId = "applicationId"
+            case author = "author"
+            case creationTime = "creationTime"
+            case description = "description"
+            case homePageUrl = "homePageUrl"
+            case isVerifiedAuthor = "isVerifiedAuthor"
+            case labels = "labels"
+            case licenseUrl = "licenseUrl"
+            case name = "name"
+            case readmeUrl = "readmeUrl"
+            case spdxLicenseId = "spdxLicenseId"
+            case verifiedAuthorUrl = "verifiedAuthorUrl"
+            case version = "version"
         }
     }
 
     public struct Version: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The date and time this resource was created.
@@ -1021,19 +1043,20 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case creationTime
-            case parameterDefinitions
-            case requiredCapabilities
-            case resourcesSupported
-            case semanticVersion
-            case sourceCodeArchiveUrl
-            case sourceCodeUrl
-            case templateUrl
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case parameterDefinitions = "parameterDefinitions"
+            case requiredCapabilities = "requiredCapabilities"
+            case resourcesSupported = "resourcesSupported"
+            case semanticVersion = "semanticVersion"
+            case sourceCodeArchiveUrl = "sourceCodeArchiveUrl"
+            case sourceCodeUrl = "sourceCodeUrl"
+            case templateUrl = "templateUrl"
         }
     }
 
     public struct VersionSummary: AWSDecodableShape {
+
         /// The application Amazon Resource Name (ARN).
         public let applicationId: String
         /// The date and time this resource was created.
@@ -1052,10 +1075,10 @@ extension ServerlessApplicationRepository {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationId
-            case creationTime
-            case semanticVersion
-            case sourceCodeUrl
+            case applicationId = "applicationId"
+            case creationTime = "creationTime"
+            case semanticVersion = "semanticVersion"
+            case sourceCodeUrl = "sourceCodeUrl"
         }
     }
 }

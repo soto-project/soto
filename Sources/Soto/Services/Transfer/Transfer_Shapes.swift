@@ -65,6 +65,7 @@ extension Transfer {
     // MARK: Shapes
 
     public struct CreateServerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  AWS Certificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  AWS Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  AWS Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
         public let certificate: String?
         public let domain: Domain?
@@ -136,6 +137,7 @@ extension Transfer {
     }
 
     public struct CreateServerResponse: AWSDecodableShape {
+
         /// The service-assigned ID of the server that is created.
         public let serverId: String
 
@@ -149,6 +151,7 @@ extension Transfer {
     }
 
     public struct CreateUserRequest: AWSEncodableShape {
+
         /// The landing directory (folder) for a user when they log in to the server using the client. An example is  your-Amazon-S3-bucket-name&gt;/home/username .
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a '/' for it to be considered a folder.
@@ -225,6 +228,7 @@ extension Transfer {
     }
 
     public struct CreateUserResponse: AWSDecodableShape {
+
         /// The ID of the server that the user is attached to.
         public let serverId: String
         /// A unique string that identifies a user account associated with a server.
@@ -242,6 +246,7 @@ extension Transfer {
     }
 
     public struct DeleteServerRequest: AWSEncodableShape {
+
         /// A unique system-assigned identifier for a server instance.
         public let serverId: String
 
@@ -261,6 +266,7 @@ extension Transfer {
     }
 
     public struct DeleteSshPublicKeyRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a file transfer protocol-enabled server instance that has the user assigned to it.
         public let serverId: String
         /// A unique identifier used to reference your user's specific SSH key.
@@ -294,6 +300,7 @@ extension Transfer {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a server instance that has the user assigned to it.
         public let serverId: String
         /// A unique string that identifies a user that is being deleted from a server.
@@ -320,6 +327,7 @@ extension Transfer {
     }
 
     public struct DescribeSecurityPolicyRequest: AWSEncodableShape {
+
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String
 
@@ -338,6 +346,7 @@ extension Transfer {
     }
 
     public struct DescribeSecurityPolicyResponse: AWSDecodableShape {
+
         /// An array containing the properties of the security policy.
         public let securityPolicy: DescribedSecurityPolicy
 
@@ -351,6 +360,7 @@ extension Transfer {
     }
 
     public struct DescribeServerRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a server.
         public let serverId: String
 
@@ -370,6 +380,7 @@ extension Transfer {
     }
 
     public struct DescribeServerResponse: AWSDecodableShape {
+
         /// An array containing the properties of a server with the ServerID you specified.
         public let server: DescribedServer
 
@@ -383,6 +394,7 @@ extension Transfer {
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a server that has this user assigned.
         public let serverId: String
         /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the AWS Transfer Family service and perform file transfer tasks.
@@ -409,6 +421,7 @@ extension Transfer {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
+
         /// A system-assigned unique identifier for a server that has this user assigned.
         public let serverId: String
         /// An array containing the properties of the user account for the ServerID value that you specified.
@@ -426,6 +439,7 @@ extension Transfer {
     }
 
     public struct DescribedSecurityPolicy: AWSDecodableShape {
+
         /// Specifies whether this policy enables Federal Information Processing Standards (FIPS).
         public let fips: Bool?
         /// Specifies the name of the security policy that is attached to the server.
@@ -459,6 +473,7 @@ extension Transfer {
     }
 
     public struct DescribedServer: AWSDecodableShape {
+
         /// Specifies the unique Amazon Resource Name (ARN) of the server.
         public let arn: String
         /// Specifies the ARN of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
@@ -527,6 +542,7 @@ extension Transfer {
     }
 
     public struct DescribedUser: AWSDecodableShape {
+
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         public let arn: String
         /// Specifies the landing directory (or folder), which is the location that files are written to or read from in an Amazon S3 bucket, for the described user. An example is  your-Amazon-S3-bucket-name&gt;/home/username .
@@ -575,6 +591,7 @@ extension Transfer {
     }
 
     public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint.  This property can only be set when EndpointType is set to VPC and it is only valid in the UpdateServer API.
         public let addressAllocationIds: [String]?
         /// A list of security groups IDs that are available to attach to your server's endpoint.  This property can only be set when EndpointType is set to VPC. You can only edit the SecurityGroupIds property in the UpdateServer API and only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC.
@@ -615,6 +632,7 @@ extension Transfer {
     }
 
     public struct HomeDirectoryMapEntry: AWSEncodableShape & AWSDecodableShape {
+
         /// Represents an entry and a target for HomeDirectoryMappings.
         public let entry: String
         /// Represents the map target that is used in a HomeDirectorymapEntry.
@@ -639,6 +657,7 @@ extension Transfer {
     }
 
     public struct IdentityProviderDetails: AWSEncodableShape & AWSDecodableShape {
+
         /// Provides the type of InvocationRole used to authenticate the user account.
         public let invocationRole: String?
         /// Provides the location of the service endpoint used to authenticate users.
@@ -663,6 +682,7 @@ extension Transfer {
     }
 
     public struct ImportSshPublicKeyRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a server.
         public let serverId: String
         /// The public key portion of an SSH key pair.
@@ -695,6 +715,7 @@ extension Transfer {
     }
 
     public struct ImportSshPublicKeyResponse: AWSDecodableShape {
+
         /// A system-assigned unique identifier for a server.
         public let serverId: String
         /// The name given to a public key by the system that was imported.
@@ -716,6 +737,7 @@ extension Transfer {
     }
 
     public struct ListSecurityPoliciesRequest: AWSEncodableShape {
+
         /// Specifies the number of security policies to return as a response to the ListSecurityPolicies query.
         public let maxResults: Int?
         /// When additional results are obtained from the ListSecurityPolicies command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional security policies.
@@ -740,6 +762,7 @@ extension Transfer {
     }
 
     public struct ListSecurityPoliciesResponse: AWSDecodableShape {
+
         /// When you can get additional results from the ListSecurityPolicies operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing security policies.
         public let nextToken: String?
         /// An array of security policies that were listed.
@@ -757,6 +780,7 @@ extension Transfer {
     }
 
     public struct ListServersRequest: AWSEncodableShape {
+
         /// Specifies the number of servers to return as a response to the ListServers query.
         public let maxResults: Int?
         /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
@@ -781,6 +805,7 @@ extension Transfer {
     }
 
     public struct ListServersResponse: AWSDecodableShape {
+
         /// When you can get additional results from the ListServers operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing additional servers.
         public let nextToken: String?
         /// An array of servers that were listed.
@@ -798,6 +823,7 @@ extension Transfer {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
         /// Specifies the number of tags to return as a response to the ListTagsForResource request.
@@ -829,6 +855,7 @@ extension Transfer {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The ARN you specified to list the tags of.
         public let arn: String?
         /// When you can get additional results from the ListTagsForResource call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional tags.
@@ -850,6 +877,7 @@ extension Transfer {
     }
 
     public struct ListUsersRequest: AWSEncodableShape {
+
         /// Specifies the number of users to return as a response to the ListUsers request.
         public let maxResults: Int?
         /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
@@ -881,6 +909,7 @@ extension Transfer {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
+
         /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
         public let nextToken: String?
         /// A system-assigned unique identifier for a server that the users are assigned to.
@@ -902,6 +931,7 @@ extension Transfer {
     }
 
     public struct ListedServer: AWSDecodableShape {
+
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         public let arn: String
         public let domain: Domain?
@@ -942,6 +972,7 @@ extension Transfer {
     }
 
     public struct ListedUser: AWSDecodableShape {
+
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         public let arn: String
         /// Specifies the location that files are written to or read from an Amazon S3 bucket for the user you specify by their ARN.
@@ -975,6 +1006,7 @@ extension Transfer {
     }
 
     public struct PosixProfile: AWSEncodableShape & AWSDecodableShape {
+
         public let gid: Int64
         public let secondaryGids: [Int64]?
         public let uid: Int64
@@ -986,15 +1018,15 @@ extension Transfer {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
+            try self.validate(self.gid, name: "gid", parent: name, max: 4294967295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
-                try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
-            try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4294967295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
 
@@ -1006,6 +1038,7 @@ extension Transfer {
     }
 
     public struct SshPublicKey: AWSDecodableShape {
+
         /// Specifies the date that the public key was added to the user account.
         public let dateImported: Date
         /// Specifies the content of the SSH public key as specified by the PublicKeyId.
@@ -1027,6 +1060,7 @@ extension Transfer {
     }
 
     public struct StartServerRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a server that you start.
         public let serverId: String
 
@@ -1046,6 +1080,7 @@ extension Transfer {
     }
 
     public struct StopServerRequest: AWSEncodableShape {
+
         /// A system-assigned unique identifier for a server that you stopped.
         public let serverId: String
 
@@ -1065,6 +1100,7 @@ extension Transfer {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The name assigned to the tag that you create.
         public let key: String
         /// Contains one or more values that you assigned to the key name you create.
@@ -1087,6 +1123,7 @@ extension Transfer {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server, user, or role.
         public let arn: String
         /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
@@ -1115,6 +1152,7 @@ extension Transfer {
     }
 
     public struct TestIdentityProviderRequest: AWSEncodableShape {
+
         /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
         public let serverId: String
         /// The type of file transfer protocol to be tested. The available protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP)   File Transfer Protocol Secure (FTPS)   File Transfer Protocol (FTP)
@@ -1156,6 +1194,7 @@ extension Transfer {
     }
 
     public struct TestIdentityProviderResponse: AWSDecodableShape {
+
         /// A message that indicates whether the test was successful or not.
         public let message: String?
         /// The response that is returned from your API Gateway.
@@ -1181,6 +1220,7 @@ extension Transfer {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
         public let arn: String
         /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
@@ -1209,6 +1249,7 @@ extension Transfer {
     }
 
     public struct UpdateServerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  AWS Certificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  AWS Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  AWS Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
         public let certificate: String?
         /// The virtual private cloud (VPC) endpoint settings that are configured for your server. With a VPC endpoint, you can restrict access to your server to resources only within your VPC. To control incoming internet traffic, you will need to associate one or more Elastic IP addresses with your server's endpoint.
@@ -1270,6 +1311,7 @@ extension Transfer {
     }
 
     public struct UpdateServerResponse: AWSDecodableShape {
+
         /// A system-assigned unique identifier for a server that the user account is assigned to.
         public let serverId: String
 
@@ -1283,6 +1325,7 @@ extension Transfer {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
+
         /// Specifies the landing directory (folder) for a user when they log in to the server using their file transfer protocol client. An example is your-Amazon-S3-bucket-name&gt;/home/username.
         public let homeDirectory: String?
         /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
@@ -1344,6 +1387,7 @@ extension Transfer {
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
+
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
         /// The unique identifier for a user that is assigned to a server instance that was specified in the request.

@@ -65,8 +65,8 @@ public struct QLDBSession: AWSService {
     // MARK: API Calls
 
     /// Sends a command to an Amazon QLDB ledger.  Instead of interacting directly with this API, we recommend using the QLDB driver or the QLDB shell to execute data transactions on a ledger.   If you are working with an AWS SDK, use the QLDB driver. The driver provides a high-level abstraction layer above this QLDB Session data plane and manages SendCommand API calls for you. For information and a list of supported programming languages, see Getting started with the driver in the Amazon QLDB Developer Guide.   If you are working with the AWS Command Line Interface (AWS CLI), use the QLDB shell. The shell is a command line interface that uses the QLDB driver to interact with a ledger. For information, see Accessing Amazon QLDB using the QLDB shell.
-    public func sendCommand(_ input: SendCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCommandResult> {
-        return self.client.execute(operation: "SendCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func sendCommand(_ input: SendCommandRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCommandResult> {
+        return self.client.execute(operation: "SendCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

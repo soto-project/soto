@@ -109,6 +109,7 @@ extension MWAA {
     }
 
     public struct CreateCliTokenResponse: AWSDecodableShape {
+
         /// Create an Airflow CLI login token response for the provided JWT token.
         public let cliToken: String?
         /// Create an Airflow CLI login token response for the provided webserver hostname.
@@ -269,6 +270,7 @@ extension MWAA {
     }
 
     public struct CreateEnvironmentOutput: AWSDecodableShape {
+
         /// The resulting Amazon MWAA envirnonment ARN.
         public let arn: String?
 
@@ -303,6 +305,7 @@ extension MWAA {
     }
 
     public struct CreateWebLoginTokenResponse: AWSDecodableShape {
+
         /// Create an Airflow Web UI login token response for the provided webserver hostname.
         public let webServerHostname: String?
         /// Create an Airflow Web UI login token response for the provided JWT token.
@@ -341,10 +344,15 @@ extension MWAA {
     }
 
     public struct DeleteEnvironmentOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Dimension: AWSEncodableShape {
+
         /// Internal only API.
         public let name: String
         /// Internal only API.
@@ -362,6 +370,7 @@ extension MWAA {
     }
 
     public struct Environment: AWSDecodableShape {
+
         /// The Airflow Configuration Options of the Amazon MWAA Environment.
         public let airflowConfigurationOptions: [String: String]?
         /// The AirflowV ersion of the Amazon MWAA Environment.
@@ -490,6 +499,7 @@ extension MWAA {
     }
 
     public struct GetEnvironmentOutput: AWSDecodableShape {
+
         /// A JSON blob with environment details.
         public let environment: Environment?
 
@@ -503,6 +513,7 @@ extension MWAA {
     }
 
     public struct LastUpdate: AWSDecodableShape {
+
         /// Time that last update occurred.
         public let createdAt: Date?
         /// Error string of last update, if applicable.
@@ -525,7 +536,7 @@ extension MWAA {
 
     public struct ListEnvironmentsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -550,6 +561,7 @@ extension MWAA {
     }
 
     public struct ListEnvironmentsOutput: AWSDecodableShape {
+
         /// The list of Amazon MWAA Environments.
         public let environments: [String]
         /// The Next Token when listing MWAA environments.
@@ -588,6 +600,7 @@ extension MWAA {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// The tags of the MWAA environments.
         public let tags: [String: String]?
 
@@ -601,6 +614,7 @@ extension MWAA {
     }
 
     public struct LoggingConfiguration: AWSDecodableShape {
+
         public let dagProcessingLogs: ModuleLoggingConfiguration?
         public let schedulerLogs: ModuleLoggingConfiguration?
         public let taskLogs: ModuleLoggingConfiguration?
@@ -625,6 +639,7 @@ extension MWAA {
     }
 
     public struct LoggingConfigurationInput: AWSEncodableShape {
+
         public let dagProcessingLogs: ModuleLoggingConfigurationInput?
         public let schedulerLogs: ModuleLoggingConfigurationInput?
         public let taskLogs: ModuleLoggingConfigurationInput?
@@ -649,6 +664,7 @@ extension MWAA {
     }
 
     public struct MetricDatum: AWSEncodableShape {
+
         /// Internal only API.
         public let dimensions: [Dimension]?
         /// Internal only API.
@@ -681,6 +697,7 @@ extension MWAA {
     }
 
     public struct ModuleLoggingConfiguration: AWSDecodableShape {
+
         /// Provides the ARN for the CloudWatch group where the logs will be published.
         public let cloudWatchLogGroupArn: String?
         /// Defines that the logging module is enabled.
@@ -702,6 +719,7 @@ extension MWAA {
     }
 
     public struct ModuleLoggingConfigurationInput: AWSEncodableShape {
+
         /// Defines that the logging module is enabled.
         public let enabled: Bool
         /// Defines the log level, which can be CRITICAL, ERROR, WARNING, or INFO.
@@ -719,6 +737,7 @@ extension MWAA {
     }
 
     public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A JSON list of 1 or more security groups IDs by name, in the same VPC as the subnets.
         public let securityGroupIds: [String]?
         /// Provide a JSON list of 2 subnet IDs by name. These must be private subnets, in the same VPC, in two different availability zones.
@@ -779,10 +798,15 @@ extension MWAA {
     }
 
     public struct PublishMetricsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StatisticSet: AWSEncodableShape {
+
         /// Internal only API.
         public let maximum: Double?
         /// Internal only API.
@@ -842,12 +866,16 @@ extension MWAA {
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -878,7 +906,11 @@ extension MWAA {
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
@@ -1006,6 +1038,7 @@ extension MWAA {
     }
 
     public struct UpdateEnvironmentOutput: AWSDecodableShape {
+
         /// The ARN to update of your Amazon MWAA environment.
         public let arn: String?
 
@@ -1019,6 +1052,7 @@ extension MWAA {
     }
 
     public struct UpdateError: AWSDecodableShape {
+
         /// Error code of update.
         public let errorCode: String?
         /// Error message of update.
@@ -1036,6 +1070,7 @@ extension MWAA {
     }
 
     public struct UpdateNetworkConfigurationInput: AWSEncodableShape {
+
         /// Provide a JSON list of 1 or more security groups IDs by name, in the same VPC as the subnets.
         public let securityGroupIds: [String]
 

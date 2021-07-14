@@ -64,8 +64,8 @@ public struct ConnectContactLens: AWSService {
     // MARK: API Calls
 
     /// Provides a list of analysis segments for a real-time analysis session.
-    public func listRealtimeContactAnalysisSegments(_ input: ListRealtimeContactAnalysisSegmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRealtimeContactAnalysisSegmentsResponse> {
-        return self.client.execute(operation: "ListRealtimeContactAnalysisSegments", path: "/realtime-contact-analysis/analysis-segments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listRealtimeContactAnalysisSegments(_ input: ListRealtimeContactAnalysisSegmentsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRealtimeContactAnalysisSegmentsResponse> {
+        return self.client.execute(operation: "ListRealtimeContactAnalysisSegments", path: "/realtime-contact-analysis/analysis-segments", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

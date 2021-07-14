@@ -83,6 +83,7 @@ extension LookoutEquipment {
     // MARK: Shapes
 
     public struct CreateDatasetRequest: AWSEncodableShape {
+
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
         /// The name of the dataset being created.
@@ -130,6 +131,7 @@ extension LookoutEquipment {
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the dataset being created.
         public let datasetArn: String?
         /// The name of the dataset being created.
@@ -151,6 +153,7 @@ extension LookoutEquipment {
     }
 
     public struct CreateInferenceSchedulerRequest: AWSEncodableShape {
+
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
         ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
@@ -227,6 +230,7 @@ extension LookoutEquipment {
     }
 
     public struct CreateInferenceSchedulerResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the inference scheduler being created.
         public let inferenceSchedulerArn: String?
         /// The name of inference scheduler being created.
@@ -248,6 +252,7 @@ extension LookoutEquipment {
     }
 
     public struct CreateModelRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
         /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
@@ -334,6 +339,7 @@ extension LookoutEquipment {
     }
 
     public struct CreateModelResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the model being created.
         public let modelArn: String?
         /// Indicates the status of the CreateModel operation.
@@ -351,6 +357,7 @@ extension LookoutEquipment {
     }
 
     public struct DataIngestionJobSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset used in the data ingestion job.
         public let datasetArn: String?
         /// The name of the dataset used for the data ingestion job.
@@ -380,6 +387,7 @@ extension LookoutEquipment {
     }
 
     public struct DataPreProcessingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
         public let targetSamplingRate: TargetSamplingRate?
 
@@ -393,6 +401,7 @@ extension LookoutEquipment {
     }
 
     public struct DatasetSchema: AWSEncodableShape {
+
         public let inlineDataSchema: String?
 
         public init(inlineDataSchema: String? = nil) {
@@ -400,7 +409,7 @@ extension LookoutEquipment {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.inlineDataSchema, name: "inlineDataSchema", parent: name, max: 1_000_000)
+            try self.validate(self.inlineDataSchema, name: "inlineDataSchema", parent: name, max: 1000000)
             try self.validate(self.inlineDataSchema, name: "inlineDataSchema", parent: name, min: 1)
         }
 
@@ -410,6 +419,7 @@ extension LookoutEquipment {
     }
 
     public struct DatasetSummary: AWSDecodableShape {
+
         /// The time at which the dataset was created in Amazon Lookout for Equipment.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the specified dataset.
@@ -435,6 +445,7 @@ extension LookoutEquipment {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
+
         /// The name of the dataset to be deleted.
         public let datasetName: String
 
@@ -454,6 +465,7 @@ extension LookoutEquipment {
     }
 
     public struct DeleteInferenceSchedulerRequest: AWSEncodableShape {
+
         /// The name of the inference scheduler to be deleted.
         public let inferenceSchedulerName: String
 
@@ -473,6 +485,7 @@ extension LookoutEquipment {
     }
 
     public struct DeleteModelRequest: AWSEncodableShape {
+
         /// The name of the ML model to be deleted.
         public let modelName: String
 
@@ -492,6 +505,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeDataIngestionJobRequest: AWSEncodableShape {
+
         /// The job ID of the data ingestion job.
         public let jobId: String
 
@@ -510,6 +524,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeDataIngestionJobResponse: AWSDecodableShape {
+
         /// The time at which the data ingestion job was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the dataset being used in the data ingestion job.
@@ -547,6 +562,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
+
         /// The name of the dataset to be described.
         public let datasetName: String
 
@@ -566,6 +582,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
+
         /// Specifies the time the dataset was created in Amazon Lookout for Equipment.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the dataset being described.
@@ -607,6 +624,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeInferenceSchedulerRequest: AWSEncodableShape {
+
         /// The name of the inference scheduler being described.
         public let inferenceSchedulerName: String
 
@@ -626,6 +644,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeInferenceSchedulerResponse: AWSDecodableShape {
+
         /// Specifies the time at which the inference scheduler was created.
         public let createdAt: Date?
         ///  A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
@@ -687,6 +706,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeModelRequest: AWSEncodableShape {
+
         /// The name of the ML model to be described.
         public let modelName: String
 
@@ -706,6 +726,7 @@ extension LookoutEquipment {
     }
 
     public struct DescribeModelResponse: AWSDecodableShape {
+
         /// Indicates the time and date at which the ML model was created.
         public let createdAt: Date?
         /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
@@ -795,6 +816,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceExecutionSummary: AWSDecodableShape {
+
         public let customerResultObject: S3Object?
         /// Indicates the time reference in the dataset at which the inference execution stopped.
         public let dataEndTime: Date?
@@ -851,6 +873,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// &gt; Specifies configuration information for the input data for the inference, including timestamp format and delimiter.
         public let inferenceInputNameConfiguration: InferenceInputNameConfiguration?
         /// Indicates the difference between your time zone and Greenwich Mean Time (GMT).
@@ -878,6 +901,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceInputNameConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates the delimiter character used between items in the data.
         public let componentTimestampDelimiter: String?
         /// The format of the timestamp, whether Epoch time, or standard, with or without hyphens (-).
@@ -902,6 +926,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID number for the AWS KMS key used to encrypt the inference output.
         public let kmsKeyId: String?
         ///  Specifies configuration information for the output results from for the inference, output S3 location.
@@ -926,6 +951,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceS3InputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The bucket containing the input dataset for the inference.
         public let bucket: String
         /// The prefix for the S3 bucket used for the input data for the inference.
@@ -952,6 +978,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceS3OutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         ///  The bucket containing the output results from the inference
         public let bucket: String
         ///  The prefix for the S3 bucket used for the output results from the inference.
@@ -978,6 +1005,7 @@ extension LookoutEquipment {
     }
 
     public struct InferenceSchedulerSummary: AWSDecodableShape {
+
         /// &gt; A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if an offset delay time of five minutes was selected, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         /// How often data is uploaded to the source S3 bucket for the input data. This value is the length of time between data uploads. For instance, if you select 5 minutes, Amazon Lookout for Equipment will upload the real-time data to the source bucket once every 5 minutes. This frequency also determines how often Amazon Lookout for Equipment starts a scheduled inference on your data. In this example, it starts once every 5 minutes.
@@ -1015,6 +1043,7 @@ extension LookoutEquipment {
     }
 
     public struct IngestionInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The location information for the S3 bucket used for input data for the data ingestion.
         public let s3InputConfiguration: IngestionS3InputConfiguration
 
@@ -1032,6 +1061,7 @@ extension LookoutEquipment {
     }
 
     public struct IngestionS3InputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the S3 bucket used for the input data for the data ingestion.
         public let bucket: String
         /// The prefix for the S3 location being used for the input data for the data ingestion.
@@ -1058,6 +1088,7 @@ extension LookoutEquipment {
     }
 
     public struct LabelsInputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Contains location information for the S3 location being used for label data.
         public let s3InputConfiguration: LabelsS3InputConfiguration
 
@@ -1075,6 +1106,7 @@ extension LookoutEquipment {
     }
 
     public struct LabelsS3InputConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the S3 bucket holding the label data.
         public let bucket: String
         ///  The prefix for the S3 bucket used for the label data.
@@ -1101,6 +1133,7 @@ extension LookoutEquipment {
     }
 
     public struct ListDataIngestionJobsRequest: AWSEncodableShape {
+
         /// The name of the dataset being used for the data ingestion job.
         public let datasetName: String?
         ///  Specifies the maximum number of data ingestion jobs to list.
@@ -1136,6 +1169,7 @@ extension LookoutEquipment {
     }
 
     public struct ListDataIngestionJobsResponse: AWSDecodableShape {
+
         /// Specifies information about the specific data ingestion job, including dataset name and status.
         public let dataIngestionJobSummaries: [DataIngestionJobSummary]?
         ///  An opaque pagination token indicating where to continue the listing of data ingestion jobs.
@@ -1153,6 +1187,7 @@ extension LookoutEquipment {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
+
         /// The beginning of the name of the datasets to be listed.
         public let datasetNameBeginsWith: String?
         ///  Specifies the maximum number of datasets to list.
@@ -1184,6 +1219,7 @@ extension LookoutEquipment {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
+
         /// Provides information about the specified dataset, including creation time, dataset ARN, and status.
         public let datasetSummaries: [DatasetSummary]?
         ///  An opaque pagination token indicating where to continue the listing of datasets.
@@ -1201,6 +1237,7 @@ extension LookoutEquipment {
     }
 
     public struct ListInferenceExecutionsRequest: AWSEncodableShape {
+
         /// The time reference in the inferenced dataset before which Amazon Lookout for Equipment stopped the inference execution.
         public let dataEndTimeBefore: Date?
         /// The time reference in the inferenced dataset after which Amazon Lookout for Equipment started the inference execution.
@@ -1244,6 +1281,7 @@ extension LookoutEquipment {
     }
 
     public struct ListInferenceExecutionsResponse: AWSDecodableShape {
+
         /// Provides an array of information about the individual inference executions returned from the ListInferenceExecutions operation, including model used, inference scheduler, data configuration, and so on.
         public let inferenceExecutionSummaries: [InferenceExecutionSummary]?
         ///  An opaque pagination token indicating where to continue the listing of inference executions.
@@ -1261,6 +1299,7 @@ extension LookoutEquipment {
     }
 
     public struct ListInferenceSchedulersRequest: AWSEncodableShape {
+
         /// The beginning of the name of the inference schedulers to be listed.
         public let inferenceSchedulerNameBeginsWith: String?
         ///  Specifies the maximum number of inference schedulers to list.
@@ -1299,6 +1338,7 @@ extension LookoutEquipment {
     }
 
     public struct ListInferenceSchedulersResponse: AWSDecodableShape {
+
         /// Provides information about the specified inference scheduler, including data upload frequency, model name and ARN, and status.
         public let inferenceSchedulerSummaries: [InferenceSchedulerSummary]?
         ///  An opaque pagination token indicating where to continue the listing of inference schedulers.
@@ -1316,6 +1356,7 @@ extension LookoutEquipment {
     }
 
     public struct ListModelsRequest: AWSEncodableShape {
+
         /// The beginning of the name of the dataset of the ML models to be listed.
         public let datasetNameBeginsWith: String?
         ///  Specifies the maximum number of ML models to list.
@@ -1358,6 +1399,7 @@ extension LookoutEquipment {
     }
 
     public struct ListModelsResponse: AWSDecodableShape {
+
         /// Provides information on the specified model, including created time, model and dataset ARNs, and status.
         public let modelSummaries: [ModelSummary]?
         ///  An opaque pagination token indicating where to continue the listing of ML models.
@@ -1375,6 +1417,7 @@ extension LookoutEquipment {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource (such as the dataset or model) that is the focus of the ListTagsForResource operation.
         public let resourceArn: String
 
@@ -1393,6 +1436,7 @@ extension LookoutEquipment {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         ///  Any tags associated with the resource.
         public let tags: [Tag]?
 
@@ -1406,6 +1450,7 @@ extension LookoutEquipment {
     }
 
     public struct ModelSummary: AWSDecodableShape {
+
         /// The time at which the specific model was created.
         public let createdAt: Date?
         ///  The Amazon Resource Name (ARN) of the dataset used to create the model.
@@ -1439,6 +1484,7 @@ extension LookoutEquipment {
     }
 
     public struct S3Object: AWSDecodableShape {
+
         /// The name of the specific S3 bucket.
         public let bucket: String
         /// The AWS Key Management Service (AWS KMS) key being used to encrypt the S3 object. Without this key, data in the bucket is not accessible.
@@ -1456,6 +1502,7 @@ extension LookoutEquipment {
     }
 
     public struct StartDataIngestionJobRequest: AWSEncodableShape {
+
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
         /// The name of the dataset being used by the data ingestion job.
@@ -1494,6 +1541,7 @@ extension LookoutEquipment {
     }
 
     public struct StartDataIngestionJobResponse: AWSDecodableShape {
+
         /// Indicates the job ID of the data ingestion job.
         public let jobId: String?
         /// Indicates the status of the StartDataIngestionJob operation.
@@ -1511,6 +1559,7 @@ extension LookoutEquipment {
     }
 
     public struct StartInferenceSchedulerRequest: AWSEncodableShape {
+
         /// The name of the inference scheduler to be started.
         public let inferenceSchedulerName: String
 
@@ -1530,6 +1579,7 @@ extension LookoutEquipment {
     }
 
     public struct StartInferenceSchedulerResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the inference scheduler being started.
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler being started.
@@ -1559,6 +1609,7 @@ extension LookoutEquipment {
     }
 
     public struct StopInferenceSchedulerRequest: AWSEncodableShape {
+
         /// The name of the inference scheduler to be stopped.
         public let inferenceSchedulerName: String
 
@@ -1578,6 +1629,7 @@ extension LookoutEquipment {
     }
 
     public struct StopInferenceSchedulerResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the inference schedule being stopped.
         public let inferenceSchedulerArn: String?
         /// The name of the inference scheduler being stopped.
@@ -1607,6 +1659,7 @@ extension LookoutEquipment {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key for the specified tag.
         public let key: String
         /// The value for the specified tag.
@@ -1633,6 +1686,7 @@ extension LookoutEquipment {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the specific resource to which the tag should be associated.
         public let resourceArn: String
         /// The tag or tags to be associated with a specific resource. Both the tag key and value are specified.
@@ -1660,10 +1714,15 @@ extension LookoutEquipment {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource to which the tag is currently associated.
         public let resourceArn: String
         /// Specifies the key of the tag to be removed from a specified resource.
@@ -1693,10 +1752,15 @@ extension LookoutEquipment {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateInferenceSchedulerRequest: AWSEncodableShape {
+
         /// &gt; A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
         public let dataDelayOffsetInMinutes: Int64?
         ///  Specifies information for the input data for the inference scheduler, including delimiter, format, and dataset location.

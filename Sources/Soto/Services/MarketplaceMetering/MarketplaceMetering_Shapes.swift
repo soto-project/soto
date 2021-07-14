@@ -30,6 +30,7 @@ extension MarketplaceMetering {
     // MARK: Shapes
 
     public struct BatchMeterUsageRequest: AWSEncodableShape {
+
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
@@ -58,6 +59,7 @@ extension MarketplaceMetering {
     }
 
     public struct BatchMeterUsageResult: AWSDecodableShape {
+
         /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid.
         public let results: [UsageRecordResult]?
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
@@ -75,6 +77,7 @@ extension MarketplaceMetering {
     }
 
     public struct MeterUsageRequest: AWSEncodableShape {
+
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
         public let dryRun: Bool?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -109,7 +112,7 @@ extension MarketplaceMetering {
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, max: 255)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, min: 1)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "[\\s\\S]+")
-            try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2147483647)
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, min: 0)
         }
 
@@ -124,6 +127,7 @@ extension MarketplaceMetering {
     }
 
     public struct MeterUsageResult: AWSDecodableShape {
+
         /// Metering record id.
         public let meteringRecordId: String?
 
@@ -137,6 +141,7 @@ extension MarketplaceMetering {
     }
 
     public struct RegisterUsageRequest: AWSEncodableShape {
+
         /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
         public let nonce: String?
         /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -167,6 +172,7 @@ extension MarketplaceMetering {
     }
 
     public struct RegisterUsageResult: AWSDecodableShape {
+
         /// (Optional) Only included when public key version has expired
         public let publicKeyRotationTimestamp: Date?
         /// JWT Token
@@ -184,6 +190,7 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerRequest: AWSEncodableShape {
+
         /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
         public let registrationToken: String
 
@@ -201,6 +208,7 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerResult: AWSDecodableShape {
+
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
@@ -218,6 +226,7 @@ extension MarketplaceMetering {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that makes up a tag. A key is a label that acts like a category for the specific tag values.
         public let key: String
         /// One part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). The value can be empty or null.
@@ -244,6 +253,7 @@ extension MarketplaceMetering {
     }
 
     public struct UsageAllocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The total quantity allocated to this bucket of usage.
         public let allocatedUsageQuantity: Int
         /// The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out.
@@ -255,7 +265,7 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, max: 2147483647)
             try self.validate(self.allocatedUsageQuantity, name: "allocatedUsageQuantity", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -271,6 +281,7 @@ extension MarketplaceMetering {
     }
 
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
+
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
         /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
@@ -297,7 +308,7 @@ extension MarketplaceMetering {
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "[\\s\\S]+")
-            try self.validate(self.quantity, name: "quantity", parent: name, max: 2_147_483_647)
+            try self.validate(self.quantity, name: "quantity", parent: name, max: 2147483647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
@@ -316,6 +327,7 @@ extension MarketplaceMetering {
     }
 
     public struct UsageRecordResult: AWSDecodableShape {
+
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
         /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.

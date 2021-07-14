@@ -32,6 +32,7 @@ extension IoTFleetHub {
     // MARK: Shapes
 
     public struct ApplicationSummary: AWSDecodableShape {
+
         /// The date (in Unix epoch time) when the web application was created.
         public let applicationCreationDate: Int64?
         /// An optional description of the web application.
@@ -58,17 +59,18 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationCreationDate
-            case applicationDescription
-            case applicationId
-            case applicationLastUpdateDate
-            case applicationName
-            case applicationState
-            case applicationUrl
+            case applicationCreationDate = "applicationCreationDate"
+            case applicationDescription = "applicationDescription"
+            case applicationId = "applicationId"
+            case applicationLastUpdateDate = "applicationLastUpdateDate"
+            case applicationName = "applicationName"
+            case applicationState = "applicationState"
+            case applicationUrl = "applicationUrl"
         }
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+
         /// An optional description of the web application.
         public let applicationDescription: String?
         /// The name of the web application.
@@ -111,15 +113,16 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationDescription
-            case applicationName
-            case clientToken
-            case roleArn
-            case tags
+            case applicationDescription = "applicationDescription"
+            case applicationName = "applicationName"
+            case clientToken = "clientToken"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
+
         /// The ARN of the web application.
         public let applicationArn: String
         /// The unique Id of the web application.
@@ -131,14 +134,14 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationId
+            case applicationArn = "applicationArn"
+            case applicationId = "applicationId"
         }
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")),
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "applicationId")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
@@ -165,7 +168,11 @@ extension IoTFleetHub {
     }
 
     public struct DeleteApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
@@ -190,6 +197,7 @@ extension IoTFleetHub {
     }
 
     public struct DescribeApplicationResponse: AWSDecodableShape {
+
         /// The ARN of the web application.
         public let applicationArn: String
         /// The date (in Unix epoch time) when the application was created.
@@ -231,18 +239,18 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationArn
-            case applicationCreationDate
-            case applicationDescription
-            case applicationId
-            case applicationLastUpdateDate
-            case applicationName
-            case applicationState
-            case applicationUrl
-            case errorMessage
-            case roleArn
-            case ssoClientId
-            case tags
+            case applicationArn = "applicationArn"
+            case applicationCreationDate = "applicationCreationDate"
+            case applicationDescription = "applicationDescription"
+            case applicationId = "applicationId"
+            case applicationLastUpdateDate = "applicationLastUpdateDate"
+            case applicationName = "applicationName"
+            case applicationState = "applicationState"
+            case applicationUrl = "applicationUrl"
+            case errorMessage = "errorMessage"
+            case roleArn = "roleArn"
+            case ssoClientId = "ssoClientId"
+            case tags = "tags"
         }
     }
 
@@ -268,6 +276,7 @@ extension IoTFleetHub {
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
+
         /// An array of objects that provide summaries of information about the web applications in the list.
         public let applicationSummaries: [ApplicationSummary]?
         /// A token used to get the next set of results.
@@ -279,8 +288,8 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationSummaries
-            case nextToken
+            case applicationSummaries = "applicationSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -300,6 +309,7 @@ extension IoTFleetHub {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The list of tags assigned to the resource.
         public let tags: [String: String]?
 
@@ -308,7 +318,7 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
@@ -338,17 +348,21 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -374,7 +388,11 @@ extension IoTFleetHub {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
@@ -414,13 +432,17 @@ extension IoTFleetHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationDescription
-            case applicationName
-            case clientToken
+            case applicationDescription = "applicationDescription"
+            case applicationName = "applicationName"
+            case clientToken = "clientToken"
         }
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

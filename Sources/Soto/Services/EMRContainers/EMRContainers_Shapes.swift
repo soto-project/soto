@@ -71,7 +71,7 @@ extension EMRContainers {
 
     public struct CancelJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "jobRunId")),
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "jobRunId")), 
             AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
         ]
 
@@ -98,6 +98,7 @@ extension EMRContainers {
     }
 
     public struct CancelJobRunResponse: AWSDecodableShape {
+
         /// The output contains the ID of the cancelled job run.
         public let id: String?
         /// The output contains the virtual cluster ID for which the job run is cancelled.
@@ -109,12 +110,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case virtualClusterId
+            case id = "id"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
     public struct CloudWatchMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the log group for log publishing.
         public let logGroupName: String
         /// The specified name prefix for log streams.
@@ -135,12 +137,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName
-            case logStreamNamePrefix
+            case logGroupName = "logGroupName"
+            case logStreamNamePrefix = "logStreamNamePrefix"
         }
     }
 
     public class Configuration: AWSEncodableShape & AWSDecodableShape {
+
         /// The classification within a configuration.
         public let classification: String
         /// A list of additional configurations to apply within a configuration object.
@@ -173,13 +176,14 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case classification
-            case configurations
-            case properties
+            case classification = "classification"
+            case configurations = "configurations"
+            case properties = "properties"
         }
     }
 
     public struct ConfigurationOverrides: AWSEncodableShape & AWSDecodableShape {
+
         /// The configurations for the application running by the job run.
         public let applicationConfiguration: [Configuration]?
         /// The configurations for monitoring.
@@ -199,12 +203,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfiguration
-            case monitoringConfiguration
+            case applicationConfiguration = "applicationConfiguration"
+            case monitoringConfiguration = "monitoringConfiguration"
         }
     }
 
     public struct ContainerInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// The information about the EKS cluster.
         public let eksInfo: EksInfo?
 
@@ -217,11 +222,12 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eksInfo
+            case eksInfo = "eksInfo"
         }
     }
 
     public struct ContainerProvider: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the container cluster.
         public let id: String
         /// The information about the container cluster.
@@ -243,9 +249,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case info
-            case type
+            case id = "id"
+            case info = "info"
+            case type = "type"
         }
     }
 
@@ -319,18 +325,19 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case clientToken
-            case configurationOverrides
-            case executionRoleArn
-            case name
-            case releaseLabel
-            case tags
-            case type
+            case certificateArn = "certificateArn"
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case tags = "tags"
+            case type = "type"
         }
     }
 
     public struct CreateManagedEndpointResponse: AWSDecodableShape {
+
         /// The output contains the ARN of the managed endpoint.
         public let arn: String?
         /// The output contains the ID of the managed endpoint.
@@ -348,14 +355,15 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
-            case virtualClusterId
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
     public struct CreateVirtualClusterRequest: AWSEncodableShape {
+
         /// The client token of the virtual cluster.
         public let clientToken: String
         /// The container provider of the virtual cluster.
@@ -391,14 +399,15 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case containerProvider
-            case name
-            case tags
+            case clientToken = "clientToken"
+            case containerProvider = "containerProvider"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateVirtualClusterResponse: AWSDecodableShape {
+
         /// This output contains the ARN of virtual cluster.
         public let arn: String?
         /// This output contains the virtual cluster ID.
@@ -413,15 +422,15 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct DeleteManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "endpointId")),
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "endpointId")), 
             AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
         ]
 
@@ -448,6 +457,7 @@ extension EMRContainers {
     }
 
     public struct DeleteManagedEndpointResponse: AWSDecodableShape {
+
         /// The output displays the ID of the managed endpoint.
         public let id: String?
         /// The output displays the ID of the endpoint's virtual cluster.
@@ -459,8 +469,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case virtualClusterId
+            case id = "id"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -486,6 +496,7 @@ extension EMRContainers {
     }
 
     public struct DeleteVirtualClusterResponse: AWSDecodableShape {
+
         /// This output contains the ID of the virtual cluster that will be deleted.
         public let id: String?
 
@@ -494,13 +505,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct DescribeJobRunRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "jobRunId")),
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "jobRunId")), 
             AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
         ]
 
@@ -527,6 +538,7 @@ extension EMRContainers {
     }
 
     public struct DescribeJobRunResponse: AWSDecodableShape {
+
         /// The output displays information about a job run.
         public let jobRun: JobRun?
 
@@ -535,13 +547,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRun
+            case jobRun = "jobRun"
         }
     }
 
     public struct DescribeManagedEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri(locationName: "endpointId")),
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "endpointId")), 
             AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
         ]
 
@@ -568,6 +580,7 @@ extension EMRContainers {
     }
 
     public struct DescribeManagedEndpointResponse: AWSDecodableShape {
+
         /// This output displays information about a managed endpoint.
         public let endpoint: Endpoint?
 
@@ -576,7 +589,7 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
+            case endpoint = "endpoint"
         }
     }
 
@@ -602,6 +615,7 @@ extension EMRContainers {
     }
 
     public struct DescribeVirtualClusterResponse: AWSDecodableShape {
+
         /// This output displays information about the specified virtual cluster.
         public let virtualCluster: VirtualCluster?
 
@@ -610,11 +624,12 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualCluster
+            case virtualCluster = "virtualCluster"
         }
     }
 
     public struct EksInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// The namespaces of the EKS cluster.
         public let namespace: String?
 
@@ -629,11 +644,12 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
+            case namespace = "namespace"
         }
     }
 
     public struct Endpoint: AWSDecodableShape {
+
         /// The ARN of the endpoint.
         public let arn: String?
         /// The certificate ARN of the endpoint.
@@ -685,25 +701,26 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case certificateArn
-            case configurationOverrides
-            case createdAt
-            case executionRoleArn
-            case id
-            case name
-            case releaseLabel
-            case securityGroup
-            case serverUrl
-            case state
-            case subnetIds
-            case tags
-            case type
-            case virtualClusterId
+            case arn = "arn"
+            case certificateArn = "certificateArn"
+            case configurationOverrides = "configurationOverrides"
+            case createdAt = "createdAt"
+            case executionRoleArn = "executionRoleArn"
+            case id = "id"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case securityGroup = "securityGroup"
+            case serverUrl = "serverUrl"
+            case state = "state"
+            case subnetIds = "subnetIds"
+            case tags = "tags"
+            case type = "type"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
     public struct JobDriver: AWSEncodableShape & AWSDecodableShape {
+
         /// The job driver parameters specified for spark submit.
         public let sparkSubmitJobDriver: SparkSubmitJobDriver?
 
@@ -716,11 +733,12 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sparkSubmitJobDriver
+            case sparkSubmitJobDriver = "sparkSubmitJobDriver"
         }
     }
 
     public struct JobRun: AWSDecodableShape {
+
         /// The ARN of job run.
         public let arn: String?
         /// The client token used to start a job run.
@@ -776,33 +794,33 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientToken
-            case configurationOverrides
-            case createdAt
-            case createdBy
-            case executionRoleArn
-            case failureReason
-            case finishedAt
-            case id
-            case jobDriver
-            case name
-            case releaseLabel
-            case state
-            case stateDetails
-            case tags
-            case virtualClusterId
+            case arn = "arn"
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case executionRoleArn = "executionRoleArn"
+            case failureReason = "failureReason"
+            case finishedAt = "finishedAt"
+            case id = "id"
+            case jobDriver = "jobDriver"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case state = "state"
+            case stateDetails = "stateDetails"
+            case tags = "tags"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
     public struct ListJobRunsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")), 
             AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
         ]
 
@@ -850,6 +868,7 @@ extension EMRContainers {
     }
 
     public struct ListJobRunsResponse: AWSDecodableShape {
+
         /// This output lists information about the specified job runs.
         public let jobRuns: [JobRun]?
         /// This output displays the token for the next set of job runs.
@@ -861,19 +880,19 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobRuns
-            case nextToken
+            case jobRuns = "jobRuns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListManagedEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")),
-            AWSMemberEncoding(label: "types", location: .querystring(locationName: "types")),
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "states", location: .querystring(locationName: "states")), 
+            AWSMemberEncoding(label: "types", location: .querystring(locationName: "types")), 
             AWSMemberEncoding(label: "virtualClusterId", location: .uri(locationName: "virtualClusterId"))
         ]
 
@@ -924,6 +943,7 @@ extension EMRContainers {
     }
 
     public struct ListManagedEndpointsResponse: AWSDecodableShape {
+
         /// The managed endpoints to be listed.
         public let endpoints: [Endpoint]?
         ///  The token for the next set of endpoints to return.
@@ -935,8 +955,8 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoints
-            case nextToken
+            case endpoints = "endpoints"
+            case nextToken = "nextToken"
         }
     }
 
@@ -962,6 +982,7 @@ extension EMRContainers {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags assigned to resources.
         public let tags: [String: String]?
 
@@ -970,18 +991,18 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListVirtualClustersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "containerProviderId", location: .querystring(locationName: "containerProviderId")),
-            AWSMemberEncoding(label: "containerProviderType", location: .querystring(locationName: "containerProviderType")),
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "containerProviderId", location: .querystring(locationName: "containerProviderId")), 
+            AWSMemberEncoding(label: "containerProviderType", location: .querystring(locationName: "containerProviderType")), 
+            AWSMemberEncoding(label: "_createdAfter", location: .querystring(locationName: "createdAfter")), 
+            AWSMemberEncoding(label: "_createdBefore", location: .querystring(locationName: "createdBefore")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "states", location: .querystring(locationName: "states"))
         ]
 
@@ -1026,6 +1047,7 @@ extension EMRContainers {
     }
 
     public struct ListVirtualClustersResponse: AWSDecodableShape {
+
         /// This output displays the token for the next set of virtual clusters.
         public let nextToken: String?
         /// This output lists the specified virtual clusters.
@@ -1037,12 +1059,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case virtualClusters
+            case nextToken = "nextToken"
+            case virtualClusters = "virtualClusters"
         }
     }
 
     public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Monitoring configurations for CloudWatch.
         public let cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration?
         /// Monitoring configurations for the persistent application UI.
@@ -1062,13 +1085,14 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchMonitoringConfiguration
-            case persistentAppUI
-            case s3MonitoringConfiguration
+            case cloudWatchMonitoringConfiguration = "cloudWatchMonitoringConfiguration"
+            case persistentAppUI = "persistentAppUI"
+            case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }
     }
 
     public struct S3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Amazon S3 destination URI for log publishing.
         public let logUri: String
 
@@ -1083,11 +1107,12 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logUri
+            case logUri = "logUri"
         }
     }
 
     public struct SparkSubmitJobDriver: AWSEncodableShape & AWSDecodableShape {
+
         /// The entry point of job application.
         public let entryPoint: String
         /// The arguments for job application.
@@ -1116,9 +1141,9 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryPoint
-            case entryPointArguments
-            case sparkSubmitParameters
+            case entryPoint = "entryPoint"
+            case entryPointArguments = "entryPointArguments"
+            case sparkSubmitParameters = "sparkSubmitParameters"
         }
     }
 
@@ -1184,17 +1209,18 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case configurationOverrides
-            case executionRoleArn
-            case jobDriver
-            case name
-            case releaseLabel
-            case tags
+            case clientToken = "clientToken"
+            case configurationOverrides = "configurationOverrides"
+            case executionRoleArn = "executionRoleArn"
+            case jobDriver = "jobDriver"
+            case name = "name"
+            case releaseLabel = "releaseLabel"
+            case tags = "tags"
         }
     }
 
     public struct StartJobRunResponse: AWSDecodableShape {
+
         /// This output lists the ARN of job run.
         public let arn: String?
         /// This output displays the started job run ID.
@@ -1212,10 +1238,10 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case id
-            case name
-            case virtualClusterId
+            case arn = "arn"
+            case id = "id"
+            case name = "name"
+            case virtualClusterId = "virtualClusterId"
         }
     }
 
@@ -1249,17 +1275,21 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1290,10 +1320,15 @@ extension EMRContainers {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VirtualCluster: AWSDecodableShape {
+
         /// The ARN of the virtual cluster.
         public let arn: String?
         /// The container provider of the virtual cluster.
@@ -1321,13 +1356,13 @@ extension EMRContainers {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case containerProvider
-            case createdAt
-            case id
-            case name
-            case state
-            case tags
+            case arn = "arn"
+            case containerProvider = "containerProvider"
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case state = "state"
+            case tags = "tags"
         }
     }
 }

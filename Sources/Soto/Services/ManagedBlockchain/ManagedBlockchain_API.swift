@@ -63,118 +63,118 @@ public struct ManagedBlockchain: AWSService {
     // MARK: API Calls
 
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
-    public func createMember(_ input: CreateMemberInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMemberOutput> {
-        return self.client.execute(operation: "CreateMember", path: "/networks/{networkId}/members", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createMember(_ input: CreateMemberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMemberOutput> {
+        return self.client.execute(operation: "CreateMember", path: "/networks/{networkId}/members", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a new blockchain network using Amazon Managed Blockchain. Applies only to Hyperledger Fabric.
-    public func createNetwork(_ input: CreateNetworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkOutput> {
-        return self.client.execute(operation: "CreateNetwork", path: "/networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createNetwork(_ input: CreateNetworkInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkOutput> {
+        return self.client.execute(operation: "CreateNetwork", path: "/networks", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum.
-    public func createNode(_ input: CreateNodeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNodeOutput> {
-        return self.client.execute(operation: "CreateNode", path: "/networks/{networkId}/nodes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createNode(_ input: CreateNodeInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNodeOutput> {
+        return self.client.execute(operation: "CreateNode", path: "/networks/{networkId}/nodes", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric.
-    public func createProposal(_ input: CreateProposalInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProposalOutput> {
-        return self.client.execute(operation: "CreateProposal", path: "/networks/{networkId}/proposals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createProposal(_ input: CreateProposalInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProposalOutput> {
+        return self.client.execute(operation: "CreateProposal", path: "/networks/{networkId}/proposals", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last AWS account, the network is deleted also. Applies only to Hyperledger Fabric.
-    public func deleteMember(_ input: DeleteMemberInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMemberOutput> {
-        return self.client.execute(operation: "DeleteMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteMember(_ input: DeleteMemberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMemberOutput> {
+        return self.client.execute(operation: "DeleteMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a node that your AWS account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
-    public func deleteNode(_ input: DeleteNodeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNodeOutput> {
-        return self.client.execute(operation: "DeleteNode", path: "/networks/{networkId}/nodes/{nodeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteNode(_ input: DeleteNodeInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNodeOutput> {
+        return self.client.execute(operation: "DeleteNode", path: "/networks/{networkId}/nodes/{nodeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric.
-    public func getMember(_ input: GetMemberInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMemberOutput> {
-        return self.client.execute(operation: "GetMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getMember(_ input: GetMemberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMemberOutput> {
+        return self.client.execute(operation: "GetMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum.
-    public func getNetwork(_ input: GetNetworkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkOutput> {
-        return self.client.execute(operation: "GetNetwork", path: "/networks/{networkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getNetwork(_ input: GetNetworkInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkOutput> {
+        return self.client.execute(operation: "GetNetwork", path: "/networks/{networkId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum.
-    public func getNode(_ input: GetNodeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNodeOutput> {
-        return self.client.execute(operation: "GetNode", path: "/networks/{networkId}/nodes/{nodeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getNode(_ input: GetNodeInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNodeOutput> {
+        return self.client.execute(operation: "GetNode", path: "/networks/{networkId}/nodes/{nodeId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
-    public func getProposal(_ input: GetProposalInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProposalOutput> {
-        return self.client.execute(operation: "GetProposal", path: "/networks/{networkId}/proposals/{proposalId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getProposal(_ input: GetProposalInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProposalOutput> {
+        return self.client.execute(operation: "GetProposal", path: "/networks/{networkId}/proposals/{proposalId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of all invitations for the current AWS account. Applies only to Hyperledger Fabric.
-    public func listInvitations(_ input: ListInvitationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvitationsOutput> {
-        return self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listInvitations(_ input: ListInvitationsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvitationsOutput> {
+        return self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
-    public func listMembers(_ input: ListMembersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersOutput> {
-        return self.client.execute(operation: "ListMembers", path: "/networks/{networkId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listMembers(_ input: ListMembersInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersOutput> {
+        return self.client.execute(operation: "ListMembers", path: "/networks/{networkId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about the networks in which the current AWS account participates. Applies to Hyperledger Fabric and Ethereum.
-    public func listNetworks(_ input: ListNetworksInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworksOutput> {
-        return self.client.execute(operation: "ListNetworks", path: "/networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listNetworks(_ input: ListNetworksInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworksOutput> {
+        return self.client.execute(operation: "ListNetworks", path: "/networks", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
-    public func listNodes(_ input: ListNodesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNodesOutput> {
-        return self.client.execute(operation: "ListNodes", path: "/networks/{networkId}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listNodes(_ input: ListNodesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNodesOutput> {
+        return self.client.execute(operation: "ListNodes", path: "/networks/{networkId}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
-    public func listProposalVotes(_ input: ListProposalVotesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProposalVotesOutput> {
-        return self.client.execute(operation: "ListProposalVotes", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listProposalVotes(_ input: ListProposalVotesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProposalVotesOutput> {
+        return self.client.execute(operation: "ListProposalVotes", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
-    public func listProposals(_ input: ListProposalsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProposalsOutput> {
-        return self.client.execute(operation: "ListProposals", path: "/networks/{networkId}/proposals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listProposals(_ input: ListProposalsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProposalsOutput> {
+        return self.client.execute(operation: "ListProposals", path: "/networks/{networkId}/proposals", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of tags for the specified resource. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
-    public func rejectInvitation(_ input: RejectInvitationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInvitationOutput> {
-        return self.client.execute(operation: "RejectInvitation", path: "/invitations/{invitationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func rejectInvitation(_ input: RejectInvitationInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectInvitationOutput> {
+        return self.client.execute(operation: "RejectInvitation", path: "/invitations/{invitationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is overwritten with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes the specified tags from the Amazon Managed Blockchain resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a member configuration with new parameters. Applies only to Hyperledger Fabric.
-    public func updateMember(_ input: UpdateMemberInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMemberOutput> {
-        return self.client.execute(operation: "UpdateMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateMember(_ input: UpdateMemberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMemberOutput> {
+        return self.client.execute(operation: "UpdateMember", path: "/networks/{networkId}/members/{memberId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric.
-    public func updateNode(_ input: UpdateNodeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNodeOutput> {
-        return self.client.execute(operation: "UpdateNode", path: "/networks/{networkId}/nodes/{nodeId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateNode(_ input: UpdateNodeInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNodeOutput> {
+        return self.client.execute(operation: "UpdateNode", path: "/networks/{networkId}/nodes/{nodeId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same AWS account as the principal that calls the action. Applies only to Hyperledger Fabric.
-    public func voteOnProposal(_ input: VoteOnProposalInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VoteOnProposalOutput> {
-        return self.client.execute(operation: "VoteOnProposal", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func voteOnProposal(_ input: VoteOnProposalInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VoteOnProposalOutput> {
+        return self.client.execute(operation: "VoteOnProposal", path: "/networks/{networkId}/proposals/{proposalId}/votes", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

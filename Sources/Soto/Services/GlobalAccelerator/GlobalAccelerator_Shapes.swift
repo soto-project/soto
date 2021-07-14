@@ -93,6 +93,7 @@ extension GlobalAccelerator {
     // MARK: Shapes
 
     public struct Accelerator: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator.
         public let acceleratorArn: String?
         /// The date and time that the accelerator was created.
@@ -138,6 +139,7 @@ extension GlobalAccelerator {
     }
 
     public struct AcceleratorAttributes: AWSDecodableShape {
+
         /// Indicates whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
@@ -159,6 +161,7 @@ extension GlobalAccelerator {
     }
 
     public struct AddCustomRoutingEndpointsRequest: AWSEncodableShape {
+
         /// The list of endpoint objects to add to a custom routing accelerator.
         public let endpointConfigurations: [CustomRoutingEndpointConfiguration]
         /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
@@ -185,6 +188,7 @@ extension GlobalAccelerator {
     }
 
     public struct AddCustomRoutingEndpointsResponse: AWSDecodableShape {
+
         /// The endpoint objects added to the custom routing accelerator.
         public let endpointDescriptions: [CustomRoutingEndpointDescription]?
         /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
@@ -202,6 +206,7 @@ extension GlobalAccelerator {
     }
 
     public struct AdvertiseByoipCidrRequest: AWSEncodableShape {
+
         /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
         public let cidr: String
 
@@ -219,6 +224,7 @@ extension GlobalAccelerator {
     }
 
     public struct AdvertiseByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
@@ -232,6 +238,7 @@ extension GlobalAccelerator {
     }
 
     public struct AllowCustomRoutingTrafficRequest: AWSEncodableShape {
+
         /// Indicates whether all destination IP addresses and ports for a specified VPC subnet endpoint can receive traffic from a custom routing accelerator. The value is TRUE or FALSE.  When set to TRUE, all destinations in the custom routing VPC subnet can receive traffic. Note that you cannot specify destination IP addresses and ports when the value is set to TRUE. When set to FALSE (or not specified), you must specify a list of destination IP addresses that are allowed to receive traffic. A list of ports is optional. If you don't specify a list of ports, the ports that can accept traffic is the same as the ports configured for the endpoint group. The default value is FALSE.
         public let allowAllTrafficToEndpoint: Bool?
         /// A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to allow to receive traffic. The IP addresses must be a subset of the IP addresses that you specified for the endpoint group.  DestinationAddresses is required if AllowAllTrafficToEndpoint is FALSE or is not specified.
@@ -275,6 +282,7 @@ extension GlobalAccelerator {
     }
 
     public struct ByoipCidr: AWSDecodableShape {
+
         /// The address range, in CIDR notation.
         public let cidr: String?
         /// A history of status changes for an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
@@ -296,6 +304,7 @@ extension GlobalAccelerator {
     }
 
     public struct ByoipCidrEvent: AWSDecodableShape {
+
         /// A string that contains an Event message describing changes that you make in the status of an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
         public let message: String?
         /// A timestamp when you make a status change for an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
@@ -313,6 +322,7 @@ extension GlobalAccelerator {
     }
 
     public struct CidrAuthorizationContext: AWSEncodableShape {
+
         /// The plain-text authorization message for the prefix and account.
         public let message: String
         /// The signed authorization message for the prefix and account.
@@ -335,6 +345,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateAcceleratorRequest: AWSEncodableShape {
+
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of an accelerator.
@@ -381,6 +392,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateAcceleratorResponse: AWSDecodableShape {
+
         /// The accelerator that is created by specifying a listener and the supported IP address types.
         public let accelerator: Accelerator?
 
@@ -394,6 +406,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateCustomRoutingAcceleratorRequest: AWSEncodableShape {
+
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
@@ -440,6 +453,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateCustomRoutingAcceleratorResponse: AWSDecodableShape {
+
         /// The accelerator that is created.
         public let accelerator: CustomRoutingAccelerator?
 
@@ -453,6 +467,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateCustomRoutingEndpointGroupRequest: AWSEncodableShape {
+
         /// Sets the port range and protocol for all endpoints (virtual private cloud subnets) in a custom routing endpoint group to accept client traffic on.
         public let destinationConfigurations: [CustomRoutingDestinationConfiguration]
         /// The AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
@@ -489,6 +504,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateCustomRoutingEndpointGroupResponse: AWSDecodableShape {
+
         /// The information about the endpoint group created for a custom routing accelerator.
         public let endpointGroup: CustomRoutingEndpointGroup?
 
@@ -502,6 +518,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateCustomRoutingListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator for a custom routing listener.
         public let acceleratorArn: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
@@ -533,6 +550,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateCustomRoutingListenerResponse: AWSDecodableShape {
+
         /// The listener that you've created for a custom routing accelerator.
         public let listener: CustomRoutingListener?
 
@@ -546,6 +564,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateEndpointGroupRequest: AWSEncodableShape {
+
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
         /// The AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
@@ -625,6 +644,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateEndpointGroupResponse: AWSDecodableShape {
+
         /// The information about the endpoint group that was created.
         public let endpointGroup: EndpointGroup?
 
@@ -638,6 +658,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of your accelerator.
         public let acceleratorArn: String
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
@@ -677,6 +698,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateListenerResponse: AWSDecodableShape {
+
         /// The listener that you've created.
         public let listener: Listener?
 
@@ -690,6 +712,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingAccelerator: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the custom routing accelerator.
         public let acceleratorArn: String?
         /// The date and time that the accelerator was created.
@@ -735,6 +758,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingAcceleratorAttributes: AWSDecodableShape {
+
         /// Indicates whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
@@ -756,6 +780,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingDestinationConfiguration: AWSEncodableShape {
+
         /// The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
         public let fromPort: Int
         /// The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP.
@@ -786,6 +811,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingDestinationDescription: AWSDecodableShape {
+
         /// The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
         public let fromPort: Int?
         /// The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP.
@@ -807,6 +833,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingEndpointConfiguration: AWSEncodableShape {
+
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public let endpointId: String?
 
@@ -824,6 +851,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingEndpointDescription: AWSDecodableShape {
+
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public let endpointId: String?
 
@@ -837,6 +865,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingEndpointGroup: AWSDecodableShape {
+
         /// For a custom routing accelerator, describes the port range and protocol for all endpoints (virtual private cloud subnets) in an endpoint group to accept client traffic on.
         public let destinationDescriptions: [CustomRoutingDestinationDescription]?
         /// For a custom routing accelerator, describes the endpoints (virtual private cloud subnets) in an endpoint group to accept client traffic on.
@@ -862,6 +891,7 @@ extension GlobalAccelerator {
     }
 
     public struct CustomRoutingListener: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
         /// The port range to support for connections from clients to your accelerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
@@ -879,6 +909,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of an accelerator.
         public let acceleratorArn: String
 
@@ -896,6 +927,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteCustomRoutingAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the custom routing accelerator to delete.
         public let acceleratorArn: String
 
@@ -913,6 +945,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteCustomRoutingEndpointGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
 
@@ -930,6 +963,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteCustomRoutingListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener to delete.
         public let listenerArn: String
 
@@ -947,6 +981,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteEndpointGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
 
@@ -964,6 +999,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
@@ -981,6 +1017,7 @@ extension GlobalAccelerator {
     }
 
     public struct DenyCustomRoutingTrafficRequest: AWSEncodableShape {
+
         /// Indicates whether all destination IP addresses and ports for a specified VPC subnet endpoint cannot receive traffic from a custom routing accelerator. The value is TRUE or FALSE.  When set to TRUE, no destinations in the custom routing VPC subnet can receive traffic. Note that you cannot specify destination IP addresses and ports when the value is set to TRUE. When set to FALSE (or not specified), you must specify a list of destination IP addresses that cannot receive traffic. A list of ports is optional. If you don't specify a list of ports, the ports that can accept traffic is the same as the ports configured for the endpoint group. The default value is FALSE.
         public let denyAllTrafficToEndpoint: Bool?
         /// A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to prevent from receiving traffic. The IP addresses must be a subset of the IP addresses allowed for the VPC subnet associated with the endpoint group.
@@ -1024,6 +1061,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeprovisionByoipCidrRequest: AWSEncodableShape {
+
         /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
         public let cidr: String
 
@@ -1041,6 +1079,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeprovisionByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
@@ -1054,6 +1093,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
         public let acceleratorArn: String
 
@@ -1071,6 +1111,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorAttributesResponse: AWSDecodableShape {
+
         /// The attributes of the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
 
@@ -1084,6 +1125,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
 
@@ -1101,6 +1143,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorResponse: AWSDecodableShape {
+
         /// The description of the accelerator.
         public let accelerator: Accelerator?
 
@@ -1114,6 +1157,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingAcceleratorAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for.
         public let acceleratorArn: String
 
@@ -1131,6 +1175,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingAcceleratorAttributesResponse: AWSDecodableShape {
+
         /// The attributes of the custom routing accelerator.
         public let acceleratorAttributes: CustomRoutingAcceleratorAttributes?
 
@@ -1144,6 +1189,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
 
@@ -1161,6 +1207,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingAcceleratorResponse: AWSDecodableShape {
+
         /// The description of the custom routing accelerator.
         public let accelerator: CustomRoutingAccelerator?
 
@@ -1174,6 +1221,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingEndpointGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
 
@@ -1191,6 +1239,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingEndpointGroupResponse: AWSDecodableShape {
+
         /// The description of an endpoint group for a custom routing accelerator.
         public let endpointGroup: CustomRoutingEndpointGroup?
 
@@ -1204,6 +1253,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
 
@@ -1221,6 +1271,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeCustomRoutingListenerResponse: AWSDecodableShape {
+
         /// The description of a listener for a custom routing accelerator.
         public let listener: CustomRoutingListener?
 
@@ -1234,6 +1285,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeEndpointGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
 
@@ -1251,6 +1303,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeEndpointGroupResponse: AWSDecodableShape {
+
         /// The description of an endpoint group.
         public let endpointGroup: EndpointGroup?
 
@@ -1264,6 +1317,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
 
@@ -1281,6 +1335,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeListenerResponse: AWSDecodableShape {
+
         /// The description of a listener.
         public let listener: Listener?
 
@@ -1294,6 +1349,7 @@ extension GlobalAccelerator {
     }
 
     public struct DestinationPortMapping: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the custom routing accelerator that you have port mappings for.
         public let acceleratorArn: String?
         /// The IP address/port combinations (sockets) that map to a given destination socket address.
@@ -1335,6 +1391,7 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointConfiguration: AWSEncodableShape {
+
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Preserve Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. An Application Load Balancer can be either internal or internet-facing.
@@ -1362,6 +1419,7 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointDescription: AWSDecodableShape {
+
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
@@ -1391,6 +1449,7 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointGroup: AWSDecodableShape {
+
         /// The list of endpoint objects.
         public let endpointDescriptions: [EndpointDescription]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -1440,6 +1499,7 @@ extension GlobalAccelerator {
     }
 
     public struct IpSet: AWSDecodableShape {
+
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
         public let ipAddresses: [String]?
         /// The types of IP addresses included in this IP set.
@@ -1457,6 +1517,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListAcceleratorsRequest: AWSEncodableShape {
+
         /// The number of Global Accelerator objects that you want to return with this call. The default value is 10.
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1480,6 +1541,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListAcceleratorsResponse: AWSDecodableShape {
+
         /// The list of accelerators for a customer account.
         public let accelerators: [Accelerator]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1497,6 +1559,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListByoipCidrsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -1520,6 +1583,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListByoipCidrsResponse: AWSDecodableShape {
+
         /// Information about your address ranges.
         public let byoipCidrs: [ByoipCidr]?
         /// The token for the next page of results.
@@ -1537,6 +1601,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingAcceleratorsRequest: AWSEncodableShape {
+
         /// The number of custom routing Global Accelerator objects that you want to return with this call. The default value is 10.
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1560,6 +1625,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingAcceleratorsResponse: AWSDecodableShape {
+
         /// The list of custom routing accelerators for a customer account.
         public let accelerators: [CustomRoutingAccelerator]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1577,6 +1643,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingEndpointGroupsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener to list endpoint groups for.
         public let listenerArn: String
         /// The number of endpoint group objects that you want to return with this call. The default value is 10.
@@ -1605,6 +1672,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingEndpointGroupsResponse: AWSDecodableShape {
+
         /// The list of the endpoint groups associated with a listener for a custom routing accelerator.
         public let endpointGroups: [CustomRoutingEndpointGroup]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1622,6 +1690,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingListenersRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to list listeners for.
         public let acceleratorArn: String
         /// The number of listener objects that you want to return with this call. The default value is 10.
@@ -1650,6 +1719,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingListenersResponse: AWSDecodableShape {
+
         /// The list of listeners for a custom routing accelerator.
         public let listeners: [CustomRoutingListener]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1667,6 +1737,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingPortMappingsByDestinationRequest: AWSEncodableShape {
+
         /// The endpoint IP address in a virtual private cloud (VPC) subnet for which you want to receive back port mappings.
         public let destinationAddress: String
         /// The ID for the virtual private cloud (VPC) subnet.
@@ -1700,6 +1771,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingPortMappingsByDestinationResponse: AWSDecodableShape {
+
         /// The port mappings for the endpoint IP address that you specified in the request.
         public let destinationPortMappings: [DestinationPortMapping]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1717,6 +1789,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingPortMappingsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to list the custom routing port mappings for.
         public let acceleratorArn: String
         /// The Amazon Resource Name (ARN) of the endpoint group to list the custom routing port mappings for.
@@ -1750,6 +1823,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListCustomRoutingPortMappingsResponse: AWSDecodableShape {
+
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
         /// The port mappings for a custom routing accelerator.
@@ -1767,6 +1841,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListEndpointGroupsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The number of endpoint group objects that you want to return with this call. The default value is 10.
@@ -1795,6 +1870,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListEndpointGroupsResponse: AWSDecodableShape {
+
         /// The list of the endpoint groups associated with a listener.
         public let endpointGroups: [EndpointGroup]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1812,6 +1888,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListListenersRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator for which you want to list listener objects.
         public let acceleratorArn: String
         /// The number of listener objects that you want to return with this call. The default value is 10.
@@ -1840,6 +1917,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListListenersResponse: AWSDecodableShape {
+
         /// The list of listeners for an accelerator.
         public let listeners: [Listener]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -1857,6 +1935,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN uniquely identifies an accelerator.
         public let resourceArn: String
 
@@ -1875,6 +1954,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// Root level tag for the Tags parameters.
         public let tags: [Tag]?
 
@@ -1888,6 +1968,7 @@ extension GlobalAccelerator {
     }
 
     public struct Listener: AWSDecodableShape {
+
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of the listener.
@@ -1913,6 +1994,7 @@ extension GlobalAccelerator {
     }
 
     public struct PortMapping: AWSDecodableShape {
+
         /// The accelerator port.
         public let acceleratorPort: Int?
         /// The EC2 instance IP address and port number in the virtual private cloud (VPC) subnet.
@@ -1946,6 +2028,7 @@ extension GlobalAccelerator {
     }
 
     public struct PortOverride: AWSEncodableShape & AWSDecodableShape {
+
         /// The endpoint port that you want a listener port to be mapped to. This is the port on the endpoint, such as the Application Load Balancer or Amazon EC2 instance.
         public let endpointPort: Int?
         /// The listener port that you want to map to a specific endpoint port. This is the port that user traffic arrives to the Global Accelerator on.
@@ -1970,6 +2053,7 @@ extension GlobalAccelerator {
     }
 
     public struct PortRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The first port in the range of ports, inclusive.
         public let fromPort: Int?
         /// The last port in the range of ports, inclusive.
@@ -1994,6 +2078,7 @@ extension GlobalAccelerator {
     }
 
     public struct ProvisionByoipCidrRequest: AWSEncodableShape {
+
         /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this or another Region.
         public let cidr: String
         /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP.
@@ -2016,6 +2101,7 @@ extension GlobalAccelerator {
     }
 
     public struct ProvisionByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
@@ -2029,6 +2115,7 @@ extension GlobalAccelerator {
     }
 
     public struct RemoveCustomRoutingEndpointsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to remove endpoints from.
         public let endpointGroupArn: String
         /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs.
@@ -2053,6 +2140,7 @@ extension GlobalAccelerator {
     }
 
     public struct SocketAddress: AWSDecodableShape {
+
         /// The IP address for the socket address.
         public let ipAddress: String?
         /// The port for the socket address.
@@ -2070,6 +2158,7 @@ extension GlobalAccelerator {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// A string that contains a Tag key.
         public let key: String
         /// A string that contains a Tag value.
@@ -2094,6 +2183,7 @@ extension GlobalAccelerator {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Global Accelerator resource to add tags to. An ARN uniquely identifies a resource.
         public let resourceArn: String
         /// The tags to add to a resource. A tag consists of a key and a value that you define.
@@ -2119,10 +2209,15 @@ extension GlobalAccelerator {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Global Accelerator resource to remove tags from. An ARN uniquely identifies a resource.
         public let resourceArn: String
         /// The tag key pairs that you want to remove from the specified resources.
@@ -2151,10 +2246,15 @@ extension GlobalAccelerator {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAcceleratorAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator that you want to update.
         public let acceleratorArn: String
         /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
@@ -2186,6 +2286,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorAttributesResponse: AWSDecodableShape {
+
         /// Updated attributes for the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
 
@@ -2199,6 +2300,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to update.
         public let acceleratorArn: String
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
@@ -2229,6 +2331,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorResponse: AWSDecodableShape {
+
         /// Information about the updated accelerator.
         public let accelerator: Accelerator?
 
@@ -2242,6 +2345,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateCustomRoutingAcceleratorAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the custom routing accelerator to update attributes for.
         public let acceleratorArn: String
         /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
@@ -2273,6 +2377,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateCustomRoutingAcceleratorAttributesResponse: AWSDecodableShape {
+
         /// Updated custom routing accelerator.
         public let acceleratorAttributes: CustomRoutingAcceleratorAttributes?
 
@@ -2286,6 +2391,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateCustomRoutingAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to update.
         public let acceleratorArn: String
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
@@ -2316,6 +2422,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateCustomRoutingAcceleratorResponse: AWSDecodableShape {
+
         /// Information about the updated custom routing accelerator.
         public let accelerator: CustomRoutingAccelerator?
 
@@ -2329,6 +2436,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateCustomRoutingListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener to update.
         public let listenerArn: String
         /// The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
@@ -2355,6 +2463,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateCustomRoutingListenerResponse: AWSDecodableShape {
+
         /// Information for the updated listener for a custom routing accelerator.
         public let listener: CustomRoutingListener?
 
@@ -2368,6 +2477,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateEndpointGroupRequest: AWSEncodableShape {
+
         /// The list of endpoint objects. A resource must be valid and active when you add it as an endpoint.
         public let endpointConfigurations: [EndpointConfiguration]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -2437,6 +2547,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateEndpointGroupResponse: AWSDecodableShape {
+
         /// The information about the endpoint group that was updated.
         public let endpointGroup: EndpointGroup?
 
@@ -2450,6 +2561,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateListenerRequest: AWSEncodableShape {
+
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of the listener to update.
@@ -2484,6 +2596,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateListenerResponse: AWSDecodableShape {
+
         /// Information for the updated listener.
         public let listener: Listener?
 
@@ -2497,6 +2610,7 @@ extension GlobalAccelerator {
     }
 
     public struct WithdrawByoipCidrRequest: AWSEncodableShape {
+
         /// The address range, in CIDR notation.
         public let cidr: String
 
@@ -2514,6 +2628,7 @@ extension GlobalAccelerator {
     }
 
     public struct WithdrawByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address pool.
         public let byoipCidr: ByoipCidr?
 

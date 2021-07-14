@@ -127,9 +127,9 @@ extension ECS {
     }
 
     public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
-        case mknod
-        case read
-        case write
+        case mknod = "mknod"
+        case read = "read"
+        case write = "write"
         public var description: String { return self.rawValue }
     }
 
@@ -146,7 +146,7 @@ extension ECS {
     }
 
     public enum EnvironmentFileType: String, CustomStringConvertible, Codable {
-        case s3
+        case s3 = "s3"
         public var description: String { return self.rawValue }
     }
 
@@ -158,8 +158,8 @@ extension ECS {
     }
 
     public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
-        case fluentbit
-        case fluentd
+        case fluentbit = "fluentbit"
+        case fluentd = "fluentd"
         public var description: String { return self.rawValue }
     }
 
@@ -171,9 +171,9 @@ extension ECS {
     }
 
     public enum IpcMode: String, CustomStringConvertible, Codable {
-        case host
-        case none
-        case task
+        case host = "host"
+        case none = "none"
+        case task = "task"
         public var description: String { return self.rawValue }
     }
 
@@ -184,14 +184,14 @@ extension ECS {
     }
 
     public enum LogDriver: String, CustomStringConvertible, Codable {
-        case awsfirelens
-        case awslogs
-        case fluentd
-        case gelf
-        case journald
+        case awsfirelens = "awsfirelens"
+        case awslogs = "awslogs"
+        case fluentd = "fluentd"
+        case gelf = "gelf"
+        case journald = "journald"
         case jsonFile = "json-file"
-        case splunk
-        case syslog
+        case splunk = "splunk"
+        case syslog = "syslog"
         public var description: String { return self.rawValue }
     }
 
@@ -213,16 +213,16 @@ extension ECS {
     }
 
     public enum NetworkMode: String, CustomStringConvertible, Codable {
-        case awsvpc
-        case bridge
-        case host
-        case none
+        case awsvpc = "awsvpc"
+        case bridge = "bridge"
+        case host = "host"
+        case none = "none"
         public var description: String { return self.rawValue }
     }
 
     public enum PidMode: String, CustomStringConvertible, Codable {
-        case host
-        case task
+        case host = "host"
+        case task = "task"
         public var description: String { return self.rawValue }
     }
 
@@ -233,9 +233,9 @@ extension ECS {
     }
 
     public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
-        case binpack
-        case random
-        case spread
+        case binpack = "binpack"
+        case random = "random"
+        case spread = "spread"
         public var description: String { return self.rawValue }
     }
 
@@ -274,8 +274,8 @@ extension ECS {
     }
 
     public enum Scope: String, CustomStringConvertible, Codable {
-        case shared
-        case task
+        case shared = "shared"
+        case task = "task"
         public var description: String { return self.rawValue }
     }
 
@@ -351,33 +351,34 @@ extension ECS {
     }
 
     public enum TransportProtocol: String, CustomStringConvertible, Codable {
-        case tcp
-        case udp
+        case tcp = "tcp"
+        case udp = "udp"
         public var description: String { return self.rawValue }
     }
 
     public enum UlimitName: String, CustomStringConvertible, Codable {
-        case core
-        case cpu
-        case data
-        case fsize
-        case locks
-        case memlock
-        case msgqueue
-        case nice
-        case nofile
-        case nproc
-        case rss
-        case rtprio
-        case rttime
-        case sigpending
-        case stack
+        case core = "core"
+        case cpu = "cpu"
+        case data = "data"
+        case fsize = "fsize"
+        case locks = "locks"
+        case memlock = "memlock"
+        case msgqueue = "msgqueue"
+        case nice = "nice"
+        case nofile = "nofile"
+        case nproc = "nproc"
+        case rss = "rss"
+        case rtprio = "rtprio"
+        case rttime = "rttime"
+        case sigpending = "sigpending"
+        case stack = "stack"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Attachment: AWSDecodableShape {
+
         /// Details of the attachment. For elastic network interfaces, this includes the network interface ID, the MAC address, the subnet ID, and the private IPv4 address.
         public let details: [KeyValuePair]?
         /// The unique identifier for the attachment.
@@ -395,14 +396,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case details
-            case id
-            case status
-            case type
+            case details = "details"
+            case id = "id"
+            case status = "status"
+            case type = "type"
         }
     }
 
     public struct AttachmentStateChange: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the attachment.
         public let attachmentArn: String
         /// The status of the attachment.
@@ -414,12 +416,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentArn
-            case status
+            case attachmentArn = "attachmentArn"
+            case status = "status"
         }
     }
 
     public struct Attribute: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the attribute. The name must contain between 1 and 128 characters and name may contain letters (uppercase and lowercase), numbers, hyphens, underscores, forward slashes, back slashes, or periods.
         public let name: String
         /// The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
@@ -437,14 +440,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case targetId
-            case targetType
-            case value
+            case name = "name"
+            case targetId = "targetId"
+            case targetType = "targetType"
+            case value = "value"
         }
     }
 
     public struct AutoScalingGroupProvider: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group.
         public let autoScalingGroupArn: String
         /// The managed scaling settings for the Auto Scaling group capacity provider.
@@ -463,13 +467,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupArn
-            case managedScaling
-            case managedTerminationProtection
+            case autoScalingGroupArn = "autoScalingGroupArn"
+            case managedScaling = "managedScaling"
+            case managedTerminationProtection = "managedTerminationProtection"
         }
     }
 
     public struct AutoScalingGroupProviderUpdate: AWSEncodableShape {
+
         /// The managed scaling settings for the Auto Scaling group capacity provider.
         public let managedScaling: ManagedScaling?
         /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection.  When using managed termination protection, managed scaling must also be used otherwise managed termination protection will not work.  When managed termination protection is enabled, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions enabled as well. For more information, see Instance Protection in the AWS Auto Scaling User Guide. When managed termination protection is disabled, your Amazon EC2 instances are not protected from termination when the Auto Scaling group scales in.
@@ -485,12 +490,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case managedScaling
-            case managedTerminationProtection
+            case managedScaling = "managedScaling"
+            case managedTerminationProtection = "managedTerminationProtection"
         }
     }
 
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether the task's elastic network interface receives a public IP address. The default value is DISABLED.
         public let assignPublicIp: AssignPublicIp?
         /// The IDs of the security groups associated with the task or service. If you do not specify a security group, the default security group for the VPC is used. There is a limit of 5 security groups that can be specified per AwsVpcConfiguration.  All specified security groups must be from the same VPC.
@@ -505,13 +511,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
-            case securityGroups
-            case subnets
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
         }
     }
 
     public struct CapacityProvider: AWSDecodableShape {
+
         /// The Auto Scaling group settings for the capacity provider.
         public let autoScalingGroupProvider: AutoScalingGroupProvider?
         /// The Amazon Resource Name (ARN) that identifies the capacity provider.
@@ -538,17 +545,18 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupProvider
-            case capacityProviderArn
-            case name
-            case status
-            case tags
-            case updateStatus
-            case updateStatusReason
+            case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case capacityProviderArn = "capacityProviderArn"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
+            case updateStatus = "updateStatus"
+            case updateStatusReason = "updateStatusReason"
         }
     }
 
     public struct CapacityProviderStrategyItem: AWSEncodableShape & AWSDecodableShape {
+
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used.
         public let base: Int?
         /// The short name of the capacity provider.
@@ -563,20 +571,21 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.base, name: "base", parent: name, max: 100_000)
+            try self.validate(self.base, name: "base", parent: name, max: 100000)
             try self.validate(self.base, name: "base", parent: name, min: 0)
             try self.validate(self.weight, name: "weight", parent: name, max: 1000)
             try self.validate(self.weight, name: "weight", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case base
-            case capacityProvider
-            case weight
+            case base = "base"
+            case capacityProvider = "capacityProvider"
+            case weight = "weight"
         }
     }
 
     public struct Cluster: AWSDecodableShape {
+
         /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with ListServices.
         public let activeServicesCount: Int?
         /// The resources attached to a cluster. When using a capacity provider with a cluster, the Auto Scaling plan that is created will be returned as a cluster attachment.
@@ -627,25 +636,26 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeServicesCount
-            case attachments
-            case attachmentsStatus
-            case capacityProviders
-            case clusterArn
-            case clusterName
-            case configuration
-            case defaultCapacityProviderStrategy
-            case pendingTasksCount
-            case registeredContainerInstancesCount
-            case runningTasksCount
-            case settings
-            case statistics
-            case status
-            case tags
+            case activeServicesCount = "activeServicesCount"
+            case attachments = "attachments"
+            case attachmentsStatus = "attachmentsStatus"
+            case capacityProviders = "capacityProviders"
+            case clusterArn = "clusterArn"
+            case clusterName = "clusterName"
+            case configuration = "configuration"
+            case defaultCapacityProviderStrategy = "defaultCapacityProviderStrategy"
+            case pendingTasksCount = "pendingTasksCount"
+            case registeredContainerInstancesCount = "registeredContainerInstancesCount"
+            case runningTasksCount = "runningTasksCount"
+            case settings = "settings"
+            case statistics = "statistics"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct ClusterConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The details of the execute command configuration.
         public let executeCommandConfiguration: ExecuteCommandConfiguration?
 
@@ -654,11 +664,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executeCommandConfiguration
+            case executeCommandConfiguration = "executeCommandConfiguration"
         }
     }
 
     public struct ClusterSetting: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the cluster setting. The only supported value is containerInsights.
         public let name: ClusterSettingName?
         /// The value to set for the cluster setting. The supported values are enabled and disabled. If enabled is specified, CloudWatch Container Insights will be enabled for the cluster, otherwise it will be disabled unless the containerInsights account setting is enabled. If a cluster value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
@@ -670,12 +681,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct Container: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the container.
         public let containerArn: String?
         /// The number of CPU units set for the container. The value will be 0 if no value was specified in the container definition when the task definition was registered.
@@ -732,27 +744,28 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerArn
-            case cpu
-            case exitCode
-            case gpuIds
-            case healthStatus
-            case image
-            case imageDigest
-            case lastStatus
-            case managedAgents
-            case memory
-            case memoryReservation
-            case name
-            case networkBindings
-            case networkInterfaces
-            case reason
-            case runtimeId
-            case taskArn
+            case containerArn = "containerArn"
+            case cpu = "cpu"
+            case exitCode = "exitCode"
+            case gpuIds = "gpuIds"
+            case healthStatus = "healthStatus"
+            case image = "image"
+            case imageDigest = "imageDigest"
+            case lastStatus = "lastStatus"
+            case managedAgents = "managedAgents"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case name = "name"
+            case networkBindings = "networkBindings"
+            case networkInterfaces = "networkInterfaces"
+            case reason = "reason"
+            case runtimeId = "runtimeId"
+            case taskArn = "taskArn"
         }
     }
 
     public struct ContainerDefinition: AWSEncodableShape & AWSDecodableShape {
+
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd. If there are multiple arguments, each argument should be a separated string in the array.
         public let command: [String]?
         /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value.  You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the Amazon EC2 Instances detail page by 1,024.  Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. For more information, see CPU share constraint in the Docker documentation. The minimum valid CPU share value that the Linux kernel allows is 2. However, the CPU parameter is not required, and you can use CPU values below 2 in your container definitions. For CPU values below 2 (including null), the behavior varies based on your Amazon ECS container agent version:    Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to two CPU shares.    Agent versions greater than or equal to 1.2.0: Null, zero, and CPU values of 1 are passed to Docker as 2.   On Windows container instances, the CPU limit is enforced as an absolute limit, or a quota. Windows containers only have access to the specified amount of CPU that is described in the task definition. A null or zero CPU value is passed to Docker as 0, which Windows interprets as 1% of one CPU.
@@ -875,49 +888,50 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case cpu
-            case dependsOn
-            case disableNetworking
-            case dnsSearchDomains
-            case dnsServers
-            case dockerLabels
-            case dockerSecurityOptions
-            case entryPoint
-            case environment
-            case environmentFiles
-            case essential
-            case extraHosts
-            case firelensConfiguration
-            case healthCheck
-            case hostname
-            case image
-            case interactive
-            case links
-            case linuxParameters
-            case logConfiguration
-            case memory
-            case memoryReservation
-            case mountPoints
-            case name
-            case portMappings
-            case privileged
-            case pseudoTerminal
-            case readonlyRootFilesystem
-            case repositoryCredentials
-            case resourceRequirements
-            case secrets
-            case startTimeout
-            case stopTimeout
-            case systemControls
-            case ulimits
-            case user
-            case volumesFrom
-            case workingDirectory
+            case command = "command"
+            case cpu = "cpu"
+            case dependsOn = "dependsOn"
+            case disableNetworking = "disableNetworking"
+            case dnsSearchDomains = "dnsSearchDomains"
+            case dnsServers = "dnsServers"
+            case dockerLabels = "dockerLabels"
+            case dockerSecurityOptions = "dockerSecurityOptions"
+            case entryPoint = "entryPoint"
+            case environment = "environment"
+            case environmentFiles = "environmentFiles"
+            case essential = "essential"
+            case extraHosts = "extraHosts"
+            case firelensConfiguration = "firelensConfiguration"
+            case healthCheck = "healthCheck"
+            case hostname = "hostname"
+            case image = "image"
+            case interactive = "interactive"
+            case links = "links"
+            case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case mountPoints = "mountPoints"
+            case name = "name"
+            case portMappings = "portMappings"
+            case privileged = "privileged"
+            case pseudoTerminal = "pseudoTerminal"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case repositoryCredentials = "repositoryCredentials"
+            case resourceRequirements = "resourceRequirements"
+            case secrets = "secrets"
+            case startTimeout = "startTimeout"
+            case stopTimeout = "stopTimeout"
+            case systemControls = "systemControls"
+            case ulimits = "ulimits"
+            case user = "user"
+            case volumesFrom = "volumesFrom"
+            case workingDirectory = "workingDirectory"
         }
     }
 
     public struct ContainerDependency: AWSEncodableShape & AWSDecodableShape {
+
         /// The dependency condition of the container. The following are the available conditions and their behavior:    START - This condition emulates the behavior of links and volumes today. It validates that a dependent container is started before permitting other containers to start.    COMPLETE - This condition validates that a dependent container runs to completion (exits) before permitting other containers to start. This can be useful for nonessential containers that run a script and then exit. This condition cannot be set on an essential container.    SUCCESS - This condition is the same as COMPLETE, but it also requires that the container exits with a zero status. This condition cannot be set on an essential container.    HEALTHY - This condition validates that the dependent container passes its Docker health check before permitting other containers to start. This requires that the dependent container has health checks configured. This condition is confirmed only at task startup.
         public let condition: ContainerCondition
         /// The name of a container.
@@ -929,12 +943,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case containerName
+            case condition = "condition"
+            case containerName = "containerName"
         }
     }
 
     public struct ContainerInstance: AWSDecodableShape {
+
         /// This parameter returns true if the agent is connected to Amazon ECS. Registered instances with an agent that may be unhealthy or stopped return false. Only instances connected to an agent can accept placement requests.
         public let agentConnected: Bool?
         /// The status of the most recent agent update. If an update has never been requested, this value is NULL.
@@ -991,27 +1006,28 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentConnected
-            case agentUpdateStatus
-            case attachments
-            case attributes
-            case capacityProviderName
-            case containerInstanceArn
-            case ec2InstanceId
-            case pendingTasksCount
-            case registeredAt
-            case registeredResources
-            case remainingResources
-            case runningTasksCount
-            case status
-            case statusReason
-            case tags
-            case version
-            case versionInfo
+            case agentConnected = "agentConnected"
+            case agentUpdateStatus = "agentUpdateStatus"
+            case attachments = "attachments"
+            case attributes = "attributes"
+            case capacityProviderName = "capacityProviderName"
+            case containerInstanceArn = "containerInstanceArn"
+            case ec2InstanceId = "ec2InstanceId"
+            case pendingTasksCount = "pendingTasksCount"
+            case registeredAt = "registeredAt"
+            case registeredResources = "registeredResources"
+            case remainingResources = "remainingResources"
+            case runningTasksCount = "runningTasksCount"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case version = "version"
+            case versionInfo = "versionInfo"
         }
     }
 
     public struct ContainerOverride: AWSEncodableShape & AWSDecodableShape {
+
         /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
         public let command: [String]?
         /// The number of cpu units reserved for the container, instead of the default value from the task definition. You must also specify a container name.
@@ -1041,18 +1057,19 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case cpu
-            case environment
-            case environmentFiles
-            case memory
-            case memoryReservation
-            case name
-            case resourceRequirements
+            case command = "command"
+            case cpu = "cpu"
+            case environment = "environment"
+            case environmentFiles = "environmentFiles"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case name = "name"
+            case resourceRequirements = "resourceRequirements"
         }
     }
 
     public struct ContainerStateChange: AWSEncodableShape {
+
         /// The name of the container.
         public let containerName: String?
         /// The exit code for the container, if the state change is a result of the container exiting.
@@ -1079,17 +1096,18 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case exitCode
-            case imageDigest
-            case networkBindings
-            case reason
-            case runtimeId
-            case status
+            case containerName = "containerName"
+            case exitCode = "exitCode"
+            case imageDigest = "imageDigest"
+            case networkBindings = "networkBindings"
+            case reason = "reason"
+            case runtimeId = "runtimeId"
+            case status = "status"
         }
     }
 
     public struct CreateCapacityProviderRequest: AWSEncodableShape {
+
         /// The details of the Auto Scaling group for the capacity provider.
         public let autoScalingGroupProvider: AutoScalingGroupProvider
         /// The name of the capacity provider. Up to 255 characters are allowed, including letters (upper and lowercase), numbers, underscores, and hyphens. The name cannot be prefixed with "aws", "ecs", or "fargate".
@@ -1113,13 +1131,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupProvider
-            case name
-            case tags
+            case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateCapacityProviderResponse: AWSDecodableShape {
+
         /// The full description of the new capacity provider.
         public let capacityProvider: CapacityProvider?
 
@@ -1128,11 +1147,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
+
         /// The short name of one or more capacity providers to associate with the cluster. A capacity provider must be associated with a cluster before it can be included as part of the default capacity provider strategy of the cluster or used in a capacity provider strategy when calling the CreateService or RunTask actions. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created and not already associated with another cluster. New Auto Scaling group capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviders: [String]?
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed.
@@ -1167,16 +1187,17 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case clusterName
-            case configuration
-            case defaultCapacityProviderStrategy
-            case settings
-            case tags
+            case capacityProviders = "capacityProviders"
+            case clusterName = "clusterName"
+            case configuration = "configuration"
+            case defaultCapacityProviderStrategy = "defaultCapacityProviderStrategy"
+            case settings = "settings"
+            case tags = "tags"
         }
     }
 
     public struct CreateClusterResponse: AWSDecodableShape {
+
         /// The full description of your new cluster.
         public let cluster: Cluster?
 
@@ -1185,11 +1206,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
     public struct CreateServiceRequest: AWSEncodableShape {
+
         /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
@@ -1272,32 +1294,33 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clientToken
-            case cluster
-            case deploymentConfiguration
-            case deploymentController
-            case desiredCount
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case healthCheckGracePeriodSeconds
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case propagateTags
-            case role
-            case schedulingStrategy
-            case serviceName
-            case serviceRegistries
-            case tags
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clientToken = "clientToken"
+            case cluster = "cluster"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case deploymentController = "deploymentController"
+            case desiredCount = "desiredCount"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case role = "role"
+            case schedulingStrategy = "schedulingStrategy"
+            case serviceName = "serviceName"
+            case serviceRegistries = "serviceRegistries"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct CreateServiceResponse: AWSDecodableShape {
+
         /// The full description of your service following the create call. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. If the service is using the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
         public let service: Service?
 
@@ -1306,11 +1329,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
     public struct CreateTaskSetRequest: AWSEncodableShape {
+
         /// The capacity provider strategy to use for the task set. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
@@ -1366,23 +1390,24 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clientToken
-            case cluster
-            case externalId
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case platformVersion
-            case scale
-            case service
-            case serviceRegistries
-            case tags
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clientToken = "clientToken"
+            case cluster = "cluster"
+            case externalId = "externalId"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case platformVersion = "platformVersion"
+            case scale = "scale"
+            case service = "service"
+            case serviceRegistries = "serviceRegistries"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct CreateTaskSetResponse: AWSDecodableShape {
+
         /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or an EXTERNAL deployment. A task set includes details such as the desired number of tasks, how many tasks are running, and whether the task set serves production traffic.
         public let taskSet: TaskSet?
 
@@ -1391,11 +1416,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
     public struct DeleteAccountSettingRequest: AWSEncodableShape {
+
         /// The resource name for which to disable the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected.
         public let name: SettingName
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it disables the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
@@ -1407,12 +1433,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case principalArn
+            case name = "name"
+            case principalArn = "principalArn"
         }
     }
 
     public struct DeleteAccountSettingResponse: AWSDecodableShape {
+
         /// The account setting for the specified principal ARN.
         public let setting: Setting?
 
@@ -1421,11 +1448,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setting
+            case setting = "setting"
         }
     }
 
     public struct DeleteAttributesRequest: AWSEncodableShape {
+
         /// The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
         public let attributes: [Attribute]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
@@ -1437,12 +1465,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case cluster
+            case attributes = "attributes"
+            case cluster = "cluster"
         }
     }
 
     public struct DeleteAttributesResponse: AWSDecodableShape {
+
         /// A list of attribute objects that were successfully deleted from your resource.
         public let attributes: [Attribute]?
 
@@ -1451,11 +1480,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
     public struct DeleteCapacityProviderRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
         public let capacityProvider: String
 
@@ -1464,11 +1494,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
     public struct DeleteCapacityProviderResponse: AWSDecodableShape {
+
         /// The details of the capacity provider.
         public let capacityProvider: CapacityProvider?
 
@@ -1477,11 +1508,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public let cluster: String
 
@@ -1490,11 +1522,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
     public struct DeleteClusterResponse: AWSDecodableShape {
+
         /// The full description of the deleted cluster.
         public let cluster: Cluster?
 
@@ -1503,11 +1536,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
     public struct DeleteServiceRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// If true, allows you to delete a service even if it has not been scaled down to zero tasks. It is only necessary to use this if the service is using the REPLICA scheduling strategy.
@@ -1522,13 +1556,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case force
-            case service
+            case cluster = "cluster"
+            case force = "force"
+            case service = "service"
         }
     }
 
     public struct DeleteServiceResponse: AWSDecodableShape {
+
         /// The full description of the deleted service.
         public let service: Service?
 
@@ -1537,11 +1572,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
     public struct DeleteTaskSetRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in to delete.
         public let cluster: String
         /// If true, this allows you to delete a task set even if it hasn't been scaled down to zero.
@@ -1559,14 +1595,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case force
-            case service
-            case taskSet
+            case cluster = "cluster"
+            case force = "force"
+            case service = "service"
+            case taskSet = "taskSet"
         }
     }
 
     public struct DeleteTaskSetResponse: AWSDecodableShape {
+
         /// Details about the task set.
         public let taskSet: TaskSet?
 
@@ -1575,11 +1612,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
     public struct Deployment: AWSDecodableShape {
+
         /// The capacity provider strategy that the deployment is using.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The Unix timestamp for when the service deployment was created.
@@ -1630,25 +1668,26 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case createdAt
-            case desiredCount
-            case failedTasks
-            case id
-            case launchType
-            case networkConfiguration
-            case pendingCount
-            case platformVersion
-            case rolloutState
-            case rolloutStateReason
-            case runningCount
-            case status
-            case taskDefinition
-            case updatedAt
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case createdAt = "createdAt"
+            case desiredCount = "desiredCount"
+            case failedTasks = "failedTasks"
+            case id = "id"
+            case launchType = "launchType"
+            case networkConfiguration = "networkConfiguration"
+            case pendingCount = "pendingCount"
+            case platformVersion = "platformVersion"
+            case rolloutState = "rolloutState"
+            case rolloutStateReason = "rolloutStateReason"
+            case runningCount = "runningCount"
+            case status = "status"
+            case taskDefinition = "taskDefinition"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct DeploymentCircuitBreaker: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether to enable the deployment circuit breaker logic for the service.
         public let enable: Bool
         /// Whether to enable Amazon ECS to roll back the service if a service deployment fails. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
@@ -1660,12 +1699,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enable
-            case rollback
+            case enable = "enable"
+            case rollback = "rollback"
         }
     }
 
     public struct DeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         ///  The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type.  The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If deployment circuit breaker is enabled, a service deployment will transition to a failed state and stop launching new tasks. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         public let deploymentCircuitBreaker: DeploymentCircuitBreaker?
         /// If a service is using the rolling update (ECS) deployment type, the maximum percent parameter represents an upper limit on the number of tasks in a service that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desired number of tasks (rounded down to the nearest integer), and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. This parameter enables you to define the deployment batch size. For example, if your service has a desired number of four tasks and a maximum percent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximum percent is 200%. If a service is using the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the maximum percent value is set to the default value and is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. If the tasks in the service use the Fargate launch type, the maximum percent value is not used, although it is returned when describing your service.
@@ -1680,13 +1720,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentCircuitBreaker
-            case maximumPercent
-            case minimumHealthyPercent
+            case deploymentCircuitBreaker = "deploymentCircuitBreaker"
+            case maximumPercent = "maximumPercent"
+            case minimumHealthyPercent = "minimumHealthyPercent"
         }
     }
 
     public struct DeploymentController: AWSEncodableShape & AWSDecodableShape {
+
         /// The deployment controller type to use. There are three deployment controller types available:  ECS  The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the DeploymentConfiguration.  CODE_DEPLOY  The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by AWS CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it.  EXTERNAL  The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service.
         public let type: DeploymentControllerType
 
@@ -1695,11 +1736,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
+            case type = "type"
         }
     }
 
     public struct DeregisterContainerInstanceRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance to deregister. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
@@ -1714,13 +1756,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
-            case force
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
+            case force = "force"
         }
     }
 
     public struct DeregisterContainerInstanceResponse: AWSDecodableShape {
+
         /// The container instance that was deregistered.
         public let containerInstance: ContainerInstance?
 
@@ -1729,11 +1772,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstance
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct DeregisterTaskDefinitionRequest: AWSEncodableShape {
+
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public let taskDefinition: String
 
@@ -1742,11 +1786,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskDefinition
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct DeregisterTaskDefinitionResponse: AWSDecodableShape {
+
         /// The full description of the deregistered task.
         public let taskDefinition: TaskDefinition?
 
@@ -1755,11 +1800,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskDefinition
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct DescribeCapacityProvidersRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to 100 capacity providers can be described in an action.
         public let capacityProviders: [String]?
         /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
@@ -1777,14 +1823,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case include
-            case maxResults
-            case nextToken
+            case capacityProviders = "capacityProviders"
+            case include = "include"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeCapacityProvidersResponse: AWSDecodableShape {
+
         /// The list of capacity providers.
         public let capacityProviders: [CapacityProvider]?
         /// Any failures associated with the call.
@@ -1799,13 +1846,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case failures
-            case nextToken
+            case capacityProviders = "capacityProviders"
+            case failures = "failures"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeClustersRequest: AWSEncodableShape {
+
         /// A list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public let clusters: [String]?
         /// Whether to include additional information about your clusters in the response. If this field is omitted, the attachments, statistics, and tags are not included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If STATISTICS is specified, the following additional information, separated by launch type, is included:   runningEC2TasksCount   runningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount   If TAGS is specified, the metadata tags associated with the cluster are included.
@@ -1817,12 +1865,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusters
-            case include
+            case clusters = "clusters"
+            case include = "include"
         }
     }
 
     public struct DescribeClustersResponse: AWSDecodableShape {
+
         /// The list of clusters.
         public let clusters: [Cluster]?
         /// Any failures associated with the call.
@@ -1834,12 +1883,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusters
-            case failures
+            case clusters = "clusters"
+            case failures = "failures"
         }
     }
 
     public struct DescribeContainerInstancesRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the container instance or container instances you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
         /// A list of up to 100 container instance IDs or full Amazon Resource Name (ARN) entries.
@@ -1854,13 +1904,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstances
-            case include
+            case cluster = "cluster"
+            case containerInstances = "containerInstances"
+            case include = "include"
         }
     }
 
     public struct DescribeContainerInstancesResponse: AWSDecodableShape {
+
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
@@ -1872,12 +1923,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstances
-            case failures
+            case containerInstances = "containerInstances"
+            case failures = "failures"
         }
     }
 
     public struct DescribeServicesRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN)the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the service or services you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
         /// Specifies whether you want to see the resource tags for the service. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
@@ -1892,13 +1944,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case include
-            case services
+            case cluster = "cluster"
+            case include = "include"
+            case services = "services"
         }
     }
 
     public struct DescribeServicesResponse: AWSDecodableShape {
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// The list of services described.
@@ -1910,12 +1963,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case services
+            case failures = "failures"
+            case services = "services"
         }
     }
 
     public struct DescribeTaskDefinitionRequest: AWSEncodableShape {
+
         /// Specifies whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
         public let include: [TaskDefinitionField]?
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
@@ -1927,12 +1981,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case include
-            case taskDefinition
+            case include = "include"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct DescribeTaskDefinitionResponse: AWSDecodableShape {
+
         /// The metadata that is applied to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]?
         /// The full task definition description.
@@ -1944,12 +1999,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case taskDefinition
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct DescribeTaskSetsRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
         public let cluster: String
         /// Specifies whether to see the resource tags for the task set. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
@@ -1967,14 +2023,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case include
-            case service
-            case taskSets
+            case cluster = "cluster"
+            case include = "include"
+            case service = "service"
+            case taskSets = "taskSets"
         }
     }
 
     public struct DescribeTaskSetsResponse: AWSDecodableShape {
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// The list of task sets described.
@@ -1986,12 +2043,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case taskSets
+            case failures = "failures"
+            case taskSets = "taskSets"
         }
     }
 
     public struct DescribeTasksRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required if the task or tasks you are describing were launched in any cluster other than the default cluster.
         public let cluster: String?
         /// Specifies whether you want to see the resource tags for the task. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
@@ -2006,13 +2064,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case include
-            case tasks
+            case cluster = "cluster"
+            case include = "include"
+            case tasks = "tasks"
         }
     }
 
     public struct DescribeTasksResponse: AWSDecodableShape {
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// The list of tasks.
@@ -2024,12 +2083,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case tasks
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
     public struct Device: AWSEncodableShape & AWSDecodableShape {
+
         /// The path inside the container at which to expose the host device.
         public let containerPath: String?
         /// The path for the device on the host container instance.
@@ -2044,13 +2104,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case hostPath
-            case permissions
+            case containerPath = "containerPath"
+            case hostPath = "hostPath"
+            case permissions = "permissions"
         }
     }
 
     public struct DiscoverPollEndpointRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster to which the container instance belongs.
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
@@ -2062,12 +2123,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct DiscoverPollEndpointResponse: AWSDecodableShape {
+
         /// The endpoint for the Amazon ECS agent to poll.
         public let endpoint: String?
         /// The telemetry endpoint for the Amazon ECS agent.
@@ -2079,12 +2141,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoint
-            case telemetryEndpoint
+            case endpoint = "endpoint"
+            case telemetryEndpoint = "telemetryEndpoint"
         }
     }
 
     public struct DockerVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// If this value is true, the Docker volume is created if it does not already exist.  This field is only used if the scope is shared.
         public let autoprovision: Bool?
         /// The Docker volume driver to use. The driver value must match the driver name provided by Docker because it is used for task placement. If the driver was installed using the Docker plugin CLI, use docker plugin ls to retrieve the driver name from your container instance. If the driver was installed using another method, use Docker plugin discovery to retrieve the driver name. For more information, see Docker plugin discovery. This parameter maps to Driver in the Create a volume section of the Docker Remote API and the xxdriver option to docker volume create.
@@ -2105,15 +2168,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoprovision
-            case driver
-            case driverOpts
-            case labels
-            case scope
+            case autoprovision = "autoprovision"
+            case driver = "driver"
+            case driverOpts = "driverOpts"
+            case labels = "labels"
+            case scope = "scope"
         }
     }
 
     public struct EFSAuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon EFS access point ID to use. If an access point is specified, the root directory value specified in the EFSVolumeConfiguration must either be omitted or set to / which will enforce the path set on the EFS access point. If an access point is used, transit encryption must be enabled in the EFSVolumeConfiguration. For more information, see Working with Amazon EFS Access Points in the Amazon Elastic File System User Guide.
         public let accessPointId: String?
         /// Whether or not to use the Amazon ECS task IAM role defined in a task definition when mounting the Amazon EFS file system. If enabled, transit encryption must be enabled in the EFSVolumeConfiguration. If this parameter is omitted, the default value of DISABLED is used. For more information, see Using Amazon EFS Access Points in the Amazon Elastic Container Service Developer Guide.
@@ -2125,12 +2189,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointId
-            case iam
+            case accessPointId = "accessPointId"
+            case iam = "iam"
         }
     }
 
     public struct EFSVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The authorization configuration details for the Amazon EFS file system.
         public let authorizationConfig: EFSAuthorizationConfig?
         /// The Amazon EFS file system ID to use.
@@ -2151,15 +2216,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationConfig
-            case fileSystemId
-            case rootDirectory
-            case transitEncryption
-            case transitEncryptionPort
+            case authorizationConfig = "authorizationConfig"
+            case fileSystemId = "fileSystemId"
+            case rootDirectory = "rootDirectory"
+            case transitEncryption = "transitEncryption"
+            case transitEncryptionPort = "transitEncryptionPort"
         }
     }
 
     public struct EnvironmentFile: AWSEncodableShape & AWSDecodableShape {
+
         /// The file type to use. The only supported value is s3.
         public let type: EnvironmentFileType
         /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the environment variable file.
@@ -2171,12 +2237,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
     public struct EphemeralStorage: AWSEncodableShape & AWSDecodableShape {
+
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         public let sizeInGiB: Int
 
@@ -2185,11 +2252,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInGiB
+            case sizeInGiB = "sizeInGiB"
         }
     }
 
     public struct ExecuteCommandConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify an AWS Key Management Service key ID to encrypt the data between the local client and the container.
         public let kmsKeyId: String?
         /// The log configuration for the results of the execute command actions. The logs can be sent to CloudWatch Logs or an Amazon S3 bucket. When logging=OVERRIDE is specified, a logConfiguration must be provided.
@@ -2204,13 +2272,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId
-            case logConfiguration
-            case logging
+            case kmsKeyId = "kmsKeyId"
+            case logConfiguration = "logConfiguration"
+            case logging = "logging"
         }
     }
 
     public struct ExecuteCommandLogConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Whether or not to enable encryption on the CloudWatch logs. If not specified, encryption will be disabled.
         public let cloudWatchEncryptionEnabled: Bool?
         /// The name of the CloudWatch log group to send logs to.  The CloudWatch log group must already be created.
@@ -2231,15 +2300,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchEncryptionEnabled
-            case cloudWatchLogGroupName
-            case s3BucketName
-            case s3EncryptionEnabled
-            case s3KeyPrefix
+            case cloudWatchEncryptionEnabled = "cloudWatchEncryptionEnabled"
+            case cloudWatchLogGroupName = "cloudWatchLogGroupName"
+            case s3BucketName = "s3BucketName"
+            case s3EncryptionEnabled = "s3EncryptionEnabled"
+            case s3KeyPrefix = "s3KeyPrefix"
         }
     }
 
     public struct ExecuteCommandRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) or short name of the cluster the task is running in. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The command to run on the container.
@@ -2260,15 +2330,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case command
-            case container
-            case interactive
-            case task
+            case cluster = "cluster"
+            case command = "command"
+            case container = "container"
+            case interactive = "interactive"
+            case task = "task"
         }
     }
 
     public struct ExecuteCommandResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
         /// The Amazon Resource Name (ARN) of the container.
@@ -2292,16 +2363,17 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArn
-            case containerArn
-            case containerName
-            case interactive
-            case session
-            case taskArn
+            case clusterArn = "clusterArn"
+            case containerArn = "containerArn"
+            case containerName = "containerName"
+            case interactive = "interactive"
+            case session = "session"
+            case taskArn = "taskArn"
         }
     }
 
     public struct FSxWindowsFileServerAuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The authorization credential option to use. The authorization credential options can be provided using either the Amazon Resource Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
         public let credentialsParameter: String
         /// A fully qualified domain name hosted by an AWS Directory Service Managed Microsoft AD (Active Directory) or self-hosted AD on Amazon EC2.
@@ -2313,12 +2385,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentialsParameter
-            case domain
+            case credentialsParameter = "credentialsParameter"
+            case domain = "domain"
         }
     }
 
     public struct FSxWindowsFileServerVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The authorization configuration details for the Amazon FSx for Windows File Server file system.
         public let authorizationConfig: FSxWindowsFileServerAuthorizationConfig
         /// The Amazon FSx for Windows File Server file system ID to use.
@@ -2333,13 +2406,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationConfig
-            case fileSystemId
-            case rootDirectory
+            case authorizationConfig = "authorizationConfig"
+            case fileSystemId = "fileSystemId"
+            case rootDirectory = "rootDirectory"
         }
     }
 
     public struct Failure: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the failed resource.
         public let arn: String?
         /// The details of the failure.
@@ -2354,13 +2428,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case detail
-            case reason
+            case arn = "arn"
+            case detail = "detail"
+            case reason = "reason"
         }
     }
 
     public struct FirelensConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The options to use when configuring the log router. This field is optional and can be used to specify a custom configuration file or to add additional metadata, such as the task, task definition, cluster, and container instance details to the log event. If specified, the syntax to use is "options":{"enable-ecs-log-metadata":"true|false","config-file-type:"s3|file","config-file-value":"arn:aws:s3:::mybucket/fluent.conf|filepath"}. For more information, see Creating a Task Definition that Uses a FireLens Configuration in the Amazon Elastic Container Service Developer Guide.  Tasks hosted on AWS Fargate only support the file configuration file type.
         public let options: [String: String]?
         /// The log router to use. The valid values are fluentd or fluentbit.
@@ -2372,12 +2447,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case options
-            case type
+            case options = "options"
+            case type = "type"
         }
     }
 
     public struct HealthCheck: AWSEncodableShape & AWSDecodableShape {
+
         /// A string array representing the command that the container runs to determine if it is healthy. The string array must start with CMD to execute the command arguments directly, or CMD-SHELL to run the command with the container's default shell. For example:  [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]  An exit code of 0 indicates success, and non-zero exit code indicates failure. For more information, see HealthCheck in the Create a container section of the Docker Remote API.
         public let command: [String]
         /// The time period in seconds between each health check execution. You may specify between 5 and 300 seconds. The default value is 30 seconds.
@@ -2398,15 +2474,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case command
-            case interval
-            case retries
-            case startPeriod
-            case timeout
+            case command = "command"
+            case interval = "interval"
+            case retries = "retries"
+            case startPeriod = "startPeriod"
+            case timeout = "timeout"
         }
     }
 
     public struct HostEntry: AWSEncodableShape & AWSDecodableShape {
+
         /// The hostname to use in the /etc/hosts entry.
         public let hostname: String
         /// The IP address to use in the /etc/hosts entry.
@@ -2418,12 +2495,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hostname
-            case ipAddress
+            case hostname = "hostname"
+            case ipAddress = "ipAddress"
         }
     }
 
     public struct HostVolumeProperties: AWSEncodableShape & AWSDecodableShape {
+
         /// When the host parameter is used, specify a sourcePath to declare the path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported. If you are using the Fargate launch type, the sourcePath parameter is not supported.
         public let sourcePath: String?
 
@@ -2432,11 +2510,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourcePath
+            case sourcePath = "sourcePath"
         }
     }
 
     public struct InferenceAccelerator: AWSEncodableShape & AWSDecodableShape {
+
         /// The Elastic Inference accelerator device name. The deviceName must also be referenced in a container definition as a ResourceRequirement.
         public let deviceName: String
         /// The Elastic Inference accelerator type to use.
@@ -2448,12 +2527,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case deviceType
+            case deviceName = "deviceName"
+            case deviceType = "deviceType"
         }
     }
 
     public struct InferenceAcceleratorOverride: AWSEncodableShape & AWSDecodableShape {
+
         /// The Elastic Inference accelerator device name to override for the task. This parameter must match a deviceName specified in the task definition.
         public let deviceName: String?
         /// The Elastic Inference accelerator type to use.
@@ -2465,12 +2545,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName
-            case deviceType
+            case deviceName = "deviceName"
+            case deviceType = "deviceType"
         }
     }
 
     public struct KernelCapabilities: AWSEncodableShape & AWSDecodableShape {
+
         /// The Linux capabilities for the container that have been added to the default configuration provided by Docker. This parameter maps to CapAdd in the Create a container section of the Docker Remote API and the --cap-add option to docker run.  Tasks launched on AWS Fargate only support adding the SYS_PTRACE kernel capability.  Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"
         public let add: [String]?
         /// The Linux capabilities for the container that have been removed from the default configuration provided by Docker. This parameter maps to CapDrop in the Create a container section of the Docker Remote API and the --cap-drop option to docker run. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" | "FSETID" | "IPC_LOCK" | "IPC_OWNER" | "KILL" | "LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | "MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | "NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | "SETFCAP" | "SETGID" | "SETPCAP" | "SETUID" | "SYS_ADMIN" | "SYS_BOOT" | "SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | "SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | "SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | "SYSLOG" | "WAKE_ALARM"
@@ -2482,12 +2563,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case add
-            case drop
+            case add = "add"
+            case drop = "drop"
         }
     }
 
     public struct KeyValuePair: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the key-value pair. For environment variables, this is the name of the environment variable.
         public let name: String?
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
@@ -2499,12 +2581,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct LinuxParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.  For tasks that use the Fargate launch type, capabilities is supported for all platform versions but the add parameter is only supported if using platform version 1.4.0 or later.
         public let capabilities: KernelCapabilities?
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.  If you are using tasks that use the Fargate launch type, the devices parameter is not supported.
@@ -2531,17 +2614,18 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilities
-            case devices
-            case initProcessEnabled
-            case maxSwap
-            case sharedMemorySize
-            case swappiness
-            case tmpfs
+            case capabilities = "capabilities"
+            case devices = "devices"
+            case initProcessEnabled = "initProcessEnabled"
+            case maxSwap = "maxSwap"
+            case sharedMemorySize = "sharedMemorySize"
+            case swappiness = "swappiness"
+            case tmpfs = "tmpfs"
         }
     }
 
     public struct ListAccountSettingsRequest: AWSEncodableShape {
+
         /// Specifies whether to return the effective settings. If true, the account settings for the root user or the default setting for the principalArn are returned. If false, the account settings for the principalArn are returned if they are set. Otherwise, no account settings are returned.
         public let effectiveSettings: Bool?
         /// The maximum number of account setting results returned by ListAccountSettings in paginated output. When this parameter is used, ListAccountSettings only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAccountSettings request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then ListAccountSettings returns up to 10 results and a nextToken value if applicable.
@@ -2565,16 +2649,17 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case effectiveSettings
-            case maxResults
-            case name
-            case nextToken
-            case principalArn
-            case value
+            case effectiveSettings = "effectiveSettings"
+            case maxResults = "maxResults"
+            case name = "name"
+            case nextToken = "nextToken"
+            case principalArn = "principalArn"
+            case value = "value"
         }
     }
 
     public struct ListAccountSettingsResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future ListAccountSettings request. When the results of a ListAccountSettings request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The account settings for the resource.
@@ -2586,12 +2671,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case settings
+            case nextToken = "nextToken"
+            case settings = "settings"
         }
     }
 
     public struct ListAttributesRequest: AWSEncodableShape {
+
         /// The name of the attribute with which to filter the results.
         public let attributeName: String?
         /// The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
@@ -2615,16 +2701,17 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case attributeValue
-            case cluster
-            case maxResults
-            case nextToken
-            case targetType
+            case attributeName = "attributeName"
+            case attributeValue = "attributeValue"
+            case cluster = "cluster"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case targetType = "targetType"
         }
     }
 
     public struct ListAttributesResponse: AWSDecodableShape {
+
         /// A list of attribute objects that meet the criteria of the request.
         public let attributes: [Attribute]?
         /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2636,12 +2723,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case nextToken
+            case attributes = "attributes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListClustersRequest: AWSEncodableShape {
+
         /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
         /// The nextToken value returned from a ListClusters request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
@@ -2653,12 +2741,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListClustersResponse: AWSDecodableShape {
+
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
         public let clusterArns: [String]?
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2670,12 +2759,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clusterArns
-            case nextToken
+            case clusterArns = "clusterArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListContainerInstancesRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// You can filter the results of a ListContainerInstances operation with cluster query language statements. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
@@ -2696,15 +2786,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case filter
-            case maxResults
-            case nextToken
-            case status
+            case cluster = "cluster"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
         }
     }
 
     public struct ListContainerInstancesResponse: AWSDecodableShape {
+
         /// The list of container instances with full ARN entries for each container instance associated with the specified cluster.
         public let containerInstanceArns: [String]?
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2716,12 +2807,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstanceArns
-            case nextToken
+            case containerInstanceArns = "containerInstanceArns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListServicesRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The launch type for the services to list.
@@ -2742,15 +2834,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case launchType
-            case maxResults
-            case nextToken
-            case schedulingStrategy
+            case cluster = "cluster"
+            case launchType = "launchType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case schedulingStrategy = "schedulingStrategy"
         }
     }
 
     public struct ListServicesResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of full ARN entries for each service associated with the specified cluster.
@@ -2762,12 +2855,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case serviceArns
+            case nextToken = "nextToken"
+            case serviceArns = "serviceArns"
         }
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon ECS tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
 
@@ -2776,11 +2870,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags for the resource.
         public let tags: [Tag]?
 
@@ -2789,11 +2884,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListTaskDefinitionFamiliesRequest: AWSEncodableShape {
+
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
         public let familyPrefix: String?
         /// The maximum number of task definition family results returned by ListTaskDefinitionFamilies in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitionFamilies request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTaskDefinitionFamilies returns up to 100 results and a nextToken value if applicable.
@@ -2811,14 +2907,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case familyPrefix
-            case maxResults
-            case nextToken
-            case status
+            case familyPrefix = "familyPrefix"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
         }
     }
 
     public struct ListTaskDefinitionFamiliesResponse: AWSDecodableShape {
+
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
         public let families: [String]?
         /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2830,12 +2927,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case families
-            case nextToken
+            case families = "families"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListTaskDefinitionsRequest: AWSEncodableShape {
+
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
         public let familyPrefix: String?
         /// The maximum number of task definition results returned by ListTaskDefinitions in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTaskDefinitions returns up to 100 results and a nextToken value if applicable.
@@ -2856,15 +2954,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case familyPrefix
-            case maxResults
-            case nextToken
-            case sort
-            case status
+            case familyPrefix = "familyPrefix"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sort = "sort"
+            case status = "status"
         }
     }
 
     public struct ListTaskDefinitionsResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
@@ -2876,12 +2975,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case taskDefinitionArns
+            case nextToken = "nextToken"
+            case taskDefinitionArns = "taskDefinitionArns"
         }
     }
 
     public struct ListTasksRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance with which to filter the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
@@ -2914,19 +3014,20 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
-            case desiredStatus
-            case family
-            case launchType
-            case maxResults
-            case nextToken
-            case serviceName
-            case startedBy
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
+            case desiredStatus = "desiredStatus"
+            case family = "family"
+            case launchType = "launchType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case serviceName = "serviceName"
+            case startedBy = "startedBy"
         }
     }
 
     public struct ListTasksResponse: AWSDecodableShape {
+
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The list of task ARN entries for the ListTasks request.
@@ -2938,12 +3039,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case taskArns
+            case nextToken = "nextToken"
+            case taskArns = "taskArns"
         }
     }
 
     public struct LoadBalancer: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the container (as it appears in a container definition) to associate with the load balancer.
         public let containerName: String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they are launched on must allow ingress traffic on the hostPort of the port mapping.
@@ -2961,14 +3063,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case loadBalancerName
-            case targetGroupArn
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case loadBalancerName = "loadBalancerName"
+            case targetGroupArn = "targetGroupArn"
         }
     }
 
     public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The log driver to use for the container. For tasks on AWS Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries,syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see Using the awslogs log driver in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see Custom log routing in the Amazon Elastic Container Service Developer Guide.  If you have a custom driver that is not listed, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we do not currently provide support for running modified copies of this software.
         public let logDriver: LogDriver
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
@@ -2983,13 +3086,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logDriver
-            case options
-            case secretOptions
+            case logDriver = "logDriver"
+            case options = "options"
+            case secretOptions = "secretOptions"
         }
     }
 
     public struct ManagedAgent: AWSDecodableShape {
+
         /// The Unix timestamp for when the managed agent was last started.
         public let lastStartedAt: Date?
         /// The last known status of the managed agent.
@@ -3007,14 +3111,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastStartedAt
-            case lastStatus
-            case name
-            case reason
+            case lastStartedAt = "lastStartedAt"
+            case lastStatus = "lastStatus"
+            case name = "name"
+            case reason = "reason"
         }
     }
 
     public struct ManagedAgentStateChange: AWSEncodableShape {
+
         /// The name of the container associated with the managed agent.
         public let containerName: String
         /// The name of the managed agent.
@@ -3032,14 +3137,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case managedAgentName
-            case reason
-            case status
+            case containerName = "containerName"
+            case managedAgentName = "managedAgentName"
+            case reason = "reason"
+            case status = "status"
         }
     }
 
     public struct ManagedScaling: AWSEncodableShape & AWSDecodableShape {
+
         /// The period of time, in seconds, after a newly launched Amazon EC2 instance can contribute to CloudWatch metrics for Auto Scaling group. If this parameter is omitted, the default value of 300 seconds is used.
         public let instanceWarmupPeriod: Int?
         /// The maximum number of container instances that Amazon ECS will scale in or scale out at one time. If this parameter is omitted, the default value of 10000 is used.
@@ -3071,15 +3177,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case instanceWarmupPeriod
-            case maximumScalingStepSize
-            case minimumScalingStepSize
-            case status
-            case targetCapacity
+            case instanceWarmupPeriod = "instanceWarmupPeriod"
+            case maximumScalingStepSize = "maximumScalingStepSize"
+            case minimumScalingStepSize = "minimumScalingStepSize"
+            case status = "status"
+            case targetCapacity = "targetCapacity"
         }
     }
 
     public struct MountPoint: AWSEncodableShape & AWSDecodableShape {
+
         /// The path on the container to mount the host volume at.
         public let containerPath: String?
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
@@ -3094,13 +3201,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case readOnly
-            case sourceVolume
+            case containerPath = "containerPath"
+            case readOnly = "readOnly"
+            case sourceVolume = "sourceVolume"
         }
     }
 
     public struct NetworkBinding: AWSEncodableShape & AWSDecodableShape {
+
         /// The IP address that the container is bound to on the container instance.
         public let bindIP: String?
         /// The port number on the container that is used with the network binding.
@@ -3118,14 +3226,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bindIP
-            case containerPort
-            case hostPort
-            case `protocol`
+            case bindIP = "bindIP"
+            case containerPort = "containerPort"
+            case hostPort = "hostPort"
+            case `protocol` = "protocol"
         }
     }
 
     public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The VPC subnets and security groups associated with a task.  All specified subnets and security groups must be from the same VPC.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
@@ -3134,11 +3243,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsvpcConfiguration
+            case awsvpcConfiguration = "awsvpcConfiguration"
         }
     }
 
     public struct NetworkInterface: AWSDecodableShape {
+
         /// The attachment ID for the network interface.
         public let attachmentId: String?
         /// The private IPv6 address for the network interface.
@@ -3153,13 +3263,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentId
-            case ipv6Address
-            case privateIpv4Address
+            case attachmentId = "attachmentId"
+            case ipv6Address = "ipv6Address"
+            case privateIpv4Address = "privateIpv4Address"
         }
     }
 
     public struct PlacementConstraint: AWSEncodableShape & AWSDecodableShape {
+
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
@@ -3171,12 +3282,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case type
+            case expression = "expression"
+            case type = "type"
         }
     }
 
     public struct PlacementStrategy: AWSEncodableShape & AWSDecodableShape {
+
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public let field: String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
@@ -3188,12 +3300,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field
-            case type
+            case field = "field"
+            case type = "type"
         }
     }
 
     public struct PlatformDevice: AWSEncodableShape {
+
         /// The ID for the GPU(s) on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
         public let id: String
         /// The type of device that is available on the container instance. The only supported value is GPU.
@@ -3205,12 +3318,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case type
+            case id = "id"
+            case type = "type"
         }
     }
 
     public struct PortMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// The port number on the container that is bound to the user-specified or automatically assigned host port. If you are using containers in a task with the awsvpc or host network mode, exposed ports should be specified using containerPort. If you are using containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
         public let containerPort: Int?
         /// The port number on the container instance to reserve for your container. If you are using containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you are using containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range.  The default ephemeral port range from 49153 through 65535 is always used for Docker versions before 1.6.0.  The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released). The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output. A container instance can have up to 100 reserved ports at a time, including the default reserved ports. Automatically assigned ports don't count toward the 100 reserved ports limit.
@@ -3225,13 +3339,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPort
-            case hostPort
-            case `protocol`
+            case containerPort = "containerPort"
+            case hostPort = "hostPort"
+            case `protocol` = "protocol"
         }
     }
 
     public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the container that will serve as the App Mesh proxy.
         public let containerName: String
         /// The set of network configuration parameters to provide the Container Network Interface (CNI) plugin, specified as key-value pairs.    IgnoredUID - (Required) The user ID (UID) of the proxy container as defined by the user parameter in a container definition. This is used to ensure the proxy ignores its own traffic. If IgnoredGID is specified, this field can be empty.    IgnoredGID - (Required) The group ID (GID) of the proxy container as defined by the user parameter in a container definition. This is used to ensure the proxy ignores its own traffic. If IgnoredUID is specified, this field can be empty.    AppPorts - (Required) The list of ports that the application uses. Network traffic to these ports is forwarded to the ProxyIngressPort and ProxyEgressPort.    ProxyIngressPort - (Required) Specifies the port that incoming traffic to the AppPorts is directed to.    ProxyEgressPort - (Required) Specifies the port that outgoing traffic from the AppPorts is directed to.    EgressIgnoredPorts - (Required) The egress traffic going to the specified ports is ignored and not redirected to the ProxyEgressPort. It can be an empty list.    EgressIgnoredIPs - (Required) The egress traffic going to the specified IP addresses is ignored and not redirected to the ProxyEgressPort. It can be an empty list.
@@ -3246,13 +3361,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case properties
-            case type
+            case containerName = "containerName"
+            case properties = "properties"
+            case type = "type"
         }
     }
 
     public struct PutAccountSettingDefaultRequest: AWSEncodableShape {
+
         /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
         public let name: SettingName
         /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
@@ -3264,12 +3380,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct PutAccountSettingDefaultResponse: AWSDecodableShape {
+
         /// The current setting for a resource.
         public let setting: Setting?
 
@@ -3278,11 +3395,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setting
+            case setting = "setting"
         }
     }
 
     public struct PutAccountSettingRequest: AWSEncodableShape {
+
         /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
         public let name: SettingName
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it modifies the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.  Federated users assume the account setting of the root user and can't have explicit account settings set for them.
@@ -3297,13 +3415,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case principalArn
-            case value
+            case name = "name"
+            case principalArn = "principalArn"
+            case value = "value"
         }
     }
 
     public struct PutAccountSettingResponse: AWSDecodableShape {
+
         /// The current account setting for a resource.
         public let setting: Setting?
 
@@ -3312,11 +3431,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case setting
+            case setting = "setting"
         }
     }
 
     public struct PutAttributesRequest: AWSEncodableShape {
+
         /// The attributes to apply to your resource. You can specify up to 10 custom attributes per resource. You can specify up to 10 attributes in a single call.
         public let attributes: [Attribute]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
@@ -3328,12 +3448,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case cluster
+            case attributes = "attributes"
+            case cluster = "cluster"
         }
     }
 
     public struct PutAttributesResponse: AWSDecodableShape {
+
         /// The attributes applied to your resource.
         public let attributes: [Attribute]?
 
@@ -3342,11 +3463,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
+            case attributes = "attributes"
         }
     }
 
     public struct PutClusterCapacityProvidersRequest: AWSEncodableShape {
+
         /// The name of one or more capacity providers to associate with the cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used.
         public let capacityProviders: [String]
         /// The short name or full Amazon Resource Name (ARN) of the cluster to modify the capacity provider settings for. If you do not specify a cluster, the default cluster is assumed.
@@ -3367,13 +3489,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviders
-            case cluster
-            case defaultCapacityProviderStrategy
+            case capacityProviders = "capacityProviders"
+            case cluster = "cluster"
+            case defaultCapacityProviderStrategy = "defaultCapacityProviderStrategy"
         }
     }
 
     public struct PutClusterCapacityProvidersResponse: AWSDecodableShape {
+
         /// Details about the cluster.
         public let cluster: Cluster?
 
@@ -3382,11 +3505,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
     public struct RegisterContainerInstanceRequest: AWSEncodableShape {
+
         /// The container instance attributes that this container instance supports.
         public let attributes: [Attribute]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster with which to register your container instance. If you do not specify a cluster, the default cluster is assumed.
@@ -3427,19 +3551,20 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes
-            case cluster
-            case containerInstanceArn
-            case instanceIdentityDocument
-            case instanceIdentityDocumentSignature
-            case platformDevices
-            case tags
-            case totalResources
-            case versionInfo
+            case attributes = "attributes"
+            case cluster = "cluster"
+            case containerInstanceArn = "containerInstanceArn"
+            case instanceIdentityDocument = "instanceIdentityDocument"
+            case instanceIdentityDocumentSignature = "instanceIdentityDocumentSignature"
+            case platformDevices = "platformDevices"
+            case tags = "tags"
+            case totalResources = "totalResources"
+            case versionInfo = "versionInfo"
         }
     }
 
     public struct RegisterContainerInstanceResponse: AWSDecodableShape {
+
         /// The container instance that was registered.
         public let containerInstance: ContainerInstance?
 
@@ -3448,11 +3573,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstance
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct RegisterTaskDefinitionRequest: AWSEncodableShape {
+
         /// A list of container definitions in JSON format that describe the different containers that make up your task.
         public let containerDefinitions: [ContainerDefinition]
         /// The number of CPU units used by the task. It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu, in a task definition. String values are converted to an integer indicating the CPU units when the task definition is registered.  Task-level CPU and memory parameters are ignored for Windows containers. We recommend specifying container-level resources for Windows containers.  If you are using the EC2 launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 10240 CPU units (10 vCPUs). If you are using the Fargate launch type, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter:   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
@@ -3514,26 +3640,27 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerDefinitions
-            case cpu
-            case ephemeralStorage
-            case executionRoleArn
-            case family
-            case inferenceAccelerators
-            case ipcMode
-            case memory
-            case networkMode
-            case pidMode
-            case placementConstraints
-            case proxyConfiguration
-            case requiresCompatibilities
-            case tags
-            case taskRoleArn
-            case volumes
+            case containerDefinitions = "containerDefinitions"
+            case cpu = "cpu"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionRoleArn = "executionRoleArn"
+            case family = "family"
+            case inferenceAccelerators = "inferenceAccelerators"
+            case ipcMode = "ipcMode"
+            case memory = "memory"
+            case networkMode = "networkMode"
+            case pidMode = "pidMode"
+            case placementConstraints = "placementConstraints"
+            case proxyConfiguration = "proxyConfiguration"
+            case requiresCompatibilities = "requiresCompatibilities"
+            case tags = "tags"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
         }
     }
 
     public struct RegisterTaskDefinitionResponse: AWSDecodableShape {
+
         /// The list of tags associated with the task definition.
         public let tags: [Tag]?
         /// The full description of the registered task definition.
@@ -3545,12 +3672,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
-            case taskDefinition
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct RepositoryCredentials: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.  When you are using the Amazon ECS API, AWS CLI, or AWS SDK, if the secret exists in the same Region as the task that you are launching then you can use either the full ARN or the name of the secret. When you are using the AWS Management Console, you must specify the full ARN of the secret.
         public let credentialsParameter: String
 
@@ -3559,11 +3687,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case credentialsParameter
+            case credentialsParameter = "credentialsParameter"
         }
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
+
         /// When the doubleValue type is set, the value of the resource must be a double precision floating-point type.
         public let doubleValue: Double?
         /// When the integerValue type is set, the value of the resource must be an integer.
@@ -3587,16 +3716,17 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case doubleValue
-            case integerValue
-            case longValue
-            case name
-            case stringSetValue
-            case type
+            case doubleValue = "doubleValue"
+            case integerValue = "integerValue"
+            case longValue = "longValue"
+            case name = "name"
+            case stringSetValue = "stringSetValue"
+            case type = "type"
         }
     }
 
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
         public let type: ResourceType
         /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent will reserve for the container. The number of GPUs reserved for all containers in a task should not exceed the number of available GPUs on the container instance the task is launched on. If the InferenceAccelerator type is used, the value should match the deviceName for an InferenceAccelerator specified in a task definition.
@@ -3608,12 +3738,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case type
-            case value
+            case type = "type"
+            case value = "value"
         }
     }
 
     public struct RunTaskRequest: AWSEncodableShape {
+
         /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to run your task. If you do not specify a cluster, the default cluster is assumed.
@@ -3681,27 +3812,28 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case cluster
-            case count
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case group
-            case launchType
-            case networkConfiguration
-            case overrides
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case propagateTags
-            case referenceId
-            case startedBy
-            case tags
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case cluster = "cluster"
+            case count = "count"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case group = "group"
+            case launchType = "launchType"
+            case networkConfiguration = "networkConfiguration"
+            case overrides = "overrides"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case referenceId = "referenceId"
+            case startedBy = "startedBy"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct RunTaskResponse: AWSDecodableShape {
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// A full description of the tasks that were run. The tasks that were successfully placed on your cluster are described here.
@@ -3713,12 +3845,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case tasks
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
     public struct Scale: AWSEncodableShape & AWSDecodableShape {
+
         /// The unit of measure for the scale value.
         public let unit: ScaleUnit?
         /// The value, specified as a percent total of a service's desiredCount, to scale the task set. Accepted values are numbers between 0 and 100.
@@ -3730,12 +3863,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unit
-            case value
+            case unit = "unit"
+            case value = "value"
         }
     }
 
     public struct Secret: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the secret.
         public let name: String
         /// The secret to expose to the container. The supported values are either the full ARN of the AWS Secrets Manager secret or the full ARN of the parameter in the AWS Systems Manager Parameter Store.  If the AWS Systems Manager Parameter Store parameter exists in the same Region as the task you are launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
@@ -3747,12 +3881,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case valueFrom
+            case name = "name"
+            case valueFrom = "valueFrom"
         }
     }
 
     public struct Service: AWSDecodableShape {
+
         /// The capacity provider strategy associated with the service.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
@@ -3848,40 +3983,41 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clusterArn
-            case createdAt
-            case createdBy
-            case deploymentConfiguration
-            case deploymentController
-            case deployments
-            case desiredCount
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case events
-            case healthCheckGracePeriodSeconds
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case pendingCount
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case propagateTags
-            case roleArn
-            case runningCount
-            case schedulingStrategy
-            case serviceArn
-            case serviceName
-            case serviceRegistries
-            case status
-            case tags
-            case taskDefinition
-            case taskSets
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case deploymentController = "deploymentController"
+            case deployments = "deployments"
+            case desiredCount = "desiredCount"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case events = "events"
+            case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case pendingCount = "pendingCount"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case propagateTags = "propagateTags"
+            case roleArn = "roleArn"
+            case runningCount = "runningCount"
+            case schedulingStrategy = "schedulingStrategy"
+            case serviceArn = "serviceArn"
+            case serviceName = "serviceName"
+            case serviceRegistries = "serviceRegistries"
+            case status = "status"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
+            case taskSets = "taskSets"
         }
     }
 
     public struct ServiceEvent: AWSDecodableShape {
+
         /// The Unix timestamp for when the event was triggered.
         public let createdAt: Date?
         /// The ID string of the event.
@@ -3896,13 +4032,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case id
-            case message
+            case createdAt = "createdAt"
+            case id = "id"
+            case message = "message"
         }
     }
 
     public struct ServiceRegistry: AWSEncodableShape & AWSDecodableShape {
+
         /// The container name value, already specified in the task definition, to be used for your service discovery service. If the task definition that your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition that your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value, but not both.
         public let containerName: String?
         /// The port value, already specified in the task definition, to be used for your service discovery service. If the task definition your service task specifies uses the bridge or host network mode, you must specify a containerName and containerPort combination from the task definition. If the task definition your service task specifies uses the awsvpc network mode and a type SRV DNS record is used, you must specify either a containerName and containerPort combination or a port value, but not both.
@@ -3920,14 +4057,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerName
-            case containerPort
-            case port
-            case registryArn
+            case containerName = "containerName"
+            case containerPort = "containerPort"
+            case port = "port"
+            case registryArn = "registryArn"
         }
     }
 
     public struct Session: AWSDecodableShape {
+
         /// The ID of the execute command session.
         public let sessionId: String?
         /// A URL back to managed agent on the container that the SSM Session Manager client uses to send commands and receive output from the container.
@@ -3942,13 +4080,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sessionId
-            case streamUrl
-            case tokenValue
+            case sessionId = "sessionId"
+            case streamUrl = "streamUrl"
+            case tokenValue = "tokenValue"
         }
     }
 
     public struct Setting: AWSDecodableShape {
+
         /// The Amazon ECS resource name.
         public let name: SettingName?
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. If this field is omitted, the authenticated user is assumed.
@@ -3963,13 +4102,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case principalArn
-            case value
+            case name = "name"
+            case principalArn = "principalArn"
+            case value = "value"
         }
     }
 
     public struct StartTaskRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance IDs or full ARN entries for the container instances on which you would like to place your task. You can specify up to 10 container instances.
@@ -4019,22 +4159,23 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstances
-            case enableECSManagedTags
-            case enableExecuteCommand
-            case group
-            case networkConfiguration
-            case overrides
-            case propagateTags
-            case referenceId
-            case startedBy
-            case tags
-            case taskDefinition
+            case cluster = "cluster"
+            case containerInstances = "containerInstances"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case group = "group"
+            case networkConfiguration = "networkConfiguration"
+            case overrides = "overrides"
+            case propagateTags = "propagateTags"
+            case referenceId = "referenceId"
+            case startedBy = "startedBy"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct StartTaskResponse: AWSDecodableShape {
+
         /// Any failures associated with the call.
         public let failures: [Failure]?
         /// A full description of the tasks that were started. Each task that was successfully placed on your container instances is described.
@@ -4046,12 +4187,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case tasks
+            case failures = "failures"
+            case tasks = "tasks"
         }
     }
 
     public struct StopTaskRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// An optional message specified when a task is stopped. For example, if you are using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent DescribeTasks API operations on this task. Up to 255 characters are allowed in this message.
@@ -4066,13 +4208,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case reason
-            case task
+            case cluster = "cluster"
+            case reason = "reason"
+            case task = "task"
         }
     }
 
     public struct StopTaskResponse: AWSDecodableShape {
+
         /// The task that was stopped.
         public let task: Task?
 
@@ -4081,11 +4224,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case task
+            case task = "task"
         }
     }
 
     public struct SubmitAttachmentStateChangesRequest: AWSEncodableShape {
+
         /// Any attachments associated with the state change request.
         public let attachments: [AttachmentStateChange]
         /// The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
@@ -4097,12 +4241,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case cluster
+            case attachments = "attachments"
+            case cluster = "cluster"
         }
     }
 
     public struct SubmitAttachmentStateChangesResponse: AWSDecodableShape {
+
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
 
@@ -4111,11 +4256,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgment
+            case acknowledgment = "acknowledgment"
         }
     }
 
     public struct SubmitContainerStateChangeRequest: AWSEncodableShape {
+
         /// The short name or full ARN of the cluster that hosts the container.
         public let cluster: String?
         /// The name of the container.
@@ -4145,18 +4291,19 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerName
-            case exitCode
-            case networkBindings
-            case reason
-            case runtimeId
-            case status
-            case task
+            case cluster = "cluster"
+            case containerName = "containerName"
+            case exitCode = "exitCode"
+            case networkBindings = "networkBindings"
+            case reason = "reason"
+            case runtimeId = "runtimeId"
+            case status = "status"
+            case task = "task"
         }
     }
 
     public struct SubmitContainerStateChangeResponse: AWSDecodableShape {
+
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
 
@@ -4165,11 +4312,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgment
+            case acknowledgment = "acknowledgment"
         }
     }
 
     public struct SubmitTaskStateChangeRequest: AWSEncodableShape {
+
         /// Any attachments associated with the state change request.
         public let attachments: [AttachmentStateChange]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task.
@@ -4205,20 +4353,21 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case cluster
-            case containers
-            case executionStoppedAt
-            case managedAgents
-            case pullStartedAt
-            case pullStoppedAt
-            case reason
-            case status
-            case task
+            case attachments = "attachments"
+            case cluster = "cluster"
+            case containers = "containers"
+            case executionStoppedAt = "executionStoppedAt"
+            case managedAgents = "managedAgents"
+            case pullStartedAt = "pullStartedAt"
+            case pullStoppedAt = "pullStoppedAt"
+            case reason = "reason"
+            case status = "status"
+            case task = "task"
         }
     }
 
     public struct SubmitTaskStateChangeResponse: AWSDecodableShape {
+
         /// Acknowledgement of the state change.
         public let acknowledgment: String?
 
@@ -4227,11 +4376,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acknowledgment
+            case acknowledgment = "acknowledgment"
         }
     }
 
     public struct SystemControl: AWSEncodableShape & AWSDecodableShape {
+
         /// The namespaced kernel parameter for which to set a value.
         public let namespace: String?
         /// The value for the namespaced kernel parameter specified in namespace.
@@ -4243,12 +4393,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case namespace
-            case value
+            case namespace = "namespace"
+            case value = "value"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
         /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
@@ -4269,12 +4420,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
@@ -4294,16 +4446,21 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Task: AWSDecodableShape {
+
         /// The Elastic Network Adapter associated with the task if the task uses the awsvpc network mode.
         public let attachments: [Attachment]?
         /// The attributes of the task
@@ -4414,45 +4571,46 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachments
-            case attributes
-            case availabilityZone
-            case capacityProviderName
-            case clusterArn
-            case connectivity
-            case connectivityAt
-            case containerInstanceArn
-            case containers
-            case cpu
-            case createdAt
-            case desiredStatus
-            case enableExecuteCommand
-            case ephemeralStorage
-            case executionStoppedAt
-            case group
-            case healthStatus
-            case inferenceAccelerators
-            case lastStatus
-            case launchType
-            case memory
-            case overrides
-            case platformVersion
-            case pullStartedAt
-            case pullStoppedAt
-            case startedAt
-            case startedBy
-            case stopCode
-            case stoppedAt
-            case stoppedReason
-            case stoppingAt
-            case tags
-            case taskArn
-            case taskDefinitionArn
-            case version
+            case attachments = "attachments"
+            case attributes = "attributes"
+            case availabilityZone = "availabilityZone"
+            case capacityProviderName = "capacityProviderName"
+            case clusterArn = "clusterArn"
+            case connectivity = "connectivity"
+            case connectivityAt = "connectivityAt"
+            case containerInstanceArn = "containerInstanceArn"
+            case containers = "containers"
+            case cpu = "cpu"
+            case createdAt = "createdAt"
+            case desiredStatus = "desiredStatus"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionStoppedAt = "executionStoppedAt"
+            case group = "group"
+            case healthStatus = "healthStatus"
+            case inferenceAccelerators = "inferenceAccelerators"
+            case lastStatus = "lastStatus"
+            case launchType = "launchType"
+            case memory = "memory"
+            case overrides = "overrides"
+            case platformVersion = "platformVersion"
+            case pullStartedAt = "pullStartedAt"
+            case pullStoppedAt = "pullStoppedAt"
+            case startedAt = "startedAt"
+            case startedBy = "startedBy"
+            case stopCode = "stopCode"
+            case stoppedAt = "stoppedAt"
+            case stoppedReason = "stoppedReason"
+            case stoppingAt = "stoppingAt"
+            case tags = "tags"
+            case taskArn = "taskArn"
+            case taskDefinitionArn = "taskDefinitionArn"
+            case version = "version"
         }
     }
 
     public struct TaskDefinition: AWSDecodableShape {
+
         /// The task launch types the task definition validated against during task definition registration. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide.
         public let compatibilities: [Compatibility]?
         /// A list of container definitions in JSON format that describe the different containers that make up your task. For more information about container definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon Elastic Container Service Developer Guide.
@@ -4527,33 +4685,34 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compatibilities
-            case containerDefinitions
-            case cpu
-            case deregisteredAt
-            case ephemeralStorage
-            case executionRoleArn
-            case family
-            case inferenceAccelerators
-            case ipcMode
-            case memory
-            case networkMode
-            case pidMode
-            case placementConstraints
-            case proxyConfiguration
-            case registeredAt
-            case registeredBy
-            case requiresAttributes
-            case requiresCompatibilities
-            case revision
-            case status
-            case taskDefinitionArn
-            case taskRoleArn
-            case volumes
+            case compatibilities = "compatibilities"
+            case containerDefinitions = "containerDefinitions"
+            case cpu = "cpu"
+            case deregisteredAt = "deregisteredAt"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionRoleArn = "executionRoleArn"
+            case family = "family"
+            case inferenceAccelerators = "inferenceAccelerators"
+            case ipcMode = "ipcMode"
+            case memory = "memory"
+            case networkMode = "networkMode"
+            case pidMode = "pidMode"
+            case placementConstraints = "placementConstraints"
+            case proxyConfiguration = "proxyConfiguration"
+            case registeredAt = "registeredAt"
+            case registeredBy = "registeredBy"
+            case requiresAttributes = "requiresAttributes"
+            case requiresCompatibilities = "requiresCompatibilities"
+            case revision = "revision"
+            case status = "status"
+            case taskDefinitionArn = "taskDefinitionArn"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
         }
     }
 
     public struct TaskDefinitionPlacementConstraint: AWSEncodableShape & AWSDecodableShape {
+
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster query language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. The MemberOf constraint restricts selection to be from a group of valid candidates.
@@ -4565,12 +4724,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case type
+            case expression = "expression"
+            case type = "type"
         }
     }
 
     public struct TaskOverride: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more container overrides sent to a task.
         public let containerOverrides: [ContainerOverride]?
         /// The cpu override for the task.
@@ -4597,17 +4757,18 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerOverrides
-            case cpu
-            case ephemeralStorage
-            case executionRoleArn
-            case inferenceAcceleratorOverrides
-            case memory
-            case taskRoleArn
+            case containerOverrides = "containerOverrides"
+            case cpu = "cpu"
+            case ephemeralStorage = "ephemeralStorage"
+            case executionRoleArn = "executionRoleArn"
+            case inferenceAcceleratorOverrides = "inferenceAcceleratorOverrides"
+            case memory = "memory"
+            case taskRoleArn = "taskRoleArn"
         }
     }
 
     public struct TaskSet: AWSDecodableShape {
+
         /// The capacity provider strategy associated with the task set.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The Amazon Resource Name (ARN) of the cluster that the service that hosts the task set exists in.
@@ -4682,33 +4843,34 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case clusterArn
-            case computedDesiredCount
-            case createdAt
-            case externalId
-            case id
-            case launchType
-            case loadBalancers
-            case networkConfiguration
-            case pendingCount
-            case platformVersion
-            case runningCount
-            case scale
-            case serviceArn
-            case serviceRegistries
-            case stabilityStatus
-            case stabilityStatusAt
-            case startedBy
-            case status
-            case tags
-            case taskDefinition
-            case taskSetArn
-            case updatedAt
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case clusterArn = "clusterArn"
+            case computedDesiredCount = "computedDesiredCount"
+            case createdAt = "createdAt"
+            case externalId = "externalId"
+            case id = "id"
+            case launchType = "launchType"
+            case loadBalancers = "loadBalancers"
+            case networkConfiguration = "networkConfiguration"
+            case pendingCount = "pendingCount"
+            case platformVersion = "platformVersion"
+            case runningCount = "runningCount"
+            case scale = "scale"
+            case serviceArn = "serviceArn"
+            case serviceRegistries = "serviceRegistries"
+            case stabilityStatus = "stabilityStatus"
+            case stabilityStatusAt = "stabilityStatusAt"
+            case startedBy = "startedBy"
+            case status = "status"
+            case tags = "tags"
+            case taskDefinition = "taskDefinition"
+            case taskSetArn = "taskSetArn"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct Tmpfs: AWSEncodableShape & AWSDecodableShape {
+
         /// The absolute file path where the tmpfs volume is to be mounted.
         public let containerPath: String
         /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | "nosuid" | "dev" | "nodev" | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand" | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable" | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" | "mpol"
@@ -4723,13 +4885,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerPath
-            case mountOptions
-            case size
+            case containerPath = "containerPath"
+            case mountOptions = "mountOptions"
+            case size = "size"
         }
     }
 
     public struct Ulimit: AWSEncodableShape & AWSDecodableShape {
+
         /// The hard limit for the ulimit type.
         public let hardLimit: Int
         /// The type of the ulimit.
@@ -4744,13 +4907,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hardLimit
-            case name
-            case softLimit
+            case hardLimit = "hardLimit"
+            case name = "name"
+            case softLimit = "softLimit"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container instances.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -4770,16 +4934,21 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateCapacityProviderRequest: AWSEncodableShape {
+
         /// An object representing the parameters to update for the Auto Scaling group capacity provider.
         public let autoScalingGroupProvider: AutoScalingGroupProviderUpdate
         /// The name of the capacity provider to update.
@@ -4795,12 +4964,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoScalingGroupProvider
-            case name
+            case autoScalingGroupProvider = "autoScalingGroupProvider"
+            case name = "name"
         }
     }
 
     public struct UpdateCapacityProviderResponse: AWSDecodableShape {
+
         /// Details about the capacity provider.
         public let capacityProvider: CapacityProvider?
 
@@ -4809,11 +4979,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProvider
+            case capacityProvider = "capacityProvider"
         }
     }
 
     public struct UpdateClusterRequest: AWSEncodableShape {
+
         /// The name of the cluster to modify the settings for.
         public let cluster: String
         /// The execute command configuration for the cluster.
@@ -4828,13 +4999,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case configuration
-            case settings
+            case cluster = "cluster"
+            case configuration = "configuration"
+            case settings = "settings"
         }
     }
 
     public struct UpdateClusterResponse: AWSDecodableShape {
+
         /// Details about the cluster.
         public let cluster: Cluster?
 
@@ -4843,11 +5015,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
     public struct UpdateClusterSettingsRequest: AWSEncodableShape {
+
         /// The name of the cluster to modify the settings for.
         public let cluster: String
         /// The setting to use by default for a cluster. This parameter is used to enable CloudWatch Container Insights for a cluster. If this value is specified, it will override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
@@ -4859,12 +5032,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case settings
+            case cluster = "cluster"
+            case settings = "settings"
         }
     }
 
     public struct UpdateClusterSettingsResponse: AWSDecodableShape {
+
         /// Details about the cluster
         public let cluster: Cluster?
 
@@ -4873,11 +5047,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
+            case cluster = "cluster"
         }
     }
 
     public struct UpdateContainerAgentRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The container instance ID or full ARN entries for the container instance on which you would like to update the Amazon ECS container agent.
@@ -4889,12 +5064,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstance
+            case cluster = "cluster"
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct UpdateContainerAgentResponse: AWSDecodableShape {
+
         /// The container instance for which the container agent was updated.
         public let containerInstance: ContainerInstance?
 
@@ -4903,11 +5079,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstance
+            case containerInstance = "containerInstance"
         }
     }
 
     public struct UpdateContainerInstancesStateRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// A list of container instance IDs or full ARN entries.
@@ -4922,13 +5099,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case containerInstances
-            case status
+            case cluster = "cluster"
+            case containerInstances = "containerInstances"
+            case status = "status"
         }
     }
 
     public struct UpdateContainerInstancesStateResponse: AWSDecodableShape {
+
         /// The list of container instances.
         public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
@@ -4940,12 +5118,13 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case containerInstances
-            case failures
+            case containerInstances = "containerInstances"
+            case failures = "failures"
         }
     }
 
     public struct UpdateServicePrimaryTaskSetRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
         public let cluster: String
         /// The short name or full Amazon Resource Name (ARN) of the task set to set as the primary task set in the deployment.
@@ -4960,13 +5139,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case primaryTaskSet
-            case service
+            case cluster = "cluster"
+            case primaryTaskSet = "primaryTaskSet"
+            case service = "service"
         }
     }
 
     public struct UpdateServicePrimaryTaskSetResponse: AWSDecodableShape {
+
         /// Details about the task set.
         public let taskSet: TaskSet?
 
@@ -4975,11 +5155,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
     public struct UpdateServiceRequest: AWSEncodableShape {
+
         /// The capacity provider strategy to update the service to use. If the service is using the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers as opposed to the default capacity provider strategy. However, when a service is using a capacity provider strategy that is not the default capacity provider strategy, the service cannot be updated to use the cluster's default capacity provider strategy. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The PutClusterCapacityProviders API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the CreateCapacityProvider API operation. To use a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The PutClusterCapacityProviders API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
         public let capacityProviderStrategy: [CapacityProviderStrategyItem]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service is running on. If you do not specify a cluster, the default cluster is assumed.
@@ -5030,23 +5211,24 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capacityProviderStrategy
-            case cluster
-            case deploymentConfiguration
-            case desiredCount
-            case enableExecuteCommand
-            case forceNewDeployment
-            case healthCheckGracePeriodSeconds
-            case networkConfiguration
-            case placementConstraints
-            case placementStrategy
-            case platformVersion
-            case service
-            case taskDefinition
+            case capacityProviderStrategy = "capacityProviderStrategy"
+            case cluster = "cluster"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case desiredCount = "desiredCount"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case forceNewDeployment = "forceNewDeployment"
+            case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
+            case networkConfiguration = "networkConfiguration"
+            case placementConstraints = "placementConstraints"
+            case placementStrategy = "placementStrategy"
+            case platformVersion = "platformVersion"
+            case service = "service"
+            case taskDefinition = "taskDefinition"
         }
     }
 
     public struct UpdateServiceResponse: AWSDecodableShape {
+
         /// The full description of your service following the update call.
         public let service: Service?
 
@@ -5055,11 +5237,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case service
+            case service = "service"
         }
     }
 
     public struct UpdateTaskSetRequest: AWSEncodableShape {
+
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task set exists in.
         public let cluster: String
         /// A floating-point percentage of the desired number of tasks to place and keep running in the task set.
@@ -5077,14 +5260,15 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cluster
-            case scale
-            case service
-            case taskSet
+            case cluster = "cluster"
+            case scale = "scale"
+            case service = "service"
+            case taskSet = "taskSet"
         }
     }
 
     public struct UpdateTaskSetResponse: AWSDecodableShape {
+
         /// Details about the task set.
         public let taskSet: TaskSet?
 
@@ -5093,11 +5277,12 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskSet
+            case taskSet = "taskSet"
         }
     }
 
     public struct VersionInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
         public let agentHash: String?
         /// The version number of the Amazon ECS container agent.
@@ -5112,13 +5297,14 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentHash
-            case agentVersion
-            case dockerVersion
+            case agentHash = "agentHash"
+            case agentVersion = "agentVersion"
+            case dockerVersion = "dockerVersion"
         }
     }
 
     public struct Volume: AWSEncodableShape & AWSDecodableShape {
+
         /// This parameter is specified when you are using Docker volumes. Windows containers only support the use of the local driver. To use bind mounts, specify the host parameter instead.  Docker volumes are not supported by tasks run on AWS Fargate.
         public let dockerVolumeConfiguration: DockerVolumeConfiguration?
         /// This parameter is specified when you are using an Amazon Elastic File System file system for task storage.
@@ -5139,15 +5325,16 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dockerVolumeConfiguration
-            case efsVolumeConfiguration
-            case fsxWindowsFileServerVolumeConfiguration
-            case host
-            case name
+            case dockerVolumeConfiguration = "dockerVolumeConfiguration"
+            case efsVolumeConfiguration = "efsVolumeConfiguration"
+            case fsxWindowsFileServerVolumeConfiguration = "fsxWindowsFileServerVolumeConfiguration"
+            case host = "host"
+            case name = "name"
         }
     }
 
     public struct VolumeFrom: AWSEncodableShape & AWSDecodableShape {
+
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public let readOnly: Bool?
         /// The name of another container within the same task definition from which to mount volumes.
@@ -5159,8 +5346,8 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case readOnly
-            case sourceContainer
+            case readOnly = "readOnly"
+            case sourceContainer = "sourceContainer"
         }
     }
 }

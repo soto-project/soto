@@ -54,6 +54,7 @@ extension Synthetics {
     // MARK: Shapes
 
     public struct Canary: AWSDecodableShape {
+
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
         public let code: CanaryCodeOutput?
@@ -120,6 +121,7 @@ extension Synthetics {
     }
 
     public struct CanaryCodeInput: AWSEncodableShape {
+
         /// The entry point to use for the source code when running the canary. This value must end with the string .handler.
         public let handler: String
         /// If your canary script is located in S3, specify the full bucket name here. The bucket must already exist. Specify the full bucket name, including s3:// as the start of the bucket name.
@@ -148,7 +150,7 @@ extension Synthetics {
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
             try self.validate(self.s3Version, name: "s3Version", parent: name, max: 1024)
             try self.validate(self.s3Version, name: "s3Version", parent: name, min: 1)
-            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 10_000_000)
+            try self.validate(self.zipFile, name: "zipFile", parent: name, max: 10000000)
             try self.validate(self.zipFile, name: "zipFile", parent: name, min: 1)
         }
 
@@ -162,6 +164,7 @@ extension Synthetics {
     }
 
     public struct CanaryCodeOutput: AWSDecodableShape {
+
         /// The entry point to use for the source code when running the canary.
         public let handler: String?
         /// The ARN of the Lambda layer where Synthetics stores the canary script code.
@@ -179,6 +182,7 @@ extension Synthetics {
     }
 
     public struct CanaryLastRun: AWSDecodableShape {
+
         /// The name of the canary.
         public let canaryName: String?
         /// The results from this canary's most recent run.
@@ -196,6 +200,7 @@ extension Synthetics {
     }
 
     public struct CanaryRun: AWSDecodableShape {
+
         /// The location where the canary stored artifacts from the run. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
         /// A unique ID that identifies this canary run.
@@ -225,6 +230,7 @@ extension Synthetics {
     }
 
     public struct CanaryRunConfigInput: AWSEncodableShape {
+
         /// Specifies whether this canary is to use active AWS X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see  Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
         public let activeTracing: Bool?
         /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see  Runtime environment variables.
@@ -260,6 +266,7 @@ extension Synthetics {
     }
 
     public struct CanaryRunConfigOutput: AWSDecodableShape {
+
         /// Displays whether this canary run used active AWS X-Ray tracing.
         public let activeTracing: Bool?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
@@ -281,6 +288,7 @@ extension Synthetics {
     }
 
     public struct CanaryRunStatus: AWSDecodableShape {
+
         /// The current state of the run.
         public let state: CanaryRunState?
         /// If run of the canary failed, this field contains the reason for the error.
@@ -302,6 +310,7 @@ extension Synthetics {
     }
 
     public struct CanaryRunTimeline: AWSDecodableShape {
+
         /// The end time of the run.
         public let completed: Date?
         /// The start time of the run.
@@ -319,6 +328,7 @@ extension Synthetics {
     }
 
     public struct CanaryScheduleInput: AWSEncodableShape {
+
         /// How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value. If you specify 0, the canary continues making runs until you stop it. If you omit this field, the default of 0 is used.
         public let durationInSeconds: Int64?
         /// A rate expression that defines how often the canary is to run. The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started.
@@ -330,7 +340,7 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 31_622_400)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 31622400)
             try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
             try self.validate(self.expression, name: "expression", parent: name, max: 1024)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
@@ -343,6 +353,7 @@ extension Synthetics {
     }
 
     public struct CanaryScheduleOutput: AWSDecodableShape {
+
         /// How long, in seconds, for the canary to continue making regular runs after it was created. The runs are performed according to the schedule in the Expression value.
         public let durationInSeconds: Int64?
         /// A rate expression that defines how often the canary is to run. The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started.
@@ -360,6 +371,7 @@ extension Synthetics {
     }
 
     public struct CanaryStatus: AWSDecodableShape {
+
         /// The current state of the canary.
         public let state: CanaryState?
         /// If the canary has insufficient permissions to run, this field provides more details.
@@ -381,6 +393,7 @@ extension Synthetics {
     }
 
     public struct CanaryTimeline: AWSDecodableShape {
+
         /// The date and time the canary was created.
         public let created: Date?
         /// The date and time the canary was most recently modified.
@@ -406,6 +419,7 @@ extension Synthetics {
     }
 
     public struct CreateCanaryRequest: AWSEncodableShape {
+
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
@@ -486,6 +500,7 @@ extension Synthetics {
     }
 
     public struct CreateCanaryResponse: AWSDecodableShape {
+
         /// The full details about the canary you have created.
         public let canary: Canary?
 
@@ -520,10 +535,15 @@ extension Synthetics {
     }
 
     public struct DeleteCanaryResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeCanariesLastRunRequest: AWSEncodableShape {
+
         /// Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next set of results.
@@ -548,6 +568,7 @@ extension Synthetics {
     }
 
     public struct DescribeCanariesLastRunResponse: AWSDecodableShape {
+
         /// An array that contains the information from the most recent run of each canary.
         public let canariesLastRun: [CanaryLastRun]?
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanariesLastRun operation to retrieve the next set of results.
@@ -565,6 +586,7 @@ extension Synthetics {
     }
 
     public struct DescribeCanariesRequest: AWSEncodableShape {
+
         /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results.
@@ -589,6 +611,7 @@ extension Synthetics {
     }
 
     public struct DescribeCanariesResponse: AWSDecodableShape {
+
         /// Returns an array. Each item in the array contains the full information about one canary.
         public let canaries: [Canary]?
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next set of results.
@@ -606,6 +629,7 @@ extension Synthetics {
     }
 
     public struct DescribeRuntimeVersionsRequest: AWSEncodableShape {
+
         /// Specify this parameter to limit how many runs are returned each time you use the DescribeRuntimeVersions operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
@@ -630,6 +654,7 @@ extension Synthetics {
     }
 
     public struct DescribeRuntimeVersionsResponse: AWSDecodableShape {
+
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
         public let nextToken: String?
         /// An array of objects that display the details about each Synthetics canary runtime version.
@@ -668,6 +693,7 @@ extension Synthetics {
     }
 
     public struct GetCanaryResponse: AWSDecodableShape {
+
         /// A strucure that contains the full information about the canary.
         public let canary: Canary?
 
@@ -715,6 +741,7 @@ extension Synthetics {
     }
 
     public struct GetCanaryRunsResponse: AWSDecodableShape {
+
         /// An array of structures. Each structure contains the details of one of the retrieved canary runs.
         public let canaryRuns: [CanaryRun]?
         /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
@@ -753,6 +780,7 @@ extension Synthetics {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The list of tag keys and values associated with the canary that you specified.
         public let tags: [String: String]?
 
@@ -766,6 +794,7 @@ extension Synthetics {
     }
 
     public struct RuntimeVersion: AWSDecodableShape {
+
         /// If this runtime version is deprecated, this value is the date of deprecation.
         public let deprecationDate: Date?
         /// A description of the runtime version, created by Amazon.
@@ -812,7 +841,11 @@ extension Synthetics {
     }
 
     public struct StartCanaryResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopCanaryRequest: AWSEncodableShape {
@@ -837,7 +870,11 @@ extension Synthetics {
     }
 
     public struct StopCanaryResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -873,12 +910,16 @@ extension Synthetics {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -909,7 +950,11 @@ extension Synthetics {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateCanaryRequest: AWSEncodableShape {
@@ -980,10 +1025,15 @@ extension Synthetics {
     }
 
     public struct UpdateCanaryResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VpcConfigInput: AWSEncodableShape {
+
         /// The IDs of the security groups for this canary.
         public let securityGroupIds: [String]?
         /// The IDs of the subnets where this canary is to run.
@@ -1008,6 +1058,7 @@ extension Synthetics {
     }
 
     public struct VpcConfigOutput: AWSDecodableShape {
+
         /// The IDs of the security groups for this canary.
         public let securityGroupIds: [String]?
         /// The IDs of the subnets where this canary is to run.

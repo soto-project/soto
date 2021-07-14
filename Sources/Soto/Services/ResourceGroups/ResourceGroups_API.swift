@@ -63,83 +63,83 @@ public struct ResourceGroups: AWSService {
     // MARK: API Calls
 
     /// Creates a resource group with the specified name and description. You can optionally include a resource query, or a service configuration. For more information about constructing a resource query, see Create a tag-based group in Resource Groups. For more information about service configurations, see Service configurations for resource groups.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:CreateGroup
-    public func createGroup(_ input: CreateGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupOutput> {
-        return self.client.execute(operation: "CreateGroup", path: "/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createGroup(_ input: CreateGroupInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupOutput> {
+        return self.client.execute(operation: "CreateGroup", path: "/groups", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:DeleteGroup
-    public func deleteGroup(_ input: DeleteGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGroupOutput> {
-        return self.client.execute(operation: "DeleteGroup", path: "/delete-group", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteGroup(_ input: DeleteGroupInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGroupOutput> {
+        return self.client.execute(operation: "DeleteGroup", path: "/delete-group", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns information about a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetGroup
-    public func getGroup(_ input: GetGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupOutput> {
-        return self.client.execute(operation: "GetGroup", path: "/get-group", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroup(_ input: GetGroupInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupOutput> {
+        return self.client.execute(operation: "GetGroup", path: "/get-group", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the service configuration associated with the specified resource group. For details about the service configuration syntax, see Service configurations for resource groups.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetGroupConfiguration
-    public func getGroupConfiguration(_ input: GetGroupConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupConfigurationOutput> {
-        return self.client.execute(operation: "GetGroupConfiguration", path: "/get-group-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroupConfiguration(_ input: GetGroupConfigurationInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupConfigurationOutput> {
+        return self.client.execute(operation: "GetGroupConfiguration", path: "/get-group-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the resource query associated with the specified resource group. For more information about resource queries, see Create a tag-based group in Resource Groups.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetGroupQuery
-    public func getGroupQuery(_ input: GetGroupQueryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupQueryOutput> {
-        return self.client.execute(operation: "GetGroupQuery", path: "/get-group-query", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getGroupQuery(_ input: GetGroupQueryInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGroupQueryOutput> {
+        return self.client.execute(operation: "GetGroupQuery", path: "/get-group-query", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of tags that are associated with a resource group, specified by an ARN.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetTags
-    public func getTags(_ input: GetTagsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTagsOutput> {
-        return self.client.execute(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getTags(_ input: GetTagsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTagsOutput> {
+        return self.client.execute(operation: "GetTags", path: "/resources/{Arn}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds the specified resources to the specified group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GroupResources
-    public func groupResources(_ input: GroupResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GroupResourcesOutput> {
-        return self.client.execute(operation: "GroupResources", path: "/group-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func groupResources(_ input: GroupResourcesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GroupResourcesOutput> {
+        return self.client.execute(operation: "GroupResources", path: "/group-resources", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of ARNs of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources
-    public func listGroupResources(_ input: ListGroupResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupResourcesOutput> {
-        return self.client.execute(operation: "ListGroupResources", path: "/list-group-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listGroupResources(_ input: ListGroupResourcesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupResourcesOutput> {
+        return self.client.execute(operation: "ListGroupResources", path: "/list-group-resources", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of existing resource groups in your account.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroups
-    public func listGroups(_ input: ListGroupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsOutput> {
-        return self.client.execute(operation: "ListGroups", path: "/groups-list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listGroups(_ input: ListGroupsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsOutput> {
+        return self.client.execute(operation: "ListGroups", path: "/groups-list", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Attaches a service configuration to the specified group. This occurs asynchronously, and can take time to complete. You can use GetGroupConfiguration to check the status of the update.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:PutGroupConfiguration
-    public func putGroupConfiguration(_ input: PutGroupConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutGroupConfigurationOutput> {
-        return self.client.execute(operation: "PutGroupConfiguration", path: "/put-group-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putGroupConfiguration(_ input: PutGroupConfigurationInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutGroupConfigurationOutput> {
+        return self.client.execute(operation: "PutGroupConfiguration", path: "/put-group-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of AWS resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:SearchResources
-    public func searchResources(_ input: SearchResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourcesOutput> {
-        return self.client.execute(operation: "SearchResources", path: "/resources/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func searchResources(_ input: SearchResourcesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourcesOutput> {
+        return self.client.execute(operation: "SearchResources", path: "/resources/search", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.  Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:Tag
-    public func tag(_ input: TagInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagOutput> {
-        return self.client.execute(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func tag(_ input: TagInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagOutput> {
+        return self.client.execute(operation: "Tag", path: "/resources/{Arn}/tags", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes the specified resources from the specified group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:UngroupResources
-    public func ungroupResources(_ input: UngroupResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UngroupResourcesOutput> {
-        return self.client.execute(operation: "UngroupResources", path: "/ungroup-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func ungroupResources(_ input: UngroupResourcesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UngroupResourcesOutput> {
+        return self.client.execute(operation: "UngroupResources", path: "/ungroup-resources", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes tags from a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:Untag
-    public func untag(_ input: UntagInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagOutput> {
-        return self.client.execute(operation: "Untag", path: "/resources/{Arn}/tags", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func untag(_ input: UntagInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagOutput> {
+        return self.client.execute(operation: "Untag", path: "/resources/{Arn}/tags", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the description for an existing group. You cannot update the name of a resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:UpdateGroup
-    public func updateGroup(_ input: UpdateGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupOutput> {
-        return self.client.execute(operation: "UpdateGroup", path: "/update-group", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateGroup(_ input: UpdateGroupInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupOutput> {
+        return self.client.execute(operation: "UpdateGroup", path: "/update-group", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the resource query of a group. For more information about resource queries, see Create a tag-based group in Resource Groups.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:UpdateGroupQuery
-    public func updateGroupQuery(_ input: UpdateGroupQueryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupQueryOutput> {
-        return self.client.execute(operation: "UpdateGroupQuery", path: "/update-group-query", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateGroupQuery(_ input: UpdateGroupQueryInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGroupQueryOutput> {
+        return self.client.execute(operation: "UpdateGroupQuery", path: "/update-group-query", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

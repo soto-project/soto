@@ -64,158 +64,158 @@ public struct MediaTailor: AWSService {
     // MARK: API Calls
 
     /// Creates a channel.
-    public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
-        return self.client.execute(operation: "CreateChannel", path: "/channel/{channelName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createChannel(_ input: CreateChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateChannelResponse> {
+        return self.client.execute(operation: "CreateChannel", path: "/channel/{channelName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a program.
-    public func createProgram(_ input: CreateProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProgramResponse> {
-        return self.client.execute(operation: "CreateProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createProgram(_ input: CreateProgramRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProgramResponse> {
+        return self.client.execute(operation: "CreateProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates a source location on a specific channel.
-    public func createSourceLocation(_ input: CreateSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSourceLocationResponse> {
-        return self.client.execute(operation: "CreateSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createSourceLocation(_ input: CreateSourceLocationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSourceLocationResponse> {
+        return self.client.execute(operation: "CreateSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates name for a specific VOD source in a source location.
-    public func createVodSource(_ input: CreateVodSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVodSourceResponse> {
-        return self.client.execute(operation: "CreateVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func createVodSource(_ input: CreateVodSourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVodSourceResponse> {
+        return self.client.execute(operation: "CreateVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a channel. You must stop the channel before it can be deleted.
-    public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChannelResponse> {
-        return self.client.execute(operation: "DeleteChannel", path: "/channel/{channelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteChannel(_ input: DeleteChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChannelResponse> {
+        return self.client.execute(operation: "DeleteChannel", path: "/channel/{channelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a channel's IAM policy.
-    public func deleteChannelPolicy(_ input: DeleteChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChannelPolicyResponse> {
-        return self.client.execute(operation: "DeleteChannelPolicy", path: "/channel/{channelName}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteChannelPolicy(_ input: DeleteChannelPolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteChannelPolicyResponse> {
+        return self.client.execute(operation: "DeleteChannelPolicy", path: "/channel/{channelName}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes the playback configuration for the specified name.
-    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePlaybackConfigurationResponse> {
-        return self.client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePlaybackConfigurationResponse> {
+        return self.client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a specific program on a specific channel.
-    public func deleteProgram(_ input: DeleteProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProgramResponse> {
-        return self.client.execute(operation: "DeleteProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteProgram(_ input: DeleteProgramRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProgramResponse> {
+        return self.client.execute(operation: "DeleteProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a source location on a specific channel.
-    public func deleteSourceLocation(_ input: DeleteSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSourceLocationResponse> {
-        return self.client.execute(operation: "DeleteSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteSourceLocation(_ input: DeleteSourceLocationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSourceLocationResponse> {
+        return self.client.execute(operation: "DeleteSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a specific VOD source in a specific source location.
-    public func deleteVodSource(_ input: DeleteVodSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVodSourceResponse> {
-        return self.client.execute(operation: "DeleteVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func deleteVodSource(_ input: DeleteVodSourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVodSourceResponse> {
+        return self.client.execute(operation: "DeleteVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes the properties of a specific channel.
-    public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
-        return self.client.execute(operation: "DescribeChannel", path: "/channel/{channelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeChannel(_ input: DescribeChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeChannelResponse> {
+        return self.client.execute(operation: "DescribeChannel", path: "/channel/{channelName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the properties of the requested program.
-    public func describeProgram(_ input: DescribeProgramRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProgramResponse> {
-        return self.client.execute(operation: "DescribeProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeProgram(_ input: DescribeProgramRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeProgramResponse> {
+        return self.client.execute(operation: "DescribeProgram", path: "/channel/{channelName}/program/{programName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves the properties of the requested source location.
-    public func describeSourceLocation(_ input: DescribeSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSourceLocationResponse> {
-        return self.client.execute(operation: "DescribeSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeSourceLocation(_ input: DescribeSourceLocationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSourceLocationResponse> {
+        return self.client.execute(operation: "DescribeSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides details about a specific VOD source in a specific source location.
-    public func describeVodSource(_ input: DescribeVodSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVodSourceResponse> {
-        return self.client.execute(operation: "DescribeVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func describeVodSource(_ input: DescribeVodSourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVodSourceResponse> {
+        return self.client.execute(operation: "DescribeVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about a channel's IAM policy.
-    public func getChannelPolicy(_ input: GetChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelPolicyResponse> {
-        return self.client.execute(operation: "GetChannelPolicy", path: "/channel/{channelName}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getChannelPolicy(_ input: GetChannelPolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelPolicyResponse> {
+        return self.client.execute(operation: "GetChannelPolicy", path: "/channel/{channelName}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves information about your channel's schedule.
-    public func getChannelSchedule(_ input: GetChannelScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelScheduleResponse> {
-        return self.client.execute(operation: "GetChannelSchedule", path: "/channel/{channelName}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getChannelSchedule(_ input: GetChannelScheduleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChannelScheduleResponse> {
+        return self.client.execute(operation: "GetChannelSchedule", path: "/channel/{channelName}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the playback configuration for the specified name.
-    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPlaybackConfigurationResponse> {
-        return self.client.execute(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPlaybackConfigurationResponse> {
+        return self.client.execute(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of channels that are associated with this account.
-    public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
-        return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listChannels(_ input: ListChannelsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChannelsResponse> {
+        return self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful.
-    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPlaybackConfigurationsResponse> {
-        return self.client.execute(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPlaybackConfigurationsResponse> {
+        return self.client.execute(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Retrieves a list of source locations.
-    public func listSourceLocations(_ input: ListSourceLocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSourceLocationsResponse> {
-        return self.client.execute(operation: "ListSourceLocations", path: "/sourceLocations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listSourceLocations(_ input: ListSourceLocationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSourceLocationsResponse> {
+        return self.client.execute(operation: "ListSourceLocations", path: "/sourceLocations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the tags assigned to the specified playback configuration resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all the VOD sources in a source location.
-    public func listVodSources(_ input: ListVodSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVodSourcesResponse> {
-        return self.client.execute(operation: "ListVodSources", path: "/sourceLocation/{sourceLocationName}/vodSources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func listVodSources(_ input: ListVodSourcesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVodSourcesResponse> {
+        return self.client.execute(operation: "ListVodSources", path: "/sourceLocation/{sourceLocationName}/vodSources", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Creates an IAM policy for the channel.
-    public func putChannelPolicy(_ input: PutChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutChannelPolicyResponse> {
-        return self.client.execute(operation: "PutChannelPolicy", path: "/channel/{channelName}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putChannelPolicy(_ input: PutChannelPolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutChannelPolicyResponse> {
+        return self.client.execute(operation: "PutChannelPolicy", path: "/channel/{channelName}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds a new playback configuration to AWS Elemental MediaTailor.
-    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPlaybackConfigurationResponse> {
-        return self.client.execute(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPlaybackConfigurationResponse> {
+        return self.client.execute(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Starts a specific channel.
-    public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChannelResponse> {
-        return self.client.execute(operation: "StartChannel", path: "/channel/{channelName}/start", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func startChannel(_ input: StartChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChannelResponse> {
+        return self.client.execute(operation: "StartChannel", path: "/channel/{channelName}/start", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Stops a specific channel.
-    public func stopChannel(_ input: StopChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopChannelResponse> {
-        return self.client.execute(operation: "StopChannel", path: "/channel/{channelName}/stop", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func stopChannel(_ input: StopChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopChannelResponse> {
+        return self.client.execute(operation: "StopChannel", path: "/channel/{channelName}/stop", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds tags to the specified playback configuration resource. You can specify one or more tags to add.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Removes tags from the specified playback configuration resource. You can specify one or more tags to remove.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates an existing channel.
-    public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelResponse> {
-        return self.client.execute(operation: "UpdateChannel", path: "/channel/{channelName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateChannel(_ input: UpdateChannelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateChannelResponse> {
+        return self.client.execute(operation: "UpdateChannel", path: "/channel/{channelName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a source location on a specific channel.
-    public func updateSourceLocation(_ input: UpdateSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSourceLocationResponse> {
-        return self.client.execute(operation: "UpdateSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateSourceLocation(_ input: UpdateSourceLocationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSourceLocationResponse> {
+        return self.client.execute(operation: "UpdateSourceLocation", path: "/sourceLocation/{sourceLocationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a specific VOD source in a specific source location.
-    public func updateVodSource(_ input: UpdateVodSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVodSourceResponse> {
-        return self.client.execute(operation: "UpdateVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    public func updateVodSource(_ input: UpdateVodSourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVodSourceResponse> {
+        return self.client.execute(operation: "UpdateVodSource", path: "/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

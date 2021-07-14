@@ -23,6 +23,7 @@ extension PersonalizeEvents {
     // MARK: Shapes
 
     public struct Event: AWSEncodableShape {
+
         /// An ID associated with the event. If an event ID is not provided, Amazon Personalize generates a unique ID for the event. An event ID is not used as an input to the model. Amazon Personalize uses the event ID to distinquish unique events. Any subsequent events after the first with the same event ID are not used in model training.
         public let eventId: String?
         /// The type of event, such as click or download. This property corresponds to the EVENT_TYPE field of your Interactions schema and depends on the types of events you are tracking.
@@ -71,18 +72,19 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId
-            case eventType
-            case eventValue
-            case impression
-            case itemId
-            case properties
-            case recommendationId
-            case sentAt
+            case eventId = "eventId"
+            case eventType = "eventType"
+            case eventValue = "eventValue"
+            case impression = "impression"
+            case itemId = "itemId"
+            case properties = "properties"
+            case recommendationId = "recommendationId"
+            case sentAt = "sentAt"
         }
     }
 
     public struct Item: AWSEncodableShape {
+
         /// The ID associated with the item.
         public let itemId: String
         /// A string map of item-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfRatings": "12"}. The keys use camel case names that match the fields in the schema for the Items dataset. In the previous example, the numberOfRatings matches the 'NUMBER_OF_RATINGS' field defined in the Items schema. For categorical string data, to include multiple categories for a single item, separate each category with a pipe separator (|). For example, \"Horror|Action\".
@@ -101,12 +103,13 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemId
-            case properties
+            case itemId = "itemId"
+            case properties = "properties"
         }
     }
 
     public struct PutEventsRequest: AWSEncodableShape {
+
         /// A list of event data from the session.
         public let eventList: [Event]
         /// The session ID associated with the user's visit. Your application generates the sessionId when a user first visits your website or uses your application. Amazon Personalize uses the sessionId to associate events with the user before they log in. For more information, see Recording Events.
@@ -138,14 +141,15 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventList
-            case sessionId
-            case trackingId
-            case userId
+            case eventList = "eventList"
+            case sessionId = "sessionId"
+            case trackingId = "trackingId"
+            case userId = "userId"
         }
     }
 
     public struct PutItemsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Items dataset you are adding the item or items to.
         public let datasetArn: String
         /// A list of item data.
@@ -167,12 +171,13 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case items
+            case datasetArn = "datasetArn"
+            case items = "items"
         }
     }
 
     public struct PutUsersRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to.
         public let datasetArn: String
         /// A list of user data.
@@ -194,12 +199,13 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case users
+            case datasetArn = "datasetArn"
+            case users = "users"
         }
     }
 
     public struct User: AWSEncodableShape {
+
         /// A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfVideosWatched": "45"}. The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, separate each category with a pipe separator (|). For example, \"Member|Frequent shopper\".
         public let properties: String?
         /// The ID associated with the user.
@@ -218,8 +224,8 @@ extension PersonalizeEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case properties
-            case userId
+            case properties = "properties"
+            case userId = "userId"
         }
     }
 }

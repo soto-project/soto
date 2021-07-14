@@ -58,6 +58,7 @@ extension MarketplaceCommerceAnalytics {
     // MARK: Shapes
 
     public struct GenerateDataSetRequest: AWSEncodableShape {
+
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file. These key-value pairs can be used to correlated responses with tracking information from other systems.
         public let customerDefinedValues: [String: String]?
         /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For monthly data sets except those with prefix disbursed_amount, provide a date with month-level granularity for the desired month (the day value will be ignored). For data sets with prefix disbursed_amount, provide a date with day-level granularity for the desired day. For these data sets we will look backwards in time over the range of 31 days until the first data set is found (the latest one).
@@ -96,17 +97,18 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerDefinedValues
-            case dataSetPublicationDate
-            case dataSetType
-            case destinationS3BucketName
-            case destinationS3Prefix
-            case roleNameArn
-            case snsTopicArn
+            case customerDefinedValues = "customerDefinedValues"
+            case dataSetPublicationDate = "dataSetPublicationDate"
+            case dataSetType = "dataSetType"
+            case destinationS3BucketName = "destinationS3BucketName"
+            case destinationS3Prefix = "destinationS3Prefix"
+            case roleNameArn = "roleNameArn"
+            case snsTopicArn = "snsTopicArn"
         }
     }
 
     public struct GenerateDataSetResult: AWSDecodableShape {
+
         /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 
@@ -115,11 +117,12 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSetRequestId
+            case dataSetRequestId = "dataSetRequestId"
         }
     }
 
     public struct StartSupportDataExportRequest: AWSEncodableShape {
+
         /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
         public let customerDefinedValues: [String: String]?
         ///  Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.    customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter. test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data
@@ -158,17 +161,18 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customerDefinedValues
-            case dataSetType
-            case destinationS3BucketName
-            case destinationS3Prefix
-            case fromDate
-            case roleNameArn
-            case snsTopicArn
+            case customerDefinedValues = "customerDefinedValues"
+            case dataSetType = "dataSetType"
+            case destinationS3BucketName = "destinationS3BucketName"
+            case destinationS3Prefix = "destinationS3Prefix"
+            case fromDate = "fromDate"
+            case roleNameArn = "roleNameArn"
+            case snsTopicArn = "snsTopicArn"
         }
     }
 
     public struct StartSupportDataExportResult: AWSDecodableShape {
+
         /// A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
         public let dataSetRequestId: String?
 
@@ -177,7 +181,7 @@ extension MarketplaceCommerceAnalytics {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSetRequestId
+            case dataSetRequestId = "dataSetRequestId"
         }
     }
 }

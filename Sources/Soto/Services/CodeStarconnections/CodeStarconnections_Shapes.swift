@@ -37,6 +37,7 @@ extension CodeStarconnections {
     // MARK: Shapes
 
     public struct Connection: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String?
         /// The name of the connection. Connection names must be unique in an AWS user account.
@@ -70,6 +71,7 @@ extension CodeStarconnections {
     }
 
     public struct CreateConnectionInput: AWSEncodableShape {
+
         /// The name of the connection to be created. The name must be unique in the calling AWS account.
         public let connectionName: String
         /// The Amazon Resource Name (ARN) of the host associated with the connection to be created.
@@ -109,6 +111,7 @@ extension CodeStarconnections {
     }
 
     public struct CreateConnectionOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between AWS services.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String
         /// Specifies the tags applied to the resource.
@@ -126,6 +129,7 @@ extension CodeStarconnections {
     }
 
     public struct CreateHostInput: AWSEncodableShape {
+
         /// The name of the host to be created. The name must be unique in the calling AWS account.
         public let name: String
         /// The endpoint of the infrastructure to be represented by the host after it is created.
@@ -169,6 +173,7 @@ extension CodeStarconnections {
     }
 
     public struct CreateHostOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the host to be created.
         public let hostArn: String?
         public let tags: [Tag]?
@@ -185,6 +190,7 @@ extension CodeStarconnections {
     }
 
     public struct DeleteConnectionInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String
 
@@ -204,10 +210,15 @@ extension CodeStarconnections {
     }
 
     public struct DeleteConnectionOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteHostInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the host to be deleted.
         public let hostArn: String
 
@@ -227,10 +238,15 @@ extension CodeStarconnections {
     }
 
     public struct DeleteHostOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetConnectionInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of a connection.
         public let connectionArn: String
 
@@ -250,6 +266,7 @@ extension CodeStarconnections {
     }
 
     public struct GetConnectionOutput: AWSDecodableShape {
+
         /// The connection details, such as status, owner, and provider type.
         public let connection: Connection?
 
@@ -263,6 +280,7 @@ extension CodeStarconnections {
     }
 
     public struct GetHostInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the requested host.
         public let hostArn: String
 
@@ -282,6 +300,7 @@ extension CodeStarconnections {
     }
 
     public struct GetHostOutput: AWSDecodableShape {
+
         /// The name of the requested host.
         public let name: String?
         /// The endpoint of the infrastructure represented by the requested host.
@@ -311,6 +330,7 @@ extension CodeStarconnections {
     }
 
     public struct Host: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the host.
         public let hostArn: String?
         /// The name of the host.
@@ -348,6 +368,7 @@ extension CodeStarconnections {
     }
 
     public struct ListConnectionsInput: AWSEncodableShape {
+
         /// Filters the list of connections to those associated with a specified host.
         public let hostArnFilter: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -384,6 +405,7 @@ extension CodeStarconnections {
     }
 
     public struct ListConnectionsOutput: AWSDecodableShape {
+
         /// A list of connections and the details for each connection, such as status, owner, and provider type.
         public let connections: [Connection]?
         /// A token that can be used in the next ListConnections call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
@@ -401,6 +423,7 @@ extension CodeStarconnections {
     }
 
     public struct ListHostsInput: AWSEncodableShape {
+
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list.
@@ -426,6 +449,7 @@ extension CodeStarconnections {
     }
 
     public struct ListHostsOutput: AWSDecodableShape {
+
         /// A list of hosts and the details for each host, such as status, endpoint, and provider type.
         public let hosts: [Host]?
         /// A token that can be used in the next ListHosts call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
@@ -443,6 +467,7 @@ extension CodeStarconnections {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
         public let resourceArn: String
 
@@ -462,6 +487,7 @@ extension CodeStarconnections {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [Tag]?
 
@@ -475,6 +501,7 @@ extension CodeStarconnections {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag's key.
         public let key: String
         /// The tag's value.
@@ -501,6 +528,7 @@ extension CodeStarconnections {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
         public let resourceArn: String
         /// The tags you want to modify or add to the resource.
@@ -529,10 +557,15 @@ extension CodeStarconnections {
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource to remove tags from.
         public let resourceArn: String
         /// The list of keys for the tags to be removed from the resource.
@@ -563,10 +596,15 @@ extension CodeStarconnections {
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateHostInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the host to be updated.
         public let hostArn: String
         /// The URL or endpoint of the host to be updated.
@@ -598,10 +636,15 @@ extension CodeStarconnections {
     }
 
     public struct UpdateHostOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed.
         public let securityGroupIds: [String]
         /// The ID of the subnet or subnets associated with the Amazon VPC connected to the infrastructure where your provider type is installed.

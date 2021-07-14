@@ -21,11 +21,11 @@ extension ForecastService {
     // MARK: Enums
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
-        case float
-        case geolocation
-        case integer
-        case string
-        case timestamp
+        case float = "float"
+        case geolocation = "geolocation"
+        case integer = "integer"
+        case string = "string"
+        case timestamp = "timestamp"
         public var description: String { return self.rawValue }
     }
 
@@ -54,7 +54,7 @@ extension ForecastService {
     }
 
     public enum FeaturizationMethodName: String, CustomStringConvertible, Codable {
-        case filling
+        case filling = "filling"
         public var description: String { return self.rawValue }
     }
 
@@ -75,6 +75,7 @@ extension ForecastService {
     // MARK: Shapes
 
     public struct CategoricalParameterRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the categorical hyperparameter to tune.
         public let name: String
         /// A list of the tunable categories for the hyperparameter.
@@ -104,6 +105,7 @@ extension ForecastService {
     }
 
     public struct ContinuousParameterRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum tunable value of the hyperparameter.
         public let maxValue: Double
         /// The minimum tunable value of the hyperparameter.
@@ -135,6 +137,7 @@ extension ForecastService {
     }
 
     public struct CreateDatasetGroupRequest: AWSEncodableShape {
+
         /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group.
         public let datasetArns: [String]?
         /// A name for the dataset group.
@@ -175,6 +178,7 @@ extension ForecastService {
     }
 
     public struct CreateDatasetGroupResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
 
@@ -188,6 +192,7 @@ extension ForecastService {
     }
 
     public struct CreateDatasetImportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to.
         public let datasetArn: String
         /// The name for the dataset import job. We recommend including the current timestamp in the name, for example, 20190721DatasetImport. This can help you avoid getting a ResourceAlreadyExistsException exception.
@@ -249,6 +254,7 @@ extension ForecastService {
     }
 
     public struct CreateDatasetImportJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String?
 
@@ -262,6 +268,7 @@ extension ForecastService {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
+
         /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
         public let dataFrequency: String?
         /// A name for the dataset.
@@ -313,6 +320,7 @@ extension ForecastService {
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
 
@@ -326,6 +334,7 @@ extension ForecastService {
     }
 
     public struct CreateForecastExportJobRequest: AWSEncodableShape {
+
         /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
         public let destination: DataDestination
         /// The Amazon Resource Name (ARN) of the forecast that you want to export.
@@ -365,6 +374,7 @@ extension ForecastService {
     }
 
     public struct CreateForecastExportJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the export job.
         public let forecastExportJobArn: String?
 
@@ -378,6 +388,7 @@ extension ForecastService {
     }
 
     public struct CreateForecastRequest: AWSEncodableShape {
+
         /// A name for the forecast.
         public let forecastName: String
         /// The quantiles at which probabilistic forecasts are generated. You can currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial). The default value is ["0.1", "0.5", "0.9"].
@@ -421,6 +432,7 @@ extension ForecastService {
     }
 
     public struct CreateForecastResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String?
 
@@ -434,6 +446,7 @@ extension ForecastService {
     }
 
     public struct CreatePredictorBacktestExportJobRequest: AWSEncodableShape {
+
         public let destination: DataDestination
         /// The Amazon Resource Name (ARN) of the predictor that you want to export.
         public let predictorArn: String
@@ -472,6 +485,7 @@ extension ForecastService {
     }
 
     public struct CreatePredictorBacktestExportJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor backtest export job that you want to export.
         public let predictorBacktestExportJobArn: String?
 
@@ -485,6 +499,7 @@ extension ForecastService {
     }
 
     public struct CreatePredictorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR     arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
         public let algorithmArn: String?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
@@ -574,6 +589,7 @@ extension ForecastService {
     }
 
     public struct CreatePredictorResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor.
         public let predictorArn: String?
 
@@ -587,6 +603,7 @@ extension ForecastService {
     }
 
     public struct DataDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket.
         public let s3Config: S3Config
 
@@ -604,6 +621,7 @@ extension ForecastService {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+
         /// The path to the training data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         public let s3Config: S3Config
 
@@ -621,6 +639,7 @@ extension ForecastService {
     }
 
     public struct DatasetGroupSummary: AWSDecodableShape {
+
         /// When the dataset group was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -646,6 +665,7 @@ extension ForecastService {
     }
 
     public struct DatasetImportJobSummary: AWSDecodableShape {
+
         /// When the dataset import job was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset import job.
@@ -683,6 +703,7 @@ extension ForecastService {
     }
 
     public struct DatasetSummary: AWSDecodableShape {
+
         /// When the dataset was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -716,6 +737,7 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group to delete.
         public let datasetGroupArn: String
 
@@ -734,6 +756,7 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetImportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset import job to delete.
         public let datasetImportJobArn: String
 
@@ -752,6 +775,7 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
 
@@ -770,6 +794,7 @@ extension ForecastService {
     }
 
     public struct DeleteForecastExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the forecast export job to delete.
         public let forecastExportJobArn: String
 
@@ -788,6 +813,7 @@ extension ForecastService {
     }
 
     public struct DeleteForecastRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the forecast to delete.
         public let forecastArn: String
 
@@ -806,6 +832,7 @@ extension ForecastService {
     }
 
     public struct DeletePredictorBacktestExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor backtest export job to delete.
         public let predictorBacktestExportJobArn: String
 
@@ -824,6 +851,7 @@ extension ForecastService {
     }
 
     public struct DeletePredictorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor to delete.
         public let predictorArn: String
 
@@ -842,6 +870,7 @@ extension ForecastService {
     }
 
     public struct DeleteResourceTreeRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the parent resource to delete. All child resources of the parent resource will also be deleted.
         public let resourceArn: String
 
@@ -860,6 +889,7 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
 
@@ -878,6 +908,7 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetGroupResponse: AWSDecodableShape {
+
         /// When the dataset group was created.
         public let creationTime: Date?
         /// An array of Amazon Resource Names (ARNs) of the datasets contained in the dataset group.
@@ -915,6 +946,7 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetImportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String
 
@@ -933,6 +965,7 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetImportJobResponse: AWSDecodableShape {
+
         /// When the dataset import job was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset that the training data was imported to.
@@ -1002,6 +1035,7 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String
 
@@ -1020,6 +1054,7 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
+
         /// When the dataset was created.
         public let creationTime: Date?
         /// The frequency of data collection. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "M" indicates every month and "30min" indicates every 30 minutes.
@@ -1069,6 +1104,7 @@ extension ForecastService {
     }
 
     public struct DescribeForecastExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the forecast export job.
         public let forecastExportJobArn: String
 
@@ -1087,6 +1123,7 @@ extension ForecastService {
     }
 
     public struct DescribeForecastExportJobResponse: AWSDecodableShape {
+
         /// When the forecast export job was created.
         public let creationTime: Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -1128,6 +1165,7 @@ extension ForecastService {
     }
 
     public struct DescribeForecastRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String
 
@@ -1146,6 +1184,7 @@ extension ForecastService {
     }
 
     public struct DescribeForecastResponse: AWSDecodableShape {
+
         /// When the forecast creation task was created.
         public let creationTime: Date?
         /// The ARN of the dataset group that provided the data used to train the predictor.
@@ -1195,6 +1234,7 @@ extension ForecastService {
     }
 
     public struct DescribePredictorBacktestExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor backtest export job.
         public let predictorBacktestExportJobArn: String
 
@@ -1213,6 +1253,7 @@ extension ForecastService {
     }
 
     public struct DescribePredictorBacktestExportJobResponse: AWSDecodableShape {
+
         /// When the predictor backtest export job was created.
         public let creationTime: Date?
         public let destination: DataDestination?
@@ -1253,6 +1294,7 @@ extension ForecastService {
     }
 
     public struct DescribePredictorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor that you want information about.
         public let predictorArn: String
 
@@ -1271,6 +1313,7 @@ extension ForecastService {
     }
 
     public struct DescribePredictorResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the algorithm used for model training.
         public let algorithmArn: String?
         /// When PerformAutoML is specified, the ARN of the chosen algorithm.
@@ -1364,6 +1407,7 @@ extension ForecastService {
     }
 
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the KMS key.
         public let kMSKeyArn: String
         /// The ARN of the IAM role that Amazon Forecast can assume to access the AWS KMS key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
@@ -1388,6 +1432,7 @@ extension ForecastService {
     }
 
     public struct ErrorMetric: AWSDecodableShape {
+
         ///  The Forecast type used to compute WAPE and RMSE.
         public let forecastType: String?
         ///  The root-mean-square error (RMSE).
@@ -1409,6 +1454,7 @@ extension ForecastService {
     }
 
     public struct EvaluationParameters: AWSEncodableShape & AWSDecodableShape {
+
         /// The point from the end of the dataset where you want to split the data for model training and testing (evaluation). Specify the value as the number of data points. The default is the value of the forecast horizon. BackTestWindowOffset can be used to mimic a past virtual forecast start date. This value must be greater than or equal to the forecast horizon and less than half of the TARGET_TIME_SERIES dataset length.  ForecastHorizon &lt;= BackTestWindowOffset &lt; 1/2 * TARGET_TIME_SERIES dataset length
         public let backTestWindowOffset: Int?
         /// The number of times to split the input data. The default is 1. Valid values are 1 through 5.
@@ -1426,6 +1472,7 @@ extension ForecastService {
     }
 
     public struct EvaluationResult: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
         public let algorithmArn: String?
         /// The array of test windows used for evaluating the algorithm. The NumberOfBacktestWindows from the EvaluationParameters object determines the number of windows in the array.
@@ -1443,6 +1490,7 @@ extension ForecastService {
     }
 
     public struct Featurization: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the target field of the TARGET_TIME_SERIES and the RELATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value. For more information, see howitworks-missing-values.
         public let attributeName: String
         /// An array of one FeaturizationMethod object that specifies the feature transformation method.
@@ -1471,6 +1519,7 @@ extension ForecastService {
     }
 
     public struct FeaturizationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of featurization (transformation) information for the fields of a dataset.
         public let featurizations: [Featurization]?
         /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor request. All forecast dimensions specified in the RELATED_TIME_SERIES dataset must be specified in the CreatePredictor request.
@@ -1508,6 +1557,7 @@ extension ForecastService {
     }
 
     public struct FeaturizationMethod: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the method. The "filling" method is the only supported method.
         public let featurizationMethodName: FeaturizationMethodName
         /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max    To set a filling method to a specific value, set the fill parameter to value and define the value in a corresponding _value parameter. For example, to set backfilling to a value of 2, include the following: "backfill": "value" and "backfill_value":"2".
@@ -1534,6 +1584,7 @@ extension ForecastService {
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// The condition to apply. To include the objects that match the statement, specify IS. To exclude matching objects, specify IS_NOT.
         public let condition: FilterConditionString
         /// The name of the parameter to filter on.
@@ -1562,6 +1613,7 @@ extension ForecastService {
     }
 
     public struct ForecastExportJobSummary: AWSDecodableShape {
+
         /// When the forecast export job was created.
         public let creationTime: Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -1599,6 +1651,7 @@ extension ForecastService {
     }
 
     public struct ForecastSummary: AWSDecodableShape {
+
         /// When the forecast creation task was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that provided the data used to train the predictor.
@@ -1640,6 +1693,7 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
         public let predictorArn: String
 
@@ -1658,6 +1712,7 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsResponse: AWSDecodableShape {
+
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
 
@@ -1671,6 +1726,7 @@ extension ForecastService {
     }
 
     public struct HyperParameterTuningJobConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the ranges of valid values for the hyperparameters.
         public let parameterRanges: ParameterRanges?
 
@@ -1688,6 +1744,7 @@ extension ForecastService {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
         /// An array of supplementary features. The only supported feature is a holiday calendar.
@@ -1715,6 +1772,7 @@ extension ForecastService {
     }
 
     public struct IntegerParameterRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum tunable value of the hyperparameter.
         public let maxValue: Int
         /// The minimum tunable value of the hyperparameter.
@@ -1746,6 +1804,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetGroupsRequest: AWSEncodableShape {
+
         /// The number of items to return in the response.
         public let maxResults: Int?
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
@@ -1770,6 +1829,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetGroupsResponse: AWSDecodableShape {
+
         /// An array of objects that summarize each dataset group's properties.
         public let datasetGroups: [DatasetGroupSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1787,6 +1847,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetImportJobsRequest: AWSEncodableShape {
+
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the datasets that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the datasets that match the statement, specify IS. To exclude matching datasets, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetArn and Status.    Value - The value to match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
@@ -1818,6 +1879,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetImportJobsResponse: AWSDecodableShape {
+
         /// An array of objects that summarize each dataset import job's properties.
         public let datasetImportJobs: [DatasetImportJobSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1835,6 +1897,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
+
         /// The number of items to return in the response.
         public let maxResults: Int?
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
@@ -1859,6 +1922,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
+
         /// An array of objects that summarize each dataset's properties.
         public let datasets: [DatasetSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1876,6 +1940,7 @@ extension ForecastService {
     }
 
     public struct ListForecastExportJobsRequest: AWSEncodableShape {
+
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are ForecastArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityforecast, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
@@ -1907,6 +1972,7 @@ extension ForecastService {
     }
 
     public struct ListForecastExportJobsResponse: AWSDecodableShape {
+
         /// An array of objects that summarize each export job's properties.
         public let forecastExportJobs: [ForecastExportJobSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1924,6 +1990,7 @@ extension ForecastService {
     }
 
     public struct ListForecastsRequest: AWSEncodableShape {
+
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecasts that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecasts that match the statement, specify IS. To exclude matching forecasts, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn, PredictorArn, and Status.    Value - The value to match.   For example, to list all forecasts whose status is not ACTIVE, you would specify:  "Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
@@ -1955,6 +2022,7 @@ extension ForecastService {
     }
 
     public struct ListForecastsResponse: AWSDecodableShape {
+
         /// An array of objects that summarize each forecast's properties.
         public let forecasts: [ForecastSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1972,6 +2040,7 @@ extension ForecastService {
     }
 
     public struct ListPredictorBacktestExportJobsRequest: AWSEncodableShape {
+
         /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictor backtest export jobs that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictor backtest export jobs that match the statement, specify IS. To exclude matching predictor backtest export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
         public let filters: [Filter]?
         /// The number of items to return in the response.
@@ -2003,6 +2072,7 @@ extension ForecastService {
     }
 
     public struct ListPredictorBacktestExportJobsResponse: AWSDecodableShape {
+
         /// Returns this token if the response is truncated. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
         /// An array of objects that summarize the properties of each predictor backtest export job.
@@ -2020,6 +2090,7 @@ extension ForecastService {
     }
 
     public struct ListPredictorsRequest: AWSEncodableShape {
+
         /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn and Status.    Value - The value to match.   For example, to list all predictors whose status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
@@ -2051,6 +2122,7 @@ extension ForecastService {
     }
 
     public struct ListPredictorsResponse: AWSDecodableShape {
+
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
         /// An array of objects that summarize each predictor's properties.
@@ -2068,6 +2140,7 @@ extension ForecastService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
         public let resourceArn: String
 
@@ -2086,6 +2159,7 @@ extension ForecastService {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags for the resource.
         public let tags: [Tag]?
 
@@ -2099,6 +2173,7 @@ extension ForecastService {
     }
 
     public struct Metrics: AWSDecodableShape {
+
         ///  Provides detailed error metrics on forecast type, root-mean square-error (RMSE), and weighted average percentage error (WAPE).
         public let errorMetrics: [ErrorMetric]?
         /// An array of weighted quantile losses. Quantiles divide a probability distribution into regions of equal probability. The distribution in this case is the loss function.
@@ -2116,6 +2191,7 @@ extension ForecastService {
     }
 
     public struct ParameterRanges: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the tunable range for each categorical hyperparameter.
         public let categoricalParameterRanges: [CategoricalParameterRange]?
         /// Specifies the tunable range for each continuous hyperparameter.
@@ -2155,6 +2231,7 @@ extension ForecastService {
     }
 
     public struct PredictorBacktestExportJobSummary: AWSDecodableShape {
+
         /// When the predictor backtest export job was created.
         public let creationTime: Date?
         public let destination: DataDestination?
@@ -2191,6 +2268,7 @@ extension ForecastService {
     }
 
     public struct PredictorExecution: AWSDecodableShape {
+
         /// The ARN of the algorithm used to test the predictor.
         public let algorithmArn: String?
         /// An array of test windows used to evaluate the algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
@@ -2208,6 +2286,7 @@ extension ForecastService {
     }
 
     public struct PredictorExecutionDetails: AWSDecodableShape {
+
         /// An array of the backtests performed to evaluate the accuracy of the predictor against a particular algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
         public let predictorExecutions: [PredictorExecution]?
 
@@ -2221,6 +2300,7 @@ extension ForecastService {
     }
 
     public struct PredictorSummary: AWSDecodableShape {
+
         /// When the model training task was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
@@ -2258,6 +2338,7 @@ extension ForecastService {
     }
 
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
         public let kMSKeyArn: String?
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket.
@@ -2287,6 +2368,7 @@ extension ForecastService {
     }
 
     public struct Schema: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of attributes specifying the name and type of each field in a dataset.
         public let attributes: [SchemaAttribute]?
 
@@ -2308,6 +2390,7 @@ extension ForecastService {
     }
 
     public struct SchemaAttribute: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the dataset field.
         public let attributeName: String?
         /// The data type of the field.
@@ -2331,6 +2414,7 @@ extension ForecastService {
     }
 
     public struct Statistics: AWSDecodableShape {
+
         /// For a numeric field, the average value in the field.
         public let avg: Double?
         /// The number of values in the field.
@@ -2372,6 +2456,7 @@ extension ForecastService {
     }
 
     public struct StopResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn, ForecastArn, and ForecastExportJobArn.
         public let resourceArn: String
 
@@ -2390,6 +2475,7 @@ extension ForecastService {
     }
 
     public struct SupplementaryFeature: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the feature. Valid values: "holiday" and "weather".
         public let name: String
         ///  Weather Index  To enable the Weather Index, set the value to "true"   Holidays  To enable Holidays, specify a country with one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
@@ -2415,6 +2501,7 @@ extension ForecastService {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
         /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key).
@@ -2441,6 +2528,7 @@ extension ForecastService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
@@ -2468,10 +2556,15 @@ extension ForecastService {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TestWindowSummary: AWSDecodableShape {
+
         /// If the test failed, the reason why it failed.
         public let message: String?
         /// The status of the test. Possible status values are:    ACTIVE     CREATE_IN_PROGRESS     CREATE_FAILED
@@ -2497,6 +2590,7 @@ extension ForecastService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast exports.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -2526,10 +2620,15 @@ extension ForecastService {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateDatasetGroupRequest: AWSEncodableShape {
+
         /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group.
         public let datasetArns: [String]
         /// The ARN of the dataset group.
@@ -2556,10 +2655,15 @@ extension ForecastService {
     }
 
     public struct UpdateDatasetGroupResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct WeightedQuantileLoss: AWSDecodableShape {
+
         /// The difference between the predicted value and the actual value over the quantile, weighted (normalized) by dividing by the sum over all quantiles.
         public let lossValue: Double?
         /// The quantile. Quantiles divide a probability distribution into regions of equal probability. For example, if the distribution was divided into 5 regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
@@ -2577,6 +2681,7 @@ extension ForecastService {
     }
 
     public struct WindowSummary: AWSDecodableShape {
+
         /// The type of evaluation.    SUMMARY - The average metrics across all windows.    COMPUTED - The metrics for the specified window.
         public let evaluationType: EvaluationType?
         /// The number of data points within the window.

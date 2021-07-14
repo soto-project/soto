@@ -118,6 +118,7 @@ extension SFN {
     // MARK: Shapes
 
     public struct ActivityFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -129,12 +130,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ActivityListItem: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
         /// The date the activity is created.
@@ -149,13 +151,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case creationDate
-            case name
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
+            case name = "name"
         }
     }
 
     public struct ActivityScheduleFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -167,12 +170,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ActivityScheduledEventDetails: AWSDecodableShape {
+
         /// The maximum allowed duration between two heartbeats for the activity task.
         public let heartbeatInSeconds: Int64?
         /// The JSON data input to the activity task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
@@ -193,15 +197,16 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heartbeatInSeconds
-            case input
-            case inputDetails
-            case resource
-            case timeoutInSeconds
+            case heartbeatInSeconds = "heartbeatInSeconds"
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case resource = "resource"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
     public struct ActivityStartedEventDetails: AWSDecodableShape {
+
         /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
 
@@ -210,11 +215,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workerName
+            case workerName = "workerName"
         }
     }
 
     public struct ActivitySucceededEventDetails: AWSDecodableShape {
+
         /// The JSON data output by the activity task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
         /// Contains details about the output of an execution history event.
@@ -226,12 +232,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
     public struct ActivityTimedOutEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
         /// The error code of the failure.
@@ -243,12 +250,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct BillingDetails: AWSDecodableShape {
+
         /// Billed duration of your workflow, in milliseconds.
         public let billedDurationInMilliseconds: Int64?
         /// Billed memory consumption of your workflow, in MB.
@@ -260,12 +268,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billedDurationInMilliseconds
-            case billedMemoryUsedInMB
+            case billedDurationInMilliseconds = "billedDurationInMilliseconds"
+            case billedMemoryUsedInMB = "billedMemoryUsedInMB"
         }
     }
 
     public struct CloudWatchEventsExecutionDataDetails: AWSDecodableShape {
+
         /// Indicates whether input or output was included in the response. Always true for API calls.
         public let included: Bool?
 
@@ -274,11 +283,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case included
+            case included = "included"
         }
     }
 
     public struct CloudWatchLogsLogGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :*
         public let logGroupArn: String?
 
@@ -292,11 +302,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupArn
+            case logGroupArn = "logGroupArn"
         }
     }
 
     public struct CreateActivityInput: AWSEncodableShape {
+
         /// The name of the activity to create. This name must be unique for your AWS account and region for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
@@ -316,12 +327,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case tags
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateActivityOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the created activity.
         public let activityArn: String
         /// The date the activity is created.
@@ -333,12 +345,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case creationDate
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
         }
     }
 
     public struct CreateStateMachineInput: AWSEncodableShape {
+
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
         /// Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the AWS Step Functions User Guide.
@@ -365,7 +378,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.definition, name: "definition", parent: name, max: 1_048_576)
+            try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 80)
@@ -378,17 +391,18 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case loggingConfiguration
-            case name
-            case roleArn
-            case tags
-            case tracingConfiguration
-            case type
+            case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
+            case name = "name"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case tracingConfiguration = "tracingConfiguration"
+            case type = "type"
         }
     }
 
     public struct CreateStateMachineOutput: AWSDecodableShape {
+
         /// The date the state machine is created.
         public let creationDate: Date
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
@@ -400,12 +414,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case stateMachineArn
+            case creationDate = "creationDate"
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct DeleteActivityInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
 
@@ -419,15 +434,20 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
+            case activityArn = "activityArn"
         }
     }
 
     public struct DeleteActivityOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteStateMachineInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
 
@@ -441,15 +461,20 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateMachineArn
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct DeleteStateMachineOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeActivityInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
 
@@ -463,11 +488,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
+            case activityArn = "activityArn"
         }
     }
 
     public struct DescribeActivityOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the activity.
         public let activityArn: String
         /// The date the activity is created.
@@ -482,13 +508,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case creationDate
-            case name
+            case activityArn = "activityArn"
+            case creationDate = "creationDate"
+            case name = "name"
         }
     }
 
     public struct DescribeExecutionInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the execution to describe.
         public let executionArn: String
 
@@ -502,11 +529,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
+            case executionArn = "executionArn"
         }
     }
 
     public struct DescribeExecutionOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The string that contains the JSON input data of the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
@@ -543,21 +571,22 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case input
-            case inputDetails
-            case name
-            case output
-            case outputDetails
-            case startDate
-            case stateMachineArn
-            case status
-            case stopDate
-            case traceHeader
+            case executionArn = "executionArn"
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case name = "name"
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
+            case traceHeader = "traceHeader"
         }
     }
 
     public struct DescribeStateMachineForExecutionInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the execution you want state machine information for.
         public let executionArn: String
 
@@ -571,11 +600,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
+            case executionArn = "executionArn"
         }
     }
 
     public struct DescribeStateMachineForExecutionOutput: AWSDecodableShape {
+
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String
         public let loggingConfiguration: LoggingConfiguration?
@@ -601,17 +631,18 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case loggingConfiguration
-            case name
-            case roleArn
-            case stateMachineArn
-            case tracingConfiguration
-            case updateDate
+            case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
+            case name = "name"
+            case roleArn = "roleArn"
+            case stateMachineArn = "stateMachineArn"
+            case tracingConfiguration = "tracingConfiguration"
+            case updateDate = "updateDate"
         }
     }
 
     public struct DescribeStateMachineInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         public let stateMachineArn: String
 
@@ -625,11 +656,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateMachineArn
+            case stateMachineArn = "stateMachineArn"
         }
     }
 
     public struct DescribeStateMachineOutput: AWSDecodableShape {
+
         /// The date the state machine is created.
         public let creationDate: Date
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
@@ -661,19 +693,20 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case definition
-            case loggingConfiguration
-            case name
-            case roleArn
-            case stateMachineArn
-            case status
-            case tracingConfiguration
-            case type
+            case creationDate = "creationDate"
+            case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
+            case name = "name"
+            case roleArn = "roleArn"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case tracingConfiguration = "tracingConfiguration"
+            case type = "type"
         }
     }
 
     public struct ExecutionAbortedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -685,12 +718,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ExecutionFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -702,12 +736,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ExecutionListItem: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The name of the execution. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -731,16 +766,17 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case name
-            case startDate
-            case stateMachineArn
-            case status
-            case stopDate
+            case executionArn = "executionArn"
+            case name = "name"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
         }
     }
 
     public struct ExecutionStartedEventDetails: AWSDecodableShape {
+
         /// The JSON data input to the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// Contains details about the input for an execution history event.
@@ -755,13 +791,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case inputDetails
-            case roleArn
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case roleArn = "roleArn"
         }
     }
 
     public struct ExecutionSucceededEventDetails: AWSDecodableShape {
+
         /// The JSON data output by the execution. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
         /// Contains details about the output of an execution history event.
@@ -773,12 +810,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
     public struct ExecutionTimedOutEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
         /// The error code of the failure.
@@ -790,12 +828,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct GetActivityTaskInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned when you create the task using CreateActivity.)
         public let activityArn: String
         /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history.
@@ -814,12 +853,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityArn
-            case workerName
+            case activityArn = "activityArn"
+            case workerName = "workerName"
         }
     }
 
     public struct GetActivityTaskOutput: AWSDecodableShape {
+
         /// The string that contains the JSON input data for the task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
@@ -831,12 +871,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case taskToken
+            case input = "input"
+            case taskToken = "taskToken"
         }
     }
 
     public struct GetExecutionHistoryInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the execution.
         public let executionArn: String
         /// You can select whether execution data (input or output of a history event) is returned. The default is true.
@@ -866,15 +907,16 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case includeExecutionData
-            case maxResults
-            case nextToken
-            case reverseOrder
+            case executionArn = "executionArn"
+            case includeExecutionData = "includeExecutionData"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case reverseOrder = "reverseOrder"
         }
     }
 
     public struct GetExecutionHistoryOutput: AWSDecodableShape {
+
         /// The list of events that occurred in the execution.
         public let events: [HistoryEvent]
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -886,12 +928,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
     public struct HistoryEvent: AWSDecodableShape {
+
         public let activityFailedEventDetails: ActivityFailedEventDetails?
         public let activityScheduledEventDetails: ActivityScheduledEventDetails?
         /// Contains details about an activity schedule event that failed during an execution.
@@ -989,46 +1032,47 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activityFailedEventDetails
-            case activityScheduledEventDetails
-            case activityScheduleFailedEventDetails
-            case activityStartedEventDetails
-            case activitySucceededEventDetails
-            case activityTimedOutEventDetails
-            case executionAbortedEventDetails
-            case executionFailedEventDetails
-            case executionStartedEventDetails
-            case executionSucceededEventDetails
-            case executionTimedOutEventDetails
-            case id
-            case lambdaFunctionFailedEventDetails
-            case lambdaFunctionScheduledEventDetails
-            case lambdaFunctionScheduleFailedEventDetails
-            case lambdaFunctionStartFailedEventDetails
-            case lambdaFunctionSucceededEventDetails
-            case lambdaFunctionTimedOutEventDetails
-            case mapIterationAbortedEventDetails
-            case mapIterationFailedEventDetails
-            case mapIterationStartedEventDetails
-            case mapIterationSucceededEventDetails
-            case mapStateStartedEventDetails
-            case previousEventId
-            case stateEnteredEventDetails
-            case stateExitedEventDetails
-            case taskFailedEventDetails
-            case taskScheduledEventDetails
-            case taskStartedEventDetails
-            case taskStartFailedEventDetails
-            case taskSubmitFailedEventDetails
-            case taskSubmittedEventDetails
-            case taskSucceededEventDetails
-            case taskTimedOutEventDetails
-            case timestamp
-            case type
+            case activityFailedEventDetails = "activityFailedEventDetails"
+            case activityScheduledEventDetails = "activityScheduledEventDetails"
+            case activityScheduleFailedEventDetails = "activityScheduleFailedEventDetails"
+            case activityStartedEventDetails = "activityStartedEventDetails"
+            case activitySucceededEventDetails = "activitySucceededEventDetails"
+            case activityTimedOutEventDetails = "activityTimedOutEventDetails"
+            case executionAbortedEventDetails = "executionAbortedEventDetails"
+            case executionFailedEventDetails = "executionFailedEventDetails"
+            case executionStartedEventDetails = "executionStartedEventDetails"
+            case executionSucceededEventDetails = "executionSucceededEventDetails"
+            case executionTimedOutEventDetails = "executionTimedOutEventDetails"
+            case id = "id"
+            case lambdaFunctionFailedEventDetails = "lambdaFunctionFailedEventDetails"
+            case lambdaFunctionScheduledEventDetails = "lambdaFunctionScheduledEventDetails"
+            case lambdaFunctionScheduleFailedEventDetails = "lambdaFunctionScheduleFailedEventDetails"
+            case lambdaFunctionStartFailedEventDetails = "lambdaFunctionStartFailedEventDetails"
+            case lambdaFunctionSucceededEventDetails = "lambdaFunctionSucceededEventDetails"
+            case lambdaFunctionTimedOutEventDetails = "lambdaFunctionTimedOutEventDetails"
+            case mapIterationAbortedEventDetails = "mapIterationAbortedEventDetails"
+            case mapIterationFailedEventDetails = "mapIterationFailedEventDetails"
+            case mapIterationStartedEventDetails = "mapIterationStartedEventDetails"
+            case mapIterationSucceededEventDetails = "mapIterationSucceededEventDetails"
+            case mapStateStartedEventDetails = "mapStateStartedEventDetails"
+            case previousEventId = "previousEventId"
+            case stateEnteredEventDetails = "stateEnteredEventDetails"
+            case stateExitedEventDetails = "stateExitedEventDetails"
+            case taskFailedEventDetails = "taskFailedEventDetails"
+            case taskScheduledEventDetails = "taskScheduledEventDetails"
+            case taskStartedEventDetails = "taskStartedEventDetails"
+            case taskStartFailedEventDetails = "taskStartFailedEventDetails"
+            case taskSubmitFailedEventDetails = "taskSubmitFailedEventDetails"
+            case taskSubmittedEventDetails = "taskSubmittedEventDetails"
+            case taskSucceededEventDetails = "taskSucceededEventDetails"
+            case taskTimedOutEventDetails = "taskTimedOutEventDetails"
+            case timestamp = "timestamp"
+            case type = "type"
         }
     }
 
     public struct HistoryEventExecutionDataDetails: AWSDecodableShape {
+
         /// Indicates whether input or output was truncated in the response. Always false for API calls.
         public let truncated: Bool?
 
@@ -1037,11 +1081,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case truncated
+            case truncated = "truncated"
         }
     }
 
     public struct LambdaFunctionFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1053,12 +1098,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct LambdaFunctionScheduleFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1070,12 +1116,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct LambdaFunctionScheduledEventDetails: AWSDecodableShape {
+
         /// The JSON data input to the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// Contains details about input for an execution history event.
@@ -1093,14 +1140,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case inputDetails
-            case resource
-            case timeoutInSeconds
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case resource = "resource"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
     public struct LambdaFunctionStartFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1112,12 +1160,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct LambdaFunctionSucceededEventDetails: AWSDecodableShape {
+
         /// The JSON data output by the lambda function. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
         /// Contains details about the output of an execution history event.
@@ -1129,12 +1178,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
     public struct LambdaFunctionTimedOutEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the timeout.
         public let cause: String?
         /// The error code of the failure.
@@ -1146,12 +1196,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
+            case cause = "cause"
+            case error = "error"
         }
     }
 
     public struct ListActivitiesInput: AWSEncodableShape {
+
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -1170,12 +1221,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListActivitiesOutput: AWSDecodableShape {
+
         /// The list of activities.
         public let activities: [ActivityListItem]
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -1187,12 +1239,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activities
-            case nextToken
+            case activities = "activities"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListExecutionsInput: AWSEncodableShape {
+
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -1219,14 +1272,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case stateMachineArn
-            case statusFilter
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case stateMachineArn = "stateMachineArn"
+            case statusFilter = "statusFilter"
         }
     }
 
     public struct ListExecutionsOutput: AWSDecodableShape {
+
         /// The list of matching executions.
         public let executions: [ExecutionListItem]
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -1238,12 +1292,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executions
-            case nextToken
+            case executions = "executions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListStateMachinesInput: AWSEncodableShape {
+
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -1262,12 +1317,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListStateMachinesOutput: AWSDecodableShape {
+
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
         public let stateMachines: [StateMachineListItem]
@@ -1278,12 +1334,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case stateMachines
+            case nextToken = "nextToken"
+            case stateMachines = "stateMachines"
         }
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
 
@@ -1297,11 +1354,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
+
         /// An array of tags associated with the resource.
         public let tags: [Tag]?
 
@@ -1310,11 +1368,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct LogDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the AWS CloudFormation User Guide.
         public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
 
@@ -1327,11 +1386,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cloudWatchLogsLogGroup
+            case cloudWatchLogsLogGroup = "cloudWatchLogsLogGroup"
         }
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF.
         public let destinations: [LogDestination]?
         /// Determines whether execution data is included in your log. When set to false, data is excluded.
@@ -1352,13 +1412,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations
-            case includeExecutionData
-            case level
+            case destinations = "destinations"
+            case includeExecutionData = "includeExecutionData"
+            case level = "level"
         }
     }
 
     public struct MapIterationEventDetails: AWSDecodableShape {
+
         /// The index of the array belonging to the Map state iteration.
         public let index: Int?
         /// The name of the iteration’s parent Map state.
@@ -1370,12 +1431,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case index
-            case name
+            case index = "index"
+            case name = "name"
         }
     }
 
     public struct MapStateStartedEventDetails: AWSDecodableShape {
+
         /// The size of the array for Map state iterations.
         public let length: Int?
 
@@ -1384,11 +1446,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case length
+            case length = "length"
         }
     }
 
     public struct SendTaskFailureInput: AWSEncodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1412,17 +1475,22 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case taskToken
+            case cause = "cause"
+            case error = "error"
+            case taskToken = "taskToken"
         }
     }
 
     public struct SendTaskFailureOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SendTaskHeartbeatInput: AWSEncodableShape {
+
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
@@ -1436,15 +1504,20 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskToken
+            case taskToken = "taskToken"
         }
     }
 
     public struct SendTaskHeartbeatOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SendTaskSuccessInput: AWSEncodableShape {
+
         /// The JSON output of the task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
@@ -1456,22 +1529,27 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.output, name: "output", parent: name, max: 262_144)
+            try self.validate(self.output, name: "output", parent: name, max: 262144)
             try self.validate(self.taskToken, name: "taskToken", parent: name, max: 1024)
             try self.validate(self.taskToken, name: "taskToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case taskToken
+            case output = "output"
+            case taskToken = "taskToken"
         }
     }
 
     public struct SendTaskSuccessOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartExecutionInput: AWSEncodableShape {
+
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -1489,7 +1567,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.input, name: "input", parent: name, max: 262_144)
+            try self.validate(self.input, name: "input", parent: name, max: 262144)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
@@ -1500,14 +1578,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case name
-            case stateMachineArn
-            case traceHeader
+            case input = "input"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case traceHeader = "traceHeader"
         }
     }
 
     public struct StartExecutionOutput: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the execution.
         public let executionArn: String
         /// The date the execution is started.
@@ -1519,12 +1598,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case executionArn
-            case startDate
+            case executionArn = "executionArn"
+            case startDate = "startDate"
         }
     }
 
     public struct StartSyncExecutionInput: AWSEncodableShape {
+
         /// The string that contains the JSON input data for the execution, for example:  "input": "{\"first_name\" : \"test\"}"   If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// The name of the execution.
@@ -1542,7 +1622,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.input, name: "input", parent: name, max: 262_144)
+            try self.validate(self.input, name: "input", parent: name, max: 262144)
             try self.validate(self.name, name: "name", parent: name, max: 80)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.stateMachineArn, name: "stateMachineArn", parent: name, max: 256)
@@ -1553,14 +1633,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case name
-            case stateMachineArn
-            case traceHeader
+            case input = "input"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case traceHeader = "traceHeader"
         }
     }
 
     public struct StartSyncExecutionOutput: AWSDecodableShape {
+
         /// An object that describes workflow billing details, including billed duration and memory use.
         public let billingDetails: BillingDetails?
         /// A more detailed explanation of the cause of the failure.
@@ -1606,24 +1687,25 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case billingDetails
-            case cause
-            case error
-            case executionArn
-            case input
-            case inputDetails
-            case name
-            case output
-            case outputDetails
-            case startDate
-            case stateMachineArn
-            case status
-            case stopDate
-            case traceHeader
+            case billingDetails = "billingDetails"
+            case cause = "cause"
+            case error = "error"
+            case executionArn = "executionArn"
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case name = "name"
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case startDate = "startDate"
+            case stateMachineArn = "stateMachineArn"
+            case status = "status"
+            case stopDate = "stopDate"
+            case traceHeader = "traceHeader"
         }
     }
 
     public struct StateEnteredEventDetails: AWSDecodableShape {
+
         /// The string that contains the JSON input data for the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let input: String?
         /// Contains details about the input for an execution history event.
@@ -1638,13 +1720,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case input
-            case inputDetails
-            case name
+            case input = "input"
+            case inputDetails = "inputDetails"
+            case name = "name"
         }
     }
 
     public struct StateExitedEventDetails: AWSDecodableShape {
+
         /// The name of the state. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         public let name: String
         /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
@@ -1659,13 +1742,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case output
-            case outputDetails
+            case name = "name"
+            case output = "output"
+            case outputDetails = "outputDetails"
         }
     }
 
     public struct StateMachineListItem: AWSDecodableShape {
+
         /// The date the state machine is created.
         public let creationDate: Date
         /// The name of the state machine. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -1682,14 +1766,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case name
-            case stateMachineArn
-            case type
+            case creationDate = "creationDate"
+            case name = "name"
+            case stateMachineArn = "stateMachineArn"
+            case type = "type"
         }
     }
 
     public struct StopExecutionInput: AWSEncodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1713,13 +1798,14 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case executionArn
+            case cause = "cause"
+            case error = "error"
+            case executionArn = "executionArn"
         }
     }
 
     public struct StopExecutionOutput: AWSDecodableShape {
+
         /// The date the execution is stopped.
         public let stopDate: Date
 
@@ -1728,11 +1814,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stopDate
+            case stopDate = "stopDate"
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of a tag.
         public let key: String?
         /// The value of a tag.
@@ -1751,12 +1838,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
         /// The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
@@ -1776,16 +1864,21 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tags
+            case resourceArn = "resourceArn"
+            case tags = "tags"
         }
     }
 
     public struct TagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TaskFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1803,14 +1896,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TaskScheduledEventDetails: AWSDecodableShape {
+
         /// The maximum allowed duration between two heartbeats for the task.
         public let heartbeatInSeconds: Int64?
         /// The JSON data passed to the resource referenced in a task state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
@@ -1834,16 +1928,17 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heartbeatInSeconds
-            case parameters
-            case region
-            case resource
-            case resourceType
-            case timeoutInSeconds
+            case heartbeatInSeconds = "heartbeatInSeconds"
+            case parameters = "parameters"
+            case region = "region"
+            case resource = "resource"
+            case resourceType = "resourceType"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
     public struct TaskStartFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1861,14 +1956,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TaskStartedEventDetails: AWSDecodableShape {
+
         /// The service name of the resource in a task state.
         public let resource: String
         /// The action of the resource called by a task state.
@@ -1880,12 +1976,13 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
-            case resourceType
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TaskSubmitFailedEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1903,14 +2000,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TaskSubmittedEventDetails: AWSDecodableShape {
+
         /// The response from a resource when a task has started. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
         /// Contains details about the output of an execution history event.
@@ -1928,14 +2026,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
-            case resource
-            case resourceType
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TaskSucceededEventDetails: AWSDecodableShape {
+
         /// The full JSON response from a resource when a task has succeeded. This response becomes the output of the related task. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
         public let output: String?
         /// Contains details about the output of an execution history event.
@@ -1953,14 +2052,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case output
-            case outputDetails
-            case resource
-            case resourceType
+            case output = "output"
+            case outputDetails = "outputDetails"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TaskTimedOutEventDetails: AWSDecodableShape {
+
         /// A more detailed explanation of the cause of the failure.
         public let cause: String?
         /// The error code of the failure.
@@ -1978,14 +2078,15 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cause
-            case error
-            case resource
-            case resourceType
+            case cause = "cause"
+            case error = "error"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
     public struct TracingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// When set to true, AWS X-Ray tracing is enabled.
         public let enabled: Bool?
 
@@ -1994,11 +2095,12 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled
+            case enabled = "enabled"
         }
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
         /// The list of tags to remove from the resource.
@@ -2019,16 +2121,21 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case tagKeys
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct UntagResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateStateMachineInput: AWSEncodableShape {
+
         /// The Amazon States Language definition of the state machine. See Amazon States Language.
         public let definition: String?
         /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
@@ -2049,7 +2156,7 @@ extension SFN {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.definition, name: "definition", parent: name, max: 1_048_576)
+            try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
@@ -2059,15 +2166,16 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case definition
-            case loggingConfiguration
-            case roleArn
-            case stateMachineArn
-            case tracingConfiguration
+            case definition = "definition"
+            case loggingConfiguration = "loggingConfiguration"
+            case roleArn = "roleArn"
+            case stateMachineArn = "stateMachineArn"
+            case tracingConfiguration = "tracingConfiguration"
         }
     }
 
     public struct UpdateStateMachineOutput: AWSDecodableShape {
+
         /// The date and time the state machine was updated.
         public let updateDate: Date
 
@@ -2076,7 +2184,7 @@ extension SFN {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case updateDate
+            case updateDate = "updateDate"
         }
     }
 }
