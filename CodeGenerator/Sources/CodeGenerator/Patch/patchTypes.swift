@@ -109,7 +109,7 @@ class AddDictionaryPatch<Remove: Equatable, P: PatchKeyPath, Root: PatchBase>: P
 }
 
 extension Shape.ShapeType: Equatable {
-    /// use to verify is shape types are the same when checking original values in replace patches
+    /// use to verify if shape types are the same when checking original values in replace patches
     static func == (lhs: Shape.ShapeType, rhs: Shape.ShapeType) -> Bool {
         switch lhs {
         case .string:
