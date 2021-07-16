@@ -44,7 +44,7 @@ class EC2Tests: XCTestCase {
 
     func testDescribeImages() {
         let imageRequest = EC2.DescribeImagesRequest(filters: .init([EC2.Filter(name: "name", values: ["*ubuntu-18.04-v1.15*"]), EC2.Filter(name: "state", values: ["available"])]))
-        let response = Self.ec2.describeImages(imageRequest)
+        let response = Self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
         XCTAssertNoThrow(try response.wait())
     }
 
