@@ -47,7 +47,7 @@ extension API {
             ReplacePatch(PatchKeyPath3(\Self.shapes["InstanceType"], \.type.enum, \.isExtensible), value: true, originalValue: false),
             ReplacePatch(PatchKeyPath3(\Self.shapes["ArchitectureType"], \.type.enum, \.isExtensible), value: true, originalValue: false),
             // this fixes the waiter 'ConversionTaskDeleted'
-            AddPatch(PatchKeyPath3(\Self.shapes["ConversionTaskState"], \.type.enum, \.cases), value: "DELETED"),
+            AddPatch(PatchKeyPath3(\Self.shapes["ConversionTaskState"], \.type.enum, \.cases), value: "deleted"),
         ],
         "ECS": [
             AddPatch(PatchKeyPath3(\Self.shapes["PropagateTags"], \.type.enum, \.cases), value: "NONE"),

@@ -76,16 +76,12 @@ struct CodeGenerator {
 
             // a waiter file doesn't always exist
             var waiters: Waiters?
-            do {
-                if let waiterFile = Glob.entries(pattern: $0 + "/**/waiters-*.json").first {
-                    let waiterData = try Data(contentsOf: URL(string: "file://\(waiterFile)")!)
-                    waiters = try JSONDecoder().decode(Waiters.self, from: waiterData)
-                    try waiters?.patch(serviceName: api.serviceName)
-                } else {
-                    waiters = nil
-                }
-            } catch {
-                throw error
+            if let waiterFile = Glob.entries(pattern: $0 + "/**/waiters-*.json").first {
+                let waiterData = try Data(contentsOf: URL(string: "file://\(waiterFile)")!)
+                waiters = try JSONDecoder().decode(Waiters.self, from: waiterData)
+                try waiters?.patch(serviceName: api.serviceName)
+            } else {
+                waiters = nil
             }
             return (api: api, docs: docs, paginators: paginators, waiters: waiters)
         }

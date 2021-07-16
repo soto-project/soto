@@ -35,7 +35,7 @@ extension AWSService {
         case jmesAllPath(path: String, expected: String)
         case error(String)
         case errorStatus(Int)
-        case success(Int) // success requires a associated value, so a mustache context is created for the value
+        case success(Int) // Success requires a dummy associated value, so a mustache context is created for the `MatcherContext`
     }
 
     func generateWaiterContext() throws -> [String: Any] {
@@ -47,7 +47,7 @@ extension AWSService {
         var waiterContexts: [WaiterContext] = []
 
         for waiter in waiters {
-            // get related operation and its input and output shapes
+            // Get related operation and its input and output shapes
             guard let operation = api.operations[waiter.value.operation],
                   let inputShape = try operation.input.map({ try api.getShape(named: $0.shapeName) }),
                   let outputShape = try operation.output.map({ try api.getShape(named: $0.shapeName) })
@@ -110,10 +110,10 @@ extension AWSService {
         }
     }
 
-    /// parse JMESPath to make it work with Soto structs instead of the output JSON
-    /// Basically convert all fields into format used for variables. ie lowercase first character
+    /// Parse JMESPath to make it work with Soto structs instead of the output JSON
+    /// Basically convert all fields into format used for variables - ie lowercase first character
     func generatePathArgument(argument: String) -> String {
-        // a field is any series of letters that don't end with a (
+        // a field is any series of letters that doesn't end with a `(`
         var output: String = ""
         var index = argument.startIndex
         var fieldStartIndex: String.Index?
