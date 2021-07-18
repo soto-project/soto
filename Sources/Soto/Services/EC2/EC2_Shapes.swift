@@ -336,6 +336,7 @@ extension EC2 {
         case cancelled
         case cancelling
         case completed
+        case deleted
         public var description: String { return self.rawValue }
     }
 
