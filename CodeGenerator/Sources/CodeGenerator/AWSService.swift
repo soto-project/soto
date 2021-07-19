@@ -696,6 +696,8 @@ extension AWSService {
                 locationName: locationName
             )
         ]
+        // if member is a host label, then add an additional uri shape member to apply to host name. Ideally this would be a
+        // new location type but that would require a major version change
         if member.hostLabel == true {
             contexts.append(.init(name: varName, location: Shape.Location.uri.enumStringValue(named: name), locationName: name))
         }
