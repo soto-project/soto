@@ -112,8 +112,6 @@ struct AWSService {
             return "GlacierRequestMiddleware(apiVersion: \"\(self.api.metadata.apiVersion)\")"
         case "S3":
             return "S3RequestMiddleware()"
-        case "S3Control":
-            return "S3ControlMiddleware()"
         default:
             return nil
         }
@@ -143,6 +141,7 @@ extension AWSService {
         let name: String
         let path: String
         let httpMethod: String
+        let hostPrefix: String?
         let deprecated: String?
         let streaming: String?
         let documentationUrl: String?
@@ -289,6 +288,7 @@ extension AWSService {
             name: operation.name,
             path: operation.http.requestUri,
             httpMethod: operation.http.method,
+            hostPrefix: operation.endpoint?.hostPrefix,
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
             streaming: streaming ? "ByteBuffer" : nil,
             documentationUrl: operation.documentationUrl
