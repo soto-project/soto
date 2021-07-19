@@ -293,12 +293,4 @@ class AWSRequestTests: XCTestCase {
         let request = CloudFront.CreateDistributionRequest(distributionConfig: distribution)
         self.testAWSValidationFail(config: cloudFront.config, operation: "CreateDistribution", input: request)
     }
-
-    func testS3ControlListJobs() throws {
-        let s3Control = S3Control(client: Self.client)
-        let request = S3Control.ListJobsRequest(accountId: "123456780123")
-        let awsRequest = try AWSRequest(operation: "ListJobs", path: "/jobs", httpMethod: .GET, input: request, configuration: s3Control.config)
-            .applyMiddlewares(s3Control.config.middlewares, config: s3Control.config)
-        XCTAssertEqual(awsRequest.url.absoluteString, "https://123456780123.s3-control.us-east-1.amazonaws.com/jobs")
-    }
 }

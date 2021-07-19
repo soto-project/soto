@@ -673,7 +673,7 @@ extension AWSService {
     }
 
     /// Generate the context information for outputting a member variable
-    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape, isPropertyWrapper: Bool) -> AWSShapeMemberContext? {
+    func generateAWSShapeMemberContexts(_ member: Shape.Member, name: String, shape: Shape, isPropertyWrapper: Bool) -> [AWSShapeMemberContext] {
         let isPayload = (shape.payload == name)
         var locationName: String? = member.locationName
         let location = member.location ?? .body
@@ -685,14 +685,21 @@ extension AWSService {
         if location == .body, locationName == name.toSwiftLabelCase() || !isPayload {
             locationName = nil
         }
-        guard locationName != nil else { return nil }
+        guard locationName != nil else { return [] }
         // prefix property wrapped shapes with "_" so they can be found by Mirror
-        let name = isPropertyWrapper ? "_\(name.toSwiftLabelCase())" : name.toSwiftLabelCase()
-        return AWSShapeMemberContext(
-            name: name,
-            location: locationName.map { location.enumStringValue(named: $0) },
-            locationName: locationName
-        )
+        let varName = isPropertyWrapper ? "_\(name.toSwiftLabelCase())" : name.toSwiftLabelCase()
+
+        var contexts: [AWSShapeMemberContext] = [
+            .init(
+                name: varName,
+                location: locationName.map { location.enumStringValue(named: $0) },
+                locationName: locationName
+            )
+        ]
+        if member.hostLabel == true {
+            contexts.append(.init(name: varName, location: Shape.Location.uri.enumStringValue(named: name), locationName: name))
+        }
+        return contexts
     }
 
     /// Generate validation context
@@ -852,14 +859,13 @@ extension AWSService {
                 encodingContexts.append(encodingContext)
             }
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(
+            let awsShapeMemberContext = generateAWSShapeMemberContexts(
                 member.value,
                 name: member.key,
                 shape: shape,
                 isPropertyWrapper: memberContext.propertyWrapper != nil && shape.usedInInput
-            ) {
-                awsShapeMemberContexts.append(awsShapeMemberContext)
-            }
+            )
+            awsShapeMemberContexts += awsShapeMemberContext
 
             // CodingKey entry
             if let codingKeyContext = generateCodingKeyContext(member.value, name: member.key, shape: shape) {

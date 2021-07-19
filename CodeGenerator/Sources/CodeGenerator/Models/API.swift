@@ -291,6 +291,7 @@ class Shape: Decodable {
         var flattened: Bool?
         var streaming: Bool?
         var idempotencyToken: Bool?
+        var hostLabel: Bool?
         // set after decode in postProcess stage
         var required: Bool = false
         var shape: Shape!
@@ -304,6 +305,7 @@ class Shape: Decodable {
             case flattened
             case streaming
             case idempotencyToken
+            case hostLabel
         }
     }
 
