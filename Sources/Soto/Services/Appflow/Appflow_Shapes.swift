@@ -204,6 +204,7 @@ extension Appflow {
         case concatFormat = "CONCAT_FORMAT"
         case dataType = "DATA_TYPE"
         case destinationDataType = "DESTINATION_DATA_TYPE"
+        case excludeSourceFieldsList = "EXCLUDE_SOURCE_FIELDS_LIST"
         case lowerBound = "LOWER_BOUND"
         case maskLength = "MASK_LENGTH"
         case maskValue = "MASK_VALUE"
@@ -363,6 +364,7 @@ extension Appflow {
         case arithmetic = "Arithmetic"
         case filter = "Filter"
         case map = "Map"
+        case mapAll = "Map_all"
         case mask = "Mask"
         case merge = "Merge"
         case truncate = "Truncate"
@@ -1597,6 +1599,7 @@ extension Appflow {
         public let snowflake: SnowflakeDestinationProperties?
         ///  The properties required to query Upsolver.
         public let upsolver: UpsolverDestinationProperties?
+        /// The properties required to query Zendesk.
         public let zendesk: ZendeskDestinationProperties?
 
         public init(customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil, zendesk: ZendeskDestinationProperties? = nil) {
@@ -3800,6 +3803,7 @@ extension Appflow {
     public struct ZendeskDestinationProperties: AWSEncodableShape & AWSDecodableShape {
         public let errorHandlingConfig: ErrorHandlingConfig?
         public let idFieldNames: [String]?
+        /// The object specified in the Zendesk flow destination.
         public let object: String
         public let writeOperationType: WriteOperationType?
 

@@ -125,7 +125,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Amazon EKS clusters in your AWS account in the specified Region.
+    ///  Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +178,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in the specified Region.
+    ///  Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +284,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS account in the specified Region. Self-managed node groups are not listed.
+    ///  Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +337,7 @@ extension EKS {
         )
     }
 
-    ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS account, in the specified Region.
+    ///  Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

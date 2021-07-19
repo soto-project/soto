@@ -376,6 +376,17 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum EdgePresetDeploymentStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EdgePresetDeploymentType: String, CustomStringConvertible, Codable {
+        case greengrassv2component = "GreengrassV2Component"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
         case name = "Name"
@@ -897,6 +908,12 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -1283,6 +1300,7 @@ extension SageMaker {
     public enum TargetDevice: String, CustomStringConvertible, Codable {
         case aisage
         case ambaCv22 = "amba_cv22"
+        case ambaCv25 = "amba_cv25"
         case coreml
         case deeplens
         case imx8qm
@@ -1423,6 +1441,12 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -1599,7 +1623,7 @@ extension SageMaker {
     public struct AddTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -1672,7 +1696,7 @@ extension SageMaker {
     }
 
     public struct AlgorithmSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on AWS Marketplace. If you specify a value for this parameter, you can't specify a value for TrainingImage.
+        /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace. If you specify a value for this parameter, you can't specify a value for TrainingImage.
         public let algorithmName: String?
         /// To generate and save time-series metrics during training, set to true. The default is false and time-series metrics aren't generated except in the following cases:   You use one of the Amazon SageMaker built-in algorithms   You use one of the following Prebuilt Amazon SageMaker Docker Images:   Tensorflow (version &gt;= 1.15)   MXNet (version &gt;= 1.6)   PyTorch (version &gt;= 1.3)     You specify at least one MetricDefinition
         public let enableSageMakerMetricsTimeSeries: Bool?
@@ -2123,7 +2147,7 @@ extension SageMaker {
     public struct AthenaDatasetDefinition: AWSEncodableShape & AWSDecodableShape {
         public let catalog: String
         public let database: String
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data generated from an Athena query execution.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data generated from an Athena query execution.
         public let kmsKeyId: String?
         public let outputCompression: AthenaResultCompressionType?
         public let outputFormat: AthenaResultFormat
@@ -2329,11 +2353,11 @@ extension SageMaker {
     }
 
     public struct AutoMLJobCompletionCriteria: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum time, in seconds, an AutoML job is allowed to wait for a trial to complete. It must be equal to or greater than MaxRuntimePerTrainingJobInSeconds.
+        /// The maximum runtime, in seconds, an AutoML job has to complete.
         public let maxAutoMLJobRuntimeInSeconds: Int?
         /// The maximum number of times a training job is allowed to run.
         public let maxCandidates: Int?
-        /// The maximum time, in seconds, a job is allowed to run.
+        /// The maximum time, in seconds, a training job is allowed to run as part of an AutoML job.
         public let maxRuntimePerTrainingJobInSeconds: Int?
 
         public init(maxAutoMLJobRuntimeInSeconds: Int? = nil, maxCandidates: Int? = nil, maxRuntimePerTrainingJobInSeconds: Int? = nil) {
@@ -2436,7 +2460,7 @@ extension SageMaker {
     }
 
     public struct AutoMLOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS KMS encryption key ID.
+        /// The Amazon Web Services KMS encryption key ID.
         public let kmsKeyId: String?
         /// The Amazon S3 output path. Must be 128 characters or less.
         public let s3OutputPath: String
@@ -2594,6 +2618,27 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case sourcePipelineExecutionArn = "SourcePipelineExecutionArn"
+        }
+    }
+
+    public struct CallbackStepMetadata: AWSDecodableShape {
+        /// The pipeline generated token from the Amazon SQS queue.
+        public let callbackToken: String?
+        /// A list of the output parameters of the callback step.
+        public let outputParameters: [OutputParameter]?
+        /// The URL of the Amazon Simple Queue Service (Amazon SQS) queue used by the callback step.
+        public let sqsQueueUrl: String?
+
+        public init(callbackToken: String? = nil, outputParameters: [OutputParameter]? = nil, sqsQueueUrl: String? = nil) {
+            self.callbackToken = callbackToken
+            self.outputParameters = outputParameters
+            self.sqsQueueUrl = sqsQueueUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callbackToken = "CallbackToken"
+            case outputParameters = "OutputParameters"
+            case sqsQueueUrl = "SqsQueueUrl"
         }
     }
 
@@ -2860,7 +2905,7 @@ extension SageMaker {
         public let codeRepositoryName: String
         /// The date and time that the Git repository was created.
         public let creationTime: Date
-        /// Configuration details for the Git repository, including the URL where it is located and the ARN of the AWS Secrets Manager secret that contains the credentials used to access the repository.
+        /// Configuration details for the Git repository, including the URL where it is located and the ARN of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository.
         public let gitConfig: GitConfig?
         /// The date and time that the Git repository was last modified.
         public let lastModifiedTime: Date
@@ -3048,7 +3093,7 @@ extension SageMaker {
         public let imageConfig: ImageConfig?
         /// Whether the container hosts a single model or multiple models.
         public let mode: ContainerMode?
-        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
+        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, Amazon SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provide. Amazon Web Services STS is activated in your IAM user account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl.
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
         public let modelPackageName: String?
@@ -3216,7 +3261,7 @@ extension SageMaker {
     }
 
     public struct CreateActionRequest: AWSEncodableShape {
-        /// The name of the action. Must be unique to your account in an AWS Region.
+        /// The name of the action. Must be unique to your account in an Amazon Web Services Region.
         public let actionName: String
         /// The action type.
         public let actionType: String
@@ -3295,11 +3340,11 @@ extension SageMaker {
         public let algorithmDescription: String?
         /// The name of the algorithm.
         public let algorithmName: String
-        /// Whether to certify the algorithm so that it can be listed in AWS Marketplace.
+        /// Whether to certify the algorithm so that it can be listed in Amazon Web Services Marketplace.
         public let certifyForMarketplace: Bool?
         /// Specifies details about inference jobs that the algorithm runs, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the algorithm supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the algorithm supports for inference.
         public let inferenceSpecification: InferenceSpecification?
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
         /// Specifies details about training jobs run by this algorithm, including the following:   The Amazon ECR path of the container and the version digest of the algorithm.   The hyperparameters that the algorithm supports.   The instance types that the algorithm supports for training.   Whether the algorithm supports distributed training.   The metrics that the algorithm emits to Amazon CloudWatch.   Which metrics that the algorithm emits can be used as the objective metric for hyperparameter tuning jobs.   The input channels that the algorithm supports for training data. For example, an algorithm might support train, validation, and test channels.
         public let trainingSpecification: TrainingSpecification
@@ -3462,7 +3507,7 @@ extension SageMaker {
     }
 
     public struct CreateArtifactRequest: AWSEncodableShape {
-        /// The name of the artifact. Must be unique to your account in an AWS Region.
+        /// The name of the artifact. Must be unique to your account in an Amazon Web Services Region.
         public let artifactName: String?
         /// The artifact type.
         public let artifactType: String
@@ -3539,11 +3584,11 @@ extension SageMaker {
         public let inputDataConfig: [AutoMLChannel]
         /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
         public let modelDeployConfig: ModelDeployConfig?
-        /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV. &lt;para&gt;Specifies whether to automatically deploy the best &amp;ATP; model to an endpoint and the name of that endpoint if deployed automatically.&lt;/para&gt;
+        /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV.
         public let outputDataConfig: AutoMLOutputDataConfig
         /// Defines the type of supervised learning available for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression. For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
         public let problemType: ProblemType?
-        /// The ARN of the role that is used to access the data. &lt;para&gt;Specifies whether to automatically deploy the best &amp;ATP; model to an endpoint and the name of that endpoint if deployed automatically.&lt;/para&gt;
+        /// The ARN of the role that is used to access the data.
         public let roleArn: String
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
         public let tags: [Tag]?
@@ -3615,7 +3660,7 @@ extension SageMaker {
         public let codeRepositoryName: String
         /// Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository.
         public let gitConfig: GitConfig
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
         public init(codeRepositoryName: String, gitConfig: GitConfig, tags: [Tag]? = nil) {
@@ -3657,7 +3702,7 @@ extension SageMaker {
     }
 
     public struct CreateCompilationJobRequest: AWSEncodableShape {
-        /// A name for the model compilation job. The name must be unique within the AWS Region and within your AWS account.
+        /// A name for the model compilation job. The name must be unique within the Amazon Web Services Region and within your Amazon Web Services account.
         public let compilationJobName: String
         /// Provides information about the location of input model artifacts, the name and shape of the expected data inputs, and the framework in which the model was trained.
         public let inputConfig: InputConfig
@@ -3667,16 +3712,19 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
+        /// A VpcConfig object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
+        public let vpcConfig: NeoVpcConfig?
 
-        public init(compilationJobName: String, inputConfig: InputConfig, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil) {
+        public init(compilationJobName: String, inputConfig: InputConfig, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil, vpcConfig: NeoVpcConfig? = nil) {
             self.compilationJobName = compilationJobName
             self.inputConfig = inputConfig
             self.outputConfig = outputConfig
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
             self.tags = tags
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
@@ -3694,6 +3742,7 @@ extension SageMaker {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 0)
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3703,6 +3752,7 @@ extension SageMaker {
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
             case tags = "Tags"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -3720,7 +3770,7 @@ extension SageMaker {
     }
 
     public struct CreateContextRequest: AWSEncodableShape {
-        /// The name of the context. Must be unique to your account in an AWS Region.
+        /// The name of the context. Must be unique to your account in an Amazon Web Services Region.
         public let contextName: String
         /// The context type.
         public let contextType: String
@@ -3802,7 +3852,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
         public let roleArn: String
         public let stoppingCondition: MonitoringStoppingCondition?
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(dataQualityAppSpecification: DataQualityAppSpecification, dataQualityBaselineConfig: DataQualityBaselineConfig? = nil, dataQualityJobInput: DataQualityJobInput, dataQualityJobOutputConfig: MonitoringOutputConfig, jobDefinitionName: String, jobResources: MonitoringResources, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
@@ -3871,16 +3921,19 @@ extension SageMaker {
         public let description: String?
         /// The name of the fleet that the device belongs to.
         public let deviceFleetName: String
+        /// Whether to create an Amazon Web Services IoT Role Alias during device fleet creation. The name of the role alias generated will match this pattern: "SageMakerEdge-{DeviceFleetName}". For example, if your device fleet is called "demo-fleet", the name of the role alias will be "SageMakerEdge-demo-fleet".
+        public let enableIotRoleAlias: Bool?
         /// The output configuration for storing sample data collected by the fleet.
         public let outputConfig: EdgeOutputConfig
-        /// The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT).
+        /// The Amazon Resource Name (ARN) that has access to Amazon Web Services Internet of Things (IoT).
         public let roleArn: String?
         /// Creates tags for the specified fleet.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, deviceFleetName: String, outputConfig: EdgeOutputConfig, roleArn: String? = nil, tags: [Tag]? = nil) {
+        public init(description: String? = nil, deviceFleetName: String, enableIotRoleAlias: Bool? = nil, outputConfig: EdgeOutputConfig, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.deviceFleetName = deviceFleetName
+            self.enableIotRoleAlias = enableIotRoleAlias
             self.outputConfig = outputConfig
             self.roleArn = roleArn
             self.tags = tags
@@ -3907,6 +3960,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case deviceFleetName = "DeviceFleetName"
+            case enableIotRoleAlias = "EnableIotRoleAlias"
             case outputConfig = "OutputConfig"
             case roleArn = "RoleArn"
             case tags = "Tags"
@@ -3922,7 +3976,7 @@ extension SageMaker {
         public let defaultUserSettings: UserSettings
         /// A name for the domain.
         public let domainName: String
-        /// SageMaker uses AWS KMS to encrypt the EFS volume attached to the domain with an AWS managed customer master key (CMK) by default. For more control, specify a customer managed CMK.
+        /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached to the domain with an Amazon Web Services managed customer master key (CMK) by default. For more control, specify a customer managed CMK.
         public let kmsKeyId: String?
         /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]
@@ -4063,11 +4117,11 @@ extension SageMaker {
         public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request.
         public let endpointConfigName: String
-        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
         public let kmsKeyId: String?
         /// An list of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
         public init(dataCaptureConfig: DataCaptureConfig? = nil, endpointConfigName: String, kmsKeyId: String? = nil, productionVariants: [ProductionVariant], tags: [Tag]? = nil) {
@@ -4121,9 +4175,9 @@ extension SageMaker {
     public struct CreateEndpointInput: AWSEncodableShape {
         /// The name of an endpoint configuration. For more information, see CreateEndpointConfig.
         public let endpointConfigName: String
-        /// The name of the endpoint.The name must be unique within an AWS Region in your AWS account. The name is case-insensitive in CreateEndpoint, but the case is preserved and must be matched in .
+        /// The name of the endpoint.The name must be unique within an Amazon Web Services Region in your Amazon Web Services account. The name is case-insensitive in CreateEndpoint, but the case is preserved and must be matched in .
         public let endpointName: String
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
         public init(endpointConfigName: String, endpointName: String, tags: [Tag]? = nil) {
@@ -4169,7 +4223,7 @@ extension SageMaker {
         public let description: String?
         /// The name of the experiment as displayed. The name doesn't need to be unique. If you don't specify DisplayName, the value in ExperimentName is displayed.
         public let displayName: String?
-        /// The name of the experiment. The name must be unique in your AWS account and is not case-sensitive.
+        /// The name of the experiment. The name must be unique in your Amazon Web Services account and is not case-sensitive.
         public let experimentName: String
         /// A list of tags to associate with the experiment. You can use Search API to search on the tags.
         public let tags: [Tag]?
@@ -4225,11 +4279,11 @@ extension SageMaker {
         public let eventTimeFeatureName: String
         /// A list of Feature names and types. Name and Type is compulsory per Feature.  Valid feature FeatureTypes are Integral, Fractional and String.  FeatureNames cannot be any of the following: is_deleted, write_time, api_invocation_time  You can create up to 2,500 FeatureDefinitions per FeatureGroup.
         public let featureDefinitions: [FeatureDefinition]
-        /// The name of the FeatureGroup. The name must be unique within an AWS Region in an AWS account. The name:   Must start and end with an alphanumeric character.   Can only contain alphanumeric character and hyphens. Spaces are not allowed.
+        /// The name of the FeatureGroup. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account. The name:   Must start and end with an alphanumeric character.   Can only contain alphanumeric character and hyphens. Spaces are not allowed.
         public let featureGroupName: String
-        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an AWS Glue or AWS Hive data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
+        /// Use this to configure an OfflineFeatureStore. This parameter allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
         public let offlineStoreConfig: OfflineStoreConfig?
-        /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also include an AWS KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore.
+        /// You can turn the OnlineStore on or off by specifying True for the EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore.
         public let onlineStoreConfig: OnlineStoreConfig?
         /// The name of the Feature whose value uniquely identifies a Record defined in the FeatureStore. Only the latest record per identifier value will be stored in the OnlineStore. RecordIdentifierFeatureName must be one of feature definitions' names. You use the RecordIdentifierFeatureName to access data in a FeatureStore. This name:   Must start and end with an alphanumeric character.   Can only contains alphanumeric characters, hyphens, underscores. Spaces are not allowed.
         public let recordIdentifierFeatureName: String
@@ -4419,9 +4473,9 @@ extension SageMaker {
     public struct CreateHyperParameterTuningJobRequest: AWSEncodableShape {
         /// The HyperParameterTuningJobConfig object that describes the tuning job, including the search strategy, the objective metric used to evaluate training jobs, ranges of parameters to search, and resource limits for the tuning job. For more information, see How Hyperparameter Tuning Works.
         public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
-        /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same AWS account and AWS Region. The name must have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
+        /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same Amazon Web Services account and Amazon Web Services Region. The name must have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
         public let hyperParameterTuningJobName: String
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources. Tags that you specify for the tuning job are also added to all training jobs that the tuning job launches.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources. Tags that you specify for the tuning job are also added to all training jobs that the tuning job launches.
         public let tags: [Tag]?
         /// The HyperParameterTrainingJobDefinition object that describes the training jobs that this tuning job launches, including static hyperparameters, input data configuration, output data configuration, resource configuration, and stopping condition.
         public let trainingJobDefinition: HyperParameterTrainingJobDefinition?
@@ -4546,7 +4600,7 @@ extension SageMaker {
     public struct CreateImageVersionRequest: AWSEncodableShape {
         /// The registry path of the container image to use as the starting point for this version. The path is an Amazon Container Registry (ECR) URI in the following format:  &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt;
         public let baseImage: String
-        /// A unique ID. If not specified, the AWS CLI and AWS SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
+        /// A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
         public let clientToken: String
         /// The ImageName of the Image to create a version of.
         public let imageName: String
@@ -4600,15 +4654,15 @@ extension SageMaker {
         public let labelCategoryConfigS3Uri: String?
         /// Configures the information required to perform automated data labeling.
         public let labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig?
-        /// The name of the labeling job. This name is used to identify the job in a list of labeling jobs. Labeling job names must be unique within an AWS account and region. LabelingJobName is not case sensitive. For example, Example-job and example-job are considered the same labeling job name by Ground Truth.
+        /// The name of the labeling job. This name is used to identify the job in a list of labeling jobs. Labeling job names must be unique within an Amazon Web Services account and region. LabelingJobName is not case sensitive. For example, Example-job and example-job are considered the same labeling job name by Ground Truth.
         public let labelingJobName: String
-        /// The location of the output data and the AWS Key Management Service key ID for the key used to encrypt the output data, if any.
+        /// The location of the output data and the Amazon Web Services Key Management Service key ID for the key used to encrypt the output data, if any.
         public let outputConfig: LabelingJobOutputConfig
         /// The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during data labeling. You must grant this role the necessary permissions so that Amazon SageMaker can successfully complete data labeling.
         public let roleArn: String
         /// A set of conditions for stopping the labeling job. If any of the conditions are met, the job is automatically stopped. You can use these conditions to control the cost of data labeling.
         public let stoppingConditions: LabelingJobStoppingConditions?
-        /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, labelAttributeName: String, labelCategoryConfigS3Uri: String? = nil, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobName: String, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
@@ -4676,7 +4730,7 @@ extension SageMaker {
     }
 
     public struct CreateModelBiasJobDefinitionRequest: AWSEncodableShape {
-        /// The name of the bias job definition. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the bias job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
         public let jobResources: MonitoringResources
         /// Configures the model bias job to run a specified Docker container image.
@@ -4691,7 +4745,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
         public let roleArn: String
         public let stoppingCondition: MonitoringStoppingCondition?
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(jobDefinitionName: String, jobResources: MonitoringResources, modelBiasAppSpecification: ModelBiasAppSpecification, modelBiasBaselineConfig: ModelBiasBaselineConfig? = nil, modelBiasJobInput: ModelBiasJobInput, modelBiasJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
@@ -4756,7 +4810,7 @@ extension SageMaker {
     }
 
     public struct CreateModelExplainabilityJobDefinitionRequest: AWSEncodableShape {
-        ///  The name of the model explainability job definition. The name must be unique within an AWS Region in the AWS account.
+        ///  The name of the model explainability job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
         public let jobResources: MonitoringResources
         /// Configures the model explainability job to run a specified Docker container image.
@@ -4771,7 +4825,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
         public let roleArn: String
         public let stoppingCondition: MonitoringStoppingCondition?
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(jobDefinitionName: String, jobResources: MonitoringResources, modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification, modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig? = nil, modelExplainabilityJobInput: ModelExplainabilityJobInput, modelExplainabilityJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
@@ -4848,7 +4902,7 @@ extension SageMaker {
         public let modelName: String
         /// The location of the primary docker image containing inference code, associated artifacts, and custom environment map that the inference code uses when the model is deployed for predictions.
         public let primaryContainer: ContainerDefinition?
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
         /// A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. VpcConfig is used in hosting services and in batch transform. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
@@ -4913,7 +4967,7 @@ extension SageMaker {
         public let modelPackageGroupDescription: String?
         /// The name of the model group.
         public let modelPackageGroupName: String
-        /// A list of key value pairs associated with the model group. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// A list of key value pairs associated with the model group. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
         public init(modelPackageGroupDescription: String? = nil, modelPackageGroupName: String, tags: [Tag]? = nil) {
@@ -4956,7 +5010,7 @@ extension SageMaker {
     }
 
     public struct CreateModelPackageInput: AWSEncodableShape {
-        /// Whether to certify the model package for listing on AWS Marketplace. This parameter is optional for unversioned models, and does not apply to versioned models.
+        /// Whether to certify the model package for listing on Amazon Web Services Marketplace. This parameter is optional for unversioned models, and does not apply to versioned models.
         public let certifyForMarketplace: Bool?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
@@ -4975,7 +5029,7 @@ extension SageMaker {
         public let modelPackageName: String?
         /// Details about the algorithm that was used to create the model package.
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
-        /// A list of key value pairs associated with the model. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// A list of key value pairs associated with the model. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
         /// Specifies configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
@@ -5064,7 +5118,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
         public let roleArn: String
         public let stoppingCondition: MonitoringStoppingCondition?
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(jobDefinitionName: String, jobResources: MonitoringResources, modelQualityAppSpecification: ModelQualityAppSpecification, modelQualityBaselineConfig: ModelQualityBaselineConfig? = nil, modelQualityJobInput: ModelQualityJobInput, modelQualityJobOutputConfig: MonitoringOutputConfig, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
@@ -5131,9 +5185,9 @@ extension SageMaker {
     public struct CreateMonitoringScheduleRequest: AWSEncodableShape {
         /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
         public let monitoringScheduleConfig: MonitoringScheduleConfig
-        /// The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account.
+        /// The name of the monitoring schedule. The name must be unique within an Amazon Web Services Region within an Amazon Web Services account.
         public let monitoringScheduleName: String
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String, tags: [Tag]? = nil) {
@@ -5177,21 +5231,21 @@ extension SageMaker {
     public struct CreateNotebookInstanceInput: AWSEncodableShape {
         /// A list of Elastic Inference (EI) instance types to associate with this notebook instance. Currently, only one instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
-        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
-        /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// Sets whether Amazon SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to Amazon SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
         public let directInternetAccess: DirectInternetAccess?
         /// The type of ML compute instance to launch for the notebook instance.
         public let instanceType: InstanceType
-        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the AWS Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
         public let lifecycleConfigName: String?
         /// The name of the new notebook instance.
         public let notebookInstanceName: String
-        ///  When you send any requests to AWS resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission.
+        ///  When you send any requests to Amazon Web Services resources from the notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
         public let rootAccess: RootAccess?
@@ -5199,7 +5253,7 @@ extension SageMaker {
         public let securityGroupIds: [String]?
         /// The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance.
         public let subnetId: String?
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
         public let volumeSizeInGB: Int?
@@ -5504,7 +5558,7 @@ extension SageMaker {
         public let networkConfig: NetworkConfig?
         /// An array of inputs configuring the data to download into the processing container.
         public let processingInputs: [ProcessingInput]?
-        ///  The name of the processing job. The name must be unique within an AWS Region in the AWS account.
+        ///  The name of the processing job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let processingJobName: String
         /// Output configuration for the processing job.
         public let processingOutputConfig: ProcessingOutputConfig?
@@ -5514,7 +5568,7 @@ extension SageMaker {
         public let roleArn: String
         /// The time limit for how long the processing job is allowed to run.
         public let stoppingCondition: ProcessingStoppingCondition?
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
         public init(appSpecification: AppSpecification, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, networkConfig: NetworkConfig? = nil, processingInputs: [ProcessingInput]? = nil, processingJobName: String, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources, roleArn: String, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil) {
@@ -5595,9 +5649,9 @@ extension SageMaker {
         public let projectDescription: String?
         /// The name of the project.
         public let projectName: String
-        /// The product ID and provisioning artifact ID to provision a service catalog. For information, see What is AWS Service Catalog.
+        /// The product ID and provisioning artifact ID to provision a service catalog. For information, see What is Amazon Web Services Service Catalog.
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails
-        /// An array of key-value pairs that you want to use to organize and track your AWS resource costs. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
         public init(projectDescription: String? = nil, projectName: String, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails, tags: [Tag]? = nil) {
@@ -5680,10 +5734,10 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
-        /// The name of the training job. The name must be unique within an AWS Region in an AWS account.
+        /// The name of the training job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.
         public let trainingJobName: String
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
@@ -5818,13 +5872,13 @@ extension SageMaker {
         public let maxPayloadInMB: Int?
         /// Configures the timeout and maximum number of retries for processing a transform job invocation.
         public let modelClientConfig: ModelClientConfig?
-        /// The name of the model that you want to use for the transform job. ModelName must be the name of an existing Amazon SageMaker model within an AWS Region in an AWS account.
+        /// The name of the model that you want to use for the transform job. ModelName must be the name of an existing Amazon SageMaker model within an Amazon Web Services Region in an Amazon Web Services account.
         public let modelName: String
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
         /// Describes the input source and the way the transform job consumes it.
         public let transformInput: TransformInput
-        /// The name of the transform job. The name must be unique within an AWS Region in an AWS account.
+        /// The name of the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.
         public let transformJobName: String
         /// Describes the results of the transform job.
         public let transformOutput: TransformOutput
@@ -5922,7 +5976,7 @@ extension SageMaker {
         public let status: TrialComponentStatus?
         /// A list of tags to associate with the component. You can use Search API to search on the tags.
         public let tags: [Tag]?
-        /// The name of the component. The name must be unique in your AWS account and is not case-sensitive.
+        /// The name of the component. The name must be unique in your Amazon Web Services account and is not case-sensitive.
         public let trialComponentName: String
 
         public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, metadataProperties: MetadataProperties? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String) {
@@ -6004,7 +6058,7 @@ extension SageMaker {
         public let metadataProperties: MetadataProperties?
         /// A list of tags to associate with the trial. You can use Search API to search on the tags.
         public let tags: [Tag]?
-        /// The name of the trial. The name must be unique in your AWS account and is not case-sensitive.
+        /// The name of the trial. The name must be unique in your Amazon Web Services account and is not case-sensitive.
         public let trialName: String
 
         public init(displayName: String? = nil, experimentName: String, metadataProperties: MetadataProperties? = nil, tags: [Tag]? = nil, trialName: String) {
@@ -6060,7 +6114,7 @@ extension SageMaker {
         public let domainId: String
         /// A specifier for the type of value specified in SingleSignOnUserValue. Currently, the only supported value is "UserName". If the Domain's AuthMode is SSO, this field is required. If the Domain's AuthMode is not SSO, this field cannot be specified.
         public let singleSignOnUserIdentifier: String?
-        /// The username of the associated AWS Single Sign-On User for this UserProfile. If the Domain's AuthMode is SSO, this field is required, and must match a valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field cannot be specified.
+        /// The username of the associated Amazon Web Services Single Sign-On User for this UserProfile. If the Domain's AuthMode is SSO, this field is required, and must match a valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field cannot be specified.
         public let singleSignOnUserValue: String?
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags that you specify for the User Profile are also added to all Apps that the User Profile launches.
         public let tags: [Tag]?
@@ -6177,7 +6231,7 @@ extension SageMaker {
         public let memberDefinitions: [MemberDefinition]
         /// Configures notification of workers regarding available or expiring work items.
         public let notificationConfiguration: NotificationConfiguration?
-        /// An array of key-value pairs. For more information, see Resource Tag and Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. For more information, see Resource Tag and Using Cost Allocation Tags in the  Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
         /// The name of the workforce.
         public let workforceName: String?
@@ -7040,7 +7094,7 @@ extension SageMaker {
     }
 
     public struct DeleteFeatureGroupRequest: AWSEncodableShape {
-        /// The name of the FeatureGroup you want to delete. The name must be unique within an AWS Region in an AWS account.
+        /// The name of the FeatureGroup you want to delete. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.
         public let featureGroupName: String
 
         public init(featureGroupName: String) {
@@ -7250,7 +7304,7 @@ extension SageMaker {
     }
 
     public struct DeleteModelPackageInput: AWSEncodableShape {
-        /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
+        /// The name or Amazon Resource Name (ARN) of the model package to delete. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String
 
         public init(modelPackageName: String) {
@@ -7746,7 +7800,7 @@ extension SageMaker {
         public let algorithmStatus: AlgorithmStatus
         /// Details about the current status of the algorithm.
         public let algorithmStatusDetails: AlgorithmStatusDetails
-        /// Whether the algorithm is certified to be listed in AWS Marketplace.
+        /// Whether the algorithm is certified to be listed in Amazon Web Services Marketplace.
         public let certifyForMarketplace: Bool?
         /// A timestamp specifying when the algorithm was created.
         public let creationTime: Date
@@ -8045,7 +8099,7 @@ extension SageMaker {
         public let problemType: ProblemType?
         /// This contains ProblemType, AutoMLJobObjective and CompletionCriteria. If you do not provide these values, they are auto-inferred. If you do provide them, the values used are the ones you provide.
         public let resolvedAttributes: ResolvedAttributes?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
 
         public init(autoMLJobArn: String, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus, autoMLJobStatus: AutoMLJobStatus, bestCandidate: AutoMLCandidate? = nil, creationTime: Date, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel], lastModifiedTime: Date, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String) {
@@ -8123,7 +8177,7 @@ extension SageMaker {
         public let codeRepositoryName: String
         /// The date and time that the repository was created.
         public let creationTime: Date
-        /// Configuration details about the repository, including the URL where the repository is located, the default branch, and the Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the repository.
+        /// Configuration details about the repository, including the URL where the repository is located, the default branch, and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository.
         public let gitConfig: GitConfig?
         /// The date and time that the repository was last changed.
         public let lastModifiedTime: Date
@@ -8179,6 +8233,8 @@ extension SageMaker {
         public let creationTime: Date
         /// If a model compilation job failed, the reason it failed.
         public let failureReason: String
+        /// The inference image to use when compiling a model. Specify an image only if the target device is a cloud instance.
+        public let inferenceImage: String?
         /// Information about the location in Amazon S3 of the input model artifacts, the name and shape of the expected data inputs, and the framework in which the model was trained.
         public let inputConfig: InputConfig
         /// The time that the status of the model compilation job was last modified.
@@ -8193,8 +8249,10 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
+        /// A VpcConfig object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
+        public let vpcConfig: NeoVpcConfig?
 
-        public init(compilationEndTime: Date? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: Date? = nil, creationTime: Date, failureReason: String, inputConfig: InputConfig, lastModifiedTime: Date, modelArtifacts: ModelArtifacts, modelDigests: ModelDigests? = nil, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
+        public init(compilationEndTime: Date? = nil, compilationJobArn: String, compilationJobName: String, compilationJobStatus: CompilationJobStatus, compilationStartTime: Date? = nil, creationTime: Date, failureReason: String, inferenceImage: String? = nil, inputConfig: InputConfig, lastModifiedTime: Date, modelArtifacts: ModelArtifacts, modelDigests: ModelDigests? = nil, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition, vpcConfig: NeoVpcConfig? = nil) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
             self.compilationJobName = compilationJobName
@@ -8202,6 +8260,7 @@ extension SageMaker {
             self.compilationStartTime = compilationStartTime
             self.creationTime = creationTime
             self.failureReason = failureReason
+            self.inferenceImage = inferenceImage
             self.inputConfig = inputConfig
             self.lastModifiedTime = lastModifiedTime
             self.modelArtifacts = modelArtifacts
@@ -8209,6 +8268,7 @@ extension SageMaker {
             self.outputConfig = outputConfig
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8219,6 +8279,7 @@ extension SageMaker {
             case compilationStartTime = "CompilationStartTime"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
+            case inferenceImage = "InferenceImage"
             case inputConfig = "InputConfig"
             case lastModifiedTime = "LastModifiedTime"
             case modelArtifacts = "ModelArtifacts"
@@ -8226,6 +8287,7 @@ extension SageMaker {
             case outputConfig = "OutputConfig"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
+            case vpcConfig = "VpcConfig"
         }
     }
 
@@ -8392,13 +8454,13 @@ extension SageMaker {
         public let deviceFleetArn: String
         /// The name of the fleet.
         public let deviceFleetName: String
-        /// The Amazon Resource Name (ARN) alias created in AWS Internet of Things (IoT).
+        /// The Amazon Resource Name (ARN) alias created in Amazon Web Services Internet of Things (IoT).
         public let iotRoleAlias: String?
         /// Timestamp of when the device fleet was last updated.
         public let lastModifiedTime: Date
         /// The output configuration for storing sampled data.
         public let outputConfig: EdgeOutputConfig
-        /// The Amazon Resource Name (ARN) that has access to AWS Internet of Things (IoT).
+        /// The Amazon Resource Name (ARN) that has access to Amazon Web Services Internet of Things (IoT).
         public let roleArn: String?
 
         public init(creationTime: Date, description: String? = nil, deviceFleetArn: String, deviceFleetName: String, iotRoleAlias: String? = nil, lastModifiedTime: Date, outputConfig: EdgeOutputConfig, roleArn: String? = nil) {
@@ -8465,7 +8527,7 @@ extension SageMaker {
         public let deviceFleetName: String
         /// The unique identifier of the device.
         public let deviceName: String
-        /// The AWS Internet of Things (IoT) object thing name associated with the device.
+        /// The Amazon Web Services Internet of Things (IoT) object thing name associated with the device.
         public let iotThingName: String?
         /// The last heartbeat received from the device.
         public let latestHeartbeat: Date?
@@ -8541,7 +8603,7 @@ extension SageMaker {
         public let failureReason: String?
         /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
         public let homeEfsFileSystemId: String?
-        /// The AWS KMS customer managed CMK used to encrypt the EFS volume attached to the domain.
+        /// The Amazon Web Services KMS customer managed CMK used to encrypt the EFS volume attached to the domain.
         public let kmsKeyId: String?
         /// The last modified time.
         public let lastModifiedTime: Date?
@@ -8639,12 +8701,14 @@ extension SageMaker {
         public let modelVersion: String?
         /// The output configuration for the edge packaging job.
         public let outputConfig: EdgeOutputConfig?
+        /// The output of a SageMaker Edge Manager deployable resource.
+        public let presetDeploymentOutput: EdgePresetDeploymentOutput?
         /// The CMK to use when encrypting the EBS volume the job run on.
         public let resourceKey: String?
         /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to download and upload the model, and to contact Neo.
         public let roleArn: String?
 
-        public init(compilationJobName: String? = nil, creationTime: Date? = nil, edgePackagingJobArn: String, edgePackagingJobName: String, edgePackagingJobStatus: EdgePackagingJobStatus, edgePackagingJobStatusMessage: String? = nil, lastModifiedTime: Date? = nil, modelArtifact: String? = nil, modelName: String? = nil, modelSignature: String? = nil, modelVersion: String? = nil, outputConfig: EdgeOutputConfig? = nil, resourceKey: String? = nil, roleArn: String? = nil) {
+        public init(compilationJobName: String? = nil, creationTime: Date? = nil, edgePackagingJobArn: String, edgePackagingJobName: String, edgePackagingJobStatus: EdgePackagingJobStatus, edgePackagingJobStatusMessage: String? = nil, lastModifiedTime: Date? = nil, modelArtifact: String? = nil, modelName: String? = nil, modelSignature: String? = nil, modelVersion: String? = nil, outputConfig: EdgeOutputConfig? = nil, presetDeploymentOutput: EdgePresetDeploymentOutput? = nil, resourceKey: String? = nil, roleArn: String? = nil) {
             self.compilationJobName = compilationJobName
             self.creationTime = creationTime
             self.edgePackagingJobArn = edgePackagingJobArn
@@ -8657,6 +8721,7 @@ extension SageMaker {
             self.modelSignature = modelSignature
             self.modelVersion = modelVersion
             self.outputConfig = outputConfig
+            self.presetDeploymentOutput = presetDeploymentOutput
             self.resourceKey = resourceKey
             self.roleArn = roleArn
         }
@@ -8674,6 +8739,7 @@ extension SageMaker {
             case modelSignature = "ModelSignature"
             case modelVersion = "ModelVersion"
             case outputConfig = "OutputConfig"
+            case presetDeploymentOutput = "PresetDeploymentOutput"
             case resourceKey = "ResourceKey"
             case roleArn = "RoleArn"
         }
@@ -8705,7 +8771,7 @@ extension SageMaker {
         public let endpointConfigArn: String
         /// Name of the Amazon SageMaker endpoint configuration.
         public let endpointConfigName: String
-        /// AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
+        /// Amazon Web Services KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
         public let kmsKeyId: String?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]
@@ -8903,7 +8969,7 @@ extension SageMaker {
         public let featureGroupStatus: FeatureGroupStatus?
         /// A token to resume pagination of the list of Features (FeatureDefinitions).
         public let nextToken: String
-        /// The configuration of the OfflineStore, inducing the S3 location of the OfflineStore, AWS Glue or AWS Hive data catalogue configurations, and the security configuration.
+        /// The configuration of the OfflineStore, inducing the S3 location of the OfflineStore, Amazon Web Services Glue or Amazon Web Services Hive data catalogue configurations, and the security configuration.
         public let offlineStoreConfig: OfflineStoreConfig?
         /// The status of the OfflineStore. Notifies you if replicating data into the OfflineStore has failed. Returns either: Active or Blocked
         public let offlineStoreStatus: OfflineStoreStatus?
@@ -8987,7 +9053,7 @@ extension SageMaker {
         public let humanLoopRequestSource: HumanLoopRequestSource?
         /// An object containing information about the output file.
         public let outputConfig: FlowDefinitionOutputConfig
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) execution role for the flow definition.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) execution role for the flow definition.
         public let roleArn: String
 
         public init(creationTime: Date, failureReason: String? = nil, flowDefinitionArn: String, flowDefinitionName: String, flowDefinitionStatus: FlowDefinitionStatus, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig, humanLoopRequestSource: HumanLoopRequestSource? = nil, outputConfig: FlowDefinitionOutputConfig, roleArn: String) {
@@ -9333,13 +9399,13 @@ extension SageMaker {
         public let labelingJobStatus: LabelingJobStatus
         /// The date and time that the labeling job was last updated.
         public let lastModifiedTime: Date
-        /// The location of the job's output data and the AWS Key Management Service key ID for the key used to encrypt the output data, if any.
+        /// The location of the job's output data and the Amazon Web Services Key Management Service key ID for the key used to encrypt the output data, if any.
         public let outputConfig: LabelingJobOutputConfig
         /// The Amazon Resource Name (ARN) that Amazon SageMaker assumes to perform tasks on your behalf during data labeling.
         public let roleArn: String
         /// A set of conditions for stopping a labeling job. If any of the conditions are met, the job is automatically stopped.
         public let stoppingConditions: LabelingJobStoppingConditions?
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
         public init(creationTime: Date, failureReason: String? = nil, humanTaskConfig: HumanTaskConfig, inputConfig: LabelingJobInputConfig, jobReferenceCode: String, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelCounters: LabelCounters, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobArn: String, labelingJobName: String, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus, lastModifiedTime: Date, outputConfig: LabelingJobOutputConfig, roleArn: String, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
@@ -9386,7 +9452,7 @@ extension SageMaker {
     }
 
     public struct DescribeModelBiasJobDefinitionRequest: AWSEncodableShape {
-        /// The name of the model bias job definition. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the model bias job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
 
         public init(jobDefinitionName: String) {
@@ -9409,7 +9475,7 @@ extension SageMaker {
         public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the model bias job.
         public let jobDefinitionArn: String
-        /// The name of the bias job definition. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the bias job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
         public let jobResources: MonitoringResources
         /// Configures the model bias job to run a specified Docker container image.
@@ -9421,7 +9487,7 @@ extension SageMaker {
         public let modelBiasJobOutputConfig: MonitoringOutputConfig
         /// Networking options for a model bias job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
         public let stoppingCondition: MonitoringStoppingCondition?
 
@@ -9455,7 +9521,7 @@ extension SageMaker {
     }
 
     public struct DescribeModelExplainabilityJobDefinitionRequest: AWSEncodableShape {
-        /// The name of the model explainability job definition. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the model explainability job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
 
         public init(jobDefinitionName: String) {
@@ -9478,7 +9544,7 @@ extension SageMaker {
         public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the model explainability job.
         public let jobDefinitionArn: String
-        /// The name of the explainability job definition. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the explainability job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
         public let jobResources: MonitoringResources
         /// Configures the model explainability job to run a specified Docker container image.
@@ -9490,7 +9556,7 @@ extension SageMaker {
         public let modelExplainabilityJobOutputConfig: MonitoringOutputConfig
         /// Networking options for a model explainability job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String
         public let stoppingCondition: MonitoringStoppingCondition?
 
@@ -9638,7 +9704,7 @@ extension SageMaker {
     }
 
     public struct DescribeModelPackageInput: AWSEncodableShape {
-        /// The name of the model package to describe.
+        /// The name or Amazon Resource Name (ARN) of the model package to describe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String
 
         public init(modelPackageName: String) {
@@ -9659,7 +9725,7 @@ extension SageMaker {
     public struct DescribeModelPackageOutput: AWSDecodableShape {
         /// A description provided for the model approval.
         public let approvalDescription: String?
-        /// Whether the model package is certified for listing on AWS Marketplace.
+        /// Whether the model package is certified for listing on Amazon Web Services Marketplace.
         public let certifyForMarketplace: Bool?
         public let createdBy: UserContext?
         /// A timestamp specifying when the model package was created.
@@ -9739,7 +9805,7 @@ extension SageMaker {
     }
 
     public struct DescribeModelQualityJobDefinitionRequest: AWSEncodableShape {
-        /// The name of the model quality job. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the model quality job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
 
         public init(jobDefinitionName: String) {
@@ -9762,7 +9828,7 @@ extension SageMaker {
         public let creationTime: Date
         /// The Amazon Resource Name (ARN) of the model quality job.
         public let jobDefinitionArn: String
-        /// The name of the quality job definition. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the quality job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String
         public let jobResources: MonitoringResources
         /// Configures the model quality job to run a specified Docker container image.
@@ -9947,11 +10013,11 @@ extension SageMaker {
     public struct DescribeNotebookInstanceOutput: AWSDecodableShape {
         /// A list of the Elastic Inference (EI) instance types associated with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp. Use this parameter to return the time when the notebook instance was created
         public let creationTime: Date?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// Describes whether Amazon SageMaker provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to Amazon SageMaker training and endpoint services. For more information, see Notebook Instances Are Internet-Enabled by Default.
         public let directInternetAccess: DirectInternetAccess?
@@ -9959,7 +10025,7 @@ extension SageMaker {
         public let failureReason: String?
         /// The type of ML compute instance running on the notebook instance.
         public let instanceType: InstanceType?
-        /// The AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
+        /// The Amazon Web Services KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
         public let kmsKeyId: String?
         /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
         public let lastModifiedTime: Date?
@@ -10090,6 +10156,8 @@ extension SageMaker {
         public let createdBy: UserContext?
         /// The time when the pipeline execution was created.
         public let creationTime: Date?
+        /// If the execution failed, a message describing why.
+        public let failureReason: String?
         public let lastModifiedBy: UserContext?
         /// The time when the pipeline execution was modified last.
         public let lastModifiedTime: Date?
@@ -10103,10 +10171,12 @@ extension SageMaker {
         public let pipelineExecutionDisplayName: String?
         /// The status of the pipeline execution.
         public let pipelineExecutionStatus: PipelineExecutionStatus?
+        public let pipelineExperimentConfig: PipelineExperimentConfig?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
+            self.failureReason = failureReason
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.pipelineArn = pipelineArn
@@ -10114,11 +10184,13 @@ extension SageMaker {
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
             self.pipelineExecutionStatus = pipelineExecutionStatus
+            self.pipelineExperimentConfig = pipelineExperimentConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
             case pipelineArn = "PipelineArn"
@@ -10126,6 +10198,7 @@ extension SageMaker {
             case pipelineExecutionDescription = "PipelineExecutionDescription"
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
             case pipelineExecutionStatus = "PipelineExecutionStatus"
+            case pipelineExperimentConfig = "PipelineExperimentConfig"
         }
     }
 
@@ -10204,7 +10277,7 @@ extension SageMaker {
     }
 
     public struct DescribeProcessingJobRequest: AWSEncodableShape {
-        /// The name of the processing job. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the processing job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let processingJobName: String
 
         public init(processingJobName: String) {
@@ -10249,7 +10322,7 @@ extension SageMaker {
         public let processingInputs: [ProcessingInput]?
         /// The Amazon Resource Name (ARN) of the processing job.
         public let processingJobArn: String
-        /// The name of the processing job. The name must be unique within an AWS Region in the AWS account.
+        /// The name of the processing job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let processingJobName: String
         /// Provides the status of a processing job.
         public let processingJobStatus: ProcessingJobStatus
@@ -10350,7 +10423,7 @@ extension SageMaker {
         public let projectStatus: ProjectStatus
         /// Information about a provisioned service catalog product.
         public let serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails?
-        /// Information used to provision a service catalog product. For information, see What is AWS Service Catalog.
+        /// Information used to provision a service catalog product. For information, see What is Amazon Web Services Service Catalog.
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails
 
         public init(createdBy: UserContext? = nil, creationTime: Date, projectArn: String, projectDescription: String? = nil, projectId: String, projectName: String, projectStatus: ProjectStatus, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails) {
@@ -10479,7 +10552,7 @@ extension SageMaker {
         public let resourceConfig: ResourceConfig
         /// The number of times to retry the job when the job fails due to an InternalServerError.
         public let retryStrategy: RetryStrategy?
-        /// The AWS Identity and Access Management (IAM) role configured for the training job.
+        /// The Amazon Web Services Identity and Access Management (IAM) role configured for the training job.
         public let roleArn: String?
         ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTraining     DownloadingTrainingImage
         public let secondaryStatus: SecondaryStatus
@@ -10952,7 +11025,7 @@ extension SageMaker {
     }
 
     public struct DescribeWorkforceResponse: AWSDecodableShape {
-        /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each AWS Region. By default, any workforce-related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
+        /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each Amazon Web Services Region. By default, any workforce-related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
         public let workforce: Workforce
 
         public init(workforce: Workforce) {
@@ -11029,7 +11102,7 @@ extension SageMaker {
         public let description: String?
         /// The name of the device.
         public let deviceName: String
-        /// AWS Internet of Things (IoT) object name.
+        /// Amazon Web Services Internet of Things (IoT) object name.
         public let iotThingName: String?
 
         public init(description: String? = nil, deviceName: String, iotThingName: String? = nil) {
@@ -11107,7 +11180,7 @@ extension SageMaker {
         public let deviceFleetName: String?
         /// The unique identifier of the device.
         public let deviceName: String
-        /// The AWS Internet of Things (IoT) object thing name associated with the device..
+        /// The Amazon Web Services Internet of Things (IoT) object thing name associated with the device..
         public let iotThingName: String?
         /// The last heartbeat received from the device.
         public let latestHeartbeat: Date?
@@ -11303,13 +11376,19 @@ extension SageMaker {
     }
 
     public struct EdgeOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account.
         public let kmsKeyId: String?
+        /// The configuration used to create deployment artifacts. Specify configuration options with a JSON string. The available configuration options for each type are:    ComponentName (optional) - Name of the GreenGrass V2 component. If not specified, the default name generated consists of "SagemakerEdgeManager" and the name of your SageMaker Edge Manager packaging job.    ComponentDescription (optional) - Description of the component.    ComponentVersion (optional) - The version of the component.  Amazon Web Services IoT Greengrass uses semantic versions for components. Semantic versions follow a major.minor.patch number system. For example, version 1.0.0 represents the first major release for a component. For more information, see the semantic version specification.     PlatformOS (optional) - The name of the operating system for the platform. Supported platforms include Windows and Linux.    PlatformArchitecture (optional) - The processor architecture for the platform.  Supported architectures Windows include: Windows32_x86, Windows64_x64. Supported architectures for Linux include: Linux x86_64, Linux ARMV8.
+        public let presetDeploymentConfig: String?
+        /// The deployment type SageMaker Edge Manager will create. Currently only supports Amazon Web Services IoT Greengrass Version 2 components.
+        public let presetDeploymentType: EdgePresetDeploymentType?
         /// The Amazon Simple Storage (S3) bucker URI.
         public let s3OutputLocation: String
 
-        public init(kmsKeyId: String? = nil, s3OutputLocation: String) {
+        public init(kmsKeyId: String? = nil, presetDeploymentConfig: String? = nil, presetDeploymentType: EdgePresetDeploymentType? = nil, s3OutputLocation: String) {
             self.kmsKeyId = kmsKeyId
+            self.presetDeploymentConfig = presetDeploymentConfig
+            self.presetDeploymentType = presetDeploymentType
             self.s3OutputLocation = s3OutputLocation
         }
 
@@ -11322,6 +11401,8 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
+            case presetDeploymentConfig = "PresetDeploymentConfig"
+            case presetDeploymentType = "PresetDeploymentType"
             case s3OutputLocation = "S3OutputLocation"
         }
     }
@@ -11367,6 +11448,31 @@ extension SageMaker {
         }
     }
 
+    public struct EdgePresetDeploymentOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the generated deployable resource.
+        public let artifact: String?
+        /// The status of the deployable resource.
+        public let status: EdgePresetDeploymentStatus?
+        /// Returns a message describing the status of the deployed resource.
+        public let statusMessage: String?
+        /// The deployment type created by SageMaker Edge Manager. Currently only supports Amazon Web Services IoT Greengrass Version 2 components.
+        public let type: EdgePresetDeploymentType
+
+        public init(artifact: String? = nil, status: EdgePresetDeploymentStatus? = nil, statusMessage: String? = nil, type: EdgePresetDeploymentType) {
+            self.artifact = artifact
+            self.status = status
+            self.statusMessage = statusMessage
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifact = "Artifact"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+            case type = "Type"
+        }
+    }
+
     public struct EnableSagemakerServicecatalogPortfolioInput: AWSEncodableShape {
         public init() {}
     }
@@ -11395,7 +11501,7 @@ extension SageMaker {
         public let monitoringSchedules: [MonitoringSchedule]?
         /// A list of the production variants hosted on the endpoint. Each production variant is a model.
         public let productionVariants: [ProductionVariantSummary]?
-        /// A list of the tags associated with the endpoint. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// A list of the tags associated with the endpoint. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
         public init(creationTime: Date, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String, endpointConfigName: String, endpointName: String, endpointStatus: EndpointStatus, failureReason: String? = nil, lastModifiedTime: Date, monitoringSchedules: [MonitoringSchedule]? = nil, productionVariants: [ProductionVariantSummary]? = nil, tags: [Tag]? = nil) {
@@ -12133,7 +12239,7 @@ extension SageMaker {
         public let branch: String?
         /// The URL where the Git repository is located.
         public let repositoryUrl: String
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
         public let secretArn: String?
 
         public init(branch: String? = nil, repositoryUrl: String, secretArn: String? = nil) {
@@ -12160,7 +12266,7 @@ extension SageMaker {
     }
 
     public struct GitConfigForUpdate: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
         public let secretArn: String?
 
         public init(secretArn: String? = nil) {
@@ -12307,13 +12413,13 @@ extension SageMaker {
         public let preHumanTaskLambdaArn: String
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
-        /// The length of time that a task remains available for labeling by human workers. The default and maximum values for this parameter depend on the type of workforce you use.   If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43,200 seconds). The default is 6 hours (21,600 seconds).   If you choose a private or vendor workforce, the default value is 10 days (864,000 seconds). For most users, the maximum is also 10 days. If you want to change this limit, contact AWS Support.
+        /// The length of time that a task remains available for labeling by human workers. The default and maximum values for this parameter depend on the type of workforce you use.   If you choose the Amazon Mechanical Turk workforce, the maximum is 12 hours (43,200 seconds). The default is 6 hours (21,600 seconds).   If you choose a private or vendor workforce, the default value is 10 days (864,000 seconds). For most users, the maximum is also 10 days. If you want to change this limit, contact Amazon Web Services Support.
         public let taskAvailabilityLifetimeInSeconds: Int?
         /// A description of the task for your human workers.
         public let taskDescription: String
         /// Keywords used to describe the task so that workers on Amazon Mechanical Turk can discover the task.
         public let taskKeywords: [String]?
-        /// The amount of time that a worker has to complete a task.  If you create a custom labeling job, the maximum value for this parameter is 8 hours (28,800 seconds). If you create a labeling job using a built-in task type the maximum for this parameter depends on the task type you use:   For image and text labeling jobs, the maximum is 8 hours (28,800 seconds).   For 3D point cloud and video frame labeling jobs, the maximum is 7 days (604,800 seconds). If you want to change these limits, contact AWS Support.
+        /// The amount of time that a worker has to complete a task.  If you create a custom labeling job, the maximum value for this parameter is 8 hours (28,800 seconds). If you create a labeling job using a built-in task type the maximum for this parameter depends on the task type you use:   For image and text labeling jobs, the maximum is 8 hours (28,800 seconds).   For 3D point cloud and video frame labeling jobs, the maximum is 7 days (604,800 seconds). If you want to change these limits, contact Amazon Web Services Support.
         public let taskTimeLimitInSeconds: Int
         /// A title for the task for your human workers.
         public let taskTitle: String
@@ -12916,7 +13022,7 @@ extension SageMaker {
             try self.containers.forEach {
                 try $0.validate(name: "\(name).containers[]")
             }
-            try self.validate(self.containers, name: "containers", parent: name, max: 1)
+            try self.validate(self.containers, name: "containers", parent: name, max: 5)
             try self.validate(self.containers, name: "containers", parent: name, min: 1)
             try self.supportedContentTypes.forEach {
                 try validate($0, name: "supportedContentTypes[]", parent: name, max: 256)
@@ -13103,7 +13209,7 @@ extension SageMaker {
     public struct KernelSpec: AWSEncodableShape & AWSDecodableShape {
         /// The display name of the kernel.
         public let displayName: String?
-        /// The name of the kernel.
+        /// The name of the Jupyter kernel in the image. This value is case sensitive.
         public let name: String
 
         public init(displayName: String? = nil, name: String) {
@@ -13252,7 +13358,7 @@ extension SageMaker {
         public let labelingJobName: String?
         /// The configured number of workers per data object.
         public let numberOfHumanWorkersPerDataObject: Int?
-        /// The AWS account ID of the account used to start the labeling job.
+        /// The Amazon Web Services account ID of the account used to start the labeling job.
         public let workRequesterAccountId: String
 
         public init(creationTime: Date, jobReferenceCode: String, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, workRequesterAccountId: String) {
@@ -13314,7 +13420,7 @@ extension SageMaker {
     }
 
     public struct LabelingJobOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service ID of the key used to encrypt the output data, if any. If you provide your own KMS key ID, you must add the required permissions to your KMS key described in Encrypt Output Data and Storage Volume with AWS KMS. If you don't provide a KMS key ID, Amazon SageMaker uses the default AWS KMS key for Amazon S3 for your role's account to encrypt your output data. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.
+        /// The Amazon Web Services Key Management Service ID of the key used to encrypt the output data, if any. If you provide your own KMS key ID, you must add the required permissions to your KMS key described in Encrypt Output Data and Storage Volume with Amazon Web Services KMS. If you don't provide a KMS key ID, Amazon SageMaker uses the default Amazon Web Services KMS key for Amazon S3 for your role's account to encrypt your output data. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
         public let s3OutputPath: String
@@ -13344,7 +13450,7 @@ extension SageMaker {
     }
 
     public struct LabelingJobResourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training and inference jobs used for automated data labeling.  You can only specify a VolumeKmsKeyId when you create a labeling job with automated data labeling enabled using the API operation CreateLabelingJob. You cannot specify an AWS KMS customer managed CMK to encrypt the storage volume used for automated data labeling model training and inference when you create a labeling job using the console. To learn more, see Output Data and Storage Volume Encryption. The VolumeKmsKeyId can be any of the following formats:   KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training and inference jobs used for automated data labeling.  You can only specify a VolumeKmsKeyId when you create a labeling job with automated data labeling enabled using the API operation CreateLabelingJob. You cannot specify an Amazon Web Services KMS customer managed CMK to encrypt the storage volume used for automated data labeling model training and inference when you create a labeling job using the console. To learn more, see Output Data and Storage Volume Encryption. The VolumeKmsKeyId can be any of the following formats:   KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
 
         public init(volumeKmsKeyId: String? = nil) {
@@ -14086,7 +14192,7 @@ extension SageMaker {
     }
 
     public struct ListCodeRepositoriesOutput: AWSDecodableShape {
-        /// Gets a list of summaries of the Git repositories. Each summary specifies the following values for the repository:    Name   Amazon Resource Name (ARN)   Creation time   Last modified time   Configuration information, including the URL location of the repository and the ARN of the AWS Secrets Manager secret that contains the credentials used to access the repository.
+        /// Gets a list of summaries of the Git repositories. Each summary specifies the following values for the repository:    Name   Amazon Resource Name (ARN)   Creation time   Last modified time   Configuration information, including the URL location of the repository and the ARN of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository.
         public let codeRepositorySummaryList: [CodeRepositorySummary]
         /// If the result of a ListCodeRepositoriesOutput request was truncated, the response includes a NextToken. To get the next set of Git repositories, use the token in the next request.
         public let nextToken: String?
@@ -15483,7 +15589,7 @@ extension SageMaker {
     }
 
     public struct ListModelPackageGroupsOutput: AWSDecodableShape {
-        /// A list of summaries of the model groups in your AWS account.
+        /// A list of summaries of the model groups in your Amazon Web Services account.
         public let modelPackageGroupSummaryList: [ModelPackageGroupSummary]
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model groups, use it in the subsequent request.
         public let nextToken: String?
@@ -17323,7 +17429,7 @@ extension SageMaker {
     }
 
     public struct ModelDeployConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Set to True to automatically generate an endpoint name for a one-click Autopilot model deployment; set to False otherwise. The default value is True.  If you set AutoGenerateEndpointName to True, do not specify the EndpointName; otherwise a 400 error is thrown.
+        /// Set to True to automatically generate an endpoint name for a one-click Autopilot model deployment; set to False otherwise. The default value is False.  If you set AutoGenerateEndpointName to True, do not specify the EndpointName; otherwise a 400 error is thrown.
         public let autoGenerateEndpointName: Bool?
         /// Specifies the endpoint name to use for a one-click Autopilot model deployment if the endpoint name is not generated automatically.  Specify the EndpointName if and only if you set AutoGenerateEndpointName to False; otherwise a 400 error is thrown.
         public let endpointName: String?
@@ -17478,7 +17584,7 @@ extension SageMaker {
     public struct ModelPackage: AWSDecodableShape {
         /// A description provided when the model approval is set.
         public let approvalDescription: String?
-        /// Whether the model package is to be certified to be listed on AWS Marketplace. For information about listing model packages on AWS Marketplace, see List Your Algorithm or Model Package on AWS Marketplace.
+        /// Whether the model package is to be certified to be listed on Amazon Web Services Marketplace. For information about listing model packages on Amazon Web Services Marketplace, see List Your Algorithm or Model Package on Amazon Web Services Marketplace.
         public let certifyForMarketplace: Bool?
         public let createdBy: UserContext?
         /// The time that the model package was created.
@@ -17506,7 +17612,7 @@ extension SageMaker {
         /// The version number of a versioned model.
         public let modelPackageVersion: Int?
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
-        /// A list of the tags associated with the model package. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// A list of the tags associated with the model package. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
         public let validationSpecification: ModelPackageValidationSpecification?
 
@@ -17560,17 +17666,20 @@ extension SageMaker {
     public struct ModelPackageContainerDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The DNS host name for the Docker container.
         public let containerHostname: String?
+        /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map.
+        public let environment: [String: String]?
         /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
         public let image: String
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let imageDigest: String?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the model package.
         public let modelDataUrl: String?
-        /// The AWS Marketplace product ID of the model package.
+        /// The Amazon Web Services Marketplace product ID of the model package.
         public let productId: String?
 
-        public init(containerHostname: String? = nil, image: String, imageDigest: String? = nil, modelDataUrl: String? = nil, productId: String? = nil) {
+        public init(containerHostname: String? = nil, environment: [String: String]? = nil, image: String, imageDigest: String? = nil, modelDataUrl: String? = nil, productId: String? = nil) {
             self.containerHostname = containerHostname
+            self.environment = environment
             self.image = image
             self.imageDigest = imageDigest
             self.modelDataUrl = modelDataUrl
@@ -17580,6 +17689,12 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, max: 63)
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}")
+            try self.environment?.forEach {
+                try validate($0.key, name: "environment.key", parent: name, max: 1024)
+                try validate($0.key, name: "environment.key", parent: name, pattern: "[a-zA-Z_][a-zA-Z0-9_]*")
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "environment[\"\($0.key)\"]", parent: name, pattern: "[\\S\\s]*")
+            }
             try self.validate(self.image, name: "image", parent: name, max: 255)
             try self.validate(self.image, name: "image", parent: name, pattern: "[\\S]+")
             try self.validate(self.imageDigest, name: "imageDigest", parent: name, max: 72)
@@ -17592,6 +17707,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case containerHostname = "ContainerHostname"
+            case environment = "Environment"
             case image = "Image"
             case imageDigest = "ImageDigest"
             case modelDataUrl = "ModelDataUrl"
@@ -17611,7 +17727,7 @@ extension SageMaker {
         public let modelPackageGroupName: String?
         /// The status of the model group. This can be one of the following values.    PENDING - The model group is pending being created.    IN_PROGRESS - The model group is in the process of being created.    COMPLETED - The model group was successfully created.    FAILED - The model group failed.    DELETING - The model group is in the process of being deleted.    DELETE_FAILED - SageMaker failed to delete the model group.
         public let modelPackageGroupStatus: ModelPackageGroupStatus?
-        /// A list of the tags associated with the model group. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// A list of the tags associated with the model group. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, modelPackageGroupArn: String? = nil, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageGroupStatus: ModelPackageGroupStatus? = nil, tags: [Tag]? = nil) {
@@ -18043,7 +18159,7 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type for the processing job.
         public let instanceType: ProcessingInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
         public let volumeKmsKeyId: String?
         /// The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.
         public let volumeSizeInGB: Int
@@ -18309,7 +18425,7 @@ extension SageMaker {
     }
 
     public struct MonitoringOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
         public let kmsKeyId: String?
         /// Monitoring outputs for monitoring jobs. This is where the output of the periodic monitoring jobs is uploaded.
         public let monitoringOutputs: [MonitoringOutput]
@@ -18399,7 +18515,7 @@ extension SageMaker {
         public let monitoringScheduleStatus: ScheduleStatus?
         /// The type of the monitoring job definition to schedule.
         public let monitoringType: MonitoringType?
-        /// A list of the tags associated with the monitoring schedlue. For more information, see Tagging AWS resources in the AWS General Reference Guide.
+        /// A list of the tags associated with the monitoring schedlue. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
         public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil, tags: [Tag]? = nil) {
@@ -18554,6 +18670,38 @@ extension SageMaker {
         }
     }
 
+    public struct NeoVpcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The VPC security group IDs. IDs have the form of sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
+        public let securityGroupIds: [String]
+        /// The ID of the subnets in the VPC that you want to connect the compilation job to for accessing the model in Amazon S3.
+        public let subnets: [String]
+
+        public init(securityGroupIds: [String], subnets: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 32)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "[-0-9a-zA-Z]+")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnets.forEach {
+                try validate($0, name: "subnets[]", parent: name, max: 32)
+                try validate($0, name: "subnets[]", parent: name, pattern: "[-0-9a-zA-Z]+")
+            }
+            try self.validate(self.subnets, name: "subnets", parent: name, max: 16)
+            try self.validate(self.subnets, name: "subnets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnets = "Subnets"
+        }
+    }
+
     public struct NestedFilters: AWSEncodableShape {
         /// A list of filters. Each filter acts on a property. Filters must contain at least one Filters value. For example, a NestedFilters call might include a filter on the PropertyName parameter of the InputDataConfig property: InputDataConfig.DataSource.S3DataSource.S3Uri.
         public let filters: [Filter]
@@ -18651,11 +18799,11 @@ extension SageMaker {
     }
 
     public struct NotebookInstanceSummary: AWSDecodableShape {
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp that shows when the notebook instance was created.
         public let creationTime: Date?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// The type of ML compute instance that the notebook instance is running on.
         public let instanceType: InstanceType?
@@ -18740,7 +18888,7 @@ extension SageMaker {
     public struct OfflineStoreConfig: AWSEncodableShape & AWSDecodableShape {
         /// The meta data of the Glue table that is autogenerated when an OfflineStore is created.
         public let dataCatalogConfig: DataCatalogConfig?
-        /// Set to True to disable the automatic creation of an AWS Glue table when configuring an OfflineStore.
+        /// Set to True to disable the automatic creation of an Amazon Web Services Glue table when configuring an OfflineStore.
         public let disableGlueTableCreation: Bool?
         /// The Amazon Simple Storage (Amazon S3) location of OfflineStore.
         public let s3StorageConfig: S3StorageConfig
@@ -18924,7 +19072,7 @@ extension SageMaker {
     }
 
     public struct OnlineStoreSecurityConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the AWS Key Management Service (AWS KMS) key that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either IAM user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId:    "kms:Encrypt"     "kms:Decrypt"     "kms:DescribeKey"     "kms:CreateGrant"     "kms:RetireGrant"     "kms:ReEncryptFrom"     "kms:ReEncryptTo"     "kms:GenerateDataKey"     "kms:ListAliases"     "kms:ListGrants"     "kms:RevokeGrant"    The caller (either IAM user or IAM role) to all DataPlane operations (PutRecord, GetRecord, DeleteRecord) must have the following permissions to the KmsKeyId:    "kms:Decrypt"
+        /// The ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) key that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either IAM user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId:    "kms:Encrypt"     "kms:Decrypt"     "kms:DescribeKey"     "kms:CreateGrant"     "kms:RetireGrant"     "kms:ReEncryptFrom"     "kms:ReEncryptTo"     "kms:GenerateDataKey"     "kms:ListAliases"     "kms:ListGrants"     "kms:RevokeGrant"    The caller (either IAM user or IAM role) to all DataPlane operations (PutRecord, GetRecord, DeleteRecord) must have the following permissions to the KmsKeyId:    "kms:Decrypt"
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -18944,7 +19092,7 @@ extension SageMaker {
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     DTYPE: Specifies the data type for the input. When compiling for ml_* (except for ml_inf) instances using PyTorch framework, provide the data type (dtype) of the model's input. "float32" is used if "DTYPE" is not specified. Options for data type are:   float32: Use either "float" or "float32".   int64: Use either "int64" or "long".    For example, {"dtype" : "float32"}.    CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI.     CoreML: Compilation for the CoreML OutputConfig$TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.      EIA: Compilation for the Elastic Inference Accelerator supports the following compiler options:    precision_mode: Specifies the precision of compiled artifacts. Supported values are "FP16" and "FP32". Default is "FP32".    signature_def_key: Specifies the signature to use for models in SavedModel format. Defaults is TensorFlow's default signature def key.    output_names: Specifies a list of output tensor names for models in FrozenGraph format. Set at most one API field, either: signature_def_key or output_names.   For example: {"precision_mode": "FP32", "output_names": ["output:0"]}
         public let compilerOptions: String?
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
         /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
@@ -18981,7 +19129,7 @@ extension SageMaker {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateTrainingJob, CreateTransformJob, or CreateHyperParameterTuningJob requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// Identifies the S3 path where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputPath: String
@@ -19001,6 +19149,28 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3OutputPath = "S3OutputPath"
+        }
+    }
+
+    public struct OutputParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the output parameter.
+        public let name: String
+        /// The value of the output parameter.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 
@@ -19189,6 +19359,8 @@ extension SageMaker {
         public let createdBy: UserContext?
         /// The creation time of the pipeline execution.
         public let creationTime: Date?
+        /// If the execution failed, a message describing why.
+        public let failureReason: String?
         public let lastModifiedBy: UserContext?
         /// The time that the pipeline execution was last modified.
         public let lastModifiedTime: Date?
@@ -19202,12 +19374,14 @@ extension SageMaker {
         public let pipelineExecutionDisplayName: String?
         /// The status of the pipeline status.
         public let pipelineExecutionStatus: PipelineExecutionStatus?
+        public let pipelineExperimentConfig: PipelineExperimentConfig?
         /// Contains a list of pipeline parameters. This list can be empty.
         public let pipelineParameters: [Parameter]?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineParameters: [Parameter]? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, pipelineParameters: [Parameter]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
+            self.failureReason = failureReason
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.pipelineArn = pipelineArn
@@ -19215,12 +19389,14 @@ extension SageMaker {
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
             self.pipelineExecutionStatus = pipelineExecutionStatus
+            self.pipelineExperimentConfig = pipelineExperimentConfig
             self.pipelineParameters = pipelineParameters
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
             case pipelineArn = "PipelineArn"
@@ -19228,6 +19404,7 @@ extension SageMaker {
             case pipelineExecutionDescription = "PipelineExecutionDescription"
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
             case pipelineExecutionStatus = "PipelineExecutionStatus"
+            case pipelineExperimentConfig = "PipelineExperimentConfig"
             case pipelineParameters = "PipelineParameters"
         }
     }
@@ -19239,7 +19416,7 @@ extension SageMaker {
         public let endTime: Date?
         /// The reason why the step failed execution. This is only returned if the step failed its execution.
         public let failureReason: String?
-        /// The metadata for the step execution.
+        /// Metadata for the step execution.
         public let metadata: PipelineExecutionStepMetadata?
         /// The time that the step started executing.
         public let startTime: Date?
@@ -19270,6 +19447,7 @@ extension SageMaker {
     }
 
     public struct PipelineExecutionStepMetadata: AWSDecodableShape {
+        public let callback: CallbackStepMetadata?
         /// If this is a Condition step metadata object, details on the condition.
         public let condition: ConditionStepMetadata?
         /// Metadata for the Model step.
@@ -19282,23 +19460,29 @@ extension SageMaker {
         public let trainingJob: TrainingJobStepMetadata?
         /// The Amazon Resource Name (ARN) of the transform job that was run by this step execution.
         public let transformJob: TransformJobStepMetadata?
+        /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
+        public let tuningJob: TuningJobStepMetaData?
 
-        public init(condition: ConditionStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil) {
+        public init(callback: CallbackStepMetadata? = nil, condition: ConditionStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+            self.callback = callback
             self.condition = condition
             self.model = model
             self.processingJob = processingJob
             self.registerModel = registerModel
             self.trainingJob = trainingJob
             self.transformJob = transformJob
+            self.tuningJob = tuningJob
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callback = "Callback"
             case condition = "Condition"
             case model = "Model"
             case processingJob = "ProcessingJob"
             case registerModel = "RegisterModel"
             case trainingJob = "TrainingJob"
             case transformJob = "TransformJob"
+            case tuningJob = "TuningJob"
         }
     }
 
@@ -19328,6 +19512,23 @@ extension SageMaker {
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
             case pipelineExecutionStatus = "PipelineExecutionStatus"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct PipelineExperimentConfig: AWSDecodableShape {
+        /// The name of the experiment.
+        public let experimentName: String?
+        /// The name of the trial.
+        public let trialName: String?
+
+        public init(experimentName: String? = nil, trialName: String? = nil) {
+            self.experimentName = experimentName
+            self.trialName = trialName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentName = "ExperimentName"
+            case trialName = "TrialName"
         }
     }
 
@@ -19377,9 +19578,9 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type for the processing job.
         public let instanceType: ProcessingInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the processing job.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the processing job.   Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
         public let volumeKmsKeyId: String?
-        /// The size of the ML storage volume in gigabytes that you want to provision. You must specify sufficient ML storage for your scenario.
+        /// The size of the ML storage volume in gigabytes that you want to provision. You must specify sufficient ML storage for your scenario.  Certain Nitro-based instances include local storage with a fixed total size, dependent on the instance type. When using these instances for processing, Amazon SageMaker mounts the local instance storage instead of Amazon EBS gp2 storage. You can't request a VolumeSizeInGB greater than the total size of the local instance storage. For a list of instance types that support local instance storage, including the total size per instance type, see Instance Store Volumes.
         public let volumeSizeInGB: Int
 
         public init(instanceCount: Int, instanceType: ProcessingInstanceType, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int) {
@@ -19490,7 +19691,7 @@ extension SageMaker {
         /// The ARN of the role used to create the processing job.
         public let roleArn: String?
         public let stoppingCondition: ProcessingStoppingCondition?
-        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
+        /// An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
         /// The ARN of the training job associated with this processing job.
         public let trainingJobArn: String?
@@ -19631,7 +19832,7 @@ extension SageMaker {
     }
 
     public struct ProcessingOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
         public let kmsKeyId: String?
         /// An array of outputs configuring the data to upload from the processing container.
         public let outputs: [ProcessingOutput]
@@ -19810,7 +20011,7 @@ extension SageMaker {
     public struct ProductionVariantCoreDumpConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket to send the core dump to.
         public let destinationS3Uri: String
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the core dump data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint and UpdateEndpoint requests. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the core dump data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint and UpdateEndpoint requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
 
         public init(destinationS3Uri: String, kmsKeyId: String? = nil) {
@@ -20172,7 +20373,7 @@ extension SageMaker {
         public let clusterRoleArn: String
         public let database: String
         public let dbUser: String
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data from a Redshift execution.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data from a Redshift execution.
         public let kmsKeyId: String?
         public let outputCompression: RedshiftResultCompressionType?
         public let outputFormat: RedshiftResultFormat
@@ -20364,7 +20565,7 @@ extension SageMaker {
     }
 
     public struct RepositoryAuthConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an AWS Lambda function that provides credentials to authenticate to the private Docker registry where your model image is hosted. For information about how to create an AWS Lambda function, see Create a Lambda function with the console in the AWS Lambda Developer Guide.
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services Lambda function that provides credentials to authenticate to the private Docker registry where your model image is hosted. For information about how to create an Amazon Web Services Lambda function, see Create a Lambda function with the console in the Amazon Web Services Lambda Developer Guide.
         public let repositoryCredentialsProviderArn: String
 
         public init(repositoryCredentialsProviderArn: String) {
@@ -20406,7 +20607,7 @@ extension SageMaker {
         public let instanceCount: Int
         /// The ML compute instance type.
         public let instanceType: TrainingInstanceType
-        /// The AWS KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.  The VolumeKmsKeyId can be in any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// The Amazon Web Services KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.  The VolumeKmsKeyId can be in any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  You must specify sufficient ML storage for your scenario.    Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.    Certain Nitro-based instances include local storage with a fixed total size, dependent on the instance type. When using these instances for training, Amazon SageMaker mounts the local instance storage instead of Amazon EBS gp2 storage. You can't request a VolumeSizeInGB greater than the total size of the local instance storage. For a list of instance types that support local instance storage, including the total size per instance type, see Instance Store Volumes.
         public let volumeSizeInGB: Int
@@ -20551,7 +20752,7 @@ extension SageMaker {
     }
 
     public struct S3StorageConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (KMS) key ID of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
+        /// The Amazon Web Services Key Management Service (KMS) key ID of the key used to encrypt any objects written into the OfflineStore S3 location. The IAM roleARN that is passed as a parameter to CreateFeatureGroup must have below permissions to the KmsKeyId:    "kms:GenerateDataKey"
         public let kmsKeyId: String?
         /// The S3 path where offline records are written.
         public let resolvedOutputS3Uri: String?
@@ -20770,6 +20971,96 @@ extension SageMaker {
         }
     }
 
+    public struct SendPipelineExecutionStepFailureRequest: AWSEncodableShape {
+        /// The pipeline generated token from the Amazon SQS queue.
+        public let callbackToken: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        public let clientRequestToken: String?
+        /// A message describing why the step failed.
+        public let failureReason: String?
+
+        public init(callbackToken: String, clientRequestToken: String? = SendPipelineExecutionStepFailureRequest.idempotencyToken(), failureReason: String? = nil) {
+            self.callbackToken = callbackToken
+            self.clientRequestToken = clientRequestToken
+            self.failureReason = failureReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.callbackToken, name: "callbackToken", parent: name, max: 10)
+            try self.validate(self.callbackToken, name: "callbackToken", parent: name, min: 10)
+            try self.validate(self.callbackToken, name: "callbackToken", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.failureReason, name: "failureReason", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callbackToken = "CallbackToken"
+            case clientRequestToken = "ClientRequestToken"
+            case failureReason = "FailureReason"
+        }
+    }
+
+    public struct SendPipelineExecutionStepFailureResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+
+        public init(pipelineExecutionArn: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct SendPipelineExecutionStepSuccessRequest: AWSEncodableShape {
+        /// The pipeline generated token from the Amazon SQS queue.
+        public let callbackToken: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
+        public let clientRequestToken: String?
+        /// A list of the output parameters of the callback step.
+        public let outputParameters: [OutputParameter]?
+
+        public init(callbackToken: String, clientRequestToken: String? = SendPipelineExecutionStepSuccessRequest.idempotencyToken(), outputParameters: [OutputParameter]? = nil) {
+            self.callbackToken = callbackToken
+            self.clientRequestToken = clientRequestToken
+            self.outputParameters = outputParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.callbackToken, name: "callbackToken", parent: name, max: 10)
+            try self.validate(self.callbackToken, name: "callbackToken", parent: name, min: 10)
+            try self.validate(self.callbackToken, name: "callbackToken", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.outputParameters?.forEach {
+                try $0.validate(name: "\(name).outputParameters[]")
+            }
+            try self.validate(self.outputParameters, name: "outputParameters", parent: name, max: 50)
+            try self.validate(self.outputParameters, name: "outputParameters", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callbackToken = "CallbackToken"
+            case clientRequestToken = "ClientRequestToken"
+            case outputParameters = "OutputParameters"
+        }
+    }
+
+    public struct SendPipelineExecutionStepSuccessResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the pipeline execution.
+        public let pipelineExecutionArn: String?
+
+        public init(pipelineExecutionArn: String? = nil) {
+            self.pipelineExecutionArn = pipelineExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
     public struct ServiceCatalogProvisionedProductDetails: AWSDecodableShape {
         /// The ID of the provisioned product.
         public let provisionedProductId: String?
@@ -20830,7 +21121,7 @@ extension SageMaker {
     public struct SharingSettings: AWSEncodableShape & AWSDecodableShape {
         /// Whether to include the notebook cell output when sharing the notebook. The default is Disabled.
         public let notebookOutputOption: NotebookOutputOption?
-        /// When NotebookOutputOption is Allowed, the AWS Key Management Service (KMS) encryption key ID used to encrypt the notebook cell output in the Amazon S3 bucket.
+        /// When NotebookOutputOption is Allowed, the Amazon Web Services Key Management Service (KMS) encryption key ID used to encrypt the notebook cell output in the Amazon S3 bucket.
         public let s3KmsKeyId: String?
         /// When NotebookOutputOption is Allowed, the Amazon S3 bucket used to store the shared notebook snapshots.
         public let s3OutputPath: String?
@@ -20869,7 +21160,7 @@ extension SageMaker {
     }
 
     public struct SourceAlgorithm: AWSEncodableShape & AWSDecodableShape {
-        /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your Amazon SageMaker account or an algorithm in AWS Marketplace that you are subscribed to.
+        /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your Amazon SageMaker account or an algorithm in Amazon Web Services Marketplace that you are subscribed to.
         public let algorithmName: String
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the algorithm.
         public let modelDataUrl: String?
@@ -21328,7 +21619,7 @@ extension SageMaker {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The tag key.
+        /// The tag key. Tag keys must be unique per resource.
         public let key: String
         /// The tag value.
         public let value: String
@@ -21483,7 +21774,7 @@ extension SageMaker {
         public let resourceConfig: ResourceConfig?
         /// The number of times to retry the job when the job fails due to an InternalServerError.
         public let retryStrategy: RetryStrategy?
-        /// The AWS Identity and Access Management (IAM) role configured for the training job.
+        /// The Amazon Web Services Identity and Access Management (IAM) role configured for the training job.
         public let roleArn: String?
         ///  Provides detailed information about the state of the training job. For detailed information about the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. Amazon SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTrainingStack     DownloadingTrainingImage
         public let secondaryStatus: SecondaryStatus?
@@ -21491,7 +21782,7 @@ extension SageMaker {
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition?
-        /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging AWS Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job failure.
@@ -22024,7 +22315,7 @@ extension SageMaker {
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
         public let assembleWith: AssemblyType?
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String
@@ -22056,9 +22347,9 @@ extension SageMaker {
     public struct TransformResources: AWSEncodableShape & AWSDecodableShape {
         /// The number of ML compute instances to use in the transform job. For distributed transform jobs, specify a value greater than 1. The default value is 1.
         public let instanceCount: Int
-        /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.large instance types.
+        /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
         public let instanceType: TransformInstanceType
-        /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. The VolumeKmsKeyId can be any of the following formats:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.   The VolumeKmsKeyId can be any of the following formats:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let volumeKmsKeyId: String?
 
         public init(instanceCount: Int, instanceType: TransformInstanceType, volumeKmsKeyId: String? = nil) {
@@ -22532,6 +22823,19 @@ extension SageMaker {
         }
     }
 
+    public struct TuningJobStepMetaData: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct USD: AWSEncodableShape & AWSDecodableShape {
         /// The fractional portion, in cents, of the amount.
         public let cents: Int?
@@ -22563,7 +22867,7 @@ extension SageMaker {
     }
 
     public struct UiConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for 3D point cloud and video fram labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the AWS region you are creating your labeling job in.  3D Point Cloud HumanTaskUiArns  Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectDetection     Use this HumanTaskUiArn for 3D point cloud object tracking and 3D point cloud object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectTracking     Use this HumanTaskUiArn for 3D point cloud semantic segmentation and 3D point cloud semantic segmentation adjustment labeling jobs.    arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudSemanticSegmentation     Video Frame HumanTaskUiArns  Use this HumanTaskUiArn for video frame object detection and video frame object detection adjustment labeling jobs.     arn:aws:sagemaker:region:394669845002:human-task-ui/VideoObjectDetection     Use this HumanTaskUiArn for video frame object tracking and video frame object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/VideoObjectTracking
+        /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for 3D point cloud and video fram labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the Amazon Web Services region you are creating your labeling job in.  3D Point Cloud HumanTaskUiArns  Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectDetection     Use this HumanTaskUiArn for 3D point cloud object tracking and 3D point cloud object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudObjectTracking     Use this HumanTaskUiArn for 3D point cloud semantic segmentation and 3D point cloud semantic segmentation adjustment labeling jobs.    arn:aws:sagemaker:aws-region:394669845002:human-task-ui/PointCloudSemanticSegmentation     Video Frame HumanTaskUiArns  Use this HumanTaskUiArn for video frame object detection and video frame object detection adjustment labeling jobs.     arn:aws:sagemaker:region:394669845002:human-task-ui/VideoObjectDetection     Use this HumanTaskUiArn for video frame object tracking and video frame object tracking adjustment labeling jobs.     arn:aws:sagemaker:aws-region:394669845002:human-task-ui/VideoObjectTracking
         public let humanTaskUiArn: String?
         /// The Amazon S3 bucket location of the UI template, or worker task template. This is the template used to render the worker UI and tools for labeling job tasks. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String?
@@ -22777,7 +23081,7 @@ extension SageMaker {
     public struct UpdateCodeRepositoryInput: AWSEncodableShape {
         /// The name of the Git repository to update.
         public let codeRepositoryName: String
-        /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
+        /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
         public let gitConfig: GitConfigForUpdate?
 
         public init(codeRepositoryName: String, gitConfig: GitConfigForUpdate? = nil) {
@@ -22872,14 +23176,17 @@ extension SageMaker {
         public let description: String?
         /// The name of the fleet.
         public let deviceFleetName: String
+        /// Whether to create an Amazon Web Services IoT Role Alias during device fleet creation. The name of the role alias generated will match this pattern: "SageMakerEdge-{DeviceFleetName}". For example, if your device fleet is called "demo-fleet", the name of the role alias will be "SageMakerEdge-demo-fleet".
+        public let enableIotRoleAlias: Bool?
         /// Output configuration for storing sample data collected by the fleet.
         public let outputConfig: EdgeOutputConfig
         /// The Amazon Resource Name (ARN) of the device.
         public let roleArn: String?
 
-        public init(description: String? = nil, deviceFleetName: String, outputConfig: EdgeOutputConfig, roleArn: String? = nil) {
+        public init(description: String? = nil, deviceFleetName: String, enableIotRoleAlias: Bool? = nil, outputConfig: EdgeOutputConfig, roleArn: String? = nil) {
             self.description = description
             self.deviceFleetName = deviceFleetName
+            self.enableIotRoleAlias = enableIotRoleAlias
             self.outputConfig = outputConfig
             self.roleArn = roleArn
         }
@@ -22900,6 +23207,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case deviceFleetName = "DeviceFleetName"
+            case enableIotRoleAlias = "EnableIotRoleAlias"
             case outputConfig = "OutputConfig"
             case roleArn = "RoleArn"
         }
@@ -23210,7 +23518,7 @@ extension SageMaker {
     public struct UpdateMonitoringScheduleRequest: AWSEncodableShape {
         /// The configuration object that specifies the monitoring schedule and defines the monitoring job.
         public let monitoringScheduleConfig: MonitoringScheduleConfig
-        /// The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account.
+        /// The name of the monitoring schedule. The name must be unique within an Amazon Web Services Region within an Amazon Web Services account.
         public let monitoringScheduleName: String
 
         public init(monitoringScheduleConfig: MonitoringScheduleConfig, monitoringScheduleName: String) {
@@ -23247,9 +23555,9 @@ extension SageMaker {
     public struct UpdateNotebookInstanceInput: AWSEncodableShape {
         /// A list of the Elastic Inference (EI) instance types to associate with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
-        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let additionalCodeRepositories: [String]?
-        /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
+        /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with Amazon SageMaker Notebook Instances.
         public let defaultCodeRepository: String?
         /// A list of the Elastic Inference (EI) instance types to remove from this notebook instance. This operation is idempotent. If you specify an accelerator type that is not associated with the notebook instance when you call this method, it does not throw an error.
         public let disassociateAcceleratorTypes: Bool?
@@ -23732,7 +24040,7 @@ extension SageMaker {
     }
 
     public struct UpdateWorkforceResponse: AWSDecodableShape {
-        /// A single private workforce. You can create one private work force in each AWS Region. By default, any workforce-related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
+        /// A single private workforce. You can create one private work force in each Amazon Web Services Region. By default, any workforce-related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
         public let workforce: Workforce
 
         public init(workforce: Workforce) {

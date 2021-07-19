@@ -20,6 +20,12 @@ import SotoCore
 extension Chime {
     // MARK: Enums
 
+    public enum AccountStatus: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccountType: String, CustomStringConvertible, Codable {
         case enterprisedirectory = "EnterpriseDirectory"
         case enterpriselwa = "EnterpriseLWA"
@@ -127,6 +133,25 @@ extension Chime {
         case plus = "Plus"
         case pro = "Pro"
         case protrial = "ProTrial"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaPipelineSinkType: String, CustomStringConvertible, Codable {
+        case s3bucket = "S3Bucket"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaPipelineSourceType: String, CustomStringConvertible, Codable {
+        case chimesdkmeeting = "ChimeSdkMeeting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MediaPipelineStatus: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
+        case initializing = "Initializing"
+        case inprogress = "InProgress"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -254,6 +279,8 @@ extension Chime {
     public struct Account: AWSDecodableShape {
         /// The Amazon Chime account ID.
         public let accountId: String
+        /// The status of the account, Suspended or Active.
+        public let accountStatus: AccountStatus?
         /// The Amazon Chime account type. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
         public let accountType: AccountType?
         /// The AWS account ID.
@@ -270,8 +297,9 @@ extension Chime {
         /// Supported licenses for the Amazon Chime account.
         public let supportedLicenses: [License]?
 
-        public init(accountId: String, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: Date? = nil, defaultLicense: License? = nil, name: String, signinDelegateGroups: [SigninDelegateGroup]? = nil, supportedLicenses: [License]? = nil) {
+        public init(accountId: String, accountStatus: AccountStatus? = nil, accountType: AccountType? = nil, awsAccountId: String, createdTimestamp: Date? = nil, defaultLicense: License? = nil, name: String, signinDelegateGroups: [SigninDelegateGroup]? = nil, supportedLicenses: [License]? = nil) {
             self.accountId = accountId
+            self.accountStatus = accountStatus
             self.accountType = accountType
             self.awsAccountId = awsAccountId
             self.createdTimestamp = createdTimestamp
@@ -283,6 +311,7 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case accountStatus = "AccountStatus"
             case accountType = "AccountType"
             case awsAccountId = "AwsAccountId"
             case createdTimestamp = "CreatedTimestamp"
@@ -2076,6 +2105,60 @@ extension Chime {
         }
     }
 
+    public struct CreateMediaCapturePipelineRequest: AWSEncodableShape {
+        /// The token assigned to the client making the pipeline request.
+        public let clientRequestToken: String?
+        /// The ARN of the sink type.
+        public let sinkArn: String
+        /// Destination type to which the media artifacts are saved. You must use an S3 bucket.
+        public let sinkType: MediaPipelineSinkType
+        /// ARN of the source from which the media artifacts are captured.
+        public let sourceArn: String
+        /// Source type from which the media artifacts will be captured. A Chime SDK Meeting is the only supported source.
+        public let sourceType: MediaPipelineSourceType
+
+        public init(clientRequestToken: String? = CreateMediaCapturePipelineRequest.idempotencyToken(), sinkArn: String, sinkType: MediaPipelineSinkType, sourceArn: String, sourceType: MediaPipelineSourceType) {
+            self.clientRequestToken = clientRequestToken
+            self.sinkArn = sinkArn
+            self.sinkType = sinkType
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "[-_a-zA-Z0-9]*")
+            try self.validate(self.sinkArn, name: "sinkArn", parent: name, max: 1024)
+            try self.validate(self.sinkArn, name: "sinkArn", parent: name, min: 1)
+            try self.validate(self.sinkArn, name: "sinkArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 1024)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn[\\/\\:\\-\\_\\.a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case sinkArn = "SinkArn"
+            case sinkType = "SinkType"
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
+        }
+    }
+
+    public struct CreateMediaCapturePipelineResponse: AWSDecodableShape {
+        /// A media capture pipeline object, the ID, source type, source ARN, sink type, and sink ARN of a media capture pipeline object.
+        public let mediaCapturePipeline: MediaCapturePipeline?
+
+        public init(mediaCapturePipeline: MediaCapturePipeline? = nil) {
+            self.mediaCapturePipeline = mediaCapturePipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaCapturePipeline = "MediaCapturePipeline"
+        }
+    }
+
     public struct CreateMeetingDialOutRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
@@ -3094,6 +3177,25 @@ extension Chime {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.botId, name: "botId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteMediaCapturePipelineRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "mediaPipelineId", location: .uri(locationName: "mediaPipelineId"))
+        ]
+
+        /// The ID of the media capture pipeline being deleted.
+        public let mediaPipelineId: String
+
+        public init(mediaPipelineId: String) {
+            self.mediaPipelineId = mediaPipelineId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaPipelineId, name: "mediaPipelineId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4304,6 +4406,38 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case businessCalling = "BusinessCalling"
             case voiceConnector = "VoiceConnector"
+        }
+    }
+
+    public struct GetMediaCapturePipelineRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "mediaPipelineId", location: .uri(locationName: "mediaPipelineId"))
+        ]
+
+        /// The ID of the pipeline that you want to get.
+        public let mediaPipelineId: String
+
+        public init(mediaPipelineId: String) {
+            self.mediaPipelineId = mediaPipelineId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaPipelineId, name: "mediaPipelineId", parent: name, pattern: "[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMediaCapturePipelineResponse: AWSDecodableShape {
+        /// The media capture pipeline object.
+        public let mediaCapturePipeline: MediaCapturePipeline?
+
+        public init(mediaCapturePipeline: MediaCapturePipeline? = nil) {
+            self.mediaCapturePipeline = mediaCapturePipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaCapturePipeline = "MediaCapturePipeline"
         }
     }
 
@@ -5869,6 +6003,47 @@ extension Chime {
         }
     }
 
+    public struct ListMediaCapturePipelinesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The maximum number of results to return in a single call. Valid Range: 1 - 99.
+        public let maxResults: Int?
+        /// The token used to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 99)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMediaCapturePipelinesResponse: AWSDecodableShape {
+        /// The media capture pipeline objects in the list.
+        public let mediaCapturePipelines: [MediaCapturePipeline]?
+        /// The token used to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(mediaCapturePipelines: [MediaCapturePipeline]? = nil, nextToken: String? = nil) {
+            self.mediaCapturePipelines = mediaCapturePipelines
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaCapturePipelines = "MediaCapturePipelines"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListMeetingTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
@@ -6555,11 +6730,56 @@ extension Chime {
         public init() {}
     }
 
+    public struct MediaCapturePipeline: AWSDecodableShape {
+        /// The time at which the capture pipeline was created, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTimestamp: Date?
+        /// The ID of a media capture pipeline.
+        public let mediaPipelineId: String?
+        /// ARN of the destination to which the media artifacts are saved.
+        public let sinkArn: String?
+        /// Destination type to which the media artifacts are saved. You must use an S3 Bucket.
+        public let sinkType: MediaPipelineSinkType?
+        /// ARN of the source from which the media artifacts will be saved.
+        public let sourceArn: String?
+        /// Source type from which media artifacts are saved. You must use ChimeMeeting.
+        public let sourceType: MediaPipelineSourceType?
+        /// The status of the media capture pipeline.
+        public let status: MediaPipelineStatus?
+        /// The time at which the capture pipeline was updated, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedTimestamp: Date?
+
+        public init(createdTimestamp: Date? = nil, mediaPipelineId: String? = nil, sinkArn: String? = nil, sinkType: MediaPipelineSinkType? = nil, sourceArn: String? = nil, sourceType: MediaPipelineSourceType? = nil, status: MediaPipelineStatus? = nil, updatedTimestamp: Date? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.mediaPipelineId = mediaPipelineId
+            self.sinkArn = sinkArn
+            self.sinkType = sinkType
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+            self.status = status
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case mediaPipelineId = "MediaPipelineId"
+            case sinkArn = "SinkArn"
+            case sinkType = "SinkType"
+            case sourceArn = "SourceArn"
+            case sourceType = "SourceType"
+            case status = "Status"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
     public struct MediaPlacement: AWSDecodableShape {
         /// The audio fallback URL.
         public let audioFallbackUrl: String?
         /// The audio host URL.
         public let audioHostUrl: String?
+        /// The event ingestion URL.
+        public let eventIngestionUrl: String?
         /// The screen data URL.
         public let screenDataUrl: String?
         /// The screen sharing URL.
@@ -6571,9 +6791,10 @@ extension Chime {
         /// The turn control URL.
         public let turnControlUrl: String?
 
-        public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
+        public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, screenDataUrl: String? = nil, screenSharingUrl: String? = nil, screenViewingUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
+            self.eventIngestionUrl = eventIngestionUrl
             self.screenDataUrl = screenDataUrl
             self.screenSharingUrl = screenSharingUrl
             self.screenViewingUrl = screenViewingUrl
@@ -6584,6 +6805,7 @@ extension Chime {
         private enum CodingKeys: String, CodingKey {
             case audioFallbackUrl = "AudioFallbackUrl"
             case audioHostUrl = "AudioHostUrl"
+            case eventIngestionUrl = "EventIngestionUrl"
             case screenDataUrl = "ScreenDataUrl"
             case screenSharingUrl = "ScreenSharingUrl"
             case screenViewingUrl = "ScreenViewingUrl"
@@ -8549,11 +8771,14 @@ extension Chime {
 
         /// The Amazon Chime account ID.
         public let accountId: String
+        /// The default license applied when you add users to an Amazon Chime account.
+        public let defaultLicense: License?
         /// The new name for the specified Amazon Chime account.
         public let name: String?
 
-        public init(accountId: String, name: String? = nil) {
+        public init(accountId: String, defaultLicense: License? = nil, name: String? = nil) {
             self.accountId = accountId
+            self.defaultLicense = defaultLicense
             self.name = name
         }
 
@@ -8565,6 +8790,7 @@ extension Chime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultLicense = "DefaultLicense"
             case name = "Name"
         }
     }
@@ -9156,6 +9382,47 @@ extension Chime {
 
         private enum CodingKeys: String, CodingKey {
             case room = "Room"
+        }
+    }
+
+    public struct UpdateSipMediaApplicationCallRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri(locationName: "sipMediaApplicationId")),
+            AWSMemberEncoding(label: "transactionId", location: .uri(locationName: "transactionId"))
+        ]
+
+        /// Arguments made available to the Lambda function as part of the CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs.
+        public let arguments: [String: String]
+        /// The ID of the SIP media application handling the call.
+        public let sipMediaApplicationId: String
+        /// The ID of the call transaction.
+        public let transactionId: String
+
+        public init(arguments: [String: String], sipMediaApplicationId: String, transactionId: String) {
+            self.arguments = arguments
+            self.sipMediaApplicationId = sipMediaApplicationId
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sipMediaApplicationId, name: "sipMediaApplicationId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arguments = "Arguments"
+        }
+    }
+
+    public struct UpdateSipMediaApplicationCallResponse: AWSDecodableShape {
+        public let sipMediaApplicationCall: SipMediaApplicationCall?
+
+        public init(sipMediaApplicationCall: SipMediaApplicationCall? = nil) {
+            self.sipMediaApplicationCall = sipMediaApplicationCall
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sipMediaApplicationCall = "SipMediaApplicationCall"
         }
     }
 

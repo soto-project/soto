@@ -1729,6 +1729,8 @@ extension LexModelsV2 {
         public let intentId: String
         /// The identifier of the language and locale that the slot will be used in. The string must match one of the supported locales. All of the bots, intents, slot types used by the slot must have the same locale. For more information, see Supported languages.
         public let localeId: String
+        /// Indicates whether the slot returns multiple values in one response. Multi-value slots are only available in the en-US locale. If you set this value to true in any other locale, Amazon Lex throws a ValidationException.  If the multipleValuesSetting is not set, the default value is false.
+        public let multipleValuesSetting: MultipleValuesSetting?
         /// Determines how slot values are used in Amazon CloudWatch logs. If the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are obfuscated in the log output. If the value is None, the actual value is present in the log output. The default is to obfuscate values in the CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
         /// The name of the slot. Slot names must be unique within the bot that contains the slot.
@@ -1738,12 +1740,13 @@ extension LexModelsV2 {
         /// Specifies prompts that Amazon Lex sends to the user to elicit a response that provides the value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting
 
-        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, obfuscationSetting: ObfuscationSetting? = nil, slotName: String, slotTypeId: String, valueElicitationSetting: SlotValueElicitationSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotName: String, slotTypeId: String, valueElicitationSetting: SlotValueElicitationSetting) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
             self.intentId = intentId
             self.localeId = localeId
+            self.multipleValuesSetting = multipleValuesSetting
             self.obfuscationSetting = obfuscationSetting
             self.slotName = slotName
             self.slotTypeId = slotTypeId
@@ -1773,6 +1776,7 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case multipleValuesSetting
             case obfuscationSetting
             case slotName
             case slotTypeId
@@ -1793,6 +1797,8 @@ extension LexModelsV2 {
         public let intentId: String?
         /// The language and local specified for the slot.
         public let localeId: String?
+        /// Indicates whether the slot returns multiple values in one response.
+        public let multipleValuesSetting: MultipleValuesSetting?
         /// Indicates whether the slot is configured to obfuscate values in Amazon CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
         /// The unique identifier associated with the slot. Use this to identify the slot when you update or delete it.
@@ -1804,13 +1810,14 @@ extension LexModelsV2 {
         /// The value elicitation settings specified for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, localeId: String? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, localeId: String? = nil, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
             self.intentId = intentId
             self.localeId = localeId
+            self.multipleValuesSetting = multipleValuesSetting
             self.obfuscationSetting = obfuscationSetting
             self.slotId = slotId
             self.slotName = slotName
@@ -1825,6 +1832,7 @@ extension LexModelsV2 {
             case description
             case intentId
             case localeId
+            case multipleValuesSetting
             case obfuscationSetting
             case slotId
             case slotName
@@ -3180,6 +3188,8 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         /// The language and locale specified for the slot.
         public let localeId: String?
+        /// Indicates whether the slot accepts multiple values in a single utterance. If the multipleValuesSetting is not set, the default value is false.
+        public let multipleValuesSetting: MultipleValuesSetting?
         /// Whether slot values are shown in Amazon CloudWatch logs. If the value is None, the actual value of the slot is shown in logs.
         public let obfuscationSetting: ObfuscationSetting?
         /// The unique identifier generated for the slot.
@@ -3191,7 +3201,7 @@ extension LexModelsV2 {
         /// Prompts that Amazon Lex uses to elicit a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -3199,6 +3209,7 @@ extension LexModelsV2 {
             self.intentId = intentId
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
+            self.multipleValuesSetting = multipleValuesSetting
             self.obfuscationSetting = obfuscationSetting
             self.slotId = slotId
             self.slotName = slotName
@@ -3214,6 +3225,7 @@ extension LexModelsV2 {
             case intentId
             case lastUpdatedDateTime
             case localeId
+            case multipleValuesSetting
             case obfuscationSetting
             case slotId
             case slotName
@@ -4638,6 +4650,19 @@ extension LexModelsV2 {
         }
     }
 
+    public struct MultipleValuesSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether a slot can return multiple values. When true, the slot may return more than one value in a response. When false, the slot returns only a single value. Multi-value slots are only available in the en-US locale. If you set this value to true in any other locale, Amazon Lex throws a ValidationException. If the allowMutlipleValues is not set, the default value is false.
+        public let allowMultipleValues: Bool?
+
+        public init(allowMultipleValues: Bool? = nil) {
+            self.allowMultipleValues = allowMultipleValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowMultipleValues
+        }
+    }
+
     public struct ObfuscationSetting: AWSEncodableShape & AWSDecodableShape {
         /// Value that determines whether Amazon Lex obscures slot values in conversation logs. The default is to obscure the values.
         public let obfuscationSettingType: ObfuscationSettingType
@@ -6041,6 +6066,8 @@ extension LexModelsV2 {
         public let intentId: String
         /// The identifier of the language and locale that contains the slot. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
+        /// Determines whether the slot accepts multiple values in one response. Multiple value slots are only available in the en-US locale. If you set this value to true in any other locale, Amazon Lex throws a ValidationException. If the multipleValuesSetting is not set, the default value is false.
+        public let multipleValuesSetting: MultipleValuesSetting?
         /// New settings that determine how slot values are formatted in Amazon CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
         /// The unique identifier for the slot to update.
@@ -6052,12 +6079,13 @@ extension LexModelsV2 {
         /// A new set of prompts that Amazon Lex sends to the user to elicit a response the provides a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting
 
-        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, obfuscationSetting: ObfuscationSetting? = nil, slotId: String, slotName: String, slotTypeId: String, valueElicitationSetting: SlotValueElicitationSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String, slotName: String, slotTypeId: String, valueElicitationSetting: SlotValueElicitationSetting) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
             self.intentId = intentId
             self.localeId = localeId
+            self.multipleValuesSetting = multipleValuesSetting
             self.obfuscationSetting = obfuscationSetting
             self.slotId = slotId
             self.slotName = slotName
@@ -6091,6 +6119,7 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case multipleValuesSetting
             case obfuscationSetting
             case slotName
             case slotTypeId
@@ -6113,6 +6142,8 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         /// The locale that contains the slot.
         public let localeId: String?
+        /// Indicates whether the slot accepts multiple values in one response.
+        public let multipleValuesSetting: MultipleValuesSetting?
         /// The updated setting that determines whether the slot value is obfuscated in the Amazon CloudWatch logs.
         public let obfuscationSetting: ObfuscationSetting?
         /// The unique identifier of the slot that was updated.
@@ -6124,7 +6155,7 @@ extension LexModelsV2 {
         /// The updated prompts that Amazon Lex sends to the user to elicit a response that provides a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, intentId: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String? = nil, slotName: String? = nil, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -6132,6 +6163,7 @@ extension LexModelsV2 {
             self.intentId = intentId
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
+            self.multipleValuesSetting = multipleValuesSetting
             self.obfuscationSetting = obfuscationSetting
             self.slotId = slotId
             self.slotName = slotName
@@ -6147,6 +6179,7 @@ extension LexModelsV2 {
             case intentId
             case lastUpdatedDateTime
             case localeId
+            case multipleValuesSetting
             case obfuscationSetting
             case slotId
             case slotName

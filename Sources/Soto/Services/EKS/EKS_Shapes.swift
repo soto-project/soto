@@ -35,6 +35,7 @@ extension EKS {
         case configurationconflict = "ConfigurationConflict"
         case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
         case internalfailure = "InternalFailure"
+        case unsupportedaddonmodification = "UnsupportedAddonModification"
         public var description: String { return self.rawValue }
     }
 
@@ -79,6 +80,7 @@ extension EKS {
         case securitygroupnotfound = "SecurityGroupNotFound"
         case subnetnotfound = "SubnetNotFound"
         case unknown = "Unknown"
+        case unsupportedaddonmodification = "UnsupportedAddonModification"
         case vpcidnotfound = "VpcIdNotFound"
         public var description: String { return self.rawValue }
     }
@@ -160,6 +162,8 @@ extension EKS {
         case launchtemplatename = "LaunchTemplateName"
         case launchtemplateversion = "LaunchTemplateVersion"
         case maxsize = "MaxSize"
+        case maxunavailable = "MaxUnavailable"
+        case maxunavailablepercentage = "MaxUnavailablePercentage"
         case minsize = "MinSize"
         case platformversion = "PlatformVersion"
         case publicaccesscidrs = "PublicAccessCidrs"
@@ -470,7 +474,7 @@ extension EKS {
         public let platformVersion: String?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide.
         public let resourcesVpcConfig: VpcConfigResponse?
-        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf.
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf.
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
@@ -544,7 +548,7 @@ extension EKS {
             AWSMemberEncoding(label: "clusterName", location: .uri(locationName: "name"))
         ]
 
-        /// The name of the add-on. The name must match one of the names returned by  ListAddons .
+        /// The name of the add-on. The name must match one of the names returned by  DescribeAddonVersions .
         public let addonName: String
         /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
         public let addonVersion: String?
@@ -611,13 +615,13 @@ extension EKS {
         public let encryptionConfig: [EncryptionConfig]?
         /// The Kubernetes network configuration for the cluster.
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
-        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing.
+        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The unique name to give to your cluster.
         public let name: String
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups, but we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
-        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to AWS API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
         /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
@@ -758,7 +762,7 @@ extension EKS {
         public let launchTemplate: LaunchTemplateSpecification?
         /// The unique name to give your node group.
         public let nodegroupName: String
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let nodeRole: String
         /// The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let releaseVersion: String?
@@ -772,10 +776,12 @@ extension EKS {
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group.
         public let taints: [Taint]?
+        /// The node group update configuration.
+        public let updateConfig: NodegroupUpdateConfig?
         /// The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clientRequestToken: String? = CreateNodegroupRequest.idempotencyToken(), clusterName: String, diskSize: Int? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, nodegroupName: String, nodeRole: String, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, scalingConfig: NodegroupScalingConfig? = nil, subnets: [String], tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clientRequestToken = clientRequestToken
@@ -792,6 +798,7 @@ extension EKS {
             self.subnets = subnets
             self.tags = tags
             self.taints = taints
+            self.updateConfig = updateConfig
             self.version = version
         }
 
@@ -811,6 +818,7 @@ extension EKS {
             try self.taints?.forEach {
                 try $0.validate(name: "\(name).taints[]")
             }
+            try self.updateConfig?.validate(name: "\(name).updateConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -829,6 +837,7 @@ extension EKS {
             case subnets
             case tags
             case taints
+            case updateConfig
             case version
         }
     }
@@ -1263,7 +1272,7 @@ extension EKS {
     }
 
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// AWS Key Management Service (AWS KMS) key. Either the ARN or the alias can be used.
+        /// Key Management Service (KMS) key. Either the ARN or the alias can be used.
         public let provider: Provider?
         /// Specifies the resources to be encrypted. The only supported value is "secrets".
         public let resources: [String]?
@@ -1406,11 +1415,11 @@ extension EKS {
     }
 
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your AWS account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
-        /// The AWS resources that are afflicted by this issue.
+        /// The Amazon Web Services resources that are afflicted by this issue.
         public let resourceIds: [String]?
 
         public init(code: NodegroupIssueCode? = nil, message: String? = nil, resourceIds: [String]? = nil) {
@@ -1569,7 +1578,7 @@ extension EKS {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The name of the Amazon EKS cluster that you would like to listFargate profiles in.
+        /// The name of the Amazon EKS cluster that you would like to list Fargate profiles in.
         public let clusterName: String
         /// The maximum number of Fargate profile results returned by ListFargateProfiles in paginated output. When you use this parameter, ListFargateProfiles returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListFargateProfiles request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListFargateProfiles returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -1833,7 +1842,7 @@ extension EKS {
         public let nodegroupArn: String?
         /// The name associated with an Amazon EKS managed node group.
         public let nodegroupName: String?
-        /// The IAM role associated with your node group. The Amazon EKS node kubelet daemon makes calls to AWS APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
+        /// The IAM role associated with your node group. The Amazon EKS node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies.
         public let nodeRole: String?
         /// If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS optimized AMI that the node group was deployed with.
         public let releaseVersion: String?
@@ -1849,12 +1858,14 @@ extension EKS {
         public let subnets: [String]?
         /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
-        /// The Kubernetes taints to be applied to the nodes in the node group when they are created. Effect is one of NoSchedule, PreferNoSchedule, or NoExecute. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes.
+        /// The Kubernetes taints to be applied to the nodes in the node group when they are created. Effect is one of No_Schedule, Prefer_No_Schedule, or No_Execute. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes.
         public let taints: [Taint]?
+        /// The node group update configuration.
+        public let updateConfig: NodegroupUpdateConfig?
         /// The Kubernetes version of the managed node group.
         public let version: String?
 
-        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, version: String? = nil) {
+        public init(amiType: AMITypes? = nil, capacityType: CapacityTypes? = nil, clusterName: String? = nil, createdAt: Date? = nil, diskSize: Int? = nil, health: NodegroupHealth? = nil, instanceTypes: [String]? = nil, labels: [String: String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, modifiedAt: Date? = nil, nodegroupArn: String? = nil, nodegroupName: String? = nil, nodeRole: String? = nil, releaseVersion: String? = nil, remoteAccess: RemoteAccessConfig? = nil, resources: NodegroupResources? = nil, scalingConfig: NodegroupScalingConfig? = nil, status: NodegroupStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, taints: [Taint]? = nil, updateConfig: NodegroupUpdateConfig? = nil, version: String? = nil) {
             self.amiType = amiType
             self.capacityType = capacityType
             self.clusterName = clusterName
@@ -1876,6 +1887,7 @@ extension EKS {
             self.subnets = subnets
             self.tags = tags
             self.taints = taints
+            self.updateConfig = updateConfig
             self.version = version
         }
 
@@ -1901,6 +1913,7 @@ extension EKS {
             case subnets
             case tags
             case taints
+            case updateConfig
             case version
         }
     }
@@ -1940,7 +1953,7 @@ extension EKS {
         public let desiredSize: Int?
         /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service quotas in the Amazon EKS User Guide.
         public let maxSize: Int?
-        /// The minimum number of nodes that the managed node group can scale in to. This number must be greater than zero.
+        /// The minimum number of nodes that the managed node group can scale in to.
         public let minSize: Int?
 
         public init(desiredSize: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
@@ -1959,6 +1972,29 @@ extension EKS {
             case desiredSize
             case maxSize
             case minSize
+        }
+    }
+
+    public struct NodegroupUpdateConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of nodes unavailable at once during a version update. Nodes will be updated in parallel. This value or maxUnavailablePercentage is required to have a value.The maximum number is 100.
+        public let maxUnavailable: Int?
+        /// The maximum percentage of nodes unavailable during a version update. This percentage of nodes will be updated in parallel, up to 100 nodes at once. This value or maxUnavailable is required to have a value.
+        public let maxUnavailablePercentage: Int?
+
+        public init(maxUnavailable: Int? = nil, maxUnavailablePercentage: Int? = nil) {
+            self.maxUnavailable = maxUnavailable
+            self.maxUnavailablePercentage = maxUnavailablePercentage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxUnavailable, name: "maxUnavailable", parent: name, min: 1)
+            try self.validate(self.maxUnavailablePercentage, name: "maxUnavailablePercentage", parent: name, max: 100)
+            try self.validate(self.maxUnavailablePercentage, name: "maxUnavailablePercentage", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxUnavailable
+            case maxUnavailablePercentage
         }
     }
 
@@ -2083,7 +2119,7 @@ extension EKS {
     }
 
     public struct Provider: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key. For more information, see Allowing Users in Other Accounts to Use a KMS key in the AWS Key Management Service Developer Guide.
+        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key. For more information, see Allowing Users in Other Accounts to Use a KMS key in the Key Management Service Developer Guide.
         public let keyArn: String?
 
         public init(keyArn: String? = nil) {
@@ -2096,7 +2132,7 @@ extension EKS {
     }
 
     public struct RemoteAccessConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon EC2 SSH key that provides access for SSH communication with the nodes in the managed node group. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+        /// The Amazon EC2 SSH key that provides access for SSH communication with the nodes in the managed node group. For more information, see Amazon EC2 key pairs and Linux instances in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
         public let ec2SshKey: String?
         /// The security groups that are allowed SSH access (port 22) to the nodes. If you specify an Amazon EC2 SSH key but do not specify a source security group when you create a managed node group, then port 22 on the nodes is opened to the internet (0.0.0.0/0). For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
         public let sourceSecurityGroups: [String]?
@@ -2300,7 +2336,7 @@ extension EKS {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
-        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing.
+        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The name of the Amazon EKS cluster to update.
         public let name: String
@@ -2413,20 +2449,24 @@ extension EKS {
         public let scalingConfig: NodegroupScalingConfig?
         /// The Kubernetes taints to be applied to the nodes in the node group after the update.
         public let taints: UpdateTaintsPayload?
+        /// The node group update configuration.
+        public let updateConfig: NodegroupUpdateConfig?
 
-        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil) {
+        public init(clientRequestToken: String? = UpdateNodegroupConfigRequest.idempotencyToken(), clusterName: String, labels: UpdateLabelsPayload? = nil, nodegroupName: String, scalingConfig: NodegroupScalingConfig? = nil, taints: UpdateTaintsPayload? = nil, updateConfig: NodegroupUpdateConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.labels = labels
             self.nodegroupName = nodegroupName
             self.scalingConfig = scalingConfig
             self.taints = taints
+            self.updateConfig = updateConfig
         }
 
         public func validate(name: String) throws {
             try self.labels?.validate(name: "\(name).labels")
             try self.scalingConfig?.validate(name: "\(name).scalingConfig")
             try self.taints?.validate(name: "\(name).taints")
+            try self.updateConfig?.validate(name: "\(name).updateConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2434,6 +2474,7 @@ extension EKS {
             case labels
             case scalingConfig
             case taints
+            case updateConfig
         }
     }
 
@@ -2545,13 +2586,13 @@ extension EKS {
     }
 
     public struct VpcConfigRequest: AWSEncodableShape {
-        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
-        /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or AWS Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or Fargate pods in the cluster, then ensure that you specify the necessary CIDR blocks. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
-        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:   1.14 Amazon EKS platform version eks.2 and earlier   1.14 Amazon EKS platform version eks.3 and later    For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
+        /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes:   1.14 Amazon EKS platform version eks.2 and earlier   1.14 Amazon EKS platform version eks.3 and later    For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
         public let securityGroupIds: [String]?
         /// Specify subnets for your Amazon EKS nodes. Amazon EKS creates cross-account elastic network interfaces in these subnets to allow communication between your nodes and the Kubernetes control plane.
         public let subnetIds: [String]?
@@ -2576,11 +2617,11 @@ extension EKS {
     public struct VpcConfigResponse: AWSDecodableShape {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public let clusterSecurityGroupId: String?
-        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or AWS Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let endpointPrivateAccess: Bool?
         /// This parameter indicates whether the Amazon EKS public API server endpoint is enabled. If the Amazon EKS public API server endpoint is disabled, your cluster's Kubernetes API server can only receive requests that originate from within the cluster VPC.
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the listed CIDR blocks is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or AWS Fargate pods in the cluster, then ensure that the necessary CIDR blocks are listed. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the listed CIDR blocks is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access and you have nodes or Fargate pods in the cluster, then ensure that the necessary CIDR blocks are listed. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
         /// The security groups associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Kubernetes control plane.
         public let securityGroupIds: [String]?

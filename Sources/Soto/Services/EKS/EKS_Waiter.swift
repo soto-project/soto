@@ -92,6 +92,40 @@ extension EKS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    public func waitUntilFargateProfileActive(
+        _ input: DescribeFargateProfileRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("fargateProfile.status", expected: "CREATE_FAILED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("fargateProfile.status", expected: "ACTIVE")),
+            ],
+            minDelayTime: .seconds(10),
+            command: describeFargateProfile
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilFargateProfileDeleted(
+        _ input: DescribeFargateProfileRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("fargateProfile.status", expected: "DELETE_FAILED")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+            ],
+            minDelayTime: .seconds(30),
+            command: describeFargateProfile
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func waitUntilNodegroupActive(
         _ input: DescribeNodegroupRequest,
         maxWaitTime: TimeAmount? = nil,

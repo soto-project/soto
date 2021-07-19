@@ -63,6 +63,11 @@ public struct SageMakerFeatureStoreRuntime: AWSService {
 
     // MARK: API Calls
 
+    /// Retrieves a batch of Records from a FeatureGroup.
+    public func batchGetRecord(_ input: BatchGetRecordRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetRecordResponse> {
+        return self.client.execute(operation: "BatchGetRecord", path: "/BatchGetRecord", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a Record from a FeatureGroup. A new record will show up in the OfflineStore when the DeleteRecord API is called. This record will have a value of True in the is_deleted column.
     @discardableResult public func deleteRecord(_ input: DeleteRecordRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteRecord", path: "/FeatureGroup/{FeatureGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

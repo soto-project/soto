@@ -75,7 +75,7 @@ public struct ACMErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The certificate request is in process and the certificate in your account has not yet been issued.
     public static var requestInProgressException: Self { .init(.requestInProgressException) }
-    /// The certificate is in use by another AWS service in the caller's account. Remove the association and try again.
+    /// The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
@@ -85,7 +85,7 @@ public struct ACMErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request contains too many tags. Try the request again with fewer tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The supplied input failed to satisfy constraints of an AWS service.
+    /// The supplied input failed to satisfy constraints of an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

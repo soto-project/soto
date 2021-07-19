@@ -20,6 +20,12 @@ import SotoCore
 extension CodeGuruReviewer {
     // MARK: Enums
 
+    public enum AnalysisType: String, CustomStringConvertible, Codable {
+        case codequality = "CodeQuality"
+        case security = "Security"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionOption: String, CustomStringConvertible, Codable {
         case awsOwnedCmk = "AWS_OWNED_CMK"
         case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
@@ -39,12 +45,27 @@ extension CodeGuruReviewer {
         case codecommit = "CodeCommit"
         case github = "GitHub"
         case githubenterpriseserver = "GitHubEnterpriseServer"
+        case s3bucket = "S3Bucket"
         public var description: String { return self.rawValue }
     }
 
     public enum Reaction: String, CustomStringConvertible, Codable {
         case thumbsdown = "ThumbsDown"
         case thumbsup = "ThumbsUp"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationCategory: String, CustomStringConvertible, Codable {
+        case awsbestpractices = "AWSBestPractices"
+        case awscloudformationissues = "AWSCloudFormationIssues"
+        case codemaintenanceissues = "CodeMaintenanceIssues"
+        case concurrencyissues = "ConcurrencyIssues"
+        case duplicatecode = "DuplicateCode"
+        case inputvalidations = "InputValidations"
+        case javabestpractices = "JavaBestPractices"
+        case pythonbestpractices = "PythonBestPractices"
+        case resourceleaks = "ResourceLeaks"
+        case securityissues = "SecurityIssues"
         public var description: String { return self.rawValue }
     }
 
@@ -60,6 +81,13 @@ extension CodeGuruReviewer {
     public enum `Type`: String, CustomStringConvertible, Codable {
         case pullrequest = "PullRequest"
         case repositoryanalysis = "RepositoryAnalysis"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VendorName: String, CustomStringConvertible, Codable {
+        case github = "GitHub"
+        case gitlab = "GitLab"
+        case natives3 = "NativeS3"
         public var description: String { return self.rawValue }
     }
 
@@ -120,6 +148,56 @@ extension CodeGuruReviewer {
         }
     }
 
+    public struct BranchDiffSourceCodeType: AWSEncodableShape & AWSDecodableShape {
+        /// The destination branch for a diff in an associated repository.
+        public let destinationBranchName: String
+        /// The source branch for a diff in an associated repository.
+        public let sourceBranchName: String
+
+        public init(destinationBranchName: String, sourceBranchName: String) {
+            self.destinationBranchName = destinationBranchName
+            self.sourceBranchName = sourceBranchName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationBranchName, name: "destinationBranchName", parent: name, max: 256)
+            try self.validate(self.destinationBranchName, name: "destinationBranchName", parent: name, min: 1)
+            try self.validate(self.sourceBranchName, name: "sourceBranchName", parent: name, max: 256)
+            try self.validate(self.sourceBranchName, name: "sourceBranchName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationBranchName = "DestinationBranchName"
+            case sourceBranchName = "SourceBranchName"
+        }
+    }
+
+    public struct CodeArtifacts: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 object key for a build artifacts .zip file that contains .jar or .class files. This is required for a code review with security analysis. For more information, see Create code reviews with security analysis in the Amazon CodeGuru Reviewer User Guide.
+        public let buildArtifactsObjectKey: String?
+        /// The S3 object key for a source code .zip file. This is required for all code reviews.
+        public let sourceCodeArtifactsObjectKey: String
+
+        public init(buildArtifactsObjectKey: String? = nil, sourceCodeArtifactsObjectKey: String) {
+            self.buildArtifactsObjectKey = buildArtifactsObjectKey
+            self.sourceCodeArtifactsObjectKey = sourceCodeArtifactsObjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buildArtifactsObjectKey, name: "buildArtifactsObjectKey", parent: name, max: 1024)
+            try self.validate(self.buildArtifactsObjectKey, name: "buildArtifactsObjectKey", parent: name, min: 1)
+            try self.validate(self.buildArtifactsObjectKey, name: "buildArtifactsObjectKey", parent: name, pattern: "^\\S(.*\\S)?$")
+            try self.validate(self.sourceCodeArtifactsObjectKey, name: "sourceCodeArtifactsObjectKey", parent: name, max: 1024)
+            try self.validate(self.sourceCodeArtifactsObjectKey, name: "sourceCodeArtifactsObjectKey", parent: name, min: 1)
+            try self.validate(self.sourceCodeArtifactsObjectKey, name: "sourceCodeArtifactsObjectKey", parent: name, pattern: "^\\S(.*\\S)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buildArtifactsObjectKey = "BuildArtifactsObjectKey"
+            case sourceCodeArtifactsObjectKey = "SourceCodeArtifactsObjectKey"
+        }
+    }
+
     public struct CodeCommitRepository: AWSEncodableShape {
         /// The name of the AWS CodeCommit repository. For more information, see repositoryName in the AWS CodeCommit API Reference.
         public let name: String
@@ -140,6 +218,8 @@ extension CodeGuruReviewer {
     }
 
     public struct CodeReview: AWSDecodableShape {
+        /// They types of analysis performed during a repository analysis or a pull request review. You can specify either Security, CodeQuality, or both.
+        public let analysisTypes: [AnalysisType]?
         ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  that contains the reviewed source code. You can retrieve associated repository ARNs by calling  ListRepositoryAssociations .
         public let associationArn: String?
         /// The Amazon Resource Name (ARN) of the  CodeReview  object.
@@ -152,7 +232,7 @@ extension CodeGuruReviewer {
         public let metrics: Metrics?
         ///  The name of the code review.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
         public let owner: String?
         ///  The type of repository that contains the reviewed code (for example, GitHub or Bitbucket).
         public let providerType: ProviderType?
@@ -169,7 +249,8 @@ extension CodeGuruReviewer {
         ///  The type of code review.
         public let type: `Type`?
 
-        public init(associationArn: String? = nil, codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+        public init(analysisTypes: [AnalysisType]? = nil, associationArn: String? = nil, codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+            self.analysisTypes = analysisTypes
             self.associationArn = associationArn
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
@@ -187,6 +268,7 @@ extension CodeGuruReviewer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisTypes = "AnalysisTypes"
             case associationArn = "AssociationArn"
             case codeReviewArn = "CodeReviewArn"
             case createdTimeStamp = "CreatedTimeStamp"
@@ -215,7 +297,7 @@ extension CodeGuruReviewer {
         public let metricsSummary: MetricsSummary?
         ///  The name of the code review.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
         public let owner: String?
         ///  The provider type of the repository association.
         public let providerType: ProviderType?
@@ -223,12 +305,13 @@ extension CodeGuruReviewer {
         public let pullRequestId: String?
         ///  The name of the repository.
         public let repositoryName: String?
+        public let sourceCodeType: SourceCodeType?
         ///  The state of the code review.  The valid code review states are:    Completed: The code review is complete.     Pending: The code review started and has not completed or failed.     Failed: The code review failed.     Deleting: The code review is being deleted.
         public let state: JobState?
         ///  The type of the code review.
         public let type: `Type`?
 
-        public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, state: JobState? = nil, type: `Type`? = nil) {
+        public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, type: `Type`? = nil) {
             self.codeReviewArn = codeReviewArn
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
@@ -238,6 +321,7 @@ extension CodeGuruReviewer {
             self.providerType = providerType
             self.pullRequestId = pullRequestId
             self.repositoryName = repositoryName
+            self.sourceCodeType = sourceCodeType
             self.state = state
             self.type = type
         }
@@ -252,16 +336,20 @@ extension CodeGuruReviewer {
             case providerType = "ProviderType"
             case pullRequestId = "PullRequestId"
             case repositoryName = "RepositoryName"
+            case sourceCodeType = "SourceCodeType"
             case state = "State"
             case type = "Type"
         }
     }
 
     public struct CodeReviewType: AWSEncodableShape {
+        /// They types of analysis performed during a repository analysis or a pull request review. You can specify either Security, CodeQuality, or both.
+        public let analysisTypes: [AnalysisType]?
         ///  A code review that analyzes all code under a specified branch in an associated repository. The associated repository is specified using its ARN in  CreateCodeReview .
         public let repositoryAnalysis: RepositoryAnalysis
 
-        public init(repositoryAnalysis: RepositoryAnalysis) {
+        public init(analysisTypes: [AnalysisType]? = nil, repositoryAnalysis: RepositoryAnalysis) {
+            self.analysisTypes = analysisTypes
             self.repositoryAnalysis = repositoryAnalysis
         }
 
@@ -270,23 +358,37 @@ extension CodeGuruReviewer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisTypes = "AnalysisTypes"
             case repositoryAnalysis = "RepositoryAnalysis"
         }
     }
 
-    public struct CommitDiffSourceCodeType: AWSDecodableShape {
-        ///  The SHA of the destination commit used to generate a commit diff.
+    public struct CommitDiffSourceCodeType: AWSEncodableShape & AWSDecodableShape {
+        ///  The SHA of the destination commit used to generate a commit diff. This field is required for a pull request code review.
         public let destinationCommit: String?
-        ///  The SHA of the source commit used to generate a commit diff.
+        /// The SHA of the merge base of a commit.
+        public let mergeBaseCommit: String?
+        ///  The SHA of the source commit used to generate a commit diff. This field is required for a pull request code review.
         public let sourceCommit: String?
 
-        public init(destinationCommit: String? = nil, sourceCommit: String? = nil) {
+        public init(destinationCommit: String? = nil, mergeBaseCommit: String? = nil, sourceCommit: String? = nil) {
             self.destinationCommit = destinationCommit
+            self.mergeBaseCommit = mergeBaseCommit
             self.sourceCommit = sourceCommit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationCommit, name: "destinationCommit", parent: name, max: 64)
+            try self.validate(self.destinationCommit, name: "destinationCommit", parent: name, min: 6)
+            try self.validate(self.mergeBaseCommit, name: "mergeBaseCommit", parent: name, max: 64)
+            try self.validate(self.mergeBaseCommit, name: "mergeBaseCommit", parent: name, min: 6)
+            try self.validate(self.sourceCommit, name: "sourceCommit", parent: name, max: 64)
+            try self.validate(self.sourceCommit, name: "sourceCommit", parent: name, min: 6)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationCommit = "DestinationCommit"
+            case mergeBaseCommit = "MergeBaseCommit"
             case sourceCommit = "SourceCommit"
         }
     }
@@ -494,6 +596,32 @@ extension CodeGuruReviewer {
         private enum CodingKeys: String, CodingKey {
             case repositoryAssociation = "RepositoryAssociation"
             case tags = "Tags"
+        }
+    }
+
+    public struct EventInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the event. The possible names are pull_request, workflow_dispatch, schedule, and push
+        public let name: String?
+        /// The state of an event. The state might be open, closed, or another state.
+        public let state: String?
+
+        public init(name: String? = nil, state: String? = nil) {
+            self.name = name
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ \\-A-Z_a-z]+$")
+            try self.validate(self.state, name: "state", parent: name, max: 32)
+            try self.validate(self.state, name: "state", parent: name, min: 1)
+            try self.validate(self.state, name: "state", parent: name, pattern: "^[ \\-A-Z_a-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case state = "State"
         }
     }
 
@@ -951,15 +1079,18 @@ extension CodeGuruReviewer {
         public let endLine: Int?
         /// Name of the file on which a recommendation is provided.
         public let filePath: String?
+        /// The type of a recommendation.
+        public let recommendationCategory: RecommendationCategory?
         ///  The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
         public let recommendationId: String?
         ///  Start line from where the recommendation is applicable in the source commit or source branch.
         public let startLine: Int?
 
-        public init(description: String? = nil, endLine: Int? = nil, filePath: String? = nil, recommendationId: String? = nil, startLine: Int? = nil) {
+        public init(description: String? = nil, endLine: Int? = nil, filePath: String? = nil, recommendationCategory: RecommendationCategory? = nil, recommendationId: String? = nil, startLine: Int? = nil) {
             self.description = description
             self.endLine = endLine
             self.filePath = filePath
+            self.recommendationCategory = recommendationCategory
             self.recommendationId = recommendationId
             self.startLine = startLine
         }
@@ -968,6 +1099,7 @@ extension CodeGuruReviewer {
             case description = "Description"
             case endLine = "EndLine"
             case filePath = "FilePath"
+            case recommendationCategory = "RecommendationCategory"
             case recommendationId = "RecommendationId"
             case startLine = "StartLine"
         }
@@ -980,40 +1112,48 @@ extension CodeGuruReviewer {
         public let codeCommit: CodeCommitRepository?
         ///  Information about a GitHub Enterprise Server repository.
         public let gitHubEnterpriseServer: ThirdPartySourceRepository?
+        public let s3Bucket: S3Repository?
 
-        public init(bitbucket: ThirdPartySourceRepository? = nil, codeCommit: CodeCommitRepository? = nil, gitHubEnterpriseServer: ThirdPartySourceRepository? = nil) {
+        public init(bitbucket: ThirdPartySourceRepository? = nil, codeCommit: CodeCommitRepository? = nil, gitHubEnterpriseServer: ThirdPartySourceRepository? = nil, s3Bucket: S3Repository? = nil) {
             self.bitbucket = bitbucket
             self.codeCommit = codeCommit
             self.gitHubEnterpriseServer = gitHubEnterpriseServer
+            self.s3Bucket = s3Bucket
         }
 
         public func validate(name: String) throws {
             try self.bitbucket?.validate(name: "\(name).bitbucket")
             try self.codeCommit?.validate(name: "\(name).codeCommit")
             try self.gitHubEnterpriseServer?.validate(name: "\(name).gitHubEnterpriseServer")
+            try self.s3Bucket?.validate(name: "\(name).s3Bucket")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bitbucket = "Bitbucket"
             case codeCommit = "CodeCommit"
             case gitHubEnterpriseServer = "GitHubEnterpriseServer"
+            case s3Bucket = "S3Bucket"
         }
     }
 
     public struct RepositoryAnalysis: AWSEncodableShape {
         ///  A  SourceCodeType  that specifies the tip of a branch in an associated repository.
-        public let repositoryHead: RepositoryHeadSourceCodeType
+        public let repositoryHead: RepositoryHeadSourceCodeType?
+        public let sourceCodeType: SourceCodeType?
 
-        public init(repositoryHead: RepositoryHeadSourceCodeType) {
+        public init(repositoryHead: RepositoryHeadSourceCodeType? = nil, sourceCodeType: SourceCodeType? = nil) {
             self.repositoryHead = repositoryHead
+            self.sourceCodeType = sourceCodeType
         }
 
         public func validate(name: String) throws {
-            try self.repositoryHead.validate(name: "\(name).repositoryHead")
+            try self.repositoryHead?.validate(name: "\(name).repositoryHead")
+            try self.sourceCodeType?.validate(name: "\(name).sourceCodeType")
         }
 
         private enum CodingKeys: String, CodingKey {
             case repositoryHead = "RepositoryHead"
+            case sourceCodeType = "SourceCodeType"
         }
     }
 
@@ -1032,16 +1172,17 @@ extension CodeGuruReviewer {
         public let lastUpdatedTimeStamp: Date?
         /// The name of the repository.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
+        public let s3RepositoryDetails: S3RepositoryDetails?
         /// The state of the repository association. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.     Disassociated: CodeGuru Reviewer successfully disassociated the repository. You can create a new association with this repository if you want to review source code in it later. You can control access to code reviews created in an associated repository with tags after it has been disassociated. For more information, see Using tags to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
         public let state: RepositoryAssociationState?
         /// A description of why the repository association is in the current state.
         public let stateReason: String?
 
-        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: Date? = nil, kMSKeyDetails: KMSKeyDetails? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
+        public init(associationArn: String? = nil, associationId: String? = nil, connectionArn: String? = nil, createdTimeStamp: Date? = nil, kMSKeyDetails: KMSKeyDetails? = nil, lastUpdatedTimeStamp: Date? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, s3RepositoryDetails: S3RepositoryDetails? = nil, state: RepositoryAssociationState? = nil, stateReason: String? = nil) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.connectionArn = connectionArn
@@ -1051,6 +1192,7 @@ extension CodeGuruReviewer {
             self.name = name
             self.owner = owner
             self.providerType = providerType
+            self.s3RepositoryDetails = s3RepositoryDetails
             self.state = state
             self.stateReason = stateReason
         }
@@ -1065,6 +1207,7 @@ extension CodeGuruReviewer {
             case name = "Name"
             case owner = "Owner"
             case providerType = "ProviderType"
+            case s3RepositoryDetails = "S3RepositoryDetails"
             case state = "State"
             case stateReason = "StateReason"
         }
@@ -1081,7 +1224,7 @@ extension CodeGuruReviewer {
         public let lastUpdatedTimeStamp: Date?
         /// The name of the repository association.
         public let name: String?
-        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository.
+        /// The owner of the repository. For an AWS CodeCommit repository, this is the AWS account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or AWS account ID.
         public let owner: String?
         /// The provider type of the repository association.
         public let providerType: ProviderType?
@@ -1129,19 +1272,147 @@ extension CodeGuruReviewer {
         }
     }
 
-    public struct SourceCodeType: AWSDecodableShape {
-        ///  A  SourceCodeType  that specifies a commit diff created by a pull request on an associated repository.
-        public let commitDiff: CommitDiffSourceCodeType?
-        public let repositoryHead: RepositoryHeadSourceCodeType?
+    public struct RequestMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the event associated with a code review.
+        public let eventInfo: EventInfo?
+        /// An identifier, such as a name or account ID, that is associated with the requester. The Requester is used to capture the author/actor name of the event request.
+        public let requester: String?
+        /// The ID of the request. This is required for a pull request code review.
+        public let requestId: String?
+        /// The name of the repository vendor used to upload code to an S3 bucket for a CI/CD code review. For example, if code and artifacts are uploaded to an S3 bucket for a CI/CD code review by GitHub scripts from a GitHub repository, then the repository association's ProviderType is S3Bucket and the CI/CD repository vendor name is GitHub. For more information, see the definition for ProviderType in RepositoryAssociation.
+        public let vendorName: VendorName?
 
-        public init(commitDiff: CommitDiffSourceCodeType? = nil, repositoryHead: RepositoryHeadSourceCodeType? = nil) {
-            self.commitDiff = commitDiff
-            self.repositoryHead = repositoryHead
+        public init(eventInfo: EventInfo? = nil, requester: String? = nil, requestId: String? = nil, vendorName: VendorName? = nil) {
+            self.eventInfo = eventInfo
+            self.requester = requester
+            self.requestId = requestId
+            self.vendorName = vendorName
+        }
+
+        public func validate(name: String) throws {
+            try self.eventInfo?.validate(name: "\(name).eventInfo")
+            try self.validate(self.requester, name: "requester", parent: name, max: 100)
+            try self.validate(self.requester, name: "requester", parent: name, min: 1)
+            try self.validate(self.requester, name: "requester", parent: name, pattern: "^\\S(.*\\S)?$")
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 64)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventInfo = "EventInfo"
+            case requester = "Requester"
+            case requestId = "RequestId"
+            case vendorName = "VendorName"
+        }
+    }
+
+    public struct S3BucketRepository: AWSEncodableShape & AWSDecodableShape {
+        ///  An S3RepositoryDetails object that specifies the name of an S3 bucket and a CodeArtifacts object. The CodeArtifacts object includes the S3 object keys for a source code .zip file and for a build artifacts .zip file.
+        public let details: S3RepositoryDetails?
+        ///  The name of the repository when the ProviderType is S3Bucket.
+        public let name: String
+
+        public init(details: S3RepositoryDetails? = nil, name: String) {
+            self.details = details
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.details?.validate(name: "\(name).details")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case name = "Name"
+        }
+    }
+
+    public struct S3Repository: AWSEncodableShape {
+        /// The name of the S3 bucket used for associating a new S3 repository. It must begin with codeguru-reviewer-.
+        public let bucketName: String
+        ///  The name of the repository in the S3 bucket.
+        public let name: String
+
+        public init(bucketName: String, name: String) {
+            self.bucketName = bucketName
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^\\S(.*\\S)?$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\S[\\w.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case name = "Name"
+        }
+    }
+
+    public struct S3RepositoryDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the S3 bucket used for associating a new S3 repository. It must begin with codeguru-reviewer-.
+        public let bucketName: String?
+        ///  A CodeArtifacts object. The CodeArtifacts object includes the S3 object key for a source code .zip file and for a build artifacts .zip file that contains .jar or .class files.
+        public let codeArtifacts: CodeArtifacts?
+
+        public init(bucketName: String? = nil, codeArtifacts: CodeArtifacts? = nil) {
+            self.bucketName = bucketName
+            self.codeArtifacts = codeArtifacts
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^\\S(.*\\S)?$")
+            try self.codeArtifacts?.validate(name: "\(name).codeArtifacts")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case codeArtifacts = "CodeArtifacts"
+        }
+    }
+
+    public struct SourceCodeType: AWSEncodableShape & AWSDecodableShape {
+        ///  A type of  SourceCodeType  that specifies a source branch name and a destination branch name in an associated repository.
+        public let branchDiff: BranchDiffSourceCodeType?
+        ///  A  SourceCodeType  that specifies a commit diff created by a pull request on an associated repository.
+        public let commitDiff: CommitDiffSourceCodeType?
+        public let repositoryHead: RepositoryHeadSourceCodeType?
+        /// Metadata that is associated with a code review. This applies to any type of code review supported by CodeGuru Reviewer. The RequestMetadaa field captures any event metadata. For example, it might capture metadata associated with an event trigger, such as a push or a pull request.
+        public let requestMetadata: RequestMetadata?
+        ///  Information about an associated repository in an S3 bucket that includes its name and an S3RepositoryDetails object. The S3RepositoryDetails object includes the name of an S3 bucket, an S3 key for a source code .zip file, and an S3 key for a build artifacts .zip file. S3BucketRepository is required in  SourceCodeType  for S3BucketRepository based code reviews.
+        public let s3BucketRepository: S3BucketRepository?
+
+        public init(branchDiff: BranchDiffSourceCodeType? = nil, commitDiff: CommitDiffSourceCodeType? = nil, repositoryHead: RepositoryHeadSourceCodeType? = nil, requestMetadata: RequestMetadata? = nil, s3BucketRepository: S3BucketRepository? = nil) {
+            self.branchDiff = branchDiff
+            self.commitDiff = commitDiff
+            self.repositoryHead = repositoryHead
+            self.requestMetadata = requestMetadata
+            self.s3BucketRepository = s3BucketRepository
+        }
+
+        public func validate(name: String) throws {
+            try self.branchDiff?.validate(name: "\(name).branchDiff")
+            try self.commitDiff?.validate(name: "\(name).commitDiff")
+            try self.repositoryHead?.validate(name: "\(name).repositoryHead")
+            try self.requestMetadata?.validate(name: "\(name).requestMetadata")
+            try self.s3BucketRepository?.validate(name: "\(name).s3BucketRepository")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchDiff = "BranchDiff"
             case commitDiff = "CommitDiff"
             case repositoryHead = "RepositoryHead"
+            case requestMetadata = "RequestMetadata"
+            case s3BucketRepository = "S3BucketRepository"
         }
     }
 
@@ -1185,7 +1456,7 @@ extension CodeGuruReviewer {
         public let connectionArn: String
         ///  The name of the third party source repository.
         public let name: String
-        ///  The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket repository, this is the username for the account that owns the repository.
+        ///  The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, this can be the username or AWS account ID.
         public let owner: String
 
         public init(connectionArn: String, name: String, owner: String) {

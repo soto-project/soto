@@ -92,6 +92,16 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an empty shared folder.
+    public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFolderResponse> {
+        return self.client.execute(operation: "CreateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
+    public func createFolderMembership(_ input: CreateFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFolderMembershipResponse> {
+        return self.client.execute(operation: "CreateFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an Amazon QuickSight group. The permissions resource is arn:aws:quicksight:us-east-1:&lt;relevant-aws-account-id&gt;:group/default/&lt;group-name&gt; . The response is a group object.
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGroupResponse> {
         return self.client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -160,6 +170,16 @@ public struct QuickSight: AWSService {
     /// Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataSourceResponse> {
         return self.client.execute(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an empty folder.
+    public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFolderResponse> {
+        return self.client.execute(operation: "DeleteFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
+    public func deleteFolderMembership(_ input: DeleteFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFolderMembershipResponse> {
+        return self.client.execute(operation: "DeleteFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a user group from Amazon QuickSight.
@@ -262,6 +282,21 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes a folder.
+    public func describeFolder(_ input: DescribeFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderResponse> {
+        return self.client.execute(operation: "DescribeFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes permissions for a folder.
+    public func describeFolderPermissions(_ input: DescribeFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderPermissionsResponse> {
+        return self.client.execute(operation: "DescribeFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
+    public func describeFolderResolvedPermissions(_ input: DescribeFolderResolvedPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFolderResolvedPermissionsResponse> {
+        return self.client.execute(operation: "DescribeFolderResolvedPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/resolved-permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGroupResponse> {
         return self.client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -350,6 +385,16 @@ public struct QuickSight: AWSService {
     /// Lists data sources in current AWS Region that belong to this AWS account.
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataSourcesResponse> {
         return self.client.execute(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
+    public func listFolderMembers(_ input: ListFolderMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFolderMembersResponse> {
+        return self.client.execute(operation: "ListFolderMembers", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all folders in an account.
+    public func listFolders(_ input: ListFoldersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFoldersResponse> {
+        return self.client.execute(operation: "ListFolders", path: "/accounts/{AwsAccountId}/folders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists member users in a group.
@@ -447,6 +492,11 @@ public struct QuickSight: AWSService {
         return self.client.execute(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Searches the subfolders in a folder.
+    public func searchFolders(_ input: SearchFoldersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchFoldersResponse> {
+        return self.client.execute(operation: "SearchFolders", path: "/accounts/{AwsAccountId}/search/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Assigns one or more tags (key-value pairs) to the specified QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. QuickSight supports tagging on data set, data source, dashboard, and template.  Tagging for QuickSight works in a similar way to tagging for other AWS services, except for the following:   You can't use tags to track AWS costs for QuickSight. This restriction is because QuickSight costs are based on users and SPICE capacity, which aren't taggable resources.   QuickSight doesn't currently support the Tag Editor for AWS Resource Groups.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -510,6 +560,16 @@ public struct QuickSight: AWSService {
     /// Updates the permissions to a data source.
     public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataSourcePermissionsResponse> {
         return self.client.execute(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the name of a folder.
+    public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFolderResponse> {
+        return self.client.execute(operation: "UpdateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates permissions of a folder.
+    public func updateFolderPermissions(_ input: UpdateFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFolderPermissionsResponse> {
+        return self.client.execute(operation: "UpdateFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Changes a group description.

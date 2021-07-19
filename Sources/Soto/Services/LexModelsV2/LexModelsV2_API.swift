@@ -101,7 +101,7 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "CreateResourcePolicy", path: "/policy/{resourceArn}/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can create a resource policy statement that allows cross-account access.
+    /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access.
     public func createResourcePolicyStatement(_ input: CreateResourcePolicyStatementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourcePolicyStatementResponse> {
         return self.client.execute(operation: "CreateResourcePolicyStatement", path: "/policy/{resourceArn}/statements/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -316,7 +316,7 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "UpdateBotLocale", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the password used to encrypt an export zip archive.
+    /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the operation.
     public func updateExport(_ input: UpdateExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateExportResponse> {
         return self.client.execute(operation: "UpdateExport", path: "/exports/{exportId}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

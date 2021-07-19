@@ -20,6 +20,31 @@ import SotoCore
 extension WellArchitected {
     // MARK: Enums
 
+    public enum AnswerReason: String, CustomStringConvertible, Codable {
+        case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
+        case businessPriorities = "BUSINESS_PRIORITIES"
+        case none = "NONE"
+        case other = "OTHER"
+        case outOfScope = "OUT_OF_SCOPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChoiceReason: String, CustomStringConvertible, Codable {
+        case architectureConstraints = "ARCHITECTURE_CONSTRAINTS"
+        case businessPriorities = "BUSINESS_PRIORITIES"
+        case none = "NONE"
+        case other = "OTHER"
+        case outOfScope = "OUT_OF_SCOPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChoiceStatus: String, CustomStringConvertible, Codable {
+        case notApplicable = "NOT_APPLICABLE"
+        case selected = "SELECTED"
+        case unselected = "UNSELECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DifferenceStatus: String, CustomStringConvertible, Codable {
         case deleted = "DELETED"
         case new = "NEW"
@@ -88,6 +113,8 @@ extension WellArchitected {
     // MARK: Shapes
 
     public struct Answer: AWSDecodableShape {
+        /// A list of selected choices to a question in your workload.
+        public let choiceAnswers: [ChoiceAnswer]?
         public let choices: [Choice]?
         public let helpfulResourceUrl: String?
         public let improvementPlanUrl: String?
@@ -97,10 +124,13 @@ extension WellArchitected {
         public let questionDescription: String?
         public let questionId: String?
         public let questionTitle: String?
+        /// The reason why the question is not applicable to your workload.
+        public let reason: AnswerReason?
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choices: [Choice]? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+            self.choiceAnswers = choiceAnswers
             self.choices = choices
             self.helpfulResourceUrl = helpfulResourceUrl
             self.improvementPlanUrl = improvementPlanUrl
@@ -110,11 +140,13 @@ extension WellArchitected {
             self.questionDescription = questionDescription
             self.questionId = questionId
             self.questionTitle = questionTitle
+            self.reason = reason
             self.risk = risk
             self.selectedChoices = selectedChoices
         }
 
         private enum CodingKeys: String, CodingKey {
+            case choiceAnswers = "ChoiceAnswers"
             case choices = "Choices"
             case helpfulResourceUrl = "HelpfulResourceUrl"
             case improvementPlanUrl = "ImprovementPlanUrl"
@@ -124,36 +156,45 @@ extension WellArchitected {
             case questionDescription = "QuestionDescription"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
+            case reason = "Reason"
             case risk = "Risk"
             case selectedChoices = "SelectedChoices"
         }
     }
 
     public struct AnswerSummary: AWSDecodableShape {
+        /// A list of selected choices to a question in your workload.
+        public let choiceAnswerSummaries: [ChoiceAnswerSummary]?
         public let choices: [Choice]?
         public let isApplicable: Bool?
         public let pillarId: String?
         public let questionId: String?
         public let questionTitle: String?
+        /// The reason why a choice is non-applicable to a question in your workload.
+        public let reason: AnswerReason?
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswerSummaries: [ChoiceAnswerSummary]? = nil, choices: [Choice]? = nil, isApplicable: Bool? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+            self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
             self.isApplicable = isApplicable
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
+            self.reason = reason
             self.risk = risk
             self.selectedChoices = selectedChoices
         }
 
         private enum CodingKeys: String, CodingKey {
+            case choiceAnswerSummaries = "ChoiceAnswerSummaries"
             case choices = "Choices"
             case isApplicable = "IsApplicable"
             case pillarId = "PillarId"
             case questionId = "QuestionId"
             case questionTitle = "QuestionTitle"
+            case reason = "Reason"
             case risk = "Risk"
             case selectedChoices = "SelectedChoices"
         }
@@ -201,6 +242,75 @@ extension WellArchitected {
             case choiceId = "ChoiceId"
             case description = "Description"
             case title = "Title"
+        }
+    }
+
+    public struct ChoiceAnswer: AWSDecodableShape {
+        public let choiceId: String?
+        /// The notes associated with a choice.
+        public let notes: String?
+        /// The reason why a choice is non-applicable to a question in your workload.
+        public let reason: ChoiceReason?
+        /// The status of a choice.
+        public let status: ChoiceStatus?
+
+        public init(choiceId: String? = nil, notes: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus? = nil) {
+            self.choiceId = choiceId
+            self.notes = notes
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceId = "ChoiceId"
+            case notes = "Notes"
+            case reason = "Reason"
+            case status = "Status"
+        }
+    }
+
+    public struct ChoiceAnswerSummary: AWSDecodableShape {
+        public let choiceId: String?
+        /// The reason why a choice is non-applicable to a question in your workload.
+        public let reason: ChoiceReason?
+        /// The status of a choice.
+        public let status: ChoiceStatus?
+
+        public init(choiceId: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus? = nil) {
+            self.choiceId = choiceId
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceId = "ChoiceId"
+            case reason = "Reason"
+            case status = "Status"
+        }
+    }
+
+    public struct ChoiceUpdate: AWSEncodableShape {
+        /// The notes associated with a choice.
+        public let notes: String?
+        /// The reason why a choice is non-applicable to a question in your workload.
+        public let reason: ChoiceReason?
+        /// The status of a choice.
+        public let status: ChoiceStatus
+
+        public init(notes: String? = nil, reason: ChoiceReason? = nil, status: ChoiceStatus) {
+            self.notes = notes
+            self.reason = reason
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notes, name: "notes", parent: name, max: 250)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notes = "Notes"
+            case reason = "Reason"
+            case status = "Status"
         }
     }
 
@@ -1558,7 +1668,7 @@ extension WellArchitected {
             AWSMemberEncoding(label: "workloadArn", location: .uri(locationName: "WorkloadArn"))
         ]
 
-        /// The keys of the tags to be removed.
+        /// A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource.
         public let tagKeys: [String]
         public let workloadArn: String
 
@@ -1590,23 +1700,34 @@ extension WellArchitected {
             AWSMemberEncoding(label: "workloadId", location: .uri(locationName: "WorkloadId"))
         ]
 
+        /// A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated.
+        public let choiceUpdates: [String: ChoiceUpdate]?
         public let isApplicable: Bool?
         public let lensAlias: String
         public let notes: String?
         public let questionId: String
+        /// The reason why a question is not applicable to your workload.
+        public let reason: AnswerReason?
         public let selectedChoices: [String]?
         public let workloadId: String
 
-        public init(isApplicable: Bool? = nil, lensAlias: String, notes: String? = nil, questionId: String, selectedChoices: [String]? = nil, workloadId: String) {
+        public init(choiceUpdates: [String: ChoiceUpdate]? = nil, isApplicable: Bool? = nil, lensAlias: String, notes: String? = nil, questionId: String, reason: AnswerReason? = nil, selectedChoices: [String]? = nil, workloadId: String) {
+            self.choiceUpdates = choiceUpdates
             self.isApplicable = isApplicable
             self.lensAlias = lensAlias
             self.notes = notes
             self.questionId = questionId
+            self.reason = reason
             self.selectedChoices = selectedChoices
             self.workloadId = workloadId
         }
 
         public func validate(name: String) throws {
+            try self.choiceUpdates?.forEach {
+                try validate($0.key, name: "choiceUpdates.key", parent: name, max: 64)
+                try validate($0.key, name: "choiceUpdates.key", parent: name, min: 1)
+                try $0.value.validate(name: "\(name).choiceUpdates[\"\($0.key)\"]")
+            }
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.notes, name: "notes", parent: name, max: 2084)
@@ -1620,8 +1741,10 @@ extension WellArchitected {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case choiceUpdates = "ChoiceUpdates"
             case isApplicable = "IsApplicable"
             case notes = "Notes"
+            case reason = "Reason"
             case selectedChoices = "SelectedChoices"
         }
     }

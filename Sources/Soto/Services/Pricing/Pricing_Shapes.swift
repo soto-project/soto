@@ -217,7 +217,7 @@ extension Pricing {
     public struct Service: AWSDecodableShape {
         /// The attributes that are available for this service.
         public let attributeNames: [String]?
-        /// The code for the AWS service.
+        /// The code for the Amazon Web Services service.
         public let serviceCode: String?
 
         public init(attributeNames: [String]? = nil, serviceCode: String? = nil) {

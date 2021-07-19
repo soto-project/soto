@@ -81,6 +81,12 @@ extension LexRuntimeV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum Shape: String, CustomStringConvertible, Codable {
+        case list = "List"
+        case scalar = "Scalar"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSDecodableShape {
@@ -97,20 +103,20 @@ extension LexRuntimeV2 {
 
     public struct ActiveContext: AWSEncodableShape & AWSDecodableShape {
         /// A lis tof contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request. If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared.
-        public let contextAttributes: [String: String]?
+        public let contextAttributes: [String: String]
         /// The name of the context.
         public let name: String
         /// Indicates the number of turns or seconds that the context is active. Once the time to live expires, the context is no longer returned in a response.
         public let timeToLive: ActiveContextTimeToLive
 
-        public init(contextAttributes: [String: String]? = nil, name: String, timeToLive: ActiveContextTimeToLive) {
+        public init(contextAttributes: [String: String], name: String, timeToLive: ActiveContextTimeToLive) {
             self.contextAttributes = contextAttributes
             self.name = name
             self.timeToLive = timeToLive
         }
 
         public func validate(name: String) throws {
-            try self.contextAttributes?.forEach {
+            try self.contextAttributes.forEach {
                 try validate($0.key, name: "contextAttributes.key", parent: name, max: 100)
                 try validate($0.key, name: "contextAttributes.key", parent: name, min: 1)
                 try validate($0.value, name: "contextAttributes[\"\($0.key)\"]", parent: name, max: 1024)
@@ -156,7 +162,7 @@ extension LexRuntimeV2 {
     public struct AudioInputEvent: AWSEncodableShape {
         /// An encoded stream of audio.
         public let audioChunk: Data?
-        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
+        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
         /// The encoding used for the audio chunk. You must use 8 KHz PCM 16-bit mono-channel little-endian format. The value of the field should be:  audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false
         public let contentType: String
@@ -190,7 +196,7 @@ extension LexRuntimeV2 {
         public let audioChunk: Data?
         /// The encoding of the audio chunk. This is the same as the encoding configure in the contentType field of the ConfigurationEvent.
         public let contentType: String?
-        /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
+        /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
 
         public init(audioChunk: Data? = nil, contentType: String? = nil, eventId: String? = nil) {
@@ -221,7 +227,7 @@ extension LexRuntimeV2 {
     public struct Button: AWSEncodableShape & AWSDecodableShape {
         /// The text that is displayed on the button.
         public let text: String
-        /// The value returned to Amazon Lex when a user chooses the button.
+        /// The value returned to Amazon Lex V2 when a user chooses the button.
         public let value: String
 
         public init(text: String, value: String) {
@@ -243,7 +249,7 @@ extension LexRuntimeV2 {
     }
 
     public struct ConfidenceScore: AWSDecodableShape {
-        /// A score that indicates how confident Amazon Lex is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
+        /// A score that indicates how confident Amazon Lex V2 is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public let score: Double?
 
         public init(score: Double? = nil) {
@@ -256,15 +262,15 @@ extension LexRuntimeV2 {
     }
 
     public struct ConfigurationEvent: AWSEncodableShape {
-        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
+        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
-        /// Determines whether Amazon Lex should send audio responses to the client application. When this parameter if false, the client application needs to create responses for the user.
+        /// Determines whether Amazon Lex V2 should send audio responses to the client application. When this parameter if false, the client application needs to create responses for the user.
         public let disablePlayback: Bool?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
-        /// Request-specific information passed between the client application and Amazon Lex. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes for prefix x-amz-lex:.
+        /// Request-specific information passed between the client application and Amazon Lex V2. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes for prefix x-amz-lex:.
         public let requestAttributes: [String: String]?
-        /// The message that Amazon Lex returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   audio/* (defaults to mpeg)   text/plain; charset=utf-8
+        /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   audio/* (defaults to mpeg)   text/plain; charset=utf-8
         public let responseContentType: String
         public let sessionState: SessionState?
         /// A list of messages to send to the user.
@@ -319,7 +325,7 @@ extension LexRuntimeV2 {
     }
 
     public struct DTMFInputEvent: AWSEncodableShape {
-        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
+        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
@@ -425,7 +431,7 @@ extension LexRuntimeV2 {
     public struct DialogAction: AWSEncodableShape & AWSDecodableShape {
         /// The name of the slot that should be elicited from the user.
         public let slotToElicit: String?
-        /// The next action that the bot should take in its interaction with the user. The possible values are:    Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate - The next action is determined by Amazon Lex.    ElicitSlot - The next action is to elicit a slot value from the user.
+        /// The next action that the bot should take in its interaction with the user. The possible values are:    Close - Indicates that there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Delegate - The next action is determined by Amazon Lex V2.    ElicitSlot - The next action is to elicit a slot value from the user.
         public let type: DialogActionType
 
         public init(slotToElicit: String? = nil, type: DialogActionType) {
@@ -444,7 +450,7 @@ extension LexRuntimeV2 {
     }
 
     public struct DisconnectionEvent: AWSEncodableShape {
-        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
+        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
@@ -504,7 +510,7 @@ extension LexRuntimeV2 {
     }
 
     public struct GetSessionResponse: AWSDecodableShape {
-        /// A list of intents that Amazon Lex determined might satisfy the user's utterance.  Each interpretation includes the intent, a score that indicates how confident Amazon Lex is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
+        /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance.  Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
         /// A list of messages that were last sent to the user. The messages are ordered based on the order that your returned the messages from your Lambda function or the order that messages are defined in the bot.
         public let messages: [Message]?
@@ -529,7 +535,7 @@ extension LexRuntimeV2 {
     }
 
     public struct HeartbeatEvent: AWSDecodableShape {
-        /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
+        /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
 
         public init(eventId: String? = nil) {
@@ -614,11 +620,11 @@ extension LexRuntimeV2 {
     }
 
     public struct IntentResultEvent: AWSDecodableShape {
-        /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
+        /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
         /// Indicates whether the input to the operation was text or speech.
         public let inputMode: InputMode?
-        /// A list of intents that Amazon Lex determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
+        /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
         /// The attributes sent in the request.
         public let requestAttributes: [String: String]?
@@ -660,7 +666,7 @@ extension LexRuntimeV2 {
     public struct Interpretation: AWSDecodableShape {
         /// A list of intents that might satisfy the user's utterance. The intents are ordered by the confidence score.
         public let intent: Intent?
-        /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
+        /// Determines the threshold where Amazon Lex V2 will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents in a response. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.
         public let nluConfidence: ConfidenceScore?
         /// The sentiment expressed in an utterance.  When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis, this field contains the result of the analysis.
         public let sentimentResponse: SentimentResponse?
@@ -682,10 +688,10 @@ extension LexRuntimeV2 {
         /// The text of the message.
         public let content: String?
         /// Indicates the type of response.
-        public let contentType: MessageContentType?
+        public let contentType: MessageContentType
         public let imageResponseCard: ImageResponseCard?
 
-        public init(content: String? = nil, contentType: MessageContentType? = nil, imageResponseCard: ImageResponseCard? = nil) {
+        public init(content: String? = nil, contentType: MessageContentType, imageResponseCard: ImageResponseCard? = nil) {
             self.content = content
             self.contentType = contentType
             self.imageResponseCard = imageResponseCard
@@ -705,7 +711,7 @@ extension LexRuntimeV2 {
     }
 
     public struct PlaybackCompletionEvent: AWSEncodableShape {
-        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
+        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
@@ -730,9 +736,9 @@ extension LexRuntimeV2 {
     public struct PlaybackInterruptionEvent: AWSDecodableShape {
         /// The identifier of the event that contained the audio, DTMF, or text that caused the interruption.
         public let causedByEventId: String?
-        /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
+        /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
-        /// Indicates the type of user input that Amazon Lex detected.
+        /// Indicates the type of user input that Amazon Lex V2 detected.
         public let eventReason: PlaybackInterruptionReason?
 
         public init(causedByEventId: String? = nil, eventId: String? = nil, eventReason: PlaybackInterruptionReason? = nil) {
@@ -765,13 +771,13 @@ extension LexRuntimeV2 {
         public let localeId: String
         /// A list of messages to send to the user. Messages are sent in the order that they are defined in the list.
         public let messages: [Message]?
-        /// Request-specific information passed between Amazon Lex and the client application. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:.
+        /// Request-specific information passed between Amazon Lex V2 and the client application. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:.
         public let requestAttributes: [String: String]?
-        /// The message that Amazon Lex returns in the response can be either text or speech depending on the value of this parameter.    If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.
+        /// The message that Amazon Lex V2 returns in the response can be either text or speech depending on the value of this parameter.    If the value is text/plain; charset=utf-8, Amazon Lex V2 returns text in the response.
         public let responseContentType: String?
         /// The identifier of the session that receives the session data.
         public let sessionId: String
-        /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex should use in the conversation with the user.
+        /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex V2 should use in the conversation with the user.
         public let sessionState: SessionState
 
         public init(botAliasId: String, botId: String, localeId: String, messages: [Message]? = nil, requestAttributes: [String: String]? = nil, responseContentType: String? = nil, sessionId: String, sessionState: SessionState) {
@@ -829,7 +835,7 @@ extension LexRuntimeV2 {
         public let contentType: String?
         /// A list of messages that were last sent to the user. The messages are ordered based on how you return the messages from you Lambda function or the order that the messages are defined in the bot.
         public let messages: String?
-        /// Request-specific information passed between the client application and Amazon Lex. These are the same as the requestAttribute parameter in the call to the PutSession operation.
+        /// Request-specific information passed between the client application and Amazon Lex V2. These are the same as the requestAttribute parameter in the call to the PutSession operation.
         public let requestAttributes: String?
         /// The identifier of the session that received the data.
         public let sessionId: String?
@@ -869,13 +875,13 @@ extension LexRuntimeV2 {
         public let botId: String
         /// The locale where the session is in use.
         public let localeId: String
-        /// Request-specific information passed between the client application and Amazon Lex  The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:.
+        /// Request-specific information passed between the client application and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:.
         public let requestAttributes: [String: String]?
         /// The identifier of the user session that is having the conversation.
         public let sessionId: String
         /// The current state of the dialog between the user and the bot.
         public let sessionState: SessionState?
-        /// The text that the user entered. Amazon Lex interprets this text.
+        /// The text that the user entered. Amazon Lex V2 interprets this text.
         public let text: String
 
         public init(botAliasId: String, botId: String, localeId: String, requestAttributes: [String: String]? = nil, sessionId: String, sessionState: SessionState? = nil, text: String) {
@@ -912,7 +918,7 @@ extension LexRuntimeV2 {
     }
 
     public struct RecognizeTextResponse: AWSDecodableShape {
-        /// A list of intents that Amazon Lex determined might satisfy the user's utterance.  Each interpretation includes the intent, a score that indicates now confident Amazon Lex is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
+        /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance.  Each interpretation includes the intent, a score that indicates now confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public let interpretations: [Interpretation]?
         /// A list of messages last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
         public let messages: [Message]?
@@ -963,15 +969,15 @@ extension LexRuntimeV2 {
         public let inputStream: AWSPayload?
         /// The locale where the session is in use.
         public let localeId: String
-        /// Request-specific information passed between the client application and Amazon Lex  The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes for prefix x-amz-lex:.
+        /// Request-specific information passed between the client application and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes for prefix x-amz-lex:. The requestAttributes field must be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
         public let requestAttributes: String?
         /// Indicates the format for audio input or that the content is text. The header must start with one of the following prefixes:   PCM format, audio data must be in little-endian byte order.   audio/l16; rate=16000; channels=1   audio/x-l16; sample-rate=16000; channel-count=1   audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false     Opus format   audio/x-cbr-opus-with-preamble;preamble-size=0;bit-rate=256000;frame-size-milliseconds=4     Text format   text/plain; charset=utf-8
         public let requestContentType: String
-        /// The message that Amazon Lex returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex returns text in the response.   If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)   text/plain; charset=utf-8
+        /// The message that Amazon Lex V2 returns in the response can be either text or speech based on the responseContentType value.   If the value is text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format.   The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)   text/plain; charset=utf-8
         public let responseContentType: String?
         /// The identifier of the session in use.
         public let sessionId: String
-        /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex should use in the conversation with the user.
+        /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex V2 should use in the conversation with the user. The sessionState field must be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
         public let sessionState: String?
 
         public init(botAliasId: String, botId: String, inputStream: AWSPayload? = nil, localeId: String, requestAttributes: String? = nil, requestContentType: String, responseContentType: String? = nil, sessionId: String, sessionState: String? = nil) {
@@ -1016,23 +1022,23 @@ extension LexRuntimeV2 {
             AWSMemberEncoding(label: "sessionState", location: .header(locationName: "x-amz-lex-session-state"))
         ]
 
-        /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response.
+        /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
         public let audioStream: AWSPayload?
         /// Content type as specified in the responseContentType in the request.
         public let contentType: String?
         /// Indicates whether the input mode to the operation was text or speech.
         public let inputMode: String?
-        /// The text used to process the request. If the input was an audio stream, the inputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex is correctly processing the audio that you send.
+        /// The text used to process the request. If the input was an audio stream, the inputTranscript field contains the text extracted from the audio stream. This is the text that is actually processed to recognize intents and slot values. You can use this information to determine if Amazon Lex V2 is correctly processing the audio that you send. The inputTranscript field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let inputTranscript: String?
-        /// A list of intents that Amazon Lex determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
+        /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance. The interpretations field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let interpretations: String?
-        /// A list of messages that were last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
+        /// A list of messages that were last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot. The messages field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let messages: String?
-        /// The attributes sent in the request.
+        /// The attributes sent in the request. The requestAttributes field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents.
         public let requestAttributes: String?
         /// The identifier of the session in use.
         public let sessionId: String?
-        /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action might be.
+        /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action might be. The sessionState field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let sessionState: String?
 
         public init(audioStream: AWSPayload? = nil, contentType: String? = nil, inputMode: String? = nil, inputTranscript: String? = nil, interpretations: String? = nil, messages: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
@@ -1114,14 +1120,14 @@ extension LexRuntimeV2 {
     }
 
     public struct SessionState: AWSEncodableShape & AWSDecodableShape {
-        /// One or more contexts that indicate to Amazon Lex the context of a request. When a context is active, Amazon Lex considers intents with the matching context as a trigger as the next intent in a session.
+        /// One or more contexts that indicate to Amazon Lex V2 the context of a request. When a context is active, Amazon Lex V2 considers intents with the matching context as a trigger as the next intent in a session.
         public let activeContexts: [ActiveContext]?
-        /// The next step that Amazon Lex should take in the conversation with a user.
+        /// The next step that Amazon Lex V2 should take in the conversation with a user.
         public let dialogAction: DialogAction?
-        /// The active intent that Amazon Lex is processing.
+        /// The active intent that Amazon Lex V2 is processing.
         public let intent: Intent?
         public let originatingRequestId: String?
-        /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex and a client application.
+        /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex V2 and a client application.
         public let sessionAttributes: [String: String]?
 
         public init(activeContexts: [ActiveContext]? = nil, dialogAction: DialogAction? = nil, intent: Intent? = nil, originatingRequestId: String? = nil, sessionAttributes: [String: String]? = nil) {
@@ -1155,20 +1161,31 @@ extension LexRuntimeV2 {
         }
     }
 
-    public struct Slot: AWSEncodableShape & AWSDecodableShape {
+    public class Slot: AWSEncodableShape & AWSDecodableShape {
+        /// When the shape value is List, it indicates that the values field contains a list of slot values. When the value is Scalar, it indicates that the value field contains a single value.
+        public let shape: Shape?
         /// The current value of the slot.
         public let value: Value?
+        /// A list of one or more values that the user provided for the slot. For example, if a for a slot that elicits pizza toppings, the values might be "pepperoni" and "pineapple."
+        public let values: [Slot]?
 
-        public init(value: Value? = nil) {
+        public init(shape: Shape? = nil, value: Value? = nil, values: [Slot]? = nil) {
+            self.shape = shape
             self.value = value
+            self.values = values
         }
 
         public func validate(name: String) throws {
             try self.value?.validate(name: "\(name).value")
+            try self.values?.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case shape
             case value
+            case values
         }
     }
 
@@ -1187,11 +1204,11 @@ extension LexRuntimeV2 {
         public let botAliasId: String
         /// The identifier of the bot to process the request.
         public let botId: String
-        /// The conversation type that you are using the Amazon Lex. If the conversation mode is AUDIO you can send both audio and DTMF information. If the mode is TEXT you can only send text.
+        /// The conversation type that you are using the Amazon Lex V2. If the conversation mode is AUDIO you can send both audio and DTMF information. If the mode is TEXT you can only send text.
         public let conversationMode: ConversationMode?
         /// The locale where the session is in use.
         public let localeId: String
-        /// Represents the stream of events to Amazon Lex from your application. The events are encoded as HTTP/2 data frames.
+        /// Represents the stream of events to Amazon Lex V2 from your application. The events are encoded as HTTP/2 data frames.
         public let requestEventStream: StartConversationRequestEventStream
         /// The identifier of the user session that is having the conversation.
         public let sessionId: String
@@ -1222,17 +1239,17 @@ extension LexRuntimeV2 {
     }
 
     public struct StartConversationRequestEventStream: AWSEncodableShape {
-        /// Speech audio sent from your client application to Amazon Lex. Audio starts accumulating when Amazon Lex identifies a voice and continues until a natural pause in the speech is found before processing.
+        /// Speech audio sent from your client application to Amazon Lex V2. Audio starts accumulating when Amazon Lex V2 identifies a voice and continues until a natural pause in the speech is found before processing.
         public let audioInputEvent: AudioInputEvent?
-        /// Configuration information sent from your client application to Amazon Lex
+        /// Configuration information sent from your client application to Amazon Lex V2
         public let configurationEvent: ConfigurationEvent?
-        /// Event sent from the client application to indicate to Amazon Lex that the conversation is over.
+        /// Event sent from the client application to indicate to Amazon Lex V2 that the conversation is over.
         public let disconnectionEvent: DisconnectionEvent?
-        /// DTMF information sent to Amazon Lex by your application. Amazon Lex accumulates the DMTF information from when the user sends the first character and ends   when there's a pause longer that the value configured for the end timeout.   when there's a digit that is the configured end character.   when Amazon Lex accumulates characters equal to the maximum DTMF character configuration.
+        /// DTMF information sent to Amazon Lex V2 by your application. Amazon Lex V2 accumulates the DMTF information from when the user sends the first character and ends   when there's a pause longer that the value configured for the end timeout.   when there's a digit that is the configured end character.   when Amazon Lex V2 accumulates characters equal to the maximum DTMF character configuration.
         public let dTMFInputEvent: DTMFInputEvent?
-        /// Event sent from the client application to Amazon Lex to indicate that it has finished playing audio and that Amazon Lex should start listening for user input.
+        /// Event sent from the client application to Amazon Lex V2 to indicate that it has finished playing audio and that Amazon Lex V2 should start listening for user input.
         public let playbackCompletionEvent: PlaybackCompletionEvent?
-        /// Text sent from your client application to Amazon Lex. Each TextInputEvent is processed individually.
+        /// Text sent from your client application to Amazon Lex V2. Each TextInputEvent is processed individually.
         public let textInputEvent: TextInputEvent?
 
         public init(audioInputEvent: AudioInputEvent? = nil, configurationEvent: ConfigurationEvent? = nil, disconnectionEvent: DisconnectionEvent? = nil, dTMFInputEvent: DTMFInputEvent? = nil, playbackCompletionEvent: PlaybackCompletionEvent? = nil, textInputEvent: TextInputEvent? = nil) {
@@ -1267,7 +1284,7 @@ extension LexRuntimeV2 {
         /// The key for the payload
         public static let _payloadPath: String = "responseEventStream"
 
-        /// Represents the stream of events from Amazon Lex to your application. The events are encoded as HTTP/2 data frames.
+        /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
         public let responseEventStream: StartConversationResponseEventStream?
 
         public init(responseEventStream: StartConversationResponseEventStream? = nil) {
@@ -1284,13 +1301,13 @@ extension LexRuntimeV2 {
         public let accessDeniedException: AccessDeniedException?
         public let audioResponseEvent: AudioResponseEvent?
         public let badGatewayException: BadGatewayException?
-        /// Exception thrown when two clients are using the same AWS account, Amazon Lex bot, and session ID.
+        /// Exception thrown when two clients are using the same AWS account, Amazon Lex V2 bot, and session ID.
         public let conflictException: ConflictException?
         public let dependencyFailedException: DependencyFailedException?
         public let heartbeatEvent: HeartbeatEvent?
-        /// Event sent from Amazon Lex to the client application containing the current state of the conversation between the user and Amazon Lex.
+        /// Event sent from Amazon Lex V2 to the client application containing the current state of the conversation between the user and Amazon Lex V2.
         public let intentResultEvent: IntentResultEvent?
-        /// An error occurred with Amazon Lex.
+        /// An error occurred with Amazon Lex V2.
         public let internalServerException: InternalServerException?
         public let playbackInterruptionEvent: PlaybackInterruptionEvent?
         /// Exception thrown if one of the input parameters points to a resource that does not exist. For example, if the bot ID specified does not exist.
@@ -1338,11 +1355,11 @@ extension LexRuntimeV2 {
     }
 
     public struct TextInputEvent: AWSEncodableShape {
-        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex.
+        /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public let clientTimestampMillis: Int64?
         /// A unique identifier that your application assigns to the event. You can use this to identify events in logs.
         public let eventId: String?
-        /// The text from the user. Amazon Lex processes this as a complete statement.
+        /// The text from the user. Amazon Lex V2 processes this as a complete statement.
         public let text: String
 
         public init(clientTimestampMillis: Int64? = nil, eventId: String? = nil, text: String) {
@@ -1367,7 +1384,7 @@ extension LexRuntimeV2 {
     }
 
     public struct TextResponseEvent: AWSDecodableShape {
-        /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
+        /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
         /// A list of messages to send to the user. Messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
         public let messages: [Message]?
@@ -1396,7 +1413,7 @@ extension LexRuntimeV2 {
     }
 
     public struct TranscriptEvent: AWSDecodableShape {
-        /// A unique identifier of the event sent by Amazon Lex. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex in the current session.
+        /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public let eventId: String?
         /// The transcript of the voice audio from the user.
         public let transcript: String?
@@ -1425,7 +1442,7 @@ extension LexRuntimeV2 {
     }
 
     public struct Value: AWSEncodableShape & AWSDecodableShape {
-        /// The value that Amazon Lex determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex choose the first value in the resolvedValues list.
+        /// The value that Amazon Lex V2 determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex V2 choose the first value in the resolvedValues list.
         public let interpretedValue: String
         /// The text of the utterance from the user that was entered for the slot.
         public let originalValue: String?

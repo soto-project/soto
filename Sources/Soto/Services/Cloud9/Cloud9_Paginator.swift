@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Cloud9 {
-    ///  Gets information about environment members for an AWS Cloud9 development environment.
+    ///  Gets information about environment members for an Cloud9 development environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -72,7 +72,7 @@ extension Cloud9 {
         )
     }
 
-    ///  Gets a list of AWS Cloud9 development environment identifiers.
+    ///  Gets a list of Cloud9 development environment identifiers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

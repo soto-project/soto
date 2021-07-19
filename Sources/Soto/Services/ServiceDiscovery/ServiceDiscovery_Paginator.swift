@@ -125,7 +125,7 @@ extension ServiceDiscovery {
         )
     }
 
-    ///  Lists summary information about the namespaces that were created by the current AWS account.
+    ///  Lists summary information about the namespaces that were created by the current account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

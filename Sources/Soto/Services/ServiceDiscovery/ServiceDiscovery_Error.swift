@@ -67,7 +67,7 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
     public static var namespaceNotFound: Self { .init(.namespaceNotFound) }
     /// No operation exists with the specified ID.
     public static var operationNotFound: Self { .init(.operationNotFound) }
-    /// The operation can't be completed because you've reached the quota for the number of requests. For more information, see AWS Cloud Map API request throttling quota in the AWS Cloud Map Developer Guide.
+    /// The operation can't be completed because you've reached the quota for the number of requests. For more information, see Cloud Map API request throttling quota in the Cloud Map Developer Guide.
     public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
     /// The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     public static var resourceInUse: Self { .init(.resourceInUse) }

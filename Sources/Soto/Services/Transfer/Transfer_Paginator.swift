@@ -125,7 +125,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.
+    ///  Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
