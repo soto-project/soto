@@ -683,7 +683,6 @@ class S3Tests: XCTestCase {
         let request = S3Control.ListJobsRequest(accountId: "123456780123")
         do {
             _ = try s3Control.listJobs(request).wait()
-        } catch is CancelError {
-        }
+        } catch is CancelError {}
     }
 }
