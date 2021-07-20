@@ -861,7 +861,7 @@ extension AWSService {
                 encodingContexts.append(encodingContext)
             }
 
-            let awsShapeMemberContext = generateAWSShapeMemberContexts(
+            let awsShapeMemberContext = self.generateAWSShapeMemberContexts(
                 member.value,
                 name: member.key,
                 shape: shape,
