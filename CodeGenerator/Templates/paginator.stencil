@@ -1,0 +1,109 @@
+{%include "header.stencil" %}
+
+import SotoCore
+
+// MARK: Paginators
+
+extension {{name}} {
+{%for page in paginators %}
+{%for comment in page.operation.comment %}
+    ///  {{comment}}
+{%endfor %}
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+{%if page.operation.deprecated %}
+    @available(*, deprecated, message:"{{page.operation.deprecated}}")
+{%endif %}
+    public func {{page.operation.funcName}}Paginator<Result>(
+        _ input: {{page.operation.inputShape}},
+        _ initialValue: Result,
+        logger: {{logger}} = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, {{page.operation.outputShape}}, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: {{page.operation.funcName}},
+            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%if page.moreResults %},
+            moreResultsKey: \{{page.operation.outputShape}}.{{page.moreResults}}{%endif %},
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+{%if page.operation.deprecated %}
+    @available(*, deprecated, message:"{{page.operation.deprecated}}")
+{%endif %}
+    public func {{page.operation.funcName}}Paginator(
+        _ input: {{page.operation.inputShape}},
+        logger: {{logger}} = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping ({{page.operation.outputShape}}, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: {{page.operation.funcName}},
+            tokenKey: \{{page.operation.outputShape}}.{{page.outputKey}}{%if page.moreResults %},
+            moreResultsKey: \{{page.operation.outputShape}}.{{page.moreResults}}{%endif %},
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+{%if page.operation.deprecated %}
+    @available(*, deprecated, message:"{{page.operation.deprecated}}")
+{%endif %}
+    public func {{page.operation.funcName}}Paginator(
+        _ input: {{page.operation.inputShape}},
+        logger: {{logger}} = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<{{page.operation.inputShape}}, {{page.operation.outputShape}}> {
+        return .init(
+            input: input,
+            command: {{page.operation.funcName}},
+            inputKey: \{{page.operation.inputShape}}.{{page.inputKey}},
+            outputKey: \{{page.operation.outputShape}}.{{page.outputKey}},
+            logger: logger,
+            on: eventLoop
+        )
+    }
+{%if not forloop.last +%}
+{%endif %}
+{%endfor %}
+}
+
+{%for page in paginators %}
+extension {{name}}.{{page.operation.inputShape}}: {{page.paginatorProtocol}} {
+    public func usingPaginationToken(_ token: {{page.tokenType}}) -> {{name}}.{{page.operation.inputShape}} {
+        return .init(
+{%for param in page.initParams %}
+            {{param}}{%if not forloop.last %},{%endif +%}
+{%endfor %}
+        )
+    }
+}
+{%if not forloop.last +%}
+{%endif %}
+{%endfor %}

@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Dispatch
 import Foundation
 import NIOCore
 @testable import SotoCore

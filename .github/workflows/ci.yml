@@ -12,7 +12,7 @@ on:
     paths:
     - '**.swift'
   workflow_dispatch:
-  
+
 env:
   AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ['swift:5.2', 'swift:5.3', 'swift:5.4']
+        image: ['swift:5.2', 'swift:5.3', 'swift:5.4', 'swiftlang/swift:nightly-focal']
     services:
       localstack:
         image: localstack/localstack
@@ -58,4 +58,4 @@ jobs:
         echo AWS_TEST_RESOURCE_PREFIX=$(cat /dev/urandom | tr -dc 'a-z' | head -c 8) >> $GITHUB_ENV
     - name: Test
       run: |
-        swift test --enable-test-discovery --sanitize=thread
+        swift test --enable-test-discovery

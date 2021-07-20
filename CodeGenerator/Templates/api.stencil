@@ -1,0 +1,132 @@
+{%include "header.stencil" %}
+
+@_exported import SotoCore
+
+{% if middlewareFramework %}
+import {{ middlewareFramework }}
+
+{% endif %}
+
+/// Service object for interacting with AWS {{name}} service.
+{%if description %}
+///
+{%for comment in description %}
+/// {{comment}}
+{%endfor %}
+{% endif %}
+public struct {{ name }}: AWSService {
+
+    // MARK: Member variables
+
+    /// Client used for communication with AWS
+    public let client: AWSClient
+    /// Service configuration
+    public let config: AWSServiceConfig
+
+    // MARK: Initialization
+
+    /// Initialize the {{name}} client
+    /// - parameters:
+    ///     - client: AWSClient used to process requests
+{% if regionalized %}
+    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
+{% endif %}
+    ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - timeout: Timeout value for HTTP requests
+    public init(
+        client: AWSClient,
+{% if regionalized %}
+        region: SotoCore.Region? = nil,
+{% endif %}
+        partition: AWSPartition = .aws,
+        endpoint: String? = nil,
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
+    ) {
+        self.client = client
+        self.config = AWSServiceConfig(
+{% if regionalized %}
+            region: region,
+            partition: region?.partition ?? partition,
+{% else %}
+            region: nil,
+            partition: partition,
+{% endif %}
+{% if amzTarget %}
+            amzTarget: "{{amzTarget}}",
+{% endif %}
+            service: "{{endpointPrefix}}",
+{% if signingName %}
+            signingName: "{{signingName}}",
+{% endif %}
+            serviceProtocol: {{protocol}},
+            apiVersion: "{{apiVersion}}",
+            endpoint: endpoint{% if serviceEndpoints %},
+            serviceEndpoints: [{{ serviceEndpoints|join:", "}}]{% endif %}{% if partitionEndpoints %},
+            partitionEndpoints: [{{ partitionEndpoints|join:", "}}]{% endif %}{% if errorTypes %},
+            errorType: {{errorTypes}}.self{% endif %}{% if middlewareClass %},
+            middlewares: [{{middlewareClass}}]{% endif %},
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
+        )
+    }
+    
+    // MARK: API Calls
+{%for op in operations %}
+
+{%for comment in op.comment %}
+    /// {{comment}}
+{%endfor %}
+{%if op.documentationUrl %}
+    /// {{op.documentationUrl}}
+{%endif %}
+{%if op.deprecated %}
+    @available(*, deprecated, message:"{{op.deprecated}}")
+{%endif %}
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, logger: logger, on: eventLoop)
+    }
+
+{%if op.deprecated %}
+    @available(*, deprecated, message:"{{op.deprecated}}")
+{%endif %}
+    public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws{% if op.outputShape %} -> {{op.outputShape}}{% endif %} {
+        return try await self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, logger: logger, on: eventLoop)
+    }
+{%endfor %}
+{%if streamingOperations.count > 0 %}
+
+    // MARK: Streaming API Calls
+{%for op in streamingOperations %}
+
+{%for comment in op.comment %}
+    /// {{comment}}
+{%endfor %}
+{%if op.deprecated %}
+    @available(*, deprecated, message:"{{op.deprecated}}")
+{%endif %}
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}Streaming({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, logger: logger, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
+    }
+
+{%if op.deprecated %}
+    @available(*, deprecated, message:"{{op.deprecated}}")
+{%endif %}
+        public func {{op.funcName}}Streaming({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) async throws{% if op.outputShape %} -> {{op.outputShape}}{% endif %} {
+        return try await self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, logger: logger, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
+    }
+{%endfor %}
+{%endif %}
+}
+
+extension {{ name }} {
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    public init(from: {{ name }}, patch: AWSServiceConfig.Patch) {
+        self.client = from.client
+        self.config = from.config.with(patch: patch)
+    }
+}
