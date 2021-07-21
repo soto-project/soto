@@ -20,6 +20,7 @@ import SotoCore
 import XCTest
 
 @testable import SotoS3
+@testable import SotoS3Control
 
 class S3Tests: XCTestCase {
     static var client: AWSClient!
@@ -665,5 +666,23 @@ class S3Tests: XCTestCase {
                 XCTFail("Wrong error: \(error)")
             }
         }
+    }
+
+    /// test S3 control host is prefixed with account id
+    func testS3ControlPrefix() throws {
+        // don't actually want to make this API call so once I've checked the host is correct
+        // I will throw an error in the request middleware
+        struct CancelError: Error {}
+        struct CheckHostMiddleware: AWSServiceMiddleware {
+            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+                XCTAssertEqual(request.url.host, "123456780123.s3-control.eu-west-1.amazonaws.com")
+                throw CancelError()
+            }
+        }
+        let s3Control = S3Control(client: Self.client, region: .euwest1).with(middlewares: [CheckHostMiddleware()])
+        let request = S3Control.ListJobsRequest(accountId: "123456780123")
+        do {
+            _ = try s3Control.listJobs(request).wait()
+        } catch is CancelError {}
     }
 }

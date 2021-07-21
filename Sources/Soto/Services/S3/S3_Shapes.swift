@@ -8284,6 +8284,7 @@ extension S3 {
             AWSMemberEncoding(label: "replicationStatus", location: .header(locationName: "x-amz-fwd-header-x-amz-replication-status")),
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-fwd-header-x-amz-request-charged")),
             AWSMemberEncoding(label: "requestRoute", location: .header(locationName: "x-amz-request-route")),
+            AWSMemberEncoding(label: "requestRoute", location: .uri(locationName: "RequestRoute")),
             AWSMemberEncoding(label: "requestToken", location: .header(locationName: "x-amz-request-token")),
             AWSMemberEncoding(label: "restore", location: .header(locationName: "x-amz-fwd-header-x-amz-restore")),
             AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-fwd-header-x-amz-server-side-encryption")),

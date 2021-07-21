@@ -22,6 +22,7 @@ import XCTest
 @testable import SotoIAM
 @testable import SotoRoute53
 @testable import SotoS3
+@testable import SotoS3Control
 @testable import SotoSES
 @testable import SotoSNS
 import SotoXML
