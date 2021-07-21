@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension RDS {
-    ///  Lists the set of CA certificates provided by Amazon RDS for this AWS account.
+    ///  Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1768,7 +1768,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. This API action supports pagination.
+    ///  Returns a list of the source Amazon Web Services Regions where the current Amazon Web Services Region can create a read replica, copy a DB snapshot from, or replicate automated backups from. This API action supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

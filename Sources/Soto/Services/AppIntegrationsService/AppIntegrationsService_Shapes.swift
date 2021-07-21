@@ -27,7 +27,7 @@ extension AppIntegrationsService {
         public let clientToken: String?
         /// The description of the event integration.
         public let description: String?
-        /// The Eventbridge bus.
+        /// The EventBridge bus.
         public let eventBridgeBus: String
         /// The event filter.
         public let eventFilter: EventFilter
@@ -137,7 +137,7 @@ extension AppIntegrationsService {
     public struct EventIntegration: AWSDecodableShape {
         /// The event integration description.
         public let description: String?
-        /// The Amazon Eventbridge bus for the event integration.
+        /// The Amazon EventBridge bus for the event integration.
         public let eventBridgeBus: String?
         /// The event integration filter.
         public let eventFilter: EventFilter?
@@ -172,7 +172,7 @@ extension AppIntegrationsService {
         public let clientAssociationMetadata: [String: String]?
         /// The identifier for the client that is associated with the event integration.
         public let clientId: String?
-        /// The name of the Eventbridge rule.
+        /// The name of the EventBridge rule.
         public let eventBridgeRuleName: String?
         /// The Amazon Resource Name (ARN) for the event integration association.
         public let eventIntegrationAssociationArn: String?
@@ -224,7 +224,7 @@ extension AppIntegrationsService {
     public struct GetEventIntegrationResponse: AWSDecodableShape {
         /// The description of the event integration.
         public let description: String?
-        /// The Eventbridge bus.
+        /// The EventBridge bus.
         public let eventBridgeBus: String?
         /// The event filter.
         public let eventFilter: EventFilter?

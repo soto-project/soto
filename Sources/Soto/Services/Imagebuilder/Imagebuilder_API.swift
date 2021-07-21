@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Imagebuilder service.
 ///
-/// EC2 Image Builder is a fully managed AWS service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date "golden" server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
+/// EC2 Image Builder is a fully managed Amazon Web Services service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date "golden" server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
 public struct Imagebuilder: AWSService {
     // MARK: Member variables
 
@@ -222,7 +222,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List the Packages that are associated with an Image Build Version, as determined by AWS Systems Manager Inventory at build time.
+    /// List the Packages that are associated with an Image Build Version, as determined by Amazon EC2 Systems Manager Inventory at build time.
     public func listImagePackages(_ input: ListImagePackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePackagesResponse> {
         return self.client.execute(operation: "ListImagePackages", path: "/ListImagePackages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

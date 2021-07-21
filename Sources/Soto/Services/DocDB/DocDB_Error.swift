@@ -182,7 +182,7 @@ public struct DocDBErrorType: AWSErrorType {
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
     /// The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
-    /// An error occurred when accessing an AWS KMS key.
+    /// An error occurred when accessing an KMS key.
     public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }

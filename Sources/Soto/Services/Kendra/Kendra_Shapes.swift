@@ -122,6 +122,7 @@ extension Kendra {
         case salesforce = "SALESFORCE"
         case servicenow = "SERVICENOW"
         case sharepoint = "SHAREPOINT"
+        case webcrawler = "WEBCRAWLER"
         public var description: String { return self.rawValue }
     }
 
@@ -138,6 +139,16 @@ extension Kendra {
         case longValue = "LONG_VALUE"
         case stringListValue = "STRING_LIST_VALUE"
         case stringValue = "STRING_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case indexed = "INDEXED"
+        case notFound = "NOT_FOUND"
+        case processing = "PROCESSING"
+        case updateFailed = "UPDATE_FAILED"
+        case updated = "UPDATED"
         public var description: String { return self.rawValue }
     }
 
@@ -200,6 +211,15 @@ extension Kendra {
     public enum Order: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrincipalMappingStatus: String, CustomStringConvertible, Codable {
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -305,6 +325,8 @@ extension Kendra {
     }
 
     public enum SharePointVersion: String, CustomStringConvertible, Codable {
+        case sharepoint2013 = "SHAREPOINT_2013"
+        case sharepoint2016 = "SHAREPOINT_2016"
         case sharepointOnline = "SHAREPOINT_ONLINE"
         public var description: String { return self.rawValue }
     }
@@ -331,10 +353,17 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum WebCrawlerMode: String, CustomStringConvertible, Codable {
+        case everything = "EVERYTHING"
+        case hostOnly = "HOST_ONLY"
+        case subdomains = "SUBDOMAINS"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccessControlListConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Path to the AWS S3 bucket that contains the ACL files.
+        /// Path to the Amazon Web Services S3 bucket that contains the ACL files.
         public let keyPath: String?
 
         public init(keyPath: String? = nil) {
@@ -470,6 +499,59 @@ extension Kendra {
         }
     }
 
+    public struct AuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of configuration information that's required to connect to and crawl a website host using basic authentication credentials. The list includes the name and port number of the website host.
+        public let basicAuthentication: [BasicAuthenticationConfiguration]?
+
+        public init(basicAuthentication: [BasicAuthenticationConfiguration]? = nil) {
+            self.basicAuthentication = basicAuthentication
+        }
+
+        public func validate(name: String) throws {
+            try self.basicAuthentication?.forEach {
+                try $0.validate(name: "\(name).basicAuthentication[]")
+            }
+            try self.validate(self.basicAuthentication, name: "basicAuthentication", parent: name, max: 10)
+            try self.validate(self.basicAuthentication, name: "basicAuthentication", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case basicAuthentication = "BasicAuthentication"
+        }
+    }
+
+    public struct BasicAuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Your secret ARN, which you can create in AWS Secrets Manager  You use a secret if basic authentication credentials are required to connect to a website. The secret stores your credentials of user name and password.
+        public let credentials: String
+        /// The name of the website host you want to connect to using authentication credentials. For example, the host name of https://a.example.com/page1.html is "a.example.com".
+        public let host: String
+        /// The port number of the website host you want to connect to using authentication credentials. For example, the port for https://a.example.com/page1.html is 443, the standard port for HTTPS.
+        public let port: Int
+
+        public init(credentials: String, host: String, port: Int) {
+            self.credentials = credentials
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentials, name: "credentials", parent: name, max: 1284)
+            try self.validate(self.credentials, name: "credentials", parent: name, min: 1)
+            try self.validate(self.credentials, name: "credentials", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.host, name: "host", parent: name, max: 253)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, pattern: "([^\\s]*)")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
     public struct BatchDeleteDocumentRequest: AWSEncodableShape {
         public let dataSourceSyncJobMetricTarget: DataSourceSyncJobMetricTarget?
         /// One or more identifiers for documents to delete from the index.
@@ -537,6 +619,72 @@ extension Kendra {
         }
     }
 
+    public struct BatchGetDocumentStatusRequest: AWSEncodableShape {
+        /// A list of DocumentInfo objects that identify the documents for which to get the status. You identify the documents by their document ID and optional attributes.
+        public let documentInfoList: [DocumentInfo]
+        /// The identifier of the index to add documents to. The index ID is returned by the  CreateIndex  operation.
+        public let indexId: String
+
+        public init(documentInfoList: [DocumentInfo], indexId: String) {
+            self.documentInfoList = documentInfoList
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.documentInfoList.forEach {
+                try $0.validate(name: "\(name).documentInfoList[]")
+            }
+            try self.validate(self.documentInfoList, name: "documentInfoList", parent: name, max: 10)
+            try self.validate(self.documentInfoList, name: "documentInfoList", parent: name, min: 1)
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentInfoList = "DocumentInfoList"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct BatchGetDocumentStatusResponse: AWSDecodableShape {
+        /// The status of documents. The status indicates if the document is waiting to be indexed, is in the process of indexing, has completed indexing, or failed indexing. If a document failed indexing, the status provides the reason why.
+        public let documentStatusList: [Status]?
+        /// A list of documents that Amazon Kendra couldn't get the status for. The list includes the ID of the document and the reason that the status couldn't be found.
+        public let errors: [BatchGetDocumentStatusResponseError]?
+
+        public init(documentStatusList: [Status]? = nil, errors: [BatchGetDocumentStatusResponseError]? = nil) {
+            self.documentStatusList = documentStatusList
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentStatusList = "DocumentStatusList"
+            case errors = "Errors"
+        }
+    }
+
+    public struct BatchGetDocumentStatusResponseError: AWSDecodableShape {
+        /// The unique identifier of the document whose status could not be retrieved.
+        public let documentId: String?
+        /// Indicates the source of the error.
+        public let errorCode: ErrorCode?
+        /// States that the API could not get the status of a document. This could be because the request is not valid or there is a system error.
+        public let errorMessage: String?
+
+        public init(documentId: String? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
+            self.documentId = documentId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "DocumentId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+        }
+    }
+
     public struct BatchPutDocumentRequest: AWSEncodableShape {
         /// One or more documents to add to the index. Documents can include custom attributes. For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom attributes that provide information on the synchronization of documents running on a data source. Note, 'DataSourceSyncJobId' could be an optional custom attribute as Amazon Kendra will use the ID of a running sync job. Documents have the following file size limits.   5 MB total size for inline documents   50 MB total size for files from an S3 bucket   5 MB extracted text for any file   For more information about file size and transaction per second quotas, see Quotas.
         public let documents: [Document]
@@ -573,7 +721,7 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentResponse: AWSDecodableShape {
-        /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your AWS CloudWatch log. For more information, see Monitoring Amazon Kendra with Amazon CloudWatch Logs
+        /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your Amazon Web Services CloudWatch log. For more information, see Monitoring Amazon Kendra with Amazon CloudWatch Logs
         public let failedDocuments: [BatchPutDocumentResponseFailedDocument]?
 
         public init(failedDocuments: [BatchPutDocumentResponseFailedDocument]? = nil) {
@@ -607,9 +755,9 @@ extension Kendra {
     }
 
     public struct CapacityUnitsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The amount of extra query capacity for an index. Each capacity unit provides 0.5 queries per second and 40,000 queries per day.
+        /// The amount of extra query capacity for an index and GetQuerySuggestions capacity. A single extra capacity unit for an index provides 0.5 queries per second or approximately 40,000 queries per day.  GetQuerySuggestions capacity is 5 times the provisioned query capacity for an index. For example, the base capacity for an index is 0.5 queries per second, so GetQuerySuggestions capacity is 2.5 calls per second. If adding another 0.5 queries per second to total 1 queries per second for an index, the GetQuerySuggestions capacity is 5 calls per second.
         public let queryCapacityUnits: Int
-        /// The amount of extra storage capacity for an index. Each capacity unit provides 150 Gb of storage space or 500,000 documents, whichever is reached first.
+        /// The amount of extra storage capacity for an index. A single capacity unit for an index provides 150 GB of storage space or 500,000 documents, whichever is reached first.
         public let storageCapacityUnits: Int
 
         public init(queryCapacityUnits: Int, storageCapacityUnits: Int) {
@@ -839,7 +987,7 @@ extension Kendra {
         public let inclusionPatterns: [String]?
         /// Specifies configuration information for indexing Confluence pages.
         public let pageConfiguration: ConfluencePageConfiguration?
-        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Confluence server. The secret must contain a JSON structure with the following keys:   username - The user name or email address of a user with administrative privileges for the Confluence server.   password - The password associated with the user logging in to the Confluence server.
+        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the key/value pairs required to connect to your Confluence server. The secret must contain a JSON structure with the following keys:   username - The user name or email address of a user with administrative privileges for the Confluence server.   password - The password associated with the user logging in to the Confluence server.
         public let secretArn: String
         /// The URL of your Confluence instance. Use the full URL of the server. For example, https://server.example.com:port/. You can also use an IP address, for example, https://192.168.1.113/.
         public let serverUrl: String
@@ -1040,7 +1188,7 @@ extension Kendra {
         public let databaseName: String
         /// The port that the database uses for connections.
         public let databasePort: Int
-        /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Database Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the AWS Secrets Manager user guide.
+        /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Database Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the  Secrets Manager  user guide.
         public let secretArn: String
         /// The name of the table that contains the document data.
         public let tableName: String
@@ -1245,9 +1393,9 @@ extension Kendra {
         public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
-        /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
+        /// An Identity and Access Management(IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
         public let roleArn: String
-        /// The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
+        /// The identifier of the KMScustomer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
@@ -1481,8 +1629,9 @@ extension Kendra {
         public let serviceNowConfiguration: ServiceNowConfiguration?
         /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
+        public let webCrawlerConfiguration: WebCrawlerConfiguration?
 
-        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil) {
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.googleDriveConfiguration = googleDriveConfiguration
@@ -1491,6 +1640,7 @@ extension Kendra {
             self.salesforceConfiguration = salesforceConfiguration
             self.serviceNowConfiguration = serviceNowConfiguration
             self.sharePointConfiguration = sharePointConfiguration
+            self.webCrawlerConfiguration = webCrawlerConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1502,6 +1652,7 @@ extension Kendra {
             try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
             try self.serviceNowConfiguration?.validate(name: "\(name).serviceNowConfiguration")
             try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
+            try self.webCrawlerConfiguration?.validate(name: "\(name).webCrawlerConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1513,6 +1664,33 @@ extension Kendra {
             case salesforceConfiguration = "SalesforceConfiguration"
             case serviceNowConfiguration = "ServiceNowConfiguration"
             case sharePointConfiguration = "SharePointConfiguration"
+            case webCrawlerConfiguration = "WebCrawlerConfiguration"
+        }
+    }
+
+    public struct DataSourceGroup: AWSEncodableShape {
+        /// The identifier of the data source group you want to add to your list of data source groups. This is for filtering search results based on the groups' access to documents in that data source.
+        public let dataSourceId: String
+        /// The identifier of the group you want to add to your list of groups. This is for filtering search results based on the groups' access to documents.
+        public let groupId: String
+
+        public init(dataSourceId: String, groupId: String) {
+            self.dataSourceId = dataSourceId
+            self.groupId = groupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 200)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case groupId = "GroupId"
         }
     }
 
@@ -1822,6 +2000,45 @@ extension Kendra {
         }
     }
 
+    public struct DeletePrincipalMappingRequest: AWSEncodableShape {
+        /// The identifier of the data source you want to delete a group from. This is useful if a group is tied to multiple data sources and you want to delete a group from accessing documents in a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. You want to delete "Research" and "Engineering" groups from Salesforce, so that these groups cannot access customer-related documents stored in Salesforce. Only "Sales and Marketing" should access documents in the Salesforce data source.
+        public let dataSourceId: String?
+        /// The identifier of the group you want to delete.
+        public let groupId: String
+        /// The identifier of the index you want to delete a group from.
+        public let indexId: String
+        /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest DELETE action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the UNIX time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest members list doesn't get overwritten by earlier DELETE actions for the same group which are yet to be processed. The default ordering ID is the current UNIX time in milliseconds that the action was received by Amazon Kendra.
+        public let orderingId: Int64?
+
+        public init(dataSourceId: String? = nil, groupId: String, indexId: String, orderingId: Int64? = nil) {
+            self.dataSourceId = dataSourceId
+            self.groupId = groupId
+            self.indexId = indexId
+            self.orderingId = orderingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 1024)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case groupId = "GroupId"
+            case indexId = "IndexId"
+            case orderingId = "OrderingId"
+        }
+    }
+
     public struct DeleteQuerySuggestionsBlockListRequest: AWSEncodableShape {
         /// The unique identifier of the block list that needs to be deleted.
         public let id: String
@@ -2075,7 +2292,7 @@ extension Kendra {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra permission to write to your Amazon Cloudwatch logs.
         public let roleArn: String?
-        /// The identifier of the AWS KMS customer master key (CMK) used to encrypt your data. Amazon Kendra doesn't support asymmetric CMKs.
+        /// The identifier of the KMScustomer master key (CMK) used to encrypt your data. Amazon Kendra doesn't support asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The current status of the index. When the value is ACTIVE, the index is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
         public let status: IndexStatus?
@@ -2120,6 +2337,64 @@ extension Kendra {
             case updatedAt = "UpdatedAt"
             case userContextPolicy = "UserContextPolicy"
             case userTokenConfigurations = "UserTokenConfigurations"
+        }
+    }
+
+    public struct DescribePrincipalMappingRequest: AWSEncodableShape {
+        /// The identifier of the data source to check the processing of PUT and DELETE actions for mapping users to their groups.
+        public let dataSourceId: String?
+        /// The identifier of the group required to check the processing of PUT and DELETE actions for mapping users to their groups.
+        public let groupId: String
+        /// The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups.
+        public let indexId: String
+
+        public init(dataSourceId: String? = nil, groupId: String, indexId: String) {
+            self.dataSourceId = dataSourceId
+            self.groupId = groupId
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 1024)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case groupId = "GroupId"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DescribePrincipalMappingResponse: AWSDecodableShape {
+        /// Shows the identifier of the data source to see information on the processing of PUT and DELETE actions for mapping users to their groups.
+        public let dataSourceId: String?
+        /// Shows the identifier of the group to see information on the processing of PUT and DELETE actions for mapping users to their groups.
+        public let groupId: String?
+        /// Shows the following information on the processing of PUT and DELETE actions for mapping users to their groups:   Status – the status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.   Last updated – the last date-time an action was updated.   Received – the last date-time an action was received or submitted.   Ordering ID – the latest action that should process and apply after other actions.   Failure reason – the reason an action could not be processed.
+        public let groupOrderingIdSummaries: [GroupOrderingIdSummary]?
+        /// Shows the identifier of the index to see information on the processing of PUT and DELETE actions for mapping users to their groups.
+        public let indexId: String?
+
+        public init(dataSourceId: String? = nil, groupId: String? = nil, groupOrderingIdSummaries: [GroupOrderingIdSummary]? = nil, indexId: String? = nil) {
+            self.dataSourceId = dataSourceId
+            self.groupId = groupId
+            self.groupOrderingIdSummaries = groupOrderingIdSummaries
+            self.indexId = indexId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case groupId = "GroupId"
+            case groupOrderingIdSummaries = "GroupOrderingIdSummaries"
+            case indexId = "IndexId"
         }
     }
 
@@ -2357,25 +2632,28 @@ extension Kendra {
     }
 
     public struct Document: AWSEncodableShape {
-        /// Information to use for user context filtering.
+        /// Information on user and group access rights, which is used for user context filtering.
         public let accessControlList: [Principal]?
         /// Custom attributes to apply to the document. Use the custom attributes to provide additional information for searching, to provide facets for refining searches, and to provide additional information in the query response.
         public let attributes: [DocumentAttribute]?
-        /// The contents of the document.  Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an AWS SDK to call Amazon Kendra operations. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
+        /// The contents of the document.  Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Kendra operations. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
         public let blob: Data?
         /// The file type of the document in the Blob field.
         public let contentType: ContentType?
+        /// The list of principal lists that define the hierarchy for which documents users should have access to.
+        public let hierarchicalAccessControlList: [HierarchicalPrincipal]?
         /// A unique identifier of the document in the index.
         public let id: String
         public let s3Path: S3Path?
         /// The title of the document.
         public let title: String?
 
-        public init(accessControlList: [Principal]? = nil, attributes: [DocumentAttribute]? = nil, blob: Data? = nil, contentType: ContentType? = nil, id: String, s3Path: S3Path? = nil, title: String? = nil) {
+        public init(accessControlList: [Principal]? = nil, attributes: [DocumentAttribute]? = nil, blob: Data? = nil, contentType: ContentType? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, id: String, s3Path: S3Path? = nil, title: String? = nil) {
             self.accessControlList = accessControlList
             self.attributes = attributes
             self.blob = blob
             self.contentType = contentType
+            self.hierarchicalAccessControlList = hierarchicalAccessControlList
             self.id = id
             self.s3Path = s3Path
             self.title = title
@@ -2388,6 +2666,11 @@ extension Kendra {
             try self.attributes?.forEach {
                 try $0.validate(name: "\(name).attributes[]")
             }
+            try self.hierarchicalAccessControlList?.forEach {
+                try $0.validate(name: "\(name).hierarchicalAccessControlList[]")
+            }
+            try self.validate(self.hierarchicalAccessControlList, name: "hierarchicalAccessControlList", parent: name, max: 30)
+            try self.validate(self.hierarchicalAccessControlList, name: "hierarchicalAccessControlList", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 2048)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.s3Path?.validate(name: "\(name).s3Path")
@@ -2398,6 +2681,7 @@ extension Kendra {
             case attributes = "Attributes"
             case blob = "Blob"
             case contentType = "ContentType"
+            case hierarchicalAccessControlList = "HierarchicalAccessControlList"
             case id = "Id"
             case s3Path = "S3Path"
             case title = "Title"
@@ -2429,7 +2713,7 @@ extension Kendra {
     }
 
     public struct DocumentAttributeValue: AWSEncodableShape & AWSDecodableShape {
-        /// A date expressed as an ISO 8601 string.
+        /// A date expressed as an ISO 8601 string. It is important for the time zone to be included in the ISO 8601 date-time format. For example, 20120325T123010+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time.
         public let dateValue: Date?
         /// A long integer value.
         public let longValue: Int64?
@@ -2476,6 +2760,31 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case documentAttributeValue = "DocumentAttributeValue"
+        }
+    }
+
+    public struct DocumentInfo: AWSEncodableShape {
+        /// Attributes that identify a specific version of a document to check. The only valid attributes are:   version   datasourceId   jobExecutionId   The attributes follow these rules:    dataSourceId and jobExecutionId must be used together.    version is ignored if dataSourceId and jobExecutionId are not provided.   If dataSourceId and jobExecutionId are provided, but version is not, the version defaults to "0".
+        public let attributes: [DocumentAttribute]?
+        /// The unique identifier of the document.
+        public let documentId: String
+
+        public init(attributes: [DocumentAttribute]? = nil, documentId: String) {
+            self.attributes = attributes
+            self.documentId = documentId
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 2048)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case documentId = "DocumentId"
         }
     }
 
@@ -2533,7 +2842,7 @@ extension Kendra {
     }
 
     public struct DocumentsMetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A prefix used to filter metadata configuration files in the AWS S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
+        /// A prefix used to filter metadata configuration files in the Amazon Web Services S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public let s3Prefix: String?
 
         public init(s3Prefix: String? = nil) {
@@ -2694,7 +3003,7 @@ extension Kendra {
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns that apply to path on Google Drive. Items that match the pattern are included in the index from both shared drives and users' My Drives. Items that don't match the pattern are excluded from the index. If an item matches both an inclusion pattern and an exclusion pattern, it is excluded from the index.
         public let inclusionPatterns: [String]?
-        /// The Amazon Resource Name (ARN) of a AWS Secrets Manager secret that contains the credentials required to connect to Google Drive. For more information, see Using a Google Workspace Drive data source.
+        /// The Amazon Resource Name (ARN) of a Secrets Managersecret that contains the credentials required to connect to Google Drive. For more information, see Using a Google Workspace Drive data source.
         public let secretArn: String
 
         public init(excludeMimeTypes: [String]? = nil, excludeSharedDrives: [String]? = nil, excludeUserAccounts: [String]? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String) {
@@ -2759,6 +3068,106 @@ extension Kendra {
             case fieldMappings = "FieldMappings"
             case inclusionPatterns = "InclusionPatterns"
             case secretArn = "SecretArn"
+        }
+    }
+
+    public struct GroupMembers: AWSEncodableShape {
+        /// A list of sub groups that belong to a group. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company".
+        public let memberGroups: [MemberGroup]?
+        /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
+        public let memberUsers: [MemberUser]?
+        /// If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+        public let s3PathforGroupMembers: S3Path?
+
+        public init(memberGroups: [MemberGroup]? = nil, memberUsers: [MemberUser]? = nil, s3PathforGroupMembers: S3Path? = nil) {
+            self.memberGroups = memberGroups
+            self.memberUsers = memberUsers
+            self.s3PathforGroupMembers = s3PathforGroupMembers
+        }
+
+        public func validate(name: String) throws {
+            try self.memberGroups?.forEach {
+                try $0.validate(name: "\(name).memberGroups[]")
+            }
+            try self.validate(self.memberGroups, name: "memberGroups", parent: name, max: 1000)
+            try self.validate(self.memberGroups, name: "memberGroups", parent: name, min: 1)
+            try self.memberUsers?.forEach {
+                try $0.validate(name: "\(name).memberUsers[]")
+            }
+            try self.validate(self.memberUsers, name: "memberUsers", parent: name, max: 1000)
+            try self.validate(self.memberUsers, name: "memberUsers", parent: name, min: 1)
+            try self.s3PathforGroupMembers?.validate(name: "\(name).s3PathforGroupMembers")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberGroups = "MemberGroups"
+            case memberUsers = "MemberUsers"
+            case s3PathforGroupMembers = "S3PathforGroupMembers"
+        }
+    }
+
+    public struct GroupOrderingIdSummary: AWSDecodableShape {
+        /// The reason an action could not be processed. An action can be a PUT or DELETE action for mapping users to their groups.
+        public let failureReason: String?
+        /// The last date-time an action was updated. An action can be a PUT or DELETE action for mapping users to their groups.
+        public let lastUpdatedAt: Date?
+        /// The order in which actions should complete processing. An action can be a PUT or DELETE action for mapping users to their groups.
+        public let orderingId: Int64?
+        /// The date-time an action was received by Amazon Kendra. An action can be a PUT or DELETE action for mapping users to their groups.
+        public let receivedAt: Date?
+        /// The current processing status of actions for mapping users to their groups. The status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.
+        public let status: PrincipalMappingStatus?
+
+        public init(failureReason: String? = nil, lastUpdatedAt: Date? = nil, orderingId: Int64? = nil, receivedAt: Date? = nil, status: PrincipalMappingStatus? = nil) {
+            self.failureReason = failureReason
+            self.lastUpdatedAt = lastUpdatedAt
+            self.orderingId = orderingId
+            self.receivedAt = receivedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureReason = "FailureReason"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case orderingId = "OrderingId"
+            case receivedAt = "ReceivedAt"
+            case status = "Status"
+        }
+    }
+
+    public struct GroupSummary: AWSDecodableShape {
+        ///  The identifier of the group you want group summary information on.
+        public let groupId: String?
+        ///  The timestamp identifier used for the latest PUT or DELETE action.
+        public let orderingId: Int64?
+
+        public init(groupId: String? = nil, orderingId: Int64? = nil) {
+            self.groupId = groupId
+            self.orderingId = orderingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupId = "GroupId"
+            case orderingId = "OrderingId"
+        }
+    }
+
+    public struct HierarchicalPrincipal: AWSEncodableShape {
+        /// A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document.
+        public let principalList: [Principal]
+
+        public init(principalList: [Principal]) {
+            self.principalList = principalList
+        }
+
+        public func validate(name: String) throws {
+            try self.principalList.forEach {
+                try $0.validate(name: "\(name).principalList[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalList = "PrincipalList"
         }
     }
 
@@ -3078,6 +3487,67 @@ extension Kendra {
         }
     }
 
+    public struct ListGroupsOlderThanOrderingIdRequest: AWSEncodableShape {
+        /// The identifier of the data source for getting a list of groups mapped to users before a given ordering timestamp identifier.
+        public let dataSourceId: String?
+        /// The identifier of the index for getting a list of groups mapped to users before a given ordering or timestamp identifier.
+        public let indexId: String
+        ///  The maximum results shown for a list of groups that are mapped to users before a given ordering or timestamp identifier.
+        public let maxResults: Int?
+        ///  The next items in the list of groups that go beyond the maximum.
+        public let nextToken: String?
+        /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups.
+        public let orderingId: Int64
+
+        public init(dataSourceId: String? = nil, indexId: String, maxResults: Int? = nil, nextToken: String? = nil, orderingId: Int64) {
+            self.dataSourceId = dataSourceId
+            self.indexId = indexId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.orderingId = orderingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case indexId = "IndexId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case orderingId = "OrderingId"
+        }
+    }
+
+    public struct ListGroupsOlderThanOrderingIdResponse: AWSDecodableShape {
+        ///  Summary information for list of groups that are mapped to users before a given ordering or timestamp identifier.
+        public let groupsSummaries: [GroupSummary]?
+        ///  The next items in the list of groups that go beyond the maximum.
+        public let nextToken: String?
+
+        public init(groupsSummaries: [GroupSummary]? = nil, nextToken: String? = nil) {
+            self.groupsSummaries = groupsSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupsSummaries = "GroupsSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListIndicesRequest: AWSEncodableShape {
         /// The maximum number of data sources to return.
         public let maxResults: Int?
@@ -3246,6 +3716,51 @@ extension Kendra {
         }
     }
 
+    public struct MemberGroup: AWSEncodableShape {
+        /// The identifier of the data source for the sub group you want to map to a group.
+        public let dataSourceId: String?
+        /// The identifier of the sub group you want to map to a group.
+        public let groupId: String
+
+        public init(dataSourceId: String? = nil, groupId: String) {
+            self.dataSourceId = dataSourceId
+            self.groupId = groupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 1024)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case groupId = "GroupId"
+        }
+    }
+
+    public struct MemberUser: AWSEncodableShape {
+        /// The identifier of the user you want to map to a group.
+        public let userId: String
+
+        public init(userId: String) {
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.userId, name: "userId", parent: name, max: 1024)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId = "UserId"
+        }
+    }
+
     public struct OneDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean value that specifies whether local groups are disabled (True) or enabled (False).
         public let disableLocalGroups: Bool?
@@ -3257,7 +3772,7 @@ extension Kendra {
         public let inclusionPatterns: [String]?
         /// A list of user accounts whose documents should be indexed.
         public let oneDriveUsers: OneDriveUsers
-        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the user name and password to connect to OneDrive. The user namd should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
+        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the user name and password to connect to OneDrive. The user namd should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
         public let secretArn: String
         /// The Azure Active Directory domain of the organization.
         public let tenantDomain: String
@@ -3341,18 +3856,24 @@ extension Kendra {
     public struct Principal: AWSEncodableShape {
         /// Whether to allow or deny access to the principal.
         public let access: ReadAccessType
+        /// The identifier of the data source the principal should access documents from.
+        public let dataSourceId: String?
         /// The name of the user or group.
         public let name: String
         /// The type of principal.
         public let type: PrincipalType
 
-        public init(access: ReadAccessType, name: String, type: PrincipalType) {
+        public init(access: ReadAccessType, dataSourceId: String? = nil, name: String, type: PrincipalType) {
             self.access = access
+            self.dataSourceId = dataSourceId
             self.name = name
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
             try self.validate(self.name, name: "name", parent: name, max: 200)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\P{C}*$")
@@ -3360,8 +3881,92 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case access = "Access"
+            case dataSourceId = "DataSourceId"
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Your secret ARN, which you can create in AWS Secrets Manager  The credentials are optional. You use a secret if web proxy credentials are required to connect to a website host. Amazon Kendra currently support basic authentication to connect to a web proxy server. The secret stores your credentials.
+        public let credentials: String?
+        /// The name of the website host you want to connect to via a web proxy server. For example, the host name of https://a.example.com/page1.html is "a.example.com".
+        public let host: String
+        /// The port number of the website host you want to connect to via a web proxy server.  For example, the port for https://a.example.com/page1.html is 443, the standard port for HTTPS.
+        public let port: Int
+
+        public init(credentials: String? = nil, host: String, port: Int) {
+            self.credentials = credentials
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentials, name: "credentials", parent: name, max: 1284)
+            try self.validate(self.credentials, name: "credentials", parent: name, min: 1)
+            try self.validate(self.credentials, name: "credentials", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.validate(self.host, name: "host", parent: name, max: 253)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, pattern: "([^\\s]*)")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentials = "Credentials"
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
+    public struct PutPrincipalMappingRequest: AWSEncodableShape {
+        /// The identifier of the data source you want to map users to their groups. This is useful if a group is tied to multiple data sources, but you only want the group to access documents of a certain data source. For example, the groups "Research", "Engineering", and "Sales and Marketing" are all tied to the company's documents stored in the data sources Confluence and Salesforce. However, "Sales and Marketing" team only needs access to customer-related documents stored in Salesforce.
+        public let dataSourceId: String?
+        /// The identifier of the group you want to map its users to.
+        public let groupId: String
+        /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+        public let groupMembers: GroupMembers
+        /// The identifier of the index you want to map users to their groups.
+        public let indexId: String
+        /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the UNIX time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current UNIX time in milliseconds that the action was received by Amazon Kendra.
+        public let orderingId: Int64?
+        /// The Amazon Resource Name (ARN) of a role that has access to the S3 file that contains your list of users or sub groups that belong to a group. For more information, see IAM roles for Amazon Kendra.
+        public let roleArn: String?
+
+        public init(dataSourceId: String? = nil, groupId: String, groupMembers: GroupMembers, indexId: String, orderingId: Int64? = nil, roleArn: String? = nil) {
+            self.dataSourceId = dataSourceId
+            self.groupId = groupId
+            self.groupMembers = groupMembers
+            self.indexId = indexId
+            self.orderingId = orderingId
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 100)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 1)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9_-]*")
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 1024)
+            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^\\P{C}*$")
+            try self.groupMembers.validate(name: "\(name).groupMembers")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9-]*")
+            try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
+            try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceId = "DataSourceId"
+            case groupId = "GroupId"
+            case groupMembers = "GroupMembers"
+            case indexId = "IndexId"
+            case orderingId = "OrderingId"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -3759,7 +4364,7 @@ extension Kendra {
         public let includeAttachmentFilePatterns: [String]?
         /// Specifies configuration information for the knowledge article types that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and the standard fields of knowledge articles, or the custom fields of custom knowledge articles, but not both.
         public let knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration?
-        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Salesforce instance. The secret must contain a JSON structure with the following keys:   authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an OAUTH token.    consumerKey - The application public key generated when you created your Salesforce application.   consumerSecret - The application private key generated when you created your Salesforce application.   password - The password associated with the user logging in to the Salesforce instance.   securityToken - The token associated with the user account logging in to the Salesforce instance.   username - The user name of the user logging in to the Salesforce instance.
+        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the key/value pairs required to connect to your Salesforce instance. The secret must contain a JSON structure with the following keys:   authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an OAUTH token.    consumerKey - The application public key generated when you created your Salesforce application.   consumerSecret - The application private key generated when you created your Salesforce application.   password - The password associated with the user logging in to the Salesforce instance.   securityToken - The token associated with the user account logging in to the Salesforce instance.   username - The user name of the user logging in to the Salesforce instance.
         public let secretArn: String
         /// The instance URL for the Salesforce site that you want to index.
         public let serverUrl: String
@@ -4036,8 +4641,35 @@ extension Kendra {
         }
     }
 
+    public struct SeedUrlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of seed or starting point URLs of the websites you want to crawl. The list can include a maximum of 100 seed URLs.
+        public let seedUrls: [String]
+        /// You can choose one of the following modes:    HOST_ONLY – crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.    SUBDOMAINS – crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.    EVERYTHING – crawl the website host names with subdomains and other domains that the webpages link to.   The default mode is set to HOST_ONLY.
+        public let webCrawlerMode: WebCrawlerMode?
+
+        public init(seedUrls: [String], webCrawlerMode: WebCrawlerMode? = nil) {
+            self.seedUrls = seedUrls
+            self.webCrawlerMode = webCrawlerMode
+        }
+
+        public func validate(name: String) throws {
+            try self.seedUrls.forEach {
+                try validate($0, name: "seedUrls[]", parent: name, max: 2048)
+                try validate($0, name: "seedUrls[]", parent: name, min: 1)
+                try validate($0, name: "seedUrls[]", parent: name, pattern: "^(https?):\\/\\/([^\\s]*)")
+            }
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, max: 100)
+            try self.validate(self.seedUrls, name: "seedUrls", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case seedUrls = "SeedUrls"
+            case webCrawlerMode = "WebCrawlerMode"
+        }
+    }
+
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the AWS KMS customer master key (CMK). Amazon Kendra doesn't support asymmetric CMKs.
+        /// The identifier of the KMScustomer master key (CMK). Amazon Kendra doesn't support asymmetric CMKs.
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -4061,7 +4693,7 @@ extension Kendra {
         public let hostUrl: String
         /// Provides configuration information for crawling knowledge articles in the ServiceNow site.
         public let knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration?
-        /// The Amazon Resource Name (ARN) of the AWS Secret Manager secret that contains the user name and password required to connect to the ServiceNow instance.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the user name and password required to connect to the ServiceNow instance.
         public let secretArn: String
         /// Provides configuration information for crawling service catalogs in the ServiceNow site.
         public let serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration?
@@ -4236,17 +4868,18 @@ extension Kendra {
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let inclusionPatterns: [String]?
-        /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. For more information, see Using a Microsoft SharePoint Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the AWS Secrets Manager user guide.
+        /// The Amazon Resource Name (ARN) of credentials stored in AWS Secrets Manager. The credentials should be a user/password pair. If you use SharePoint Sever, you also need to provide the sever domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. For more information about AWS Secrets Manager, see  What Is AWS Secrets Manager  in the Secrets Manager  user guide.
         public let secretArn: String
         /// The version of Microsoft SharePoint that you are using as a data source.
         public let sharePointVersion: SharePointVersion
+        public let sslCertificateS3Path: S3Path?
         /// The URLs of the Microsoft SharePoint site that contains the documents that should be indexed.
         public let urls: [String]
         /// Set to TRUE to use the Microsoft SharePoint change log to determine the documents that need to be updated in the index. Depending on the size of the SharePoint change log, it may take longer for Amazon Kendra to use the change log than it takes it to determine the changed documents using the Amazon Kendra document crawler.
         public let useChangeLog: Bool?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
-        public init(crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, sharePointVersion: SharePointVersion, sslCertificateS3Path: S3Path? = nil, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.crawlAttachments = crawlAttachments
             self.disableLocalGroups = disableLocalGroups
             self.documentTitleFieldName = documentTitleFieldName
@@ -4255,6 +4888,7 @@ extension Kendra {
             self.inclusionPatterns = inclusionPatterns
             self.secretArn = secretArn
             self.sharePointVersion = sharePointVersion
+            self.sslCertificateS3Path = sslCertificateS3Path
             self.urls = urls
             self.useChangeLog = useChangeLog
             self.vpcConfiguration = vpcConfiguration
@@ -4284,6 +4918,7 @@ extension Kendra {
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try self.sslCertificateS3Path?.validate(name: "\(name).sslCertificateS3Path")
             try self.urls.forEach {
                 try validate($0, name: "urls[]", parent: name, max: 2048)
                 try validate($0, name: "urls[]", parent: name, min: 1)
@@ -4303,9 +4938,33 @@ extension Kendra {
             case inclusionPatterns = "InclusionPatterns"
             case secretArn = "SecretArn"
             case sharePointVersion = "SharePointVersion"
+            case sslCertificateS3Path = "SslCertificateS3Path"
             case urls = "Urls"
             case useChangeLog = "UseChangeLog"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct SiteMapsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of sitemap URLs of the websites you want to crawl. The list can include a maximum of three sitemap URLs.
+        public let siteMaps: [String]
+
+        public init(siteMaps: [String]) {
+            self.siteMaps = siteMaps
+        }
+
+        public func validate(name: String) throws {
+            try self.siteMaps.forEach {
+                try validate($0, name: "siteMaps[]", parent: name, max: 2048)
+                try validate($0, name: "siteMaps[]", parent: name, min: 1)
+                try validate($0, name: "siteMaps[]", parent: name, pattern: "^(https?):\\/\\/([^\\s]*)")
+            }
+            try self.validate(self.siteMaps, name: "siteMaps", parent: name, max: 3)
+            try self.validate(self.siteMaps, name: "siteMaps", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteMaps = "SiteMaps"
         }
     }
 
@@ -4381,6 +5040,31 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case executionId = "ExecutionId"
+        }
+    }
+
+    public struct Status: AWSDecodableShape {
+        /// The unique identifier of the document.
+        public let documentId: String?
+        /// The current status of a document. If the document was submitted for deletion, the status is NOT_FOUND after the document is deleted.
+        public let documentStatus: DocumentStatus?
+        /// Indicates the source of the error.
+        public let failureCode: String?
+        /// Provides detailed information about why the document couldn't be indexed. Use this information to correct the error before you resubmit the document for indexing.
+        public let failureReason: String?
+
+        public init(documentId: String? = nil, documentStatus: DocumentStatus? = nil, failureCode: String? = nil, failureReason: String? = nil) {
+            self.documentId = documentId
+            self.documentStatus = documentStatus
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "DocumentId"
+            case documentStatus = "DocumentStatus"
+            case failureCode = "FailureCode"
+            case failureReason = "FailureReason"
         }
     }
 
@@ -4948,22 +5632,71 @@ extension Kendra {
         }
     }
 
-    public struct UserContext: AWSEncodableShape {
-        /// The user context token. It must be a JWT or a JSON token.
-        public let token: String?
+    public struct Urls: AWSEncodableShape & AWSDecodableShape {
+        /// Provides the configuration of the seed or starting point URLs of the websites you want to crawl. You can choose to crawl only the website host names, or the website host names with subdomains, or the website host names with subdomains and other domains that the webpages link to. You can list up to 100 seed URLs.
+        public let seedUrlConfiguration: SeedUrlConfiguration?
+        /// Provides the configuration of the sitemap URLs of the websites you want to crawl. Only URLs belonging to the same website host names are crawled. You can list up to three sitemap URLs.
+        public let siteMapsConfiguration: SiteMapsConfiguration?
 
-        public init(token: String? = nil) {
-            self.token = token
+        public init(seedUrlConfiguration: SeedUrlConfiguration? = nil, siteMapsConfiguration: SiteMapsConfiguration? = nil) {
+            self.seedUrlConfiguration = seedUrlConfiguration
+            self.siteMapsConfiguration = siteMapsConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.token, name: "token", parent: name, max: 100_000)
-            try self.validate(self.token, name: "token", parent: name, min: 1)
-            try self.validate(self.token, name: "token", parent: name, pattern: "^\\P{C}*$")
+            try self.seedUrlConfiguration?.validate(name: "\(name).seedUrlConfiguration")
+            try self.siteMapsConfiguration?.validate(name: "\(name).siteMapsConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case seedUrlConfiguration = "SeedUrlConfiguration"
+            case siteMapsConfiguration = "SiteMapsConfiguration"
+        }
+    }
+
+    public struct UserContext: AWSEncodableShape {
+        /// The list of data source groups you want to filter search results based on groups' access to documents in that data source.
+        public let dataSourceGroups: [DataSourceGroup]?
+        /// The list of groups you want to filter search results based on the groups' access to documents.
+        public let groups: [String]?
+        /// The user context token for filtering search results for a user. It must be a JWT or a JSON token.
+        public let token: String?
+        /// The identifier of the user you want to filter search results based on their access to documents.
+        public let userId: String?
+
+        public init(dataSourceGroups: [DataSourceGroup]? = nil, groups: [String]? = nil, token: String? = nil, userId: String? = nil) {
+            self.dataSourceGroups = dataSourceGroups
+            self.groups = groups
+            self.token = token
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSourceGroups?.forEach {
+                try $0.validate(name: "\(name).dataSourceGroups[]")
+            }
+            try self.validate(self.dataSourceGroups, name: "dataSourceGroups", parent: name, max: 2048)
+            try self.validate(self.dataSourceGroups, name: "dataSourceGroups", parent: name, min: 1)
+            try self.groups?.forEach {
+                try validate($0, name: "groups[]", parent: name, max: 200)
+                try validate($0, name: "groups[]", parent: name, min: 1)
+                try validate($0, name: "groups[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try self.validate(self.groups, name: "groups", parent: name, max: 2048)
+            try self.validate(self.groups, name: "groups", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, max: 100_000)
+            try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 200)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceGroups = "DataSourceGroups"
+            case groups = "Groups"
             case token = "Token"
+            case userId = "UserId"
         }
     }
 
@@ -4986,6 +5719,77 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case jsonTokenTypeConfiguration = "JsonTokenTypeConfiguration"
             case jwtTokenTypeConfiguration = "JwtTokenTypeConfiguration"
+        }
+    }
+
+    public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Provides configuration information required to connect to websites using authentication. You can connect to websites using basic authentication of user name and password. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. You use a secret in AWS Secrets Manager to store your authentication credentials.
+        public let authenticationConfiguration: AuthenticationConfiguration?
+        /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL. For example, if a website has 3 levels – index level (i.e. seed in this example), sections level, and subsections level – and you are only interested in crawling information up to the sections level (i.e. levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
+        public let crawlDepth: Int?
+        /// The maximum size (in MB) of a webpage or attachment to crawl. Files larger than this size (in MB) are skipped/not crawled. The default maximum size of a webpage or attachment is set to 50 MB.
+        public let maxContentSizePerPageInMegaBytes: Float?
+        /// The maximum number of URLs on a webpage to include when crawling a website. This number is per webpage. As a website’s webpages are crawled, any URLs the webpages link to are also crawled. URLs on a webpage are crawled in order of appearance. The default maximum links per page is 100.
+        public let maxLinksPerPage: Int?
+        /// The maximum number of URLs crawled per website host per minute. A minimum of one URL is required. The default maximum number of URLs crawled per website host per minute is 300.
+        public let maxUrlsPerMinuteCrawlRate: Int?
+        /// Provides configuration information required to connect to your internal websites via a web proxy. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy server that requires basic authentication. To store web proxy credentials, you use a secret in AWS Secrets Manager.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// The regular expression pattern to exclude certain URLs to crawl. If there is a regular expression pattern to include certain URLs that conflicts with the exclude pattern, the exclude pattern takes precedence.
+        public let urlExclusionPatterns: [String]?
+        /// The regular expression pattern to include certain URLs to crawl. If there is a regular expression pattern to exclude certain URLs that conflicts with the include pattern, the exclude pattern takes precedence.
+        public let urlInclusionPatterns: [String]?
+        /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs.  When selecting websites to index, you must adhere to the Amazon Acceptable Use Policy and all other Amazon terms. Remember that you must only use the Amazon Kendra web crawler to index your own webpages, or webpages that you have authorization to index.
+        public let urls: Urls
+
+        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, crawlDepth: Int? = nil, maxContentSizePerPageInMegaBytes: Float? = nil, maxLinksPerPage: Int? = nil, maxUrlsPerMinuteCrawlRate: Int? = nil, proxyConfiguration: ProxyConfiguration? = nil, urlExclusionPatterns: [String]? = nil, urlInclusionPatterns: [String]? = nil, urls: Urls) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.crawlDepth = crawlDepth
+            self.maxContentSizePerPageInMegaBytes = maxContentSizePerPageInMegaBytes
+            self.maxLinksPerPage = maxLinksPerPage
+            self.maxUrlsPerMinuteCrawlRate = maxUrlsPerMinuteCrawlRate
+            self.proxyConfiguration = proxyConfiguration
+            self.urlExclusionPatterns = urlExclusionPatterns
+            self.urlInclusionPatterns = urlInclusionPatterns
+            self.urls = urls
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
+            try self.validate(self.crawlDepth, name: "crawlDepth", parent: name, max: 10)
+            try self.validate(self.crawlDepth, name: "crawlDepth", parent: name, min: 0)
+            try self.validate(self.maxContentSizePerPageInMegaBytes, name: "maxContentSizePerPageInMegaBytes", parent: name, max: 50)
+            try self.validate(self.maxContentSizePerPageInMegaBytes, name: "maxContentSizePerPageInMegaBytes", parent: name, min: 0)
+            try self.validate(self.maxLinksPerPage, name: "maxLinksPerPage", parent: name, max: 1000)
+            try self.validate(self.maxLinksPerPage, name: "maxLinksPerPage", parent: name, min: 1)
+            try self.validate(self.maxUrlsPerMinuteCrawlRate, name: "maxUrlsPerMinuteCrawlRate", parent: name, max: 300)
+            try self.validate(self.maxUrlsPerMinuteCrawlRate, name: "maxUrlsPerMinuteCrawlRate", parent: name, min: 1)
+            try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
+            try self.urlExclusionPatterns?.forEach {
+                try validate($0, name: "urlExclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "urlExclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.urlExclusionPatterns, name: "urlExclusionPatterns", parent: name, max: 100)
+            try self.validate(self.urlExclusionPatterns, name: "urlExclusionPatterns", parent: name, min: 0)
+            try self.urlInclusionPatterns?.forEach {
+                try validate($0, name: "urlInclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "urlInclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.urlInclusionPatterns, name: "urlInclusionPatterns", parent: name, max: 100)
+            try self.validate(self.urlInclusionPatterns, name: "urlInclusionPatterns", parent: name, min: 0)
+            try self.urls.validate(name: "\(name).urls")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "AuthenticationConfiguration"
+            case crawlDepth = "CrawlDepth"
+            case maxContentSizePerPageInMegaBytes = "MaxContentSizePerPageInMegaBytes"
+            case maxLinksPerPage = "MaxLinksPerPage"
+            case maxUrlsPerMinuteCrawlRate = "MaxUrlsPerMinuteCrawlRate"
+            case proxyConfiguration = "ProxyConfiguration"
+            case urlExclusionPatterns = "UrlExclusionPatterns"
+            case urlInclusionPatterns = "UrlInclusionPatterns"
+            case urls = "Urls"
         }
     }
 }

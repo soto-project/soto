@@ -20,6 +20,12 @@ import SotoCore
 extension HealthLake {
     // MARK: Enums
 
+    public enum CmkType: String, CustomStringConvertible, Codable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DatastoreStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -35,6 +41,7 @@ extension HealthLake {
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case submitted = "SUBMITTED"
@@ -57,12 +64,18 @@ extension HealthLake {
         public let datastoreTypeVersion: FHIRVersion
         /// Optional parameter to preload data upon creation of the Data Store. Currently, the only supported preloaded data is synthetic data generated from Synthea.
         public let preloadDataConfig: PreloadDataConfig?
+        ///  The server-side encryption key configuration for a customer provided encryption key specified for creating a Data Store.
+        public let sseConfiguration: SseConfiguration?
+        ///  Resource tags that are applied to a Data Store when it is created.
+        public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, preloadDataConfig: PreloadDataConfig? = nil) {
+        public init(clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.datastoreName = datastoreName
             self.datastoreTypeVersion = datastoreTypeVersion
             self.preloadDataConfig = preloadDataConfig
+            self.sseConfiguration = sseConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -72,6 +85,12 @@ extension HealthLake {
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, max: 256)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.sseConfiguration?.validate(name: "\(name).sseConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -79,6 +98,8 @@ extension HealthLake {
             case datastoreName = "DatastoreName"
             case datastoreTypeVersion = "DatastoreTypeVersion"
             case preloadDataConfig = "PreloadDataConfig"
+            case sseConfiguration = "SseConfiguration"
+            case tags = "Tags"
         }
     }
 
@@ -155,8 +176,10 @@ extension HealthLake {
         public let datastoreTypeVersion: FHIRVersion
         /// The preloaded data configuration for the Data Store. Only data preloaded from Synthea is supported.
         public let preloadDataConfig: PreloadDataConfig?
+        ///  The server-side encryption key configuration for a customer provided encryption key (CMK).
+        public let sseConfiguration: SseConfiguration?
 
-        public init(createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, preloadDataConfig: PreloadDataConfig? = nil) {
+        public init(createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -165,6 +188,7 @@ extension HealthLake {
             self.datastoreStatus = datastoreStatus
             self.datastoreTypeVersion = datastoreTypeVersion
             self.preloadDataConfig = preloadDataConfig
+            self.sseConfiguration = sseConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -176,6 +200,7 @@ extension HealthLake {
             case datastoreStatus = "DatastoreStatus"
             case datastoreTypeVersion = "DatastoreTypeVersion"
             case preloadDataConfig = "PreloadDataConfig"
+            case sseConfiguration = "SseConfiguration"
         }
     }
 
@@ -391,6 +416,7 @@ extension HealthLake {
         public let jobId: String
         /// The user-generated name for an Import job.
         public let jobName: String?
+        public let jobOutputDataConfig: OutputDataConfig?
         /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED, FAILED.
         public let jobStatus: JobStatus
         /// An explanation of any errors that may have occurred during the FHIR import job.
@@ -398,13 +424,14 @@ extension HealthLake {
         /// The time that the Import job was submitted for processing.
         public let submitTime: Date
 
-        public init(dataAccessRoleArn: String? = nil, datastoreId: String, endTime: Date? = nil, inputDataConfig: InputDataConfig, jobId: String, jobName: String? = nil, jobStatus: JobStatus, message: String? = nil, submitTime: Date) {
+        public init(dataAccessRoleArn: String? = nil, datastoreId: String, endTime: Date? = nil, inputDataConfig: InputDataConfig, jobId: String, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig? = nil, jobStatus: JobStatus, message: String? = nil, submitTime: Date) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
             self.jobId = jobId
             self.jobName = jobName
+            self.jobOutputDataConfig = jobOutputDataConfig
             self.jobStatus = jobStatus
             self.message = message
             self.submitTime = submitTime
@@ -417,6 +444,7 @@ extension HealthLake {
             case inputDataConfig = "InputDataConfig"
             case jobId = "JobId"
             case jobName = "JobName"
+            case jobOutputDataConfig = "JobOutputDataConfig"
             case jobStatus = "JobStatus"
             case message = "Message"
             case submitTime = "SubmitTime"
@@ -438,6 +466,29 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct KmsEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The type of customer-managed-key(CMK) used for encyrption. The two types of supported CMKs are customer owned CMKs and AWS owned CMKs.
+        public let cmkType: CmkType
+        ///  The KMS encryption key id/alias used to encrypt the Data Store contents at rest.
+        public let kmsKeyId: String?
+
+        public init(cmkType: CmkType, kmsKeyId: String? = nil) {
+            self.cmkType = cmkType
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 400)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "(arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\\d:)?(\\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+))")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cmkType = "CmkType"
+            case kmsKeyId = "KmsKeyId"
         }
     }
 
@@ -487,21 +538,186 @@ extension HealthLake {
         }
     }
 
-    public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The S3Uri is the user specified S3 location to which data will be exported from a FHIR Data Store.
-        public let s3Uri: String?
+    public struct ListFHIRExportJobsRequest: AWSEncodableShape {
+        ///  This parameter limits the response to the export job with the specified Data Store ID.
+        public let datastoreId: String
+        ///  This parameter limits the response to the export job with the specified job name.
+        public let jobName: String?
+        ///  This parameter limits the response to the export jobs with the specified job status.
+        public let jobStatus: JobStatus?
+        ///  This parameter limits the number of results returned for a ListFHIRExportJobs to a maximum quantity specified by the user.
+        public let maxResults: Int?
+        ///  A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
+        public let nextToken: String?
+        ///  This parameter limits the response to FHIR export jobs submitted after a user specified date.
+        public let submittedAfter: Date?
+        ///  This parameter limits the response to FHIR export jobs submitted before a user specified date.
+        public let submittedBefore: Date?
 
-        public init(s3Uri: String? = nil) {
-            self.s3Uri = s3Uri
+        public init(datastoreId: String, jobName: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, submittedAfter: Date? = nil, submittedBefore: Date? = nil) {
+            self.datastoreId = datastoreId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.submittedAfter = submittedAfter
+            self.submittedBefore = submittedBefore
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Uri = "S3Uri"
+            case datastoreId = "DatastoreId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case submittedAfter = "SubmittedAfter"
+            case submittedBefore = "SubmittedBefore"
+        }
+    }
+
+    public struct ListFHIRExportJobsResponse: AWSDecodableShape {
+        ///  The properties of listed FHIR export jobs, including the ID, ARN, name, and the status of the job.
+        public let exportJobPropertiesList: [ExportJobProperties]
+        ///  A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
+        public let nextToken: String?
+
+        public init(exportJobPropertiesList: [ExportJobProperties], nextToken: String? = nil) {
+            self.exportJobPropertiesList = exportJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobPropertiesList = "ExportJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFHIRImportJobsRequest: AWSEncodableShape {
+        ///  This parameter limits the response to the import job with the specified Data Store ID.
+        public let datastoreId: String
+        ///  This parameter limits the response to the import job with the specified job name.
+        public let jobName: String?
+        ///  This parameter limits the response to the import job with the specified job status.
+        public let jobStatus: JobStatus?
+        ///  This parameter limits the number of results returned for a ListFHIRImportJobs to a maximum quantity specified by the user.
+        public let maxResults: Int?
+        ///  A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
+        public let nextToken: String?
+        ///  This parameter limits the response to FHIR import jobs submitted after a user specified date.
+        public let submittedAfter: Date?
+        ///  This parameter limits the response to FHIR import jobs submitted before a user specified date.
+        public let submittedBefore: Date?
+
+        public init(datastoreId: String, jobName: String? = nil, jobStatus: JobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, submittedAfter: Date? = nil, submittedBefore: Date? = nil) {
+            self.datastoreId = datastoreId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.submittedAfter = submittedAfter
+            self.submittedBefore = submittedBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\p{ASCII}{0,8192}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreId = "DatastoreId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case submittedAfter = "SubmittedAfter"
+            case submittedBefore = "SubmittedBefore"
+        }
+    }
+
+    public struct ListFHIRImportJobsResponse: AWSDecodableShape {
+        ///  The properties of a listed FHIR import jobs, including the ID, ARN, name, and the status of the job.
+        public let importJobPropertiesList: [ImportJobProperties]
+        ///  A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
+        public let nextToken: String?
+
+        public init(importJobPropertiesList: [ImportJobProperties], nextToken: String? = nil) {
+            self.importJobPropertiesList = importJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJobPropertiesList = "ImportJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name(ARN) of the Data Store for which tags are being added.
+        public let resourceARN: String
+
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:datastore\\/fhir\\/.{32}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        ///  Returns a list of tags associated with a Data Store.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The output data configuration that was supplied when the export job was created.
+        public let s3Configuration: S3Configuration?
+
+        public init(s3Configuration: S3Configuration? = nil) {
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Configuration = "S3Configuration"
         }
     }
 
@@ -515,6 +731,48 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case preloadDataType = "PreloadDataType"
+        }
+    }
+
+    public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
+        ///  The KMS key ID used to access the S3 bucket.
+        public let kmsKeyId: String
+        ///  The S3Uri is the user specified S3 location of the FHIR data to be imported into Amazon HealthLake.
+        public let s3Uri: String
+
+        public init(kmsKeyId: String, s3Uri: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 400)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "(arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:kms:)?([a-z]{2}-[a-z]+(-[a-z]+)?-\\d:)?(\\d{12}:)?(((key/)?[a-zA-Z0-9-_]+)|(alias/[a-zA-Z0-9:/_-]+))")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct SseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The KMS encryption configuration used to provide details for data encryption.
+        public let kmsEncryptionConfig: KmsEncryptionConfig
+
+        public init(kmsEncryptionConfig: KmsEncryptionConfig) {
+            self.kmsEncryptionConfig = kmsEncryptionConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.kmsEncryptionConfig.validate(name: "\(name).kmsEncryptionConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsEncryptionConfig = "KmsEncryptionConfig"
         }
     }
 
@@ -595,13 +853,15 @@ extension HealthLake {
         public let inputDataConfig: InputDataConfig
         /// The name of the FHIR Import job in the StartFHIRImport job request.
         public let jobName: String?
+        public let jobOutputDataConfig: OutputDataConfig
 
-        public init(clientToken: String = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputDataConfig: InputDataConfig, jobName: String? = nil) {
+        public init(clientToken: String = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputDataConfig: InputDataConfig, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
+            self.jobOutputDataConfig = jobOutputDataConfig
         }
 
         public func validate(name: String) throws {
@@ -618,6 +878,7 @@ extension HealthLake {
             try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.jobOutputDataConfig.validate(name: "\(name).jobOutputDataConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -626,6 +887,7 @@ extension HealthLake {
             case datastoreId = "DatastoreId"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
+            case jobOutputDataConfig = "JobOutputDataConfig"
         }
     }
 
@@ -648,5 +910,97 @@ extension HealthLake {
             case jobId = "JobId"
             case jobStatus = "JobStatus"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        ///  The key portion of a tag. Tag keys are case sensitive.
+        public let key: String
+        ///  The value portion of tag. Tag values are case sensitive.
+        public let value: String
+
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name(ARN)that gives Amazon HealthLake access to the Data Store which tags are being added to.
+        public let resourceARN: String
+        ///  The user specified key and value pair tags being added to a Data Store.
+        public let tags: [Tag]
+
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:datastore\\/fhir\\/.{32}")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        ///  "The Amazon Resource Name(ARN) of the Data Store for which tags are being removed
+        public let resourceARN: String
+        ///  The keys for the tags to be removed from the Healthlake Data Store.
+        public let tagKeys: [String]
+
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:datastore\\/fhir\\/.{32}")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }

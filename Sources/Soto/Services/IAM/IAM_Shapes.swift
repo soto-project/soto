@@ -194,15 +194,15 @@ extension IAM {
     // MARK: Shapes
 
     public struct AccessDetail: AWSDecodableShape {
-        /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root users) in the reported Organizations entity attempted to access the service within the reporting period.
+        /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root users) in the reported Organizations entity attempted to access the service within the reporting period.
         public let entityPath: String?
-        /// The date and time, in ISO 8601 date-time format, when an authenticated principal most recently attempted to access the service. AWS does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when an authenticated principal most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
         public let lastAuthenticatedTime: Date?
         /// The Region where the last service access attempt occurred. This field is null if no principals in the reported Organizations entity attempted to access the service within the reporting period.
         public let region: String?
         /// The name of the service in which access was attempted.
         public let serviceName: String
-        /// The namespace of the service in which access was attempted. To learn the service namespace of a service, see Actions, resources, and condition keys for AWS services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS service namespaces in the AWS General Reference.
+        /// The namespace of the service in which access was attempted. To learn the service namespace of a service, see Actions, resources, and condition keys for Amazon Web Services services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
         /// The number of accounts with authenticated principals (root users, IAM users, and IAM roles) that attempted to access the service in the reporting period.
         public let totalAuthenticatedEntities: Int?
@@ -258,9 +258,9 @@ extension IAM {
     public struct AccessKeyLastUsed: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format, when the access key was most recently used. This field is null in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.
         public let lastUsedDate: Date
-        /// The AWS Region where this access key was most recently used. The value for this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.   For more information about AWS Regions, see Regions and endpoints in the Amazon Web Services General Reference.
+        /// The Region where this access key was most recently used. The value for this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM began tracking this information.   There is no sign-in data associated with the user.   For more information about Regions, see Regions and endpoints in the Amazon Web Services General Reference.
         public let region: String
-        /// The name of the AWS service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user.
+        /// The name of the Amazon Web Services service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user.
         public let serviceName: String
 
         public init(lastUsedDate: Date, region: String, serviceName: String) {
@@ -380,7 +380,7 @@ extension IAM {
     public struct AttachGroupPolicyRequest: AWSEncodableShape {
         /// The name (friendly name, not ARN) of the group to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let groupName: String
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
         public init(groupName: String, policyArn: String) {
@@ -403,7 +403,7 @@ extension IAM {
     }
 
     public struct AttachRolePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -428,7 +428,7 @@ extension IAM {
     }
 
     public struct AttachUserPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The name (friendly name, not ARN) of the IAM user to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
@@ -486,7 +486,7 @@ extension IAM {
     }
 
     public struct ChangePasswordRequest: AWSEncodableShape {
-        /// The new password. The new password must conform to the AWS account's password policy, if one exists. The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the AWS Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
+        /// The new password. The new password must conform to the account's password policy, if one exists. The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
         public let newPassword: String
         /// The IAM user's current password.
         public let oldPassword: String
@@ -677,7 +677,7 @@ extension IAM {
     }
 
     public struct CreateLoginProfileRequest: AWSEncodableShape {
-        /// The new password for the user. The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the AWS Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
+        /// The new password for the user. The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
         public let password: String
         /// Specifies whether the user is required to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
@@ -729,7 +729,7 @@ extension IAM {
         /// A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificates. Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates. The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string. You must provide at least one thumbprint when creating an IAM OIDC provider. For example, assume that the OIDC provider is server.example.com and the provider stores its keys at https://keys.server.example.com/openid-connect. In that case, the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com. For more information about obtaining the OIDC provider's thumbprint, see Obtaining the thumbprint for an OpenID Connect provider in the IAM User Guide.
         @CustomCoding<StandardArrayCoder>
         public var thumbprintList: [String]
-        /// The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com. You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
+        /// The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com. You cannot register the same provider multiple times in a single account. If you try to submit a URL that has already been used for an OpenID Connect provider in the account, you will get an error.
         public let url: String
 
         public init(clientIDList: [String]? = nil, tags: [Tag]? = nil, thumbprintList: [String], url: String) {
@@ -787,7 +787,7 @@ extension IAM {
         public let description: String?
         /// The path for the policy. For more information about paths, see IAM identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
-        /// The JSON policy document that you want to use as the content for the new policy. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. To learn more about JSON policy grammar, see Grammar of the IAM JSON policy language in the IAM User Guide.  The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The JSON policy document that you want to use as the content for the new policy. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. To learn more about JSON policy grammar, see Grammar of the IAM JSON policy language in the IAM User Guide.  The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let policyDocument: String
         /// The friendly name of the policy. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
         public let policyName: String
@@ -843,9 +843,9 @@ extension IAM {
     }
 
     public struct CreatePolicyVersionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy to which you want to add a new version. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy to which you want to add a new version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
-        /// The JSON policy document that you want to use as the content for this new version of the policy. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The JSON policy document that you want to use as the content for this new version of the policy. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let policyDocument: String
         /// Specifies whether to set this version as the policy's default version. When this parameter is true, the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
         public let setAsDefault: Bool?
@@ -885,11 +885,11 @@ extension IAM {
     }
 
     public struct CreateRoleRequest: AWSEncodableShape {
-        /// The trust relationship policy document that grants an entity permission to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)    Upon success, the response includes the same trust policy in JSON format.
+        /// The trust relationship policy document that grants an entity permission to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)    Upon success, the response includes the same trust policy in JSON format.
         public let assumeRolePolicyDocument: String
         /// A description of the role.
         public let description: String?
-        /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM roles in the IAM User Guide.
+        /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM roles in the IAM User Guide.
         public let maxSessionDuration: Int?
         ///  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
@@ -1010,7 +1010,7 @@ extension IAM {
     }
 
     public struct CreateServiceLinkedRoleRequest: AWSEncodableShape {
-        /// The service principal for the AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com.  Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see AWS services that work with IAM in the IAM User Guide. Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service.
+        /// The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com.  Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Services services that work with IAM in the IAM User Guide. Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service.
         public let aWSServiceName: String
         ///  A string that you provide, which is combined with the service-provided prefix to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix. Some services do not support the CustomSuffix parameter. If you provide an optional suffix and the operation fails, try the operation again without the suffix.
         public let customSuffix: String?
@@ -1055,7 +1055,7 @@ extension IAM {
     }
 
     public struct CreateServiceSpecificCredentialRequest: AWSEncodableShape {
-        /// The name of the AWS service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
+        /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
         public let serviceName: String
         /// The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
@@ -1364,7 +1364,7 @@ extension IAM {
     }
 
     public struct DeletePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
         public init(policyArn: String) {
@@ -1382,7 +1382,7 @@ extension IAM {
     }
 
     public struct DeletePolicyVersionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The policy version to delete. This parameter allows (through its regex pattern) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
         public let versionId: String
@@ -1719,7 +1719,7 @@ extension IAM {
     public struct DetachGroupPolicyRequest: AWSEncodableShape {
         /// The name (friendly name, not ARN) of the IAM group to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let groupName: String
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
         public init(groupName: String, policyArn: String) {
@@ -1742,7 +1742,7 @@ extension IAM {
     }
 
     public struct DetachRolePolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -1767,7 +1767,7 @@ extension IAM {
     }
 
     public struct DetachUserPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The name (friendly name, not ARN) of the IAM user to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
@@ -1834,7 +1834,7 @@ extension IAM {
     public struct EntityDetails: AWSDecodableShape {
         /// The EntityInfo object that contains details about the entity (user or role).
         public let entityInfo: EntityInfo
-        /// The date and time, in ISO 8601 date-time format, when the authenticated entity last attempted to access AWS. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when the authenticated entity last attempted to access Amazon Web Services. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAuthenticated: Date?
 
         public init(entityInfo: EntityInfo, lastAuthenticated: Date? = nil) {
@@ -1898,7 +1898,7 @@ extension IAM {
         public let evalActionName: String
         /// The result of the simulation.
         public let evalDecision: PolicyEvaluationDecisionType
-        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, AWS evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see Evaluating policies within a single account. If an AWS Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
+        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, Amazon Web Services evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see Evaluating policies within a single account. If an Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
         /// The ARN of the resource that the indicated API operation was tested on.
@@ -1960,9 +1960,9 @@ extension IAM {
     }
 
     public struct GenerateOrganizationsAccessReportRequest: AWSEncodableShape {
-        /// The path of the AWS Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
+        /// The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
         public let entityPath: String
-        /// The identifier of the AWS Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an AWS service.
+        /// The identifier of the Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an Amazon Web Services service.
         public let organizationsPolicyId: String?
 
         public init(entityPath: String, organizationsPolicyId: String? = nil) {
@@ -1997,7 +1997,7 @@ extension IAM {
     }
 
     public struct GenerateServiceLastAccessedDetailsRequest: AWSEncodableShape {
-        /// The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an AWS service.
+        /// The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an Amazon Web Services service.
         public let arn: String
         /// The level of detail that you want to generate. You can specify whether you want to generate information about the last attempt to access services or actions. If you specify service-level granularity, this operation generates only service data. If you specify action-level granularity, it generates service and action data. If you don't include this optional parameter, the operation generates service data.
         public let granularity: AccessAdvisorUsageGranularityType?
@@ -2053,7 +2053,7 @@ extension IAM {
     public struct GetAccessKeyLastUsedResponse: AWSDecodableShape {
         /// Contains information about the last time the access key was used.
         public let accessKeyLastUsed: AccessKeyLastUsed?
-        /// The name of the AWS IAM user that owns this access key.
+        /// The name of the IAM user that owns this access key.
         public let userName: String?
 
         public init(accessKeyLastUsed: AccessKeyLastUsed? = nil, userName: String? = nil) {
@@ -2201,7 +2201,7 @@ extension IAM {
         /// An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder>
         public var policyInputList: [String]?
-        /// The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policySourceArn: String
 
         public init(policyInputList: [String]? = nil, policySourceArn: String) {
@@ -2275,7 +2275,7 @@ extension IAM {
     public struct GetGroupPolicyResponse: AWSDecodableShape {
         /// The group the policy is associated with.
         public let groupName: String
-        /// The policy document. IAM stores policies in JSON format. However, resources that were created using AWS CloudFormation templates can be formatted in YAML. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
+        /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
         public let policyDocument: String
         /// The name of the policy.
         public let policyName: String
@@ -2403,7 +2403,7 @@ extension IAM {
     }
 
     public struct GetLoginProfileResponse: AWSDecodableShape {
-        /// A structure containing the user name and password create date for the user.
+        /// A structure containing the user name and the profile creation date for the user.
         public let loginProfile: LoginProfile
 
         public init(loginProfile: LoginProfile) {
@@ -2416,7 +2416,7 @@ extension IAM {
     }
 
     public struct GetOpenIDConnectProviderRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let openIDConnectProviderArn: String
 
         public init(openIDConnectProviderArn: String) {
@@ -2437,7 +2437,7 @@ extension IAM {
         /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
         @OptionalCustomCoding<StandardArrayCoder>
         public var clientIDList: [String]?
-        /// The date and time when the IAM OIDC provider resource object was created in the AWS account.
+        /// The date and time when the IAM OIDC provider resource object was created in the account.
         public let createDate: Date?
         /// A list of tags that are attached to the specified IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -2546,7 +2546,7 @@ extension IAM {
     }
 
     public struct GetPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
         public init(policyArn: String) {
@@ -2577,7 +2577,7 @@ extension IAM {
     }
 
     public struct GetPolicyVersionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// Identifies the policy version to retrieve. This parameter allows (through its regex pattern) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits.
         public let versionId: String
@@ -2639,7 +2639,7 @@ extension IAM {
     }
 
     public struct GetRolePolicyResponse: AWSDecodableShape {
-        /// The policy document. IAM stores policies in JSON format. However, resources that were created using AWS CloudFormation templates can be formatted in YAML. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
+        /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
         public let policyDocument: String
         /// The name of the policy.
         public let policyName: String
@@ -2692,7 +2692,7 @@ extension IAM {
     }
 
     public struct GetSAMLProviderRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let sAMLProviderArn: String
 
         public init(sAMLProviderArn: String) {
@@ -2890,7 +2890,7 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The service namespace for an AWS service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for AWS services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS service namespaces in the AWS General Reference.
+        /// The service namespace for an Amazon Web Services service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
 
         public init(jobId: String, marker: String? = nil, maxItems: Int? = nil, serviceNamespace: String) {
@@ -2922,7 +2922,7 @@ extension IAM {
     }
 
     public struct GetServiceLastAccessedDetailsWithEntitiesResponse: AWSDecodableShape {
-        /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified AWS service.
+        /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified Amazon Web Services service.
         @CustomCoding<StandardArrayCoder>
         public var entityDetailsList: [EntityDetails]
         /// An object that contains details about the reason the operation failed.
@@ -3021,7 +3021,7 @@ extension IAM {
     }
 
     public struct GetUserPolicyResponse: AWSDecodableShape {
-        /// The policy document. IAM stores policies in JSON format. However, resources that were created using AWS CloudFormation templates can be formatted in YAML. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
+        /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
         public let policyDocument: String
         /// The name of the policy.
         public let policyName: String
@@ -3061,7 +3061,7 @@ extension IAM {
     }
 
     public struct GetUserResponse: AWSDecodableShape {
-        /// A structure containing details about the IAM user.  Due to a service issue, password last used data does not include password use from May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects last sign-in dates shown in the IAM console and password last used dates in the IAM credential report, and returned by this operation. If users signed in during the affected time, the password last used date that is returned is the date the user last signed in before May 3, 2018. For users that signed in after May 23, 2018 14:08 PDT, the returned password last used date is accurate. You can use password last used information to identify unused credentials for deletion. For example, you might delete users who did not sign in to AWS in the last 90 days. In cases like this, we recommend that you adjust your evaluation window to include dates after May 23, 2018. Alternatively, if your users use access keys to access AWS programmatically you can refer to access key last used information because it is accurate for all dates.
+        /// A structure containing details about the IAM user.  Due to a service issue, password last used data does not include password use from May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects last sign-in dates shown in the IAM console and password last used dates in the IAM credential report, and returned by this operation. If users signed in during the affected time, the password last used date that is returned is the date the user last signed in before May 3, 2018. For users that signed in after May 23, 2018 14:08 PDT, the returned password last used date is accurate. You can use password last used information to identify unused credentials for deletion. For example, you might delete users who did not sign in to Amazon Web Services in the last 90 days. In cases like this, we recommend that you adjust your evaluation window to include dates after May 23, 2018. Alternatively, if your users use access keys to access Amazon Web Services programmatically you can refer to access key last used information because it is accurate for all dates.
         public let user: User
 
         public init(user: User) {
@@ -3259,7 +3259,7 @@ extension IAM {
     }
 
     public struct ListAccountAliasesResponse: AWSDecodableShape {
-        /// A list of aliases associated with the account. AWS supports only one alias per account.
+        /// A list of aliases associated with the account. Amazon Web Services supports only one alias per account.
         @CustomCoding<StandardArrayCoder>
         public var accountAliases: [String]
         /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
@@ -3472,7 +3472,7 @@ extension IAM {
         public let maxItems: Int?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
-        /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
         public let policyUsageFilter: PolicyUsageType?
@@ -3704,11 +3704,11 @@ extension IAM {
     }
 
     public struct ListInstanceProfileTagsRequest: AWSEncodableShape {
-        /// The name of the IAM instance profile whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM instance profile whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let instanceProfileName: String
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
 
         public init(instanceProfileName: String, marker: String? = nil, maxItems: Int? = nil) {
@@ -3736,7 +3736,7 @@ extension IAM {
     }
 
     public struct ListInstanceProfileTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -3868,9 +3868,9 @@ extension IAM {
     public struct ListMFADeviceTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The unique identifier for the IAM virtual MFA device whose tags you want to see. For virtual MFA devices, the serial number is the same as the ARN. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The unique identifier for the IAM virtual MFA device whose tags you want to see. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serialNumber: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, serialNumber: String) {
@@ -3898,7 +3898,7 @@ extension IAM {
     }
 
     public struct ListMFADeviceTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -3976,9 +3976,9 @@ extension IAM {
     public struct ListOpenIDConnectProviderTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The ARN of the OpenID Connect (OIDC) identity provider whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the OpenID Connect (OIDC) identity provider whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let openIDConnectProviderArn: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, openIDConnectProviderArn: String) {
@@ -4005,7 +4005,7 @@ extension IAM {
     }
 
     public struct ListOpenIDConnectProviderTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4031,7 +4031,7 @@ extension IAM {
     }
 
     public struct ListOpenIDConnectProvidersResponse: AWSDecodableShape {
-        /// The list of IAM OIDC provider resource objects defined in the AWS account.
+        /// The list of IAM OIDC provider resource objects defined in the account.
         @OptionalCustomCoding<StandardArrayCoder>
         public var openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
 
@@ -4048,7 +4048,7 @@ extension IAM {
         /// The PoliciesGrantingServiceAccess object that contains details about the policy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var policies: [PolicyGrantingServiceAccess]?
-        /// The namespace of the service that was accessed. To learn the service namespace of a service, see Actions, resources, and condition keys for AWS services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS service namespaces in the AWS General Reference.
+        /// The namespace of the service that was accessed. To learn the service namespace of a service, see Actions, resources, and condition keys for Amazon Web Services services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String?
 
         public init(policies: [PolicyGrantingServiceAccess]? = nil, serviceNamespace: String? = nil) {
@@ -4067,7 +4067,7 @@ extension IAM {
         public let arn: String
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// The service namespace for the AWS services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for AWS services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS service namespaces in the AWS General Reference.
+        /// The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         @CustomCoding<StandardArrayCoder>
         public var serviceNamespaces: [String]
 
@@ -4132,7 +4132,7 @@ extension IAM {
         public let pathPrefix: String?
         /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
         public let policyUsageFilter: PolicyUsageType?
-        /// The scope to use for filtering the results. To list only AWS managed policies, set Scope to AWS. To list only the customer managed policies in your AWS account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
+        /// The scope to use for filtering the results. To list only Amazon Web Services managed policies, set Scope to AWS. To list only the customer managed policies in your account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
         public let scope: PolicyScopeType?
 
         public init(marker: String? = nil, maxItems: Int? = nil, onlyAttached: Bool? = nil, pathPrefix: String? = nil, policyUsageFilter: PolicyUsageType? = nil, scope: PolicyScopeType? = nil) {
@@ -4190,9 +4190,9 @@ extension IAM {
     public struct ListPolicyTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The ARN of the IAM customer managed policy whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the IAM customer managed policy whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyArn: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, policyArn: String) {
@@ -4219,7 +4219,7 @@ extension IAM {
     }
 
     public struct ListPolicyTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4245,7 +4245,7 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, policyArn: String) {
@@ -4350,7 +4350,7 @@ extension IAM {
     public struct ListRoleTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
         /// The name of the IAM role for which you want to see the list of tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -4380,7 +4380,7 @@ extension IAM {
     }
 
     public struct ListRoleTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4458,9 +4458,9 @@ extension IAM {
     public struct ListSAMLProviderTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The ARN of the Security Assertion Markup Language (SAML) identity provider whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the Security Assertion Markup Language (SAML) identity provider whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let sAMLProviderArn: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, sAMLProviderArn: String) {
@@ -4487,7 +4487,7 @@ extension IAM {
     }
 
     public struct ListSAMLProviderTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4513,7 +4513,7 @@ extension IAM {
     }
 
     public struct ListSAMLProvidersResponse: AWSDecodableShape {
-        /// The list of SAML provider resource objects defined in IAM for this AWS account.
+        /// The list of SAML provider resource objects defined in IAM for this Amazon Web Services account.
         @OptionalCustomCoding<StandardArrayCoder>
         public var sAMLProviderList: [SAMLProviderListEntry]?
 
@@ -4531,7 +4531,7 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the AWS access key used to sign the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+        /// The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the Amazon Web Services access key used to sign the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
@@ -4583,9 +4583,9 @@ extension IAM {
     public struct ListServerCertificateTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The name of the IAM server certificate whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM server certificate whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, serverCertificateName: String) {
@@ -4613,7 +4613,7 @@ extension IAM {
     }
 
     public struct ListServerCertificateTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4689,7 +4689,7 @@ extension IAM {
     }
 
     public struct ListServiceSpecificCredentialsRequest: AWSEncodableShape {
-        /// Filters the returned results to only those for the specified AWS service. If not specified, then AWS returns service-specific credentials for all services.
+        /// Filters the returned results to only those for the specified Amazon Web Services service. If not specified, then Amazon Web Services returns service-specific credentials for all services.
         public let serviceName: String?
         /// The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
@@ -4836,9 +4836,9 @@ extension IAM {
     public struct ListUserTagsRequest: AWSEncodableShape {
         /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
         public let marker: String?
-        /// (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The name of the IAM user whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM user whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
@@ -4866,7 +4866,7 @@ extension IAM {
     }
 
     public struct ListUserTagsResponse: AWSDecodableShape {
-        /// A flag that indicates whether there are more items to return. If your results were truncated, you can use the Marker request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the MaxItems number of results even when more results are available. Check IsTruncated after every call to ensure that you receive all of your results.
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
         public let marker: String?
@@ -4997,7 +4997,7 @@ extension IAM {
         public let createDate: Date
         /// Specifies whether the user is required to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
-        /// The name of the user, which can be used for signing in to the AWS Management Console.
+        /// The name of the user, which can be used for signing in to the Management Console.
         public let userName: String
 
         public init(createDate: Date, passwordResetRequired: Bool? = nil, userName: String) {
@@ -5376,7 +5376,7 @@ extension IAM {
     public struct PutGroupPolicyRequest: AWSEncodableShape {
         /// The name of the group to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-.
         public let groupName: String
-        /// The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to = IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let policyDocument: String
         /// The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String
@@ -5432,7 +5432,7 @@ extension IAM {
     }
 
     public struct PutRolePolicyRequest: AWSEncodableShape {
-        /// The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let policyDocument: String
         /// The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String
@@ -5490,7 +5490,7 @@ extension IAM {
     }
 
     public struct PutUserPolicyRequest: AWSEncodableShape {
-        /// The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The policy document. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let policyDocument: String
         /// The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String
@@ -5525,7 +5525,7 @@ extension IAM {
     public struct RemoveClientIDFromOpenIDConnectProviderRequest: AWSEncodableShape {
         /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider.
         public let clientID: String
-        /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let openIDConnectProviderArn: String
 
         public init(clientID: String, openIDConnectProviderArn: String) {
@@ -5722,7 +5722,7 @@ extension IAM {
         public let createDate: Date
         /// A description of the role that you provide.
         public let description: String?
-        /// The maximum session duration (in seconds) for the specified role. Anyone who uses the AWS CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
+        /// The maximum session duration (in seconds) for the specified role. Anyone who uses the CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
         public let maxSessionDuration: Int?
         ///  The path to the role. For more information about paths, see IAM identifiers in the IAM User Guide.
         public let path: String
@@ -5830,7 +5830,7 @@ extension IAM {
     public struct RoleLastUsed: AWSDecodableShape {
         /// The date and time, in ISO 8601 date-time format that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see Regions where data is tracked in the IAM User Guide.
         public let lastUsedDate: Date?
-        /// The name of the AWS Region in which the role was last used.
+        /// The name of the Region in which the role was last used.
         public let region: String?
 
         public init(lastUsedDate: Date? = nil, region: String? = nil) {
@@ -5890,7 +5890,7 @@ extension IAM {
         public let sSHPublicKeyBody: String
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
-        /// The status of the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
+        /// The status of the SSH public key. Active means that the key can be used for authentication with an CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
         public let uploadDate: Date?
@@ -5919,7 +5919,7 @@ extension IAM {
     public struct SSHPublicKeyMetadata: AWSDecodableShape {
         /// The unique identifier for the SSH public key.
         public let sSHPublicKeyId: String
-        /// The status of the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
+        /// The status of the SSH public key. Active means that the key can be used for authentication with an CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
         public let uploadDate: Date
@@ -6001,15 +6001,15 @@ extension IAM {
     }
 
     public struct ServiceLastAccessed: AWSDecodableShape {
-        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAuthenticated: Date?
-        /// The ARN of the authenticated entity (user or role) that last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The ARN of the authenticated entity (user or role) that last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAuthenticatedEntity: String?
-        /// The Region from which the authenticated entity (user or role) last attempted to access the service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The Region from which the authenticated entity (user or role) last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAuthenticatedRegion: String?
         /// The name of the service in which access was attempted.
         public let serviceName: String
-        /// The namespace of the service in which access was attempted. To learn the service namespace of a service, see Actions, resources, and condition keys for AWS services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
+        /// The namespace of the service in which access was attempted. To learn the service namespace of a service, see Actions, resources, and condition keys for Amazon Web Services services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
         /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the reporting period.
         public let totalAuthenticatedEntities: Int?
@@ -6047,7 +6047,7 @@ extension IAM {
         public let servicePassword: String
         /// The unique identifier for the service-specific credential.
         public let serviceSpecificCredentialId: String
-        /// The generated user name for the service-specific credential. This value is generated by combining the IAM user's name combined with the ID number of the AWS account, as in jane-at-123456789012, for example. This value cannot be configured by the user.
+        /// The generated user name for the service-specific credential. This value is generated by combining the IAM user's name combined with the ID number of the Amazon Web Services account, as in jane-at-123456789012, for example. This value cannot be configured by the user.
         public let serviceUserName: String
         /// The status of the service-specific credential. Active means that the key is valid for API calls, while Inactive means it is not.
         public let status: StatusType
@@ -6109,7 +6109,7 @@ extension IAM {
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM policy whose default version you want to set. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM policy whose default version you want to set. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
         /// The version of the policy to set as the default (operative) version. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
         public let versionId: String
@@ -6132,7 +6132,7 @@ extension IAM {
     }
 
     public struct SetSecurityTokenServicePreferencesRequest: AWSEncodableShape {
-        /// The version of the global endpoint token. Version 1 tokens are valid only in AWS Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and deactivating STS in an AWS region in the IAM User Guide.
+        /// The version of the global endpoint token. Version 1 tokens are valid only in Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and deactivating STS in an Region in the IAM User Guide.
         public let globalEndpointTokenVersion: GlobalEndpointTokenVersion
 
         public init(globalEndpointTokenVersion: GlobalEndpointTokenVersion) {
@@ -6186,20 +6186,20 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder>
         public var permissionsBoundaryPolicyInputList: [String]?
-        /// A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         @CustomCoding<StandardArrayCoder>
         public var policyInputList: [String]
-        /// A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         @OptionalCustomCoding<StandardArrayCoder>
         public var resourceArns: [String]?
         /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security-group    EC2-Classic-EBS  instance, image, security-group, volume    EC2-VPC-InstanceStore  instance, image, security-group, network-interface    EC2-VPC-InstanceStore-Subnet  instance, image, security-group, network-interface, subnet    EC2-VPC-EBS  instance, image, security-group, network-interface, volume    EC2-VPC-EBS-Subnet  instance, image, security-group, network-interface, subnet, volume
         public let resourceHandlingOption: String?
-        /// An ARN representing the AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn. The ARN for an account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to represent the account with the 112233445566 ID, use the following ARN: arn:aws:iam::112233445566-ID:root.
+        /// An ARN representing the account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn. The ARN for an account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to represent the account with the 112233445566 ID, use the following ARN: arn:aws:iam::112233445566-ID:root.
         public let resourceOwner: String?
-        /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let resourcePolicy: String?
 
         public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
@@ -6295,7 +6295,7 @@ extension IAM {
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
         @CustomCoding<StandardArrayCoder>
         public var actionNames: [String]
-        /// The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let callerArn: String?
         /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -6304,22 +6304,22 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
         public let maxItems: Int?
-        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder>
         public var permissionsBoundaryPolicyInputList: [String]?
         /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder>
         public var policyInputList: [String]?
-        /// The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policySourceArn: String
-        /// A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         @OptionalCustomCoding<StandardArrayCoder>
         public var resourceArns: [String]?
         /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security group    EC2-Classic-EBS  instance, image, security group, volume    EC2-VPC-InstanceStore  instance, image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group, network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
         public let resourceHandlingOption: String?
-        /// An AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn.
+        /// An account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn.
         public let resourceOwner: String?
-        /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let resourcePolicy: String?
 
         public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
@@ -6421,7 +6421,7 @@ extension IAM {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices.
         public let key: String
-        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.  AWS always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
+        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.  Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
         public let value: String
 
         public init(key: String, value: String) {
@@ -6445,7 +6445,7 @@ extension IAM {
     }
 
     public struct TagInstanceProfileRequest: AWSEncodableShape {
-        /// The name of the IAM instance profile to which you want to add tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM instance profile to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let instanceProfileName: String
         /// The list of tags that you want to attach to the IAM instance profile. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
@@ -6473,7 +6473,7 @@ extension IAM {
     }
 
     public struct TagMFADeviceRequest: AWSEncodableShape {
-        /// The unique identifier for the IAM virtual MFA device to which you want to add tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The unique identifier for the IAM virtual MFA device to which you want to add tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serialNumber: String
         /// The list of tags that you want to attach to the IAM virtual MFA device. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
@@ -6501,7 +6501,7 @@ extension IAM {
     }
 
     public struct TagOpenIDConnectProviderRequest: AWSEncodableShape {
-        /// The ARN of the OIDC identity provider in IAM to which you want to add tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the OIDC identity provider in IAM to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let openIDConnectProviderArn: String
         /// The list of tags that you want to attach to the OIDC identity provider in IAM. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
@@ -6528,7 +6528,7 @@ extension IAM {
     }
 
     public struct TagPolicyRequest: AWSEncodableShape {
-        /// The ARN of the IAM customer managed policy to which you want to add tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the IAM customer managed policy to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyArn: String
         /// The list of tags that you want to attach to the IAM customer managed policy. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
@@ -6583,7 +6583,7 @@ extension IAM {
     }
 
     public struct TagSAMLProviderRequest: AWSEncodableShape {
-        /// The ARN of the SAML identity provider in IAM to which you want to add tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the SAML identity provider in IAM to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let sAMLProviderArn: String
         /// The list of tags that you want to attach to the SAML identity provider in IAM. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
@@ -6610,7 +6610,7 @@ extension IAM {
     }
 
     public struct TagServerCertificateRequest: AWSEncodableShape {
-        /// The name of the IAM server certificate to which you want to add tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM server certificate to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
         /// The list of tags that you want to attach to the IAM server certificate. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
@@ -6641,7 +6641,7 @@ extension IAM {
         /// The list of tags that you want to attach to the IAM user. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
         public var tags: [Tag]
-        /// The name of the IAM user to which you want to add tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM user to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
         public init(tags: [Tag], userName: String) {
@@ -6669,9 +6669,9 @@ extension IAM {
         /// The name of the tracked action to which access was attempted. Tracked actions are actions that report activity to IAM.
         public let actionName: String?
         public let lastAccessedEntity: String?
-        /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAccessedRegion: String?
-        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. AWS does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
+        /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the reporting period.
         public let lastAccessedTime: Date?
 
         public init(actionName: String? = nil, lastAccessedEntity: String? = nil, lastAccessedRegion: String? = nil, lastAccessedTime: Date? = nil) {
@@ -6690,7 +6690,7 @@ extension IAM {
     }
 
     public struct UntagInstanceProfileRequest: AWSEncodableShape {
-        /// The name of the IAM instance profile from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM instance profile from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let instanceProfileName: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified instance profile.
         @CustomCoding<StandardArrayCoder>
@@ -6720,7 +6720,7 @@ extension IAM {
     }
 
     public struct UntagMFADeviceRequest: AWSEncodableShape {
-        /// The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The unique identifier for the IAM virtual MFA device from which you want to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serialNumber: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified instance profile.
         @CustomCoding<StandardArrayCoder>
@@ -6750,7 +6750,7 @@ extension IAM {
     }
 
     public struct UntagOpenIDConnectProviderRequest: AWSEncodableShape {
-        /// The ARN of the OIDC provider in IAM from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the OIDC provider in IAM from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let openIDConnectProviderArn: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified OIDC provider.
         @CustomCoding<StandardArrayCoder>
@@ -6779,7 +6779,7 @@ extension IAM {
     }
 
     public struct UntagPolicyRequest: AWSEncodableShape {
-        /// The ARN of the IAM customer managed policy from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the IAM customer managed policy from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyArn: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified policy.
         @CustomCoding<StandardArrayCoder>
@@ -6838,7 +6838,7 @@ extension IAM {
     }
 
     public struct UntagSAMLProviderRequest: AWSEncodableShape {
-        /// The ARN of the SAML identity provider in IAM from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The ARN of the SAML identity provider in IAM from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let sAMLProviderArn: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified SAML identity provider.
         @CustomCoding<StandardArrayCoder>
@@ -6867,7 +6867,7 @@ extension IAM {
     }
 
     public struct UntagServerCertificateRequest: AWSEncodableShape {
-        /// The name of the IAM server certificate from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM server certificate from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified IAM server certificate.
         @CustomCoding<StandardArrayCoder>
@@ -6900,7 +6900,7 @@ extension IAM {
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified user.
         @CustomCoding<StandardArrayCoder>
         public var tagKeys: [String]
-        /// The name of the IAM user from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+        /// The name of the IAM user from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
         public init(tagKeys: [String], userName: String) {
@@ -6929,7 +6929,7 @@ extension IAM {
     public struct UpdateAccessKeyRequest: AWSEncodableShape {
         /// The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let accessKeyId: String
-        ///  The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to AWS, while Inactive means that the key cannot be used.
+        ///  The status you want to assign to the secret access key. Active means that the key can be used for programmatic calls to Amazon Web Services, while Inactive means that the key cannot be used.
         public let status: StatusType
         /// The name of the user whose key you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
@@ -6957,7 +6957,7 @@ extension IAM {
     }
 
     public struct UpdateAccountPasswordPolicyRequest: AWSEncodableShape {
-        ///  Allows all IAM users in your account to use the AWS Management Console to change their own passwords. For more information, see Letting IAM users change their own passwords in the IAM User Guide. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users in the account do not automatically have permissions to change their own password.
+        ///  Allows all IAM users in your account to use the Management Console to change their own passwords. For more information, see Letting IAM users change their own passwords in the IAM User Guide. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users in the account do not automatically have permissions to change their own password.
         public let allowUsersToChangePassword: Bool?
         /// Prevents IAM users from setting a new password after their password has expired. The IAM user cannot be accessed until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users can change their passwords after they expire and continue to sign in as the user.
         public let hardExpiry: Bool?
@@ -7011,7 +7011,7 @@ extension IAM {
     }
 
     public struct UpdateAssumeRolePolicyRequest: AWSEncodableShape {
-        /// The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
         public let policyDocument: String
         /// The name of the role to update with the new policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
@@ -7070,7 +7070,7 @@ extension IAM {
     }
 
     public struct UpdateLoginProfileRequest: AWSEncodableShape {
-        /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)   However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
+        /// The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)   However, the format can be further restricted by the account administrator by setting a password policy on the account. For more information, see UpdateAccountPasswordPolicy.
         public let password: String?
         /// Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
         public let passwordResetRequired: Bool?
@@ -7100,7 +7100,7 @@ extension IAM {
     }
 
     public struct UpdateOpenIDConnectProviderThumbprintRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let openIDConnectProviderArn: String
         /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider.
         @CustomCoding<StandardArrayCoder>
@@ -7167,7 +7167,7 @@ extension IAM {
     public struct UpdateRoleRequest: AWSEncodableShape {
         /// The new description that you want to apply to the specified role.
         public let description: String?
-        /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM roles in the IAM User Guide.
+        /// The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM roles in the IAM User Guide.
         public let maxSessionDuration: Int?
         /// The name of the role that you want to modify.
         public let roleName: String
@@ -7202,7 +7202,7 @@ extension IAM {
     public struct UpdateSAMLProviderRequest: AWSEncodableShape {
         /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
         public let sAMLMetadataDocument: String
-        /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let sAMLProviderArn: String
 
         public init(sAMLMetadataDocument: String, sAMLProviderArn: String) {
@@ -7239,7 +7239,7 @@ extension IAM {
     public struct UpdateSSHPublicKeyRequest: AWSEncodableShape {
         /// The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let sSHPublicKeyId: String
-        /// The status to assign to the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
+        /// The status to assign to the SSH public key. Active means that the key can be used for authentication with an CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
@@ -7332,7 +7332,7 @@ extension IAM {
     public struct UpdateSigningCertificateRequest: AWSEncodableShape {
         /// The ID of the signing certificate you want to update. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
         public let certificateId: String
-        ///  The status you want to assign to the certificate. Active means that the certificate can be used for programmatic calls to AWS Inactive means that the certificate cannot be used.
+        ///  The status you want to assign to the certificate. Active means that the certificate can be used for programmatic calls to Amazon Web Services Inactive means that the certificate cannot be used.
         public let status: StatusType
         /// The name of the IAM user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
@@ -7549,7 +7549,7 @@ extension IAM {
         public let arn: String
         /// The date and time, in ISO 8601 date-time format, when the user was created.
         public let createDate: Date
-        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an AWS website. For a list of AWS websites that capture a user's last sign-in time, see the Credential reports topic in the IAM User Guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations.
+        /// The date and time, in ISO 8601 date-time format, when the user's password was last used to sign in to an Amazon Web Services website. For a list of Amazon Web Services websites that capture a user's last sign-in time, see the Credential reports topic in the IAM User Guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:   The user never had a password.   A password exists but has not been used since IAM started tracking this information on October 20, 2014.   A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the GetUser and ListUsers operations.
         public let passwordLastUsed: Date?
         /// The path to the user. For more information about paths, see IAM identifiers in the IAM User Guide. The ARN of the policy used to set the permissions boundary for the user.
         public let path: String

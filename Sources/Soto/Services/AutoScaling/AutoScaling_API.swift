@@ -152,7 +152,7 @@ public struct AutoScaling: AWSService {
         return self.client.execute(operation: "DeleteWarmPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the current Amazon EC2 Auto Scaling resource quotas for your account. For information about requesting an increase, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2 Auto Scaling User Guide.
+    /// Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you establish an account, the account has initial quotas on the maximum number of Auto Scaling groups and launch configurations that you can create in a given Region. For more information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2 Auto Scaling User Guide.
     public func describeAccountLimits(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountLimitsAnswer> {
         return self.client.execute(operation: "DescribeAccountLimits", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
     }

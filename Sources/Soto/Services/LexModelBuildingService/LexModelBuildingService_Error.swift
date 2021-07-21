@@ -19,6 +19,7 @@ import SotoCore
 /// Error enum for LexModelBuildingService
 public struct LexModelBuildingServiceErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case badRequestException = "BadRequestException"
         case conflictException = "ConflictException"
         case internalFailureException = "InternalFailureException"
@@ -46,6 +47,8 @@ public struct LexModelBuildingServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Your IAM user or role does not have permission to call the Amazon Lex V2 APIs required to migrate your bot.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     public static var badRequestException: Self { .init(.badRequestException) }
     ///  There was a conflict processing the request. Try your request again.

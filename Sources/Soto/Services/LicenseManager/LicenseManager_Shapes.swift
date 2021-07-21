@@ -112,6 +112,7 @@ extension LicenseManager {
         case pendingDelete = "PENDING_DELETE"
         case pendingWorkflow = "PENDING_WORKFLOW"
         case rejected = "REJECTED"
+        case workflowCompleted = "WORKFLOW_COMPLETED"
         public var description: String { return self.rawValue }
     }
 
@@ -162,6 +163,7 @@ extension LicenseManager {
         case pendingAccept = "PENDING_ACCEPT"
         case pendingWorkflow = "PENDING_WORKFLOW"
         case rejected = "REJECTED"
+        case workflowCompleted = "WORKFLOW_COMPLETED"
         public var description: String { return self.rawValue }
     }
 
@@ -315,8 +317,8 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]*")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
@@ -399,8 +401,8 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]*")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -515,6 +517,8 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.principals.forEach {
@@ -569,21 +573,27 @@ extension LicenseManager {
         public let sourceVersion: String?
         /// Grant status.
         public let status: GrantStatus?
+        public let statusReason: String?
 
-        public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil) {
+        public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil, statusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
             self.grantArn = grantArn
             self.grantName = grantName
             self.sourceVersion = sourceVersion
             self.status = status
+            self.statusReason = statusReason
         }
 
         public func validate(name: String) throws {
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.statusReason, name: "statusReason", parent: name, max: 400)
+            try self.validate(self.statusReason, name: "statusReason", parent: name, pattern: "[\\s\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -593,6 +603,7 @@ extension LicenseManager {
             case grantName = "GrantName"
             case sourceVersion = "SourceVersion"
             case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -772,6 +783,8 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validity.validate(name: "\(name).validity")
         }
 
@@ -853,6 +866,8 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validity.validate(name: "\(name).validity")
@@ -916,7 +931,7 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 60)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
@@ -984,21 +999,26 @@ extension LicenseManager {
     public struct DeleteGrantRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
+        public let statusReason: String?
         /// Current version of the grant.
         public let version: String
 
-        public init(grantArn: String, version: String) {
+        public init(grantArn: String, statusReason: String? = nil, version: String) {
             self.grantArn = grantArn
+            self.statusReason = statusReason
             self.version = version
         }
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
             try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.statusReason, name: "statusReason", parent: name, max: 400)
+            try self.validate(self.statusReason, name: "statusReason", parent: name, pattern: "[\\s\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case grantArn = "GrantArn"
+            case statusReason = "StatusReason"
             case version = "Version"
         }
     }
@@ -2682,15 +2702,18 @@ extension LicenseManager {
         public let allowedOperations: [AllowedOperation]?
         /// Received status.
         public let receivedStatus: ReceivedStatus?
+        public let receivedStatusReason: String?
 
-        public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil) {
+        public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil, receivedStatusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.receivedStatus = receivedStatus
+            self.receivedStatusReason = receivedStatusReason
         }
 
         private enum CodingKeys: String, CodingKey {
             case allowedOperations = "AllowedOperations"
             case receivedStatus = "ReceivedStatus"
+            case receivedStatusReason = "ReceivedStatusReason"
         }
     }
 

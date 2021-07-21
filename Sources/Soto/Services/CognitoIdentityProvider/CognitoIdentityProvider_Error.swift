@@ -46,8 +46,11 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
         case softwareTokenMFANotFoundException = "SoftwareTokenMFANotFoundException"
         case tooManyFailedAttemptsException = "TooManyFailedAttemptsException"
         case tooManyRequestsException = "TooManyRequestsException"
+        case unauthorizedException = "UnauthorizedException"
         case unexpectedLambdaException = "UnexpectedLambdaException"
         case unsupportedIdentityProviderException = "UnsupportedIdentityProviderException"
+        case unsupportedOperationException = "UnsupportedOperationException"
+        case unsupportedTokenTypeException = "UnsupportedTokenTypeException"
         case unsupportedUserStateException = "UnsupportedUserStateException"
         case userImportInProgressException = "UserImportInProgressException"
         case userLambdaValidationException = "UserLambdaValidationException"
@@ -96,7 +99,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var internalErrorException: Self { .init(.internalErrorException) }
     /// This exception is thrown when Amazon Cognito is not allowed to use your email identity. HTTP status code: 400.
     public static var invalidEmailRoleAccessPolicyException: Self { .init(.invalidEmailRoleAccessPolicyException) }
-    /// This exception is thrown when the Amazon Cognito service encounters an invalid AWS Lambda response.
+    /// This exception is thrown when the Amazon Cognito service encounters an invalid Lambda response.
     public static var invalidLambdaResponseException: Self { .init(.invalidLambdaResponseException) }
     /// This exception is thrown when the specified OAuth flow is invalid.
     public static var invalidOAuthFlowException: Self { .init(.invalidOAuthFlowException) }
@@ -110,7 +113,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var invalidSmsRoleTrustRelationshipException: Self { .init(.invalidSmsRoleTrustRelationshipException) }
     /// This exception is thrown when the user pool configuration is invalid.
     public static var invalidUserPoolConfigurationException: Self { .init(.invalidUserPoolConfigurationException) }
-    /// This exception is thrown when a user exceeds the limit for a requested AWS resource.
+    /// This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// This exception is thrown when Amazon Cognito cannot find a multi-factor authentication (MFA) method.
     public static var mFAMethodNotFoundException: Self { .init(.mFAMethodNotFoundException) }
@@ -130,15 +133,21 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var tooManyFailedAttemptsException: Self { .init(.tooManyFailedAttemptsException) }
     /// This exception is thrown when the user has made too many requests for a given operation.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
-    /// This exception is thrown when the Amazon Cognito service encounters an unexpected exception with the AWS Lambda service.
+    /// This exception is thrown when the request is not authorized. This can happen due to an invalid access token in the request.
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// This exception is thrown when the Amazon Cognito service encounters an unexpected exception with the Lambda service.
     public static var unexpectedLambdaException: Self { .init(.unexpectedLambdaException) }
     /// This exception is thrown when the specified identifier is not supported.
     public static var unsupportedIdentityProviderException: Self { .init(.unsupportedIdentityProviderException) }
+    /// This exception is thrown when you attempt to perform an operation that is not enabled for the user pool client.
+    public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+    /// This exception is thrown when an unsupported token is passed to an operation.
+    public static var unsupportedTokenTypeException: Self { .init(.unsupportedTokenTypeException) }
     /// The request failed because the user is in an unsupported state.
     public static var unsupportedUserStateException: Self { .init(.unsupportedUserStateException) }
     /// This exception is thrown when you are trying to modify a user pool while a user import job is in progress for that pool.
     public static var userImportInProgressException: Self { .init(.userImportInProgressException) }
-    /// This exception is thrown when the Amazon Cognito service encounters a user validation exception with the AWS Lambda service.
+    /// This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
     public static var userLambdaValidationException: Self { .init(.userLambdaValidationException) }
     /// This exception is thrown when a user is not confirmed successfully.
     public static var userNotConfirmedException: Self { .init(.userNotConfirmedException) }

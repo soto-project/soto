@@ -341,6 +341,16 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum DvbSubOcrLanguage: String, CustomStringConvertible, Codable {
+        case deu = "DEU"
+        case eng = "ENG"
+        case fra = "FRA"
+        case nld = "NLD"
+        case por = "POR"
+        case spa = "SPA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
@@ -912,6 +922,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum HlsScte35SourceType: String, CustomStringConvertible, Codable {
+        case manifest = "MANIFEST"
+        case segments = "SEGMENTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HlsSegmentationMode: String, CustomStringConvertible, Codable {
         case useInputSegmentation = "USE_INPUT_SEGMENTATION"
         case useSegmentDuration = "USE_SEGMENT_DURATION"
@@ -1443,6 +1459,8 @@ extension MediaLive {
     public enum ReservationSpecialFeature: String, CustomStringConvertible, Codable {
         case advancedAudio = "ADVANCED_AUDIO"
         case audioNormalization = "AUDIO_NORMALIZATION"
+        case mghd = "MGHD"
+        case mguhd = "MGUHD"
         public var description: String { return self.rawValue }
     }
 
@@ -1496,6 +1514,16 @@ extension MediaLive {
     public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scte27OcrLanguage: String, CustomStringConvertible, Codable {
+        case deu = "DEU"
+        case eng = "ENG"
+        case fra = "FRA"
+        case nld = "NLD"
+        case por = "POR"
+        case spa = "SPA"
         public var description: String { return self.rawValue }
     }
 
@@ -4410,10 +4438,14 @@ extension MediaLive {
     }
 
     public struct DvbSubSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// If you will configure a WebVTT caption description that references this caption selector, use this field to
+        /// provide the language to consider when translating the image-based source to text.
+        public let ocrLanguage: DvbSubOcrLanguage?
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
 
-        public init(pid: Int? = nil) {
+        public init(ocrLanguage: DvbSubOcrLanguage? = nil, pid: Int? = nil) {
+            self.ocrLanguage = ocrLanguage
             self.pid = pid
         }
 
@@ -4422,6 +4454,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ocrLanguage
             case pid
         }
     }
@@ -5774,12 +5807,15 @@ extension MediaLive {
         public let retries: Int?
         /// The number of seconds between retries when an attempt to read a manifest or segment fails.
         public let retryInterval: Int?
+        /// Identifies the source for the SCTE-35 messages that MediaLive will ingest. Messages can be ingested from the content segments (in the stream) or from tags in the playlist (the HLS manifest). MediaLive ignores SCTE-35 information in the source that is not selected.
+        public let scte35Source: HlsScte35SourceType?
 
-        public init(bandwidth: Int? = nil, bufferSegments: Int? = nil, retries: Int? = nil, retryInterval: Int? = nil) {
+        public init(bandwidth: Int? = nil, bufferSegments: Int? = nil, retries: Int? = nil, retryInterval: Int? = nil, scte35Source: HlsScte35SourceType? = nil) {
             self.bandwidth = bandwidth
             self.bufferSegments = bufferSegments
             self.retries = retries
             self.retryInterval = retryInterval
+            self.scte35Source = scte35Source
         }
 
         public func validate(name: String) throws {
@@ -5794,6 +5830,7 @@ extension MediaLive {
             case bufferSegments
             case retries
             case retryInterval
+            case scte35Source
         }
     }
 
@@ -9066,6 +9103,9 @@ extension MediaLive {
     }
 
     public struct Scte27SourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// If you will configure a WebVTT caption description that references this caption selector, use this field to
+        /// provide the language to consider when translating the image-based source to text.
+        public let ocrLanguage: Scte27OcrLanguage?
         /// The pid field is used in conjunction with the caption selector languageCode field as follows:
         ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
         ///   - Specify PID and omit Language: Extracts the specified PID.
@@ -9073,7 +9113,8 @@ extension MediaLive {
         ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
         public let pid: Int?
 
-        public init(pid: Int? = nil) {
+        public init(ocrLanguage: Scte27OcrLanguage? = nil, pid: Int? = nil) {
+            self.ocrLanguage = ocrLanguage
             self.pid = pid
         }
 
@@ -9082,6 +9123,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ocrLanguage
             case pid
         }
     }
@@ -9846,15 +9888,13 @@ extension MediaLive {
         public let message: String?
         /// The AWS account ID for the recipient of the input device transfer.
         public let targetCustomerId: String?
-        public let targetRegion: String?
         /// The type (direction) of the input device transfer.
         public let transferType: InputDeviceTransferType?
 
-        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, targetRegion: String? = nil, transferType: InputDeviceTransferType? = nil) {
+        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, transferType: InputDeviceTransferType? = nil) {
             self.id = id
             self.message = message
             self.targetCustomerId = targetCustomerId
-            self.targetRegion = targetRegion
             self.transferType = transferType
         }
 
@@ -9862,7 +9902,6 @@ extension MediaLive {
             case id
             case message
             case targetCustomerId
-            case targetRegion
             case transferType
         }
     }

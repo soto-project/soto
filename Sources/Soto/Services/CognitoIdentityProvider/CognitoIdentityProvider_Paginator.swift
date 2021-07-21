@@ -337,7 +337,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the user pools associated with an AWS account.
+    ///  Lists the user pools associated with an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

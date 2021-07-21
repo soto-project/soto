@@ -63,12 +63,17 @@ public struct Kendra: AWSService {
 
     // MARK: API Calls
 
-    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument operation. The documents are deleted asynchronously. You can see the progress of the deletion by using AWS CloudWatch. Any error messages related to the processing of the batch are sent to you CloudWatch log.
+    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument operation. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to you CloudWatch log.
     public func batchDeleteDocument(_ input: BatchDeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteDocumentResponse> {
         return self.client.execute(operation: "BatchDeleteDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more documents to an index. The BatchPutDocument operation enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this operation to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using AWS CloudWatch. Any error messages related to processing the batch are sent to your AWS CloudWatch log.
+    /// Returns the indexing status for one or more documents submitted with the  BatchPutDocument operation. When you use the BatchPutDocument operation, documents are indexed asynchronously. You can use the BatchGetDocumentStatus operation to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus operation to check the status of the  BatchDeleteDocument operation. When a document is deleted from the index, Amazon Kendra returns NOT_FOUND as the status.
+    public func batchGetDocumentStatus(_ input: BatchGetDocumentStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDocumentStatusResponse> {
+        return self.client.execute(operation: "BatchGetDocumentStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Adds one or more documents to an index. The BatchPutDocument operation enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this operation to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log.
     public func batchPutDocument(_ input: BatchPutDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutDocumentResponse> {
         return self.client.execute(operation: "BatchPutDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -118,6 +123,11 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "DeleteIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their search results. If you want to delete or replace users or sub groups of a group, you need to use the PutPrincipalMapping operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutPrincipalMapping. You can update your internal list of users or sub groups and input this list when calling PutPrincipalMapping.
+    @discardableResult public func deletePrincipalMapping(_ input: DeletePrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeletePrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a block list used for query suggestions for an index. A deleted block list might not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to add back the queries that were previously blocked.
     @discardableResult public func deleteQuerySuggestionsBlockList(_ input: DeleteQuerySuggestionsBlockListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteQuerySuggestionsBlockList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -141,6 +151,11 @@ public struct Kendra: AWSService {
     /// Describes an existing Amazon Kendra index
     public func describeIndex(_ input: DescribeIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIndexResponse> {
         return self.client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the processing of PUT and DELETE actions for mapping users to their groups. This includes information on the status of actions currently processing or yet to be processed, when actions were last updated, when actions were received by Amazon Kendra, the latest action that should process and apply after other actions, and useful error messages if an action could not be processed.
+    public func describePrincipalMapping(_ input: DescribePrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePrincipalMappingResponse> {
+        return self.client.execute(operation: "DescribePrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes a block list used for query suggestions for an index. This is used to check the current settings that are applied to a block list.
@@ -178,6 +193,11 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "ListFaqs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier.
+    public func listGroupsOlderThanOrderingId(_ input: ListGroupsOlderThanOrderingIdRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupsOlderThanOrderingIdResponse> {
+        return self.client.execute(operation: "ListGroupsOlderThanOrderingId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the Amazon Kendra indexes that you have created.
     public func listIndices(_ input: ListIndicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIndicesResponse> {
         return self.client.execute(operation: "ListIndices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -196,6 +216,11 @@ public struct Kendra: AWSService {
     /// Lists the Amazon Kendra thesauri associated with an index.
     public func listThesauri(_ input: ListThesauriRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThesauriResponse> {
         return self.client.execute(operation: "ListThesauri", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Maps users to their groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their search results.  You map users to their groups when you want to filter search results for different users based on their group’s access to documents. For more information on filtering search results for different users, see Filtering on user context. If more than five PUT actions for a group are currently processing, a validation exception is thrown.
+    @discardableResult public func putPrincipalMapping(_ input: PutPrincipalMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutPrincipalMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches an active index. Use this API to search your documents using query. The Query operation enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results.  Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter. Each query returns the 100 most relevant results.

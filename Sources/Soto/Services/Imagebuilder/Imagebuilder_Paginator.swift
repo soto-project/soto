@@ -284,7 +284,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  List the Packages that are associated with an Image Build Version, as determined by AWS Systems Manager Inventory at build time.
+    ///  List the Packages that are associated with an Image Build Version, as determined by Amazon EC2 Systems Manager Inventory at build time.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

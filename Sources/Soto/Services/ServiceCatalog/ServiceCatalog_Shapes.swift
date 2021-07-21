@@ -2876,7 +2876,7 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
-            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
@@ -3209,7 +3209,7 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
-            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
@@ -3259,7 +3259,7 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
-            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
@@ -5126,7 +5126,7 @@ extension ServiceCatalog {
 
         public func validate(name: String) throws {
             try self.validate(self.acceptLanguage, name: "acceptLanguage", parent: name, max: 100)
-            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 20)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 100)
             try self.validate(self.pageSize, name: "pageSize", parent: name, min: 0)
             try self.validate(self.pageToken, name: "pageToken", parent: name, max: 2024)
             try self.validate(self.pageToken, name: "pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")

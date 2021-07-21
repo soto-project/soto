@@ -67,7 +67,7 @@ public struct ECSErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// You can apply up to 10 custom attributes per resource. You can view the attributes of a resource with ListAttributes. You can remove existing attributes on a resource with DeleteAttributes.
     public static var attributeLimitExceededException: Self { .init(.attributeLimitExceededException) }
-    /// Your AWS account has been blocked. For more information, contact AWS Support.
+    /// Your Amazon Web Services account has been blocked. For more information, contact  Amazon Web Services Support.
     public static var blockedException: Self { .init(.blockedException) }
     /// These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an identifier that is not valid.
     public static var clientException: Self { .init(.clientException) }

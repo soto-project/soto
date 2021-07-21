@@ -26,6 +26,12 @@ extension DAX {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterEndpointEncryptionType: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case tls = "TLS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IsModifiable: String, CustomStringConvertible, Codable {
         case conditional = "CONDITIONAL"
         case `false` = "FALSE"
@@ -61,8 +67,10 @@ extension DAX {
         public let activeNodes: Int?
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String?
-        /// The configuration endpoint for this DAX cluster, consisting of a DNS name and a port number. Client applications can specify this endpoint, rather than an individual node endpoint, and allow the DAX client software to intelligently route requests and responses to nodes in the DAX cluster.
+        /// The endpoint for this DAX cluster, consisting of a DNS name, a port number, and a URL. Applications should use the URL to configure the DAX client to find their cluster.
         public let clusterDiscoveryEndpoint: Endpoint?
+        /// The type of encryption supported by the cluster's endpoint. Values are:    NONE for no encryption  TLS for Transport Layer Security
+        public let clusterEndpointEncryptionType: ClusterEndpointEncryptionType?
         /// The name of the DAX cluster.
         public let clusterName: String?
         /// The description of the cluster.
@@ -92,10 +100,11 @@ extension DAX {
         /// The total number of nodes in the cluster.
         public let totalNodes: Int?
 
-        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
+        public init(activeNodes: Int? = nil, clusterArn: String? = nil, clusterDiscoveryEndpoint: Endpoint? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String? = nil, description: String? = nil, iamRoleArn: String? = nil, nodeIdsToRemove: [String]? = nil, nodes: [Node]? = nil, nodeType: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, parameterGroup: ParameterGroupStatus? = nil, preferredMaintenanceWindow: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, sSEDescription: SSEDescription? = nil, status: String? = nil, subnetGroup: String? = nil, totalNodes: Int? = nil) {
             self.activeNodes = activeNodes
             self.clusterArn = clusterArn
             self.clusterDiscoveryEndpoint = clusterDiscoveryEndpoint
+            self.clusterEndpointEncryptionType = clusterEndpointEncryptionType
             self.clusterName = clusterName
             self.description = description
             self.iamRoleArn = iamRoleArn
@@ -116,6 +125,7 @@ extension DAX {
             case activeNodes = "ActiveNodes"
             case clusterArn = "ClusterArn"
             case clusterDiscoveryEndpoint = "ClusterDiscoveryEndpoint"
+            case clusterEndpointEncryptionType = "ClusterEndpointEncryptionType"
             case clusterName = "ClusterName"
             case description = "Description"
             case iamRoleArn = "IamRoleArn"
@@ -136,6 +146,8 @@ extension DAX {
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availability Zones for the highest availability.
         public let availabilityZones: [String]?
+        /// The type of encryption the cluster's endpoint should support. Values are:    NONE for no encryption    TLS for Transport Layer Security
+        public let clusterEndpointEncryptionType: ClusterEndpointEncryptionType?
         /// The cluster identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 20 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
         public let clusterName: String
         /// A description of the cluster.
@@ -161,8 +173,9 @@ extension DAX {
         /// A set of tags to associate with the DAX cluster.
         public let tags: [Tag]?
 
-        public init(availabilityZones: [String]? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(availabilityZones: [String]? = nil, clusterEndpointEncryptionType: ClusterEndpointEncryptionType? = nil, clusterName: String, description: String? = nil, iamRoleArn: String, nodeType: String, notificationTopicArn: String? = nil, parameterGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, replicationFactor: Int, securityGroupIds: [String]? = nil, sSESpecification: SSESpecification? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil) {
             self.availabilityZones = availabilityZones
+            self.clusterEndpointEncryptionType = clusterEndpointEncryptionType
             self.clusterName = clusterName
             self.description = description
             self.iamRoleArn = iamRoleArn
@@ -179,6 +192,7 @@ extension DAX {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
+            case clusterEndpointEncryptionType = "ClusterEndpointEncryptionType"
             case clusterName = "ClusterName"
             case description = "Description"
             case iamRoleArn = "IamRoleArn"
@@ -636,15 +650,19 @@ extension DAX {
         public let address: String?
         /// The port number that applications should use to connect to the endpoint.
         public let port: Int?
+        /// The URL that applications should use to connect to the endpoint. The default ports are 8111 for the "dax" protocol and 9111 for the "daxs" protocol.
+        public let url: String?
 
-        public init(address: String? = nil, port: Int? = nil) {
+        public init(address: String? = nil, port: Int? = nil, url: String? = nil) {
             self.address = address
             self.port = port
+            self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case port = "Port"
+            case url = "URL"
         }
     }
 
@@ -794,7 +812,7 @@ extension DAX {
     public struct NotificationConfiguration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that identifies the topic.
         public let topicArn: String?
-        /// The current state of the topic.
+        /// The current state of the topic. A value of “active” means that notifications will be sent to the topic. A value of “inactive” means that notifications will not be sent to the topic.
         public let topicStatus: String?
 
         public init(topicArn: String? = nil, topicStatus: String? = nil) {
@@ -1111,7 +1129,7 @@ extension DAX {
         public let description: String?
         /// The Amazon Resource Name (ARN) that identifies the topic.
         public let notificationTopicArn: String?
-        /// The current state of the topic.
+        /// The current state of the topic. A value of “active” means that notifications will be sent to the topic. A value of “inactive” means that notifications will not be sent to the topic.
         public let notificationTopicStatus: String?
         /// The name of a parameter group for this cluster.
         public let parameterGroupName: String?
@@ -1157,7 +1175,7 @@ extension DAX {
     public struct UpdateParameterGroupRequest: AWSEncodableShape {
         /// The name of the parameter group.
         public let parameterGroupName: String
-        /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.
+        /// An array of name-value pairs for the parameters in the group. Each element in the array represents a single parameter.   record-ttl-millis and query-ttl-millis are the only supported parameter names. For more details, see Configuring TTL Settings.
         public let parameterNameValues: [ParameterNameValue]
 
         public init(parameterGroupName: String, parameterNameValues: [ParameterNameValue]) {

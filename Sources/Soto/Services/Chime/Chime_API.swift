@@ -107,17 +107,17 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "BatchSuspendUser", path: "/accounts/{accountId}/users?operation=suspend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.  Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
+    /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see  Managing Your Amazon Chime Accounts  in the account types, in the Amazon Chime Administration Guide.   Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUnsuspendUserResponse> {
         return self.client.execute(operation: "BatchUnsuspendUser", path: "/accounts/{accountId}/users?operation=unsuspend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the US, you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+    /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdatePhoneNumberResponse> {
         return self.client.execute(operation: "BatchUpdatePhoneNumber", path: "/phone-numbers?operation=batch-update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
+    /// Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
     public func batchUpdateUser(_ input: BatchUpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateUserResponse> {
         return self.client.execute(operation: "BatchUpdateUser", path: "/accounts/{accountId}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -172,6 +172,11 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateChannelModerator", path: "/channels/{channelArn}/moderators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
+    /// Creates a media capture pipeline.
+    public func createMediaCapturePipeline(_ input: CreateMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMediaCapturePipelineResponse> {
+        return self.client.execute(operation: "CreateMediaCapturePipeline", path: "/media-capture-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
     public func createMeeting(_ input: CreateMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingResponse> {
         return self.client.execute(operation: "CreateMeeting", path: "/meetings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -187,7 +192,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the US, you must use the Amazon Chime SIP Media Application Dial-In product type.
+    /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
     public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePhoneNumberOrderResponse> {
         return self.client.execute(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -295,6 +300,11 @@ public struct Chime: AWSService {
     /// Deletes the events configuration that allows a bot to receive outgoing events.
     @discardableResult public func deleteEventsConfiguration(_ input: DeleteEventsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the media capture pipeline.
+    @discardableResult public func deleteMediaCapturePipeline(_ input: DeleteMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteMediaCapturePipeline", path: "/media-capture-pipelines/{mediaPipelineId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -482,6 +492,11 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetGlobalSettings", path: "/settings", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
+    /// Gets an existing media capture pipeline.
+    public func getMediaCapturePipeline(_ input: GetMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMediaCapturePipelineResponse> {
+        return self.client.execute(operation: "GetMediaCapturePipeline", path: "/media-capture-pipelines/{mediaPipelineId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
     public func getMeeting(_ input: GetMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMeetingResponse> {
         return self.client.execute(operation: "GetMeeting", path: "/meetings/{meetingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -512,7 +527,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide .
+    ///  Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide.
     public func getRetentionSettings(_ input: GetRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRetentionSettingsResponse> {
         return self.client.execute(operation: "GetRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -557,7 +572,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "GetVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems .
+    ///  Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
     public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorGroupResponse> {
         return self.client.execute(operation: "GetVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -622,7 +637,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListAttendeeTags", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+    ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func listAttendees(_ input: ListAttendeesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttendeesResponse> {
         return self.client.execute(operation: "ListAttendees", path: "/meetings/{meetingId}/attendees", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -667,12 +682,17 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "ListChannelsModeratedByAppInstanceUser", path: "/channels?scope=app-instance-user-moderated-channels", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "messaging-", logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of media capture pipelines.
+    public func listMediaCapturePipelines(_ input: ListMediaCapturePipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMediaCapturePipelinesResponse> {
+        return self.client.execute(operation: "ListMediaCapturePipelines", path: "/media-capture-pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the tags applied to an Amazon Chime SDK meeting resource.
     public func listMeetingTags(_ input: ListMeetingTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeetingTagsResponse> {
         return self.client.execute(operation: "ListMeetingTags", path: "/meetings/{meetingId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+    ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     public func listMeetings(_ input: ListMeetingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeetingsResponse> {
         return self.client.execute(operation: "ListMeetings", path: "/meetings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -762,7 +782,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "PutEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide .   To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide .
+    ///  Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide.  To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide.
     public func putRetentionSettings(_ input: PutRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRetentionSettingsResponse> {
         return self.client.execute(operation: "PutRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -877,7 +897,7 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates account details for the specified Amazon Chime account. Currently, only account name updates are supported for this action.
+    /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
     public func updateAccount(_ input: UpdateAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountResponse> {
         return self.client.execute(operation: "UpdateAccount", path: "/accounts/{accountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -952,12 +972,17 @@ public struct Chime: AWSService {
         return self.client.execute(operation: "UpdateSipMediaApplication", path: "/sip-media-applications/{sipMediaApplicationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Allows you to trigger a Lambda function at any time while a call is active, and replace the current actions with new actions returned by the invocation.
+    public func updateSipMediaApplicationCall(_ input: UpdateSipMediaApplicationCallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSipMediaApplicationCallResponse> {
+        return self.client.execute(operation: "UpdateSipMediaApplicationCall", path: "/sip-media-applications/{sipMediaApplicationId}/calls/{transactionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates the details of the specified SIP rule.
     public func updateSipRule(_ input: UpdateSipRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSipRuleResponse> {
         return self.client.execute(operation: "UpdateSipRule", path: "/sip-rules/{sipRuleId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
+    /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
         return self.client.execute(operation: "UpdateUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

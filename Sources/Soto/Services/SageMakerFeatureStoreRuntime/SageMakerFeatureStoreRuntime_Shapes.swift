@@ -22,6 +22,133 @@ extension SageMakerFeatureStoreRuntime {
 
     // MARK: Shapes
 
+    public struct BatchGetRecordError: AWSDecodableShape {
+        /// The error code of an error that has occured when attempting to retrieve a batch of Records. For more information on errors, see  Errors.
+        public let errorCode: String
+        /// The error message of an error that has occured when attempting to retrieve a record in the batch.
+        public let errorMessage: String
+        /// The name of the feature group that the record belongs to.
+        public let featureGroupName: String
+        /// The value for the RecordIdentifier in string format of a Record from a FeatureGroup that is causing an error when attempting to be retrieved.
+        public let recordIdentifierValueAsString: String
+
+        public init(errorCode: String, errorMessage: String, featureGroupName: String, recordIdentifierValueAsString: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.featureGroupName = featureGroupName
+            self.recordIdentifierValueAsString = recordIdentifierValueAsString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case featureGroupName = "FeatureGroupName"
+            case recordIdentifierValueAsString = "RecordIdentifierValueAsString"
+        }
+    }
+
+    public struct BatchGetRecordIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// A FeatureGroupName containing Records you are retrieving in a batch.
+        public let featureGroupName: String
+        /// List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
+        public let featureNames: [String]?
+        /// The value for a list of record identifiers in string format.
+        public let recordIdentifiersValueAsString: [String]
+
+        public init(featureGroupName: String, featureNames: [String]? = nil, recordIdentifiersValueAsString: [String]) {
+            self.featureGroupName = featureGroupName
+            self.featureNames = featureNames
+            self.recordIdentifiersValueAsString = recordIdentifiersValueAsString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 64)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.featureNames?.forEach {
+                try validate($0, name: "featureNames[]", parent: name, max: 64)
+                try validate($0, name: "featureNames[]", parent: name, min: 1)
+                try validate($0, name: "featureNames[]", parent: name, pattern: "^[a-zA-Z0-9]([-_]*[a-zA-Z0-9])*")
+            }
+            try self.validate(self.featureNames, name: "featureNames", parent: name, min: 1)
+            try self.recordIdentifiersValueAsString.forEach {
+                try validate($0, name: "recordIdentifiersValueAsString[]", parent: name, max: 358_400)
+                try validate($0, name: "recordIdentifiersValueAsString[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.recordIdentifiersValueAsString, name: "recordIdentifiersValueAsString", parent: name, max: 100)
+            try self.validate(self.recordIdentifiersValueAsString, name: "recordIdentifiersValueAsString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupName = "FeatureGroupName"
+            case featureNames = "FeatureNames"
+            case recordIdentifiersValueAsString = "RecordIdentifiersValueAsString"
+        }
+    }
+
+    public struct BatchGetRecordRequest: AWSEncodableShape {
+        /// A list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name that have been requested to be retrieved in batch.
+        public let identifiers: [BatchGetRecordIdentifier]
+
+        public init(identifiers: [BatchGetRecordIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 10)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "Identifiers"
+        }
+    }
+
+    public struct BatchGetRecordResponse: AWSDecodableShape {
+        /// A list of errors that have occured when retrieving a batch of Records.
+        public let errors: [BatchGetRecordError]
+        /// A list of Records you requested to be retrieved in batch.
+        public let records: [BatchGetRecordResultDetail]
+        /// A unprocessed list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name.
+        public let unprocessedIdentifiers: [BatchGetRecordIdentifier]
+
+        public init(errors: [BatchGetRecordError], records: [BatchGetRecordResultDetail], unprocessedIdentifiers: [BatchGetRecordIdentifier]) {
+            self.errors = errors
+            self.records = records
+            self.unprocessedIdentifiers = unprocessedIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case records = "Records"
+            case unprocessedIdentifiers = "UnprocessedIdentifiers"
+        }
+    }
+
+    public struct BatchGetRecordResultDetail: AWSDecodableShape {
+        /// The FeatureGroupName containing Records you retrieved in a batch.
+        public let featureGroupName: String
+        /// The Record retrieved.
+        public let record: [FeatureValue]
+        /// The value of the record identifer in string format.
+        public let recordIdentifierValueAsString: String
+
+        public init(featureGroupName: String, record: [FeatureValue], recordIdentifierValueAsString: String) {
+            self.featureGroupName = featureGroupName
+            self.record = record
+            self.recordIdentifierValueAsString = recordIdentifierValueAsString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureGroupName = "FeatureGroupName"
+            case record = "Record"
+            case recordIdentifierValueAsString = "RecordIdentifierValueAsString"
+        }
+    }
+
     public struct DeleteRecordRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eventTime", location: .querystring(locationName: "EventTime")),

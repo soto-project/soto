@@ -184,7 +184,7 @@ extension GlueDataBrew {
     }
 
     public struct ConditionExpression: AWSEncodableShape & AWSDecodableShape {
-        /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the AWS Glue DataBrew Developer Guide.
+        /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the Glue DataBrew Developer Guide.
         public let condition: String
         /// A column to apply this condition to.
         public let targetColumn: String
@@ -214,13 +214,13 @@ extension GlueDataBrew {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
-        /// The file format of a dataset that is created from an S3 file or folder.
+        /// The file format of a dataset that is created from an Amazon S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The name of the dataset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
-        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        /// A set of options that defines how DataBrew interprets an Amazon S3 path of the dataset.
         public let pathOptions: PathOptions?
         /// Metadata tags to apply to this dataset.
         public let tags: [String: String]?
@@ -275,7 +275,7 @@ extension GlueDataBrew {
         public let datasetName: String
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - SSE-KMS - Server-side encryption with KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed. If a JobSample value is not provided, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
         public let jobSample: JobSample?
@@ -288,7 +288,7 @@ extension GlueDataBrew {
         /// The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         public let outputLocation: S3Location
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// Metadata tags to apply to this job.
         public let tags: [String: String]?
@@ -365,7 +365,7 @@ extension GlueDataBrew {
         public let name: String
         /// The name of an existing recipe to associate with the project.
         public let recipeName: String
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed for this request.
         public let roleArn: String
         public let sample: Sample?
         /// Metadata tags to apply to this project.
@@ -421,11 +421,13 @@ extension GlueDataBrew {
     }
 
     public struct CreateRecipeJobRequest: AWSEncodableShape {
+        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The name of the dataset that this job processes.
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
@@ -436,18 +438,19 @@ extension GlueDataBrew {
         /// A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
         public let name: String
         /// One or more artifacts that represent the output from running the job.
-        public let outputs: [Output]
+        public let outputs: [Output]?
         /// Either the name of an existing project, or a combination of a recipe and a dataset to associate with the recipe.
         public let projectName: String?
         public let recipeReference: RecipeReference?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// Metadata tags to apply to this job.
         public let tags: [String: String]?
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output], projectName: String? = nil, recipeReference: RecipeReference? = nil, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+        public init(dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
+            self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
@@ -464,6 +467,10 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
+            try self.dataCatalogOutputs?.forEach {
+                try $0.validate(name: "\(name).dataCatalogOutputs[]")
+            }
+            try self.validate(self.dataCatalogOutputs, name: "dataCatalogOutputs", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 255)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
@@ -471,7 +478,7 @@ extension GlueDataBrew {
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.outputs.forEach {
+            try self.outputs?.forEach {
                 try $0.validate(name: "\(name).outputs[]")
             }
             try self.validate(self.outputs, name: "outputs", parent: name, min: 1)
@@ -489,6 +496,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
@@ -571,7 +579,7 @@ extension GlueDataBrew {
     }
 
     public struct CreateScheduleRequest: AWSEncodableShape {
-        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run.
         public let jobNames: [String]?
@@ -666,13 +674,13 @@ extension GlueDataBrew {
     }
 
     public struct DataCatalogInputDefinition: AWSEncodableShape & AWSDecodableShape {
-        /// The unique identifier of the AWS account that holds the Data Catalog that stores the data.
+        /// The unique identifier of the Amazon Web Services account that holds the Data Catalog that stores the data.
         public let catalogId: String?
         /// The name of a database in the Data Catalog.
         public let databaseName: String
         /// The name of a database table in the Data Catalog. This table corresponds to a DataBrew dataset.
         public let tableName: String
-        /// An Amazon location that AWS Glue Data Catalog can use as a temporary directory.
+        /// Represents an Amazon location where DataBrew can store intermediate results.
         public let tempDirectory: S3Location?
 
         public init(catalogId: String? = nil, databaseName: String, tableName: String, tempDirectory: S3Location? = nil) {
@@ -700,10 +708,54 @@ extension GlueDataBrew {
         }
     }
 
+    public struct DataCatalogOutput: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the AWS account that holds the Data Catalog that stores the data.
+        public let catalogId: String?
+        /// The name of a database in the Data Catalog.
+        public let databaseName: String
+        /// Represents options that specify how and where DataBrew writes the database output generated by recipe jobs.
+        public let databaseOptions: DatabaseTableOutputOptions?
+        /// A value that, if true, means that any data in the location specified for output is overwritten with new output. Not supported with DatabaseOptions.
+        public let overwrite: Bool?
+        /// Represents options that specify how and where DataBrew writes the S3 output generated by recipe jobs.
+        public let s3Options: S3TableOutputOptions?
+        /// The name of a table in the Data Catalog.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, databaseOptions: DatabaseTableOutputOptions? = nil, overwrite: Bool? = nil, s3Options: S3TableOutputOptions? = nil, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.databaseOptions = databaseOptions
+            self.overwrite = overwrite
+            self.s3Options = s3Options
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.databaseOptions?.validate(name: "\(name).databaseOptions")
+            try self.s3Options?.validate(name: "\(name).s3Options")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case databaseOptions = "DatabaseOptions"
+            case overwrite = "Overwrite"
+            case s3Options = "S3Options"
+            case tableName = "TableName"
+        }
+    }
+
     public struct DatabaseInputDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The table within the target database.
         public let databaseTableName: String
-        /// The AWS Glue Connection that stores the connection information for the target database.
+        /// The Glue Connection that stores the connection information for the target database.
         public let glueConnectionName: String
         public let tempDirectory: S3Location?
 
@@ -728,18 +780,41 @@ extension GlueDataBrew {
         }
     }
 
+    public struct DatabaseTableOutputOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A prefix for the name of a table DataBrew will create in the database.
+        public let tableName: String
+        /// Represents an Amazon S3 location (bucket name and object key) where DataBrew can store intermediate results.
+        public let tempDirectory: S3Location?
+
+        public init(tableName: String, tempDirectory: S3Location? = nil) {
+            self.tableName = tableName
+            self.tempDirectory = tempDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.tempDirectory?.validate(name: "\(name).tempDirectory")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableName = "TableName"
+            case tempDirectory = "TempDirectory"
+        }
+    }
+
     public struct Dataset: AWSDecodableShape {
-        /// The ID of the AWS account that owns the dataset.
+        /// The ID of the Amazon Web Services account that owns the dataset.
         public let accountId: String?
         /// The date and time that the dataset was created.
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the dataset.
         public let createdBy: String?
-        /// The file format of a dataset that is created from an S3 file or folder.
+        /// The file format of a dataset that is created from an Amazon S3 file or folder.
         public let format: InputFormat?
         /// A set of options that define how DataBrew interprets the data in the dataset.
         public let formatOptions: FormatOptions?
-        /// Information on how DataBrew can find the dataset, in either the AWS Glue Data Catalog or Amazon S3.
+        /// Information on how DataBrew can find the dataset, in either the Glue Data Catalog or Amazon S3.
         public let input: Input
         /// The Amazon Resource Name (ARN) of the user who last modified the dataset.
         public let lastModifiedBy: String?
@@ -747,11 +822,11 @@ extension GlueDataBrew {
         public let lastModifiedDate: Date?
         /// The unique name of the dataset.
         public let name: String
-        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        /// A set of options that defines how DataBrew interprets an Amazon S3 path of the dataset.
         public let pathOptions: PathOptions?
         /// The unique Amazon Resource Name (ARN) for the dataset.
         public let resourceArn: String?
-        /// The location of the data for the dataset, either Amazon S3 or the AWS Glue Data Catalog.
+        /// The location of the data for the dataset, either Amazon S3 or the Glue Data Catalog.
         public let source: Source?
         /// Metadata tags that have been applied to the dataset.
         public let tags: [String: String]?
@@ -790,13 +865,13 @@ extension GlueDataBrew {
     }
 
     public struct DatasetParameter: AWSEncodableShape & AWSDecodableShape {
-        /// Optional boolean value that defines whether the captured value of this parameter should be loaded as an additional column in the dataset.
+        /// Optional boolean value that defines whether the captured value of this parameter should be used to create a new column in a dataset.
         public let createColumn: Bool?
         /// Additional parameter options such as a format and a timezone. Required for datetime parameters.
         public let datetimeOptions: DatetimeOptions?
         /// The optional filter expression structure to apply additional matching criteria to the parameter.
         public let filter: FilterExpression?
-        /// The name of the parameter that is used in the dataset's S3 path.
+        /// The name of the parameter that is used in the dataset's Amazon S3 path.
         public let name: String
         /// The type of the dataset parameter, can be one of a 'String', 'Number' or 'Datetime'.
         public let type: ParameterType
@@ -826,11 +901,11 @@ extension GlueDataBrew {
     }
 
     public struct DatetimeOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Required option, that defines the datetime format used for a date parameter in the S3 path. Should use only supported datetime specifiers and separation characters, all litera a-z or A-Z character should be escaped with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
+        /// Required option, that defines the datetime format used for a date parameter in the Amazon S3 path. Should use only supported datetime specifiers and separation characters, all literal a-z or A-Z characters should be escaped with single quotes. E.g. "MM.dd.yyyy-'at'-HH:mm".
         public let format: String
         /// Optional value for a non-US locale code, needed for correct interpretation of some date formats.
         public let localeCode: String?
-        /// Optional value for a timezone offset of the datetime parameter value in the S3 path. Shouldn't be used if Format for this parameter includes timezone fields. If no offset specified, UTC is assumed.
+        /// Optional value for a timezone offset of the datetime parameter value in the Amazon S3 path. Shouldn't be used if Format for this parameter includes timezone fields. If no offset specified, UTC is assumed.
         public let timezoneOffset: String?
 
         public init(format: String, localeCode: String? = nil, timezoneOffset: String? = nil) {
@@ -1057,7 +1132,7 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user who created the dataset.
         public let createdBy: String?
-        /// The file format of a dataset that is created from an S3 file or folder.
+        /// The file format of a dataset that is created from an Amazon S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
@@ -1067,11 +1142,11 @@ extension GlueDataBrew {
         public let lastModifiedDate: Date?
         /// The name of the dataset.
         public let name: String
-        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        /// A set of options that defines how DataBrew interprets an Amazon S3 path of the dataset.
         public let pathOptions: PathOptions?
         /// The Amazon Resource Name (ARN) of the dataset.
         public let resourceArn: String?
-        /// The location of the data for this dataset, Amazon S3 or the AWS Glue Data Catalog.
+        /// The location of the data for this dataset, Amazon S3 or the Glue Data Catalog.
         public let source: Source?
         /// Metadata tags associated with this dataset.
         public let tags: [String: String]?
@@ -1132,11 +1207,13 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user associated with the creation of the job.
         public let createdBy: String?
+        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The dataset that the job acts upon.
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Sample configuration for profile jobs only. Determines the number of rows on which the profile job will be executed.
         public let jobSample: JobSample?
@@ -1159,7 +1236,7 @@ extension GlueDataBrew {
         public let recipeReference: RecipeReference?
         /// The Amazon Resource Name (ARN) of the job.
         public let resourceArn: String?
-        /// The ARN of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
+        /// The ARN of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String?
         /// Metadata tags associated with this job.
         public let tags: [String: String]?
@@ -1168,9 +1245,10 @@ extension GlueDataBrew {
         /// The job type, which must be one of the following:    PROFILE - The job analyzes the dataset to determine its size, data types, data distribution, and more.    RECIPE - The job applies one or more transformations to a dataset.
         public let type: JobType?
 
-        public init(createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(createDate: Date? = nil, createdBy: String? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
+            self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
@@ -1194,6 +1272,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case createDate = "CreateDate"
             case createdBy = "CreatedBy"
+            case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
@@ -1246,6 +1325,8 @@ extension GlueDataBrew {
         public let attempt: Int?
         /// The date and time when the job completed processing.
         public let completedOn: Date?
+        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The name of the dataset for the job to process.
         public let datasetName: String?
         /// A message indicating an error (if any) that was encountered when the job ran.
@@ -1272,9 +1353,10 @@ extension GlueDataBrew {
         /// The current state of the job run entity itself.
         public let state: JobRunState?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
+            self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.errorMessage = errorMessage
             self.executionTime = executionTime
@@ -1293,6 +1375,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case attempt = "Attempt"
             case completedOn = "CompletedOn"
+            case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case errorMessage = "ErrorMessage"
             case executionTime = "ExecutionTime"
@@ -1350,7 +1433,7 @@ extension GlueDataBrew {
         public let recipeName: String?
         /// The Amazon Resource Name (ARN) of the project.
         public let resourceArn: String?
-        /// The ARN of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
+        /// The ARN of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String?
         public let sample: Sample?
         /// Describes the current state of the session:    PROVISIONING - allocating resources for the session.    INITIALIZING - getting the session ready for first use.    ASSIGNED - the session is ready for use.
@@ -1505,7 +1588,7 @@ extension GlueDataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user who created the schedule.
         public let createdBy: String?
-        /// The date or dates and time or times when the jobs are to be run for the schedule. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+        /// The date or dates and time or times when the jobs are to be run for the schedule. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// The name or names of one or more jobs to be run by using the schedule.
         public let jobNames: [String]?
@@ -1582,11 +1665,11 @@ extension GlueDataBrew {
     }
 
     public struct FilesLimit: AWSEncodableShape & AWSDecodableShape {
-        /// The number of S3 files to select.
+        /// The number of Amazon S3 files to select.
         public let maxFiles: Int
-        /// A criteria to use for S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Anotherpossible value is ASCENDING.
+        /// A criteria to use for Amazon S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Anotherpossible value is ASCENDING.
         public let order: Order?
-        /// A criteria to use for S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the only allowed value.
+        /// A criteria to use for Amazon S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as a sorting criteria. Currently it's the only allowed value.
         public let orderedBy: OrderedBy?
 
         public init(maxFiles: Int, order: Order? = nil, orderedBy: OrderedBy? = nil) {
@@ -1664,7 +1747,7 @@ extension GlueDataBrew {
     public struct Input: AWSEncodableShape & AWSDecodableShape {
         /// Connection information for dataset input files stored in a database.
         public let databaseInputDefinition: DatabaseInputDefinition?
-        /// The AWS Glue Data Catalog parameters for the data.
+        /// The Glue Data Catalog parameters for the data.
         public let dataCatalogInputDefinition: DataCatalogInputDefinition?
         /// The Amazon S3 location where the data is stored.
         public let s3InputDefinition: S3Location?
@@ -1689,17 +1772,19 @@ extension GlueDataBrew {
     }
 
     public struct Job: AWSDecodableShape {
-        /// The ID of the AWS account that owns the job.
+        /// The ID of the Amazon Web Services account that owns the job.
         public let accountId: String?
         /// The date and time that the job was created.
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the job.
         public let createdBy: String?
+        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        public let dataCatalogOutputs: [DataCatalogOutput]?
         /// A dataset that the job is to process.
         public let datasetName: String?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job output. For more information, see Encrypting data written by DataBrew jobs
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// A sample configuration for profile jobs only, which determines the number of rows on which the profile job is run. If a JobSample value isn't provided, the default value is used. The default value is CUSTOM_ROWS for the mode parameter and 20,000 for the size parameter.
         public let jobSample: JobSample?
@@ -1732,10 +1817,11 @@ extension GlueDataBrew {
         /// The job type of the job, which must be one of the following:    PROFILE - A job to analyze a dataset, to determine its size, data types, data distribution, and more.    RECIPE - A job to apply one or more transformations to a dataset.
         public let type: JobType?
 
-        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
+        public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil) {
             self.accountId = accountId
             self.createDate = createDate
             self.createdBy = createdBy
+            self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
@@ -1760,6 +1846,7 @@ extension GlueDataBrew {
             case accountId = "AccountId"
             case createDate = "CreateDate"
             case createdBy = "CreatedBy"
+            case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
@@ -1786,6 +1873,8 @@ extension GlueDataBrew {
         public let attempt: Int?
         /// The date and time when the job completed processing.
         public let completedOn: Date?
+        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The name of the dataset for the job to process.
         public let datasetName: String?
         /// A message indicating an error (if any) that was encountered when the job ran.
@@ -1813,9 +1902,10 @@ extension GlueDataBrew {
         /// The current state of the job run entity itself.
         public let state: JobRunState?
 
-        public init(attempt: Int? = nil, completedOn: Date? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
+        public init(attempt: Int? = nil, completedOn: Date? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
+            self.dataCatalogOutputs = dataCatalogOutputs
             self.datasetName = datasetName
             self.errorMessage = errorMessage
             self.executionTime = executionTime
@@ -1834,6 +1924,7 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case attempt = "Attempt"
             case completedOn = "CompletedOn"
+            case dataCatalogOutputs = "DataCatalogOutputs"
             case datasetName = "DatasetName"
             case errorMessage = "ErrorMessage"
             case executionTime = "ExecutionTime"
@@ -2313,9 +2404,9 @@ extension GlueDataBrew {
     public struct PathOptions: AWSEncodableShape & AWSDecodableShape {
         /// If provided, this structure imposes a limit on a number of files that should be selected.
         public let filesLimit: FilesLimit?
-        /// If provided, this structure defines a date range for matching S3 objects based on their LastModifiedDate attribute in S3.
+        /// If provided, this structure defines a date range for matching Amazon S3 objects based on their LastModifiedDate attribute in Amazon S3.
         public let lastModifiedDateCondition: FilterExpression?
-        /// A structure that maps names of parameters used in the S3 path of a dataset to their definitions.
+        /// A structure that maps names of parameters used in the Amazon S3 path of a dataset to their definitions.
         public let parameters: [String: DatasetParameter]?
 
         public init(filesLimit: FilesLimit? = nil, lastModifiedDateCondition: FilterExpression? = nil, parameters: [String: DatasetParameter]? = nil) {
@@ -2342,7 +2433,7 @@ extension GlueDataBrew {
     }
 
     public struct Project: AWSDecodableShape {
-        /// The ID of the AWS account that owns the project.
+        /// The ID of the Amazon Web Services account that owns the project.
         public let accountId: String?
         /// The date and time that the project was created.
         public let createDate: Date?
@@ -2606,7 +2697,7 @@ extension GlueDataBrew {
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 bucket name.
+        /// The Amazon S3 bucket name.
         public let bucket: String
         /// The unique name of the object in the bucket.
         public let key: String?
@@ -2626,6 +2717,23 @@ extension GlueDataBrew {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
+        }
+    }
+
+    public struct S3TableOutputOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Represents an Amazon S3 location (bucket name and object key) where DataBrew can write output from a job.
+        public let location: S3Location
+
+        public init(location: S3Location) {
+            self.location = location
+        }
+
+        public func validate(name: String) throws {
+            try self.location.validate(name: "\(name).location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "Location"
         }
     }
 
@@ -2652,13 +2760,13 @@ extension GlueDataBrew {
     }
 
     public struct Schedule: AWSDecodableShape {
-        /// The ID of the AWS account that owns the schedule.
+        /// The ID of the Amazon Web Services account that owns the schedule.
         public let accountId: String?
         /// The date and time that the schedule was created.
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the schedule.
         public let createdBy: String?
-        /// The dates and times when the job is to run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+        /// The dates and times when the job is to run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// A list of jobs to be run, according to the schedule.
         public let jobNames: [String]?
@@ -2953,13 +3061,13 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The file format of a dataset that is created from an S3 file or folder.
+        /// The file format of a dataset that is created from an Amazon S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
         public let input: Input
         /// The name of the dataset to be updated.
         public let name: String
-        /// A set of options that defines how DataBrew interprets an S3 path of the dataset.
+        /// A set of options that defines how DataBrew interprets an Amazon S3 path of the dataset.
         public let pathOptions: PathOptions?
 
         public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, pathOptions: PathOptions? = nil) {
@@ -3006,7 +3114,7 @@ extension GlueDataBrew {
 
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Sample configuration for Profile Jobs only. Determines the number of rows on which the Profile job will be executed. If a JobSample value is not provided for profile jobs, the default value will be used. The default value is CUSTOM_ROWS for the mode parameter and 20000 for the size parameter.
         public let jobSample: JobSample?
@@ -3019,7 +3127,7 @@ extension GlueDataBrew {
         /// The name of the job to be updated.
         public let name: String
         public let outputLocation: S3Location
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
@@ -3128,9 +3236,11 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
+        /// One or more artifacts that represent the AWS Glue Data Catalog output from running the job.
+        public let dataCatalogOutputs: [DataCatalogOutput]?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
         public let encryptionKeyArn: String?
-        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
+        /// The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.
         public let encryptionMode: EncryptionMode?
         /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
         public let logSubscription: LogSubscription?
@@ -3141,13 +3251,14 @@ extension GlueDataBrew {
         /// The name of the job to update.
         public let name: String
         /// One or more artifacts that represent the output from running the job.
-        public let outputs: [Output]
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
+        public let outputs: [Output]?
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
         public let roleArn: String
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
-        public init(encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output], roleArn: String, timeout: Int? = nil) {
+        public init(dataCatalogOutputs: [DataCatalogOutput]? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, roleArn: String, timeout: Int? = nil) {
+            self.dataCatalogOutputs = dataCatalogOutputs
             self.encryptionKeyArn = encryptionKeyArn
             self.encryptionMode = encryptionMode
             self.logSubscription = logSubscription
@@ -3160,12 +3271,16 @@ extension GlueDataBrew {
         }
 
         public func validate(name: String) throws {
+            try self.dataCatalogOutputs?.forEach {
+                try $0.validate(name: "\(name).dataCatalogOutputs[]")
+            }
+            try self.validate(self.dataCatalogOutputs, name: "dataCatalogOutputs", parent: name, min: 1)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
             try self.validate(self.maxRetries, name: "maxRetries", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 240)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.outputs.forEach {
+            try self.outputs?.forEach {
                 try $0.validate(name: "\(name).outputs[]")
             }
             try self.validate(self.outputs, name: "outputs", parent: name, min: 1)
@@ -3175,6 +3290,7 @@ extension GlueDataBrew {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataCatalogOutputs = "DataCatalogOutputs"
             case encryptionKeyArn = "EncryptionKeyArn"
             case encryptionMode = "EncryptionMode"
             case logSubscription = "LogSubscription"
@@ -3250,7 +3366,7 @@ extension GlueDataBrew {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run for this schedule.
         public let jobNames: [String]?

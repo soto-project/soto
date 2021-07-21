@@ -94,6 +94,7 @@ extension ACM {
         case ecSecp521R1 = "EC_secp521r1"
         case rsa1024 = "RSA_1024"
         case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
         public var description: String { return self.rawValue }
     }
@@ -183,7 +184,7 @@ extension ACM {
     }
 
     public struct CertificateDetail: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+        /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let certificateArn: String?
         /// The Amazon Resource Name (ARN) of the ACM PCA private certificate authority (CA) that issued the certificate. This has the following format:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
@@ -195,11 +196,11 @@ extension ACM {
         public let domainValidationOptions: [DomainValidation]?
         /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
         public let extendedKeyUsages: [ExtendedKeyUsage]?
-        /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide.
+        /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the Amazon Web Services Certificate Manager User Guide.
         public let failureReason: FailureReason?
         /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED.
         public let importedAt: Date?
-        /// A list of ARNs for the AWS resources that are using the certificate. A certificate can be used by multiple AWS resources.
+        /// A list of ARNs for the Amazon Web Services resources that are using the certificate. A certificate can be used by multiple Amazon Web Services resources.
         public let inUseBy: [String]?
         /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
         public let issuedAt: Date?
@@ -233,7 +234,7 @@ extension ACM {
         public let subject: String?
         /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
         public let subjectAlternativeNames: [String]?
-        /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide.
+        /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Amazon Web Services Certificate Manager User Guide.
         public let type: CertificateType?
 
         public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
@@ -537,7 +538,7 @@ extension ACM {
     }
 
     public struct GetAccountConfigurationResponse: AWSDecodableShape {
-        /// Expiration events configuration options associated with the AWS account.
+        /// Expiration events configuration options associated with the Amazon Web Services account.
         public let expiryEvents: ExpiryEventsConfiguration?
 
         public init(expiryEvents: ExpiryEventsConfiguration? = nil) {
@@ -836,7 +837,7 @@ extension ACM {
     }
 
     public struct RequestCertificateRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the AWS Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+        /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the Amazon Web Services Certificate Manager Private Certificate Authority (PCA) user guide. The ARN must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String?
         ///  Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.   The first domain name you enter cannot exceed 64 octets, including periods. Each subsequent Subject Alternative Name (SAN), however, can be up to 253 octets in length.
         public let domainName: String

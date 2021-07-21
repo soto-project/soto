@@ -1648,7 +1648,7 @@ extension FraudDetector {
         public let eventTimestamp: String
         /// The event type associated with the detector specified for the prediction.
         public let eventTypeName: String
-        /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation.
+        /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation.    You must provide at least one eventVariable   If detectorVersion is associated with a modelVersion, you must provide at least one associated eventVariable    To ensure highest possible fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing variables or values as follows:  For Amazon Fraud Detector trained models:  If a null value is provided explicitly for a variable or if a variable is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map) with calculated default mean/medians for numeric variables and with special values for categorical variables.  For External models ( for example, imported SageMaker):  If a null value is provided explicitly for a variable, the model and rules will use “null” as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules will use the default value that is provided for the variable.
         public let eventVariables: [String: String]
         /// The Amazon SageMaker model endpoint input data blobs.
         public let externalModelEndpointDataBlobs: [String: ModelEndpointDataBlob]?
@@ -2227,6 +2227,27 @@ extension FraudDetector {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case tags
+        }
+    }
+
+    public struct LogitMetric: AWSDecodableShape {
+        /// The relative importance of the variable.
+        public let variableImportance: Float
+        /// The name of the variable.
+        public let variableName: String
+        /// The type of variable.
+        public let variableType: String
+
+        public init(variableImportance: Float, variableName: String, variableType: String) {
+            self.variableImportance = variableImportance
+            self.variableName = variableName
+            self.variableType = variableType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variableImportance
+            case variableName
+            case variableType
         }
     }
 
@@ -2984,15 +3005,19 @@ extension FraudDetector {
         public let dataValidationMetrics: DataValidationMetrics?
         /// The training metric details.
         public let trainingMetrics: TrainingMetrics?
+        /// The variable importance metrics.
+        public let variableImportanceMetrics: VariableImportanceMetrics?
 
-        public init(dataValidationMetrics: DataValidationMetrics? = nil, trainingMetrics: TrainingMetrics? = nil) {
+        public init(dataValidationMetrics: DataValidationMetrics? = nil, trainingMetrics: TrainingMetrics? = nil, variableImportanceMetrics: VariableImportanceMetrics? = nil) {
             self.dataValidationMetrics = dataValidationMetrics
             self.trainingMetrics = trainingMetrics
+            self.variableImportanceMetrics = variableImportanceMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataValidationMetrics
             case trainingMetrics
+            case variableImportanceMetrics
         }
     }
 
@@ -3489,6 +3514,19 @@ extension FraudDetector {
             case description
             case name
             case variableType
+        }
+    }
+
+    public struct VariableImportanceMetrics: AWSDecodableShape {
+        /// List of variable metrics.
+        public let logitMetrics: [LogitMetric]?
+
+        public init(logitMetrics: [LogitMetric]? = nil) {
+            self.logitMetrics = logitMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logitMetrics = "LogitMetrics"
         }
     }
 }

@@ -378,6 +378,8 @@ extension AutoScaling {
         public var availabilityZones: [String]
         /// Indicates whether Capacity Rebalancing is enabled.
         public let capacityRebalance: Bool?
+        /// Reserved.
+        public let context: String?
         /// The date and time the group was created.
         public let createdTime: Date
         /// The duration of the default cooldown period, in seconds.
@@ -438,11 +440,12 @@ extension AutoScaling {
         /// The current size of the warm pool.
         public let warmPoolSize: Int?
 
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, context: String? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.context = context
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
             self.desiredCapacity = desiredCapacity
@@ -476,6 +479,7 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
+            case context = "Context"
             case createdTime = "CreatedTime"
             case defaultCooldown = "DefaultCooldown"
             case desiredCapacity = "DesiredCapacity"
@@ -846,6 +850,8 @@ extension AutoScaling {
         public var availabilityZones: [String]?
         /// Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see Amazon EC2 Auto Scaling Capacity Rebalancing in the Amazon EC2 Auto Scaling User Guide.
         public let capacityRebalance: Bool?
+        /// Reserved.
+        public let context: String?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. This setting applies when using simple scaling policies, but not when using other scaling policies or scheduled scaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
@@ -892,10 +898,11 @@ extension AutoScaling {
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into a VPC.
         public let vPCZoneIdentifier: String?
 
-        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.context = context
             self.defaultCooldown = defaultCooldown
             self.desiredCapacity = desiredCapacity
             self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -974,6 +981,7 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
+            case context = "Context"
             case defaultCooldown = "DefaultCooldown"
             case desiredCapacity = "DesiredCapacity"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
@@ -2092,7 +2100,7 @@ extension AutoScaling {
     public struct Ebs: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the volume is deleted on instance termination. For Amazon EC2 Auto Scaling, the default value is true.
         public let deleteOnTermination: Bool?
-        /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot specify an encryption value. Volumes that are created from encrypted snapshots are automatically encrypted, and volumes that are created from unencrypted snapshots are automatically unencrypted. By default, encrypted snapshots use the AWS managed CMK that is used for EBS encryption, but you can specify a custom CMK when you create the snapshot. The ability to encrypt a snapshot during copying also allows you to apply a new CMK to an already-encrypted snapshot. Volumes restored from the resulting copy are only accessible using the new CMK. Enabling encryption by default results in all EBS volumes being encrypted with the AWS managed CMK or a customer managed CMK, whether or not the snapshot was encrypted.  For more information, see Using Encryption with EBS-Backed AMIs in the Amazon EC2 User Guide for Linux Instances and Required CMK key policy for use with encrypted volumes in the Amazon EC2 Auto Scaling User Guide.
+        /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types. If your AMI uses encrypted volumes, you can also only launch it on supported instance types.  If you are creating a volume from a snapshot, you cannot specify an encryption value. Volumes that are created from encrypted snapshots are automatically encrypted, and volumes that are created from unencrypted snapshots are automatically unencrypted. By default, encrypted snapshots use the Amazon Web Services managed CMK that is used for EBS encryption, but you can specify a custom CMK when you create the snapshot. The ability to encrypt a snapshot during copying also allows you to apply a new CMK to an already-encrypted snapshot. Volumes restored from the resulting copy are only accessible using the new CMK. Enabling encryption by default results in all EBS volumes being encrypted with the Amazon Web Services managed CMK or a customer managed CMK, whether or not the snapshot was encrypted.  For more information, see Using Encryption with EBS-Backed AMIs in the Amazon EC2 User Guide for Linux Instances and Required CMK key policy for use with encrypted volumes in the Amazon EC2 Auto Scaling User Guide.
         public let encrypted: Bool?
         /// The number of input/output (I/O) operations per second (IOPS) to provision for the volume. For gp3 and io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting.  The following are the supported values for each volume type:     gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS   For io1 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS.   Iops is supported when the volume type is gp3 or io1 and required only when the volume type is io1. (Not used with standard, gp2, st1, or sc1 volumes.)
         public let iops: Int?
@@ -3171,7 +3179,7 @@ extension AutoScaling {
     public struct PredefinedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.
         public let predefinedMetricType: MetricType
-        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format is app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt;/targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt;, where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   This is an example: app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
@@ -3264,7 +3272,7 @@ extension AutoScaling {
     public struct PredictiveScalingPredefinedLoadMetric: AWSEncodableShape & AWSDecodableShape {
         /// The metric type.
         public let predefinedMetricType: PredefinedLoadMetricType
-        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: PredefinedLoadMetricType, resourceLabel: String? = nil) {
@@ -3287,7 +3295,7 @@ extension AutoScaling {
     public struct PredictiveScalingPredefinedMetricPair: AWSEncodableShape & AWSDecodableShape {
         /// Indicates which metrics to use. There are two different types of metrics for each metric type: one is a load metric and one is a scaling metric. For example, if the metric type is ASGCPUUtilization, the Auto Scaling group's total CPU metric is used as the load metric, and the average CPU metric is used for the scaling metric.
         public let predefinedMetricType: PredefinedMetricPairType
-        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the total and average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: PredefinedMetricPairType, resourceLabel: String? = nil) {
@@ -3310,7 +3318,7 @@ extension AutoScaling {
     public struct PredictiveScalingPredefinedScalingMetric: AWSEncodableShape & AWSDecodableShape {
         /// The metric type.
         public let predefinedMetricType: PredefinedScalingMetricType
-        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/EC2Co-EcsEl-1TKLTMITMM0EO/f37c06a68c1748aa/targetgroup/EC2Co-Defau-LDNM7Q3ZH1ZN/6d4ea56ca2d6a18d. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
+        /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the load balancer ARN   targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
         public init(predefinedMetricType: PredefinedScalingMetricType, resourceLabel: String? = nil) {
@@ -4272,6 +4280,8 @@ extension AutoScaling {
         public var availabilityZones: [String]?
         /// Enables or disables Capacity Rebalancing. For more information, see Amazon EC2 Auto Scaling Capacity Rebalancing in the Amazon EC2 Auto Scaling User Guide.
         public let capacityRebalance: Bool?
+        /// Reserved.
+        public let context: String?
         /// The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default value is 300. This setting applies when using simple scaling policies, but not when using other scaling policies or scheduled scaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let defaultCooldown: Int?
         /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
@@ -4304,10 +4314,11 @@ extension AutoScaling {
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones.
         public let vPCZoneIdentifier: String?
 
-        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.context = context
             self.defaultCooldown = defaultCooldown
             self.desiredCapacity = desiredCapacity
             self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -4362,6 +4373,7 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZones = "AvailabilityZones"
             case capacityRebalance = "CapacityRebalance"
+            case context = "Context"
             case defaultCooldown = "DefaultCooldown"
             case desiredCapacity = "DesiredCapacity"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
