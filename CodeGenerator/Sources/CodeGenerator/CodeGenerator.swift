@@ -157,6 +157,12 @@ struct CodeGenerator {
             ) {
                 print("Wrote: \(service.api.serviceName)_Waiter.swift")
             }
+            let waitersAsync = self.library.render(waiterContext, withTemplate: "waiter+async")!
+            if self.command.output, try self.format(waitersAsync).writeIfChanged(
+                toFile: "\(basePath)/\(service.api.serviceName)_Waiter+async.swift"
+            ) {
+                print("Wrote: \(service.api.serviceName)_Waiter+async.swift")
+            }
         }
         if self.command.verbose {
             print("Succesfully Generated \(service.api.serviceName)")

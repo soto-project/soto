@@ -488,6 +488,18 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
+    func testWaitersAsync() {
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        self.s3Test(bucket: name) {
+            _ = try await Self.s3.putObject(.init(body: .string(contents), bucket: name, key: filename))
+            try await Self.s3.waitUntilObjectExists(.init(bucket: name, key: filename))
+            _ = try await Self.s3.deleteObject(.init(bucket: name, key: filename))
+            try await Self.s3.waitUntilObjectNotExists(.init(bucket: name, key: filename))
+        }
+    }
+
     func testErrorAsync() {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
