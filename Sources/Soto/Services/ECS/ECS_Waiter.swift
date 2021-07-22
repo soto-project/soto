@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension ECS {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServicesInactive(
         _ input: DescribeServicesRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension ECS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServicesStable(
         _ input: DescribeServicesRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -57,6 +71,13 @@ extension ECS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTasksRunning(
         _ input: DescribeTasksRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -75,6 +96,13 @@ extension ECS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTasksStopped(
         _ input: DescribeTasksRequest,
         maxWaitTime: TimeAmount? = nil,

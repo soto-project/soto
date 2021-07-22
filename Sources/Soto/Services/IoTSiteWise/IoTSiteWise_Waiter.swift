@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension IoTSiteWise {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAssetActive(
         _ input: DescribeAssetRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension IoTSiteWise {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAssetModelActive(
         _ input: DescribeAssetModelRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -55,6 +69,13 @@ extension IoTSiteWise {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAssetModelNotExists(
         _ input: DescribeAssetModelRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -71,6 +92,13 @@ extension IoTSiteWise {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAssetNotExists(
         _ input: DescribeAssetRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -87,6 +115,13 @@ extension IoTSiteWise {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilPortalActive(
         _ input: DescribePortalRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -103,6 +138,13 @@ extension IoTSiteWise {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilPortalNotExists(
         _ input: DescribePortalRequest,
         maxWaitTime: TimeAmount? = nil,

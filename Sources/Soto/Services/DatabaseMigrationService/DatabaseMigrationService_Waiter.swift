@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension DatabaseMigrationService {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEndpointDeleted(
         _ input: DescribeEndpointsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -39,6 +46,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationInstanceAvailable(
         _ input: DescribeReplicationInstancesMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -59,6 +73,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationInstanceDeleted(
         _ input: DescribeReplicationInstancesMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -76,6 +97,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationTaskDeleted(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -97,6 +125,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationTaskReady(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -121,6 +156,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationTaskRunning(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -145,6 +187,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationTaskStopped(
         _ input: DescribeReplicationTasksMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -168,6 +217,13 @@ extension DatabaseMigrationService {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTestConnectionSucceeds(
         _ input: DescribeConnectionsMessage,
         maxWaitTime: TimeAmount? = nil,

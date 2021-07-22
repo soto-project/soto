@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticBeanstalk {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEnvironmentExists(
         _ input: DescribeEnvironmentsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension ElasticBeanstalk {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEnvironmentTerminated(
         _ input: DescribeEnvironmentsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -55,6 +69,13 @@ extension ElasticBeanstalk {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEnvironmentUpdated(
         _ input: DescribeEnvironmentsMessage,
         maxWaitTime: TimeAmount? = nil,

@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension SageMaker {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEndpointDeleted(
         _ input: DescribeEndpointInput,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEndpointInService(
         _ input: DescribeEndpointInput,
         maxWaitTime: TimeAmount? = nil,
@@ -56,6 +70,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilNotebookInstanceDeleted(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount? = nil,
@@ -73,6 +94,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilNotebookInstanceInService(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount? = nil,
@@ -90,6 +118,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilNotebookInstanceStopped(
         _ input: DescribeNotebookInstanceInput,
         maxWaitTime: TimeAmount? = nil,
@@ -107,6 +142,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilProcessingJobCompletedOrStopped(
         _ input: DescribeProcessingJobRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -126,6 +168,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTrainingJobCompletedOrStopped(
         _ input: DescribeTrainingJobRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -145,6 +194,13 @@ extension SageMaker {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTransformJobCompletedOrStopped(
         _ input: DescribeTransformJobRequest,
         maxWaitTime: TimeAmount? = nil,

@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension ElastiCache {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCacheClusterAvailable(
         _ input: DescribeCacheClustersMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -41,6 +48,13 @@ extension ElastiCache {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCacheClusterDeleted(
         _ input: DescribeCacheClustersMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -64,6 +78,13 @@ extension ElastiCache {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationGroupAvailable(
         _ input: DescribeReplicationGroupsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -81,6 +102,13 @@ extension ElastiCache {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationGroupDeleted(
         _ input: DescribeReplicationGroupsMessage,
         maxWaitTime: TimeAmount? = nil,

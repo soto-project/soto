@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension Route53 {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilResourceRecordSetsChanged(
         _ input: GetChangeRequest,
         maxWaitTime: TimeAmount? = nil,

@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension Neptune {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBInstanceAvailable(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -42,6 +49,13 @@ extension Neptune {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBInstanceDeleted(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount? = nil,

@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticTranscoder {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilJobComplete(
         _ input: ReadJobRequest,
         maxWaitTime: TimeAmount? = nil,

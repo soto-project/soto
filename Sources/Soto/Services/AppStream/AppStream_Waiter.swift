@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension AppStream {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilFleetStarted(
         _ input: DescribeFleetsRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -39,6 +46,13 @@ extension AppStream {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilFleetStopped(
         _ input: DescribeFleetsRequest,
         maxWaitTime: TimeAmount? = nil,

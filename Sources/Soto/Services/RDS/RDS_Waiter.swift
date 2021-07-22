@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension RDS {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBClusterSnapshotAvailable(
         _ input: DescribeDBClusterSnapshotsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -42,6 +49,13 @@ extension RDS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBClusterSnapshotDeleted(
         _ input: DescribeDBClusterSnapshotsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -63,6 +77,13 @@ extension RDS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBInstanceAvailable(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -84,6 +105,13 @@ extension RDS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBInstanceDeleted(
         _ input: DescribeDBInstancesMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -105,6 +133,13 @@ extension RDS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBSnapshotAvailable(
         _ input: DescribeDBSnapshotsMessage,
         maxWaitTime: TimeAmount? = nil,
@@ -126,6 +161,13 @@ extension RDS {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDBSnapshotDeleted(
         _ input: DescribeDBSnapshotsMessage,
         maxWaitTime: TimeAmount? = nil,

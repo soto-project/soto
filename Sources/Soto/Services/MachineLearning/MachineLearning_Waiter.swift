@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension MachineLearning {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilBatchPredictionAvailable(
         _ input: DescribeBatchPredictionsInput,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension MachineLearning {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDataSourceAvailable(
         _ input: DescribeDataSourcesInput,
         maxWaitTime: TimeAmount? = nil,
@@ -55,6 +69,13 @@ extension MachineLearning {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEvaluationAvailable(
         _ input: DescribeEvaluationsInput,
         maxWaitTime: TimeAmount? = nil,
@@ -72,6 +93,13 @@ extension MachineLearning {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilMLModelAvailable(
         _ input: DescribeMLModelsInput,
         maxWaitTime: TimeAmount? = nil,

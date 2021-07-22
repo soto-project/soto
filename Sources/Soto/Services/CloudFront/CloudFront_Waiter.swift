@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension CloudFront {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDistributionDeployed(
         _ input: GetDistributionRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -37,6 +44,13 @@ extension CloudFront {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilInvalidationCompleted(
         _ input: GetInvalidationRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -53,6 +67,13 @@ extension CloudFront {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilStreamingDistributionDeployed(
         _ input: GetStreamingDistributionRequest,
         maxWaitTime: TimeAmount? = nil,

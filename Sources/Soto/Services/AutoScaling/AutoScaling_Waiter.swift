@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension AutoScaling {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilGroupExists(
         _ input: AutoScalingGroupNamesType,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension AutoScaling {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilGroupInService(
         _ input: AutoScalingGroupNamesType,
         maxWaitTime: TimeAmount? = nil,
@@ -55,6 +69,13 @@ extension AutoScaling {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilGroupNotExists(
         _ input: AutoScalingGroupNamesType,
         maxWaitTime: TimeAmount? = nil,

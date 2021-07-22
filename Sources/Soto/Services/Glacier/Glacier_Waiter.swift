@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension Glacier {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilVaultExists(
         _ input: DescribeVaultInput,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension Glacier {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilVaultNotExists(
         _ input: DescribeVaultInput,
         maxWaitTime: TimeAmount? = nil,

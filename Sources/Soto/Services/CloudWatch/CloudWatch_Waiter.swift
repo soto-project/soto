@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension CloudWatch {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAlarmExists(
         _ input: DescribeAlarmsInput,
         maxWaitTime: TimeAmount? = nil,
@@ -37,6 +44,13 @@ extension CloudWatch {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCompositeAlarmExists(
         _ input: DescribeAlarmsInput,
         maxWaitTime: TimeAmount? = nil,

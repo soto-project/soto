@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension ACMPCA {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAuditReportCreated(
         _ input: DescribeCertificateAuthorityAuditReportRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -38,6 +45,13 @@ extension ACMPCA {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCertificateAuthorityCSRCreated(
         _ input: GetCertificateAuthorityCsrRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -55,6 +69,13 @@ extension ACMPCA {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCertificateIssued(
         _ input: GetCertificateRequest,
         maxWaitTime: TimeAmount? = nil,

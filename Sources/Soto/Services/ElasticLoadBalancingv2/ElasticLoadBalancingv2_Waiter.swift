@@ -21,6 +21,13 @@ import SotoCore
 // MARK: Waiters
 
 extension ElasticLoadBalancingv2 {
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilLoadBalancerAvailable(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount? = nil,
@@ -39,6 +46,13 @@ extension ElasticLoadBalancingv2 {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilLoadBalancerExists(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount? = nil,
@@ -56,6 +70,13 @@ extension ElasticLoadBalancingv2 {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilLoadBalancersDeleted(
         _ input: DescribeLoadBalancersInput,
         maxWaitTime: TimeAmount? = nil,
@@ -73,6 +94,13 @@ extension ElasticLoadBalancingv2 {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTargetDeregistered(
         _ input: DescribeTargetHealthInput,
         maxWaitTime: TimeAmount? = nil,
@@ -90,6 +118,13 @@ extension ElasticLoadBalancingv2 {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilTargetInService(
         _ input: DescribeTargetHealthInput,
         maxWaitTime: TimeAmount? = nil,
