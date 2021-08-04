@@ -17,7 +17,7 @@ import NIO
 
 /// Protocol providing a Cognito Identity id and token
 public protocol IdentityProvider {
-    func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams>
+    func getIdentity(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<CognitoIdentity.IdentityParams>
     func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void>
 }
 
@@ -33,7 +33,7 @@ public struct IdentityProviderFactory {
     public struct Context {
         public let cognitoIdentity: CognitoIdentity
         public let identityPoolId: String
-        public let logger: Logger
+        public let context: LoggingContext
     }
 
     private let cb: (Context) -> IdentityProvider
@@ -70,7 +70,7 @@ extension CognitoIdentity {
             self.identityIdPromise = identityIdPromise
             // request identity id and fulfill promise on completion
             let request = CognitoIdentity.GetIdInput(identityPoolId: context.identityPoolId, logins: logins)
-            context.cognitoIdentity.getId(request, logger: context.logger, on: eventLoop).whenComplete { result in
+            context.cognitoIdentity.getId(request, context: context.context, on: eventLoop).whenComplete { result in
                 switch result {
                 case .failure:
                     identityIdPromise.fail(CredentialProviderError.noProvider)
@@ -88,7 +88,7 @@ extension CognitoIdentity {
             return self.identityIdPromise.futureResult.map { _ in }.hop(to: eventLoop)
         }
 
-        func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<IdentityParams> {
+        func getIdentity(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<IdentityParams> {
             return self.identityIdPromise.futureResult.map { identityId in
                 return .init(id: identityId, logins: self.logins)
             }.hop(to: eventLoop)
