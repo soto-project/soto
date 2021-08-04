@@ -26,12 +26,12 @@ extension EMR {
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilClusterRunning(
         _ input: DescribeClusterInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -45,19 +45,19 @@ extension EMR {
             minDelayTime: .seconds(30),
             command: describeCluster
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilClusterTerminated(
         _ input: DescribeClusterInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -68,19 +68,19 @@ extension EMR {
             minDelayTime: .seconds(30),
             command: describeCluster
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilStepComplete(
         _ input: DescribeStepInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -92,7 +92,7 @@ extension EMR {
             minDelayTime: .seconds(30),
             command: describeStep
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
 
 }

@@ -26,12 +26,12 @@ extension Proton {
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEnvironmentDeployed(
         _ input: GetEnvironmentInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -42,19 +42,19 @@ extension Proton {
             minDelayTime: .seconds(5),
             command: getEnvironment
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEnvironmentTemplateVersionRegistered(
         _ input: GetEnvironmentTemplateVersionInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -66,19 +66,19 @@ extension Proton {
             minDelayTime: .seconds(2),
             command: getEnvironmentTemplateVersion
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServiceCreated(
         _ input: GetServiceInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -91,19 +91,19 @@ extension Proton {
             minDelayTime: .seconds(5),
             command: getService
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServiceDeleted(
         _ input: GetServiceInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -114,19 +114,19 @@ extension Proton {
             minDelayTime: .seconds(5),
             command: getService
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServiceInstanceDeployed(
         _ input: GetServiceInstanceInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -137,19 +137,19 @@ extension Proton {
             minDelayTime: .seconds(5),
             command: getServiceInstance
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServicePipelineDeployed(
         _ input: GetServiceInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -160,19 +160,19 @@ extension Proton {
             minDelayTime: .seconds(10),
             command: getService
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServiceTemplateVersionRegistered(
         _ input: GetServiceTemplateVersionInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -184,19 +184,19 @@ extension Proton {
             minDelayTime: .seconds(2),
             command: getServiceTemplateVersion
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilServiceUpdated(
         _ input: GetServiceInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -210,7 +210,7 @@ extension Proton {
             minDelayTime: .seconds(5),
             command: getService
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
 
 }

@@ -26,12 +26,12 @@ extension MachineLearning {
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilBatchPredictionAvailable(
         _ input: DescribeBatchPredictionsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -42,19 +42,19 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: describeBatchPredictions
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilDataSourceAvailable(
         _ input: DescribeDataSourcesInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -65,19 +65,19 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: describeDataSources
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilEvaluationAvailable(
         _ input: DescribeEvaluationsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -88,19 +88,19 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: describeEvaluations
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilMLModelAvailable(
         _ input: DescribeMLModelsInput,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -111,7 +111,7 @@ extension MachineLearning {
             minDelayTime: .seconds(30),
             command: describeMLModels
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
 
 }

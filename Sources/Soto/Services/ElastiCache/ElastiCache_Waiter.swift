@@ -26,12 +26,12 @@ extension ElastiCache {
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCacheClusterAvailable(
         _ input: DescribeCacheClustersMessage,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -45,19 +45,19 @@ extension ElastiCache {
             minDelayTime: .seconds(15),
             command: describeCacheClusters
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCacheClusterDeleted(
         _ input: DescribeCacheClustersMessage,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -74,19 +74,19 @@ extension ElastiCache {
             minDelayTime: .seconds(15),
             command: describeCacheClusters
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationGroupAvailable(
         _ input: DescribeReplicationGroupsMessage,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -97,19 +97,19 @@ extension ElastiCache {
             minDelayTime: .seconds(15),
             command: describeReplicationGroups
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilReplicationGroupDeleted(
         _ input: DescribeReplicationGroupsMessage,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -121,7 +121,7 @@ extension ElastiCache {
             minDelayTime: .seconds(15),
             command: describeReplicationGroups
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
 
 }

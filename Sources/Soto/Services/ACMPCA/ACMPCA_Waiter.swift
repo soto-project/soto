@@ -26,12 +26,12 @@ extension ACMPCA {
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilAuditReportCreated(
         _ input: DescribeCertificateAuthorityAuditReportRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -42,19 +42,19 @@ extension ACMPCA {
             minDelayTime: .seconds(3),
             command: describeCertificateAuthorityAuditReport
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCertificateAuthorityCSRCreated(
         _ input: GetCertificateAuthorityCsrRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -65,19 +65,19 @@ extension ACMPCA {
             minDelayTime: .seconds(3),
             command: getCertificateAuthorityCsr
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
     /// Poll resource until it reaches a desired state
     ///
     /// Parameters:
     ///   - input: Input for request
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
-    ///   - logger: Logger for logging output
+    ///   - context: LoggingContext used for instrumentation
     ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilCertificateIssued(
         _ input: GetCertificateRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
+        context: LoggingContext,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<Void> {
         let waiter = AWSClient.Waiter(
@@ -88,7 +88,7 @@ extension ACMPCA {
             minDelayTime: .seconds(3),
             command: getCertificate
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, context: context, on: eventLoop)
     }
 
 }
