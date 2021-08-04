@@ -72,9 +72,9 @@ extension STS {
             self.requestProvider = requestProvider
         }
 
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+        func getCredential(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.assumeRole(request, logger: logger, on: eventLoop)
+                self.sts.assumeRole(request, context: context, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -99,9 +99,9 @@ extension STS {
             self.requestProvider = requestProvider
         }
 
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+        func getCredential(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.assumeRoleWithSAML(request, logger: logger, on: eventLoop)
+                self.sts.assumeRoleWithSAML(request, context: context, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -126,9 +126,9 @@ extension STS {
             self.requestProvider = requestProvider
         }
 
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+        func getCredential(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.assumeRoleWithWebIdentity(request, logger: logger, on: eventLoop)
+                self.sts.assumeRoleWithWebIdentity(request, context: context, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -171,8 +171,8 @@ extension STS {
         }
 
         /// get credentials
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
-            return webIdentityProvider.getCredential(on: eventLoop, logger: logger)
+        func getCredential(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<Credential> {
+            return webIdentityProvider.getCredential(on: eventLoop, context: context)
         }
 
         /// Load web identity token file
@@ -221,9 +221,9 @@ extension STS {
             self.requestProvider = requestProvider
         }
 
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+        func getCredential(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.getFederationToken(request, logger: logger, on: eventLoop)
+                self.sts.getFederationToken(request, context: context, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -248,9 +248,9 @@ extension STS {
             self.requestProvider = requestProvider
         }
 
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
+        func getCredential(on eventLoop: EventLoop, context: LoggingContext) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.getSessionToken(request, logger: logger, on: eventLoop)
+                self.sts.getSessionToken(request, context: context, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
