@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS EFS service.
 ///
-/// Amazon Elastic File System Amazon Elastic File System (Amazon EFS) provides simple, scalable file storage for use with Amazon EC2 instances in the AWS Cloud. With Amazon EFS, storage capacity is elastic, growing and shrinking automatically as you add and remove files, so your applications have the storage they need, when they need it. For more information, see the User Guide.
+/// Amazon Elastic File System Amazon Elastic File System (Amazon EFS) provides simple, scalable file storage for use with Amazon EC2 instances in the AWS Cloud. With Amazon EFS, storage capacity is elastic, growing and shrinking automatically as you add and remove files, so your applications have the storage they need, when they need it. For more information, see the Amazon Elastic File System API Reference and the Amazon Elastic File System User Guide.
 public struct EFS: AWSService {
     // MARK: Member variables
 
@@ -77,7 +77,7 @@ public struct EFS: AWSService {
         return self.client.execute(operation: "CreateMountTarget", path: "/2015-02-01/mount-targets", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If a tag key specified in the request already exists on the file system, this operation overwrites its value with the value provided in the request. If you add the Name tag to your file system, Amazon EFS returns it in the response to the DescribeFileSystems operation.  This operation requires permission for the elasticfilesystem:CreateTags action.
+    ///  DEPRECATED - CreateTags is deprecated and not maintained. Please use the API action to create tags for EFS resources.  Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If a tag key specified in the request already exists on the file system, this operation overwrites its value with the value provided in the request. If you add the Name tag to your file system, Amazon EFS returns it in the response to the DescribeFileSystems operation.  This operation requires permission for the elasticfilesystem:CreateTags action.
     @available(*, deprecated, message:"Use TagResource.")
     @discardableResult public func createTags(_ input: CreateTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "CreateTags", path: "/2015-02-01/create-tags/{FileSystemId}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -103,7 +103,7 @@ public struct EFS: AWSService {
         return self.client.execute(operation: "DeleteMountTarget", path: "/2015-02-01/mount-targets/{MountTargetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Deletes the specified tags from a file system. If the DeleteTags request includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't cause an error. For more information about tags and related restrictions, see Tag Restrictions in the AWS Billing and Cost Management User Guide. This operation requires permissions for the elasticfilesystem:DeleteTags action.
+    ///  DEPRECATED - DeleteTags is deprecated and not maintained. Please use the API action to remove tags from EFS resources.  Deletes the specified tags from a file system. If the DeleteTags request includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't cause an error. For more information about tags and related restrictions, see Tag Restrictions in the AWS Billing and Cost Management User Guide. This operation requires permissions for the elasticfilesystem:DeleteTags action.
     @available(*, deprecated, message:"Use UntagResource.")
     @discardableResult public func deleteTags(_ input: DeleteTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteTags", path: "/2015-02-01/delete-tags/{FileSystemId}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -112,6 +112,10 @@ public struct EFS: AWSService {
     /// Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both.  This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
     public func describeAccessPoints(_ input: DescribeAccessPointsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccessPointsResponse> {
         return self.client.execute(operation: "DescribeAccessPoints", path: "/2015-02-01/access-points", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    public func describeAccountPreferences(_ input: DescribeAccountPreferencesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountPreferencesResponse> {
+        return self.client.execute(operation: "DescribeAccountPreferences", path: "/2015-02-01/account-preferences", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns the backup policy for the specified EFS file system.
@@ -144,7 +148,7 @@ public struct EFS: AWSService {
         return self.client.execute(operation: "DescribeMountTargets", path: "/2015-02-01/mount-targets", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Returns the tags associated with a file system. The order of tags returned in the response of one DescribeTags call and the order of tags returned across the responses of a multiple-call iteration (when using pagination) is unspecified.   This operation requires permissions for the elasticfilesystem:DescribeTags action.
+    ///  DEPRECATED - The DeleteTags action is deprecated and not maintained. Please use the API action to remove tags from EFS resources.  Returns the tags associated with a file system. The order of tags returned in the response of one DescribeTags call and the order of tags returned across the responses of a multiple-call iteration (when using pagination) is unspecified.   This operation requires permissions for the elasticfilesystem:DescribeTags action.
     @available(*, deprecated, message:"Use ListTagsForResource.")
     public func describeTags(_ input: DescribeTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTagsResponse> {
         return self.client.execute(operation: "DescribeTags", path: "/2015-02-01/tags/{FileSystemId}/", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -158,6 +162,10 @@ public struct EFS: AWSService {
     /// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see CreateMountTarget. This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted.  The operation requires permissions for the following actions:    elasticfilesystem:ModifyMountTargetSecurityGroups action on the mount target's file system.     ec2:ModifyNetworkInterfaceAttribute action on the mount target's network interface.
     @discardableResult public func modifyMountTargetSecurityGroups(_ input: ModifyMountTargetSecurityGroupsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "ModifyMountTargetSecurityGroups", path: "/2015-02-01/mount-targets/{MountTargetId}/security-groups", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    public func putAccountPreferences(_ input: PutAccountPreferencesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountPreferencesResponse> {
+        return self.client.execute(operation: "PutAccountPreferences", path: "/2015-02-01/account-preferences", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.

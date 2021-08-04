@@ -213,12 +213,32 @@ extension Macie2 {
     }
 
     public enum ScopeFilterKey: String, CustomStringConvertible, Codable {
-        case bucketCreationDate = "BUCKET_CREATION_DATE"
         case objectExtension = "OBJECT_EXTENSION"
         case objectKey = "OBJECT_KEY"
         case objectLastModifiedDate = "OBJECT_LAST_MODIFIED_DATE"
         case objectSize = "OBJECT_SIZE"
-        case tag = "TAG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchResourcesComparator: String, CustomStringConvertible, Codable {
+        case eq = "EQ"
+        case ne = "NE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchResourcesSimpleCriterionKey: String, CustomStringConvertible, Codable {
+        case accountId = "ACCOUNT_ID"
+        case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
+        case s3BucketName = "S3_BUCKET_NAME"
+        case s3BucketSharedAccess = "S3_BUCKET_SHARED_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchResourcesSortAttributeName: String, CustomStringConvertible, Codable {
+        case accountId = "ACCOUNT_ID"
+        case resourceName = "RESOURCE_NAME"
+        case s3ClassifiableObjectCount = "S3_CLASSIFIABLE_OBJECT_COUNT"
+        case s3ClassifiableSizeInBytes = "S3_CLASSIFIABLE_SIZE_IN_BYTES"
         public var description: String { return self.rawValue }
     }
 
@@ -242,6 +262,14 @@ extension Macie2 {
         case `internal` = "INTERNAL"
         case notShared = "NOT_SHARED"
         case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SimpleCriterionKeyForJob: String, CustomStringConvertible, Codable {
+        case accountId = "ACCOUNT_ID"
+        case s3BucketEffectivePermission = "S3_BUCKET_EFFECTIVE_PERMISSION"
+        case s3BucketName = "S3_BUCKET_NAME"
+        case s3BucketSharedAccess = "S3_BUCKET_SHARED_ACCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -1194,6 +1222,35 @@ extension Macie2 {
         public init() {
         }
 
+    }
+
+    public struct CriteriaBlockForJob: AWSEncodableShape & AWSDecodableShape {
+
+        public let and: [CriteriaForJob]?
+
+        public init(and: [CriteriaForJob]? = nil) {
+            self.and = and
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "and"
+        }
+    }
+
+    public struct CriteriaForJob: AWSEncodableShape & AWSDecodableShape {
+
+        public let simpleCriterion: SimpleCriterionForJob?
+        public let tagCriterion: TagCriterionForJob?
+
+        public init(simpleCriterion: SimpleCriterionForJob? = nil, tagCriterion: TagCriterionForJob? = nil) {
+            self.simpleCriterion = simpleCriterion
+            self.tagCriterion = tagCriterion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simpleCriterion = "simpleCriterion"
+            case tagCriterion = "tagCriterion"
+        }
     }
 
     public struct CriterionAdditionalProperties: AWSEncodableShape & AWSDecodableShape {
@@ -2640,6 +2697,7 @@ extension Macie2 {
 
     public struct JobSummary: AWSDecodableShape {
 
+        public let bucketCriteria: S3BucketCriteriaForJob?
         public let bucketDefinitions: [S3BucketDefinitionForJob]?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -2650,7 +2708,8 @@ extension Macie2 {
         public let name: String?
         public let userPausedDetails: UserPausedDetails?
 
-        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: Date? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, name: String? = nil, userPausedDetails: UserPausedDetails? = nil) {
+        public init(bucketCriteria: S3BucketCriteriaForJob? = nil, bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: Date? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunErrorStatus: LastRunErrorStatus? = nil, name: String? = nil, userPausedDetails: UserPausedDetails? = nil) {
+            self.bucketCriteria = bucketCriteria
             self.bucketDefinitions = bucketDefinitions
             self.createdAt = createdAt
             self.jobId = jobId
@@ -2662,6 +2721,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketCriteria = "bucketCriteria"
             case bucketDefinitions = "bucketDefinitions"
             case createdAt = "createdAt"
             case jobId = "jobId"
@@ -3043,6 +3103,62 @@ extension Macie2 {
         }
     }
 
+    public struct MatchingBucket: AWSDecodableShape {
+
+        public let accountId: String?
+        public let bucketName: String?
+        public let classifiableObjectCount: Int64?
+        public let classifiableSizeInBytes: Int64?
+        public let jobDetails: JobDetails?
+        public let objectCount: Int64?
+        public let objectCountByEncryptionType: ObjectCountByEncryptionType?
+        public let sizeInBytes: Int64?
+        public let sizeInBytesCompressed: Int64?
+        public let unclassifiableObjectCount: ObjectLevelStatistics?
+        public let unclassifiableObjectSizeInBytes: ObjectLevelStatistics?
+
+        public init(accountId: String? = nil, bucketName: String? = nil, classifiableObjectCount: Int64? = nil, classifiableSizeInBytes: Int64? = nil, jobDetails: JobDetails? = nil, objectCount: Int64? = nil, objectCountByEncryptionType: ObjectCountByEncryptionType? = nil, sizeInBytes: Int64? = nil, sizeInBytesCompressed: Int64? = nil, unclassifiableObjectCount: ObjectLevelStatistics? = nil, unclassifiableObjectSizeInBytes: ObjectLevelStatistics? = nil) {
+            self.accountId = accountId
+            self.bucketName = bucketName
+            self.classifiableObjectCount = classifiableObjectCount
+            self.classifiableSizeInBytes = classifiableSizeInBytes
+            self.jobDetails = jobDetails
+            self.objectCount = objectCount
+            self.objectCountByEncryptionType = objectCountByEncryptionType
+            self.sizeInBytes = sizeInBytes
+            self.sizeInBytesCompressed = sizeInBytesCompressed
+            self.unclassifiableObjectCount = unclassifiableObjectCount
+            self.unclassifiableObjectSizeInBytes = unclassifiableObjectSizeInBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case bucketName = "bucketName"
+            case classifiableObjectCount = "classifiableObjectCount"
+            case classifiableSizeInBytes = "classifiableSizeInBytes"
+            case jobDetails = "jobDetails"
+            case objectCount = "objectCount"
+            case objectCountByEncryptionType = "objectCountByEncryptionType"
+            case sizeInBytes = "sizeInBytes"
+            case sizeInBytesCompressed = "sizeInBytesCompressed"
+            case unclassifiableObjectCount = "unclassifiableObjectCount"
+            case unclassifiableObjectSizeInBytes = "unclassifiableObjectSizeInBytes"
+        }
+    }
+
+    public struct MatchingResource: AWSDecodableShape {
+
+        public let matchingBucket: MatchingBucket?
+
+        public init(matchingBucket: MatchingBucket? = nil) {
+            self.matchingBucket = matchingBucket
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchingBucket = "matchingBucket"
+        }
+    }
+
     public struct Member: AWSDecodableShape {
 
         public let accountId: String?
@@ -3354,6 +3470,22 @@ extension Macie2 {
         }
     }
 
+    public struct S3BucketCriteriaForJob: AWSEncodableShape & AWSDecodableShape {
+
+        public let excludes: CriteriaBlockForJob?
+        public let includes: CriteriaBlockForJob?
+
+        public init(excludes: CriteriaBlockForJob? = nil, includes: CriteriaBlockForJob? = nil) {
+            self.excludes = excludes
+            self.includes = includes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludes = "excludes"
+            case includes = "includes"
+        }
+    }
+
     public struct S3BucketDefinitionForJob: AWSEncodableShape & AWSDecodableShape {
 
         public let accountId: String
@@ -3407,15 +3539,18 @@ extension Macie2 {
 
     public struct S3JobDefinition: AWSEncodableShape & AWSDecodableShape {
 
+        public let bucketCriteria: S3BucketCriteriaForJob?
         public let bucketDefinitions: [S3BucketDefinitionForJob]?
         public let scoping: Scoping?
 
-        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, scoping: Scoping? = nil) {
+        public init(bucketCriteria: S3BucketCriteriaForJob? = nil, bucketDefinitions: [S3BucketDefinitionForJob]? = nil, scoping: Scoping? = nil) {
+            self.bucketCriteria = bucketCriteria
             self.bucketDefinitions = bucketDefinitions
             self.scoping = scoping
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketCriteria = "bucketCriteria"
             case bucketDefinitions = "bucketDefinitions"
             case scoping = "scoping"
         }
@@ -3481,6 +3616,156 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case excludes = "excludes"
             case includes = "includes"
+        }
+    }
+
+    public struct SearchResourcesBucketCriteria: AWSEncodableShape {
+
+        public let excludes: SearchResourcesCriteriaBlock?
+        public let includes: SearchResourcesCriteriaBlock?
+
+        public init(excludes: SearchResourcesCriteriaBlock? = nil, includes: SearchResourcesCriteriaBlock? = nil) {
+            self.excludes = excludes
+            self.includes = includes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludes = "excludes"
+            case includes = "includes"
+        }
+    }
+
+    public struct SearchResourcesCriteria: AWSEncodableShape {
+
+        public let simpleCriterion: SearchResourcesSimpleCriterion?
+        public let tagCriterion: SearchResourcesTagCriterion?
+
+        public init(simpleCriterion: SearchResourcesSimpleCriterion? = nil, tagCriterion: SearchResourcesTagCriterion? = nil) {
+            self.simpleCriterion = simpleCriterion
+            self.tagCriterion = tagCriterion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case simpleCriterion = "simpleCriterion"
+            case tagCriterion = "tagCriterion"
+        }
+    }
+
+    public struct SearchResourcesCriteriaBlock: AWSEncodableShape {
+
+        public let and: [SearchResourcesCriteria]?
+
+        public init(and: [SearchResourcesCriteria]? = nil) {
+            self.and = and
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case and = "and"
+        }
+    }
+
+    public struct SearchResourcesRequest: AWSEncodableShape {
+
+        public let bucketCriteria: SearchResourcesBucketCriteria?
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let sortCriteria: SearchResourcesSortCriteria?
+
+        public init(bucketCriteria: SearchResourcesBucketCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SearchResourcesSortCriteria? = nil) {
+            self.bucketCriteria = bucketCriteria
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortCriteria = sortCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketCriteria = "bucketCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortCriteria = "sortCriteria"
+        }
+    }
+
+    public struct SearchResourcesResponse: AWSDecodableShape {
+
+        public let matchingResources: [MatchingResource]?
+        public let nextToken: String?
+
+        public init(matchingResources: [MatchingResource]? = nil, nextToken: String? = nil) {
+            self.matchingResources = matchingResources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchingResources = "matchingResources"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct SearchResourcesSimpleCriterion: AWSEncodableShape {
+
+        public let comparator: SearchResourcesComparator?
+        public let key: SearchResourcesSimpleCriterionKey?
+        public let values: [String]?
+
+        public init(comparator: SearchResourcesComparator? = nil, key: SearchResourcesSimpleCriterionKey? = nil, values: [String]? = nil) {
+            self.comparator = comparator
+            self.key = key
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
+        }
+    }
+
+    public struct SearchResourcesSortCriteria: AWSEncodableShape {
+
+        public let attributeName: SearchResourcesSortAttributeName?
+        public let orderBy: OrderBy?
+
+        public init(attributeName: SearchResourcesSortAttributeName? = nil, orderBy: OrderBy? = nil) {
+            self.attributeName = attributeName
+            self.orderBy = orderBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
+        }
+    }
+
+    public struct SearchResourcesTagCriterion: AWSEncodableShape {
+
+        public let comparator: SearchResourcesComparator?
+        public let tagValues: [SearchResourcesTagCriterionPair]?
+
+        public init(comparator: SearchResourcesComparator? = nil, tagValues: [SearchResourcesTagCriterionPair]? = nil) {
+            self.comparator = comparator
+            self.tagValues = tagValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "comparator"
+            case tagValues = "tagValues"
+        }
+    }
+
+    public struct SearchResourcesTagCriterionPair: AWSEncodableShape {
+
+        public let key: String?
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3628,6 +3913,25 @@ extension Macie2 {
         }
     }
 
+    public struct SimpleCriterionForJob: AWSEncodableShape & AWSDecodableShape {
+
+        public let comparator: JobComparator?
+        public let key: SimpleCriterionKeyForJob?
+        public let values: [String]?
+
+        public init(comparator: JobComparator? = nil, key: SimpleCriterionKeyForJob? = nil, values: [String]? = nil) {
+            self.comparator = comparator
+            self.key = key
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "comparator"
+            case key = "key"
+            case values = "values"
+        }
+    }
+
     public struct SimpleScopeTerm: AWSEncodableShape & AWSDecodableShape {
 
         public let comparator: JobComparator?
@@ -3676,6 +3980,38 @@ extension Macie2 {
         private enum CodingKeys: String, CodingKey {
             case approximateNumberOfObjectsToProcess = "approximateNumberOfObjectsToProcess"
             case numberOfRuns = "numberOfRuns"
+        }
+    }
+
+    public struct TagCriterionForJob: AWSEncodableShape & AWSDecodableShape {
+
+        public let comparator: JobComparator?
+        public let tagValues: [TagCriterionPairForJob]?
+
+        public init(comparator: JobComparator? = nil, tagValues: [TagCriterionPairForJob]? = nil) {
+            self.comparator = comparator
+            self.tagValues = tagValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "comparator"
+            case tagValues = "tagValues"
+        }
+    }
+
+    public struct TagCriterionPairForJob: AWSEncodableShape & AWSDecodableShape {
+
+        public let key: String?
+        public let value: String?
+
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -3857,14 +4193,16 @@ extension Macie2 {
         ]
 
         public let action: FindingsFilterAction?
+        public let clientToken: String?
         public let description: String?
         public let findingCriteria: FindingCriteria?
         public let id: String
         public let name: String?
         public let position: Int?
 
-        public init(action: FindingsFilterAction? = nil, description: String? = nil, findingCriteria: FindingCriteria? = nil, id: String, name: String? = nil, position: Int? = nil) {
+        public init(action: FindingsFilterAction? = nil, clientToken: String? = UpdateFindingsFilterRequest.idempotencyToken(), description: String? = nil, findingCriteria: FindingCriteria? = nil, id: String, name: String? = nil, position: Int? = nil) {
             self.action = action
+            self.clientToken = clientToken
             self.description = description
             self.findingCriteria = findingCriteria
             self.id = id
@@ -3874,6 +4212,7 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case clientToken = "clientToken"
             case description = "description"
             case findingCriteria = "findingCriteria"
             case name = "name"

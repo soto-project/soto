@@ -84,7 +84,7 @@ extension Detective {
 
     public struct CreateGraphRequest: AWSEncodableShape {
 
-        /// The tags to assign to the new behavior graph. For each tag, you provide the tag key and the tag value.
+        /// The tags to assign to the new behavior graph. You can add up to 50 tags. For each tag, you provide the tag key and the tag value. Each tag key can contain up to 128 characters. Each tag value can contain up to 256 characters.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -121,7 +121,7 @@ extension Detective {
 
     public struct CreateMembersRequest: AWSEncodableShape {
 
-        /// The list of AWS accounts to invite to become member accounts in the behavior graph. For each invited account, the account list contains the account identifier and the AWS account root user email address.
+        /// The list of AWS accounts to invite to become member accounts in the behavior graph. You can invite up to 50 accounts at a time. For each invited account, the account list contains the account identifier and the AWS account root user email address.
         public let accounts: [Account]
         /// if set to true, then the member accounts do not receive email notifications. By default, this is set to false, and the member accounts receive email notifications.
         public let disableEmailNotification: Bool?
@@ -194,7 +194,7 @@ extension Detective {
 
     public struct DeleteMembersRequest: AWSEncodableShape {
 
-        /// The list of AWS account identifiers for the member accounts to delete from the behavior graph.
+        /// The list of AWS account identifiers for the member accounts to delete from the behavior graph. You can delete up to 50 member accounts at a time.
         public let accountIds: [String]
         /// The ARN of the behavior graph to delete members from.
         public let graphArn: String
@@ -259,7 +259,7 @@ extension Detective {
 
     public struct GetMembersRequest: AWSEncodableShape {
 
-        /// The list of AWS account identifiers for the member account for which to return member details. You cannot use GetMembers to retrieve information about member accounts that were removed from the behavior graph.
+        /// The list of AWS account identifiers for the member account for which to return member details. You can request details for up to 50 member accounts at a time. You cannot use GetMembers to retrieve information about member accounts that were removed from the behavior graph.
         public let accountIds: [String]
         /// The ARN of the behavior graph for which to request the member details.
         public let graphArn: String
@@ -478,7 +478,7 @@ extension Detective {
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
 
-        /// The tag values that are assigned to the behavior graph.
+        /// The tag values that are assigned to the behavior graph. The request returns up to 50 tag values.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -593,7 +593,7 @@ extension Detective {
 
         /// The ARN of the behavior graph to assign the tags to.
         public let resourceArn: String
-        /// The tag values to assign to the behavior graph.
+        /// The tags to assign to the behavior graph. You can add up to 50 tags. For each tag, you provide the tag key and the tag value. Each tag key can contain up to 128 characters. Each tag value can contain up to 256 characters.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -650,7 +650,7 @@ extension Detective {
 
         /// The ARN of the behavior graph to remove the tags from.
         public let resourceArn: String
-        /// The tag keys of the tags to remove from the behavior graph.
+        /// The tag keys of the tags to remove from the behavior graph. You can remove up to 50 tags at a time.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

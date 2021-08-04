@@ -51,7 +51,7 @@ struct GeneratePackage {
         }
         // construct list of tests, plus the ones used in AWSRequestTests.swift
         var testFolders = Set<String>(testFolder.subfolders.map { $0.name })
-        ["ACM", "CloudFront", "EC2", "IAM", "Route53", "S3", "SES", "SNS"].forEach { testFolders.insert($0) }
+        ["ACM", "CloudFront", "EC2", "IAM", "Route53", "S3", "S3Control", "SES", "SNS"].forEach { testFolders.insert($0) }
 
         let context: [String: Any] = [
             "targets": srcFolders,

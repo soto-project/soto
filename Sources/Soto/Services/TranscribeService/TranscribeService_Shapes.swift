@@ -86,6 +86,11 @@ extension TranscribeService {
         public var description: String { return self.rawValue }
     }
 
+    public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable {
+        case phi = "PHI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
         case failed = "FAILED"
@@ -351,7 +356,7 @@ extension TranscribeService {
 
     public struct CreateVocabularyRequest: AWSEncodableShape {
 
-        /// The language code of the vocabulary entries.
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see what-is-transcribe.
         public let languageCode: LanguageCode
         /// An array of strings that contains the vocabulary entries.
         public let phrases: [String]?
@@ -1273,6 +1278,8 @@ extension TranscribeService {
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: Date?
+        /// Shows the type of content that you've configured Amazon Transcribe Medical to identify in a transcription job. If the value is PHI, you've configured the job to identify personal health information (PHI) in the transcription output.
+        public let contentIdentificationType: MedicalContentIdentificationType?
         /// A timestamp that shows when the job was created.
         public let creationTime: Date?
         /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field contains one of the following values:    Unsupported media format- The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format- The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure the two values match.    Invalid sample rate for audio file- The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate- The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large- The size of your audio file is larger than what Amazon Transcribe Medical can process. For more information, see Guidelines and Quotas in the Amazon Transcribe Medical Guide     Invalid number of channels: number of channels too large- Your audio contains more channels than Amazon Transcribe Medical is configured to process. To request additional channels, see Amazon Transcribe Medical Endpoints and Quotas in the Amazon Web Services General Reference
@@ -1299,8 +1306,9 @@ extension TranscribeService {
         /// The type of speech in the transcription job. CONVERSATION is generally used for patient-physician dialogues. DICTATION is the setting for physicians speaking their notes after seeing a patient. For more information, see how-it-works-med
         public let type: `Type`?
 
-        public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
+        public init(completionTime: Date? = nil, contentIdentificationType: MedicalContentIdentificationType? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
+            self.contentIdentificationType = contentIdentificationType
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -1318,6 +1326,7 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
+            case contentIdentificationType = "ContentIdentificationType"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
             case languageCode = "LanguageCode"
@@ -1338,6 +1347,8 @@ extension TranscribeService {
 
         /// A timestamp that shows when the job was completed.
         public let completionTime: Date?
+        /// Shows the type of information you've configured Amazon Transcribe Medical to identify in a transcription job. If the value is PHI, you've configured the transcription job to identify personal health information (PHI).
+        public let contentIdentificationType: MedicalContentIdentificationType?
         /// A timestamp that shows when the medical transcription job was created.
         public let creationTime: Date?
         /// If the TranscriptionJobStatus field is FAILED, a description of the error.
@@ -1357,8 +1368,9 @@ extension TranscribeService {
         /// The speech of the clinician in the input audio.
         public let type: `Type`?
 
-        public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
+        public init(completionTime: Date? = nil, contentIdentificationType: MedicalContentIdentificationType? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
+            self.contentIdentificationType = contentIdentificationType
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.languageCode = languageCode
@@ -1372,6 +1384,7 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
+            case contentIdentificationType = "ContentIdentificationType"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
             case languageCode = "LanguageCode"
@@ -1505,6 +1518,8 @@ extension TranscribeService {
 
     public struct StartMedicalTranscriptionJobRequest: AWSEncodableShape {
 
+        /// You can configure Amazon Transcribe Medical to label content in the transcription output. If you specify PHI, Amazon Transcribe Medical labels the personal health information (PHI) that it identifies in the transcription output.
+        public let contentIdentificationType: MedicalContentIdentificationType?
         /// The language code for the language spoken in the input media file. US English (en-US) is the valid value for medical transcription jobs. Any other value you enter for language code results in a BadRequestException error.
         public let languageCode: LanguageCode
         public let media: Media
@@ -1527,7 +1542,8 @@ extension TranscribeService {
         /// The type of speech in the input audio. CONVERSATION refers to conversations between two or more speakers, e.g., a conversations between doctors and patients. DICTATION refers to single-speaker dictated speech, e.g., for clinical notes.
         public let type: `Type`
 
-        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, type: `Type`) {
+        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, type: `Type`) {
+            self.contentIdentificationType = contentIdentificationType
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
@@ -1560,6 +1576,7 @@ extension TranscribeService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contentIdentificationType = "ContentIdentificationType"
             case languageCode = "LanguageCode"
             case media = "Media"
             case mediaFormat = "MediaFormat"
@@ -1596,7 +1613,7 @@ extension TranscribeService {
         public let identifyLanguage: Bool?
         /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run the job.
         public let jobExecutionSettings: JobExecutionSettings?
-        /// The language code for the language used in the input media file.
+        /// The language code for the language used in the input media file. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be encoded at a sample rate of 16000 Hz or higher.
         public let languageCode: LanguageCode?
         /// An object containing a list of languages that might be present in your collection of audio files. Automatic language identification chooses a language that best matches the source audio from that list.
         public let languageOptions: [LanguageCode]?
@@ -1963,7 +1980,7 @@ extension TranscribeService {
 
     public struct UpdateVocabularyRequest: AWSEncodableShape {
 
-        /// The language code of the vocabulary entries.
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see what-is-transcribe.
         public let languageCode: LanguageCode
         /// An array of strings containing the vocabulary entries.
         public let phrases: [String]?

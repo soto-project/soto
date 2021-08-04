@@ -102,6 +102,10 @@ extension CloudSearch {
         case searchM3Medium = "search.m3.medium"
         case searchM3Xlarge = "search.m3.xlarge"
         case searchMedium = "search.medium"
+        case searchPreviousgeneration2Xlarge = "search.previousgeneration.2xlarge"
+        case searchPreviousgenerationLarge = "search.previousgeneration.large"
+        case searchPreviousgenerationSmall = "search.previousgeneration.small"
+        case searchPreviousgenerationXlarge = "search.previousgeneration.xlarge"
         case searchSmall = "search.small"
         case searchXlarge = "search.xlarge"
         public var description: String { return self.rawValue }

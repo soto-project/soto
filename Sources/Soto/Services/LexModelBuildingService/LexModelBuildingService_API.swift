@@ -198,6 +198,16 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "GetIntents", path: "/intents/", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Provides details about an ongoing or complete migration from an Amazon Lex V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration alerts and warnings related to the migration.
+    public func getMigration(_ input: GetMigrationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMigrationResponse> {
+        return self.client.execute(operation: "GetMigration", path: "/migrations/{migrationId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
+    public func getMigrations(_ input: GetMigrationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMigrationsResponse> {
+        return self.client.execute(operation: "GetMigrations", path: "/migrations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Returns information about a specific version of a slot type. In addition to specifying the slot type name, you must specify the slot type version. This operation requires permissions for the lex:GetSlotType action.
     public func getSlotType(_ input: GetSlotTypeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSlotTypeResponse> {
         return self.client.execute(operation: "GetSlotType", path: "/slottypes/{name}/versions/{version}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -213,7 +223,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "GetSlotTypes", path: "/slottypes/", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to. For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance. After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions.  Utterance statistics are generated once a day. Data is available for the last 15 days. You can request information for up to 5 versions of your bot in each request. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days. The response contains information about a maximum of 100 utterances for each version. If you set childDirected field to true when you created your bot, or if you opted out of participating in improving Amazon Lex, utterances are not available. This operation requires permissions for the lex:GetUtterancesView action.
+    /// Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to. For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance. After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions.  Utterance statistics are generated once a day. Data is available for the last 15 days. You can request information for up to 5 versions of your bot in each request. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days. The response contains information about a maximum of 100 utterances for each version. If you set childDirected field to true when you created your bot, if you are using slot obfuscation with one or more slots, or if you opted out of participating in improving Amazon Lex, utterances are not available. This operation requires permissions for the lex:GetUtterancesView action.
     public func getUtterancesView(_ input: GetUtterancesViewRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUtterancesViewResponse> {
         return self.client.execute(operation: "GetUtterancesView", path: "/bots/{botname}/utterances?view=aggregation", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -246,6 +256,11 @@ public struct LexModelBuildingService: AWSService {
     /// Starts a job to import a resource to Amazon Lex.
     public func startImport(_ input: StartImportRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportResponse> {
         return self.client.execute(operation: "StartImport", path: "/imports/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when you want to take advantage of the new features of Amazon Lex V2. For more information, see Migrating a bot in the Amazon Lex developer guide.
+    public func startMigration(_ input: StartMigrationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMigrationResponse> {
+        return self.client.execute(operation: "StartMigration", path: "/migrations", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.

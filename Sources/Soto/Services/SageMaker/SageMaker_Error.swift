@@ -43,7 +43,7 @@ public struct SageMakerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// There was a conflict when you attempted to modify an experiment, trial, or trial component.
+    /// There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     public static var conflictException: Self { .init(.conflictException) }
     /// Resource being accessed is in use.
     public static var resourceInUse: Self { .init(.resourceInUse) }

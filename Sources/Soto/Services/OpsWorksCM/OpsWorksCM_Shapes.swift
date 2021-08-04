@@ -304,7 +304,7 @@ extension OpsWorksCM {
         public let engineAttributes: [EngineAttribute]?
         ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef.
         public let engineModel: String?
-        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017.
+        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, valid values are 2019 or 2017.
         public let engineVersion: String?
         ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need.
         public let instanceProfileArn: String
@@ -699,7 +699,7 @@ extension OpsWorksCM {
 
         /// This is not currently implemented for DescribeServers requests.
         public let nextToken: String?
-        /// Contains the response to a DescribeServers request.  For Chef Automate servers: If DescribeServersResponse$Servers$EngineAttributes includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
+        /// Contains the response to a DescribeServers request.  For Chef Automate servers: If DescribeServersResponse$Servers$EngineAttributes includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet servers: DescribeServersResponse$Servers$EngineAttributes contains the following two responses:    PUPPET_API_CA_CERT, the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.    PUPPET_API_CRL, a certificate revocation list. The certificate revocation list is for internal maintenance purposes only. For more information about the Puppet certificate revocation list, see Man Page: puppet certificate_revocation_list in the Puppet documentation.
         public let servers: [Server]?
 
         public init(nextToken: String? = nil, servers: [Server]? = nil) {
@@ -923,10 +923,15 @@ extension OpsWorksCM {
 
     public struct RestoreServerResponse: AWSDecodableShape {
 
+        public let server: Server?
 
-        public init() {
+        public init(server: Server? = nil) {
+            self.server = server
         }
 
+        private enum CodingKeys: String, CodingKey {
+            case server = "Server"
+        }
     }
 
     public struct Server: AWSDecodableShape {
@@ -951,7 +956,7 @@ extension OpsWorksCM {
         public let engineAttributes: [EngineAttribute]?
         /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef.
         public let engineModel: String?
-        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017.
+        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, specify either 2019 or 2017.
         public let engineVersion: String?
         /// The instance profile ARN of the server.
         public let instanceProfileArn: String?

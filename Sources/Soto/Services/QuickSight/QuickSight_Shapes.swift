@@ -158,6 +158,16 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum FolderFilterAttribute: String, CustomStringConvertible, Codable {
+        case parentFolderArn = "PARENT_FOLDER_ARN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FolderType: String, CustomStringConvertible, Codable {
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeoSpatialCountryCode: String, CustomStringConvertible, Codable {
         case us = "US"
         public var description: String { return self.rawValue }
@@ -272,6 +282,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum MemberType: String, CustomStringConvertible, Codable {
+        case analysis = "ANALYSIS"
+        case dashboard = "DASHBOARD"
+        case dataset = "DATASET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NamespaceErrorType: String, CustomStringConvertible, Codable {
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case permissionDenied = "PERMISSION_DENIED"
@@ -295,6 +312,12 @@ extension QuickSight {
         case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateSuccessful = "UPDATE_SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RowLevelPermissionFormatVersion: String, CustomStringConvertible, Codable {
+        case version1 = "VERSION_1"
+        case version2 = "VERSION_2"
         public var description: String { return self.rawValue }
     }
 
@@ -1526,6 +1549,157 @@ extension QuickSight {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case dataSourceId = "DataSourceId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateFolderMembershipRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "MemberId")), 
+            AWSMemberEncoding(label: "memberType", location: .uri(locationName: "MemberType"))
+        ]
+
+        /// The AWS Account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+        /// The ID of the asset (the dashboard, analysis, or dataset).
+        public let memberId: String
+        /// The type of the member, including DASHBOARD, ANALYSIS, and DATASET.
+        public let memberType: MemberType
+
+        public init(awsAccountId: String, folderId: String, memberId: String, memberType: MemberType) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+            self.memberId = memberId
+            self.memberType = memberType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.memberId, name: "memberId", parent: name, max: 2048)
+            try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
+            try self.validate(self.memberId, name: "memberId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateFolderMembershipResponse: AWSDecodableShape {
+
+        /// Information about the member in the folder.
+        public let folderMember: FolderMember?
+        /// The request ID.
+        public let requestId: String?
+        /// The status of the folder membership. If succeeded, the status is SC_OK (200).
+        public let status: Int?
+
+        public init(folderMember: FolderMember? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.folderMember = folderMember
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderMember = "FolderMember"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateFolderRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS Account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+        /// The type of folder. By default, folderType is SHARED.
+        public let folderType: FolderType?
+        /// The name of the folder.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) for the parent folder.  ParentFolderArn can be null. An empty parentFolderArn creates a root-level folder.
+        public let parentFolderArn: String?
+        /// A structure that describes the principals and the resource-level permissions of a folder. To specify no permissions, omit Permissions.
+        public let permissions: [ResourcePermission]?
+        /// Tags for the folder.
+        public let tags: [Tag]?
+
+        public init(awsAccountId: String, folderId: String, folderType: FolderType? = nil, name: String? = nil, parentFolderArn: String? = nil, permissions: [ResourcePermission]? = nil, tags: [Tag]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+            self.folderType = folderType
+            self.name = name
+            self.parentFolderArn = parentFolderArn
+            self.permissions = permissions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.name, name: "name", parent: name, max: 200)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
+            try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderType = "FolderType"
+            case name = "Name"
+            case parentFolderArn = "ParentFolderArn"
+            case permissions = "Permissions"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateFolderResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the newly created folder.
+        public let arn: String?
+        /// The folder ID for the newly created folder.
+        public let folderId: String?
+        /// The request ID for the newly created folder.
+        public let requestId: String?
+        /// The status of the newly created folder. If succeeded, the status is SC_OK (200).
+        public let status: Int?
+
+        public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.folderId = folderId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case folderId = "FolderId"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -3318,6 +3492,120 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteFolderMembershipRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "MemberId")), 
+            AWSMemberEncoding(label: "memberType", location: .uri(locationName: "MemberType"))
+        ]
+
+        /// The AWS Account ID.
+        public let awsAccountId: String
+        /// The Folder ID.
+        public let folderId: String
+        /// The ID of the asset (the dashboard, analysis, or dataset) that you want to delete.
+        public let memberId: String
+        /// The type of the member, including DASHBOARD, ANALYSIS, and DATASET
+        public let memberType: MemberType
+
+        public init(awsAccountId: String, folderId: String, memberId: String, memberType: MemberType) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+            self.memberId = memberId
+            self.memberType = memberType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.memberId, name: "memberId", parent: name, max: 2048)
+            try self.validate(self.memberId, name: "memberId", parent: name, min: 1)
+            try self.validate(self.memberId, name: "memberId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFolderMembershipResponse: AWSDecodableShape {
+
+        /// The request ID.
+        public let requestId: String?
+        /// The status of deleting the asset. If succeeded, the status is SC_OK (200).
+        public let status: Int?
+
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteFolderRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS Account ID for the folder.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+
+        public init(awsAccountId: String, folderId: String) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFolderResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name of the deleted folder.
+        public let arn: String?
+        /// The folder ID.
+        public let folderId: String?
+        /// The request ID.
+        public let requestId: String?
+        /// The status of deleting the folder. If succeeded, the status is SC_OK (200).
+        public let status: Int?
+
+        public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.folderId = folderId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case folderId = "FolderId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteGroupMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -4475,6 +4763,181 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeFolderPermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS Account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+
+        public init(awsAccountId: String, folderId: String) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFolderPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the folder.
+        public let arn: String?
+        /// The folder ID.
+        public let folderId: String?
+        /// Information about the permissions on the folder.
+        public let permissions: [ResourcePermission]?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK.
+        public let status: Int?
+
+        public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.folderId = folderId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case folderId = "FolderId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeFolderRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+
+        public init(awsAccountId: String, folderId: String) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFolderResolvedPermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+
+        public init(awsAccountId: String, folderId: String) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFolderResolvedPermissionsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The folder ID.
+        public let folderId: String?
+        /// Information about the permissions on the dashboard.
+        public let permissions: [ResourcePermission]?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK
+        public let status: Int?
+
+        public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.folderId = folderId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case folderId = "FolderId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct DescribeFolderResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// Information about the folder.
+        public let folder: Folder?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK (200).
+        public let status: Int?
+
+        public init(folder: Folder? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.folder = folder
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folder = "Folder"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -5199,6 +5662,118 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case conditionExpression = "ConditionExpression"
+        }
+    }
+
+    public struct Folder: AWSDecodableShape {
+
+        /// The folder Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The time that the folder was created.
+        public let createdTime: Date?
+        /// The folder ID.
+        public let folderId: String?
+        /// An array of ancestor folder ARN strings.
+        public let folderPath: [String]?
+        /// The type of the folder.
+        public let folderType: FolderType?
+        /// The time that the folder was last updated.
+        public let lastUpdatedTime: Date?
+        /// A display name for the folder.
+        public let name: String?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, folderId: String? = nil, folderPath: [String]? = nil, folderType: FolderType? = nil, lastUpdatedTime: Date? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.folderId = folderId
+            self.folderPath = folderPath
+            self.folderType = folderType
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case folderId = "FolderId"
+            case folderPath = "FolderPath"
+            case folderType = "FolderType"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+        }
+    }
+
+    public struct FolderMember: AWSDecodableShape {
+
+        /// The ID of the asset.
+        public let memberId: String?
+        /// The type of the asset.
+        public let memberType: MemberType?
+
+        public init(memberId: String? = nil, memberType: MemberType? = nil) {
+            self.memberId = memberId
+            self.memberType = memberType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberId = "MemberId"
+            case memberType = "MemberType"
+        }
+    }
+
+    public struct FolderSearchFilter: AWSEncodableShape {
+
+        /// The name of the value that you want to use as a filter. For example, "Name": "PARENT_FOLDER_ARN".
+        public let name: FolderFilterAttribute?
+        /// The comparison operator that you want to use as a filter. For example, "Operator": "StringEquals".
+        public let `operator`: FilterOperator?
+        /// The value of the named item (in this example, PARENT_FOLDER_ARN), that you want to use as a filter. For example, "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId".
+        public let value: String?
+
+        public init(name: FolderFilterAttribute? = nil, operator: FilterOperator? = nil, value: String? = nil) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct FolderSummary: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The time that the folder was created.
+        public let createdTime: Date?
+        /// The folder ID.
+        public let folderId: String?
+        /// The type of folder.
+        public let folderType: FolderType?
+        /// The time that the folder was last updated.
+        public let lastUpdatedTime: Date?
+        /// The display name of the folder.
+        public let name: String?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, folderId: String? = nil, folderType: FolderType? = nil, lastUpdatedTime: Date? = nil, name: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.folderId = folderId
+            self.folderType = folderType
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case folderId = "FolderId"
+            case folderType = "FolderType"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
         }
     }
 
@@ -5979,6 +6554,133 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dataSources = "DataSources"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListFolderMembersRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, folderId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFolderMembersResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A structure that contains all of the folder members (dashboards, analyses, and datasets) in the folder.
+        public let folderMemberList: [MemberIdArnPair]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK
+        public let status: Int?
+
+        public init(folderMemberList: [MemberIdArnPair]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.folderMemberList = folderMemberList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderMemberList = "FolderMemberList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct ListFoldersRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFoldersResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A structure that contains all of the folders in your AWS account. This structure provides basic information about the folders.
+        public let folderSummaryList: [FolderSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK
+        public let status: Int?
+
+        public init(folderSummaryList: [FolderSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.folderSummaryList = folderSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderSummaryList = "FolderSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
             case status = "Status"
@@ -7088,6 +7790,24 @@ extension QuickSight {
         }
     }
 
+    public struct MemberIdArnPair: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the member.
+        public let memberArn: String?
+        /// The ID of the member.
+        public let memberId: String?
+
+        public init(memberArn: String? = nil, memberId: String? = nil) {
+            self.memberArn = memberArn
+            self.memberId = memberId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberArn = "MemberArn"
+            case memberId = "MemberId"
+        }
+    }
+
     public struct MySqlParameters: AWSEncodableShape & AWSDecodableShape {
 
         /// Database.
@@ -7465,10 +8185,16 @@ extension QuickSight {
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+        public let customFederationProviderUrl: String?
         /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser  instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
+        /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated AWS Identity and Access Management (IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.
+        public let externalLoginFederationProviderType: String?
+        /// The identity ID for a user in the external login provider.
+        public let externalLoginId: String?
         /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
         public let iamArn: String?
         /// Amazon QuickSight supports several ways of managing the identity of users. This parameter accepts two values:    IAM: A user whose identity maps to an existing IAM user or role.     QUICKSIGHT: A user whose identity is owned and managed internally by Amazon QuickSight.
@@ -7482,10 +8208,13 @@ extension QuickSight {
         /// The Amazon QuickSight role for the user. The user role can be one of the following:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let userRole: UserRole
 
-        public init(awsAccountId: String, customPermissionsName: String? = nil, email: String, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
+        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, userName: String? = nil, userRole: UserRole) {
             self.awsAccountId = awsAccountId
+            self.customFederationProviderUrl = customFederationProviderUrl
             self.customPermissionsName = customPermissionsName
             self.email = email
+            self.externalLoginFederationProviderType = externalLoginFederationProviderType
+            self.externalLoginId = externalLoginId
             self.iamArn = iamArn
             self.identityType = identityType
             self.namespace = namespace
@@ -7511,8 +8240,11 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFederationProviderUrl = "CustomFederationProviderUrl"
             case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
+            case externalLoginFederationProviderType = "ExternalLoginFederationProviderType"
+            case externalLoginId = "ExternalLoginId"
             case iamArn = "IamArn"
             case identityType = "IdentityType"
             case sessionName = "SessionName"
@@ -7721,13 +8453,16 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) of the dataset that contains permissions for RLS.
         public let arn: String
+        /// The user or group rules associated with the dataset that contains permissions for RLS. By default, FormatVersion is VERSION_1. When FormatVersion is VERSION_1, UserName and GroupName are required. When FormatVersion is VERSION_2, UserARN and GroupARN are required, and Namespace must not exist.
+        public let formatVersion: RowLevelPermissionFormatVersion?
         /// The namespace associated with the dataset that contains permissions for RLS.
         public let namespace: String?
         /// The type of permissions to use when interpretting the permissions for RLS. DENY_ACCESS is included for backward compatibility only.
         public let permissionPolicy: RowLevelPermissionPolicy
 
-        public init(arn: String, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
+        public init(arn: String, formatVersion: RowLevelPermissionFormatVersion? = nil, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy) {
             self.arn = arn
+            self.formatVersion = formatVersion
             self.namespace = namespace
             self.permissionPolicy = permissionPolicy
         }
@@ -7739,6 +8474,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case formatVersion = "FormatVersion"
             case namespace = "Namespace"
             case permissionPolicy = "PermissionPolicy"
         }
@@ -7766,7 +8502,7 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) for the data source.
         public let dataSourceArn: String
-        /// A physical table type for as S3 data source.
+        /// A physical table type for an S3 data source.  For non-JSON files, only STRING data types are supported in input columns.
         public let inputColumns: [InputColumn]
         /// Information about the format for the S3 source file or files.
         public let uploadSettings: UploadSettings?
@@ -7921,6 +8657,72 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case dashboardSummaryList = "DashboardSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct SearchFoldersRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The filters to apply to the search. Currently, you can search only by the parent folder ARN. For example, "Filters": [ { "Name": "PARENT_FOLDER_ARN", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId" } ].
+        public let filters: [FolderSearchFilter]
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, filters: [FolderSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchFoldersResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A structure that contains all of the folders in your AWS account. This structure provides basic information about the folders.
+        public let folderSummaryList: [FolderSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK.
+        public let status: Int?
+
+        public init(folderSummaryList: [FolderSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.folderSummaryList = folderSummaryList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderSummaryList = "FolderSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
             case status = "Status"
@@ -9815,6 +10617,147 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateFolderPermissionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+        /// The permissions that you want to grant on a resource.
+        public let grantPermissions: [ResourcePermission]?
+        /// The permissions that you want to revoke from a resource.
+        public let revokePermissions: [ResourcePermission]?
+
+        public init(awsAccountId: String, folderId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 64)
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 64)
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateFolderPermissionsResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The folder ID.
+        public let folderId: String?
+        /// Information about the permissions on the dashboard.
+        public let permissions: [ResourcePermission]?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK.
+        public let status: Int?
+
+        public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.folderId = folderId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case folderId = "FolderId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateFolderRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
+        ]
+
+        /// The AWS account ID.
+        public let awsAccountId: String
+        /// The folder ID.
+        public let folderId: String
+        /// The name of the folder.
+        public let name: String
+
+        public init(awsAccountId: String, folderId: String, name: String) {
+            self.awsAccountId = awsAccountId
+            self.folderId = folderId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.folderId, name: "folderId", parent: name, max: 2048)
+            try self.validate(self.folderId, name: "folderId", parent: name, min: 1)
+            try self.validate(self.folderId, name: "folderId", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.name, name: "name", parent: name, max: 200)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateFolderResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// The Amazon Resource Name (ARN).
+        public let arn: String?
+        /// The folder ID.
+        public let folderId: String?
+        /// The request ID.
+        public let requestId: String?
+        /// The status. If succeeded, the status is SC_OK.
+        public let status: Int?
+
+        public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.folderId = folderId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case folderId = "FolderId"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct UpdateGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri(locationName: "AwsAccountId")), 
@@ -10437,10 +11380,16 @@ extension QuickSight {
 
         /// The ID for the AWS account that the user is in. Currently, you use the ID for the AWS account that contains your Amazon QuickSight account.
         public let awsAccountId: String
+        /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+        public let customFederationProviderUrl: String?
         /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning QuickSight users to one of the default security cohorts in QuickSight (admin, author, reader). This feature is available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
         public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String
+        /// The type of supported external login provider that provides identity to let a user federate into QuickSight with an associated AWS Identity and Access Management (IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use  DescribeUser  API to check the external login information.
+        public let externalLoginFederationProviderType: String?
+        /// The identity ID for a user in the external login provider.
+        public let externalLoginId: String?
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// The Amazon QuickSight role of the user. The role can be one of the following default security cohorts:    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.   The name of the QuickSight role is invisible to the user except for the console screens dealing with permissions.
@@ -10450,10 +11399,13 @@ extension QuickSight {
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
 
-        public init(awsAccountId: String, customPermissionsName: String? = nil, email: String, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
+        public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
             self.awsAccountId = awsAccountId
+            self.customFederationProviderUrl = customFederationProviderUrl
             self.customPermissionsName = customPermissionsName
             self.email = email
+            self.externalLoginFederationProviderType = externalLoginFederationProviderType
+            self.externalLoginId = externalLoginId
             self.namespace = namespace
             self.role = role
             self.unapplyCustomPermissions = unapplyCustomPermissions
@@ -10474,8 +11426,11 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customFederationProviderUrl = "CustomFederationProviderUrl"
             case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
+            case externalLoginFederationProviderType = "ExternalLoginFederationProviderType"
+            case externalLoginId = "ExternalLoginId"
             case role = "Role"
             case unapplyCustomPermissions = "UnapplyCustomPermissions"
         }
@@ -10552,6 +11507,12 @@ extension QuickSight {
         public let customPermissionsName: String?
         /// The user's email address.
         public let email: String?
+        /// The type of supported external login provider that provides identity to let the user federate into Amazon QuickSight with an associated IAM role. The type can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider.
+        public let externalLoginFederationProviderType: String?
+        /// The URL of the external login provider.
+        public let externalLoginFederationProviderUrl: String?
+        /// The identity ID for the user in the external login provider.
+        public let externalLoginId: String?
         /// The type of identity authentication used by the user.
         public let identityType: IdentityType?
         /// The principal ID of the user.
@@ -10561,11 +11522,14 @@ extension QuickSight {
         /// The user's user name.
         public let userName: String?
 
-        public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
+        public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, externalLoginFederationProviderType: String? = nil, externalLoginFederationProviderUrl: String? = nil, externalLoginId: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
             self.active = active
             self.arn = arn
             self.customPermissionsName = customPermissionsName
             self.email = email
+            self.externalLoginFederationProviderType = externalLoginFederationProviderType
+            self.externalLoginFederationProviderUrl = externalLoginFederationProviderUrl
+            self.externalLoginId = externalLoginId
             self.identityType = identityType
             self.principalId = principalId
             self.role = role
@@ -10577,6 +11541,9 @@ extension QuickSight {
             case arn = "Arn"
             case customPermissionsName = "CustomPermissionsName"
             case email = "Email"
+            case externalLoginFederationProviderType = "ExternalLoginFederationProviderType"
+            case externalLoginFederationProviderUrl = "ExternalLoginFederationProviderUrl"
+            case externalLoginId = "ExternalLoginId"
             case identityType = "IdentityType"
             case principalId = "PrincipalId"
             case role = "Role"

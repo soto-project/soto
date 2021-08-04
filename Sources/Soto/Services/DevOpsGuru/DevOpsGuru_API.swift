@@ -92,7 +92,7 @@ public struct DevOpsGuru: AWSService {
         return self.client.execute(operation: "DescribeInsight", path: "/insights/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    ///  Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of AWS resources collection. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks.
+    ///  Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of AWS resources collection. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
     public func describeResourceCollectionHealth(_ input: DescribeResourceCollectionHealthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeResourceCollectionHealthResponse> {
         return self.client.execute(operation: "DescribeResourceCollectionHealth", path: "/accounts/health/resource-collection/{ResourceCollectionType}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -102,7 +102,12 @@ public struct DevOpsGuru: AWSService {
         return self.client.execute(operation: "DescribeServiceIntegration", path: "/service-integrations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    ///  Returns lists AWS resources that are of the specified resource collection type. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks.
+    /// Returns an estimate of the monthly cost for DevOps Guru to analyze your AWS resources. For more information, see Estimate your Amazon DevOps Guru costs and Amazon DevOps Guru pricing.
+    public func getCostEstimation(_ input: GetCostEstimationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCostEstimationResponse> {
+        return self.client.execute(operation: "GetCostEstimation", path: "/cost-estimation", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Returns lists AWS resources that are of the specified resource collection type. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
     public func getResourceCollection(_ input: GetResourceCollectionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceCollectionResponse> {
         return self.client.execute(operation: "GetResourceCollection", path: "/resource-collections/{ResourceCollectionType}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -147,7 +152,12 @@ public struct DevOpsGuru: AWSService {
         return self.client.execute(operation: "SearchInsights", path: "/insights/search", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    ///  Updates the collection of resources that DevOps Guru analyzes. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. This method also creates the IAM role required for you to use DevOps Guru.
+    /// Starts the creation of an estimate of the monthly cost to analyze your AWS resources.
+    public func startCostEstimation(_ input: StartCostEstimationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCostEstimationResponse> {
+        return self.client.execute(operation: "StartCostEstimation", path: "/cost-estimation", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Updates the collection of resources that DevOps Guru analyzes. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks. This method also creates the IAM role required for you to use DevOps Guru.
     public func updateResourceCollection(_ input: UpdateResourceCollectionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceCollectionResponse> {
         return self.client.execute(operation: "UpdateResourceCollection", path: "/resource-collections", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

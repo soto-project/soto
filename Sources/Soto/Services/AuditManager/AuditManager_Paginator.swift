@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension AuditManager {
-    ///   Returns a list of changelogs from AWS Audit Manager.
+    ///   Returns a list of changelogs from Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -129,7 +129,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns all evidence from a specified evidence folder in AWS Audit Manager.
+    ///   Returns all evidence from a specified evidence folder in Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -184,7 +184,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns the evidence folders from a specified assessment in AWS Audit Manager.
+    ///   Returns the evidence folders from a specified assessment in Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -239,7 +239,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of evidence folders associated with a specified control of an assessment in AWS Audit Manager.
+    ///   Returns a list of evidence folders associated with a specified control of an assessment in Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -294,7 +294,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of the frameworks available in the AWS Audit Manager framework library.
+    ///   Returns a list of the frameworks available in the Audit Manager framework library.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -349,7 +349,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of assessment reports created in AWS Audit Manager.
+    ///   Returns a list of assessment reports created in Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -404,7 +404,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of current and past assessments from AWS Audit Manager.
+    ///   Returns a list of current and past assessments from Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -459,7 +459,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of controls from AWS Audit Manager.
+    ///   Returns a list of controls from Audit Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -569,7 +569,7 @@ extension AuditManager {
         )
     }
 
-    ///   Returns a list of all AWS Audit Manager notifications.
+    ///   Returns a list of all Audit Manager notifications.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

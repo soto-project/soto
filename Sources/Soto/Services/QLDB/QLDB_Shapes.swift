@@ -43,6 +43,7 @@ extension QLDB {
 
     public enum PermissionsMode: String, CustomStringConvertible, Codable {
         case allowAll = "ALLOW_ALL"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -72,7 +73,7 @@ extension QLDB {
 
         /// The name of the ledger.
         public let ledgerName: String
-        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        /// The UUID (represented in Base62-encoded text) of the QLDB journal stream to be canceled.
         public let streamId: String
 
         public init(ledgerName: String, streamId: String) {
@@ -94,7 +95,7 @@ extension QLDB {
 
     public struct CancelJournalKinesisStreamResponse: AWSDecodableShape {
 
-        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        /// The UUID (Base62-encoded text) of the canceled QLDB journal stream.
         public let streamId: String?
 
         public init(streamId: String? = nil) {
@@ -108,11 +109,11 @@ extension QLDB {
 
     public struct CreateLedgerRequest: AWSEncodableShape {
 
-        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
+        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
         /// The name of the ledger that you want to create. The name must be unique among all of your ledgers in the current AWS Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
         public let name: String
-        /// The permissions mode to assign to the ledger that you want to create.
+        /// The permissions mode to assign to the ledger that you want to create. This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access control with API-level granularity for ledgers. This mode allows users who have the SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or command-level IAM permissions policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that enables access control with finer granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for specific table resources and PartiQL actions, in addition to the SendCommand API permission for the ledger. For information, see Getting started with the standard permissions mode in the Amazon QLDB Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize the security of your ledger data.
         public let permissionsMode: PermissionsMode
         /// The key-value pairs to add as tags to the ledger that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
         public let tags: [String: String]?
@@ -150,18 +151,21 @@ extension QLDB {
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let creationDateTime: Date?
-        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
+        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
         /// The name of the ledger.
         public let name: String?
+        /// The permissions mode of the ledger that you created.
+        public let permissionsMode: PermissionsMode?
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
             self.name = name
+            self.permissionsMode = permissionsMode
             self.state = state
         }
 
@@ -170,6 +174,7 @@ extension QLDB {
             case creationDateTime = "CreationDateTime"
             case deletionProtection = "DeletionProtection"
             case name = "Name"
+            case permissionsMode = "PermissionsMode"
             case state = "State"
         }
     }
@@ -203,7 +208,7 @@ extension QLDB {
 
         /// The name of the ledger.
         public let ledgerName: String
-        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        /// The UUID (represented in Base62-encoded text) of the QLDB journal stream to describe.
         public let streamId: String
 
         public init(ledgerName: String, streamId: String) {
@@ -243,7 +248,7 @@ extension QLDB {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The unique ID of the journal export job that you want to describe.
+        /// The UUID (represented in Base62-encoded text) of the journal export job to describe.
         public let exportId: String
         /// The name of the ledger.
         public let name: String
@@ -306,18 +311,21 @@ extension QLDB {
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let creationDateTime: Date?
-        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
+        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
         /// The name of the ledger.
         public let name: String?
+        /// The permissions mode of the ledger.
+        public let permissionsMode: PermissionsMode?
         /// The current status of the ledger.
         public let state: LedgerState?
 
-        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, state: LedgerState? = nil) {
+        public init(arn: String? = nil, creationDateTime: Date? = nil, deletionProtection: Bool? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil, state: LedgerState? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
             self.deletionProtection = deletionProtection
             self.name = name
+            self.permissionsMode = permissionsMode
             self.state = state
         }
 
@@ -326,6 +334,7 @@ extension QLDB {
             case creationDateTime = "CreationDateTime"
             case deletionProtection = "DeletionProtection"
             case name = "Name"
+            case permissionsMode = "PermissionsMode"
             case state = "State"
         }
     }
@@ -335,9 +344,9 @@ extension QLDB {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The exclusive end date and time for the range of journal contents that you want to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The ExclusiveEndTime must be less than or equal to the current UTC date and time.
+        /// The exclusive end date and time for the range of journal contents to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The ExclusiveEndTime must be less than or equal to the current UTC date and time.
         public let exclusiveEndTime: Date
-        /// The inclusive start date and time for the range of journal contents that you want to export. The InclusiveStartTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
+        /// The inclusive start date and time for the range of journal contents to export. The InclusiveStartTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let name: String
@@ -373,7 +382,7 @@ extension QLDB {
 
     public struct ExportJournalToS3Response: AWSDecodableShape {
 
-        /// The unique ID that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
+        /// The UUID (represented in Base62-encoded text) that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
         public let exportId: String
 
         public init(exportId: String) {
@@ -390,9 +399,9 @@ extension QLDB {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}
+        /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}.
         public let blockAddress: ValueHolder
-        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}
+        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}.
         public let digestTipAddress: ValueHolder?
         /// The name of the ledger.
         public let name: String
@@ -479,11 +488,11 @@ extension QLDB {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}
+        /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}.
         public let blockAddress: ValueHolder
-        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}
+        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}.
         public let digestTipAddress: ValueHolder?
-        /// The unique ID of the document to be verified.
+        /// The UUID (represented in Base62-encoded text) of the document to be verified.
         public let documentId: String
         /// The name of the ledger.
         public let name: String
@@ -543,7 +552,7 @@ extension QLDB {
         public let exclusiveEndTime: Date?
         /// The inclusive start date and time from which to start streaming journal data.
         public let inclusiveStartTime: Date?
-        /// The configuration settings of the Amazon Kinesis Data Streams destination for your QLDB journal stream.
+        /// The configuration settings of the Amazon Kinesis Data Streams destination for a QLDB journal stream.
         public let kinesisConfiguration: KinesisConfiguration
         /// The name of the ledger.
         public let ledgerName: String
@@ -551,7 +560,7 @@ extension QLDB {
         public let roleArn: String
         /// The current state of the QLDB journal stream.
         public let status: StreamStatus
-        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        /// The UUID (represented in Base62-encoded text) of the QLDB journal stream.
         public let streamId: String
         /// The user-defined name of the QLDB journal stream.
         public let streamName: String
@@ -591,7 +600,7 @@ extension QLDB {
         public let exclusiveEndTime: Date
         /// The date and time, in epoch time format, when the export job was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let exportCreationTime: Date
-        /// The unique ID of the journal export job.
+        /// The UUID (represented in Base62-encoded text) of the journal export job.
         public let exportId: String
         /// The inclusive start date and time for the range of journal contents that are specified in the original export request.
         public let inclusiveStartTime: Date
@@ -628,9 +637,9 @@ extension QLDB {
 
     public struct KinesisConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// Enables QLDB to publish multiple data records in a single Kinesis Data Streams record. To learn more, see KPL Key Concepts in the Amazon Kinesis Data Streams Developer Guide.
+        /// Enables QLDB to publish multiple data records in a single Kinesis Data Streams record, increasing the number of records sent per API call.  This option is enabled by default. Record aggregation has important implications for processing records and requires de-aggregation in your stream consumer. To learn more, see KPL Key Concepts and Consumer De-aggregation in the Amazon Kinesis Data Streams Developer Guide.
         public let aggregationEnabled: Bool?
-        /// The Amazon Resource Name (ARN) of the Kinesis data stream resource.
+        /// The Amazon Resource Name (ARN) of the Kinesis Data Streams resource.
         public let streamArn: String
 
         public init(aggregationEnabled: Bool? = nil, streamArn: String) {
@@ -870,7 +879,7 @@ extension QLDB {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
+        /// The Amazon Resource Name (ARN) for which to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -901,7 +910,7 @@ extension QLDB {
 
     public struct S3EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in AWS Key Management Service (AWS KMS). Amazon QLDB does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
+        /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in AWS Key Management Service (AWS KMS). Amazon S3 does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see Protecting Data Using Server-Side Encryption in the Amazon S3 Developer Guide.
         public let objectEncryptionType: S3ObjectEncryptionType
@@ -958,9 +967,9 @@ extension QLDB {
             AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name"))
         ]
 
-        /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z
+        /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z.
         public let exclusiveEndTime: Date?
-        /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
+        /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
         public let inclusiveStartTime: Date
         /// The configuration settings of the Kinesis Data Streams destination for your stream request.
         public let kinesisConfiguration: KinesisConfiguration
@@ -1013,7 +1022,7 @@ extension QLDB {
 
     public struct StreamJournalToKinesisResponse: AWSDecodableShape {
 
-        /// The unique ID that QLDB assigns to each QLDB journal stream.
+        /// The UUID (represented in Base62-encoded text) that QLDB assigns to each QLDB journal stream.
         public let streamId: String?
 
         public init(streamId: String? = nil) {
@@ -1070,9 +1079,9 @@ extension QLDB {
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) from which you want to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
+        /// The Amazon Resource Name (ARN) from which to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
-        /// The list of tag keys that you want to remove.
+        /// The list of tag keys to remove.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -1102,12 +1111,60 @@ extension QLDB {
 
     }
 
+    public struct UpdateLedgerPermissionsModeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
+        ]
+
+        /// The name of the ledger.
+        public let name: String
+        /// The permissions mode to assign to the ledger. This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access control with API-level granularity for ledgers. This mode allows users who have the SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or command-level IAM permissions policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that enables access control with finer granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for specific table resources and PartiQL actions, in addition to the SendCommand API permission for the ledger. For information, see Getting started with the standard permissions mode in the Amazon QLDB Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize the security of your ledger data.
+        public let permissionsMode: PermissionsMode
+
+        public init(name: String, permissionsMode: PermissionsMode) {
+            self.name = name
+            self.permissionsMode = permissionsMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?!^.*--)(?!^[0-9]+$)(?!^-)(?!.*-$)^[A-Za-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionsMode = "PermissionsMode"
+        }
+    }
+
+    public struct UpdateLedgerPermissionsModeResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) for the ledger.
+        public let arn: String?
+        /// The name of the ledger.
+        public let name: String?
+        /// The current permissions mode of the ledger.
+        public let permissionsMode: PermissionsMode?
+
+        public init(arn: String? = nil, name: String? = nil, permissionsMode: PermissionsMode? = nil) {
+            self.arn = arn
+            self.name = name
+            self.permissionsMode = permissionsMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+            case permissionsMode = "PermissionsMode"
+        }
+    }
+
     public struct UpdateLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
+        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
         /// The name of the ledger.
         public let name: String
@@ -1134,7 +1191,7 @@ extension QLDB {
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let creationDateTime: Date?
-        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
+        /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
         /// The name of the ledger.
         public let name: String?

@@ -60,7 +60,7 @@ public struct SupportErrorType: AWSErrorType {
     public static var attachmentSetSizeLimitExceeded: Self { .init(.attachmentSetSizeLimitExceeded) }
     /// The case creation limit for the account has been exceeded.
     public static var caseCreationLimitExceeded: Self { .init(.caseCreationLimitExceeded) }
-    /// The requested caseId could not be located.
+    /// The requested caseId couldn't be located.
     public static var caseIdNotFound: Self { .init(.caseIdNotFound) }
     /// The limit for the number of DescribeAttachment requests in a short period of time has been exceeded.
     public static var describeAttachmentLimitExceeded: Self { .init(.describeAttachmentLimitExceeded) }

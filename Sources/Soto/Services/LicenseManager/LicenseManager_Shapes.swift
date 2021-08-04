@@ -112,6 +112,7 @@ extension LicenseManager {
         case pendingDelete = "PENDING_DELETE"
         case pendingWorkflow = "PENDING_WORKFLOW"
         case rejected = "REJECTED"
+        case workflowCompleted = "WORKFLOW_COMPLETED"
         public var description: String { return self.rawValue }
     }
 
@@ -162,6 +163,7 @@ extension LicenseManager {
         case pendingAccept = "PENDING_ACCEPT"
         case pendingWorkflow = "PENDING_WORKFLOW"
         case rejected = "REJECTED"
+        case workflowCompleted = "WORKFLOW_COMPLETED"
         public var description: String { return self.rawValue }
     }
 
@@ -169,6 +171,19 @@ extension LicenseManager {
         case monthly = "Monthly"
         case none = "None"
         case weekly = "Weekly"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportFrequencyType: String, CustomStringConvertible, Codable {
+        case day = "DAY"
+        case month = "MONTH"
+        case week = "WEEK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportType: String, CustomStringConvertible, Codable {
+        case licenseconfigurationsummaryreport = "LicenseConfigurationSummaryReport"
+        case licenseconfigurationusagereport = "LicenseConfigurationUsageReport"
         public var description: String { return self.rawValue }
     }
 
@@ -199,7 +214,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -312,10 +327,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]*")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -398,8 +413,8 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[a-zA-Z0-9]*")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -518,11 +533,13 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.principals.forEach {
                 try validate($0, name: "principals[]", parent: name, max: 2048)
-                try validate($0, name: "principals[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "principals[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.principals, name: "principals", parent: name, max: 1)
             try self.validate(self.principals, name: "principals", parent: name, min: 1)
@@ -574,21 +591,27 @@ extension LicenseManager {
         public let sourceVersion: String?
         /// Grant status.
         public let status: GrantStatus?
+        public let statusReason: String?
 
-        public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil) {
+        public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil, statusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
             self.grantArn = grantArn
             self.grantName = grantName
             self.sourceVersion = sourceVersion
             self.status = status
+            self.statusReason = statusReason
         }
 
         public func validate(name: String) throws {
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, max: 7)
             try self.validate(self.allowedOperations, name: "allowedOperations", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.statusReason, name: "statusReason", parent: name, max: 400)
+            try self.validate(self.statusReason, name: "statusReason", parent: name, pattern: "[\\s\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -598,6 +621,7 @@ extension LicenseManager {
             case grantName = "GrantName"
             case sourceVersion = "SourceVersion"
             case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -683,6 +707,66 @@ extension LicenseManager {
         }
     }
 
+    public struct CreateLicenseManagerReportGeneratorRequest: AWSEncodableShape {
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// Description of the report generator.
+        public let description: String?
+        /// Defines the type of license configuration the report generator tracks.
+        public let reportContext: ReportContext
+        /// Frequency by which reports are generated. Reports can be generated daily, monthly, or weekly.
+        public let reportFrequency: ReportFrequency
+        /// Name of the report generator.
+        public let reportGeneratorName: String
+        /// Tags to add to the report generator.
+        public let tags: [Tag]?
+        /// Type of reports to generate. The following report types an be generated:   License configuration report - Reports on the number and details of consumed licenses for a license configuration.   Resource report - Reports on the tracked licenses and resource consumption for a license configuration.
+        public let type: [ReportType]
+
+        public init(clientToken: String, description: String? = nil, reportContext: ReportContext, reportFrequency: ReportFrequency, reportGeneratorName: String, tags: [Tag]? = nil, type: [ReportType]) {
+            self.clientToken = clientToken
+            self.description = description
+            self.reportContext = reportContext
+            self.reportFrequency = reportFrequency
+            self.reportGeneratorName = reportGeneratorName
+            self.tags = tags
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.reportContext.validate(name: "\(name).reportContext")
+            try self.validate(self.reportGeneratorName, name: "reportGeneratorName", parent: name, max: 100)
+            try self.validate(self.reportGeneratorName, name: "reportGeneratorName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case reportContext = "ReportContext"
+            case reportFrequency = "ReportFrequency"
+            case reportGeneratorName = "ReportGeneratorName"
+            case tags = "Tags"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateLicenseManagerReportGeneratorResponse: AWSDecodableShape {
+
+        /// The Amazon Resource Number (ARN) of the new report generator.
+        public let licenseManagerReportGeneratorArn: String?
+
+        public init(licenseManagerReportGeneratorArn: String? = nil) {
+            self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
+        }
+    }
+
     public struct CreateLicenseRequest: AWSEncodableShape {
 
         /// License beneficiary.
@@ -723,6 +807,8 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validity.validate(name: "\(name).validity")
         }
 
@@ -806,8 +892,10 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validity.validate(name: "\(name).validity")
         }
 
@@ -871,13 +959,13 @@ extension LicenseManager {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 60)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S+")
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.roleArns?.forEach {
                 try validate($0, name: "roleArns[]", parent: name, max: 2048)
-                try validate($0, name: "roleArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "roleArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.tokenProperties, name: "tokenProperties", parent: name, max: 3)
         }
@@ -942,21 +1030,26 @@ extension LicenseManager {
 
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
+        public let statusReason: String?
         /// Current version of the grant.
         public let version: String
 
-        public init(grantArn: String, version: String) {
+        public init(grantArn: String, statusReason: String? = nil, version: String) {
             self.grantArn = grantArn
+            self.statusReason = statusReason
             self.version = version
         }
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.statusReason, name: "statusReason", parent: name, max: 400)
+            try self.validate(self.statusReason, name: "statusReason", parent: name, pattern: "[\\s\\S]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case grantArn = "GrantArn"
+            case statusReason = "StatusReason"
             case version = "Version"
         }
     }
@@ -1005,6 +1098,28 @@ extension LicenseManager {
 
     }
 
+    public struct DeleteLicenseManagerReportGeneratorRequest: AWSEncodableShape {
+
+        /// Amazon Resource Number (ARN) of the report generator that will be deleted.
+        public let licenseManagerReportGeneratorArn: String
+
+        public init(licenseManagerReportGeneratorArn: String) {
+            self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
+        }
+    }
+
+    public struct DeleteLicenseManagerReportGeneratorResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteLicenseRequest: AWSEncodableShape {
 
         /// Amazon Resource Name (ARN) of the license.
@@ -1019,7 +1134,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1256,7 +1371,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1371,6 +1486,34 @@ extension LicenseManager {
         }
     }
 
+    public struct GetLicenseManagerReportGeneratorRequest: AWSEncodableShape {
+
+        /// mazon Resource Number (ARN) of the report generator to retrieve information on.
+        public let licenseManagerReportGeneratorArn: String
+
+        public init(licenseManagerReportGeneratorArn: String) {
+            self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
+        }
+    }
+
+    public struct GetLicenseManagerReportGeneratorResponse: AWSDecodableShape {
+
+        /// A report generator that creates periodic reports on your license configurations.
+        public let reportGenerator: ReportGenerator?
+
+        public init(reportGenerator: ReportGenerator? = nil) {
+            self.reportGenerator = reportGenerator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportGenerator = "ReportGenerator"
+        }
+    }
+
     public struct GetLicenseRequest: AWSEncodableShape {
 
         /// Amazon Resource Name (ARN) of the license.
@@ -1385,7 +1528,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1419,7 +1562,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1453,7 +1596,7 @@ extension LicenseManager {
 
         /// Indicates whether cross-account discovery is enabled.
         public let enableCrossAccountsDiscovery: Bool?
-        /// Amazon Resource Name (ARN) of the AWS resource share. The License Manager master account will provide member accounts with access to this share.
+        /// Amazon Resource Name (ARN) of the AWS resource share. The License Manager management account provides member accounts with access to this share.
         public let licenseManagerResourceShareArn: String?
         /// Indicates whether AWS Organizations is integrated with License Manager for cross-account discovery.
         public let organizationConfiguration: OrganizationConfiguration?
@@ -1981,7 +2124,7 @@ extension LicenseManager {
 
     public struct ListDistributedGrantsRequest: AWSEncodableShape {
 
-        /// Filters to scope the results. The following filters are supported:    LicenseARN     Status     PrincipalARN     ParentARN
+        /// Filters to scope the results. The following filters are supported:    LicenseArn     GrantStatus     GranteePrincipalARN     ProductSKU     LicenseIssuerName
         public let filters: [Filter]?
         /// Amazon Resource Names (ARNs) of the grants.
         public let grantArns: [String]?
@@ -2000,7 +2143,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.grantArns?.forEach {
                 try validate($0, name: "grantArns[]", parent: name, max: 2048)
-                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2116,6 +2259,51 @@ extension LicenseManager {
         }
     }
 
+    public struct ListLicenseManagerReportGeneratorsRequest: AWSEncodableShape {
+
+        /// Filters to scope the results. The following filters are supported:     LicenseConfigurationArn
+        public let filters: [Filter]?
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseManagerReportGeneratorsResponse: AWSDecodableShape {
+
+        /// Token for the next set of results.
+        public let nextToken: String?
+        /// A report generator that creates periodic reports on your license configurations.
+        public let reportGenerators: [ReportGenerator]?
+
+        public init(nextToken: String? = nil, reportGenerators: [ReportGenerator]? = nil) {
+            self.nextToken = nextToken
+            self.reportGenerators = reportGenerators
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case reportGenerators = "ReportGenerators"
+        }
+    }
+
     public struct ListLicenseSpecificationsForResourceRequest: AWSEncodableShape {
 
         /// Maximum number of results to return in a single call.
@@ -2173,7 +2361,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.licenseArn, name: "licenseArn", parent: name, max: 2048)
-            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.licenseArn, name: "licenseArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2205,7 +2393,7 @@ extension LicenseManager {
 
     public struct ListLicensesRequest: AWSEncodableShape {
 
-        /// Filters to scope the results. The following filters are supported:    Beneficiary     ProductSKU     KeyFingerprint     Status
+        /// Filters to scope the results. The following filters are supported:    Beneficiary     ProductSKU     Fingerprint     Status
         public let filters: [Filter]?
         /// Amazon Resource Names (ARNs) of the licenses.
         public let licenseArns: [String]?
@@ -2224,7 +2412,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.licenseArns?.forEach {
                 try validate($0, name: "licenseArns[]", parent: name, max: 2048)
-                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2258,7 +2446,7 @@ extension LicenseManager {
 
     public struct ListReceivedGrantsRequest: AWSEncodableShape {
 
-        /// Filters to scope the results. The following filters are supported:    LicenseARN     Status
+        /// Filters to scope the results. The following filters are supported:    ProductSKU     LicenseIssuerName     LicenseArn     GrantStatus     GranterAccountId
         public let filters: [Filter]?
         /// Amazon Resource Names (ARNs) of the grants.
         public let grantArns: [String]?
@@ -2277,7 +2465,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.grantArns?.forEach {
                 try validate($0, name: "grantArns[]", parent: name, max: 2048)
-                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "grantArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2311,7 +2499,7 @@ extension LicenseManager {
 
     public struct ListReceivedLicensesRequest: AWSEncodableShape {
 
-        /// Filters to scope the results. The following filters are supported:    ProductSKU     Status     KeyFingerprint     Issuer
+        /// Filters to scope the results. The following filters are supported:    ProductSKU     Status     Fingerprint     IssuerName     Beneficiary
         public let filters: [Filter]?
         /// Amazon Resource Names (ARNs) of the licenses.
         public let licenseArns: [String]?
@@ -2330,7 +2518,7 @@ extension LicenseManager {
         public func validate(name: String) throws {
             try self.licenseArns?.forEach {
                 try validate($0, name: "licenseArns[]", parent: name, max: 2048)
-                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+                try validate($0, name: "licenseArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -2432,7 +2620,7 @@ extension LicenseManager {
 
     public struct ListTokensRequest: AWSEncodableShape {
 
-        /// Filters to scope the results. The following filter is supported:    licenseArns
+        /// Filters to scope the results. The following filter is supported:    LicenseArns
         public let filters: [Filter]?
         /// Maximum number of results to return in a single call.
         public let maxResults: Int?
@@ -2575,7 +2763,7 @@ extension LicenseManager {
 
     public struct ProductInformation: AWSEncodableShape & AWSDecodableShape {
 
-        /// Product information filters. The following filters and logical operators are supported when the resource type is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard | diagnostic pack sqlt | tuning pack sqlt | ols | olap.
+        /// A Product information filter consists of a ProductInformationFilterComparator which is a logical operator, a ProductInformationFilterName which specifies the type of filter being declared, and a ProductInformationFilterValue that specifies the value to filter on.  Accepted values for ProductInformationFilterName are listed here along with descriptions and valid options for ProductInformationFilterComparator.  The following filters and are supported when the resource type is SSM_MANAGED:    Application Name - The name of the application. Logical operator is EQUALS.    Application Publisher - The publisher of the application. Logical operator is EQUALS.    Application Version - The version of the application. Logical operator is EQUALS.    Platform Name - The name of the platform. Logical operator is EQUALS.    Platform Type - The platform type. Logical operator is EQUALS.    Tag:key - The key of a tag attached to an AWS resource you wish to exclude from automated discovery. Logical operator is NOT_EQUALS. The key for your tag must be appended to Tag: following the example: Tag:name-of-your-key. ProductInformationFilterValue is optional if you are not using values for the key.     AccountId - The 12-digit ID of an AWS account you wish to exclude from automated discovery. Logical operator is NOT_EQUALS.    License Included - The type of license included. Logical operators are EQUALS and NOT_EQUALS. Possible values are: sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.   The following filters and logical operators are supported when the resource type is RDS:    Engine Edition - The edition of the database engine. Logical operator is EQUALS. Possible values are: oracle-ee | oracle-se | oracle-se1 | oracle-se2.    License Pack - The license pack. Logical operator is EQUALS. Possible values are: data guard | diagnostic pack sqlt | tuning pack sqlt | ols | olap.
         public let productInformationFilterList: [ProductInformationFilter]
         /// Resource type. The possible values are SSM_MANAGED | RDS.
         public let resourceType: String
@@ -2633,15 +2821,18 @@ extension LicenseManager {
         public let allowedOperations: [AllowedOperation]?
         /// Received status.
         public let receivedStatus: ReceivedStatus?
+        public let receivedStatusReason: String?
 
-        public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil) {
+        public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil, receivedStatusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.receivedStatus = receivedStatus
+            self.receivedStatusReason = receivedStatusReason
         }
 
         private enum CodingKeys: String, CodingKey {
             case allowedOperations = "AllowedOperations"
             case receivedStatus = "ReceivedStatus"
+            case receivedStatusReason = "ReceivedStatusReason"
         }
     }
 
@@ -2656,7 +2847,7 @@ extension LicenseManager {
 
         public func validate(name: String) throws {
             try self.validate(self.grantArn, name: "grantArn", parent: name, max: 2048)
-            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.grantArn, name: "grantArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2683,6 +2874,107 @@ extension LicenseManager {
             case grantArn = "GrantArn"
             case status = "Status"
             case version = "Version"
+        }
+    }
+
+    public struct ReportContext: AWSEncodableShape & AWSDecodableShape {
+
+        /// Amazon Resource Number (ARN) of the license configuration that this generator reports on.
+        public let licenseConfigurationArns: [String]
+
+        public init(licenseConfigurationArns: [String]) {
+            self.licenseConfigurationArns = licenseConfigurationArns
+        }
+
+        public func validate(name: String) throws {
+            try self.licenseConfigurationArns.forEach {
+                try validate($0, name: "licenseConfigurationArns[]", parent: name, max: 2048)
+                try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConfigurationArns = "licenseConfigurationArns"
+        }
+    }
+
+    public struct ReportFrequency: AWSEncodableShape & AWSDecodableShape {
+
+        /// Time period between each report. The period can be daily, weekly, or monthly.
+        public let period: ReportFrequencyType?
+        /// Number of times within the frequency period that a report will be generated. Currently only 1 is supported.
+        public let value: Int?
+
+        public init(period: ReportFrequencyType? = nil, value: Int? = nil) {
+            self.period = period
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case period = "period"
+            case value = "value"
+        }
+    }
+
+    public struct ReportGenerator: AWSDecodableShape {
+
+        /// Time the report was created.
+        public let createTime: String?
+        /// Description of the report generator.
+        public let description: String?
+        /// Time the last report was generated at.
+        public let lastReportGenerationTime: String?
+        /// Failure message for the last report generation attempt.
+        public let lastRunFailureReason: String?
+        /// Status of the last report generation attempt.
+        public let lastRunStatus: String?
+        /// Amazon Resource Number (ARN) of the report generator.
+        public let licenseManagerReportGeneratorArn: String?
+        /// License configuration type this generator reports on.
+        public let reportContext: ReportContext?
+        /// The AWS account ID used to create the report generator.
+        public let reportCreatorAccount: String?
+        /// Details on how frequently reports are generated.
+        public let reportFrequency: ReportFrequency?
+        /// Name of the report generator.
+        public let reportGeneratorName: String?
+        /// Type of reports that are generated.
+        public let reportType: [ReportType]?
+        /// Details of the S3 bucket that report generator reports are published to.
+        public let s3Location: S3Location?
+        /// Tags associated with the report generator.
+        public let tags: [Tag]?
+
+        public init(createTime: String? = nil, description: String? = nil, lastReportGenerationTime: String? = nil, lastRunFailureReason: String? = nil, lastRunStatus: String? = nil, licenseManagerReportGeneratorArn: String? = nil, reportContext: ReportContext? = nil, reportCreatorAccount: String? = nil, reportFrequency: ReportFrequency? = nil, reportGeneratorName: String? = nil, reportType: [ReportType]? = nil, s3Location: S3Location? = nil, tags: [Tag]? = nil) {
+            self.createTime = createTime
+            self.description = description
+            self.lastReportGenerationTime = lastReportGenerationTime
+            self.lastRunFailureReason = lastRunFailureReason
+            self.lastRunStatus = lastRunStatus
+            self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
+            self.reportContext = reportContext
+            self.reportCreatorAccount = reportCreatorAccount
+            self.reportFrequency = reportFrequency
+            self.reportGeneratorName = reportGeneratorName
+            self.reportType = reportType
+            self.s3Location = s3Location
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case description = "Description"
+            case lastReportGenerationTime = "LastReportGenerationTime"
+            case lastRunFailureReason = "LastRunFailureReason"
+            case lastRunStatus = "LastRunStatus"
+            case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
+            case reportContext = "ReportContext"
+            case reportCreatorAccount = "ReportCreatorAccount"
+            case reportFrequency = "ReportFrequency"
+            case reportGeneratorName = "ReportGeneratorName"
+            case reportType = "ReportType"
+            case s3Location = "S3Location"
+            case tags = "Tags"
         }
     }
 
@@ -2717,6 +3009,24 @@ extension LicenseManager {
             case resourceId = "ResourceId"
             case resourceOwningAccountId = "ResourceOwningAccountId"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct S3Location: AWSDecodableShape {
+
+        /// Name of the S3 bucket reports are published to.
+        public let bucket: String?
+        /// Prefix of the S3 bucket reports are published to.
+        public let keyPrefix: String?
+
+        public init(bucket: String? = nil, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
         }
     }
 
@@ -2875,6 +3185,60 @@ extension LicenseManager {
     }
 
     public struct UpdateLicenseConfigurationResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateLicenseManagerReportGeneratorRequest: AWSEncodableShape {
+
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// Description of the report generator.
+        public let description: String?
+        /// Amazon Resource Number (ARN) of the report generator to update.
+        public let licenseManagerReportGeneratorArn: String
+        /// ?
+        public let reportContext: ReportContext
+        /// Frequency by which reports are generated. The following options are avaiable: ??? What are the APi value options?
+        public let reportFrequency: ReportFrequency
+        /// Name of the report generator.
+        public let reportGeneratorName: String
+        /// Type of reports to generate. The following report types an be generated:   License configuration report - Reports on the number and details of consumed licenses for a license configuration.   Resource report - Reports on the tracked licenses and resource consumption for a license configuration.
+        public let type: [ReportType]
+
+        public init(clientToken: String, description: String? = nil, licenseManagerReportGeneratorArn: String, reportContext: ReportContext, reportFrequency: ReportFrequency, reportGeneratorName: String, type: [ReportType]) {
+            self.clientToken = clientToken
+            self.description = description
+            self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
+            self.reportContext = reportContext
+            self.reportFrequency = reportFrequency
+            self.reportGeneratorName = reportGeneratorName
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.reportContext.validate(name: "\(name).reportContext")
+            try self.validate(self.reportGeneratorName, name: "reportGeneratorName", parent: name, max: 100)
+            try self.validate(self.reportGeneratorName, name: "reportGeneratorName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case licenseManagerReportGeneratorArn = "LicenseManagerReportGeneratorArn"
+            case reportContext = "ReportContext"
+            case reportFrequency = "ReportFrequency"
+            case reportGeneratorName = "ReportGeneratorName"
+            case type = "Type"
+        }
+    }
+
+    public struct UpdateLicenseManagerReportGeneratorResponse: AWSDecodableShape {
 
 
         public init() {

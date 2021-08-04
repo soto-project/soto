@@ -79,11 +79,11 @@ public struct DynamoDB: AWSService {
         }
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "BatchGetItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put or delete requests. Individual items to be written can be as large as 400 KB.   BatchWriteItem cannot update items. To update items, use the UpdateItem action.  The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem returns a ProvisionedThroughputExceededException.  If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see Batch Operations and Error Handling in the Amazon DynamoDB Developer Guide.  With BatchWriteItem, you can efficiently write or delete large amounts of data, such as from Amazon EMR, or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response. If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application. Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit. If one or more of the following is true, DynamoDB rejects the entire batch write operation:   One or more tables specified in the BatchWriteItem request does not exist.   Primary key attributes specified on an item in the request do not match those in the corresponding table's primary key schema.   You try to perform multiple operations on the same item in the same BatchWriteItem request. For example, you cannot put and delete the same item in the same BatchWriteItem request.     Your request contains at least two items with identical hash and range keys (which essentially is two put operations).    There are more than 25 requests in the batch.   Any individual item in a batch exceeds 400 KB.   The total request size exceeds 16 MB.
+    /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put or delete requests. Individual items to be written can be as large as 400 KB.   BatchWriteItem cannot update items. To update items, use the UpdateItem action.  The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem returns a ProvisionedThroughputExceededException.  If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can till fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see Batch Operations and Error Handling in the Amazon DynamoDB Developer Guide.  With BatchWriteItem, you can efficiently write or delete large amounts of data, such as from Amazon EMR, or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response. If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application. Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit. If one or more of the following is true, DynamoDB rejects the entire batch write operation:   One or more tables specified in the BatchWriteItem request does not exist.   Primary key attributes specified on an item in the request do not match those in the corresponding table's primary key schema.   You try to perform multiple operations on the same item in the same BatchWriteItem request. For example, you cannot put and delete the same item in the same BatchWriteItem request.     Your request contains at least two items with identical hash and range keys (which essentially is two put operations).    There are more than 25 requests in the batch.   Any individual item in a batch exceeds 400 KB.   The total request size exceeds 16 MB.
     public func batchWriteItem(_ input: BatchWriteItemInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchWriteItemOutput> {
         let attributes: SpanAttributes
         if let aTableName = input.requestItems.first?.key {
@@ -93,7 +93,7 @@ public struct DynamoDB: AWSService {
         }
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "BatchWriteItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -102,7 +102,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "CreateBackup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -116,7 +116,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "CreateTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -130,7 +130,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "DeleteItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -189,7 +189,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "DescribeTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -203,7 +203,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "DescribeTimeToLive", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -237,7 +237,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "GetItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -276,7 +276,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "PutItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -285,7 +285,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "Query", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -349,7 +349,7 @@ public struct DynamoDB: AWSService {
         let attributes = SpanAttributes(["aws.table_name": SpanAttribute(stringLiteral: input.tableName)])
         let baggageData = SotoServiceBaggage(serviceName: "DynamoDB", serviceAttributes: attributes, databaseSystem: "dynamodb")
         var context = context
-        context.baggage[SotoServiceBaggageKey] = baggageData
+        context.baggage[SotoServiceBaggageKey.self] = baggageData
         return self.client.execute(operation: "UpdateItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 

@@ -134,7 +134,7 @@ public struct ElasticLoadBalancingv2ErrorType: AWSErrorType {
     public static var tooManyCertificatesException: Self { .init(.tooManyCertificatesException) }
     /// You've reached the limit on the number of listeners per load balancer.
     public static var tooManyListenersException: Self { .init(.tooManyListenersException) }
-    /// You've reached the limit on the number of load balancers for your AWS account.
+    /// You've reached the limit on the number of load balancers for your Amazon Web Services account.
     public static var tooManyLoadBalancersException: Self { .init(.tooManyLoadBalancersException) }
     /// You've reached the limit on the number of times a target can be registered with a load balancer.
     public static var tooManyRegistrationsForTargetIdException: Self { .init(.tooManyRegistrationsForTargetIdException) }
@@ -142,7 +142,7 @@ public struct ElasticLoadBalancingv2ErrorType: AWSErrorType {
     public static var tooManyRulesException: Self { .init(.tooManyRulesException) }
     /// You've reached the limit on the number of tags per load balancer.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// You've reached the limit on the number of target groups for your AWS account.
+    /// You've reached the limit on the number of target groups for your Amazon Web Services account.
     public static var tooManyTargetGroupsException: Self { .init(.tooManyTargetGroupsException) }
     /// You've reached the limit on the number of targets.
     public static var tooManyTargetsException: Self { .init(.tooManyTargetsException) }

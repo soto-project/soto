@@ -63,6 +63,11 @@ public struct LakeFormation: AWSService {
 
     // MARK: API Calls
 
+    /// Attaches one or more tags to an existing resource.
+    public func addLFTagsToResource(_ input: AddLFTagsToResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddLFTagsToResourceResponse> {
+        return self.client.execute(operation: "AddLFTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Batch operation to grant permissions to the principal.
     public func batchGrantPermissions(_ input: BatchGrantPermissionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGrantPermissionsResponse> {
         return self.client.execute(operation: "BatchGrantPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -71,6 +76,16 @@ public struct LakeFormation: AWSService {
     /// Batch operation to revoke permissions from the principal.
     public func batchRevokePermissions(_ input: BatchRevokePermissionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchRevokePermissionsResponse> {
         return self.client.execute(operation: "BatchRevokePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Creates a tag with the specified name and values.
+    public func createLFTag(_ input: CreateLFTagRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLFTagResponse> {
+        return self.client.execute(operation: "CreateLFTag", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Deletes the specified tag key name. If the attribute key does not exist or the tag does not exist, then the operation will not do anything. If the attribute key exists, then the operation checks if any resources are tagged with this attribute key, if yes, the API throws a 400 Exception with the message "Delete not allowed" as the tag key is still attached with resources. You can consider untagging resources with this tag key.
+    public func deleteLFTag(_ input: DeleteLFTagRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLFTagResponse> {
+        return self.client.execute(operation: "DeleteLFTag", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
@@ -93,9 +108,24 @@ public struct LakeFormation: AWSService {
         return self.client.execute(operation: "GetEffectivePermissionsForPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Returns a tag definition.
+    public func getLFTag(_ input: GetLFTagRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLFTagResponse> {
+        return self.client.execute(operation: "GetLFTag", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Returns the tags applied to a resource.
+    public func getResourceLFTags(_ input: GetResourceLFTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceLFTagsResponse> {
+        return self.client.execute(operation: "GetResourceLFTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see Security and Access Control to Metadata and Data.
     public func grantPermissions(_ input: GrantPermissionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GrantPermissionsResponse> {
         return self.client.execute(operation: "GrantPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Lists tags that the requester has permission to view.
+    public func listLFTags(_ input: ListLFTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLFTagsResponse> {
+        return self.client.execute(operation: "ListLFTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
@@ -118,9 +148,29 @@ public struct LakeFormation: AWSService {
         return self.client.execute(operation: "RegisterResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Removes a tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
+    public func removeLFTagsFromResource(_ input: RemoveLFTagsFromResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveLFTagsFromResourceResponse> {
+        return self.client.execute(operation: "RemoveLFTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
     public func revokePermissions(_ input: RevokePermissionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokePermissionsResponse> {
         return self.client.execute(operation: "RevokePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
+    public func searchDatabasesByLFTags(_ input: SearchDatabasesByLFTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDatabasesByLFTagsResponse> {
+        return self.client.execute(operation: "SearchDatabasesByLFTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LFTags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
+    public func searchTablesByLFTags(_ input: SearchTablesByLFTagsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchTablesByLFTagsResponse> {
+        return self.client.execute(operation: "SearchTablesByLFTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Updates the list of possible values for the specified tag key. If the tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the tag key's value.
+    public func updateLFTag(_ input: UpdateLFTagRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLFTagResponse> {
+        return self.client.execute(operation: "UpdateLFTag", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates the data access role used for vending access to the given (registered) resource in AWS Lake Formation.

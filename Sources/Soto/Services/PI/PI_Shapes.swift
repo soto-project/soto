@@ -20,6 +20,13 @@ import SotoCore
 extension PI {
     // MARK: Enums
 
+    public enum DetailStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case processing = "PROCESSING"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceType: String, CustomStringConvertible, Codable {
         case rds = "RDS"
         public var description: String { return self.rawValue }
@@ -85,9 +92,26 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.key, name: "filter.key", parent: name, max: 256)
+                try validate($0.key, name: "filter.key", parent: name, min: 0)
+                try validate($0.key, name: "filter.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
             try self.groupBy.validate(name: "\(name).groupBy")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 0)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: ".*\\S.*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.metric, name: "metric", parent: name, max: 256)
+            try self.validate(self.metric, name: "metric", parent: name, min: 0)
+            try self.validate(self.metric, name: "metric", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
             try self.partitionBy?.validate(name: "\(name).partitionBy")
         }
 
@@ -152,8 +176,16 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try validate($0, name: "dimensions[]", parent: name, max: 256)
+                try validate($0, name: "dimensions[]", parent: name, min: 0)
+                try validate($0, name: "dimensions[]", parent: name, pattern: ".*\\S.*")
+            }
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.group, name: "group", parent: name, max: 256)
+            try self.validate(self.group, name: "group", parent: name, min: 0)
+            try self.validate(self.group, name: "group", parent: name, pattern: ".*\\S.*")
             try self.validate(self.limit, name: "limit", parent: name, max: 10)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
         }
@@ -184,6 +216,91 @@ extension PI {
             case dimensions = "Dimensions"
             case partitions = "Partitions"
             case total = "Total"
+        }
+    }
+
+    public struct DimensionKeyDetail: AWSDecodableShape {
+
+        /// The full name of the dimension. The full name includes the group name and key name. The only valid value is db.sql.statement.
+        public let dimension: String?
+        /// The status of the dimension detail data. Possible values include the following:    AVAILABLE - The dimension detail data is ready to be retrieved.    PROCESSING - The dimension detail data isn't ready to be retrieved because more processing time is required. If the requested detail data for db.sql.statement has the status PROCESSING, Performance Insights returns the truncated query.    UNAVAILABLE - The dimension detail data could not be collected successfully.
+        public let status: DetailStatus?
+        /// The value of the dimension detail data. For the db.sql.statement dimension, this value is either the full or truncated SQL query, depending on the return status.
+        public let value: String?
+
+        public init(dimension: String? = nil, status: DetailStatus? = nil, value: String? = nil) {
+            self.dimension = dimension
+            self.status = status
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimension = "Dimension"
+            case status = "Status"
+            case value = "Value"
+        }
+    }
+
+    public struct GetDimensionKeyDetailsRequest: AWSEncodableShape {
+
+        /// The name of the dimension group. The only valid value is db.sql. Performance Insights searches the specified group for the dimension group ID.
+        public let group: String
+        /// The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql, the group ID is db.sql.id.
+        public let groupIdentifier: String
+        /// The ID for a data source from which to gather dimension data. This ID must be immutable and unique within an AWS Region. When a DB instance is the data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+        public let identifier: String
+        /// A list of dimensions to retrieve the detail data for within the given dimension group. For the dimension group db.sql, specify either the full dimension name db.sql.statement or the short dimension name statement. If you don't specify this parameter, Performance Insights returns all dimension data within the specified dimension group.
+        public let requestedDimensions: [String]?
+        /// The AWS service for which Performance Insights returns data. The only valid value is RDS.
+        public let serviceType: ServiceType
+
+        public init(group: String, groupIdentifier: String, identifier: String, requestedDimensions: [String]? = nil, serviceType: ServiceType) {
+            self.group = group
+            self.groupIdentifier = groupIdentifier
+            self.identifier = identifier
+            self.requestedDimensions = requestedDimensions
+            self.serviceType = serviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.group, name: "group", parent: name, max: 256)
+            try self.validate(self.group, name: "group", parent: name, min: 0)
+            try self.validate(self.group, name: "group", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, max: 256)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, min: 0)
+            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 0)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^db-[a-zA-Z0-9-]*$")
+            try self.requestedDimensions?.forEach {
+                try validate($0, name: "requestedDimensions[]", parent: name, max: 256)
+                try validate($0, name: "requestedDimensions[]", parent: name, min: 0)
+                try validate($0, name: "requestedDimensions[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.requestedDimensions, name: "requestedDimensions", parent: name, max: 10)
+            try self.validate(self.requestedDimensions, name: "requestedDimensions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+            case groupIdentifier = "GroupIdentifier"
+            case identifier = "Identifier"
+            case requestedDimensions = "RequestedDimensions"
+            case serviceType = "ServiceType"
+        }
+    }
+
+    public struct GetDimensionKeyDetailsResponse: AWSDecodableShape {
+
+        /// The details for the requested dimensions.
+        public let dimensions: [DimensionKeyDetail]?
+
+        public init(dimensions: [DimensionKeyDetail]? = nil) {
+            self.dimensions = dimensions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
         }
     }
 
@@ -218,6 +335,9 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 0)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: ".*\\S.*")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.metricQueries.forEach {
@@ -225,6 +345,9 @@ extension PI {
             }
             try self.validate(self.metricQueries, name: "metricQueries", parent: name, max: 15)
             try self.validate(self.metricQueries, name: "metricQueries", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -303,7 +426,18 @@ extension PI {
         }
 
         public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.key, name: "filter.key", parent: name, max: 256)
+                try validate($0.key, name: "filter.key", parent: name, min: 0)
+                try validate($0.key, name: "filter.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
             try self.groupBy?.validate(name: "\(name).groupBy")
+            try self.validate(self.metric, name: "metric", parent: name, max: 256)
+            try self.validate(self.metric, name: "metric", parent: name, min: 0)
+            try self.validate(self.metric, name: "metric", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {

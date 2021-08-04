@@ -239,7 +239,7 @@ extension Macie2 {
         )
     }
 
-    ///   Retrieves a subset of information about one or more findings.
+    ///  Retrieves a subset of information about one or more findings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -459,7 +459,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the delegated Amazon Macie administrator account for an AWS organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an Amazon Web Services organization.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -508,6 +508,61 @@ extension Macie2 {
             command: listOrganizationAdminAccounts,
             inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
             outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchResourcesPaginator<Result>(
+        _ input: SearchResourcesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchResources,
+            inputKey: \SearchResourcesRequest.nextToken,
+            outputKey: \SearchResourcesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchResourcesPaginator(
+        _ input: SearchResourcesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchResources,
+            inputKey: \SearchResourcesRequest.nextToken,
+            outputKey: \SearchResourcesResponse.nextToken,
             context: context,
             on: eventLoop,
             onPage: onPage
@@ -602,6 +657,17 @@ extension Macie2.ListOrganizationAdminAccountsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Macie2.SearchResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Macie2.SearchResourcesRequest {
+        return .init(
+            bucketCriteria: self.bucketCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
         )
     }
 }

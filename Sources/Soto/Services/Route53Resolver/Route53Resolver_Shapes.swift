@@ -196,7 +196,7 @@ extension Route53Resolver {
 
     public struct AssociateFirewallRuleGroupRequest: AWSEncodableShape {
 
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// The unique identifier of the firewall rule group.
         public let firewallRuleGroupId: String
@@ -204,7 +204,7 @@ extension Route53Resolver {
         public let mutationProtection: MutationProtectionStatus?
         /// A name that lets you identify the association, to manage and use it.
         public let name: String
-        /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group association after you create it.
+        /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 101, 200, and so on. You can change the priority setting for a rule group association after you create it. The allowed values for Priority are between 100 and 9900.
         public let priority: Int
         /// A list of the tag keys and values that you want to associate with the rule group association.
         public let tags: [Tag]?
@@ -249,7 +249,7 @@ extension Route53Resolver {
 
     public struct AssociateFirewallRuleGroupResponse: AWSDecodableShape {
 
-        /// The association that you just created. The association has an Id that you can use to identify it in other requests, like update and delete.
+        /// The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
         public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
@@ -385,7 +385,7 @@ extension Route53Resolver {
 
     public struct CreateFirewallDomainListRequest: AWSEncodableShape {
 
-        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// A name that lets you identify the domain list to manage and use it.
         public let name: String
@@ -432,7 +432,7 @@ extension Route53Resolver {
 
     public struct CreateFirewallRuleGroupRequest: AWSEncodableShape {
 
-        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String
         /// A name that lets you identify the rule group, to manage and use it.
         public let name: String
@@ -479,7 +479,7 @@ extension Route53Resolver {
 
     public struct CreateFirewallRuleRequest: AWSEncodableShape {
 
-        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and log to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:    ALLOW - Permit the request to go through.    ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
         public let action: Action
         /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
         public let blockOverrideDnsType: BlockOverrideDnsType?
@@ -487,9 +487,9 @@ extension Route53Resolver {
         public let blockOverrideDomain: String?
         /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
         public let blockOverrideTtl: Int?
-        /// The way that you want DNS Firewall to block the request, used with the rule aciton setting BLOCK.     NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.    This setting is required if the rule action setting is BLOCK.
+        /// The way that you want DNS Firewall to block the request, used with the rule action setting BLOCK.     NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.    This setting is required if the rule action setting is BLOCK.
         public let blockResponse: BlockResponse?
-        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// The ID of the domain list that you want to use in the rule.
         public let firewallDomainListId: String
@@ -558,7 +558,7 @@ extension Route53Resolver {
 
     public struct CreateResolverEndpointRequest: AWSEncodableShape {
 
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network
         public let direction: ResolverEndpointDirection
@@ -626,11 +626,11 @@ extension Route53Resolver {
 
     public struct CreateResolverQueryLogConfigRequest: AWSEncodableShape {
 
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:    S3 bucket:   arn:aws:s3:::examplebucket  You can optionally append a file prefix to the end of the ARN.  arn:aws:s3:::examplebucket/development/     CloudWatch Logs log group:   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name
         public let destinationArn: String
-        /// The name that you want to give the query logging configuration
+        /// The name that you want to give the query logging configuration.
         public let name: String
         /// A list of the tag keys and values that you want to associate with the query logging configuration.
         public let tags: [Tag]?
@@ -680,7 +680,7 @@ extension Route53Resolver {
 
     public struct CreateResolverRuleRequest: AWSEncodableShape {
 
-        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        /// A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
         public let domainName: String
@@ -692,7 +692,7 @@ extension Route53Resolver {
         public let ruleType: RuleTypeOption
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
-        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.  TargetIps is available only when the value of Rule type is FORWARD.
+        /// The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a space.  TargetIps is available only when the value of Rule type is FORWARD.
         public let targetIps: [TargetAddress]?
 
         public init(creatorRequestId: String, domainName: String, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
@@ -1133,7 +1133,7 @@ extension Route53Resolver {
 
         /// Determines how DNS Firewall operates during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall returns a failure error when it is unable to properly evaluate a query.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
         public let firewallFailOpen: FirewallFailOpenStatus?
-        /// The Id of the firewall configuration.
+        /// The ID of the firewall configuration.
         public let id: String?
         /// The AWS account ID of the owner of the VPC that this firewall configuration applies to.
         public let ownerId: String?
@@ -1161,7 +1161,7 @@ extension Route53Resolver {
         public let arn: String?
         /// The date and time that the domain list was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String?
         /// The number of domain names that are specified in the domain list.
         public let domainCount: Int?
@@ -1209,7 +1209,7 @@ extension Route53Resolver {
 
         /// The Amazon Resource Name (ARN) of the firewall domain list metadata.
         public let arn: String?
-        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String?
         /// The ID of the domain list.
         public let id: String?
@@ -1299,7 +1299,7 @@ extension Route53Resolver {
         public let arn: String?
         /// The date and time that the rule group was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String?
         /// The ID of the rule group.
         public let id: String?
@@ -1353,7 +1353,7 @@ extension Route53Resolver {
         public let arn: String?
         /// The date and time that the association was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String?
         /// The unique identifier of the firewall rule group.
         public let firewallRuleGroupId: String?
@@ -1413,7 +1413,7 @@ extension Route53Resolver {
 
         /// The ARN (Amazon Resource Name) of the rule group.
         public let arn: String?
-        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
+        /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of running the operation twice. This can be any unique string, for example, a timestamp.
         public let creatorRequestId: String?
         /// The ID of the rule group.
         public let id: String?
@@ -1445,7 +1445,7 @@ extension Route53Resolver {
 
     public struct GetFirewallConfigRequest: AWSEncodableShape {
 
-        /// The ID of the Amazon virtual private cloud (VPC) that the configuration is for.
+        /// The ID of the VPC from Amazon VPC that the configuration is for.
         public let resourceId: String
 
         public init(resourceId: String) {
@@ -1464,7 +1464,7 @@ extension Route53Resolver {
 
     public struct GetFirewallConfigResponse: AWSDecodableShape {
 
-        /// Configuration of the firewall behavior provided by DNS Firewall for a single Amazon virtual private cloud (VPC).
+        /// Configuration of the firewall behavior provided by DNS Firewall for a single VPC from AmazonVPC.
         public let firewallConfig: FirewallConfig?
 
         public init(firewallConfig: FirewallConfig? = nil) {
@@ -1563,7 +1563,7 @@ extension Route53Resolver {
 
     public struct GetFirewallRuleGroupPolicyResponse: AWSDecodableShape {
 
-        /// The AWS Identity and Access Management (AWS IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using AWS Resource Access Manager (RAM).
+        /// The AWS Identity and Access Management (AWS IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using AWS Resource Access Manager (AWS RAM).
         public let firewallRuleGroupPolicy: String?
 
         public init(firewallRuleGroupPolicy: String? = nil) {
@@ -1874,7 +1874,7 @@ extension Route53Resolver {
 
     public struct ImportFirewallDomainsRequest: AWSEncodableShape {
 
-        /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line.
+        /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line.
         public let domainFileUrl: String
         /// The ID of the domain list that you want to modify with the import operation.
         public let firewallDomainListId: String
@@ -2045,7 +2045,7 @@ extension Route53Resolver {
 
     public struct ListFirewallConfigsResponse: AWSDecodableShape {
 
-        /// The configurations for the firewall behavior provided by DNS Firewall for Amazon virtual private clouds (VPC).
+        /// The configurations for the firewall behavior provided by DNS Firewall for VPCs from Amazon Virtual Private Cloud (Amazon VPC).
         public let firewallConfigs: [FirewallConfig]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
@@ -2086,7 +2086,7 @@ extension Route53Resolver {
 
     public struct ListFirewallDomainListsResponse: AWSDecodableShape {
 
-        /// A list of the domain lists that you have defined.  This might be a parital list of the domain lists that you've defined. For information, see MaxResults.
+        /// A list of the domain lists that you have defined.  This might be a partial list of the domain lists that you've defined. For information, see MaxResults.
         public let firewallDomainLists: [FirewallDomainListMetadata]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
@@ -2133,7 +2133,7 @@ extension Route53Resolver {
 
     public struct ListFirewallDomainsResponse: AWSDecodableShape {
 
-        /// A list of the domains in the firewall domain list.  This might be a parital list of the domains that you've defined in the domain list. For information, see MaxResults.
+        /// A list of the domains in the firewall domain list.  This might be a partial list of the domains that you've defined in the domain list. For information, see MaxResults.
         public let domains: [String]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
@@ -2157,7 +2157,7 @@ extension Route53Resolver {
         public let maxResults: Int?
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
-        /// The setting that determines the processing order of the rule group among the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.
+        /// The setting that determines the processing order of the rule group among the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting.
         public let priority: Int?
         /// The association Status setting that you want DNS Firewall to filter on for the list. If you don't specify this, then DNS Firewall returns all associations, regardless of status.
         public let status: FirewallRuleGroupAssociationStatus?
@@ -2290,7 +2290,7 @@ extension Route53Resolver {
 
     public struct ListFirewallRulesResponse: AWSDecodableShape {
 
-        /// A list of the rules that you have defined.  This might be a parital list of the firewall rules that you've defined. For information, see MaxResults.
+        /// A list of the rules that you have defined.  This might be a partial list of the firewall rules that you've defined. For information, see MaxResults.
         public let firewallRules: [FirewallRule]?
         /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
@@ -2885,7 +2885,7 @@ extension Route53Resolver {
         public let arn: String?
         /// The date and time that the endpoint was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string that identifies the request that created the Resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request that created the Resolver endpoint. The CreatorRequestId allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// Indicates whether the Resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network    OUTBOUND: allows DNS queries from your VPC to your network
         public let direction: ResolverEndpointDirection?
@@ -2945,7 +2945,7 @@ extension Route53Resolver {
         public let associationCount: Int?
         /// The date and time that the query logging configuration was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string that identifies the request that created the query logging configuration. The CreatorRequestId allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request that created the query logging configuration. The CreatorRequestId allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// The ARN of the resource that you want Resolver to send query logs: an Amazon S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream.
         public let destinationArn: String?
@@ -3031,7 +3031,7 @@ extension Route53Resolver {
         public let arn: String?
         /// The date and time that the Resolver rule was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
-        /// A unique string that you specified when you created the Resolver rule. CreatorRequestId identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that you specified when you created the Resolver rule. CreatorRequestId identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// DNS queries for this domain name are forwarded to the IP addresses that are specified in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), the query is routed using the Resolver rule that contains the most specific domain name (www.example.com).
         public let domainName: String?
@@ -3047,7 +3047,7 @@ extension Route53Resolver {
         public let resolverEndpointId: String?
         /// When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
         public let ruleType: RuleTypeOption?
-        /// Whether the rules is shared and, if so, whether the current account is sharing the rule with another account, or another account is sharing the rule with the current account.
+        /// Whether the rule is shared and, if so, whether the current account is sharing the rule with another account, or another account is sharing the rule with the current account.
         public let shareStatus: ShareStatus?
         /// A code that specifies the current status of the Resolver rule.
         public let status: ResolverRuleStatus?
@@ -3283,7 +3283,7 @@ extension Route53Resolver {
 
         /// Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
         public let firewallFailOpen: FirewallFailOpenStatus
-        /// The ID of the Amazon virtual private cloud (VPC) that the configuration is for.
+        /// The ID of the VPC that the configuration is for.
         public let resourceId: String
 
         public init(firewallFailOpen: FirewallFailOpenStatus, resourceId: String) {
@@ -3304,7 +3304,7 @@ extension Route53Resolver {
 
     public struct UpdateFirewallConfigResponse: AWSDecodableShape {
 
-        /// Configuration of the firewall behavior provided by DNS Firewall for a single Amazon virtual private cloud (VPC).
+        /// Configuration of the firewall behavior provided by DNS Firewall for a single VPC.
         public let firewallConfig: FirewallConfig?
 
         public init(firewallConfig: FirewallConfig? = nil) {
@@ -3349,7 +3349,7 @@ extension Route53Resolver {
 
     public struct UpdateFirewallDomainsResponse: AWSDecodableShape {
 
-        /// The Id of the firewall domain list that DNS Firewall just updated.
+        /// The ID of the firewall domain list that DNS Firewall just updated.
         public let id: String?
         /// The name of the domain list.
         public let name: String?
@@ -3380,7 +3380,7 @@ extension Route53Resolver {
         public let mutationProtection: MutationProtectionStatus?
         /// The name of the rule group association.
         public let name: String?
-        /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group association after you create it.
+        /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group association after you create it.
         public let priority: Int?
 
         public init(firewallRuleGroupAssociationId: String, mutationProtection: MutationProtectionStatus? = nil, name: String? = nil, priority: Int? = nil) {

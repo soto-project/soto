@@ -179,6 +179,12 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum StorageType: String, CustomStringConvertible, Codable {
+        case multiLayerStorage = "MULTI_LAYER_STORAGE"
+        case sitewiseDefaultStorage = "SITEWISE_DEFAULT_STORAGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TimeOrdering: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
@@ -204,13 +210,13 @@ extension IoTSiteWise {
         public let creationDate: Date?
         /// The ID of the access policy.
         public let id: String
-        /// The identity (an AWS SSO user, an AWS SSO group, or an IAM user).
+        /// The identity (an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user).
         public let identity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
         public let lastUpdateDate: Date?
         /// The permissions for the access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let permission: Permission
-        /// The AWS IoT SiteWise Monitor resource (a portal or project).
+        /// The IoT SiteWise Monitor resource (a portal or project).
         public let resource: Resource
 
         public init(creationDate: Date? = nil, id: String, identity: Identity, lastUpdateDate: Date? = nil, permission: Permission, resource: Resource) {
@@ -285,6 +291,33 @@ extension IoTSiteWise {
             case minimum = "minimum"
             case standardDeviation = "standardDeviation"
             case sum = "sum"
+        }
+    }
+
+    public struct Alarms: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ARN of the IAM role that allows the alarm to perform actions and access Amazon Web Services resources and services, such as IoT Events.
+        public let alarmRoleArn: String
+        /// The ARN of the Lambda function that manages alarm notifications. For more information, see Managing alarm notifications in the IoT Events Developer Guide.
+        public let notificationLambdaArn: String?
+
+        public init(alarmRoleArn: String, notificationLambdaArn: String? = nil) {
+            self.alarmRoleArn = alarmRoleArn
+            self.notificationLambdaArn = notificationLambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, max: 1600)
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, min: 1)
+            try self.validate(self.alarmRoleArn, name: "alarmRoleArn", parent: name, pattern: ".*")
+            try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, max: 1600)
+            try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, min: 1)
+            try self.validate(self.notificationLambdaArn, name: "notificationLambdaArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmRoleArn = "alarmRoleArn"
+            case notificationLambdaArn = "notificationLambdaArn"
         }
     }
 
@@ -634,7 +667,7 @@ extension IoTSiteWise {
         public let creationDate: Date
         /// The asset model description.
         public let description: String
-        /// The ID of the asset model (used with AWS IoT SiteWise APIs).
+        /// The ID of the asset model (used with IoT SiteWise APIs).
         public let id: String
         /// The date the asset model was last updated, in Unix epoch time.
         public let lastUpdateDate: Date
@@ -666,7 +699,7 @@ extension IoTSiteWise {
 
     public struct AssetProperty: AWSDecodableShape {
 
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let alias: String?
         /// The data type of the asset property.
         public let dataType: PropertyDataType
@@ -818,7 +851,7 @@ extension IoTSiteWise {
         public let childAssetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String
 
         public init(assetId: String, childAssetId: String, clientToken: String? = AssociateAssetsRequest.idempotencyToken(), hierarchyId: String) {
@@ -894,7 +927,7 @@ extension IoTSiteWise {
 
     public struct Attribute: AWSEncodableShape & AWSDecodableShape {
 
-        /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see Updating attribute values in the AWS IoT SiteWise User Guide.
+        /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see Updating attribute values in the IoT SiteWise User Guide.
         public let defaultValue: String?
 
         public init(defaultValue: String? = nil) {
@@ -1153,15 +1186,15 @@ extension IoTSiteWise {
 
     public struct CreateAccessPolicyRequest: AWSEncodableShape {
 
-        /// The identity for this access policy. Choose an AWS SSO user, an AWS SSO group, or an IAM user.
+        /// The identity for this access policy. Choose an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
-        /// The AWS IoT SiteWise Monitor resource for this access policy. Choose either a portal or a project.
+        /// The IoT SiteWise Monitor resource for this access policy. Choose either a portal or a project.
         public let accessPolicyResource: Resource
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(accessPolicyIdentity: Identity, accessPolicyPermission: Permission, accessPolicyResource: Resource, clientToken: String? = CreateAccessPolicyRequest.idempotencyToken(), tags: [String: String]? = nil) {
@@ -1219,15 +1252,15 @@ extension IoTSiteWise {
         public let assetModelCompositeModels: [AssetModelCompositeModelDefinition]?
         /// A description for the asset model.
         public let assetModelDescription: String?
-        /// The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelHierarchies: [AssetModelHierarchyDefinition]?
         /// A unique, friendly name for the asset model.
         public let assetModelName: String
-        /// The property definitions of the asset model. For more information, see Asset properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The property definitions of the asset model. For more information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelPropertyDefinition]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// A list of key-value pairs that contain metadata for the asset model. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the asset model. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(assetModelCompositeModels: [AssetModelCompositeModelDefinition]? = nil, assetModelDescription: String? = nil, assetModelHierarchies: [AssetModelHierarchyDefinition]? = nil, assetModelName: String, assetModelProperties: [AssetModelPropertyDefinition]? = nil, clientToken: String? = CreateAssetModelRequest.idempotencyToken(), tags: [String: String]? = nil) {
@@ -1282,7 +1315,7 @@ extension IoTSiteWise {
 
         /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
         public let assetModelArn: String
-        /// The ID of the asset model. You can use this ID when you call other AWS IoT SiteWise APIs.
+        /// The ID of the asset model. You can use this ID when you call other IoT SiteWise APIs.
         public let assetModelId: String
         /// The status of the asset model, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
@@ -1308,7 +1341,7 @@ extension IoTSiteWise {
         public let assetName: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(assetModelId: String, assetName: String, clientToken: String? = CreateAssetRequest.idempotencyToken(), tags: [String: String]? = nil) {
@@ -1348,7 +1381,7 @@ extension IoTSiteWise {
 
         /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
         public let assetArn: String
-        /// The ID of the asset. This ID uniquely identifies the asset within AWS IoT SiteWise and can be used with other AWS IoT SiteWise APIs.
+        /// The ID of the asset. This ID uniquely identifies the asset within IoT SiteWise and can be used with other IoT SiteWise APIs.
         public let assetId: String
         /// The status of the asset, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
@@ -1370,7 +1403,7 @@ extension IoTSiteWise {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The dashboard definition specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
+        /// The dashboard definition specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// A description for the dashboard.
         public let dashboardDescription: String?
@@ -1378,7 +1411,7 @@ extension IoTSiteWise {
         public let dashboardName: String
         /// The ID of the project in which to create the dashboard.
         public let projectId: String
-        /// A list of key-value pairs that contain metadata for the dashboard. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the dashboard. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateDashboardRequest.idempotencyToken(), dashboardDefinition: String, dashboardDescription: String? = nil, dashboardName: String, projectId: String, tags: [String: String]? = nil) {
@@ -1448,7 +1481,7 @@ extension IoTSiteWise {
         public let gatewayName: String
         /// The gateway's platform. You can only specify one platform in a gateway.
         public let gatewayPlatform: GatewayPlatform
-        /// A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(gatewayName: String, gatewayPlatform: GatewayPlatform, tags: [String: String]? = nil) {
@@ -1481,7 +1514,7 @@ extension IoTSiteWise {
 
         /// The ARN of the gateway, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}
         public let gatewayArn: String
-        /// The ID of the gateway device. You can use this ID when you call other AWS IoT SiteWise APIs.
+        /// The ID of the gateway device. You can use this ID when you call other IoT SiteWise APIs.
         public let gatewayId: String
 
         public init(gatewayArn: String, gatewayId: String) {
@@ -1497,11 +1530,15 @@ extension IoTSiteWise {
 
     public struct CreatePortalRequest: AWSEncodableShape {
 
+        /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see Monitoring with alarms in the IoT SiteWise Application Guide.
+        public let alarms: Alarms?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
+        /// The email address that sends alarm notifications.  If you use the IoT Events managed Lambda function to manage your emails, you must verify the sender email address in Amazon SES.
+        public let notificationSenderEmail: String?
+        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses Amazon Web Services Single Sign On to authenticate users and manage user permissions. Before you can create a portal that uses Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see Enabling Amazon Web Services SSO in the IoT SiteWise User Guide. This option is only available in Amazon Web Services Regions other than the China Regions.    IAM – The portal uses Identity and Access Management to authenticate users and manage user permissions. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
         public let portalAuthMode: AuthMode?
-        /// The AWS administrator's contact email address.
+        /// The Amazon Web Services administrator's contact email address.
         public let portalContactEmail: String
         /// A description for the portal.
         public let portalDescription: String?
@@ -1509,13 +1546,15 @@ extension IoTSiteWise {
         public let portalLogoImageFile: ImageFile?
         /// A friendly name for the portal.
         public let portalName: String
-        /// The ARN of a service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
+        /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String
-        /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreatePortalRequest.idempotencyToken(), portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
+        public init(alarms: Alarms? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
+            self.alarms = alarms
             self.clientToken = clientToken
+            self.notificationSenderEmail = notificationSenderEmail
             self.portalAuthMode = portalAuthMode
             self.portalContactEmail = portalContactEmail
             self.portalDescription = portalDescription
@@ -1526,9 +1565,13 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.alarms?.validate(name: "\(name).alarms")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, max: 255)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, min: 1)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "[^@]+@[^@]+")
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "[^@]+@[^@]+")
@@ -1551,7 +1594,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
             case clientToken = "clientToken"
+            case notificationSenderEmail = "notificationSenderEmail"
             case portalAuthMode = "portalAuthMode"
             case portalContactEmail = "portalContactEmail"
             case portalDescription = "portalDescription"
@@ -1568,11 +1613,11 @@ extension IoTSiteWise {
         public let portalArn: String
         /// The ID of the created portal.
         public let portalId: String
-        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the AWS IoT SiteWise console to get a URL that you can use to access the portal.
+        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use Amazon Web Services SSO for authentication. For portals that use IAM for authentication, you must use the IoT SiteWise console to get a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The status of the portal, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
-        /// The associated AWS SSO application ID, if the portal uses AWS SSO.
+        /// The associated Amazon Web Services SSO application ID, if the portal uses Amazon Web Services SSO.
         public let ssoApplicationId: String
 
         public init(portalArn: String, portalId: String, portalStartUrl: String, portalStatus: PortalStatus, ssoApplicationId: String) {
@@ -1602,7 +1647,7 @@ extension IoTSiteWise {
         public let projectDescription: String?
         /// A friendly name for the project.
         public let projectName: String
-        /// A list of key-value pairs that contain metadata for the project. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the project. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), portalId: String, projectDescription: String? = nil, projectName: String, tags: [String: String]? = nil) {
@@ -1658,6 +1703,33 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case projectArn = "projectArn"
             case projectId = "projectId"
+        }
+    }
+
+    public struct CustomerManagedS3Storage: AWSEncodableShape & AWSDecodableShape {
+
+        /// The ARN of the Identity and Access Management role that allows IoT SiteWise to send data to Amazon S3.
+        public let roleArn: String
+        /// The ARN of the Amazon S3 object. For more information about how to find the ARN for an Amazon S3 object, see Amazon S3 resources in the Amazon Simple Storage Service User Guide.
+        public let s3ResourceArn: String
+
+        public init(roleArn: String, s3ResourceArn: String) {
+            self.roleArn = roleArn
+            self.s3ResourceArn = s3ResourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1600)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: ".*")
+            try self.validate(self.s3ResourceArn, name: "s3ResourceArn", parent: name, max: 1600)
+            try self.validate(self.s3ResourceArn, name: "s3ResourceArn", parent: name, min: 1)
+            try self.validate(self.s3ResourceArn, name: "s3ResourceArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case s3ResourceArn = "s3ResourceArn"
         }
     }
 
@@ -1975,13 +2047,13 @@ extension IoTSiteWise {
         public let accessPolicyCreationDate: Date
         /// The ID of the access policy.
         public let accessPolicyId: String
-        /// The identity (AWS SSO user, AWS SSO group, or IAM user) to which this access policy applies.
+        /// The identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or IAM user) to which this access policy applies.
         public let accessPolicyIdentity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
         public let accessPolicyLastUpdateDate: Date
         /// The access policy permission. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
-        /// The AWS IoT SiteWise Monitor resource (portal or project) to which this access policy provides access.
+        /// The IoT SiteWise Monitor resource (portal or project) to which this access policy provides access.
         public let accessPolicyResource: Resource
 
         public init(accessPolicyArn: String, accessPolicyCreationDate: Date, accessPolicyId: String, accessPolicyIdentity: Identity, accessPolicyLastUpdateDate: Date, accessPolicyPermission: Permission, accessPolicyResource: Resource) {
@@ -2232,7 +2304,7 @@ extension IoTSiteWise {
         public let dashboardArn: String
         /// The date the dashboard was created, in Unix epoch time.
         public let dashboardCreationDate: Date
-        /// The dashboard's definition JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
+        /// The dashboard's definition JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// The dashboard's description.
         public let dashboardDescription: String?
@@ -2282,7 +2354,7 @@ extension IoTSiteWise {
         public let configurationStatus: ConfigurationStatus
         /// The type of encryption used for the encryption configuration.
         public let encryptionType: EncryptionType
-        /// The key ARN of the customer managed customer master key (CMK) used for AWS KMS encryption if you use KMS_BASED_ENCRYPTION.
+        /// The key ARN of the customer managed customer master key (CMK) used for KMS encryption if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyArn: String?
 
         public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
@@ -2304,7 +2376,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
         ]
 
-        /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the AWS IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+        /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         public let capabilityNamespace: String
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
@@ -2328,7 +2400,7 @@ extension IoTSiteWise {
 
     public struct DescribeGatewayCapabilityConfigurationResponse: AWSDecodableShape {
 
-        /// The JSON document that defines the gateway capability's configuration. For more information, see Configuring data sources (CLI) in the AWS IoT SiteWise User Guide.
+        /// The JSON document that defines the gateway capability's configuration. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
         public let capabilityConfiguration: String
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
@@ -2456,13 +2528,17 @@ extension IoTSiteWise {
 
     public struct DescribePortalResponse: AWSDecodableShape {
 
+        /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal.
+        public let alarms: Alarms?
+        /// The email address that sends alarm notifications.
+        public let notificationSenderEmail: String?
         /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}
         public let portalArn: String
         /// The service to use to authenticate users to the portal.
         public let portalAuthMode: AuthMode?
-        /// The AWS SSO application generated client ID (used with AWS SSO APIs). AWS IoT SiteWise includes portalClientId for only portals that use AWS SSO to authenticate users.
+        /// The Amazon Web Services SSO application generated client ID (used with Amazon Web Services SSO APIs). IoT SiteWise includes portalClientId for only portals that use Amazon Web Services SSO to authenticate users.
         public let portalClientId: String
-        /// The AWS administrator's contact email address.
+        /// The Amazon Web Services administrator's contact email address.
         public let portalContactEmail: String
         /// The date the portal was created, in Unix epoch time.
         public let portalCreationDate: Date
@@ -2476,14 +2552,16 @@ extension IoTSiteWise {
         public let portalLogoImageLocation: ImageLocation?
         /// The name of the portal.
         public let portalName: String
-        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the AWS IoT SiteWise console to get a URL that you can use to access the portal.
+        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use Amazon Web Services SSO for authentication. For portals that use IAM for authentication, you must use the IoT SiteWise console to get a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The current status of the portal, which contains a state and any error message.
         public let portalStatus: PortalStatus
-        /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
+        /// The ARN of the service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String?
 
-        public init(portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+        public init(alarms: Alarms? = nil, notificationSenderEmail: String? = nil, portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+            self.alarms = alarms
+            self.notificationSenderEmail = notificationSenderEmail
             self.portalArn = portalArn
             self.portalAuthMode = portalAuthMode
             self.portalClientId = portalClientId
@@ -2500,6 +2578,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
+            case notificationSenderEmail = "notificationSenderEmail"
             case portalArn = "portalArn"
             case portalAuthMode = "portalAuthMode"
             case portalClientId = "portalClientId"
@@ -2575,6 +2655,39 @@ extension IoTSiteWise {
         }
     }
 
+    public struct DescribeStorageConfigurationRequest: AWSEncodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DescribeStorageConfigurationResponse: AWSDecodableShape {
+
+        public let configurationStatus: ConfigurationStatus
+        /// The date the storage configuration was last updated, in Unix epoch time.
+        public let lastUpdateDate: Date?
+        /// Contains information about the storage destination.
+        public let multiLayerStorage: MultiLayerStorage?
+        /// The type of storage that you specified for your data. The storage type can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.
+        public let storageType: StorageType
+
+        public init(configurationStatus: ConfigurationStatus, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, storageType: StorageType) {
+            self.configurationStatus = configurationStatus
+            self.lastUpdateDate = lastUpdateDate
+            self.multiLayerStorage = multiLayerStorage
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationStatus = "configurationStatus"
+            case lastUpdateDate = "lastUpdateDate"
+            case multiLayerStorage = "multiLayerStorage"
+            case storageType = "storageType"
+        }
+    }
+
     public struct DisassociateAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId"))
@@ -2586,7 +2699,7 @@ extension IoTSiteWise {
         public let childAssetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. You can use the hierarchy ID to identify the correct asset to disassociate. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of a hierarchy in the parent asset's model. Hierarchies allow different groupings of assets to be formed that all come from the same asset model. You can use the hierarchy ID to identify the correct asset to disassociate. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String
 
         public init(assetId: String, childAssetId: String, clientToken: String? = DisassociateAssetsRequest.idempotencyToken(), hierarchyId: String) {
@@ -2663,7 +2776,7 @@ extension IoTSiteWise {
 
     public struct GatewayCapabilitySummary: AWSDecodableShape {
 
-        /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the AWS IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+        /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         public let capabilityNamespace: String
         /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.
         public let capabilitySyncStatus: CapabilitySyncStatus
@@ -2681,7 +2794,7 @@ extension IoTSiteWise {
 
     public struct GatewayPlatform: AWSEncodableShape & AWSDecodableShape {
 
-        /// A gateway that runs on AWS IoT Greengrass.
+        /// A gateway that runs on IoT Greengrass.
         public let greengrass: Greengrass
 
         public init(greengrass: Greengrass) {
@@ -2748,11 +2861,11 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let endDate: Date
-        /// The maximum number of results to be returned per paginated request. Default: 100
+        /// The maximum number of results to return for each paginated request. Default: 100
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -2840,11 +2953,11 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let endDate: Date?
-        /// The maximum number of results to be returned per paginated request. Default: 100
+        /// The maximum number of results to return for each paginated request. Default: 100
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -2916,7 +3029,7 @@ extension IoTSiteWise {
 
         /// The ID of the asset.
         public let assetId: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -2980,11 +3093,11 @@ extension IoTSiteWise {
         public let endTimeOffsetInNanos: Int?
         /// The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends.
         public let intervalInSeconds: Int64
-        /// The maximum number of results to be returned per paginated request. If not specified, the default value is 10.
+        /// The maximum number of results to return for each paginated request. If not specified, the default value is 10.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property.
         public let propertyId: String?
@@ -3063,7 +3176,7 @@ extension IoTSiteWise {
 
     public struct Greengrass: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the AWS IoT Greengrass API Reference.
+        /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass API Reference.
         public let groupArn: String
 
         public init(groupArn: String) {
@@ -3083,7 +3196,7 @@ extension IoTSiteWise {
 
     public struct GroupIdentity: AWSEncodableShape & AWSDecodableShape {
 
-        /// The AWS SSO ID of the group.
+        /// The Amazon Web Services SSO ID of the group.
         public let id: String
 
         public init(id: String) {
@@ -3143,13 +3256,13 @@ extension IoTSiteWise {
 
     public struct Identity: AWSEncodableShape & AWSDecodableShape {
 
-        /// An AWS SSO group identity.
+        /// An Amazon Web Services SSO group identity.
         public let group: GroupIdentity?
         /// An IAM role identity.
         public let iamRole: IAMRoleIdentity?
         /// An IAM user identity.
         public let iamUser: IAMUserIdentity?
-        /// An AWS SSO user identity.
+        /// An Amazon Web Services SSO user identity.
         public let user: UserIdentity?
 
         public init(group: GroupIdentity? = nil, iamRole: IAMRoleIdentity? = nil, iamUser: IAMUserIdentity? = nil, user: UserIdentity? = nil) {
@@ -3270,9 +3383,9 @@ extension IoTSiteWise {
         public let iamArn: String?
         /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType.
         public let identityId: String?
-        /// The type of identity (AWS SSO user, AWS SSO group, or IAM user). This parameter is required if you specify identityId.
+        /// The type of identity (Amazon Web Services SSO user, Amazon Web Services SSO group, or IAM user). This parameter is required if you specify identityId.
         public let identityType: IdentityType?
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3335,7 +3448,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3384,7 +3497,7 @@ extension IoTSiteWise {
 
         /// The ID of the asset.
         public let assetId: String
-        /// The maximum number of results to be returned per paginated request.
+        /// The maximum number of results to return for each paginated request.
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3442,7 +3555,7 @@ extension IoTSiteWise {
         public let assetModelId: String?
         /// The filter for the requested list of assets. Choose one of the following options:    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.   Default: ALL
         public let filter: ListAssetsFilter?
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3497,9 +3610,9 @@ extension IoTSiteWise {
 
         /// The ID of the asset to query.
         public let assetId: String
-        /// The ID of the hierarchy by which child assets are associated to the asset. To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel operations. This parameter is required if you choose CHILD for traversalDirection. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of the hierarchy by which child assets are associated to the asset. To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel operations. This parameter is required if you choose CHILD for traversalDirection. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String?
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3556,7 +3669,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3607,7 +3720,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3652,7 +3765,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3698,7 +3811,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3750,7 +3863,7 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "portalId", location: .querystring(locationName: "portalId"))
         ]
 
-        /// The maximum number of results to be returned per paginated request. Default: 50
+        /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
@@ -3817,7 +3930,7 @@ extension IoTSiteWise {
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
 
-        /// The list of key-value pairs that contain metadata for the resource. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// The list of key-value pairs that contain metadata for the resource. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -3831,7 +3944,7 @@ extension IoTSiteWise {
 
     public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
 
-        /// The AWS IoT SiteWise logging verbosity level.
+        /// The IoT SiteWise logging verbosity level.
         public let level: LoggingLevel
 
         public init(level: LoggingLevel) {
@@ -3853,11 +3966,11 @@ extension IoTSiteWise {
 
     public struct Metric: AWSEncodableShape & AWSDecodableShape {
 
-        /// The mathematical expression that defines the metric aggregation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The mathematical expression that defines the metric aggregation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the IoT SiteWise User Guide.
         public let expression: String
         /// The list of variables used in the expression.
         public let variables: [ExpressionVariable]
-        /// The window (time interval) over which AWS IoT SiteWise computes the metric's aggregation expression. AWS IoT SiteWise computes one data point per window.
+        /// The window (time interval) over which IoT SiteWise computes the metric's aggregation expression. IoT SiteWise computes one data point per window.
         public let window: MetricWindow
 
         public init(expression: String, variables: [ExpressionVariable], window: MetricWindow) {
@@ -3918,6 +4031,24 @@ extension IoTSiteWise {
         }
     }
 
+    public struct MultiLayerStorage: AWSEncodableShape & AWSDecodableShape {
+
+        /// Contains information about a customer managed Amazon S3 bucket.
+        public let customerManagedS3Storage: CustomerManagedS3Storage
+
+        public init(customerManagedS3Storage: CustomerManagedS3Storage) {
+            self.customerManagedS3Storage = customerManagedS3Storage
+        }
+
+        public func validate(name: String) throws {
+            try self.customerManagedS3Storage.validate(name: "\(name).customerManagedS3Storage")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerManagedS3Storage = "customerManagedS3Storage"
+        }
+    }
+
     public struct PortalResource: AWSEncodableShape & AWSDecodableShape {
 
         /// The ID of the portal.
@@ -3968,9 +4099,9 @@ extension IoTSiteWise {
         public let lastUpdateDate: Date?
         /// The name of the portal.
         public let name: String
-        /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
+        /// The ARN of the service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String?
-        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the AWS IoT SiteWise console to get a URL that you can use to access the portal.
+        /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access portals that use Amazon Web Services SSO for authentication. For portals that use IAM for authentication, you must use the IoT SiteWise console to get a URL that you can use to access the portal.
         public let startUrl: String
         public let status: PortalStatus
 
@@ -4049,7 +4180,7 @@ extension IoTSiteWise {
 
     public struct Property: AWSDecodableShape {
 
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let alias: String?
         /// The property data type.
         public let dataType: PropertyDataType
@@ -4089,7 +4220,7 @@ extension IoTSiteWise {
 
         /// The current notification state.
         public let state: PropertyNotificationState
-        /// The MQTT topic to which AWS IoT SiteWise publishes property value update notifications.
+        /// The MQTT topic to which IoT SiteWise publishes property value update notifications.
         public let topic: String
 
         public init(state: PropertyNotificationState, topic: String) {
@@ -4141,7 +4272,7 @@ extension IoTSiteWise {
         public let assetId: String?
         /// The user specified ID for the entry. You can use this ID to identify which entries failed.
         public let entryId: String
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
         public let propertyAlias: String?
         /// The ID of the asset property for this entry.
         public let propertyId: String?
@@ -4187,7 +4318,7 @@ extension IoTSiteWise {
 
         /// The type of encryption used for the encryption configuration.
         public let encryptionType: EncryptionType
-        /// The Key ID of the customer managed customer master key (CMK) used for AWS KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
+        /// The Key ID of the customer managed customer master key (CMK) used for KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyId: String?
 
         public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
@@ -4212,7 +4343,7 @@ extension IoTSiteWise {
         public let configurationStatus: ConfigurationStatus
         /// The type of encryption used for the encryption configuration.
         public let encryptionType: EncryptionType
-        /// The Key ARN of the AWS KMS CMK used for AWS KMS encryption if you use KMS_BASED_ENCRYPTION.
+        /// The Key ARN of the KMS CMK used for KMS encryption if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyArn: String?
 
         public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
@@ -4250,6 +4381,49 @@ extension IoTSiteWise {
 
     }
 
+    public struct PutStorageConfigurationRequest: AWSEncodableShape {
+
+        /// Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object.
+        public let multiLayerStorage: MultiLayerStorage?
+        /// The type of storage that you specified for your data. The storage type can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.
+        public let storageType: StorageType
+
+        public init(multiLayerStorage: MultiLayerStorage? = nil, storageType: StorageType) {
+            self.multiLayerStorage = multiLayerStorage
+            self.storageType = storageType
+        }
+
+        public func validate(name: String) throws {
+            try self.multiLayerStorage?.validate(name: "\(name).multiLayerStorage")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case multiLayerStorage = "multiLayerStorage"
+            case storageType = "storageType"
+        }
+    }
+
+    public struct PutStorageConfigurationResponse: AWSDecodableShape {
+
+        public let configurationStatus: ConfigurationStatus
+        /// Contains information about the storage destination.
+        public let multiLayerStorage: MultiLayerStorage?
+        /// The type of storage that you specified for your data. The storage type can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.
+        public let storageType: StorageType
+
+        public init(configurationStatus: ConfigurationStatus, multiLayerStorage: MultiLayerStorage? = nil, storageType: StorageType) {
+            self.configurationStatus = configurationStatus
+            self.multiLayerStorage = multiLayerStorage
+            self.storageType = storageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationStatus = "configurationStatus"
+            case multiLayerStorage = "multiLayerStorage"
+            case storageType = "storageType"
+        }
+    }
+
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
 
         /// A portal resource.
@@ -4280,7 +4454,7 @@ extension IoTSiteWise {
 
         /// The ARN of the resource to tag.
         public let resourceArn: String
-        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+        /// A list of key-value pairs that contain metadata for the resource. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -4339,7 +4513,7 @@ extension IoTSiteWise {
 
     public struct Transform: AWSEncodableShape & AWSDecodableShape {
 
-        /// The mathematical expression that defines the transformation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The mathematical expression that defines the transformation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the IoT SiteWise User Guide.
         public let expression: String
         /// The list of variables used in the expression.
         public let variables: [ExpressionVariable]
@@ -4365,7 +4539,7 @@ extension IoTSiteWise {
 
     public struct TumblingWindow: AWSEncodableShape & AWSDecodableShape {
 
-        /// The time interval for the tumbling window. Note that w represents weeks, d represents days, h represents hours, and m represents minutes. AWS IoT SiteWise computes the 1w interval the end of Sunday at midnight each week (UTC), the 1d interval at the end of each day at midnight (UTC), the 1h interval at the end of each hour, and so on.  When AWS IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. AWS IoT SiteWise places the computed data point at the end of the interval.
+        /// The time interval for the tumbling window. Note that w represents weeks, d represents days, h represents hours, and m represents minutes. IoT SiteWise computes the 1w interval the end of Sunday at midnight each week (UTC), the 1d interval at the end of each day at midnight (UTC), the 1h interval at the end of each hour, and so on.  When IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. IoT SiteWise places the computed data point at the end of the interval.
         public let interval: String
 
         public init(interval: String) {
@@ -4428,11 +4602,11 @@ extension IoTSiteWise {
 
         /// The ID of the access policy.
         public let accessPolicyId: String
-        /// The identity for this access policy. Choose an AWS SSO user, an AWS SSO group, or an IAM user.
+        /// The identity for this access policy. Choose an Amazon Web Services SSO user, an Amazon Web Services SSO group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
-        /// The AWS IoT SiteWise Monitor resource for this access policy. Choose either a portal or a project.
+        /// The IoT SiteWise Monitor resource for this access policy. Choose either a portal or a project.
         public let accessPolicyResource: Resource
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -4481,13 +4655,13 @@ extension IoTSiteWise {
         public let assetModelCompositeModels: [AssetModelCompositeModel]?
         /// A description for the asset model.
         public let assetModelDescription: String?
-        /// The updated hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The updated hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelHierarchies: [AssetModelHierarchy]?
         /// The ID of the asset model to update.
         public let assetModelId: String
         /// A unique, friendly name for the asset model.
         public let assetModelName: String
-        /// The updated property definitions of the asset model. For more information, see Asset properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
+        /// The updated property definitions of the asset model. For more information, see Asset properties in the IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the IoT SiteWise User Guide.
         public let assetModelProperties: [AssetModelProperty]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -4560,11 +4734,11 @@ extension IoTSiteWise {
         public let assetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide. If you omit this parameter, the alias is removed from the property.
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide. If you omit this parameter, the alias is removed from the property.
         public let propertyAlias: String?
         /// The ID of the asset property to be updated.
         public let propertyId: String
-        /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with other services in the AWS IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
+        /// The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with other services in the IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
         public let propertyNotificationState: PropertyNotificationState?
 
         public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil) {
@@ -4653,7 +4827,7 @@ extension IoTSiteWise {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
+        /// The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
         public let dashboardDefinition: String
         /// A new description for the dashboard.
         public let dashboardDescription: String?
@@ -4709,9 +4883,9 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
         ]
 
-        /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the AWS IoT SiteWise User Guide.
+        /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
         public let capabilityConfiguration: String
-        /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC-UA sources from the AWS IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
+        /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         public let capabilityNamespace: String
         /// The ID of the gateway to be updated.
         public let gatewayId: String
@@ -4791,9 +4965,13 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId"))
         ]
 
+        /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see Monitoring with alarms in the IoT SiteWise Application Guide.
+        public let alarms: Alarms?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The AWS administrator's contact email address.
+        /// The email address that sends alarm notifications.
+        public let notificationSenderEmail: String?
+        /// The Amazon Web Services administrator's contact email address.
         public let portalContactEmail: String
         /// A new description for the portal.
         public let portalDescription: String?
@@ -4802,11 +4980,13 @@ extension IoTSiteWise {
         public let portalLogoImage: Image?
         /// A new friendly name for the portal.
         public let portalName: String
-        /// The ARN of a service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
+        /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String
 
-        public init(clientToken: String? = UpdatePortalRequest.idempotencyToken(), portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
+        public init(alarms: Alarms? = nil, clientToken: String? = UpdatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
+            self.alarms = alarms
             self.clientToken = clientToken
+            self.notificationSenderEmail = notificationSenderEmail
             self.portalContactEmail = portalContactEmail
             self.portalDescription = portalDescription
             self.portalId = portalId
@@ -4816,9 +4996,13 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.alarms?.validate(name: "\(name).alarms")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, max: 255)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, min: 1)
+            try self.validate(self.notificationSenderEmail, name: "notificationSenderEmail", parent: name, pattern: "[^@]+@[^@]+")
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, max: 255)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, min: 1)
             try self.validate(self.portalContactEmail, name: "portalContactEmail", parent: name, pattern: "[^@]+@[^@]+")
@@ -4838,7 +5022,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
             case clientToken = "clientToken"
+            case notificationSenderEmail = "notificationSenderEmail"
             case portalContactEmail = "portalContactEmail"
             case portalDescription = "portalDescription"
             case portalLogoImage = "portalLogoImage"
@@ -4914,7 +5100,7 @@ extension IoTSiteWise {
 
     public struct UserIdentity: AWSEncodableShape & AWSDecodableShape {
 
-        /// The AWS SSO ID of the user.
+        /// The Amazon Web Services SSO ID of the user.
         public let id: String
 
         public init(id: String) {
@@ -4934,7 +5120,7 @@ extension IoTSiteWise {
 
     public struct VariableValue: AWSEncodableShape & AWSDecodableShape {
 
-        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
+        /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The ID of the property to use as the variable. You can use the property name if it's from the same asset model.
         public let propertyId: String

@@ -63,7 +63,7 @@ public struct Outposts: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an Outpost.
+    /// Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
     public func createOutpost(_ input: CreateOutpostInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOutpostOutput> {
         return self.client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -88,7 +88,7 @@ public struct Outposts: AWSService {
         return self.client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// List the Outposts for your AWS account.
+    /// Create a list of the Outposts for your AWS account. Add filters to your request to return a more specific list of results. Use filters to match an Outpost lifecycle status, Availibility Zone (us-east-1a), and AZ ID (use1-az1).  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
     public func listOutposts(_ input: ListOutpostsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOutpostsOutput> {
         return self.client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

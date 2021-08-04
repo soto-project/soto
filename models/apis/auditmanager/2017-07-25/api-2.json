@@ -1436,6 +1436,7 @@
     },
     "CreateAssessmentFrameworkControlSet":{
       "type":"structure",
+      "required":["name"],
       "members":{
         "name":{"shape":"ControlSetName"},
         "controls":{"shape":"CreateAssessmentFrameworkControls"}
@@ -2594,7 +2595,7 @@
       "type":"string",
       "max":1024,
       "min":1,
-      "pattern":"^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$"
+      "pattern":"^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$"
     },
     "SNSTopic":{
       "type":"string",
@@ -2865,6 +2866,7 @@
     },
     "UpdateAssessmentFrameworkControlSet":{
       "type":"structure",
+      "required":["name"],
       "members":{
         "id":{"shape":"ControlSetName"},
         "name":{"shape":"ControlSetName"},

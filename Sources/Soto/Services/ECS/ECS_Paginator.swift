@@ -239,7 +239,7 @@ extension ECS {
         )
     }
 
-    ///  Lists the services that are running in a specified cluster.
+    ///  Returns a list of services. You can filter the results by cluster, launch type, and scheduling strategy.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -404,7 +404,7 @@ extension ECS {
         )
     }
 
-    ///  Returns a list of tasks for a specified cluster. You can filter the results by family name, by a particular container instance, or by the desired status of the task with the family, containerInstance, and desiredStatus parameters. Recently stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour.
+    ///  Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

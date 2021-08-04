@@ -117,7 +117,7 @@ public struct ElasticLoadBalancingv2: AWSService {
         return self.client.execute(operation: "DeregisterTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see the following:    Quotas for your Application Load Balancers     Quotas for your Network Load Balancers     Quotas for your Gateway Load Balancers
+    /// Describes the current Elastic Load Balancing resource limits for your Amazon Web Services account. For more information, see the following:    Quotas for your Application Load Balancers     Quotas for your Network Load Balancers     Quotas for your Gateway Load Balancers
     public func describeAccountLimits(_ input: DescribeAccountLimitsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountLimitsOutput> {
         return self.client.execute(operation: "DescribeAccountLimits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

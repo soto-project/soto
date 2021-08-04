@@ -97,7 +97,7 @@ public struct ResourceGroups: AWSService {
         return self.client.execute(operation: "GroupResources", path: "/group-resources", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Returns a list of ARNs of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources
+    /// Returns a list of ARNs of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources     cloudformation:DescribeStacks     cloudformation:ListStackResources     tag:GetResources
     public func listGroupResources(_ input: ListGroupResourcesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListGroupResourcesOutput> {
         return self.client.execute(operation: "ListGroupResources", path: "/list-group-resources", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -112,7 +112,7 @@ public struct ResourceGroups: AWSService {
         return self.client.execute(operation: "PutGroupConfiguration", path: "/put-group-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Returns a list of AWS resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:SearchResources
+    /// Returns a list of AWS resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:SearchResources     cloudformation:DescribeStacks     cloudformation:ListStackResources     tag:GetResources
     public func searchResources(_ input: SearchResourcesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchResourcesOutput> {
         return self.client.execute(operation: "SearchResources", path: "/resources/search", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

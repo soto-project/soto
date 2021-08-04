@@ -813,10 +813,13 @@ extension DeviceFarm {
         public let description: String?
         /// Human-readable name of the Selenium testing project.
         public let name: String
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: TestGridVpcConfig?
 
-        public init(description: String? = nil, name: String) {
+        public init(description: String? = nil, name: String, vpcConfig: TestGridVpcConfig? = nil) {
             self.description = description
             self.name = name
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
@@ -826,11 +829,13 @@ extension DeviceFarm {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -1364,13 +1369,13 @@ extension DeviceFarm {
     public struct DeviceFilter: AWSEncodableShape & AWSDecodableShape {
 
         /// The aspect of a device such as platform or model used as the selection criteria in a device filter. The supported operators for each attribute are provided in the following list.  ARN  The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example). Supported operators: EQUALS, IN, NOT_IN   PLATFORM  The device platform. Valid values are ANDROID or IOS. Supported operators: EQUALS   OS_VERSION  The operating system version (for example, 10.3.2). Supported operators: EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUALS, IN, LESS_THAN, LESS_THAN_OR_EQUALS, NOT_IN   MODEL  The device model (for example, iPad 5th Gen). Supported operators: CONTAINS, EQUALS, IN, NOT_IN   AVAILABILITY  The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE. Supported operators: EQUALS   FORM_FACTOR  The device form factor. Valid values are PHONE or TABLET. Supported operators: EQUALS   MANUFACTURER  The device manufacturer (for example, Apple). Supported operators: EQUALS, IN, NOT_IN   REMOTE_ACCESS_ENABLED  Whether the device is enabled for remote access. Valid values are TRUE or FALSE. Supported operators: EQUALS   REMOTE_DEBUG_ENABLED  Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Supported operators: EQUALS  Because remote debugging is no longer supported, this filter is ignored.  INSTANCE_ARN  The Amazon Resource Name (ARN) of the device instance. Supported operators: EQUALS, IN, NOT_IN   INSTANCE_LABELS  The label of the device instance. Supported operators: CONTAINS   FLEET_TYPE  The fleet type. Valid values are PUBLIC or PRIVATE. Supported operators: EQUALS
-        public let attribute: DeviceFilterAttribute?
+        public let attribute: DeviceFilterAttribute
         /// Specifies how Device Farm compares the filter's attribute to the value. See the attribute descriptions.
-        public let `operator`: RuleOperator?
+        public let `operator`: RuleOperator
         /// An array of one or more filter values used in a device filter.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to ANDROID or IOS.   The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   The FORM_FACTOR attribute can be set to PHONE or TABLET.   The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
-        public let values: [String]?
+        public let values: [String]
 
-        public init(attribute: DeviceFilterAttribute? = nil, operator: RuleOperator? = nil, values: [String]? = nil) {
+        public init(attribute: DeviceFilterAttribute, operator: RuleOperator, values: [String]) {
             self.attribute = attribute
             self.`operator` = `operator`
             self.values = values
@@ -3734,13 +3739,13 @@ extension DeviceFarm {
     public struct PurchaseOfferingRequest: AWSEncodableShape {
 
         /// The ID of the offering.
-        public let offeringId: String?
+        public let offeringId: String
         /// The ID of the offering promotion to be applied to the purchase.
         public let offeringPromotionId: String?
         /// The number of device slots to purchase in an offering request.
-        public let quantity: Int?
+        public let quantity: Int
 
-        public init(offeringId: String? = nil, offeringPromotionId: String? = nil, quantity: Int? = nil) {
+        public init(offeringId: String, offeringPromotionId: String? = nil, quantity: Int) {
             self.offeringId = offeringId
             self.offeringPromotionId = offeringPromotionId
             self.quantity = quantity
@@ -3913,11 +3918,11 @@ extension DeviceFarm {
     public struct RenewOfferingRequest: AWSEncodableShape {
 
         /// The ID of a request to renew an offering.
-        public let offeringId: String?
+        public let offeringId: String
         /// The quantity requested in an offering renewal.
-        public let quantity: Int?
+        public let quantity: Int
 
-        public init(offeringId: String? = nil, quantity: Int? = nil) {
+        public init(offeringId: String, quantity: Int) {
             self.offeringId = offeringId
             self.quantity = quantity
         }
@@ -4601,12 +4606,15 @@ extension DeviceFarm {
         public let description: String?
         /// A human-readable name for the project.
         public let name: String?
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: TestGridVpcConfig?
 
-        public init(arn: String? = nil, created: Date? = nil, description: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, description: String? = nil, name: String? = nil, vpcConfig: TestGridVpcConfig? = nil) {
             self.arn = arn
             self.created = created
             self.description = description
             self.name = name
+            self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4614,6 +4622,7 @@ extension DeviceFarm {
             case created = "created"
             case description = "description"
             case name = "name"
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -4700,6 +4709,48 @@ extension DeviceFarm {
             case filename = "filename"
             case type = "type"
             case url = "url"
+        }
+    }
+
+    public struct TestGridVpcConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// A list of VPC security group IDs in your Amazon VPC.
+        public let securityGroupIds: [String]
+        /// A list of VPC subnet IDs in your Amazon VPC.
+        public let subnetIds: [String]
+        /// The ID of the Amazon VPC.
+        public let vpcId: String
+
+        public init(securityGroupIds: [String], subnetIds: [String], vpcId: String) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 4096)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 1)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 4096)
+                try validate($0, name: "subnetIds[]", parent: name, min: 1)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 8)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 4096)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 
@@ -5075,11 +5126,14 @@ extension DeviceFarm {
         public let name: String?
         /// ARN of the project to update.
         public let projectArn: String
+        /// The VPC security groups and subnets that are attached to a project.
+        public let vpcConfig: TestGridVpcConfig?
 
-        public init(description: String? = nil, name: String? = nil, projectArn: String) {
+        public init(description: String? = nil, name: String? = nil, projectArn: String, vpcConfig: TestGridVpcConfig? = nil) {
             self.description = description
             self.name = name
             self.projectArn = projectArn
+            self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
@@ -5092,12 +5146,14 @@ extension DeviceFarm {
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
             case projectArn = "projectArn"
+            case vpcConfig = "vpcConfig"
         }
     }
 

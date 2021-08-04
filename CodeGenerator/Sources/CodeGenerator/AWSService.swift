@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -19,14 +19,22 @@ struct AWSService {
     var api: API
     var docs: Docs
     var paginators: Paginators?
+    var waiters: Waiters?
     var endpoints: Endpoints
     var errors: [Shape]
     var stripHTMLTagsFromComments: Bool
 
-    init(api: API, docs: Docs, paginators: Paginators?, endpoints: Endpoints, stripHTMLTags: Bool) throws {
+    enum Error: Swift.Error {
+        /// JMES path can either not be processed or it does not represent a member of an object
+        case illegalJMESPath
+        case matcherInvalidType
+    }
+
+    init(api: API, docs: Docs, paginators: Paginators?, waiters: Waiters?, endpoints: Endpoints, stripHTMLTags: Bool) throws {
         self.api = api
         self.docs = docs
         self.paginators = paginators
+        self.waiters = waiters
         self.endpoints = endpoints
         self.errors = try Self.getErrors(from: api)
         self.stripHTMLTagsFromComments = stripHTMLTags
@@ -104,8 +112,6 @@ struct AWSService {
             return "GlacierRequestMiddleware(apiVersion: \"\(self.api.metadata.apiVersion)\")"
         case "S3":
             return "S3RequestMiddleware()"
-        case "S3Control":
-            return "S3ControlMiddleware()"
         default:
             return nil
         }
@@ -135,6 +141,7 @@ extension AWSService {
         let name: String
         let path: String
         let httpMethod: String
+        let hostPrefix: String?
         let deprecated: String?
         let streaming: String?
         let documentationUrl: String?
@@ -281,6 +288,7 @@ extension AWSService {
             name: operation.name,
             path: operation.http.requestUri,
             httpMethod: operation.http.method,
+            hostPrefix: operation.endpoint?.hostPrefix,
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
             streaming: streaming ? "ByteBuffer" : nil,
             documentationUrl: operation.documentationUrl
@@ -372,31 +380,6 @@ extension AWSService {
         return context
     }
 
-    /// convert paginator token to KeyPath
-    func toKeyPath(token: String, type: Shape.ShapeType.StructureType) -> String {
-        var split = token.split(separator: ".")
-        for i in 0..<split.count {
-            // if string contains [-1] replace with '.last'.
-            if let negativeIndexRange = split[i].range(of: "[-1]") {
-                split[i].removeSubrange(negativeIndexRange)
-
-                var replacement = "last"
-                // if a member is mentioned after the '[-1]' then you need to add a ? to the keyPath
-                if split.count > i + 1 {
-                    replacement += "?"
-                }
-                split.insert(Substring(replacement), at: i + 1)
-            }
-        }
-        // if output token is member of an optional struct add ? suffix
-        if type.required.first(where: { $0 == String(split[0]) }) == nil,
-           split.count > 1
-        {
-            split[0] += "?"
-        }
-        return split.map { String($0).toSwiftVariableCase() }.joined(separator: ".")
-    }
-
     /// Generate paginator context
     func generatePaginatorContext() throws -> [String: Any] {
         guard let pagination = paginators?.pagination else { return [:] }
@@ -433,15 +416,17 @@ extension AWSService {
             let tokenType = inputTokenMember.shape.swiftTypeNameWithServiceNamePrefix(self.api.serviceName)
 
             // process input tokens
-            var processedInputTokens = inputTokens.map { token -> String in
-                return self.toKeyPath(token: token, type: inputStructure)
+            var processedInputTokens = try inputTokens.map { (token) -> String in
+                return try self.toKeyPath(token: token, shape: inputShape, type: inputStructure).keyPath
             }
 
             // process output tokens
-            let processedOutputTokens = outputTokens.map { token -> String in
-                return self.toKeyPath(token: token, type: outputStructure)
+            let processedOutputTokens = try outputTokens.map { (token) -> String in
+                return try self.toKeyPath(token: token, shape: outputShape, type: outputStructure).keyPath
             }
-            var moreResultsKey = paginator.value.moreResults.map { self.toKeyPath(token: $0, type: outputStructure) }
+            var moreResultsKey = try paginator.value.moreResults.map {
+                try self.toKeyPath(token: $0, shape: outputShape, type: outputStructure).keyPath
+            }
 
             // S3 uses moreResultKey, everything else uses inputToken
             if self.api.serviceName == "S3" {
@@ -480,28 +465,33 @@ extension AWSService {
         return context
     }
 
+    func generateEnumMemberContext(_ value: String, shapeName: String) -> EnumMemberContext {
+        var key = value.lowercased()
+            .replacingOccurrences(of: ".", with: "_")
+            .replacingOccurrences(of: ":", with: "_")
+            .replacingOccurrences(of: "-", with: "_")
+            .replacingOccurrences(of: " ", with: "_")
+            .replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "(", with: "_")
+            .replacingOccurrences(of: ")", with: "_")
+            .replacingOccurrences(of: "*", with: "all")
+
+        if Int(String(key[key.startIndex])) != nil { key = "_" + key }
+
+        var caseName = key.camelCased()
+        if caseName.allLetterIsNumeric() {
+            caseName = "\(shapeName.toSwiftVariableCase())\(caseName)"
+        }
+        return EnumMemberContext(case: caseName, string: value)
+    }
+
     /// Generate the context information for outputting an enum
     func generateEnumContext(_ shape: Shape, enumType: Shape.ShapeType.EnumType) -> EnumContext {
         // Operations
         var valueContexts: [EnumMemberContext] = []
         for value in enumType.cases {
-            var key = value.lowercased()
-                .replacingOccurrences(of: ".", with: "_")
-                .replacingOccurrences(of: ":", with: "_")
-                .replacingOccurrences(of: "-", with: "_")
-                .replacingOccurrences(of: " ", with: "_")
-                .replacingOccurrences(of: "/", with: "_")
-                .replacingOccurrences(of: "(", with: "_")
-                .replacingOccurrences(of: ")", with: "_")
-                .replacingOccurrences(of: "*", with: "all")
-
-            if Int(String(key[key.startIndex])) != nil { key = "_" + key }
-
-            var caseName = key.camelCased()
-            if caseName.allLetterIsNumeric() {
-                caseName = "\(shape.name.toSwiftVariableCase())\(caseName)"
-            }
-            valueContexts.append(EnumMemberContext(case: caseName, string: value))
+            let enumMemberContext = self.generateEnumMemberContext(value, shapeName: shape.name)
+            valueContexts.append(enumMemberContext)
         }
         // sort value contexts alphabetically and then reserve word escape
         valueContexts = valueContexts.sorted { $0.case < $1.case }.map { .init(case: $0.case.reservedwordEscaped(), string: $0.string) }
@@ -683,7 +673,7 @@ extension AWSService {
     }
 
     /// Generate the context information for outputting a member variable
-    func generateAWSShapeMemberContext(_ member: Shape.Member, name: String, shape: Shape, isPropertyWrapper: Bool) -> AWSShapeMemberContext? {
+    func generateAWSShapeMemberContexts(_ member: Shape.Member, name: String, shape: Shape, isPropertyWrapper: Bool) -> [AWSShapeMemberContext] {
         let isPayload = (shape.payload == name)
         var locationName: String? = member.locationName
         let location = member.location ?? .body
@@ -695,14 +685,23 @@ extension AWSService {
         if location == .body, locationName == name.toSwiftLabelCase() || !isPayload {
             locationName = nil
         }
-        guard locationName != nil else { return nil }
+        guard locationName != nil else { return [] }
         // prefix property wrapped shapes with "_" so they can be found by Mirror
-        let name = isPropertyWrapper ? "_\(name.toSwiftLabelCase())" : name.toSwiftLabelCase()
-        return AWSShapeMemberContext(
-            name: name,
-            location: locationName.map { location.enumStringValue(named: $0) },
-            locationName: locationName
-        )
+        let varName = isPropertyWrapper ? "_\(name.toSwiftLabelCase())" : name.toSwiftLabelCase()
+
+        var contexts: [AWSShapeMemberContext] = [
+            .init(
+                name: varName,
+                location: locationName.map { location.enumStringValue(named: $0) },
+                locationName: locationName
+            )
+        ]
+        // if member is a host label, then add an additional uri shape member to apply to host name. Ideally this would be a
+        // new location type but that would require a major version change
+        if member.hostLabel == true {
+            contexts.append(.init(name: varName, location: Shape.Location.uri.enumStringValue(named: name), locationName: name))
+        }
+        return contexts
     }
 
     /// Generate validation context
@@ -862,14 +861,13 @@ extension AWSService {
                 encodingContexts.append(encodingContext)
             }
 
-            if let awsShapeMemberContext = generateAWSShapeMemberContext(
+            let awsShapeMemberContext = self.generateAWSShapeMemberContexts(
                 member.value,
                 name: member.key,
                 shape: shape,
                 isPropertyWrapper: memberContext.propertyWrapper != nil && shape.usedInInput
-            ) {
-                awsShapeMemberContexts.append(awsShapeMemberContext)
-            }
+            )
+            awsShapeMemberContexts += awsShapeMemberContext
 
             // CodingKey entry
             if let codingKeyContext = generateCodingKeyContext(member.value, name: member.key, shape: shape) {

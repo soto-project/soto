@@ -84,7 +84,7 @@ public struct CloudTrail: AWSService {
         return self.client.execute(operation: "DescribeTrails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:   If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.   If your event selector includes management events.   If your event selector includes data events, the Amazon S3 objects or AWS Lambda functions that you are logging for data events.   For more information, see Logging Data and Management Events for Trails  in the AWS CloudTrail User Guide.
+    /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:   If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.   If your event selector includes management events.   If your event selector includes data events, the resources on which you are logging data events.   For more information, see Logging Data and Management Events for Trails  in the AWS CloudTrail User Guide.
     public func getEventSelectors(_ input: GetEventSelectorsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventSelectorsResponse> {
         return self.client.execute(operation: "GetEventSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension LocationService {
-    ///  Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 1 year.
+    ///  Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 30 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -68,6 +68,61 @@ extension LocationService {
             command: getDevicePositionHistory,
             inputKey: \GetDevicePositionHistoryRequest.nextToken,
             outputKey: \GetDevicePositionHistoryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the latest device positions for requested devices.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDevicePositionsPaginator<Result>(
+        _ input: ListDevicePositionsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDevicePositionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDevicePositions,
+            inputKey: \ListDevicePositionsRequest.nextToken,
+            outputKey: \ListDevicePositionsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDevicePositionsPaginator(
+        _ input: ListDevicePositionsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDevicePositionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDevicePositions,
+            inputKey: \ListDevicePositionsRequest.nextToken,
+            outputKey: \ListDevicePositionsResponse.nextToken,
             context: context,
             on: eventLoop,
             onPage: onPage
@@ -239,7 +294,7 @@ extension LocationService {
         )
     }
 
-    ///  Lists Place index resources in your AWS account.
+    ///  Lists place index resources in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -288,6 +343,61 @@ extension LocationService {
             command: listPlaceIndexes,
             inputKey: \ListPlaceIndexesRequest.nextToken,
             outputKey: \ListPlaceIndexesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists route calculator resources in your AWS account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRouteCalculatorsPaginator<Result>(
+        _ input: ListRouteCalculatorsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRouteCalculatorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRouteCalculators,
+            inputKey: \ListRouteCalculatorsRequest.nextToken,
+            outputKey: \ListRouteCalculatorsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRouteCalculatorsPaginator(
+        _ input: ListRouteCalculatorsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRouteCalculatorsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRouteCalculators,
+            inputKey: \ListRouteCalculatorsRequest.nextToken,
+            outputKey: \ListRouteCalculatorsResponse.nextToken,
             context: context,
             on: eventLoop,
             onPage: onPage
@@ -417,6 +527,16 @@ extension LocationService.GetDevicePositionHistoryRequest: AWSPaginateToken {
     }
 }
 
+extension LocationService.ListDevicePositionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LocationService.ListDevicePositionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            trackerName: self.trackerName
+        )
+    }
+}
+
 extension LocationService.ListGeofenceCollectionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LocationService.ListGeofenceCollectionsRequest {
         return .init(
@@ -446,6 +566,15 @@ extension LocationService.ListMapsRequest: AWSPaginateToken {
 
 extension LocationService.ListPlaceIndexesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LocationService.ListPlaceIndexesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension LocationService.ListRouteCalculatorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LocationService.ListRouteCalculatorsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

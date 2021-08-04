@@ -126,7 +126,7 @@ public struct MTurk: AWSService {
         return self.client.execute(operation: "DisassociateQualificationFromWorker", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// The GetAccountBalance operation retrieves the amount of money in your Amazon Mechanical Turk account.
+    /// The GetAccountBalance operation retrieves the Prepaid HITs balance in your Amazon Mechanical Turk account if you are a Prepaid Requester. Alternatively, this operation will retrieve the remaining available AWS Billing usage if you have enabled AWS Billing. Note: If you have enabled AWS Billing and still have a remaining Prepaid HITs balance, this balance can be viewed on the My Account page in the Requester console.
     public func getAccountBalance(_ input: GetAccountBalanceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccountBalanceResponse> {
         return self.client.execute(operation: "GetAccountBalance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

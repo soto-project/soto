@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -109,16 +109,5 @@ struct PatchKeyPath4<Object, U, V, W, X>: PatchKeyPath {
 
     func set(_ object: inout Object, value: X) {
         object[keyPath: self.keyPath1]?[keyPath: self.keyPath2]?[keyPath: self.keyPath3]?[keyPath: self.keyPath4] = value
-    }
-}
-
-/// Protocol for objects that can be patched.
-protocol PatchBase {}
-
-extension PatchBase {
-    /// extends object to include [patchKeyPath:] subscript
-    subscript<P: PatchKeyPath, T>(patchKeyPath patchKeyPath: P) -> T? where P.Base == Self, P.Value == T {
-        get { patchKeyPath.get(self) }
-        set(newValue) { newValue.map { patchKeyPath.set(&self, value: $0) } }
     }
 }

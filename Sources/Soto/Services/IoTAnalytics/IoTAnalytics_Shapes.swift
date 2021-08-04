@@ -288,7 +288,7 @@ extension IoTAnalytics {
 
     public struct ChannelMessages: AWSEncodableShape {
 
-        /// Specifies one or more keys that identify the Amazon Simple Storage Service (Amazon S3) objects that save your channel messages.
+        /// Specifies one or more keys that identify the Amazon Simple Storage Service (Amazon S3) objects that save your channel messages. You must use the full path for the key. Example path: channel/mychannel/__dt=2020-02-29 00:00:00/1582940490000_1582940520000_123456789012_mychannel_0_2118.0.json.gz
         public let s3Paths: [String]?
 
         public init(s3Paths: [String]? = nil) {
@@ -667,6 +667,8 @@ extension IoTAnalytics {
 
         /// The name of the data store.
         public let datastoreName: String
+        ///  Contains information about the partitions in a data store.
+        public let datastorePartitions: DatastorePartitions?
         /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
         public let datastoreStorage: DatastoreStorage?
         /// Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
@@ -676,8 +678,9 @@ extension IoTAnalytics {
         /// Metadata which can be used to manage the data store.
         public let tags: [Tag]?
 
-        public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
+        public init(datastoreName: String, datastorePartitions: DatastorePartitions? = nil, datastoreStorage: DatastoreStorage? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
             self.datastoreName = datastoreName
+            self.datastorePartitions = datastorePartitions
             self.datastoreStorage = datastoreStorage
             self.fileFormatConfiguration = fileFormatConfiguration
             self.retentionPeriod = retentionPeriod
@@ -688,6 +691,7 @@ extension IoTAnalytics {
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, max: 128)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.datastorePartitions?.validate(name: "\(name).datastorePartitions")
             try self.datastoreStorage?.validate(name: "\(name).datastoreStorage")
             try self.fileFormatConfiguration?.validate(name: "\(name).fileFormatConfiguration")
             try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
@@ -700,6 +704,7 @@ extension IoTAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case datastoreName = "datastoreName"
+            case datastorePartitions = "datastorePartitions"
             case datastoreStorage = "datastoreStorage"
             case fileFormatConfiguration = "fileFormatConfiguration"
             case retentionPeriod = "retentionPeriod"
@@ -1190,6 +1195,8 @@ extension IoTAnalytics {
         public let arn: String?
         /// When the data store was created.
         public let creationTime: Date?
+        ///  Contains information about the partitions in a data store.
+        public let datastorePartitions: DatastorePartitions?
         /// Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
         public let fileFormatConfiguration: FileFormatConfiguration?
         /// The last time when a new message arrived in the data store. AWS IoT Analytics updates this value at most once per minute for one data store. Hence, the lastMessageArrivalTime value is an approximation. This feature only applies to messages that arrived in the data store after October 23, 2020.
@@ -1205,9 +1212,10 @@ extension IoTAnalytics {
         /// Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
         public let storage: DatastoreStorage?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, datastorePartitions: DatastorePartitions? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
+            self.datastorePartitions = datastorePartitions
             self.fileFormatConfiguration = fileFormatConfiguration
             self.lastMessageArrivalTime = lastMessageArrivalTime
             self.lastUpdateTime = lastUpdateTime
@@ -1220,6 +1228,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case creationTime = "creationTime"
+            case datastorePartitions = "datastorePartitions"
             case fileFormatConfiguration = "fileFormatConfiguration"
             case lastMessageArrivalTime = "lastMessageArrivalTime"
             case lastUpdateTime = "lastUpdateTime"
@@ -1253,6 +1262,51 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case datastoreName = "datastoreName"
             case name = "name"
+        }
+    }
+
+    public struct DatastorePartition: AWSEncodableShape & AWSDecodableShape {
+
+        ///  A partition defined by an attributeName.
+        public let attributePartition: Partition?
+        ///  A partition defined by an attributeName and a timestamp format.
+        public let timestampPartition: TimestampPartition?
+
+        public init(attributePartition: Partition? = nil, timestampPartition: TimestampPartition? = nil) {
+            self.attributePartition = attributePartition
+            self.timestampPartition = timestampPartition
+        }
+
+        public func validate(name: String) throws {
+            try self.attributePartition?.validate(name: "\(name).attributePartition")
+            try self.timestampPartition?.validate(name: "\(name).timestampPartition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributePartition = "attributePartition"
+            case timestampPartition = "timestampPartition"
+        }
+    }
+
+    public struct DatastorePartitions: AWSEncodableShape & AWSDecodableShape {
+
+        ///  A list of partitions in a data store.
+        public let partitions: [DatastorePartition]?
+
+        public init(partitions: [DatastorePartition]? = nil) {
+            self.partitions = partitions
+        }
+
+        public func validate(name: String) throws {
+            try self.partitions?.forEach {
+                try $0.validate(name: "\(name).partitions[]")
+            }
+            try self.validate(self.partitions, name: "partitions", parent: name, max: 25)
+            try self.validate(self.partitions, name: "partitions", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitions = "partitions"
         }
     }
 
@@ -1316,6 +1370,8 @@ extension IoTAnalytics {
         public let creationTime: Date?
         /// The name of the data store.
         public let datastoreName: String?
+        ///  Contains information about the partitions in a data store.
+        public let datastorePartitions: DatastorePartitions?
         /// Where data store data is stored.
         public let datastoreStorage: DatastoreStorageSummary?
         /// The file format of the data in the data store.
@@ -1327,9 +1383,10 @@ extension IoTAnalytics {
         /// The status of the data store.
         public let status: DatastoreStatus?
 
-        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastoreStorage: DatastoreStorageSummary? = nil, fileFormatType: FileFormatType? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
+        public init(creationTime: Date? = nil, datastoreName: String? = nil, datastorePartitions: DatastorePartitions? = nil, datastoreStorage: DatastoreStorageSummary? = nil, fileFormatType: FileFormatType? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
+            self.datastorePartitions = datastorePartitions
             self.datastoreStorage = datastoreStorage
             self.fileFormatType = fileFormatType
             self.lastMessageArrivalTime = lastMessageArrivalTime
@@ -1340,6 +1397,7 @@ extension IoTAnalytics {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
             case datastoreName = "datastoreName"
+            case datastorePartitions = "datastorePartitions"
             case datastoreStorage = "datastoreStorage"
             case fileFormatType = "fileFormatType"
             case lastMessageArrivalTime = "lastMessageArrivalTime"
@@ -2360,6 +2418,7 @@ extension IoTAnalytics {
         public func validate(name: String) throws {
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
+            try self.validate(self.messageId, name: "messageId", parent: name, pattern: "\\p{ASCII}*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2401,6 +2460,26 @@ extension IoTAnalytics {
 
         private enum CodingKeys: String, CodingKey {
             case schemaDefinition = "schemaDefinition"
+        }
+    }
+
+    public struct Partition: AWSEncodableShape & AWSDecodableShape {
+
+        ///  The attribute name of the partition.
+        public let attributeName: String
+
+        public init(attributeName: String) {
+            self.attributeName = attributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 128)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "attributeName"
         }
     }
 
@@ -2806,7 +2885,7 @@ extension IoTAnalytics {
 
     public struct SchemaDefinition: AWSEncodableShape & AWSDecodableShape {
 
-        /// Specifies one or more columns that store your data. Each schema can have up to 100 columns. Each column can have up to 100 nested types
+        /// Specifies one or more columns that store your data. Each schema can have up to 100 columns. Each column can have up to 100 nested types.
         public let columns: [Column]?
 
         public init(columns: [Column]? = nil) {
@@ -3024,6 +3103,33 @@ extension IoTAnalytics {
         public init() {
         }
 
+    }
+
+    public struct TimestampPartition: AWSEncodableShape & AWSDecodableShape {
+
+        ///  The attribute name of the partition defined by a timestamp.
+        public let attributeName: String
+        ///  The timestamp format of a partition defined by a timestamp.
+        public let timestampFormat: String?
+
+        public init(attributeName: String, timestampFormat: String? = nil) {
+            self.attributeName = attributeName
+            self.timestampFormat = timestampFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 128)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, max: 50)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, min: 1)
+            try self.validate(self.timestampFormat, name: "timestampFormat", parent: name, pattern: "^[a-zA-Z0-9\\s\\[\\]_,.'/:-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "attributeName"
+            case timestampFormat = "timestampFormat"
+        }
     }
 
     public struct TriggeringDataset: AWSEncodableShape & AWSDecodableShape {

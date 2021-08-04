@@ -110,6 +110,26 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum FindingReasonCode: String, CustomStringConvertible, Codable {
+        case cpuOverProvisioned = "CPU_OVER_PROVISIONED"
+        case cpuUnderProvisioned = "CPU_UNDER_PROVISIONED"
+        case diskIopsOverProvisioned = "DISK_IOPS_OVER_PROVISIONED"
+        case diskIopsUnderProvisioned = "DISK_IOPS_UNDER_PROVISIONED"
+        case diskThroughputOverProvisioned = "DISK_THROUGHPUT_OVER_PROVISIONED"
+        case diskThroughputUnderProvisioned = "DISK_THROUGHPUT_UNDER_PROVISIONED"
+        case ebsIopsOverProvisioned = "EBS_IOPS_OVER_PROVISIONED"
+        case ebsIopsUnderProvisioned = "EBS_IOPS_UNDER_PROVISIONED"
+        case ebsThroughputOverProvisioned = "EBS_THROUGHPUT_OVER_PROVISIONED"
+        case ebsThroughputUnderProvisioned = "EBS_THROUGHPUT_UNDER_PROVISIONED"
+        case memoryOverProvisioned = "MEMORY_OVER_PROVISIONED"
+        case memoryUnderProvisioned = "MEMORY_UNDER_PROVISIONED"
+        case networkBandwidthOverProvisioned = "NETWORK_BANDWIDTH_OVER_PROVISIONED"
+        case networkBandwidthUnderProvisioned = "NETWORK_BANDWIDTH_UNDER_PROVISIONED"
+        case networkPpsOverProvisioned = "NETWORK_PPS_OVER_PROVISIONED"
+        case networkPpsUnderProvisioned = "NETWORK_PPS_UNDER_PROVISIONED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Granularity: String, CustomStringConvertible, Codable {
         case daily = "DAILY"
         case hourly = "HOURLY"
@@ -187,6 +207,15 @@ extension CostExplorer {
         case mediumUtilization = "MEDIUM_UTILIZATION"
         case noUpfront = "NO_UPFRONT"
         case partialUpfront = "PARTIAL_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlatformDifference: String, CustomStringConvertible, Codable {
+        case hypervisor = "HYPERVISOR"
+        case instanceStoreAvailability = "INSTANCE_STORE_AVAILABILITY"
+        case networkInterface = "NETWORK_INTERFACE"
+        case storageInterface = "STORAGE_INTERFACE"
+        case virtualizationType = "VIRTUALIZATION_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -1136,6 +1165,32 @@ extension CostExplorer {
         }
     }
 
+    public struct DiskResourceUtilization: AWSDecodableShape {
+
+        ///  The maximum read throughput operations per second.
+        public let diskReadBytesPerSecond: String?
+        ///  The maximum number of read operations per second.
+        public let diskReadOpsPerSecond: String?
+        ///  The maximum write throughput operations per second.
+        public let diskWriteBytesPerSecond: String?
+        ///  The maximum number of write operations per second.
+        public let diskWriteOpsPerSecond: String?
+
+        public init(diskReadBytesPerSecond: String? = nil, diskReadOpsPerSecond: String? = nil, diskWriteBytesPerSecond: String? = nil, diskWriteOpsPerSecond: String? = nil) {
+            self.diskReadBytesPerSecond = diskReadBytesPerSecond
+            self.diskReadOpsPerSecond = diskReadOpsPerSecond
+            self.diskWriteBytesPerSecond = diskWriteBytesPerSecond
+            self.diskWriteOpsPerSecond = diskWriteOpsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskReadBytesPerSecond = "DiskReadBytesPerSecond"
+            case diskReadOpsPerSecond = "DiskReadOpsPerSecond"
+            case diskWriteBytesPerSecond = "DiskWriteBytesPerSecond"
+            case diskWriteOpsPerSecond = "DiskWriteOpsPerSecond"
+        }
+    }
+
     public struct EBSResourceUtilization: AWSDecodableShape {
 
         ///  The maximum size of read operations per second
@@ -1252,6 +1307,8 @@ extension CostExplorer {
 
     public struct EC2ResourceUtilization: AWSDecodableShape {
 
+        ///  The field that contains a list of disk (local storage) metrics associated with the current instance.
+        public let diskResourceUtilization: DiskResourceUtilization?
         ///  The EBS field that contains a list of EBS metrics associated with the current instance.
         public let eBSResourceUtilization: EBSResourceUtilization?
         ///  Maximum observed or expected CPU utilization of the instance.
@@ -1260,19 +1317,25 @@ extension CostExplorer {
         public let maxMemoryUtilizationPercentage: String?
         ///  Maximum observed or expected storage utilization of the instance (does not measure EBS storage).
         public let maxStorageUtilizationPercentage: String?
+        ///  The network field that contains a list of network metrics associated with the current instance.
+        public let networkResourceUtilization: NetworkResourceUtilization?
 
-        public init(eBSResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil) {
+        public init(diskResourceUtilization: DiskResourceUtilization? = nil, eBSResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil, networkResourceUtilization: NetworkResourceUtilization? = nil) {
+            self.diskResourceUtilization = diskResourceUtilization
             self.eBSResourceUtilization = eBSResourceUtilization
             self.maxCpuUtilizationPercentage = maxCpuUtilizationPercentage
             self.maxMemoryUtilizationPercentage = maxMemoryUtilizationPercentage
             self.maxStorageUtilizationPercentage = maxStorageUtilizationPercentage
+            self.networkResourceUtilization = networkResourceUtilization
         }
 
         private enum CodingKeys: String, CodingKey {
+            case diskResourceUtilization = "DiskResourceUtilization"
             case eBSResourceUtilization = "EBSResourceUtilization"
             case maxCpuUtilizationPercentage = "MaxCpuUtilizationPercentage"
             case maxMemoryUtilizationPercentage = "MaxMemoryUtilizationPercentage"
             case maxStorageUtilizationPercentage = "MaxStorageUtilizationPercentage"
+            case networkResourceUtilization = "NetworkResourceUtilization"
         }
     }
 
@@ -2858,6 +2921,32 @@ extension CostExplorer {
         }
     }
 
+    public struct NetworkResourceUtilization: AWSDecodableShape {
+
+        ///  The network ingress throughput utilization measured in Bytes per second.
+        public let networkInBytesPerSecond: String?
+        ///  The network outgress throughput utilization measured in Bytes per second.
+        public let networkOutBytesPerSecond: String?
+        ///  The network ingress packets measured in packets per second.
+        public let networkPacketsInPerSecond: String?
+        ///  The network outgress packets measured in packets per second.
+        public let networkPacketsOutPerSecond: String?
+
+        public init(networkInBytesPerSecond: String? = nil, networkOutBytesPerSecond: String? = nil, networkPacketsInPerSecond: String? = nil, networkPacketsOutPerSecond: String? = nil) {
+            self.networkInBytesPerSecond = networkInBytesPerSecond
+            self.networkOutBytesPerSecond = networkOutBytesPerSecond
+            self.networkPacketsInPerSecond = networkPacketsInPerSecond
+            self.networkPacketsOutPerSecond = networkPacketsOutPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkInBytesPerSecond = "NetworkInBytesPerSecond"
+            case networkOutBytesPerSecond = "NetworkOutBytesPerSecond"
+            case networkPacketsInPerSecond = "NetworkPacketsInPerSecond"
+            case networkPacketsOutPerSecond = "NetworkPacketsOutPerSecond"
+        }
+    }
+
     public struct ProvideAnomalyFeedbackRequest: AWSEncodableShape {
 
         ///  A cost anomaly ID.
@@ -3318,6 +3407,8 @@ extension CostExplorer {
         public let accountId: String?
         ///  Context regarding the current instance.
         public let currentInstance: CurrentInstance?
+        ///  The list of possible reasons why the recommendation is generated such as under or over utilization of specific metrics (for example, CPU, Memory, Network).
+        public let findingReasonCodes: [FindingReasonCode]?
         ///  Details for modification recommendations.
         public let modifyRecommendationDetail: ModifyRecommendationDetail?
         /// Recommendation to either terminate or modify the resource.
@@ -3325,9 +3416,10 @@ extension CostExplorer {
         /// Details for termination recommendations.
         public let terminateRecommendationDetail: TerminateRecommendationDetail?
 
-        public init(accountId: String? = nil, currentInstance: CurrentInstance? = nil, modifyRecommendationDetail: ModifyRecommendationDetail? = nil, rightsizingType: RightsizingType? = nil, terminateRecommendationDetail: TerminateRecommendationDetail? = nil) {
+        public init(accountId: String? = nil, currentInstance: CurrentInstance? = nil, findingReasonCodes: [FindingReasonCode]? = nil, modifyRecommendationDetail: ModifyRecommendationDetail? = nil, rightsizingType: RightsizingType? = nil, terminateRecommendationDetail: TerminateRecommendationDetail? = nil) {
             self.accountId = accountId
             self.currentInstance = currentInstance
+            self.findingReasonCodes = findingReasonCodes
             self.modifyRecommendationDetail = modifyRecommendationDetail
             self.rightsizingType = rightsizingType
             self.terminateRecommendationDetail = terminateRecommendationDetail
@@ -3336,6 +3428,7 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case currentInstance = "CurrentInstance"
+            case findingReasonCodes = "FindingReasonCodes"
             case modifyRecommendationDetail = "ModifyRecommendationDetail"
             case rightsizingType = "RightsizingType"
             case terminateRecommendationDetail = "TerminateRecommendationDetail"
@@ -3949,15 +4042,18 @@ extension CostExplorer {
         public let estimatedMonthlySavings: String?
         ///  Expected utilization metrics for target instance type.
         public let expectedResourceUtilization: ResourceUtilization?
+        ///  Explains the actions you might need to take in order to successfully migrate your workloads from the current instance type to the recommended instance type.
+        public let platformDifferences: [PlatformDifference]?
         ///  Details on the target instance type.
         public let resourceDetails: ResourceDetails?
 
-        public init(currencyCode: String? = nil, defaultTargetInstance: Bool? = nil, estimatedMonthlyCost: String? = nil, estimatedMonthlySavings: String? = nil, expectedResourceUtilization: ResourceUtilization? = nil, resourceDetails: ResourceDetails? = nil) {
+        public init(currencyCode: String? = nil, defaultTargetInstance: Bool? = nil, estimatedMonthlyCost: String? = nil, estimatedMonthlySavings: String? = nil, expectedResourceUtilization: ResourceUtilization? = nil, platformDifferences: [PlatformDifference]? = nil, resourceDetails: ResourceDetails? = nil) {
             self.currencyCode = currencyCode
             self.defaultTargetInstance = defaultTargetInstance
             self.estimatedMonthlyCost = estimatedMonthlyCost
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.expectedResourceUtilization = expectedResourceUtilization
+            self.platformDifferences = platformDifferences
             self.resourceDetails = resourceDetails
         }
 
@@ -3967,6 +4063,7 @@ extension CostExplorer {
             case estimatedMonthlyCost = "EstimatedMonthlyCost"
             case estimatedMonthlySavings = "EstimatedMonthlySavings"
             case expectedResourceUtilization = "ExpectedResourceUtilization"
+            case platformDifferences = "PlatformDifferences"
             case resourceDetails = "ResourceDetails"
         }
     }

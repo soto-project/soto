@@ -19,6 +19,61 @@ import SotoCore
 // MARK: Paginators
 
 extension Transfer {
+    ///  Lists the details for all the accesses you have on your server.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAccessesPaginator<Result>(
+        _ input: ListAccessesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAccessesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAccesses,
+            inputKey: \ListAccessesRequest.nextToken,
+            outputKey: \ListAccessesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAccessesPaginator(
+        _ input: ListAccessesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAccessesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAccesses,
+            inputKey: \ListAccessesRequest.nextToken,
+            outputKey: \ListAccessesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the security policies that are attached to your file transfer protocol-enabled servers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -74,7 +129,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.
+    ///  Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -129,7 +184,7 @@ extension Transfer {
         )
     }
 
-    ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
+    ///  Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -236,6 +291,16 @@ extension Transfer {
             context: context,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension Transfer.ListAccessesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Transfer.ListAccessesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serverId: self.serverId
         )
     }
 }

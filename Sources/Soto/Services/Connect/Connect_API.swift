@@ -67,6 +67,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "AssociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    @discardableResult public func associateBot(_ input: AssociateBotRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     public func associateInstanceStorageConfig(_ input: AssociateInstanceStorageConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateInstanceStorageConfigResponse> {
         return self.client.execute(operation: "AssociateInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -102,12 +107,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.
+    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     public func createInstance(_ input: CreateInstanceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInstanceResponse> {
         return self.client.execute(operation: "CreateInstance", path: "/instance", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Create an AppIntegration association with an Amazon Connect instance.
+    /// Create an AppIntegration association with an Amazon Connect instance.
     public func createIntegrationAssociation(_ input: CreateIntegrationAssociationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIntegrationAssociationResponse> {
         return self.client.execute(operation: "CreateIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -117,7 +122,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateQueue", path: "/queues/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a quick connect for the specified Amazon Connect instance.
+    /// Creates a quick connect for the specified Amazon Connect instance.
     public func createQuickConnect(_ input: CreateQuickConnectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateQuickConnectResponse> {
         return self.client.execute(operation: "CreateQuickConnect", path: "/quick-connects/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -127,7 +132,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a use case for an AppIntegration association.
+    /// Creates a use case for an AppIntegration association.
     public func createUseCase(_ input: CreateUseCaseRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUseCaseResponse> {
         return self.client.execute(operation: "CreateUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -142,22 +147,22 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     @discardableResult public func deleteInstance(_ input: DeleteInstanceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteInstance", path: "/instance/{InstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes an AppIntegration association from an Amazon Connect instance. The association must not have any use cases associated with it.
+    /// Deletes an AppIntegration association from an Amazon Connect instance. The association must not have any use cases associated with it.
     @discardableResult public func deleteIntegrationAssociation(_ input: DeleteIntegrationAssociationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a quick connect.
+    /// Deletes a quick connect.
     @discardableResult public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes a use case from an AppIntegration association.
+    /// Deletes a use case from an AppIntegration association.
     @discardableResult public func deleteUseCase(_ input: DeleteUseCaseRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -202,7 +207,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DescribeQueue", path: "/queues/{InstanceId}/{QueueId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the quick connect.
+    /// Describes the quick connect.
     public func describeQuickConnect(_ input: DescribeQuickConnectRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeQuickConnectResponse> {
         return self.client.execute(operation: "DescribeQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -230,6 +235,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
     @discardableResult public func disassociateApprovedOrigin(_ input: DisassociateApprovedOriginRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    @discardableResult public func disassociateBot(_ input: DisassociateBotRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
@@ -272,7 +282,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Retrieves a token for federation.
+    /// Retrieves a token for federation.  This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     public func getFederationToken(_ input: GetFederationTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFederationTokenResponse> {
         return self.client.execute(operation: "GetFederationToken", path: "/user/federate/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -285,6 +295,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     public func listApprovedOrigins(_ input: ListApprovedOriginsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApprovedOriginsResponse> {
         return self.client.execute(operation: "ListApprovedOrigins", path: "/instance/{InstanceId}/approved-origins", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+    public func listBots(_ input: ListBotsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBotsResponse> {
+        return self.client.execute(operation: "ListBots", path: "/instance/{InstanceId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
@@ -312,7 +327,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListInstances", path: "/instance", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.
+    /// Provides summary information about the AppIntegration associations for the specified Amazon Connect instance.
     public func listIntegrationAssociations(_ input: ListIntegrationAssociationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIntegrationAssociationsResponse> {
         return self.client.execute(operation: "ListIntegrationAssociations", path: "/instance/{InstanceId}/integration-associations", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -342,12 +357,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListQueueQuickConnects", path: "/queues/{InstanceId}/{QueueId}/quick-connects", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Provides information about the queues for the specified Amazon Connect instance. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
+    /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
     public func listQueues(_ input: ListQueuesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueuesResponse> {
         return self.client.execute(operation: "ListQueues", path: "/queues-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Provides information about the quick connects for the specified Amazon Connect instance.
+    /// Provides information about the quick connects for the specified Amazon Connect instance.
     public func listQuickConnects(_ input: ListQuickConnectsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQuickConnectsResponse> {
         return self.client.execute(operation: "ListQuickConnects", path: "/quick-connects/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -377,7 +392,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the use cases.
+    /// Lists the use cases.
     public func listUseCases(_ input: ListUseCasesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUseCasesResponse> {
         return self.client.execute(operation: "ListUseCases", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -397,7 +412,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in two situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception from the API Gateway.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   For more information about chat, see Chat in the Amazon Connect Administrator Guide.
+    /// Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in two situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   For more information about chat, see Chat in the Amazon Connect Administrator Guide.
     public func startChatContact(_ input: StartChatContactRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChatContactResponse> {
         return self.client.execute(operation: "StartChatContact", path: "/contact/chat", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -442,7 +457,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, which was September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
+    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about CTR retention and the maximum size of the CTR attributes section, see Feature specifications in the Amazon Connect Administrator Guide.   Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, which was September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
     public func updateContactAttributes(_ input: UpdateContactAttributesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactAttributesResponse> {
         return self.client.execute(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -492,12 +507,12 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "UpdateQueueStatus", path: "/queues/{InstanceId}/{QueueId}/status", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the configuration settings for the specified quick connect.
+    /// Updates the configuration settings for the specified quick connect.
     @discardableResult public func updateQuickConnectConfig(_ input: UpdateQuickConnectConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateQuickConnectConfig", path: "/quick-connects/{InstanceId}/{QuickConnectId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
+    /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
     @discardableResult public func updateQuickConnectName(_ input: UpdateQuickConnectNameRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "UpdateQuickConnectName", path: "/quick-connects/{InstanceId}/{QuickConnectId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

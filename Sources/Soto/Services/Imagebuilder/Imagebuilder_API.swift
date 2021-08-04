@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Imagebuilder service.
 ///
-/// EC2 Image Builder is a fully managed AWS service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date "golden" server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
+/// EC2 Image Builder is a fully managed Amazon Web Services service that makes it easier to automate the creation, management, and deployment of customized, secure, and up-to-date "golden" server images that are pre-installed and pre-configured with software and settings to meet specific IT standards.
 public struct Imagebuilder: AWSService {
     // MARK: Member variables
 
@@ -82,7 +82,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    ///  Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration.
+    ///  Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
     public func createImage(_ input: CreateImageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImageResponse> {
         return self.client.execute(operation: "CreateImage", path: "/CreateImage", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -222,7 +222,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// List the Packages that are associated with an Image Build Version, as determined by AWS Systems Manager Inventory at build time.
+    /// List the Packages that are associated with an Image Build Version, as determined by Amazon EC2 Systems Manager Inventory at build time.
     public func listImagePackages(_ input: ListImagePackagesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagePackagesResponse> {
         return self.client.execute(operation: "ListImagePackages", path: "/ListImagePackages", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -297,7 +297,7 @@ public struct Imagebuilder: AWSService {
         return self.client.execute(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    ///  Updates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
+    ///  Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images.  UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     public func updateImagePipeline(_ input: UpdateImagePipelineRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateImagePipelineResponse> {
         return self.client.execute(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

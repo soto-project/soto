@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -52,7 +52,7 @@ struct CodeGenerator {
         return try JSONDecoder().decode(Endpoints.self, from: data)
     }
 
-    func loadModelJSON() throws -> [(api: API, docs: Docs, paginators: Paginators?)] {
+    func loadModelJSON() throws -> [(api: API, docs: Docs, paginators: Paginators?, waiters: Waiters?)] {
         let directories = self.getModelDirectories()
 
         return try directories.map {
@@ -73,7 +73,17 @@ struct CodeGenerator {
             } else {
                 paginators = nil
             }
-            return (api: api, docs: docs, paginators: paginators)
+
+            // a waiter file doesn't always exist
+            var waiters: Waiters?
+            if let waiterFile = Glob.entries(pattern: $0 + "/**/waiters-*.json").first {
+                let waiterData = try Data(contentsOf: URL(string: "file://\(waiterFile)")!)
+                waiters = try JSONDecoder().decode(Waiters.self, from: waiterData)
+                try waiters?.patch(serviceName: api.serviceName)
+            } else {
+                waiters = nil
+            }
+            return (api: api, docs: docs, paginators: paginators, waiters: waiters)
         }
     }
 
@@ -126,6 +136,16 @@ struct CodeGenerator {
                 print("Wrote: \(service.api.serviceName)_Paginator.swift")
             }
         }
+
+        let waiterContext = try service.generateWaiterContext()
+        if waiterContext["waiters"] != nil {
+            let waiters = self.library.render(waiterContext, withTemplate: "waiter")!
+            if self.command.output, try self.format(waiters).writeIfChanged(
+                toFile: "\(basePath)/\(service.api.serviceName)_Waiter.swift"
+            ) {
+                print("Wrote: \(service.api.serviceName)_Waiter.swift")
+            }
+        }
         if self.command.verbose {
             print("Succesfully Generated \(service.api.serviceName)")
         }
@@ -149,6 +169,7 @@ struct CodeGenerator {
                         api: model.api,
                         docs: model.docs,
                         paginators: model.paginators,
+                        waiters: model.waiters,
                         endpoints: endpoints,
                         stripHTMLTags: !command.htmlComments
                     )

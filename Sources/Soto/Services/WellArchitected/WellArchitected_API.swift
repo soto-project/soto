@@ -97,7 +97,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "DisassociateLenses", path: "/workloads/{WorkloadId}/disassociateLenses", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Get lens review.
+    /// Get the answer to a specific question in a workload review.
     public func getAnswer(_ input: GetAnswerInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAnswerOutput> {
         return self.client.execute(operation: "GetAnswer", path: "/workloads/{WorkloadId}/lensReviews/{LensAlias}/answers/{QuestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -182,7 +182,7 @@ public struct WellArchitected: AWSService {
         return self.client.execute(operation: "TagResource", path: "/tags/{WorkloadArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Deletes specified tags from a resource.
+    /// Deletes specified tags from a resource. To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
     public func untagResource(_ input: UntagResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{WorkloadArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

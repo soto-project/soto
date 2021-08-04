@@ -97,7 +97,7 @@ extension AugmentedAIRuntime {
 
         /// The creation time when Amazon Augmented AI created the human loop.
         public let creationTime: Date
-        /// A failure code that identifies the type of failure.
+        /// A failure code that identifies the type of failure. Possible values: ValidationError, Expired, InternalError
         public let failureCode: String?
         /// The reason why a human loop failed. The failure reason is returned when the status of the human loop is Failed.
         public let failureReason: String?

@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension DevOpsGuru {
-    ///   Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of AWS resources collection. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks.
+    ///   Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of AWS resources collection. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -74,7 +74,62 @@ extension DevOpsGuru {
         )
     }
 
-    ///   Returns lists AWS resources that are of the specified resource collection type. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks.
+    ///  Returns an estimate of the monthly cost for DevOps Guru to analyze your AWS resources. For more information, see Estimate your Amazon DevOps Guru costs and Amazon DevOps Guru pricing.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getCostEstimationPaginator<Result>(
+        _ input: GetCostEstimationRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetCostEstimationResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getCostEstimation,
+            inputKey: \GetCostEstimationRequest.nextToken,
+            outputKey: \GetCostEstimationResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getCostEstimationPaginator(
+        _ input: GetCostEstimationRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetCostEstimationResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getCostEstimation,
+            inputKey: \GetCostEstimationRequest.nextToken,
+            outputKey: \GetCostEstimationResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Returns lists AWS resources that are of the specified resource collection type. The one type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -469,6 +524,14 @@ extension DevOpsGuru.DescribeResourceCollectionHealthRequest: AWSPaginateToken {
     }
 }
 
+extension DevOpsGuru.GetCostEstimationRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> DevOpsGuru.GetCostEstimationRequest {
+        return .init(
+            nextToken: token
+        )
+    }
+}
+
 extension DevOpsGuru.GetResourceCollectionRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.GetResourceCollectionRequest {
         return .init(
@@ -521,6 +584,7 @@ extension DevOpsGuru.ListRecommendationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DevOpsGuru.ListRecommendationsRequest {
         return .init(
             insightId: self.insightId,
+            locale: self.locale,
             nextToken: token
         )
     }

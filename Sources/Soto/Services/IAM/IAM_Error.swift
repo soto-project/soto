@@ -96,7 +96,7 @@ public struct IAMErrorType: AWSErrorType {
     public static var invalidUserTypeException: Self { .init(.invalidUserTypeException) }
     /// The request was rejected because the public key certificate and the private key do not match.
     public static var keyPairMismatchException: Self { .init(.keyPairMismatchException) }
-    /// The request was rejected because it attempted to create resources beyond the current AWS account limits. The error message describes the limit exceeded.
+    /// The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The request was rejected because the certificate was malformed or expired. The error message describes the specific error.
     public static var malformedCertificateException: Self { .init(.malformedCertificateException) }
@@ -108,7 +108,7 @@ public struct IAMErrorType: AWSErrorType {
     public static var passwordPolicyViolationException: Self { .init(.passwordPolicyViolationException) }
     /// The request failed because a provided policy could not be successfully evaluated. An additional detailed message indicates the source of the failure.
     public static var policyEvaluationException: Self { .init(.policyEvaluationException) }
-    /// The request failed because AWS service role policies can only be attached to the service-linked role for that service.
+    /// The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
     public static var policyNotAttachableException: Self { .init(.policyNotAttachableException) }
     /// The request failed because the maximum number of concurrent requests for this account are already running.
     public static var reportGenerationLimitExceededException: Self { .init(.reportGenerationLimitExceededException) }

@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension MWAA {
-    ///  List Amazon MWAA Environments.
+    ///  Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

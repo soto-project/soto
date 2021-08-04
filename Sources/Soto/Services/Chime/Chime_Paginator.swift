@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Chime {
-    ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, toucan filter by the user's email address, which returns one account result.
+    ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -239,7 +239,7 @@ extension Chime {
         )
     }
 
-    ///   Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+    ///   Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -514,7 +514,7 @@ extension Chime {
         )
     }
 
-    ///  List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order .  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -624,7 +624,7 @@ extension Chime {
         )
     }
 
-    ///  Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality &amp; restrictions     Use privacy = PUBLIC to retrieve all public channels in the account    Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
+    ///  Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality &amp; restrictions    Use privacy = PUBLIC to retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -734,7 +734,62 @@ extension Chime {
         )
     }
 
-    ///   Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+    ///  Returns a list of media capture pipelines.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMediaCapturePipelinesPaginator<Result>(
+        _ input: ListMediaCapturePipelinesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMediaCapturePipelinesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMediaCapturePipelines,
+            inputKey: \ListMediaCapturePipelinesRequest.nextToken,
+            outputKey: \ListMediaCapturePipelinesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMediaCapturePipelinesPaginator(
+        _ input: ListMediaCapturePipelinesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMediaCapturePipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMediaCapturePipelines,
+            inputKey: \ListMediaCapturePipelinesRequest.nextToken,
+            outputKey: \ListMediaCapturePipelinesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1338,6 +1393,61 @@ extension Chime {
             onPage: onPage
         )
     }
+
+    ///  Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchAvailablePhoneNumbersPaginator<Result>(
+        _ input: SearchAvailablePhoneNumbersRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchAvailablePhoneNumbersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchAvailablePhoneNumbers,
+            inputKey: \SearchAvailablePhoneNumbersRequest.nextToken,
+            outputKey: \SearchAvailablePhoneNumbersResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchAvailablePhoneNumbersPaginator(
+        _ input: SearchAvailablePhoneNumbersRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchAvailablePhoneNumbersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchAvailablePhoneNumbers,
+            inputKey: \SearchAvailablePhoneNumbersRequest.nextToken,
+            outputKey: \SearchAvailablePhoneNumbersResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension Chime.ListAccountsRequest: AWSPaginateToken {
@@ -1482,6 +1592,15 @@ extension Chime.ListChannelsModeratedByAppInstanceUserRequest: AWSPaginateToken 
     }
 }
 
+extension Chime.ListMediaCapturePipelinesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Chime.ListMediaCapturePipelinesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Chime.ListMeetingsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Chime.ListMeetingsRequest {
         return .init(
@@ -1591,6 +1710,21 @@ extension Chime.ListVoiceConnectorsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Chime.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Chime.SearchAvailablePhoneNumbersRequest {
+        return .init(
+            areaCode: self.areaCode,
+            city: self.city,
+            country: self.country,
+            maxResults: self.maxResults,
+            nextToken: token,
+            phoneNumberType: self.phoneNumberType,
+            state: self.state,
+            tollFreePrefix: self.tollFreePrefix
         )
     }
 }

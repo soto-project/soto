@@ -29,6 +29,11 @@ extension ForecastService {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoMLOverrideStrategy: String, CustomStringConvertible, Codable {
+        case latencyoptimized = "LatencyOptimized"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DatasetType: String, CustomStringConvertible, Codable {
         case itemMetadata = "ITEM_METADATA"
         case relatedTimeSeries = "RELATED_TIME_SERIES"
@@ -502,6 +507,8 @@ extension ForecastService {
 
         /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR     arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
         public let algorithmArn: String?
+        /// Used to overide the default AutoML strategy, which is to optimize predictor accuracy. To apply an AutoML strategy that minimizes training time, use LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
+        public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
         /// Used to override the default evaluation parameters of the specified algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into training data and testing data. The evaluation parameters define how to perform the split and the number of iterations.
@@ -527,8 +534,9 @@ extension ForecastService {
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, encryptionConfig: EncryptionConfig? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig, forecastHorizon: Int, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorName: String, tags: [Tag]? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
+            self.autoMLOverrideStrategy = autoMLOverrideStrategy
             self.encryptionConfig = encryptionConfig
             self.evaluationParameters = evaluationParameters
             self.featurizationConfig = featurizationConfig
@@ -573,6 +581,7 @@ extension ForecastService {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "AlgorithmArn"
+            case autoMLOverrideStrategy = "AutoMLOverrideStrategy"
             case encryptionConfig = "EncryptionConfig"
             case evaluationParameters = "EvaluationParameters"
             case featurizationConfig = "FeaturizationConfig"
@@ -1318,6 +1327,8 @@ extension ForecastService {
         public let algorithmArn: String?
         /// When PerformAutoML is specified, the ARN of the chosen algorithm.
         public let autoMLAlgorithmArns: [String]?
+        /// The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
+        public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
         /// When the model training task was created.
         public let creationTime: Date?
         /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
@@ -1357,9 +1368,10 @@ extension ForecastService {
         /// The default training parameters or overrides selected during model training. When running AutoML or choosing HPO with CNN-QR or DeepAR+, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
 
-        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
+        public init(algorithmArn: String? = nil, autoMLAlgorithmArns: [String]? = nil, autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, creationTime: Date? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, evaluationParameters: EvaluationParameters? = nil, featurizationConfig: FeaturizationConfig? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, hPOConfig: HyperParameterTuningJobConfig? = nil, inputDataConfig: InputDataConfig? = nil, lastModificationTime: Date? = nil, message: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, predictorArn: String? = nil, predictorExecutionDetails: PredictorExecutionDetails? = nil, predictorName: String? = nil, status: String? = nil, trainingParameters: [String: String]? = nil) {
             self.algorithmArn = algorithmArn
             self.autoMLAlgorithmArns = autoMLAlgorithmArns
+            self.autoMLOverrideStrategy = autoMLOverrideStrategy
             self.creationTime = creationTime
             self.datasetImportJobArns = datasetImportJobArns
             self.encryptionConfig = encryptionConfig
@@ -1384,6 +1396,7 @@ extension ForecastService {
         private enum CodingKeys: String, CodingKey {
             case algorithmArn = "AlgorithmArn"
             case autoMLAlgorithmArns = "AutoMLAlgorithmArns"
+            case autoMLOverrideStrategy = "AutoMLOverrideStrategy"
             case creationTime = "CreationTime"
             case datasetImportJobArns = "DatasetImportJobArns"
             case encryptionConfig = "EncryptionConfig"
@@ -1713,14 +1726,18 @@ extension ForecastService {
 
     public struct GetAccuracyMetricsResponse: AWSDecodableShape {
 
+        /// The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
+        public let autoMLOverrideStrategy: AutoMLOverrideStrategy?
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
 
-        public init(predictorEvaluationResults: [EvaluationResult]? = nil) {
+        public init(autoMLOverrideStrategy: AutoMLOverrideStrategy? = nil, predictorEvaluationResults: [EvaluationResult]? = nil) {
+            self.autoMLOverrideStrategy = autoMLOverrideStrategy
             self.predictorEvaluationResults = predictorEvaluationResults
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMLOverrideStrategy = "AutoMLOverrideStrategy"
             case predictorEvaluationResults = "PredictorEvaluationResults"
         }
     }
@@ -2417,14 +2434,22 @@ extension ForecastService {
 
         /// For a numeric field, the average value in the field.
         public let avg: Double?
-        /// The number of values in the field.
+        /// The number of values in the field. If the response value is -1, refer to CountLong.
         public let count: Int?
-        /// The number of distinct values in the field.
+        /// The number of distinct values in the field. If the response value is -1, refer to CountDistinctLong.
         public let countDistinct: Int?
-        /// The number of NAN (not a number) values in the field.
+        /// The number of distinct values in the field. CountDistinctLong is used instead of CountDistinct if the value is greater than 2,147,483,647.
+        public let countDistinctLong: Int64?
+        /// The number of values in the field. CountLong is used instead of Count if the value is greater than 2,147,483,647.
+        public let countLong: Int64?
+        /// The number of NAN (not a number) values in the field. If the response value is -1, refer to CountNanLong.
         public let countNan: Int?
-        /// The number of null values in the field.
+        /// The number of NAN (not a number) values in the field. CountNanLong is used instead of CountNan if the value is greater than 2,147,483,647.
+        public let countNanLong: Int64?
+        /// The number of null values in the field. If the response value is -1, refer to CountNullLong.
         public let countNull: Int?
+        /// The number of null values in the field. CountNullLong is used instead of CountNull if the value is greater than 2,147,483,647.
+        public let countNullLong: Int64?
         /// For a numeric field, the maximum value in the field.
         public let max: String?
         /// For a numeric field, the minimum value in the field.
@@ -2432,12 +2457,16 @@ extension ForecastService {
         /// For a numeric field, the standard deviation.
         public let stddev: Double?
 
-        public init(avg: Double? = nil, count: Int? = nil, countDistinct: Int? = nil, countNan: Int? = nil, countNull: Int? = nil, max: String? = nil, min: String? = nil, stddev: Double? = nil) {
+        public init(avg: Double? = nil, count: Int? = nil, countDistinct: Int? = nil, countDistinctLong: Int64? = nil, countLong: Int64? = nil, countNan: Int? = nil, countNanLong: Int64? = nil, countNull: Int? = nil, countNullLong: Int64? = nil, max: String? = nil, min: String? = nil, stddev: Double? = nil) {
             self.avg = avg
             self.count = count
             self.countDistinct = countDistinct
+            self.countDistinctLong = countDistinctLong
+            self.countLong = countLong
             self.countNan = countNan
+            self.countNanLong = countNanLong
             self.countNull = countNull
+            self.countNullLong = countNullLong
             self.max = max
             self.min = min
             self.stddev = stddev
@@ -2447,8 +2476,12 @@ extension ForecastService {
             case avg = "Avg"
             case count = "Count"
             case countDistinct = "CountDistinct"
+            case countDistinctLong = "CountDistinctLong"
+            case countLong = "CountLong"
             case countNan = "CountNan"
+            case countNanLong = "CountNanLong"
             case countNull = "CountNull"
+            case countNullLong = "CountNullLong"
             case max = "Max"
             case min = "Min"
             case stddev = "Stddev"

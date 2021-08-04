@@ -42,6 +42,9 @@ public struct DocDBErrorType: AWSErrorType {
         case dBSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
         case dBUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
         case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
+        case globalClusterAlreadyExistsFault = "GlobalClusterAlreadyExistsFault"
+        case globalClusterNotFoundFault = "GlobalClusterNotFoundFault"
+        case globalClusterQuotaExceededFault = "GlobalClusterQuotaExceededFault"
         case instanceQuotaExceededFault = "InstanceQuotaExceeded"
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
         case insufficientDBInstanceCapacityFault = "InsufficientDBInstanceCapacity"
@@ -55,6 +58,7 @@ public struct DocDBErrorType: AWSErrorType {
         case invalidDBSubnetGroupStateFault = "InvalidDBSubnetGroupStateFault"
         case invalidDBSubnetStateFault = "InvalidDBSubnetStateFault"
         case invalidEventSubscriptionStateFault = "InvalidEventSubscriptionState"
+        case invalidGlobalClusterStateFault = "InvalidGlobalClusterStateFault"
         case invalidRestoreFault = "InvalidRestoreFault"
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
@@ -138,6 +142,12 @@ public struct DocDBErrorType: AWSErrorType {
     public static var dBUpgradeDependencyFailureFault: Self { .init(.dBUpgradeDependencyFailureFault) }
     /// You have reached the maximum number of event subscriptions.
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
+    /// The GlobalClusterIdentifier already exists. Choose a new global cluster identifier (unique name) to create a new global cluster.
+    public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
+    /// The GlobalClusterIdentifier doesn't refer to an existing global cluster.
+    public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
+    /// The number of global clusters for this account is already at the maximum allowed.
+    public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
     /// The cluster doesn't have enough capacity for the current operation.
@@ -164,13 +174,15 @@ public struct DocDBErrorType: AWSErrorType {
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// Someone else might be modifying a subscription. Wait a few seconds, and try again.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
+    /// The requested operation can't be performed while the cluster is in this state.
+    public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
     /// You cannot restore from a virtual private cloud (VPC) backup to a non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
     /// The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
     /// The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
-    /// An error occurred when accessing an AWS KMS key.
+    /// An error occurred when accessing an KMS key.
     public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }

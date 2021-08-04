@@ -93,6 +93,21 @@ public struct HealthLake: AWSService {
         return self.client.execute(operation: "ListFHIRDatastores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    ///  Lists all FHIR export jobs associated with an account and their statuses.
+    public func listFHIRExportJobs(_ input: ListFHIRExportJobsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFHIRExportJobsResponse> {
+        return self.client.execute(operation: "ListFHIRExportJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Lists all FHIR import jobs associated with an account and their statuses.
+    public func listFHIRImportJobs(_ input: ListFHIRImportJobsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFHIRImportJobsResponse> {
+        return self.client.execute(operation: "ListFHIRImportJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Returns a list of all existing tags associated with a Data Store.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Begins a FHIR export job.
     public func startFHIRExportJob(_ input: StartFHIRExportJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFHIRExportJobResponse> {
         return self.client.execute(operation: "StartFHIRExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -101,6 +116,16 @@ public struct HealthLake: AWSService {
     /// Begins a FHIR Import job.
     public func startFHIRImportJob(_ input: StartFHIRImportJobRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFHIRImportJobResponse> {
         return self.client.execute(operation: "StartFHIRImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Adds a user specifed key and value tag to a Data Store.
+    public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
+        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Removes tags from a Data Store.
+    public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
+        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

@@ -155,7 +155,7 @@ public struct SFN: AWSService {
 
     /// Starts a Synchronous Express state machine execution.
     public func startSyncExecution(_ input: StartSyncExecutionInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSyncExecutionOutput> {
-        return self.client.execute(operation: "StartSyncExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "StartSyncExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "sync-", context: context, on: eventLoop)
     }
 
     /// Stops an execution. This API action is not supported by EXPRESS state machines.

@@ -44,19 +44,19 @@ extension Outposts {
         public func validate(name: String) throws {
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 1000)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, min: 1)
-            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "[a-z\\d-]+")
+            try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, pattern: "^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\\d+[a-zA-Z]?)?$")
             try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, max: 255)
             try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, min: 1)
-            try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, pattern: "[a-z]+[0-9]+-az[0-9]+")
+            try self.validate(self.availabilityZoneId, name: "availabilityZoneId", parent: name, pattern: "^[a-zA-Z]+\\d-[a-zA-Z]+\\d$")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
-            try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S ]+$")
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S ]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S ]+$")
             try self.validate(self.siteId, name: "siteId", parent: name, max: 255)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 1)
-            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "os-[a-f0-9]{17}")
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:site/)?(os-[a-f0-9]{17})$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -131,7 +131,7 @@ extension Outposts {
         public func validate(name: String) throws {
             try self.validate(self.siteId, name: "siteId", parent: name, max: 255)
             try self.validate(self.siteId, name: "siteId", parent: name, min: 1)
-            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "os-[a-f0-9]{17}")
+            try self.validate(self.siteId, name: "siteId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:site/)?(os-[a-f0-9]{17})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -187,7 +187,7 @@ extension Outposts {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
             try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
             try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
@@ -246,24 +246,57 @@ extension Outposts {
 
     public struct ListOutpostsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "availabilityZoneFilter", location: .querystring(locationName: "AvailabilityZoneFilter")), 
+            AWSMemberEncoding(label: "availabilityZoneIdFilter", location: .querystring(locationName: "AvailabilityZoneIdFilter")), 
+            AWSMemberEncoding(label: "lifeCycleStatusFilter", location: .querystring(locationName: "LifeCycleStatusFilter")), 
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
+        ///  A filter for the Availibility Zone (us-east-1a) of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let availabilityZoneFilter: [String]?
+        ///  A filter for the AZ IDs (use1-az1) of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let availabilityZoneIdFilter: [String]?
+        ///  A filter for the lifecycle status of the Outpost.   Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let lifeCycleStatusFilter: [String]?
         public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(availabilityZoneFilter: [String]? = nil, availabilityZoneIdFilter: [String]? = nil, lifeCycleStatusFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.availabilityZoneFilter = availabilityZoneFilter
+            self.availabilityZoneIdFilter = availabilityZoneIdFilter
+            self.lifeCycleStatusFilter = lifeCycleStatusFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZoneFilter?.forEach {
+                try validate($0, name: "availabilityZoneFilter[]", parent: name, max: 1000)
+                try validate($0, name: "availabilityZoneFilter[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneFilter[]", parent: name, pattern: "^([a-zA-Z]+-){1,3}([a-zA-Z]+)?(\\d+[a-zA-Z]?)?$")
+            }
+            try self.validate(self.availabilityZoneFilter, name: "availabilityZoneFilter", parent: name, max: 5)
+            try self.validate(self.availabilityZoneFilter, name: "availabilityZoneFilter", parent: name, min: 1)
+            try self.availabilityZoneIdFilter?.forEach {
+                try validate($0, name: "availabilityZoneIdFilter[]", parent: name, max: 255)
+                try validate($0, name: "availabilityZoneIdFilter[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneIdFilter[]", parent: name, pattern: "^[a-zA-Z]+\\d-[a-zA-Z]+\\d$")
+            }
+            try self.validate(self.availabilityZoneIdFilter, name: "availabilityZoneIdFilter", parent: name, max: 5)
+            try self.validate(self.availabilityZoneIdFilter, name: "availabilityZoneIdFilter", parent: name, min: 1)
+            try self.lifeCycleStatusFilter?.forEach {
+                try validate($0, name: "lifeCycleStatusFilter[]", parent: name, max: 20)
+                try validate($0, name: "lifeCycleStatusFilter[]", parent: name, min: 1)
+                try validate($0, name: "lifeCycleStatusFilter[]", parent: name, pattern: "^[ A-Za-z]+$")
+            }
+            try self.validate(self.lifeCycleStatusFilter, name: "lifeCycleStatusFilter", parent: name, max: 5)
+            try self.validate(self.lifeCycleStatusFilter, name: "lifeCycleStatusFilter", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -304,7 +337,7 @@ extension Outposts {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -370,11 +403,12 @@ extension Outposts {
         public let outpostArn: String?
         public let outpostId: String?
         public let ownerId: String?
+        public let siteArn: String?
         public let siteId: String?
         /// The Outpost tags.
         public let tags: [String: String]?
 
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, siteArn: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description
@@ -383,6 +417,7 @@ extension Outposts {
             self.outpostArn = outpostArn
             self.outpostId = outpostId
             self.ownerId = ownerId
+            self.siteArn = siteArn
             self.siteId = siteId
             self.tags = tags
         }
@@ -396,6 +431,7 @@ extension Outposts {
             case outpostArn = "OutpostArn"
             case outpostId = "OutpostId"
             case ownerId = "OwnerId"
+            case siteArn = "SiteArn"
             case siteId = "SiteId"
             case tags = "Tags"
         }
@@ -406,14 +442,16 @@ extension Outposts {
         public let accountId: String?
         public let description: String?
         public let name: String?
+        public let siteArn: String?
         public let siteId: String?
         /// The site tags.
         public let tags: [String: String]?
 
-        public init(accountId: String? = nil, description: String? = nil, name: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
+        public init(accountId: String? = nil, description: String? = nil, name: String? = nil, siteArn: String? = nil, siteId: String? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.description = description
             self.name = name
+            self.siteArn = siteArn
             self.siteId = siteId
             self.tags = tags
         }
@@ -422,6 +460,7 @@ extension Outposts {
             case accountId = "AccountId"
             case description = "Description"
             case name = "Name"
+            case siteArn = "SiteArn"
             case siteId = "SiteId"
             case tags = "Tags"
         }

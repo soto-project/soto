@@ -128,21 +128,21 @@ extension AmplifyBackend {
 
     public struct BackendAPIAppSyncAuthSettings: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Amazon Cognito user pool ID, if Amazon Cognito is used as an authentication setting to access your data models.
+        /// The Amazon Cognito user pool ID, if Amazon Cognito was used as an authentication setting to access your data models.
         public let cognitoUserPoolId: String?
-        /// The API key description for API_KEY, if it is used as an authentication mechanism to access your data models.
+        /// The API key description for API_KEY, if it was used as an authentication mechanism to access your data models.
         public let description: String?
-        /// The API key expiration time for API_KEY, if it is used as an authentication mechanism to access your data models.
+        /// The API key expiration time for API_KEY, if it was used as an authentication mechanism to access your data models.
         public let expirationTime: Double?
         /// The expiry time for the OpenID authentication mechanism.
         public let openIDAuthTTL: String?
-        /// The clientID for openID, if openID is used as an authentication setting to access your data models.
+        /// The clientID for openID, if openID was used as an authentication setting to access your data models.
         public let openIDClientId: String?
         /// The expiry time for the OpenID authentication mechanism.
         public let openIDIatTTL: String?
-        /// The openID issuer URL, if openID is used as an authentication setting to access your data models.
+        /// The openID issuer URL, if openID was used as an authentication setting to access your data models.
         public let openIDIssueURL: String?
-        /// The openID provider name, if openID is used as an authentication mechanism to access your data models.
+        /// The OpenID provider name, if OpenID was used as an authentication mechanism to access your data models.
         public let openIDProviderName: String?
 
         public init(cognitoUserPoolId: String? = nil, description: String? = nil, expirationTime: Double? = nil, openIDAuthTTL: String? = nil, openIDClientId: String? = nil, openIDIatTTL: String? = nil, openIDIssueURL: String? = nil, openIDProviderName: String? = nil) {
@@ -204,7 +204,7 @@ extension AmplifyBackend {
 
         /// Additional authentication methods used to interact with your data models.
         public let additionalAuthTypes: [BackendAPIAuthType]?
-        /// The API name used to interact with the data model, configured as a part of the Amplify project.
+        /// The API name used to interact with the data model, configured as a part of your Amplify project.
         public let apiName: String?
         /// The conflict resolution strategy for your data stored in the data models.
         public let conflictResolution: BackendAPIConflictResolution?
@@ -234,11 +234,37 @@ extension AmplifyBackend {
         }
     }
 
+    public struct BackendAuthAppleProviderConfig: AWSEncodableShape & AWSDecodableShape {
+
+        /// Describes the client_id (also called Services ID) that comes from Apple.
+        public let clientId: String?
+        /// Describes the key_id that comes from Apple.
+        public let keyId: String?
+        /// Describes the private_key that comes from Apple.
+        public let privateKey: String?
+        /// Describes the team_id that comes from Apple.
+        public let teamId: String?
+
+        public init(clientId: String? = nil, keyId: String? = nil, privateKey: String? = nil, teamId: String? = nil) {
+            self.clientId = clientId
+            self.keyId = keyId
+            self.privateKey = privateKey
+            self.teamId = teamId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "client_id"
+            case keyId = "key_id"
+            case privateKey = "private_key"
+            case teamId = "team_id"
+        }
+    }
+
     public struct BackendAuthSocialProviderConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// Describes the client_id that can be obtained from the third-party social federation provider.
+        /// Describes the client_id, which can be obtained from the third-party social federation provider.
         public let clientId: String?
-        /// Describes the client_secret that can be obtained from third-party social federation providers.
+        /// Describes the client_secret, which can be obtained from third-party social federation providers.
         public let clientSecret: String?
 
         public init(clientId: String? = nil, clientSecret: String? = nil) {
@@ -260,7 +286,7 @@ extension AmplifyBackend {
         public let backendEnvironmentName: String
         /// The time when the job was created.
         public let createTime: String?
-        /// If the request failed, this is the returned error.
+        /// If the request fails, this error is returned.
         public let error: String?
         /// The ID for the job.
         public let jobId: String?
@@ -397,7 +423,7 @@ extension AmplifyBackend {
 
     public struct CreateBackendAuthForgotPasswordConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// Describes which method to use (either SMS or email) to deliver messages to app users that want to recover their password.
+        /// Describes which mode to use (either SMS or email) to deliver messages to app users who want to recover their password.
         public let deliveryMethod: DeliveryMethod
         /// The configuration for the email sent when an app user forgets their password.
         public let emailSettings: EmailSettings?
@@ -419,7 +445,7 @@ extension AmplifyBackend {
 
     public struct CreateBackendAuthIdentityPoolConfig: AWSEncodableShape & AWSDecodableShape {
 
-        /// Name of the identity pool used for authorization.
+        /// Name of the Amazon Cognito identity pool used for authorization.
         public let identityPoolName: String
         /// Set to true or false based on whether you want to enable guest authorization to your Amplify app.
         public let unauthenticatedLogin: Bool
@@ -459,13 +485,13 @@ extension AmplifyBackend {
         public let domainPrefix: String?
         /// The OAuth grant type that you use to allow app users to authenticate from your Amplify app.
         public let oAuthGrantType: OAuthGrantType
-        /// List of OAuth-related flows that allow your app users to authenticate from your Amplify app.
+        /// List of OAuth-related flows used to allow your app users to authenticate from your Amplify app.
         public let oAuthScopes: [OAuthScopesElement]
         /// The redirected URI for signing in to your Amplify app.
         public let redirectSignInURIs: [String]
         /// Redirect URLs that OAuth uses when a user signs out of an Amplify app.
         public let redirectSignOutURIs: [String]
-        /// The settings for using social identity providers for access to your Amplify app.
+        /// The settings for using social providers to access your Amplify app.
         public let socialProviderSettings: SocialProviderSettings?
 
         public init(domainPrefix: String? = nil, oAuthGrantType: OAuthGrantType, oAuthScopes: [OAuthScopesElement], redirectSignInURIs: [String], redirectSignOutURIs: [String], socialProviderSettings: SocialProviderSettings? = nil) {
@@ -533,11 +559,11 @@ extension AmplifyBackend {
 
         /// Defines whether you want to configure only authentication or both authentication and authorization settings.
         public let authResources: AuthResources
-        /// Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of the auth resource in your Amplify project.
+        /// Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of your auth resource in the Amplify project.
         public let identityPoolConfigs: CreateBackendAuthIdentityPoolConfig?
         /// Defines the service name to use when configuring an authentication resource in your Amplify project.
         public let service: Service
-        /// Describes the authentication configuration for the Amazon Cognito user pool, provisioned as a part of the auth resource in your Amplify project.
+        /// Describes authentication configuration for the Amazon Cognito user pool, provisioned as a part of your auth resource in the Amplify project.
         public let userPoolConfigs: CreateBackendAuthUserPoolConfig
 
         public init(authResources: AuthResources, identityPoolConfigs: CreateBackendAuthIdentityPoolConfig? = nil, service: Service, userPoolConfigs: CreateBackendAuthUserPoolConfig) {
@@ -587,15 +613,15 @@ extension AmplifyBackend {
 
         /// Describes the forgotten password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let forgotPassword: CreateBackendAuthForgotPasswordConfig?
-        /// Describes whether to apply multi-factor authentication (MFA) policies for your Amazon Cognito user pool that's configured as a part of your Amplify project.
+        /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
         public let mfa: CreateBackendAuthMFAConfig?
         /// Describes the OAuth policy and rules for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let oAuth: CreateBackendAuthOAuthConfig?
         /// Describes the password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let passwordPolicy: CreateBackendAuthPasswordPolicyConfig?
-        /// The required attributes to sign up new users in the Amazon Cognito user pool.
+        /// The required attributes to sign up new users in the user pool.
         public let requiredSignUpAttributes: [RequiredSignUpAttributesElement]
-        /// Describes the sign-in methods that your Amplify app users to log in using the Amazon Cognito user pool that's configured as a part of your Amplify project.
+        /// Describes the sign-in methods that your Amplify app users use to log in using the Amazon Cognito user pool, configured as a part of your Amplify project.
         public let signInMethod: SignInMethod
         /// The Amazon Cognito user pool name.
         public let userPoolName: String
@@ -1264,6 +1290,64 @@ extension AmplifyBackend {
         }
     }
 
+    public struct ImportBackendAuthRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "backendEnvironmentName", location: .uri(locationName: "backendEnvironmentName"))
+        ]
+
+        public let appId: String
+        public let backendEnvironmentName: String
+        public let identityPoolId: String?
+        public let nativeClientId: String
+        public let userPoolId: String
+        public let webClientId: String
+
+        public init(appId: String, backendEnvironmentName: String, identityPoolId: String? = nil, nativeClientId: String, userPoolId: String, webClientId: String) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.identityPoolId = identityPoolId
+            self.nativeClientId = nativeClientId
+            self.userPoolId = userPoolId
+            self.webClientId = webClientId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityPoolId = "identityPoolId"
+            case nativeClientId = "nativeClientId"
+            case userPoolId = "userPoolId"
+            case webClientId = "webClientId"
+        }
+    }
+
+    public struct ImportBackendAuthResponse: AWSDecodableShape {
+
+        public let appId: String?
+        public let backendEnvironmentName: String?
+        public let error: String?
+        public let jobId: String?
+        public let operation: String?
+        public let status: String?
+
+        public init(appId: String? = nil, backendEnvironmentName: String? = nil, error: String? = nil, jobId: String? = nil, operation: String? = nil, status: String? = nil) {
+            self.appId = appId
+            self.backendEnvironmentName = backendEnvironmentName
+            self.error = error
+            self.jobId = jobId
+            self.operation = operation
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
+            case backendEnvironmentName = "backendEnvironmentName"
+            case error = "error"
+            case jobId = "jobId"
+            case operation = "operation"
+            case status = "status"
+        }
+    }
+
     public struct ListBackendJobsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
@@ -1320,7 +1404,7 @@ extension AmplifyBackend {
 
     public struct LoginAuthConfigReqObj: AWSEncodableShape & AWSDecodableShape {
 
-        /// The Amazon Cognito identity pool ID used for Amplify Admin UI login authorization.
+        /// The Amazon Cognito identity pool ID used for the Amplify Admin UI login authorization.
         public let awsCognitoIdentityPoolId: String?
         /// The AWS Region for the Amplify Admin UI login.
         public let awsCognitoRegion: String?
@@ -1458,17 +1542,20 @@ extension AmplifyBackend {
         public let facebook: BackendAuthSocialProviderConfig?
         public let google: BackendAuthSocialProviderConfig?
         public let loginWithAmazon: BackendAuthSocialProviderConfig?
+        public let signInWithApple: BackendAuthAppleProviderConfig?
 
-        public init(facebook: BackendAuthSocialProviderConfig? = nil, google: BackendAuthSocialProviderConfig? = nil, loginWithAmazon: BackendAuthSocialProviderConfig? = nil) {
+        public init(facebook: BackendAuthSocialProviderConfig? = nil, google: BackendAuthSocialProviderConfig? = nil, loginWithAmazon: BackendAuthSocialProviderConfig? = nil, signInWithApple: BackendAuthAppleProviderConfig? = nil) {
             self.facebook = facebook
             self.google = google
             self.loginWithAmazon = loginWithAmazon
+            self.signInWithApple = signInWithApple
         }
 
         private enum CodingKeys: String, CodingKey {
             case facebook = "Facebook"
             case google = "Google"
             case loginWithAmazon = "LoginWithAmazon"
+            case signInWithApple = "SignInWithApple"
         }
     }
 
@@ -1526,7 +1613,7 @@ extension AmplifyBackend {
 
     public struct UpdateBackendAuthForgotPasswordConfig: AWSEncodableShape {
 
-        /// Describes which method to use (either SMS or email) to deliver messages to app users that want to recover their password.
+        /// Describes which mode to use (either SMS or email) to deliver messages to app users that want to recover their password.
         public let deliveryMethod: DeliveryMethod?
         /// The configuration for the email sent when an app user forgets their password.
         public let emailSettings: EmailSettings?
@@ -1548,7 +1635,7 @@ extension AmplifyBackend {
 
     public struct UpdateBackendAuthIdentityPoolConfig: AWSEncodableShape {
 
-        /// A Boolean value that you can set to allow or disallow guest-level authorization into your Amplify app.
+        /// A boolean value that can be set to allow or disallow guest-level authorization into your Amplify app.
         public let unauthenticatedLogin: Bool?
 
         public init(unauthenticatedLogin: Bool? = nil) {
@@ -1614,7 +1701,7 @@ extension AmplifyBackend {
 
     public struct UpdateBackendAuthPasswordPolicyConfig: AWSEncodableShape {
 
-        /// Describes additional constrains on the password requirements to sign in to the auth resource, configured as a part of your Amplify project.
+        /// Describes additional constraints on password requirements to sign in to the auth resource, configured as a part of your Amplify project.
         public let additionalConstraints: [AdditionalConstraintsElement]?
         /// Describes the minimum length of the password required to sign in to the auth resource, configured as a part of your Amplify project.
         public let minimumLength: Double?
@@ -1658,11 +1745,11 @@ extension AmplifyBackend {
 
         /// Defines the service name to use when configuring an authentication resource in your Amplify project.
         public let authResources: AuthResources
-        /// Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of the auth resource in your Amplify project.
+        /// Describes the authorization configuration for the Amazon Cognito identity pool, provisioned as a part of your auth resource in the Amplify project.
         public let identityPoolConfigs: UpdateBackendAuthIdentityPoolConfig?
         /// Defines the service name to use when configuring an authentication resource in your Amplify project.
         public let service: Service
-        /// Describes the authentication configuration for the Amazon Cognito user pool, provisioned as a part of the auth resource in your Amplify project.
+        /// Describes the authentication configuration for the Amazon Cognito user pool, provisioned as a part of your auth resource in the Amplify project.
         public let userPoolConfigs: UpdateBackendAuthUserPoolConfig
 
         public init(authResources: AuthResources, identityPoolConfigs: UpdateBackendAuthIdentityPoolConfig? = nil, service: Service, userPoolConfigs: UpdateBackendAuthUserPoolConfig) {
@@ -1712,7 +1799,7 @@ extension AmplifyBackend {
 
         /// Describes the forgot password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let forgotPassword: UpdateBackendAuthForgotPasswordConfig?
-        /// Describes whether to apply multi-factor authentication (MFA) policies for your Amazon Cognito user pool that's configured as a part of your Amplify project.
+        /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
         public let mfa: UpdateBackendAuthMFAConfig?
         /// Describes the OAuth policy and rules for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let oAuth: UpdateBackendAuthOAuthConfig?

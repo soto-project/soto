@@ -20,6 +20,43 @@ import SotoCore
 extension SNS {
     // MARK: Enums
 
+    public enum LanguageCodeString: String, CustomStringConvertible, Codable {
+        case deDe = "de-DE"
+        case enGb = "en-GB"
+        case enUs = "en-US"
+        case es419 = "es-419"
+        case esEs = "es-ES"
+        case frCa = "fr-CA"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case jaJp = "ja-JP"
+        case krKr = "kr-KR"
+        case ptBr = "pt-BR"
+        case zhCn = "zh-CN"
+        case zhTw = "zh-TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumberCapability: String, CustomStringConvertible, Codable {
+        case mms = "MMS"
+        case sms = "SMS"
+        case voice = "VOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteType: String, CustomStringConvertible, Codable {
+        case premium = "Premium"
+        case promotional = "Promotional"
+        case transactional = "Transactional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SMSSandboxPhoneNumberVerificationStatus: String, CustomStringConvertible, Codable {
+        case pending = "Pending"
+        case verified = "Verified"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AddPermissionInput: AWSEncodableShape {
@@ -27,7 +64,7 @@ extension SNS {
         /// The action you want to allow for the specified principal(s). Valid values: Any Amazon SNS action name, for example Publish.
         @CustomCoding<StandardArrayCoder>
         public var actionName: [String]
-        /// The AWS account IDs of the users (principals) who will be given access to the specified actions. The users must have AWS accounts, but do not need to be signed up for this service.
+        /// The account IDs of the users (principals) who will be given access to the specified actions. The users must have account, but do not need to be signed up for this service.
         @CustomCoding<StandardArrayCoder>
         public var aWSAccountId: [String]
         /// A unique identifier for the new policy statement.
@@ -80,7 +117,7 @@ extension SNS {
 
     public struct ConfirmSubscriptionInput: AWSEncodableShape {
 
-        /// Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication.
+        /// Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an Amazon Web Services signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires Amazon Web Services authentication.
         public let authenticateOnUnsubscribe: String?
         /// Short-lived token sent to an endpoint during the Subscribe action.
         public let token: String
@@ -130,7 +167,7 @@ extension SNS {
 
     public struct CreatePlatformApplicationInput: AWSEncodableShape {
 
-        /// For a list of attributes, see SetPlatformApplicationAttributes
+        /// For a list of attributes, see SetPlatformApplicationAttributes.
         @CustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]
         /// Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
@@ -192,9 +229,40 @@ extension SNS {
         }
     }
 
+    public struct CreateSMSSandboxPhoneNumberInput: AWSEncodableShape {
+
+        /// The language to use for sending the OTP. The default value is en-US.
+        public let languageCode: LanguageCodeString?
+        /// The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to.
+        public let phoneNumber: String
+
+        public init(languageCode: LanguageCodeString? = nil, phoneNumber: String) {
+            self.languageCode = languageCode
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^(\\+[0-9]{8,}|[0-9]{0,9})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct CreateSMSSandboxPhoneNumberResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateTopicInput: AWSEncodableShape {
 
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the the MessageDeduplicationId parameter for the Publish action.
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side encryption:    KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the Key Management Service API Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]?
         /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long. For a FIFO (first-in-first-out) topic, the name must end with the .fifo suffix.
@@ -262,6 +330,33 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case platformApplicationArn = "PlatformApplicationArn"
         }
+    }
+
+    public struct DeleteSMSSandboxPhoneNumberInput: AWSEncodableShape {
+
+        /// The destination phone number to delete.
+        public let phoneNumber: String
+
+        public init(phoneNumber: String) {
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^(\\+[0-9]{8,}|[0-9]{0,9})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct DeleteSMSSandboxPhoneNumberResult: AWSDecodableShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTopicInput: AWSEncodableShape {
@@ -385,6 +480,28 @@ extension SNS {
         }
     }
 
+    public struct GetSMSSandboxAccountStatusInput: AWSEncodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct GetSMSSandboxAccountStatusResult: AWSDecodableShape {
+
+        /// Indicates whether the calling account is in the SMS sandbox.
+        public let isInSandbox: Bool
+
+        public init(isInSandbox: Bool) {
+            self.isInSandbox = isInSandbox
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isInSandbox = "IsInSandbox"
+        }
+    }
+
     public struct GetSubscriptionAttributesInput: AWSEncodableShape {
 
         /// The ARN of the subscription whose properties you want to get.
@@ -401,7 +518,7 @@ extension SNS {
 
     public struct GetSubscriptionAttributesResponse: AWSDecodableShape {
 
-        /// A map of the subscription's attributes. Attributes in this map include the following:    ConfirmationWasAuthenticated – true if the subscription confirmation request was authenticated.    DeliveryPolicy – The JSON serialization of the subscription's delivery policy.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults.    FilterPolicy – The filter policy JSON that is assigned to the subscription. For more information, see Amazon SNS Message Filtering in the Amazon SNS Developer Guide.    Owner – The AWS account ID of the subscription's owner.    PendingConfirmation – true if the subscription hasn't been confirmed. To confirm a pending subscription, call the ConfirmSubscription action with a confirmation token.    RawMessageDelivery – true if raw message delivery is enabled for the subscription. Raw messages are free of JSON formatting and can be sent to HTTP/S and Amazon SQS endpoints.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.    SubscriptionArn – The subscription's ARN.    TopicArn – The topic ARN that the subscription is associated with.   The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role that has the following:   Permission to write to the Kinesis Data Firehose delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
+        /// A map of the subscription's attributes. Attributes in this map include the following:    ConfirmationWasAuthenticated – true if the subscription confirmation request was authenticated.    DeliveryPolicy – The JSON serialization of the subscription's delivery policy.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy that takes into account the topic delivery policy and account system defaults.    FilterPolicy – The filter policy JSON that is assigned to the subscription. For more information, see Amazon SNS Message Filtering in the Amazon SNS Developer Guide.    Owner – The account ID of the subscription's owner.    PendingConfirmation – true if the subscription hasn't been confirmed. To confirm a pending subscription, call the ConfirmSubscription action with a confirmation token.    RawMessageDelivery – true if raw message delivery is enabled for the subscription. Raw messages are free of JSON formatting and can be sent to HTTP/S and Amazon SQS endpoints.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.    SubscriptionArn – The subscription's ARN.    TopicArn – The topic ARN that the subscription is associated with.   The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role that has the following:   Permission to write to the Kinesis Data Firehose delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]?
 
@@ -430,7 +547,7 @@ extension SNS {
 
     public struct GetTopicAttributesResponse: AWSDecodableShape {
 
-        /// A map of the topic's attributes. Attributes in this map include the following:    DeliveryPolicy – The JSON serialization of the topic's delivery policy.    DisplayName – The human-readable name used in the From field for notifications to email and email-json endpoints.    Owner – The AWS account ID of the topic's owner.    Policy – The JSON serialization of the topic's access control policy.    SubscriptionsConfirmed – The number of confirmed subscriptions for the topic.    SubscriptionsDeleted – The number of deleted subscriptions for the topic.    SubscriptionsPending – The number of subscriptions pending confirmation for the topic.    TopicArn – The topic's ARN.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy, taking system defaults into account.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the the MessageDeduplicationId parameter for the Publish action.
+        /// A map of the topic's attributes. Attributes in this map include the following:    DeliveryPolicy – The JSON serialization of the topic's delivery policy.    DisplayName – The human-readable name used in the From field for notifications to email and email-json endpoints.    Owner – The account ID of the topic's owner.    Policy – The JSON serialization of the topic's access control policy.    SubscriptionsConfirmed – The number of confirmed subscriptions for the topic.    SubscriptionsDeleted – The number of deleted subscriptions for the topic.    SubscriptionsPending – The number of subscriptions pending confirmation for the topic.    TopicArn – The topic's ARN.    EffectiveDeliveryPolicy – The JSON serialization of the effective delivery policy, taking system defaults into account.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the Key Management Service API Reference.   The following attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]?
 
@@ -477,6 +594,48 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case endpoints = "Endpoints"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOriginationNumbersRequest: AWSEncodableShape {
+
+        /// The maximum number of origination numbers to return.
+        public let maxResults: Int?
+        /// Token that the previous ListOriginationNumbers request returns.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 30)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListOriginationNumbersResult: AWSDecodableShape {
+
+        /// A NextToken string is returned when you call the ListOriginationNumbers operation if additional pages of records are available.
+        public let nextToken: String?
+        /// A list of the calling account's verified and pending origination numbers.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var phoneNumbers: [PhoneNumberInformation]?
+
+        public init(nextToken: String? = nil, phoneNumbers: [PhoneNumberInformation]? = nil) {
+            self.nextToken = nextToken
+            self.phoneNumbers = phoneNumbers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case phoneNumbers = "PhoneNumbers"
         }
     }
 
@@ -543,6 +702,48 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case platformApplications = "PlatformApplications"
+        }
+    }
+
+    public struct ListSMSSandboxPhoneNumbersInput: AWSEncodableShape {
+
+        /// The maximum number of phone numbers to return.
+        public let maxResults: Int?
+        /// Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSMSSandboxPhoneNumbersResult: AWSDecodableShape {
+
+        /// A NextToken string is returned when you call the ListSMSSandboxPhoneNumbersInput operation if additional pages of records are available.
+        public let nextToken: String?
+        /// A list of the calling account's pending and verified phone numbers.
+        @CustomCoding<StandardArrayCoder>
+        public var phoneNumbers: [SMSSandboxPhoneNumber]
+
+        public init(nextToken: String? = nil, phoneNumbers: [SMSSandboxPhoneNumber]) {
+            self.nextToken = nextToken
+            self.phoneNumbers = phoneNumbers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case phoneNumbers = "PhoneNumbers"
         }
     }
 
@@ -727,6 +928,41 @@ extension SNS {
 
     }
 
+    public struct PhoneNumberInformation: AWSDecodableShape {
+
+        /// The date and time when the phone number was created.
+        public let createdAt: Date?
+        /// The two-character code for the country or region, in ISO 3166-1 alpha-2 format.
+        public let iso2CountryCode: String?
+        /// The capabilities of each phone number.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var numberCapabilities: [NumberCapability]?
+        /// The phone number.
+        public let phoneNumber: String?
+        /// The list of supported routes.
+        public let routeType: RouteType?
+        /// The status of the phone number.
+        public let status: String?
+
+        public init(createdAt: Date? = nil, iso2CountryCode: String? = nil, numberCapabilities: [NumberCapability]? = nil, phoneNumber: String? = nil, routeType: RouteType? = nil, status: String? = nil) {
+            self.createdAt = createdAt
+            self.iso2CountryCode = iso2CountryCode
+            self.numberCapabilities = numberCapabilities
+            self.phoneNumber = phoneNumber
+            self.routeType = routeType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case iso2CountryCode = "Iso2CountryCode"
+            case numberCapabilities = "NumberCapabilities"
+            case phoneNumber = "PhoneNumber"
+            case routeType = "RouteType"
+            case status = "Status"
+        }
+    }
+
     public struct PlatformApplication: AWSDecodableShape {
 
         /// Attributes for platform application object.
@@ -830,6 +1066,24 @@ extension SNS {
         }
     }
 
+    public struct SMSSandboxPhoneNumber: AWSDecodableShape {
+
+        /// The destination phone number.
+        public let phoneNumber: String?
+        /// The destination phone number's verification status.
+        public let status: SMSSandboxPhoneNumberVerificationStatus?
+
+        public init(phoneNumber: String? = nil, status: SMSSandboxPhoneNumberVerificationStatus? = nil) {
+            self.phoneNumber = phoneNumber
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+            case status = "Status"
+        }
+    }
+
     public struct SetEndpointAttributesInput: AWSEncodableShape {
 
         /// A map of the endpoint attributes. Attributes in this map include the following:    CustomUserData – arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.    Enabled – flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.    Token – device token, also referred to as a registration id, for an app and mobile device. This is returned from the notification service when an app and mobile device are registered with the notification service.
@@ -870,7 +1124,7 @@ extension SNS {
 
     public struct SetSMSAttributesInput: AWSEncodableShape {
 
-        /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
+        /// The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principal to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
         @CustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]
 
@@ -915,7 +1169,7 @@ extension SNS {
 
     public struct SetTopicAttributesInput: AWSEncodableShape {
 
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the the MessageDeduplicationId parameter for the Publish action.
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the Key Management Service API Reference.    The following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this attribute is false, you must specify a value for the MessageDeduplicationId parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message). (Optional) To override the generated value, you can specify a value for the MessageDeduplicationId parameter for the Publish action.
         public let attributeName: String
         /// The new value for the attribute.
         public let attributeValue: String?
@@ -937,12 +1191,12 @@ extension SNS {
 
     public struct SubscribeInput: AWSEncodableShape {
 
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.   The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role that has the following:   Permission to write to the Kinesis Data Firehose delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the Subscribe action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your subscriber receive only a subset of messages, rather than receiving every message published to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.   The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role that has the following:   Permission to write to the Kinesis Data Firehose delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var attributes: [String: String]?
-        /// The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.   For the https protocol, the (public) endpoint is a URL beginning with https://.   For the email protocol, the endpoint is an email address.   For the email-json protocol, the endpoint is an email address.   For the sms protocol, the endpoint is a phone number of an SMS-enabled device.   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue.   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an AWS Lambda function.   For the firehose protocol, the endpoint is the ARN of an Amazon Kinesis Data Firehose delivery stream.
+        /// The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.   For the https protocol, the (public) endpoint is a URL beginning with https://.   For the email protocol, the endpoint is an email address.   For the email-json protocol, the endpoint is an email address.   For the sms protocol, the endpoint is a phone number of an SMS-enabled device.   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue.   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an Lambda function.   For the firehose protocol, the endpoint is the ARN of an Amazon Kinesis Data Firehose delivery stream.
         public let endpoint: String?
-        /// The protocol that you want to use. Supported protocols include:    http – delivery of JSON-encoded message via HTTP POST    https – delivery of JSON-encoded message via HTTPS POST    email – delivery of message via SMTP    email-json – delivery of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded message to an EndpointArn for a mobile app and device    lambda – delivery of JSON-encoded message to an AWS Lambda function    firehose – delivery of JSON-encoded message to an Amazon Kinesis Data Firehose delivery stream.
+        /// The protocol that you want to use. Supported protocols include:    http – delivery of JSON-encoded message via HTTP POST    https – delivery of JSON-encoded message via HTTPS POST    email – delivery of message via SMTP    email-json – delivery of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded message to an EndpointArn for a mobile app and device    lambda – delivery of JSON-encoded message to an Lambda function    firehose – delivery of JSON-encoded message to an Amazon Kinesis Data Firehose delivery stream.
         public let `protocol`: String
         /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to true, the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addition to the ARN for confirmed subscriptions, the response also includes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the subscriber calls the ConfirmSubscription action with a confirmation token.  The default value is false.
         public let returnSubscriptionArn: Bool?
@@ -1127,6 +1381,40 @@ extension SNS {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct VerifySMSSandboxPhoneNumberInput: AWSEncodableShape {
+
+        /// The OTP sent to the destination number from the CreateSMSSandBoxPhoneNumber call.
+        public let oneTimePassword: String
+        /// The destination phone number to verify.
+        public let phoneNumber: String
+
+        public init(oneTimePassword: String, phoneNumber: String) {
+            self.oneTimePassword = oneTimePassword
+            self.phoneNumber = phoneNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.oneTimePassword, name: "oneTimePassword", parent: name, max: 8)
+            try self.validate(self.oneTimePassword, name: "oneTimePassword", parent: name, min: 5)
+            try self.validate(self.oneTimePassword, name: "oneTimePassword", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^(\\+[0-9]{8,}|[0-9]{0,9})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oneTimePassword = "OneTimePassword"
+            case phoneNumber = "PhoneNumber"
+        }
+    }
+
+    public struct VerifySMSSandboxPhoneNumberResult: AWSDecodableShape {
 
 
         public init() {

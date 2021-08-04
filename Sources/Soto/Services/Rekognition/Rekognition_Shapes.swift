@@ -663,6 +663,8 @@ extension Rekognition {
 
     public struct CreateProjectVersionRequest: AWSEncodableShape {
 
+        /// The identifier for your AWS Key Management Service (AWS KMS) customer master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your CMK, or an alias for your CMK. The key is used to encrypt training and test images copied into the service for model training. Your source images are unaffected. The key is also used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig). If you don't specify a value for KmsKeyId, images copied into the service are encrypted using a key that AWS owns and manages.
+        public let kmsKeyId: String?
         /// The Amazon S3 location to store the results of training.
         public let outputConfig: OutputConfig
         /// The ARN of the Amazon Rekognition Custom Labels project that manages the model that you want to train.
@@ -676,7 +678,8 @@ extension Rekognition {
         /// A name for the version of the model. This value must be unique.
         public let versionName: String
 
-        public init(outputConfig: OutputConfig, projectArn: String, tags: [String: String]? = nil, testingData: TestingData, trainingData: TrainingData, versionName: String) {
+        public init(kmsKeyId: String? = nil, outputConfig: OutputConfig, projectArn: String, tags: [String: String]? = nil, testingData: TestingData, trainingData: TrainingData, versionName: String) {
+            self.kmsKeyId = kmsKeyId
             self.outputConfig = outputConfig
             self.projectArn = projectArn
             self.tags = tags
@@ -686,6 +689,9 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.outputConfig.validate(name: "\(name).outputConfig")
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 2048)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 20)
@@ -706,6 +712,7 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
             case outputConfig = "OutputConfig"
             case projectArn = "ProjectArn"
             case tags = "Tags"
@@ -3153,6 +3160,8 @@ extension Rekognition {
         public let creationTimestamp: Date?
         /// The training results. EvaluationResult is only returned if training is successful.
         public let evaluationResult: EvaluationResult?
+        /// The identifer for the AWS Key Management Service (AWS KMS) customer master key that was used to encrypt the model during training.
+        public let kmsKeyId: String?
         /// The location of the summary manifest. The summary manifest provides aggregate data validation results for the training and test datasets.
         public let manifestSummary: GroundTruthManifest?
         /// The minimum number of inference units used by the model. For more information, see StartProjectVersion.
@@ -3172,10 +3181,11 @@ extension Rekognition {
         /// The Unix date and time that training of the model ended.
         public let trainingEndTimestamp: Date?
 
-        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: Date? = nil, evaluationResult: EvaluationResult? = nil, manifestSummary: GroundTruthManifest? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: Date? = nil) {
+        public init(billableTrainingTimeInSeconds: Int64? = nil, creationTimestamp: Date? = nil, evaluationResult: EvaluationResult? = nil, kmsKeyId: String? = nil, manifestSummary: GroundTruthManifest? = nil, minInferenceUnits: Int? = nil, outputConfig: OutputConfig? = nil, projectVersionArn: String? = nil, status: ProjectVersionStatus? = nil, statusMessage: String? = nil, testingDataResult: TestingDataResult? = nil, trainingDataResult: TrainingDataResult? = nil, trainingEndTimestamp: Date? = nil) {
             self.billableTrainingTimeInSeconds = billableTrainingTimeInSeconds
             self.creationTimestamp = creationTimestamp
             self.evaluationResult = evaluationResult
+            self.kmsKeyId = kmsKeyId
             self.manifestSummary = manifestSummary
             self.minInferenceUnits = minInferenceUnits
             self.outputConfig = outputConfig
@@ -3191,6 +3201,7 @@ extension Rekognition {
             case billableTrainingTimeInSeconds = "BillableTrainingTimeInSeconds"
             case creationTimestamp = "CreationTimestamp"
             case evaluationResult = "EvaluationResult"
+            case kmsKeyId = "KmsKeyId"
             case manifestSummary = "ManifestSummary"
             case minInferenceUnits = "MinInferenceUnits"
             case outputConfig = "OutputConfig"

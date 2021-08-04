@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -221,6 +221,10 @@ struct Operation: Decodable {
         }
     }
 
+    struct Endpoint: Decodable {
+        var hostPrefix: String
+    }
+
     var name: String
     var http: HTTP
     var input: Input?
@@ -232,6 +236,7 @@ struct Operation: Decodable {
     var eventStream: Bool
     var streaming: Bool
     var documentationUrl: String?
+    var endpoint: Endpoint?
 
     init(from decoder: Decoder) throws {
         self.eventStream = false
@@ -246,6 +251,7 @@ struct Operation: Decodable {
         self.deprecated = try container.decodeIfPresent(Bool.self, forKey: .deprecated) ?? false
         self.deprecatedMessage = try container.decodeIfPresent(String.self, forKey: .deprecatedMessage)
         self.documentationUrl = try container.decodeIfPresent(String.self, forKey: .documentationUrl)
+        self.endpoint = try container.decodeIfPresent(Endpoint.self, forKey: .endpoint)
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -259,6 +265,7 @@ struct Operation: Decodable {
         case deprecatedMessage
         case eventStream
         case documentationUrl
+        case endpoint
     }
 }
 
@@ -284,6 +291,7 @@ class Shape: Decodable {
         var flattened: Bool?
         var streaming: Bool?
         var idempotencyToken: Bool?
+        var hostLabel: Bool?
         // set after decode in postProcess stage
         var required: Bool = false
         var shape: Shape!
@@ -297,6 +305,7 @@ class Shape: Decodable {
             case flattened
             case streaming
             case idempotencyToken
+            case hostLabel
         }
     }
 

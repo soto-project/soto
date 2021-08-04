@@ -209,7 +209,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var dBInstanceRoleAlreadyExistsFault: Self { .init(.dBInstanceRoleAlreadyExistsFault) }
     /// The specified RoleArn value doesn't match the specified feature for the DB instance.
     public static var dBInstanceRoleNotFoundFault: Self { .init(.dBInstanceRoleNotFoundFault) }
-    /// You can't associate any more AWS Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
+    /// You can't associate any more Amazon Web Services Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
     public static var dBInstanceRoleQuotaExceededFault: Self { .init(.dBInstanceRoleQuotaExceededFault) }
     ///  LogFileName doesn't refer to an existing DB log file.
     public static var dBLogFileNotFoundFault: Self { .init(.dBLogFileNotFoundFault) }
@@ -219,23 +219,23 @@ public struct RDSErrorType: AWSErrorType {
     public static var dBParameterGroupNotFoundFault: Self { .init(.dBParameterGroupNotFoundFault) }
     /// The request would result in the user exceeding the allowed number of DB parameter groups.
     public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
-    /// The specified proxy name must be unique for all proxies owned by your AWS account in the specified AWS Region.
+    /// The specified proxy name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dBProxyAlreadyExistsFault: Self { .init(.dBProxyAlreadyExistsFault) }
-    /// The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your AWS account in the specified AWS Region.
+    /// The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dBProxyEndpointAlreadyExistsFault: Self { .init(.dBProxyEndpointAlreadyExistsFault) }
     /// The DB proxy endpoint doesn't exist.
     public static var dBProxyEndpointNotFoundFault: Self { .init(.dBProxyEndpointNotFoundFault) }
     /// The DB proxy already has the maximum number of endpoints.
     public static var dBProxyEndpointQuotaExceededFault: Self { .init(.dBProxyEndpointQuotaExceededFault) }
-    /// The specified proxy name doesn't correspond to a proxy owned by your AWS account in the specified AWS Region.
+    /// The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dBProxyNotFoundFault: Self { .init(.dBProxyNotFoundFault) }
-    /// Your AWS account already has the maximum number of proxies in the specified AWS Region.
+    /// Your Amazon Web Services account already has the maximum number of proxies in the specified Amazon Web Services Region.
     public static var dBProxyQuotaExceededFault: Self { .init(.dBProxyQuotaExceededFault) }
     /// The proxy is already associated with the specified RDS DB instance or Aurora DB cluster.
     public static var dBProxyTargetAlreadyRegisteredFault: Self { .init(.dBProxyTargetAlreadyRegisteredFault) }
-    /// The specified target group isn't available for a proxy owned by your AWS account in the specified AWS Region.
+    /// The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dBProxyTargetGroupNotFoundFault: Self { .init(.dBProxyTargetGroupNotFoundFault) }
-    /// The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your AWS account in the specified AWS Region.
+    /// The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dBProxyTargetNotFoundFault: Self { .init(.dBProxyTargetNotFoundFault) }
     ///  A DB security group with the name specified in DBSecurityGroupName already exists.
     public static var dBSecurityGroupAlreadyExistsFault: Self { .init(.dBSecurityGroupAlreadyExistsFault) }
@@ -343,13 +343,13 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
     /// The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
-    /// An error occurred accessing an AWS KMS key.
+    /// An error occurred accessing an Amazon Web Services KMS key.
     public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
     /// The option group you are trying to create already exists.
     public static var optionGroupAlreadyExistsFault: Self { .init(.optionGroupAlreadyExistsFault) }
     /// The specified option group could not be found.
     public static var optionGroupNotFoundFault: Self { .init(.optionGroupNotFoundFault) }
-    /// The quota of 20 option groups was exceeded for this AWS account.
+    /// The quota of 20 option groups was exceeded for this Amazon Web Services account.
     public static var optionGroupQuotaExceededFault: Self { .init(.optionGroupQuotaExceededFault) }
     ///  SourceDBInstanceIdentifier refers to a DB instance with BackupRetentionPeriod equal to 0.
     public static var pointInTimeRestoreNotEnabledFault: Self { .init(.pointInTimeRestoreNotEnabledFault) }

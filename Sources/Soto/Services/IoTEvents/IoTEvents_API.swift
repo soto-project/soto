@@ -62,6 +62,11 @@ public struct IoTEvents: AWSService {
 
     // MARK: API Calls
 
+    /// Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see Create an alarm model in the AWS IoT Events Developer Guide.
+    public func createAlarmModel(_ input: CreateAlarmModelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAlarmModelResponse> {
+        return self.client.execute(operation: "CreateAlarmModel", path: "/alarm-models", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Creates a detector model.
     public func createDetectorModel(_ input: CreateDetectorModelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDetectorModelResponse> {
         return self.client.execute(operation: "CreateDetectorModel", path: "/detector-models", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -70,6 +75,11 @@ public struct IoTEvents: AWSService {
     /// Creates an input.
     public func createInput(_ input: CreateInputRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInputResponse> {
         return self.client.execute(operation: "CreateInput", path: "/inputs", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Deletes an alarm model. Any alarm instances that were created based on this alarm model are also deleted. This action can't be undone.
+    public func deleteAlarmModel(_ input: DeleteAlarmModelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAlarmModelResponse> {
+        return self.client.execute(operation: "DeleteAlarmModel", path: "/alarm-models/{alarmModelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a detector model. Any active instances of the detector model are also deleted.
@@ -82,12 +92,17 @@ public struct IoTEvents: AWSService {
         return self.client.execute(operation: "DeleteInput", path: "/inputs/{inputName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Retrieves information about an alarm model. If you don't specify a value for the alarmModelVersion parameter, the latest version is returned.
+    public func describeAlarmModel(_ input: DescribeAlarmModelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlarmModelResponse> {
+        return self.client.execute(operation: "DescribeAlarmModel", path: "/alarm-models/{alarmModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
     public func describeDetectorModel(_ input: DescribeDetectorModelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorModelResponse> {
         return self.client.execute(operation: "DescribeDetectorModel", path: "/detector-models/{detectorModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Retrieves execution information about a detector model analysis
+    /// Retrieves runtime information about a detector model analysis.  After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     public func describeDetectorModelAnalysis(_ input: DescribeDetectorModelAnalysisRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorModelAnalysisResponse> {
         return self.client.execute(operation: "DescribeDetectorModelAnalysis", path: "/analysis/detector-models/{analysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -102,9 +117,19 @@ public struct IoTEvents: AWSService {
         return self.client.execute(operation: "DescribeLoggingOptions", path: "/logging", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Retrieves one or more analysis results of the detector model.
+    /// Retrieves one or more analysis results of the detector model.  After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     public func getDetectorModelAnalysisResults(_ input: GetDetectorModelAnalysisResultsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDetectorModelAnalysisResultsResponse> {
         return self.client.execute(operation: "GetDetectorModelAnalysisResults", path: "/analysis/detector-models/{analysisId}/results", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Lists all the versions of an alarm model. The operation returns only the metadata associated with each alarm model version.
+    public func listAlarmModelVersions(_ input: ListAlarmModelVersionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlarmModelVersionsResponse> {
+        return self.client.execute(operation: "ListAlarmModelVersions", path: "/alarm-models/{alarmModelName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Lists the alarm models that you created. The operation returns only the metadata associated with each alarm model.
+    public func listAlarmModels(_ input: ListAlarmModelsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlarmModelsResponse> {
+        return self.client.execute(operation: "ListAlarmModels", path: "/alarm-models", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
@@ -115,6 +140,11 @@ public struct IoTEvents: AWSService {
     /// Lists the detector models you have created. Only the metadata associated with each detector model is returned.
     public func listDetectorModels(_ input: ListDetectorModelsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorModelsResponse> {
         return self.client.execute(operation: "ListDetectorModels", path: "/detector-models", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    ///  Lists one or more input routings.
+    public func listInputRoutings(_ input: ListInputRoutingsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInputRoutingsResponse> {
+        return self.client.execute(operation: "ListInputRoutings", path: "/input-routings", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Lists the inputs you have created.
@@ -132,7 +162,7 @@ public struct IoTEvents: AWSService {
         return self.client.execute(operation: "PutLoggingOptions", path: "/logging", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Performs an analysis of your detector model. For more information, see Running detector model analyses in the AWS IoT Events Developer Guide.
+    /// Performs an analysis of your detector model. For more information, see Troubleshooting a detector model in the AWS IoT Events Developer Guide.
     public func startDetectorModelAnalysis(_ input: StartDetectorModelAnalysisRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDetectorModelAnalysisResponse> {
         return self.client.execute(operation: "StartDetectorModelAnalysis", path: "/analysis/detector-models/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -145,6 +175,11 @@ public struct IoTEvents: AWSService {
     /// Removes the given tags (metadata) from the resource.
     public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Updates an alarm model. Any alarms that were created based on the previous version are deleted and then created again as new data arrives.
+    public func updateAlarmModel(_ input: UpdateAlarmModelRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAlarmModelResponse> {
+        return self.client.execute(operation: "UpdateAlarmModel", path: "/alarm-models/{alarmModelName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.

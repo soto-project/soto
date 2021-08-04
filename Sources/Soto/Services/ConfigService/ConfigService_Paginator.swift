@@ -19,6 +19,941 @@ import SotoCore
 // MARK: Paginators
 
 extension ConfigService {
+    ///  Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules.   The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAggregateComplianceByConfigRulesPaginator<Result>(
+        _ input: DescribeAggregateComplianceByConfigRulesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAggregateComplianceByConfigRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeAggregateComplianceByConfigRules,
+            inputKey: \DescribeAggregateComplianceByConfigRulesRequest.nextToken,
+            outputKey: \DescribeAggregateComplianceByConfigRulesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAggregateComplianceByConfigRulesPaginator(
+        _ input: DescribeAggregateComplianceByConfigRulesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAggregateComplianceByConfigRulesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeAggregateComplianceByConfigRules,
+            inputKey: \DescribeAggregateComplianceByConfigRulesRequest.nextToken,
+            outputKey: \DescribeAggregateComplianceByConfigRulesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant AWS Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAggregateComplianceByConformancePacksPaginator<Result>(
+        _ input: DescribeAggregateComplianceByConformancePacksRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAggregateComplianceByConformancePacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeAggregateComplianceByConformancePacks,
+            inputKey: \DescribeAggregateComplianceByConformancePacksRequest.nextToken,
+            outputKey: \DescribeAggregateComplianceByConformancePacksResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAggregateComplianceByConformancePacksPaginator(
+        _ input: DescribeAggregateComplianceByConformancePacksRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAggregateComplianceByConformancePacksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeAggregateComplianceByConformancePacks,
+            inputKey: \DescribeAggregateComplianceByConformancePacksRequest.nextToken,
+            outputKey: \DescribeAggregateComplianceByConformancePacksResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of authorizations granted to various aggregator accounts and regions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeAggregationAuthorizationsPaginator<Result>(
+        _ input: DescribeAggregationAuthorizationsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeAggregationAuthorizationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeAggregationAuthorizations,
+            inputKey: \DescribeAggregationAuthorizationsRequest.nextToken,
+            outputKey: \DescribeAggregationAuthorizationsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeAggregationAuthorizationsPaginator(
+        _ input: DescribeAggregationAuthorizationsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeAggregationAuthorizationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeAggregationAuthorizations,
+            inputKey: \DescribeAggregationAuthorizationsRequest.nextToken,
+            outputKey: \DescribeAggregationAuthorizationsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Indicates whether the specified AWS Config rules are compliant. If a rule is noncompliant, this action returns the number of AWS resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If AWS Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:   AWS Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.   The rule's AWS Lambda function is failing to send evaluation results to AWS Config. Verify that the role you assigned to your configuration recorder includes the config:PutEvaluations permission. If the rule is a custom rule, verify that the AWS Lambda execution role includes the config:PutEvaluations permission.   The rule's AWS Lambda function has returned NOT_APPLICABLE for all evaluation results. This can occur if the resources were deleted or removed from the rule's scope.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeComplianceByConfigRulePaginator<Result>(
+        _ input: DescribeComplianceByConfigRuleRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeComplianceByConfigRuleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeComplianceByConfigRule,
+            inputKey: \DescribeComplianceByConfigRuleRequest.nextToken,
+            outputKey: \DescribeComplianceByConfigRuleResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeComplianceByConfigRulePaginator(
+        _ input: DescribeComplianceByConfigRuleRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeComplianceByConfigRuleResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeComplianceByConfigRule,
+            inputKey: \DescribeComplianceByConfigRuleRequest.nextToken,
+            outputKey: \DescribeComplianceByConfigRuleResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Indicates whether the specified AWS resources are compliant. If a resource is noncompliant, this action returns the number of AWS Config rules that the resource does not comply with. A resource is compliant if it complies with all the AWS Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If AWS Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:   AWS Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.   The rule's AWS Lambda function is failing to send evaluation results to AWS Config. Verify that the role that you assigned to your configuration recorder includes the config:PutEvaluations permission. If the rule is a custom rule, verify that the AWS Lambda execution role includes the config:PutEvaluations permission.   The rule's AWS Lambda function has returned NOT_APPLICABLE for all evaluation results. This can occur if the resources were deleted or removed from the rule's scope.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeComplianceByResourcePaginator<Result>(
+        _ input: DescribeComplianceByResourceRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeComplianceByResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeComplianceByResource,
+            inputKey: \DescribeComplianceByResourceRequest.nextToken,
+            outputKey: \DescribeComplianceByResourceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeComplianceByResourcePaginator(
+        _ input: DescribeComplianceByResourceRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeComplianceByResourceResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeComplianceByResource,
+            inputKey: \DescribeComplianceByResourceRequest.nextToken,
+            outputKey: \DescribeComplianceByResourceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns status information for each of your AWS managed Config rules. The status includes information such as the last time AWS Config invoked the rule, the last time AWS Config failed to invoke the rule, and the related error for the last failure.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConfigRuleEvaluationStatusPaginator<Result>(
+        _ input: DescribeConfigRuleEvaluationStatusRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConfigRuleEvaluationStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConfigRuleEvaluationStatus,
+            inputKey: \DescribeConfigRuleEvaluationStatusRequest.nextToken,
+            outputKey: \DescribeConfigRuleEvaluationStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConfigRuleEvaluationStatusPaginator(
+        _ input: DescribeConfigRuleEvaluationStatusRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConfigRuleEvaluationStatusResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConfigRuleEvaluationStatus,
+            inputKey: \DescribeConfigRuleEvaluationStatusRequest.nextToken,
+            outputKey: \DescribeConfigRuleEvaluationStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns details about your AWS Config rules.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConfigRulesPaginator<Result>(
+        _ input: DescribeConfigRulesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConfigRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConfigRules,
+            inputKey: \DescribeConfigRulesRequest.nextToken,
+            outputKey: \DescribeConfigRulesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConfigRulesPaginator(
+        _ input: DescribeConfigRulesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConfigRulesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConfigRules,
+            inputKey: \DescribeConfigRulesRequest.nextToken,
+            outputKey: \DescribeConfigRulesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns status information for sources within an aggregator. The status includes information about the last time AWS Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConfigurationAggregatorSourcesStatusPaginator<Result>(
+        _ input: DescribeConfigurationAggregatorSourcesStatusRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConfigurationAggregatorSourcesStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConfigurationAggregatorSourcesStatus,
+            inputKey: \DescribeConfigurationAggregatorSourcesStatusRequest.nextToken,
+            outputKey: \DescribeConfigurationAggregatorSourcesStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConfigurationAggregatorSourcesStatusPaginator(
+        _ input: DescribeConfigurationAggregatorSourcesStatusRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConfigurationAggregatorSourcesStatusResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConfigurationAggregatorSourcesStatus,
+            inputKey: \DescribeConfigurationAggregatorSourcesStatusRequest.nextToken,
+            outputKey: \DescribeConfigurationAggregatorSourcesStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this action returns the details for all the configuration aggregators associated with the account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConfigurationAggregatorsPaginator<Result>(
+        _ input: DescribeConfigurationAggregatorsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConfigurationAggregatorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConfigurationAggregators,
+            inputKey: \DescribeConfigurationAggregatorsRequest.nextToken,
+            outputKey: \DescribeConfigurationAggregatorsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConfigurationAggregatorsPaginator(
+        _ input: DescribeConfigurationAggregatorsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConfigurationAggregatorsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConfigurationAggregators,
+            inputKey: \DescribeConfigurationAggregatorsRequest.nextToken,
+            outputKey: \DescribeConfigurationAggregatorsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns compliance details for each rule in that conformance pack.  You must provide exact rule names.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConformancePackCompliancePaginator<Result>(
+        _ input: DescribeConformancePackComplianceRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConformancePackComplianceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConformancePackCompliance,
+            inputKey: \DescribeConformancePackComplianceRequest.nextToken,
+            outputKey: \DescribeConformancePackComplianceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConformancePackCompliancePaginator(
+        _ input: DescribeConformancePackComplianceRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConformancePackComplianceResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConformancePackCompliance,
+            inputKey: \DescribeConformancePackComplianceRequest.nextToken,
+            outputKey: \DescribeConformancePackComplianceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides one or more conformance packs deployment status.  If there are no conformance packs then you will see an empty result.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConformancePackStatusPaginator<Result>(
+        _ input: DescribeConformancePackStatusRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConformancePackStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConformancePackStatus,
+            inputKey: \DescribeConformancePackStatusRequest.nextToken,
+            outputKey: \DescribeConformancePackStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConformancePackStatusPaginator(
+        _ input: DescribeConformancePackStatusRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConformancePackStatusResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConformancePackStatus,
+            inputKey: \DescribeConformancePackStatusRequest.nextToken,
+            outputKey: \DescribeConformancePackStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of one or more conformance packs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeConformancePacksPaginator<Result>(
+        _ input: DescribeConformancePacksRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeConformancePacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeConformancePacks,
+            inputKey: \DescribeConformancePacksRequest.nextToken,
+            outputKey: \DescribeConformancePacksResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeConformancePacksPaginator(
+        _ input: DescribeConformancePacksRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeConformancePacksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeConformancePacks,
+            inputKey: \DescribeConformancePacksRequest.nextToken,
+            outputKey: \DescribeConformancePacksResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides organization config rule deployment status for an organization.  The status is not considered successful until organization config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeOrganizationConfigRuleStatusesPaginator<Result>(
+        _ input: DescribeOrganizationConfigRuleStatusesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeOrganizationConfigRuleStatusesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeOrganizationConfigRuleStatuses,
+            inputKey: \DescribeOrganizationConfigRuleStatusesRequest.nextToken,
+            outputKey: \DescribeOrganizationConfigRuleStatusesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeOrganizationConfigRuleStatusesPaginator(
+        _ input: DescribeOrganizationConfigRuleStatusesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOrganizationConfigRuleStatusesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeOrganizationConfigRuleStatuses,
+            inputKey: \DescribeOrganizationConfigRuleStatusesRequest.nextToken,
+            outputKey: \DescribeOrganizationConfigRuleStatusesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of organization config rules.   When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeOrganizationConfigRulesPaginator<Result>(
+        _ input: DescribeOrganizationConfigRulesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeOrganizationConfigRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeOrganizationConfigRules,
+            inputKey: \DescribeOrganizationConfigRulesRequest.nextToken,
+            outputKey: \DescribeOrganizationConfigRulesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeOrganizationConfigRulesPaginator(
+        _ input: DescribeOrganizationConfigRulesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOrganizationConfigRulesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeOrganizationConfigRules,
+            inputKey: \DescribeOrganizationConfigRulesRequest.nextToken,
+            outputKey: \DescribeOrganizationConfigRulesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Provides organization conformance pack deployment status for an organization.   The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeOrganizationConformancePackStatusesPaginator<Result>(
+        _ input: DescribeOrganizationConformancePackStatusesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeOrganizationConformancePackStatusesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeOrganizationConformancePackStatuses,
+            inputKey: \DescribeOrganizationConformancePackStatusesRequest.nextToken,
+            outputKey: \DescribeOrganizationConformancePackStatusesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeOrganizationConformancePackStatusesPaginator(
+        _ input: DescribeOrganizationConformancePackStatusesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOrganizationConformancePackStatusesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeOrganizationConformancePackStatuses,
+            inputKey: \DescribeOrganizationConformancePackStatusesRequest.nextToken,
+            outputKey: \DescribeOrganizationConformancePackStatusesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of organization conformance packs.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeOrganizationConformancePacksPaginator<Result>(
+        _ input: DescribeOrganizationConformancePacksRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeOrganizationConformancePacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeOrganizationConformancePacks,
+            inputKey: \DescribeOrganizationConformancePacksRequest.nextToken,
+            outputKey: \DescribeOrganizationConformancePacksResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeOrganizationConformancePacksPaginator(
+        _ input: DescribeOrganizationConformancePacksRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeOrganizationConformancePacksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeOrganizationConformancePacks,
+            inputKey: \DescribeOrganizationConformancePacksRequest.nextToken,
+            outputKey: \DescribeOrganizationConformancePacksResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of all pending aggregation requests.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describePendingAggregationRequestsPaginator<Result>(
+        _ input: DescribePendingAggregationRequestsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribePendingAggregationRequestsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describePendingAggregationRequests,
+            inputKey: \DescribePendingAggregationRequestsRequest.nextToken,
+            outputKey: \DescribePendingAggregationRequestsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describePendingAggregationRequestsPaginator(
+        _ input: DescribePendingAggregationRequestsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribePendingAggregationRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describePendingAggregationRequests,
+            inputKey: \DescribePendingAggregationRequestsRequest.nextToken,
+            outputKey: \DescribePendingAggregationRequestsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response.   AWS Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -129,6 +1064,666 @@ extension ConfigService {
         )
     }
 
+    ///  Returns the details of one or more retention configurations. If the retention configuration name is not specified, this action returns the details for all the retention configurations for that account.  Currently, AWS Config supports only one retention configuration per region in your account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeRetentionConfigurationsPaginator<Result>(
+        _ input: DescribeRetentionConfigurationsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeRetentionConfigurationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeRetentionConfigurations,
+            inputKey: \DescribeRetentionConfigurationsRequest.nextToken,
+            outputKey: \DescribeRetentionConfigurationsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeRetentionConfigurationsPaginator(
+        _ input: DescribeRetentionConfigurationsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeRetentionConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeRetentionConfigurations,
+            inputKey: \DescribeRetentionConfigurationsRequest.nextToken,
+            outputKey: \DescribeRetentionConfigurationsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the evaluation results for the specified AWS Config rule for a specific resource in a rule. The results indicate which AWS resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.   The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getAggregateComplianceDetailsByConfigRulePaginator<Result>(
+        _ input: GetAggregateComplianceDetailsByConfigRuleRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetAggregateComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getAggregateComplianceDetailsByConfigRule,
+            inputKey: \GetAggregateComplianceDetailsByConfigRuleRequest.nextToken,
+            outputKey: \GetAggregateComplianceDetailsByConfigRuleResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getAggregateComplianceDetailsByConfigRulePaginator(
+        _ input: GetAggregateComplianceDetailsByConfigRuleRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetAggregateComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getAggregateComplianceDetailsByConfigRule,
+            inputKey: \GetAggregateComplianceDetailsByConfigRuleRequest.nextToken,
+            outputKey: \GetAggregateComplianceDetailsByConfigRuleResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getAggregateConfigRuleComplianceSummaryPaginator<Result>(
+        _ input: GetAggregateConfigRuleComplianceSummaryRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetAggregateConfigRuleComplianceSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getAggregateConfigRuleComplianceSummary,
+            inputKey: \GetAggregateConfigRuleComplianceSummaryRequest.nextToken,
+            outputKey: \GetAggregateConfigRuleComplianceSummaryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getAggregateConfigRuleComplianceSummaryPaginator(
+        _ input: GetAggregateConfigRuleComplianceSummaryRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetAggregateConfigRuleComplianceSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getAggregateConfigRuleComplianceSummary,
+            inputKey: \GetAggregateConfigRuleComplianceSummaryRequest.nextToken,
+            outputKey: \GetAggregateConfigRuleComplianceSummaryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the count of compliant and noncompliant conformance packs across all AWS Accounts and AWS Regions in an aggregator. You can filter based on AWS Account ID or AWS Region.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getAggregateConformancePackComplianceSummaryPaginator<Result>(
+        _ input: GetAggregateConformancePackComplianceSummaryRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetAggregateConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getAggregateConformancePackComplianceSummary,
+            inputKey: \GetAggregateConformancePackComplianceSummaryRequest.nextToken,
+            outputKey: \GetAggregateConformancePackComplianceSummaryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getAggregateConformancePackComplianceSummaryPaginator(
+        _ input: GetAggregateConformancePackComplianceSummaryRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetAggregateConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getAggregateConformancePackComplianceSummary,
+            inputKey: \GetAggregateConformancePackComplianceSummaryRequest.nextToken,
+            outputKey: \GetAggregateConformancePackComplianceSummaryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the resource counts across accounts and regions that are present in your AWS Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1. If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getAggregateDiscoveredResourceCountsPaginator<Result>(
+        _ input: GetAggregateDiscoveredResourceCountsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetAggregateDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getAggregateDiscoveredResourceCounts,
+            inputKey: \GetAggregateDiscoveredResourceCountsRequest.nextToken,
+            outputKey: \GetAggregateDiscoveredResourceCountsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getAggregateDiscoveredResourceCountsPaginator(
+        _ input: GetAggregateDiscoveredResourceCountsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetAggregateDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getAggregateDiscoveredResourceCounts,
+            inputKey: \GetAggregateDiscoveredResourceCountsRequest.nextToken,
+            outputKey: \GetAggregateDiscoveredResourceCountsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the evaluation results for the specified AWS Config rule. The results indicate which AWS resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getComplianceDetailsByConfigRulePaginator<Result>(
+        _ input: GetComplianceDetailsByConfigRuleRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getComplianceDetailsByConfigRule,
+            inputKey: \GetComplianceDetailsByConfigRuleRequest.nextToken,
+            outputKey: \GetComplianceDetailsByConfigRuleResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getComplianceDetailsByConfigRulePaginator(
+        _ input: GetComplianceDetailsByConfigRuleRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getComplianceDetailsByConfigRule,
+            inputKey: \GetComplianceDetailsByConfigRuleRequest.nextToken,
+            outputKey: \GetComplianceDetailsByConfigRuleResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the evaluation results for the specified AWS resource. The results indicate which AWS Config rules were used to evaluate the resource, when each rule was last used, and whether the resource complies with each rule.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getComplianceDetailsByResourcePaginator<Result>(
+        _ input: GetComplianceDetailsByResourceRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetComplianceDetailsByResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getComplianceDetailsByResource,
+            inputKey: \GetComplianceDetailsByResourceRequest.nextToken,
+            outputKey: \GetComplianceDetailsByResourceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getComplianceDetailsByResourcePaginator(
+        _ input: GetComplianceDetailsByResourceRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetComplianceDetailsByResourceResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getComplianceDetailsByResource,
+            inputKey: \GetComplianceDetailsByResourceRequest.nextToken,
+            outputKey: \GetComplianceDetailsByResourceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns compliance details of a conformance pack for all AWS resources that are monitered by conformance pack.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getConformancePackComplianceDetailsPaginator<Result>(
+        _ input: GetConformancePackComplianceDetailsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetConformancePackComplianceDetailsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getConformancePackComplianceDetails,
+            inputKey: \GetConformancePackComplianceDetailsRequest.nextToken,
+            outputKey: \GetConformancePackComplianceDetailsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getConformancePackComplianceDetailsPaginator(
+        _ input: GetConformancePackComplianceDetailsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetConformancePackComplianceDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getConformancePackComplianceDetails,
+            inputKey: \GetConformancePackComplianceDetailsRequest.nextToken,
+            outputKey: \GetConformancePackComplianceDetailsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getConformancePackComplianceSummaryPaginator<Result>(
+        _ input: GetConformancePackComplianceSummaryRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getConformancePackComplianceSummary,
+            inputKey: \GetConformancePackComplianceSummaryRequest.nextToken,
+            outputKey: \GetConformancePackComplianceSummaryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getConformancePackComplianceSummaryPaginator(
+        _ input: GetConformancePackComplianceSummaryRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getConformancePackComplianceSummary,
+            inputKey: \GetConformancePackComplianceSummaryRequest.nextToken,
+            outputKey: \GetConformancePackComplianceSummaryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns the resource types, the number of each resource type, and the total number of resources that AWS Config is recording in this region for your AWS account.   Example    AWS Config is recording three resource types in the US East (Ohio) Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets.   You make a call to the GetDiscoveredResourceCounts action and specify that you want all resource types.    AWS Config returns the following:   The resource types (EC2 instances, IAM users, and S3 buckets).   The number of each resource type (25, 20, and 15).   The total number of all resources (60).     The response is paginated. By default, AWS Config lists 100 ResourceCount objects on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  If you make a call to the GetDiscoveredResourceCounts action, you might not immediately receive resource counts in the following situations:   You are a new AWS Config customer.   You just enabled resource recording.   It might take a few minutes for AWS Config to record and count your resources. Wait a few minutes and then retry the GetDiscoveredResourceCounts action.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getDiscoveredResourceCountsPaginator<Result>(
+        _ input: GetDiscoveredResourceCountsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getDiscoveredResourceCounts,
+            inputKey: \GetDiscoveredResourceCountsRequest.nextToken,
+            outputKey: \GetDiscoveredResourceCountsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getDiscoveredResourceCountsPaginator(
+        _ input: GetDiscoveredResourceCountsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getDiscoveredResourceCounts,
+            inputKey: \GetDiscoveredResourceCountsRequest.nextToken,
+            outputKey: \GetDiscoveredResourceCountsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns detailed status for each member account within an organization for a given organization config rule.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getOrganizationConfigRuleDetailedStatusPaginator<Result>(
+        _ input: GetOrganizationConfigRuleDetailedStatusRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetOrganizationConfigRuleDetailedStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getOrganizationConfigRuleDetailedStatus,
+            inputKey: \GetOrganizationConfigRuleDetailedStatusRequest.nextToken,
+            outputKey: \GetOrganizationConfigRuleDetailedStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getOrganizationConfigRuleDetailedStatusPaginator(
+        _ input: GetOrganizationConfigRuleDetailedStatusRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetOrganizationConfigRuleDetailedStatusResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getOrganizationConfigRuleDetailedStatus,
+            inputKey: \GetOrganizationConfigRuleDetailedStatusRequest.nextToken,
+            outputKey: \GetOrganizationConfigRuleDetailedStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns detailed status for each member account within an organization for a given organization conformance pack.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getOrganizationConformancePackDetailedStatusPaginator<Result>(
+        _ input: GetOrganizationConformancePackDetailedStatusRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetOrganizationConformancePackDetailedStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getOrganizationConformancePackDetailedStatus,
+            inputKey: \GetOrganizationConformancePackDetailedStatusRequest.nextToken,
+            outputKey: \GetOrganizationConformancePackDetailedStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getOrganizationConformancePackDetailedStatusPaginator(
+        _ input: GetOrganizationConformancePackDetailedStatusRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetOrganizationConformancePackDetailedStatusResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getOrganizationConformancePackDetailedStatus,
+            inputKey: \GetOrganizationConformancePackDetailedStatusRequest.nextToken,
+            outputKey: \GetOrganizationConformancePackDetailedStatusResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of configuration items for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), AWS Config returns the ConfigurationItems for the specified retention period.  The response is paginated. By default, AWS Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.  Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -178,6 +1773,116 @@ extension ConfigService {
             command: getResourceConfigHistory,
             inputKey: \GetResourceConfigHistoryRequest.nextToken,
             outputKey: \GetResourceConfigHistoryResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions. A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region. You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAggregateDiscoveredResourcesPaginator<Result>(
+        _ input: ListAggregateDiscoveredResourcesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAggregateDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAggregateDiscoveredResources,
+            inputKey: \ListAggregateDiscoveredResourcesRequest.nextToken,
+            outputKey: \ListAggregateDiscoveredResourcesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAggregateDiscoveredResourcesPaginator(
+        _ input: ListAggregateDiscoveredResourcesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAggregateDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAggregateDiscoveredResources,
+            inputKey: \ListAggregateDiscoveredResourcesRequest.nextToken,
+            outputKey: \ListAggregateDiscoveredResourcesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that AWS Config has discovered, including those that AWS Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name.  You can specify either resource IDs or a resource name, but not both, in the same request.  The response is paginated. By default, AWS Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDiscoveredResourcesPaginator<Result>(
+        _ input: ListDiscoveredResourcesRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDiscoveredResources,
+            inputKey: \ListDiscoveredResourcesRequest.nextToken,
+            outputKey: \ListDiscoveredResourcesResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDiscoveredResourcesPaginator(
+        _ input: ListDiscoveredResourcesRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDiscoveredResources,
+            inputKey: \ListDiscoveredResourcesRequest.nextToken,
+            outputKey: \ListDiscoveredResourcesResponse.nextToken,
             context: context,
             on: eventLoop,
             onPage: onPage
@@ -239,6 +1944,61 @@ extension ConfigService {
         )
     }
 
+    ///  List the tags for AWS Config resource.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTagsForResourcePaginator<Result>(
+        _ input: ListTagsForResourceRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listTagsForResource,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTagsForResourcePaginator(
+        _ input: ListTagsForResourceRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listTagsForResource,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of AWS resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the  Query Components  section in the AWS Config Developer Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -293,6 +2053,234 @@ extension ConfigService {
             onPage: onPage
         )
     }
+
+    ///  Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the  Query Components  section in the AWS Config Developer Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func selectResourceConfigPaginator<Result>(
+        _ input: SelectResourceConfigRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SelectResourceConfigResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: selectResourceConfig,
+            inputKey: \SelectResourceConfigRequest.nextToken,
+            outputKey: \SelectResourceConfigResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func selectResourceConfigPaginator(
+        _ input: SelectResourceConfigRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SelectResourceConfigResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: selectResourceConfig,
+            inputKey: \SelectResourceConfigRequest.nextToken,
+            outputKey: \SelectResourceConfigResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+}
+
+extension ConfigService.DescribeAggregateComplianceByConfigRulesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeAggregateComplianceByConfigRulesRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeAggregateComplianceByConformancePacksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeAggregateComplianceByConformancePacksRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeAggregationAuthorizationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeAggregationAuthorizationsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeComplianceByConfigRuleRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeComplianceByConfigRuleRequest {
+        return .init(
+            complianceTypes: self.complianceTypes,
+            configRuleNames: self.configRuleNames,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeComplianceByResourceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeComplianceByResourceRequest {
+        return .init(
+            complianceTypes: self.complianceTypes,
+            limit: self.limit,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension ConfigService.DescribeConfigRuleEvaluationStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConfigRuleEvaluationStatusRequest {
+        return .init(
+            configRuleNames: self.configRuleNames,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeConfigRulesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConfigRulesRequest {
+        return .init(
+            configRuleNames: self.configRuleNames,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeConfigurationAggregatorSourcesStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConfigurationAggregatorSourcesStatusRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            limit: self.limit,
+            nextToken: token,
+            updateStatus: self.updateStatus
+        )
+    }
+}
+
+extension ConfigService.DescribeConfigurationAggregatorsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConfigurationAggregatorsRequest {
+        return .init(
+            configurationAggregatorNames: self.configurationAggregatorNames,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeConformancePackComplianceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConformancePackComplianceRequest {
+        return .init(
+            conformancePackName: self.conformancePackName,
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeConformancePackStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConformancePackStatusRequest {
+        return .init(
+            conformancePackNames: self.conformancePackNames,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeConformancePacksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeConformancePacksRequest {
+        return .init(
+            conformancePackNames: self.conformancePackNames,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.DescribeOrganizationConfigRuleStatusesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeOrganizationConfigRuleStatusesRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            organizationConfigRuleNames: self.organizationConfigRuleNames
+        )
+    }
+}
+
+extension ConfigService.DescribeOrganizationConfigRulesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeOrganizationConfigRulesRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            organizationConfigRuleNames: self.organizationConfigRuleNames
+        )
+    }
+}
+
+extension ConfigService.DescribeOrganizationConformancePackStatusesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeOrganizationConformancePackStatusesRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            organizationConformancePackNames: self.organizationConformancePackNames
+        )
+    }
+}
+
+extension ConfigService.DescribeOrganizationConformancePacksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeOrganizationConformancePacksRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            organizationConformancePackNames: self.organizationConformancePackNames
+        )
+    }
+}
+
+extension ConfigService.DescribePendingAggregationRequestsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribePendingAggregationRequestsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token
+        )
+    }
 }
 
 extension ConfigService.DescribeRemediationExceptionsRequest: AWSPaginateToken {
@@ -317,6 +2305,140 @@ extension ConfigService.DescribeRemediationExecutionStatusRequest: AWSPaginateTo
     }
 }
 
+extension ConfigService.DescribeRetentionConfigurationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.DescribeRetentionConfigurationsRequest {
+        return .init(
+            nextToken: token,
+            retentionConfigurationNames: self.retentionConfigurationNames
+        )
+    }
+}
+
+extension ConfigService.GetAggregateComplianceDetailsByConfigRuleRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetAggregateComplianceDetailsByConfigRuleRequest {
+        return .init(
+            accountId: self.accountId,
+            awsRegion: self.awsRegion,
+            complianceType: self.complianceType,
+            configRuleName: self.configRuleName,
+            configurationAggregatorName: self.configurationAggregatorName,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetAggregateConfigRuleComplianceSummaryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetAggregateConfigRuleComplianceSummaryRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            filters: self.filters,
+            groupByKey: self.groupByKey,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetAggregateConformancePackComplianceSummaryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetAggregateConformancePackComplianceSummaryRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            filters: self.filters,
+            groupByKey: self.groupByKey,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetAggregateDiscoveredResourceCountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetAggregateDiscoveredResourceCountsRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            filters: self.filters,
+            groupByKey: self.groupByKey,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetComplianceDetailsByConfigRuleRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetComplianceDetailsByConfigRuleRequest {
+        return .init(
+            complianceTypes: self.complianceTypes,
+            configRuleName: self.configRuleName,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetComplianceDetailsByResourceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetComplianceDetailsByResourceRequest {
+        return .init(
+            complianceTypes: self.complianceTypes,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension ConfigService.GetConformancePackComplianceDetailsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetConformancePackComplianceDetailsRequest {
+        return .init(
+            conformancePackName: self.conformancePackName,
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetConformancePackComplianceSummaryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetConformancePackComplianceSummaryRequest {
+        return .init(
+            conformancePackNames: self.conformancePackNames,
+            limit: self.limit,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.GetDiscoveredResourceCountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetDiscoveredResourceCountsRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            resourceTypes: self.resourceTypes
+        )
+    }
+}
+
+extension ConfigService.GetOrganizationConfigRuleDetailedStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetOrganizationConfigRuleDetailedStatusRequest {
+        return .init(
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token,
+            organizationConfigRuleName: self.organizationConfigRuleName
+        )
+    }
+}
+
+extension ConfigService.GetOrganizationConformancePackDetailedStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.GetOrganizationConformancePackDetailedStatusRequest {
+        return .init(
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token,
+            organizationConformancePackName: self.organizationConformancePackName
+        )
+    }
+}
+
 extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConfigService.GetResourceConfigHistoryRequest {
         return .init(
@@ -331,11 +2453,46 @@ extension ConfigService.GetResourceConfigHistoryRequest: AWSPaginateToken {
     }
 }
 
+extension ConfigService.ListAggregateDiscoveredResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.ListAggregateDiscoveredResourcesRequest {
+        return .init(
+            configurationAggregatorName: self.configurationAggregatorName,
+            filters: self.filters,
+            limit: self.limit,
+            nextToken: token,
+            resourceType: self.resourceType
+        )
+    }
+}
+
+extension ConfigService.ListDiscoveredResourcesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.ListDiscoveredResourcesRequest {
+        return .init(
+            includeDeletedResources: self.includeDeletedResources,
+            limit: self.limit,
+            nextToken: token,
+            resourceIds: self.resourceIds,
+            resourceName: self.resourceName,
+            resourceType: self.resourceType
+        )
+    }
+}
+
 extension ConfigService.ListStoredQueriesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ConfigService.ListStoredQueriesRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension ConfigService.ListTagsForResourceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.ListTagsForResourceRequest {
+        return .init(
+            limit: self.limit,
+            nextToken: token,
+            resourceArn: self.resourceArn
         )
     }
 }
@@ -347,6 +2504,16 @@ extension ConfigService.SelectAggregateResourceConfigRequest: AWSPaginateToken {
             expression: self.expression,
             limit: self.limit,
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ConfigService.SelectResourceConfigRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ConfigService.SelectResourceConfigRequest {
+        return .init(
+            expression: self.expression,
+            limit: self.limit,
             nextToken: token
         )
     }

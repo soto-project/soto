@@ -341,6 +341,16 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum DvbSubOcrLanguage: String, CustomStringConvertible, Codable {
+        case deu = "DEU"
+        case eng = "ENG"
+        case fra = "FRA"
+        case nld = "NLD"
+        case por = "POR"
+        case spa = "SPA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
@@ -541,6 +551,7 @@ extension MediaLive {
     }
 
     public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
         case low = "LOW"
@@ -693,6 +704,7 @@ extension MediaLive {
     }
 
     public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable {
+        case auto = "AUTO"
         case high = "HIGH"
         case higher = "HIGHER"
         case low = "LOW"
@@ -907,6 +919,12 @@ extension MediaLive {
     public enum HlsRedundantManifest: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HlsScte35SourceType: String, CustomStringConvertible, Codable {
+        case manifest = "MANIFEST"
+        case segments = "SEGMENTS"
         public var description: String { return self.rawValue }
     }
 
@@ -1441,6 +1459,8 @@ extension MediaLive {
     public enum ReservationSpecialFeature: String, CustomStringConvertible, Codable {
         case advancedAudio = "ADVANCED_AUDIO"
         case audioNormalization = "AUDIO_NORMALIZATION"
+        case mghd = "MGHD"
+        case mguhd = "MGUHD"
         public var description: String { return self.rawValue }
     }
 
@@ -1494,6 +1514,16 @@ extension MediaLive {
     public enum Scte20Convert608To708: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case upconvert = "UPCONVERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Scte27OcrLanguage: String, CustomStringConvertible, Codable {
+        case deu = "DEU"
+        case eng = "ENG"
+        case fra = "FRA"
+        case nld = "NLD"
+        case por = "POR"
+        case spa = "SPA"
         public var description: String { return self.rawValue }
     }
 
@@ -4516,10 +4546,14 @@ extension MediaLive {
 
     public struct DvbSubSourceSettings: AWSEncodableShape & AWSDecodableShape {
 
+        /// If you will configure a WebVTT caption description that references this caption selector, use this field to
+        /// provide the language to consider when translating the image-based source to text.
+        public let ocrLanguage: DvbSubOcrLanguage?
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
 
-        public init(pid: Int? = nil) {
+        public init(ocrLanguage: DvbSubOcrLanguage? = nil, pid: Int? = nil) {
+            self.ocrLanguage = ocrLanguage
             self.pid = pid
         }
 
@@ -4528,6 +4562,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ocrLanguage = "ocrLanguage"
             case pid = "pid"
         }
     }
@@ -5116,7 +5151,7 @@ extension MediaLive {
 
     public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
 
-        /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
+        /// Enables or disables adaptive quantization, which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: flicker, spatial, and temporal. Set the field in one of these ways: Set to Auto. Recommended. For each type of AQ, MediaLive will determine if AQ is needed, and if so, the appropriate strength. Set a strength (a value other than Auto or Disable). This strength will apply to any of the AQ fields that you choose to enable. Set to Disabled to disable all types of adaptive quantization.
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream.  If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public let afdSignaling: AfdSignaling?
@@ -5136,7 +5171,7 @@ extension MediaLive {
         public let filterSettings: H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public let fixedAfd: FixedAfd?
-        /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if flicker AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply flicker AQ using the specified strength. Disabled: MediaLive won't apply flicker AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply flicker AQ.
         public let flickerAq: H264FlickerAq?
         /// This setting applies only when scan type is "interlaced." It controls whether coding is performed on a field basis or on a frame basis. (When the video is progressive, the coding is always performed on a frame basis.)
         /// enabled: Force MediaLive to code on a field basis, so that odd and even sets of fields are coded separately.
@@ -5183,10 +5218,11 @@ extension MediaLive {
         /// - ENHANCED_QUALITY: Produces a slightly better video quality without an increase in the bitrate. Has an effect only when the Rate control mode is QVBR or CBR. If this channel is in a MediaLive multiplex, the value must be ENHANCED_QUALITY.
         /// - STANDARD_QUALITY: Valid for any Rate control mode.
         public let qualityLevel: H264QualityLevel?
-        /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality level field and Max bitrate field that suit your most important viewing devices. Recommended values are:
+        /// Controls the target quality for the video encode. Applies only when the rate control mode is QVBR. You can set a target quality or you can let MediaLive determine the best quality. To set a target quality, enter values in the QVBR quality level field and the Max bitrate field. Enter values that suit your most important viewing devices. Recommended values are:
         /// - Primary screen: Quality level: 8 to 10. Max bitrate: 4M
         /// - PC or tablet: Quality level: 7. Max bitrate: 1.5M to 3M
         /// - Smartphone: Quality level: 6. Max bitrate: 1M to 1.5M
+        /// To let MediaLive decide, leave the QVBR quality level field empty, and in Max bitrate enter the maximum rate you want in the video. For more information, see the section called "Video - rate control mode" in the MediaLive user guide
         public let qvbrQualityLevel: Int?
         /// Rate control mode.
         /// QVBR: Quality will match the specified quality level except when it is constrained by the
@@ -5210,13 +5246,13 @@ extension MediaLive {
         public let slices: Int?
         /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image.  If not set to zero, must be greater than 15.
         public let softness: Int?
-        /// If set to enabled, adjust quantization within each frame based on spatial variation of content complexity.
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if spatial AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply spatial AQ using the specified strength. Disabled: MediaLive won't apply spatial AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply spatial AQ.
         public let spatialAq: H264SpatialAq?
         /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP to improve visual quality.
         public let subgopLength: H264SubGopLength?
         /// Produces a bitstream compliant with SMPTE RP-2027.
         public let syntax: H264Syntax?
-        /// If set to enabled, adjust quantization within each frame based on temporal variation of content complexity.
+        /// Temporal makes adjustments within each frame based on temporal variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if temporal AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply temporal AQ using the specified strength. Disabled: MediaLive won't apply temporal AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply temporal AQ.
         public let temporalAq: H264TemporalAq?
         /// Determines how timecodes should be inserted into the video elementary stream.
         /// - 'disabled': Do not include timecodes
@@ -5922,12 +5958,15 @@ extension MediaLive {
         public let retries: Int?
         /// The number of seconds between retries when an attempt to read a manifest or segment fails.
         public let retryInterval: Int?
+        /// Identifies the source for the SCTE-35 messages that MediaLive will ingest. Messages can be ingested from the content segments (in the stream) or from tags in the playlist (the HLS manifest). MediaLive ignores SCTE-35 information in the source that is not selected.
+        public let scte35Source: HlsScte35SourceType?
 
-        public init(bandwidth: Int? = nil, bufferSegments: Int? = nil, retries: Int? = nil, retryInterval: Int? = nil) {
+        public init(bandwidth: Int? = nil, bufferSegments: Int? = nil, retries: Int? = nil, retryInterval: Int? = nil, scte35Source: HlsScte35SourceType? = nil) {
             self.bandwidth = bandwidth
             self.bufferSegments = bufferSegments
             self.retries = retries
             self.retryInterval = retryInterval
+            self.scte35Source = scte35Source
         }
 
         public func validate(name: String) throws {
@@ -5942,6 +5981,7 @@ extension MediaLive {
             case bufferSegments = "bufferSegments"
             case retries = "retries"
             case retryInterval = "retryInterval"
+            case scte35Source = "scte35Source"
         }
     }
 
@@ -9364,6 +9404,9 @@ extension MediaLive {
 
     public struct Scte27SourceSettings: AWSEncodableShape & AWSDecodableShape {
 
+        /// If you will configure a WebVTT caption description that references this caption selector, use this field to
+        /// provide the language to consider when translating the image-based source to text.
+        public let ocrLanguage: Scte27OcrLanguage?
         /// The pid field is used in conjunction with the caption selector languageCode field as follows:
         ///   - Specify PID and Language: Extracts captions from that PID; the language is "informational".
         ///   - Specify PID and omit Language: Extracts the specified PID.
@@ -9371,7 +9414,8 @@ extension MediaLive {
         ///   - Omit PID and omit Language: Valid only if source is DVB-Sub that is being passed through; all languages will be passed through.
         public let pid: Int?
 
-        public init(pid: Int? = nil) {
+        public init(ocrLanguage: Scte27OcrLanguage? = nil, pid: Int? = nil) {
+            self.ocrLanguage = ocrLanguage
             self.pid = pid
         }
 
@@ -9380,6 +9424,7 @@ extension MediaLive {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ocrLanguage = "ocrLanguage"
             case pid = "pid"
         }
     }
@@ -10179,15 +10224,13 @@ extension MediaLive {
         public let message: String?
         /// The AWS account ID for the recipient of the input device transfer.
         public let targetCustomerId: String?
-        public let targetRegion: String?
         /// The type (direction) of the input device transfer.
         public let transferType: InputDeviceTransferType?
 
-        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, targetRegion: String? = nil, transferType: InputDeviceTransferType? = nil) {
+        public init(id: String? = nil, message: String? = nil, targetCustomerId: String? = nil, transferType: InputDeviceTransferType? = nil) {
             self.id = id
             self.message = message
             self.targetCustomerId = targetCustomerId
-            self.targetRegion = targetRegion
             self.transferType = transferType
         }
 
@@ -10195,7 +10238,6 @@ extension MediaLive {
             case id = "id"
             case message = "message"
             case targetCustomerId = "targetCustomerId"
-            case targetRegion = "targetRegion"
             case transferType = "transferType"
         }
     }

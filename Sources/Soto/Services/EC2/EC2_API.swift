@@ -92,12 +92,12 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AcceptVpcPeeringConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your AWS resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from AWS. To minimize down time, you can configure your AWS resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through AWS. It can take a few minutes before traffic to the specified addresses starts routing to AWS because of BGP propagation delays. To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
+    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays. To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
     public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AdvertiseByoipCidrResult> {
         return self.client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Allocates an Elastic IP address to your AWS account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different AWS account. You can allocate an Elastic IP address from an address pool owned by AWS or from an address pool created from a public IPv4 address range that you have brought to AWS for use with your AWS resources using bring your own IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. [EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another AWS account. You cannot recover an Elastic IP address for EC2-Classic. To attempt to recover an Elastic IP address that you released, specify it in this operation. An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
+    /// Allocates an Elastic IP address to your account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own IP addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. [EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another account. You cannot recover an Elastic IP address for EC2-Classic. To attempt to recover an Elastic IP address that you released, specify it in this operation. An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
     public func allocateAddress(_ input: AllocateAddressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AllocateAddressResult> {
         return self.client.execute(operation: "AllocateAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -137,7 +137,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AssociateDhcpOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Associates an AWS Identity and Access Management (IAM) role with an AWS Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see AWS Certificate Manager for Nitro Enclaves in the AWS Nitro Enclaves User Guide. When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 bucket that only the associated IAM role can access. The private key of the certificate is encrypted with an AWS-managed KMS customer master (CMK) that has an attached attestation-based CMK policy. To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the command. To enable the IAM role to access the AWS KMS CMK, you must grant it permission to call kms:Decrypt on the AWS KMS CMK returned by the command. For more information, see  Grant the role permission to access the certificate and encryption key in the AWS Nitro Enclaves User Guide.
+    /// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see Certificate Manager for Nitro Enclaves in the Amazon Web Services Nitro Enclaves User Guide. When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 bucket that only the associated IAM role can access. The private key of the certificate is encrypted with an Amazon Web Services managed key that has an attached attestation-based key policy. To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the command. To enable the IAM role to access the KMS key, you must grant it permission to call kms:Decrypt on the KMS key returned by the command. For more information, see  Grant the role permission to access the certificate and encryption key in the Amazon Web Services Nitro Enclaves User Guide.
     public func associateEnclaveCertificateIamRole(_ input: AssociateEnclaveCertificateIamRoleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateEnclaveCertificateIamRoleResult> {
         return self.client.execute(operation: "AssociateEnclaveCertificateIamRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -145,6 +145,11 @@ public struct EC2: AWSService {
     /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance.
     public func associateIamInstanceProfile(_ input: AssociateIamInstanceProfileRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateIamInstanceProfileResult> {
         return self.client.execute(operation: "AssociateIamInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Associates one or more targets with an event window. Only one type of target (instance IDs, Dedicated Host IDs, or tags) can be specified with an event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    public func associateInstanceEventWindow(_ input: AssociateInstanceEventWindowRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateInstanceEventWindowResult> {
+        return self.client.execute(operation: "AssociateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
@@ -165,6 +170,11 @@ public struct EC2: AWSService {
     /// Associates the specified attachment with the specified transit gateway route table. You can associate only one route table with an attachment.
     public func associateTransitGatewayRouteTable(_ input: AssociateTransitGatewayRouteTableRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTransitGatewayRouteTableResult> {
         return self.client.execute(operation: "AssociateTransitGatewayRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Associates a branch network interface with a trunk network interface. Before you create the association, run the create-network-interface command and set --interface-type to trunk. You must also create a network interface for each branch network interface that you want to associate with the trunk network interface. For more information, see  Network interface trunking in the Amazon Elastic Compute Cloud User Guide.
+    public func associateTrunkInterface(_ input: AssociateTrunkInterfaceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTrunkInterfaceResult> {
+        return self.client.execute(operation: "AssociateTrunkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses (BYOIP). The IPv6 CIDR block size is fixed at /56. You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see VPC and Subnet Sizing in the Amazon Virtual Private Cloud User Guide.
@@ -202,13 +212,13 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AuthorizeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// [VPC only] Adds the specified egress rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address ranges, or to the instances associated with the specified destination security groups. You specify a protocol for each rule (for example, TCP). For the TCP and UDP protocols, you must also specify the destination port or port range. For the ICMP protocol, you must also specify the ICMP type and code. You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For more information about VPC security group limits, see Amazon VPC Limits.
-    @discardableResult public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+    /// [VPC only] Adds the specified outbound (egress) rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address ranges, or to the instances that are associated with the specified destination security groups. You specify a protocol for each rule (for example, TCP). For the TCP and UDP protocols, you must also specify the destination port or port range. For the ICMP protocol, you must also specify the ICMP type and code. You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For information about VPC security group quotas, see Amazon VPC quotas.
+    public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AuthorizeSecurityGroupEgressResult> {
         return self.client.execute(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Adds the specified ingress rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address ranges, or from the instances associated with the specified destination security groups. You specify a protocol for each rule (for example, TCP). For TCP and UDP, you must also specify the destination port or port range. For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code. You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur. For more information about VPC security group limits, see Amazon VPC Limits.
-    @discardableResult public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+    /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from the instances that are associated with the specified destination security groups. You specify a protocol for each rule (for example, TCP). For TCP and UDP, you must also specify the destination port or port range. For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code. You can use -1 to mean all types or all codes. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur. For more information about VPC security group quotas, see Amazon VPC quotas.
+    public func authorizeSecurityGroupIngress(_ input: AuthorizeSecurityGroupIngressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AuthorizeSecurityGroupIngressResult> {
         return self.client.execute(operation: "AuthorizeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
@@ -342,6 +352,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Creates an event window in which scheduled events for the associated Amazon EC2 instances can run. You can define either a set of time ranges or a cron expression when creating the event window, but not both. All event window times are in UTC. You can create up to 200 event windows per Amazon Web Services Region. When you create the event window, targets (instance IDs, Dedicated Host IDs, or tags) are not yet associated with it. To ensure that the event window can be used, you must associate one or more targets with it by using the AssociateInstanceEventWindow API.  Event windows are applicable only for scheduled events that stop, reboot, or terminate instances. Event windows are not applicable for:   Expedited scheduled events and network maintenance events.    Unscheduled maintenance such as AutoRecovery and unplanned reboots.    For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    public func createInstanceEventWindow(_ input: CreateInstanceEventWindowRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInstanceEventWindowResult> {
+        return self.client.execute(operation: "CreateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the supported operating systems, image formats, and known limitations for the types of instances you can export, see Exporting an instance as a VM Using VM Import/Export in the VM Import/Export User Guide.
     public func createInstanceExportTask(_ input: CreateInstanceExportTaskRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateInstanceExportTaskResult> {
         return self.client.execute(operation: "CreateInstanceExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -382,7 +397,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateManagedPrefixList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Creates a NAT gateway in the specified public subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. Internet-bound traffic from a private subnet can be routed to the NAT gateway, therefore enabling instances in the private subnet to connect to the internet. For more information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
     public func createNatGateway(_ input: CreateNatGatewayRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNatGatewayResult> {
         return self.client.execute(operation: "CreateNatGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -407,7 +422,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateNetworkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Grants an AWS-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single AWS account only, and only one account at a time.
+    /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single account only, and only one account at a time.
     public func createNetworkInterfacePermission(_ input: CreateNetworkInterfacePermissionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkInterfacePermissionResult> {
         return self.client.execute(operation: "CreateNetworkInterfacePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -457,7 +472,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per AWS account. For more information, see Spot Instance data feed in the Amazon EC2 User Guide for Linux Instances.
+    /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per account. For more information, see Spot Instance data feed in the Amazon EC2 User Guide for Linux Instances.
     public func createSpotDatafeedSubscription(_ input: CreateSpotDatafeedSubscriptionRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSpotDatafeedSubscriptionResult> {
         return self.client.execute(operation: "CreateSpotDatafeedSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -632,6 +647,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteFpgaImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Deletes the specified event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    public func deleteInstanceEventWindow(_ input: DeleteInstanceEventWindowRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInstanceEventWindowResult> {
+        return self.client.execute(operation: "DeleteInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Deletes the specified internet gateway. You must detach the internet gateway from the VPC before you can delete it.
     @discardableResult public func deleteInternetGateway(_ input: DeleteInternetGatewayRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -667,7 +687,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteManagedPrefixList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Deletes the specified NAT gateway. Deleting a NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables.
+    /// Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables.
     public func deleteNatGateway(_ input: DeleteNatGatewayRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNatGatewayResult> {
         return self.client.execute(operation: "DeleteNatGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -857,7 +877,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteVpnGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Releases the specified address range that you provisioned for use with your AWS resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it using WithdrawByoipCidr and you must not have any IP addresses allocated from its address range.
+    /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it using WithdrawByoipCidr and you must not have any IP addresses allocated from its address range.
     public func deprovisionByoipCidr(_ input: DeprovisionByoipCidrRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprovisionByoipCidrResult> {
         return self.client.execute(operation: "DeprovisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -867,7 +887,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeregisterImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
+    /// c Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
     public func deregisterInstanceEventNotificationAttributes(_ input: DeregisterInstanceEventNotificationAttributesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterInstanceEventNotificationAttributesResult> {
         return self.client.execute(operation: "DeregisterInstanceEventNotificationAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -917,7 +937,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeByoipCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the AWS Region that you're currently using.
+    /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Region that you're currently using.
     public func describeCapacityReservations(_ input: DescribeCapacityReservationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCapacityReservationsResult> {
         return self.client.execute(operation: "DescribeCapacityReservations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1067,7 +1087,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeImageAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other AWS accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image results in an error indicating that the AMI ID cannot be found.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other AWS accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
     public func describeImages(_ input: DescribeImagesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImagesResult> {
         return self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1095,6 +1115,11 @@ public struct EC2: AWSService {
     /// Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region.
     public func describeInstanceEventNotificationAttributes(_ input: DescribeInstanceEventNotificationAttributesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceEventNotificationAttributesResult> {
         return self.client.execute(operation: "DescribeInstanceEventNotificationAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the output includes information for all event windows, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully.  For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    public func describeInstanceEventWindows(_ input: DescribeInstanceEventWindowsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceEventWindowsResult> {
+        return self.client.execute(operation: "DescribeInstanceEventWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshooting instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
@@ -1172,7 +1197,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeLocalGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes your managed prefix lists and any AWS-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
+    /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use GetManagedPrefixListEntries.
     public func describeManagedPrefixLists(_ input: DescribeManagedPrefixListsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeManagedPrefixListsResult> {
         return self.client.execute(operation: "DescribeManagedPrefixLists", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1222,7 +1247,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribePlacementGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes available AWS services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
+    /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use DescribeManagedPrefixLists instead.
     public func describePrefixLists(_ input: DescribePrefixListsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePrefixListsResult> {
         return self.client.execute(operation: "DescribePrefixLists", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1285,6 +1310,11 @@ public struct EC2: AWSService {
     /// [VPC only] Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
     public func describeSecurityGroupReferences(_ input: DescribeSecurityGroupReferencesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSecurityGroupReferencesResult> {
         return self.client.execute(operation: "DescribeSecurityGroupReferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Describes one or more of your security group rules.
+    public func describeSecurityGroupRules(_ input: DescribeSecurityGroupRulesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSecurityGroupRulesResult> {
+        return self.client.execute(operation: "DescribeSecurityGroupRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Describes the specified security groups or all of your security groups. A security group is for use with instances either in the EC2-Classic platform or in a specific VPC. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide and Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
@@ -1407,6 +1437,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeTransitGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Describes one or more network interface trunk associations.
+    public func describeTrunkInterfaceAssociations(_ input: DescribeTrunkInterfaceAssociationsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTrunkInterfaceAssociationsResult> {
+        return self.client.execute(operation: "DescribeTrunkInterfaceAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
     public func describeVolumeAttribute(_ input: DescribeVolumeAttributeRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVolumeAttributeResult> {
         return self.client.execute(operation: "DescribeVolumeAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -1527,6 +1562,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DisableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Cancels the deprecation of the specified AMI. For more information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
+    public func disableImageDeprecation(_ input: DisableImageDeprecationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableImageDeprecationResult> {
+        return self.client.execute(operation: "DisableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Disables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide.
     public func disableSerialConsoleAccess(_ input: DisableSerialConsoleAccessRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableSerialConsoleAccessResult> {
         return self.client.execute(operation: "DisableSerialConsoleAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -1562,7 +1602,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DisassociateClientVpnTargetNetwork", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Disassociates an IAM role from an AWS Certificate Manager (ACM) certificate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the AWS Key Management Service (KMS) customer master key (CMK) used to encrypt the private key. This effectively revokes the role's permission to use the certificate.
+    /// Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the KMS key used to encrypt the private key. This effectively revokes the role's permission to use the certificate.
     public func disassociateEnclaveCertificateIamRole(_ input: DisassociateEnclaveCertificateIamRoleRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateEnclaveCertificateIamRoleResult> {
         return self.client.execute(operation: "DisassociateEnclaveCertificateIamRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1570,6 +1610,11 @@ public struct EC2: AWSService {
     /// Disassociates an IAM instance profile from a running or stopped instance. Use DescribeIamInstanceProfileAssociations to get the association ID.
     public func disassociateIamInstanceProfile(_ input: DisassociateIamInstanceProfileRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateIamInstanceProfileResult> {
         return self.client.execute(operation: "DisassociateIamInstanceProfile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Disassociates one or more targets from an event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    public func disassociateInstanceEventWindow(_ input: DisassociateInstanceEventWindowRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateInstanceEventWindowResult> {
+        return self.client.execute(operation: "DisassociateInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see Route Tables in the Amazon Virtual Private Cloud User Guide.
@@ -1592,6 +1637,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DisassociateTransitGatewayRouteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Removes an association between a branch network interface with a trunk network interface.
+    public func disassociateTrunkInterface(_ input: DisassociateTrunkInterfaceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTrunkInterfaceResult> {
+        return self.client.execute(operation: "DisassociateTrunkInterface", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using DescribeVpcs. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.  You cannot disassociate the CIDR block with which you originally created the VPC (the primary CIDR block).
     public func disassociateVpcCidrBlock(_ input: DisassociateVpcCidrBlockRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateVpcCidrBlockResult> {
         return self.client.execute(operation: "DisassociateVpcCidrBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -1605,6 +1655,11 @@ public struct EC2: AWSService {
     /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores. For more information, see Amazon EBS fast snapshot restore in the Amazon Elastic Compute Cloud User Guide.
     public func enableFastSnapshotRestores(_ input: EnableFastSnapshotRestoresRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableFastSnapshotRestoresResult> {
         return self.client.execute(operation: "EnableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
+    public func enableImageDeprecation(_ input: EnableImageDeprecationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableImageDeprecationResult> {
+        return self.client.execute(operation: "EnableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Enables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see Manage account access to the EC2 serial console in the Amazon EC2 User Guide.
@@ -1657,7 +1712,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ExportTransitGatewayRoutes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Returns the IAM roles that are associated with the specified AWS Certificate Manager (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of the AWS Key Management Service (KMS) customer master key (CMK) that's used to encrypt the private key.
+    /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key.
     public func getAssociatedEnclaveCertificateIamRoles(_ input: GetAssociatedEnclaveCertificateIamRolesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAssociatedEnclaveCertificateIamRolesResult> {
         return self.client.execute(operation: "GetAssociatedEnclaveCertificateIamRoles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1667,7 +1722,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "GetAssociatedIpv6PoolCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each AWS account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
+    /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
     public func getCapacityReservationUsage(_ input: GetCapacityReservationUsageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCapacityReservationUsageResult> {
         return self.client.execute(operation: "GetCapacityReservationUsage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1787,7 +1842,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ImportInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Imports the public key from an RSA key pair that you created with a third-party tool. Compare this with CreateKeyPair, in which AWS creates the key pair and gives the keys to you (AWS keeps a copy of the public key). With ImportKeyPair, you create the key pair and give AWS just the public key. The private key is never transferred between you and AWS. For more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
+    /// Imports the public key from an RSA key pair that you created with a third-party tool. Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair and gives the keys to you (Amazon Web Services keeps a copy of the public key). With ImportKeyPair, you create the key pair and give Amazon Web Services just the public key. The private key is never transferred between you and Amazon Web Services. For more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
     public func importKeyPair(_ input: ImportKeyPairRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportKeyPairResult> {
         return self.client.execute(operation: "ImportKeyPair", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1822,7 +1877,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyClientVpnEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Modifies the default credit option for CPU usage of burstable performance instances. The default credit option is set at the account level per AWS Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option.  ModifyDefaultCreditSpecification is an asynchronous operation, which works at an AWS Region level and modifies the credit option for each Availability Zone. All zones in a Region are updated within five minutes. But if instances are launched during this operation, they might not get the new credit option until the zone is updated. To verify whether the update has occurred, you can call GetDefaultCreditSpecification and check DefaultCreditSpecification for updates. For more information, see Burstable performance instances in the Amazon EC2 User Guide.
+    /// Modifies the default credit option for CPU usage of burstable performance instances. The default credit option is set at the account level per Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option.  ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Region level and modifies the credit option for each Availability Zone. All zones in a Region are updated within five minutes. But if instances are launched during this operation, they might not get the new credit option until the zone is updated. To verify whether the update has occurred, you can call GetDefaultCreditSpecification and check DefaultCreditSpecification for updates. For more information, see Burstable performance instances in the Amazon EC2 User Guide.
     public func modifyDefaultCreditSpecification(_ input: ModifyDefaultCreditSpecificationRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDefaultCreditSpecificationResult> {
         return self.client.execute(operation: "ModifyDefaultCreditSpecification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -1882,6 +1937,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyInstanceEventStartTime", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the AssociateInstanceEventWindow and DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+    public func modifyInstanceEventWindow(_ input: ModifyInstanceEventWindowRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyInstanceEventWindowResult> {
+        return self.client.execute(operation: "ModifyInstanceEventWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Modify the instance metadata parameters on a running or stopped instance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of “pending”. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from “pending” to “applied” in subsequent describe-instances API calls. For more information, see Instance metadata and user data in the Amazon EC2 User Guide.
     public func modifyInstanceMetadataOptions(_ input: ModifyInstanceMetadataOptionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyInstanceMetadataOptionsResult> {
         return self.client.execute(operation: "ModifyInstanceMetadataOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -1910,6 +1970,11 @@ public struct EC2: AWSService {
     /// Modifies the Availability Zone, instance count, instance type, or network platform (EC2-Classic or EC2-VPC) of your Reserved Instances. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see Modifying Reserved Instances in the Amazon EC2 User Guide.
     public func modifyReservedInstances(_ input: ModifyReservedInstancesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyReservedInstancesResult> {
         return self.client.execute(operation: "ModifyReservedInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Modifies the rules of a security group.
+    public func modifySecurityGroupRules(_ input: ModifySecurityGroupRulesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifySecurityGroupRulesResult> {
+        return self.client.execute(operation: "ModifySecurityGroupRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing snapshots in the Amazon Elastic Compute Cloud User Guide.
@@ -2032,7 +2097,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "MoveAddressToVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Provisions an IPv4 or IPv6 address range for use with your AWS resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. AWS verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs. To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress with either the specific address from the address pool or the ID of the address pool.
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see Bring your own IP addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs. To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress with either the specific address from the address pool or the ID of the address pool.
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionByoipCidrResult> {
         return self.client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -2102,7 +2167,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "RejectVpcPeeringConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Releases the specified Elastic IP address. [EC2-Classic, default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. To disassociate an Elastic IP address without releasing it, use DisassociateAddress. [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another AWS account. [EC2-VPC] After you release an Elastic IP address for use in a VPC, you might be able to recover it. For more information, see AllocateAddress.
+    /// Releases the specified Elastic IP address. [EC2-Classic, default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. To disassociate an Elastic IP address without releasing it, use DisassociateAddress. [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another account. [EC2-VPC] After you release an Elastic IP address for use in a VPC, you might be able to recover it. For more information, see AllocateAddress.
     @discardableResult public func releaseAddress(_ input: ReleaseAddressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "ReleaseAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -2207,12 +2272,12 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "RevokeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// [VPC only] Removes the specified egress rules from a security group for EC2-VPC. This action does not apply to security groups for use in EC2-Classic. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly.  [Default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked.  AWS recommends that you use DescribeSecurityGroups to verify that the rule has been removed.  Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
+    /// [VPC only] Removes the specified outbound (egress) rules from a security group for EC2-VPC. This action does not apply to security groups for use in EC2-Classic. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not need to specify the description to revoke the rule. [Default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeSecurityGroupEgressResult> {
         return self.client.execute(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Removes the specified ingress rules from a security group. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly.  [EC2-Classic , default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked.  AWS recommends that you use DescribeSecurityGroups to verify that the rule has been removed.  Each rule consists of the protocol and the CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
+    /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and source (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not need to specify the description to revoke the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeSecurityGroupIngressResult> {
         return self.client.execute(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -2247,7 +2312,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "SendDiagnosticInterrupt", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your Windows instance, Amazon EC2 charges you for a full instance hour. If you stop and restart your Windows instance, a new instance hour begins and Amazon EC2 charges you for another full instance hour even if you are still within the same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. For more information, see Stopping instances in the Amazon EC2 User Guide.
+    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. For more information, see Stopping instances in the Amazon EC2 User Guide.
     public func startInstances(_ input: StartInstancesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInstancesResult> {
         return self.client.execute(operation: "StartInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -2262,7 +2327,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "StartVpcEndpointServicePrivateDnsVerification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Stops an Amazon EBS-backed instance. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your Windows instance, Amazon EC2 charges you for a full instance hour. If you stop and restart your Windows instance, a new instance hour begins and Amazon EC2 charges you for another full instance hour even if you are still within the same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
     public func stopInstances(_ input: StopInstancesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopInstancesResult> {
         return self.client.execute(operation: "StopInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -2272,7 +2337,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "TerminateClientVpnConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
     public func terminateInstances(_ input: TerminateInstancesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TerminateInstancesResult> {
         return self.client.execute(operation: "TerminateInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -2292,17 +2357,17 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "UnmonitorInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// [VPC only] Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You specify the description as part of the IP permissions structure. You can remove a description for a security group rule by omitting the description parameter in the request.
+    /// [VPC only] Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request.
     public func updateSecurityGroupRuleDescriptionsEgress(_ input: UpdateSecurityGroupRuleDescriptionsEgressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSecurityGroupRuleDescriptionsEgressResult> {
         return self.client.execute(operation: "UpdateSecurityGroupRuleDescriptionsEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You specify the description as part of the IP permissions structure. You can remove a description for a security group rule by omitting the description parameter in the request.
+    /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request.
     public func updateSecurityGroupRuleDescriptionsIngress(_ input: UpdateSecurityGroupRuleDescriptionsIngressRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSecurityGroupRuleDescriptionsIngressResult> {
         return self.client.execute(operation: "UpdateSecurityGroupRuleDescriptionsIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to AWS because of BGP propagation delays.
+    /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of BGP propagation delays.
     public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<WithdrawByoipCidrResult> {
         return self.client.execute(operation: "WithdrawByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

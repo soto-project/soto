@@ -349,6 +349,116 @@ extension LexModelsV2 {
         )
     }
 
+    ///  Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExportsPaginator<Result>(
+        _ input: ListExportsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExports,
+            inputKey: \ListExportsRequest.nextToken,
+            outputKey: \ListExportsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExportsPaginator(
+        _ input: ListExportsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExportsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExports,
+            inputKey: \ListExportsRequest.nextToken,
+            outputKey: \ListExportsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listImportsPaginator<Result>(
+        _ input: ListImportsRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListImportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listImports,
+            inputKey: \ListImportsRequest.nextToken,
+            outputKey: \ListImportsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listImportsPaginator(
+        _ input: ListImportsRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListImportsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImports,
+            inputKey: \ListImportsRequest.nextToken,
+            outputKey: \ListImportsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Get a list of intents that meet the specified criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -575,6 +685,32 @@ extension LexModelsV2.ListBuiltInSlotTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBuiltInSlotTypesRequest {
         return .init(
             localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListExportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListExportsRequest {
+        return .init(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListImportsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListImportsRequest {
+        return .init(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy

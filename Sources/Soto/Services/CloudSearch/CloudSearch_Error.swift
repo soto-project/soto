@@ -24,6 +24,7 @@ public struct CloudSearchErrorType: AWSErrorType {
         case internalException = "InternalException"
         case invalidTypeException = "InvalidType"
         case limitExceededException = "LimitExceeded"
+        case resourceAlreadyExistsException = "ResourceAlreadyExists"
         case resourceNotFoundException = "ResourceNotFound"
         case validationException = "ValidationException"
     }
@@ -56,6 +57,8 @@ public struct CloudSearchErrorType: AWSErrorType {
     public static var invalidTypeException: Self { .init(.invalidTypeException) }
     /// The request was rejected because a resource limit has already been met.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The request was rejected because it attempted to create a resource that already exists.
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// The request was rejected because it attempted to reference a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was rejected because it has invalid parameters.

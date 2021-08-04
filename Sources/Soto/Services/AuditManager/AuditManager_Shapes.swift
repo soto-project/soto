@@ -153,11 +153,11 @@ extension AuditManager {
 
     public struct AWSAccount: AWSEncodableShape & AWSDecodableShape {
 
-        ///  The email address associated with the specified AWS account.
+        ///  The email address associated with the specified account.
         public let emailAddress: String?
-        ///  The identifier for the specified AWS account.
+        ///  The identifier for the specified account.
         public let id: String?
-        ///  The name of the specified AWS account.
+        ///  The name of the specified account.
         public let name: String?
 
         public init(emailAddress: String? = nil, id: String? = nil, name: String? = nil) {
@@ -187,7 +187,7 @@ extension AuditManager {
 
     public struct AWSService: AWSEncodableShape & AWSDecodableShape {
 
-        ///  The name of the AWS service.
+        ///  The name of the Amazon Web Service.
         public let serviceName: String?
 
         public init(serviceName: String? = nil) {
@@ -209,7 +209,7 @@ extension AuditManager {
 
         ///  The Amazon Resource Name (ARN) of the assessment.
         public let arn: String?
-        ///  The AWS account associated with the assessment.
+        ///  The account associated with the assessment.
         public let awsAccount: AWSAccount?
         ///  The framework from which the assessment was created.
         public let framework: AssessmentFramework?
@@ -337,21 +337,21 @@ extension AuditManager {
         public let controlName: String?
         ///  The identifier for the control set.
         public let controlSetId: String?
-        ///  The AWS service from which the evidence was collected.
+        ///  The Amazon Web Service from which the evidence was collected.
         public let dataSource: String?
         ///  The date when the first evidence was added to the evidence folder.
         public let date: Date?
-        ///  The total number of AWS resources assessed to generate the evidence.
+        ///  The total number of Amazon Web Services resources assessed to generate the evidence.
         public let evidenceAwsServiceSourceCount: Int?
-        ///  The number of evidence that falls under the compliance check category. This evidence is collected from AWS Config or AWS Security Hub.
+        ///  The number of evidence that falls under the compliance check category. This evidence is collected from Config or Security Hub.
         public let evidenceByTypeComplianceCheckCount: Int?
-        ///  The total number of issues that were reported directly from AWS Security Hub, AWS Config, or both.
+        ///  The total number of issues that were reported directly from Security Hub, Config, or both.
         public let evidenceByTypeComplianceCheckIssuesCount: Int?
-        ///  The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other AWS services such as Amazon EC2, Amazon S3, or IAM.
+        ///  The number of evidence that falls under the configuration data category. This evidence is collected from configuration snapshots of other Amazon Web Services services such as Amazon EC2, Amazon S3, or IAM.
         public let evidenceByTypeConfigurationDataCount: Int?
         ///  The number of evidence that falls under the manual category. This evidence is imported manually.
         public let evidenceByTypeManualCount: Int?
-        ///  The number of evidence that falls under the user activity category. This evidence is collected from AWS CloudTrail logs.
+        ///  The number of evidence that falls under the user activity category. This evidence is collected from CloudTrail logs.
         public let evidenceByTypeUserActivityCount: Int?
         ///  The amount of evidence included in the evidence folder.
         public let evidenceResourcesIncludedCount: Int?
@@ -504,7 +504,7 @@ extension AuditManager {
         public let name: String?
         ///  The roles associated with the assessment.
         public let roles: [Role]?
-        ///  The wrapper of AWS accounts and services in scope for the assessment.
+        ///  The wrapper of accounts and services in scope for the assessment.
         public let scope: Scope?
         ///  The overall status of the assessment.
         public let status: AssessmentStatus?
@@ -588,7 +588,7 @@ extension AuditManager {
         public let assessmentName: String?
         ///  The name of the user who created the assessment report.
         public let author: String?
-        ///  The identifier for the specified AWS account.
+        ///  The identifier for the specified account.
         public let awsAccountId: String?
         ///  Specifies when the assessment report was created.
         public let creationTime: Date?
@@ -705,7 +705,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.destination, name: "destination", parent: name, max: 1024)
             try self.validate(self.destination, name: "destination", parent: name, min: 1)
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -811,7 +811,7 @@ extension AuditManager {
 
     public struct BatchCreateDelegationByAssessmentError: AWSDecodableShape {
 
-        ///  The API request to batch create delegations in AWS Audit Manager.
+        ///  The API request to batch create delegations in Audit Manager.
         public let createDelegationRequest: CreateDelegationRequest?
         ///  The error code returned by the BatchCreateDelegationByAssessment API.
         public let errorCode: String?
@@ -838,7 +838,7 @@ extension AuditManager {
 
         ///  The identifier for the specified assessment.
         public let assessmentId: String
-        ///  The API request to batch create delegations in AWS Audit Manager.
+        ///  The API request to batch create delegations in Audit Manager.
         public let createDelegationRequests: [CreateDelegationRequest]
 
         public init(assessmentId: String, createDelegationRequests: [CreateDelegationRequest]) {
@@ -1013,7 +1013,7 @@ extension AuditManager {
         public let errorCode: String?
         ///  The error message returned by the BatchImportEvidenceToAssessmentControl API.
         public let errorMessage: String?
-        ///  Manual evidence that cannot be collected automatically by AWS Audit Manager.
+        ///  Manual evidence that cannot be collected automatically by Audit Manager.
         public let manualEvidence: ManualEvidence?
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, manualEvidence: ManualEvidence? = nil) {
@@ -1128,7 +1128,7 @@ extension AuditManager {
         public let arn: String?
         ///  The data mapping sources for the specified control.
         public let controlMappingSources: [ControlMappingSource]?
-        ///  The data source that determines from where AWS Audit Manager collects evidence for the control.
+        ///  The data source that determines from where Audit Manager collects evidence for the control.
         public let controlSources: String?
         ///  Specifies when the control was created.
         public let createdAt: Date?
@@ -1268,7 +1268,7 @@ extension AuditManager {
 
         ///  The Amazon Resource Name (ARN) of the specified control.
         public let arn: String?
-        ///  The data source that determines from where AWS Audit Manager collects evidence for the control.
+        ///  The data source that determines from where Audit Manager collects evidence for the control.
         public let controlSources: String?
         ///  Specifies when the control was created.
         public let createdAt: Date?
@@ -1345,9 +1345,9 @@ extension AuditManager {
         ///  The list of controls within the control set. This does not contain the control set ID.
         public let controls: [CreateAssessmentFrameworkControl]?
         ///  The name of the specified control set.
-        public let name: String?
+        public let name: String
 
-        public init(controls: [CreateAssessmentFrameworkControl]? = nil, name: String? = nil) {
+        public init(controls: [CreateAssessmentFrameworkControl]? = nil, name: String) {
             self.controls = controls
             self.name = name
         }
@@ -1560,7 +1560,7 @@ extension AuditManager {
 
     public struct CreateControlMappingSource: AWSEncodableShape {
 
-        ///  The description of the data source that determines from where AWS Audit Manager collects evidence for the control.
+        ///  The description of the data source that determines from where Audit Manager collects evidence for the control.
         public let sourceDescription: String?
         ///  The frequency of evidence collection for the specified control mapping source.
         public let sourceFrequency: SourceFrequency?
@@ -2024,23 +2024,23 @@ extension AuditManager {
 
     public struct Evidence: AWSDecodableShape {
 
-        ///  Specifies whether the evidence is inclded in the assessment report.
+        ///  Specifies whether the evidence is included in the assessment report.
         public let assessmentReportSelection: String?
         ///  The names and values used by the evidence event, including an attribute name (such as allowUsersToChangePassword) and value (such as true or false).
         public let attributes: [String: String]?
-        ///  The identifier for the specified AWS account.
+        ///  The identifier for the specified account.
         public let awsAccountId: String?
-        ///  The AWS account from which the evidence is collected, and its AWS organization path.
+        ///  The account from which the evidence is collected, and its organization path.
         public let awsOrganization: String?
-        ///  The evaluation status for evidence that falls under the compliance check category. For evidence collected from AWS Security Hub, a Pass or Fail result is shown. For evidence collected from AWS Config, a Compliant or Noncompliant result is shown.
+        ///  The evaluation status for evidence that falls under the compliance check category. For evidence collected from Security Hub, a Pass or Fail result is shown. For evidence collected from Config, a Compliant or Noncompliant result is shown.
         public let complianceCheck: String?
         ///  The data source from which the specified evidence was collected.
         public let dataSource: String?
         ///  The name of the specified evidence event.
         public let eventName: String?
-        ///  The AWS service from which the evidence is collected.
+        ///  The Amazon Web Service from which the evidence is collected.
         public let eventSource: String?
-        ///  The identifier for the specified AWS account.
+        ///  The identifier for the specified account.
         public let evidenceAwsAccountId: String?
         ///  The type of automated evidence.
         public let evidenceByType: String?
@@ -2100,7 +2100,7 @@ extension AuditManager {
         public let complianceType: String?
         ///  The control sets associated with the framework.
         public let controlSets: [ControlSet]?
-        ///  The sources from which AWS Audit Manager collects evidence for the control.
+        ///  The sources from which Audit Manager collects evidence for the control.
         public let controlSources: String?
         ///  Specifies when the framework was created.
         public let createdAt: Date?
@@ -2194,7 +2194,7 @@ extension AuditManager {
 
     public struct GetAccountStatusResponse: AWSDecodableShape {
 
-        ///  The status of the specified AWS account.
+        ///  The status of the specified account.
         public let status: AccountStatus?
 
         public init(status: AccountStatus? = nil) {
@@ -2790,7 +2790,7 @@ extension AuditManager {
 
     public struct GetServicesInScopeResponse: AWSDecodableShape {
 
-        ///  The metadata associated with the aAWS service.
+        ///  The metadata associated with the Amazon Web Service.
         public let serviceMetadata: [ServiceMetadata]?
 
         public init(serviceMetadata: [ServiceMetadata]? = nil) {
@@ -2819,7 +2819,7 @@ extension AuditManager {
 
     public struct GetSettingsResponse: AWSDecodableShape {
 
-        ///  The settings object that holds all supported AWS Audit Manager settings.
+        ///  The settings object that holds all supported Audit Manager settings.
         public let settings: Settings?
 
         public init(settings: Settings? = nil) {
@@ -3160,7 +3160,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, max: 1024)
             try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, min: 1)
-            try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$")
+            try self.validate(self.s3ResourcePath, name: "s3ResourcePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3212,9 +3212,9 @@ extension AuditManager {
 
     public struct RegisterAccountRequest: AWSEncodableShape {
 
-        ///  The delegated administrator account for AWS Audit Manager.
+        ///  The delegated administrator account for Audit Manager.
         public let delegatedAdminAccount: String?
-        ///  The AWS KMS key details.
+        ///  The KMS key details.
         public let kmsKey: String?
 
         public init(delegatedAdminAccount: String? = nil, kmsKey: String? = nil) {
@@ -3275,7 +3275,7 @@ extension AuditManager {
 
         ///  The identifier for the specified delegated administrator account.
         public let adminAccountId: String?
-        ///  The identifier for the specified AWS organization.
+        ///  The identifier for the specified organization.
         public let organizationId: String?
 
         public init(adminAccountId: String? = nil, organizationId: String? = nil) {
@@ -3333,9 +3333,9 @@ extension AuditManager {
 
     public struct Scope: AWSEncodableShape & AWSDecodableShape {
 
-        ///  The AWS accounts included in the scope of the assessment.
+        ///  The accounts included in the scope of the assessment.
         public let awsAccounts: [AWSAccount]?
-        ///  The AWS services included in the scope of the assessment.
+        ///  The Amazon Web Services services included in the scope of the assessment.
         public let awsServices: [AWSService]?
 
         public init(awsAccounts: [AWSAccount]? = nil, awsServices: [AWSService]? = nil) {
@@ -3360,13 +3360,13 @@ extension AuditManager {
 
     public struct ServiceMetadata: AWSDecodableShape {
 
-        ///  The category in which the AWS service belongs, such as compute, storage, database, and so on.
+        ///  The category in which the Amazon Web Service belongs, such as compute, storage, database, and so on.
         public let category: String?
-        ///  The description of the specified AWS service.
+        ///  The description of the specified Amazon Web Service.
         public let description: String?
-        ///  The display name of the AWS service.
+        ///  The display name of the Amazon Web Service.
         public let displayName: String?
-        ///  The name of the AWS service.
+        ///  The name of the Amazon Web Service.
         public let name: String?
 
         public init(category: String? = nil, description: String? = nil, displayName: String? = nil, name: String? = nil) {
@@ -3390,9 +3390,9 @@ extension AuditManager {
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  The designated default audit owners.
         public let defaultProcessOwners: [Role]?
-        ///  Specifies whether AWS Organizations is enabled.
+        ///  Specifies whether Organizations is enabled.
         public let isAwsOrgEnabled: Bool?
-        ///  The AWS KMS key details.
+        ///  The KMS key details.
         public let kmsKey: String?
         ///  The designated Amazon Simple Notification Service (Amazon SNS) topic.
         public let snsTopic: String?
@@ -3418,7 +3418,7 @@ extension AuditManager {
 
         ///  The method of input for the specified keyword.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword used to search AWS CloudTrail logs, AWS Config rules, AWS Security Hub checks, and AWS API names when mapping a control data source.
+        ///  The value of the keyword used to search CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names when mapping a control data source.
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
@@ -3658,9 +3658,9 @@ extension AuditManager {
         ///  The unique identifier for the control set.
         public let id: String?
         ///  The name of the control set.
-        public let name: String?
+        public let name: String
 
-        public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String? = nil) {
+        public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String) {
             self.controls = controls
             self.id = id
             self.name = name
@@ -3936,9 +3936,9 @@ extension AuditManager {
         public let defaultAssessmentReportsDestination: AssessmentReportsDestination?
         ///  A list of the default audit owners.
         public let defaultProcessOwners: [Role]?
-        ///  The AWS KMS key details.
+        ///  The KMS key details.
         public let kmsKey: String?
-        ///  The Amazon Simple Notification Service (Amazon SNS) topic to which AWS Audit Manager sends notifications.
+        ///  The Amazon Simple Notification Service (Amazon SNS) topic to which Audit Manager sends notifications.
         public let snsTopic: String?
 
         public init(defaultAssessmentReportsDestination: AssessmentReportsDestination? = nil, defaultProcessOwners: [Role]? = nil, kmsKey: String? = nil, snsTopic: String? = nil) {
@@ -3995,7 +3995,7 @@ extension AuditManager {
         public func validate(name: String) throws {
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, max: 1024)
             try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, min: 1)
-            try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9-_\\/.]+$")
+            try self.validate(self.s3RelativePath, name: "s3RelativePath", parent: name, pattern: "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -153,6 +153,12 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum LexVersion: String, CustomStringConvertible, Codable {
+        case v1 = "V1"
+        case v2 = "V2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PhoneNumberCountryCode: String, CustomStringConvertible, Codable {
         case ad = "AD"
         case ae = "AE"
@@ -477,7 +483,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The domain to add to your allow list.
         public let origin: String
@@ -498,12 +504,42 @@ extension Connect {
         }
     }
 
+    public struct AssociateBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        public let lexBot: LexBot?
+        /// The Amazon Lex V2 bot to associate with the instance.
+        public let lexV2Bot: LexV2Bot?
+
+        public init(instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+            self.instanceId = instanceId
+            self.lexBot = lexBot
+            self.lexV2Bot = lexV2Bot
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.lexBot?.validate(name: "\(name).lexBot")
+            try self.lexV2Bot?.validate(name: "\(name).lexV2Bot")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBot = "LexBot"
+            case lexV2Bot = "LexV2Bot"
+        }
+    }
+
     public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -549,7 +585,7 @@ extension Connect {
 
         /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
         public let functionArn: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(functionArn: String, instanceId: String) {
@@ -574,9 +610,9 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
-        /// The Amazon Lex box to associate with the instance.
+        /// The Amazon Lex bot to associate with the instance.
         public let lexBot: LexBot
 
         public init(instanceId: String, lexBot: LexBot) {
@@ -601,7 +637,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -632,7 +668,7 @@ extension Connect {
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The queues to associate with this routing profile.
         public let queueConfigs: [RoutingProfileQueueConfig]
@@ -665,7 +701,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// A valid security key in PEM format.
         public let key: String
@@ -941,7 +977,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The Amazon Resource Name (ARN) of the integration.
         public let integrationArn: String
@@ -953,14 +989,17 @@ extension Connect {
         public let sourceApplicationUrl: String
         /// The type of the data source.
         public let sourceType: SourceType
+        /// One or more tags.
+        public let tags: [String: String]?
 
-        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String, sourceApplicationUrl: String, sourceType: SourceType) {
+        public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String, sourceApplicationUrl: String, sourceType: SourceType, tags: [String: String]? = nil) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
             self.integrationType = integrationType
             self.sourceApplicationName = sourceApplicationName
             self.sourceApplicationUrl = sourceApplicationUrl
             self.sourceType = sourceType
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -971,6 +1010,12 @@ extension Connect {
             try self.validate(self.sourceApplicationName, name: "sourceApplicationName", parent: name, pattern: "^[a-zA-Z0-9_ -]+$")
             try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, max: 2000)
             try self.validate(self.sourceApplicationUrl, name: "sourceApplicationUrl", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -979,6 +1024,7 @@ extension Connect {
             case sourceApplicationName = "SourceApplicationName"
             case sourceApplicationUrl = "SourceApplicationUrl"
             case sourceType = "SourceType"
+            case tags = "Tags"
         }
     }
 
@@ -1009,7 +1055,7 @@ extension Connect {
         public let description: String?
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of contacts that can be in the queue before it is considered full.
         public let maxContacts: Int?
@@ -1088,7 +1134,7 @@ extension Connect {
 
         /// The description of the quick connect.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the quick connect.
         public let name: String
@@ -1107,7 +1153,7 @@ extension Connect {
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 250)
-            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 127)
@@ -1156,7 +1202,7 @@ extension Connect {
         public let defaultOutboundQueueId: String
         /// Description of the routing profile. Must not be more than 250 characters.
         public let description: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public let mediaConcurrencies: [MediaConcurrency]
@@ -1234,16 +1280,19 @@ extension Connect {
             AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the AppIntegration association.
         public let integrationAssociationId: String
+        /// One or more tags.
+        public let tags: [String: String]?
         /// The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
         public let useCaseType: UseCaseType
 
-        public init(instanceId: String, integrationAssociationId: String, useCaseType: UseCaseType) {
+        public init(instanceId: String, integrationAssociationId: String, tags: [String: String]? = nil, useCaseType: UseCaseType) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
+            self.tags = tags
             self.useCaseType = useCaseType
         }
 
@@ -1252,9 +1301,16 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, max: 200)
             try self.validate(self.integrationAssociationId, name: "integrationAssociationId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
             case useCaseType = "UseCaseType"
         }
     }
@@ -1282,7 +1338,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the user hierarchy group. Must not be more than 100 characters.
         public let name: String
@@ -1335,7 +1391,7 @@ extension Connect {
         public let hierarchyGroupId: String?
         /// The information about the identity of the user.
         public let identityInfo: UserIdentityInfo?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
         public let password: String?
@@ -1497,7 +1553,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -1518,7 +1574,7 @@ extension Connect {
             AWSMemberEncoding(label: "integrationAssociationId", location: .uri(locationName: "IntegrationAssociationId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the AppIntegration association.
         public let integrationAssociationId: String
@@ -1544,7 +1600,7 @@ extension Connect {
             AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the quick connect.
         public let quickConnectId: String
@@ -1569,7 +1625,7 @@ extension Connect {
             AWSMemberEncoding(label: "useCaseId", location: .uri(locationName: "UseCaseId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the AppIntegration association.
         public let integrationAssociationId: String
@@ -1602,7 +1658,7 @@ extension Connect {
 
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(hierarchyGroupId: String, instanceId: String) {
@@ -1624,7 +1680,7 @@ extension Connect {
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the user.
         public let userId: String
@@ -1689,7 +1745,7 @@ extension Connect {
 
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(hoursOfOperationId: String, instanceId: String) {
@@ -1727,7 +1783,7 @@ extension Connect {
 
         /// The type of attribute.
         public let attributeType: InstanceAttributeType
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(attributeType: InstanceAttributeType, instanceId: String) {
@@ -1762,7 +1818,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -1800,7 +1856,7 @@ extension Connect {
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -1841,7 +1897,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -1879,7 +1935,7 @@ extension Connect {
             AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the quick connect.
         public let quickConnectId: String
@@ -1917,7 +1973,7 @@ extension Connect {
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -1957,7 +2013,7 @@ extension Connect {
 
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(hierarchyGroupId: String, instanceId: String) {
@@ -1992,7 +2048,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -2027,7 +2083,7 @@ extension Connect {
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -2083,7 +2139,7 @@ extension Connect {
             AWSMemberEncoding(label: "origin", location: .querystring(locationName: "origin"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The domain URL of the integrated application.
         public let origin: String
@@ -2102,6 +2158,36 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateBotRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        public let lexBot: LexBot?
+        /// The Amazon Lex V2 bot to disassociate from the instance.
+        public let lexV2Bot: LexV2Bot?
+
+        public init(instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+            self.instanceId = instanceId
+            self.lexBot = lexBot
+            self.lexV2Bot = lexV2Bot
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.lexBot?.validate(name: "\(name).lexBot")
+            try self.lexV2Bot?.validate(name: "\(name).lexV2Bot")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBot = "LexBot"
+            case lexV2Bot = "LexV2Bot"
+        }
+    }
+
     public struct DisassociateInstanceStorageConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "associationId", location: .uri(locationName: "AssociationId")), 
@@ -2111,7 +2197,7 @@ extension Connect {
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -2140,7 +2226,7 @@ extension Connect {
 
         /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
         public let functionArn: String
-        /// The identifier of the Amazon Connect instance..
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance..
         public let instanceId: String
 
         public init(functionArn: String, instanceId: String) {
@@ -2167,7 +2253,7 @@ extension Connect {
 
         /// The name of the Amazon Lex bot. Maximum character limit of 50.
         public let botName: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The Region in which the Amazon Lex bot has been created.
         public let lexRegion: String
@@ -2194,7 +2280,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -2225,7 +2311,7 @@ extension Connect {
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The queues to disassociate from this routing profile.
         public let queueReferences: [RoutingProfileQueueReference]
@@ -2256,7 +2342,7 @@ extension Connect {
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(associationId: String, instanceId: String) {
@@ -2372,7 +2458,7 @@ extension Connect {
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported. If no Grouping is included in the request, a summary of metrics is returned.
         public let groupings: [Grouping]?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -2433,7 +2519,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -2469,13 +2555,13 @@ extension Connect {
 
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
         public let endTime: Date
-        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.
+        /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported.  To filter by Queues, enter the queue ID/ARN, not the name of the queue.
         public let filters: Filters
-        /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
+        /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
-        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600
+        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").
         public let historicalMetrics: [HistoricalMetric]
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -2879,7 +2965,7 @@ extension Connect {
         public let arn: String?
         /// When the instance was created.
         public let createdTime: Date?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let id: String?
         /// The identity management type.
         public let identityManagementType: DirectoryType?
@@ -3026,7 +3112,7 @@ extension Connect {
 
     public struct IntegrationAssociationSummary: AWSDecodableShape {
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String?
         /// The Amazon Resource Name (ARN) for the AppIntegration.
         public let integrationArn: String?
@@ -3147,6 +3233,42 @@ extension Connect {
         }
     }
 
+    public struct LexBotConfig: AWSDecodableShape {
+
+        public let lexBot: LexBot?
+        /// Configuration information of an Amazon Lex V2 bot.
+        public let lexV2Bot: LexV2Bot?
+
+        public init(lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+            self.lexBot = lexBot
+            self.lexV2Bot = lexV2Bot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBot = "LexBot"
+            case lexV2Bot = "LexV2Bot"
+        }
+    }
+
+    public struct LexV2Bot: AWSEncodableShape & AWSDecodableShape {
+
+        /// The Amazon Resource Name (ARN) of the Amazon Lex V2 bot.
+        public let aliasArn: String?
+
+        public init(aliasArn: String? = nil) {
+            self.aliasArn = aliasArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasArn, name: "aliasArn", parent: name, max: 100)
+            try self.validate(self.aliasArn, name: "aliasArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasArn = "AliasArn"
+        }
+    }
+
     public struct ListApprovedOriginsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
@@ -3154,7 +3276,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3195,6 +3317,58 @@ extension Connect {
         }
     }
 
+    public struct ListBotsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "lexVersion", location: .querystring(locationName: "lexVersion")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The version of Amazon Lex or Amazon Lex V2.
+        public let lexVersion: LexVersion
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, lexVersion: LexVersion, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.lexVersion = lexVersion
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBotsResponse: AWSDecodableShape {
+
+        /// The names and Regions of the Amazon Lex or Amazon Lex V2 bots associated with the specified instance.
+        public let lexBots: [LexBotConfig]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(lexBots: [LexBotConfig]? = nil, nextToken: String? = nil) {
+            self.lexBots = lexBots
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexBots = "LexBots"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListContactFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")), 
@@ -3205,7 +3379,7 @@ extension Connect {
 
         /// The type of contact flow.
         public let contactFlowTypes: [ContactFlowType]?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3255,7 +3429,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3303,7 +3477,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3352,7 +3526,7 @@ extension Connect {
             AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3445,7 +3619,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3493,7 +3667,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3541,7 +3715,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3591,7 +3765,7 @@ extension Connect {
             AWSMemberEncoding(label: "phoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3696,7 +3870,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3748,7 +3922,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueTypes", location: .querystring(locationName: "queueTypes"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3801,7 +3975,7 @@ extension Connect {
             AWSMemberEncoding(label: "quickConnectTypes", location: .querystring(locationName: "QuickConnectTypes"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3854,7 +4028,7 @@ extension Connect {
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3905,7 +4079,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -3953,7 +4127,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -4001,7 +4175,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -4079,7 +4253,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the integration association.
         public let integrationAssociationId: String
@@ -4132,7 +4306,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -4180,7 +4354,7 @@ extension Connect {
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -4225,7 +4399,7 @@ extension Connect {
 
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         public let channel: Channel
-        /// The number of contacts an agent can have on a channel simultaneously.
+        /// The number of contacts an agent can have on a channel simultaneously. Valid Range for VOICE: Minimum value of 1. Maximum value of 1. Valid Range for CHAT: Minimum value of 1. Maximum value of 10. Valid Range for TASK: Minimum value of 1. Maximum value of 10.
         public let concurrency: Int
 
         public init(channel: Channel, concurrency: Int) {
@@ -4589,7 +4763,7 @@ extension Connect {
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(contactId: String, initialContactId: String, instanceId: String) {
@@ -4628,7 +4802,7 @@ extension Connect {
         public let defaultOutboundQueueId: String?
         /// The description of the routing profile.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String?
         /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public let mediaConcurrencies: [MediaConcurrency]?
@@ -4851,7 +5025,7 @@ extension Connect {
         public let contactFlowId: String
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// Information identifying the participant.
         public let participantDetails: ParticipantDetails
@@ -4918,7 +5092,7 @@ extension Connect {
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The person being recorded.
         public let voiceRecordingConfiguration: VoiceRecordingConfiguration
@@ -4959,13 +5133,13 @@ extension Connect {
 
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. If the contact is disconnected, a new contact is started.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
         /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
         /// The phone number of the customer, in E.164 format.
         public let destinationPhoneNumber: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.
         public let queueId: String?
@@ -5030,7 +5204,7 @@ extension Connect {
         public let contactFlowId: String
         /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
         public let name: String
@@ -5106,7 +5280,7 @@ extension Connect {
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(contactId: String, initialContactId: String, instanceId: String) {
@@ -5143,7 +5317,7 @@ extension Connect {
 
         /// The ID of the contact.
         public let contactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(contactId: String, instanceId: String) {
@@ -5178,7 +5352,7 @@ extension Connect {
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(contactId: String, initialContactId: String, instanceId: String) {
@@ -5293,7 +5467,7 @@ extension Connect {
         public let attributes: [String: String]
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(attributes: [String: String], initialContactId: String, instanceId: String) {
@@ -5403,7 +5577,7 @@ extension Connect {
 
         /// The type of attribute.
         public let attributeType: InstanceAttributeType
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The value for the attribute. Maximum character limit is 100.
         public let value: String
@@ -5435,7 +5609,7 @@ extension Connect {
 
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
@@ -5469,7 +5643,7 @@ extension Connect {
 
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -5496,7 +5670,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The maximum number of contacts that can be in the queue before it is considered full.
         public let maxContacts: Int?
@@ -5528,7 +5702,7 @@ extension Connect {
 
         /// The description of the queue.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the queue.
         public let name: String?
@@ -5563,7 +5737,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The outbound caller ID name, number, and outbound whisper flow.
         public let outboundCallerConfig: OutboundCallerConfig
@@ -5593,7 +5767,7 @@ extension Connect {
             AWSMemberEncoding(label: "queueId", location: .uri(locationName: "QueueId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier for the queue.
         public let queueId: String
@@ -5622,7 +5796,7 @@ extension Connect {
             AWSMemberEncoding(label: "quickConnectId", location: .uri(locationName: "QuickConnectId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// Information about the configuration settings for the quick connect.
         public let quickConnectConfig: QuickConnectConfig
@@ -5654,7 +5828,7 @@ extension Connect {
 
         /// The description of the quick connect.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the quick connect.
         public let name: String?
@@ -5689,7 +5863,7 @@ extension Connect {
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         public let mediaConcurrencies: [MediaConcurrency]
@@ -5723,7 +5897,7 @@ extension Connect {
 
         /// The identifier for the default outbound queue.
         public let defaultOutboundQueueId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the routing profile.
         public let routingProfileId: String
@@ -5752,7 +5926,7 @@ extension Connect {
 
         /// The description of the routing profile. Must not be more than 250 characters.
         public let description: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the routing profile. Must not be more than 127 characters.
         public let name: String?
@@ -5787,7 +5961,7 @@ extension Connect {
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
         public let queueConfigs: [RoutingProfileQueueConfig]
@@ -5823,7 +5997,7 @@ extension Connect {
 
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The name of the hierarchy group. Must not be more than 100 characters.
         public let name: String
@@ -5852,7 +6026,7 @@ extension Connect {
 
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String?
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -5880,7 +6054,7 @@ extension Connect {
 
         /// The hierarchy levels to update.
         public let hierarchyStructure: HierarchyStructureUpdate
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
         public init(hierarchyStructure: HierarchyStructureUpdate, instanceId: String) {
@@ -5906,7 +6080,7 @@ extension Connect {
 
         /// The identity information for the user.
         public let identityInfo: UserIdentityInfo
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the user account.
         public let userId: String
@@ -5934,7 +6108,7 @@ extension Connect {
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// Information about phone configuration settings for the user.
         public let phoneConfig: UserPhoneConfig
@@ -5964,7 +6138,7 @@ extension Connect {
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifier of the routing profile for the user.
         public let routingProfileId: String
@@ -5993,7 +6167,7 @@ extension Connect {
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
-        /// The identifier of the Amazon Connect instance.
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
         /// The identifiers of the security profiles for the user.
         public let securityProfileIds: [String]

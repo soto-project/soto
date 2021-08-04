@@ -62,6 +62,11 @@ public struct CloudFront: AWSService {
 
     // MARK: API Calls
 
+    /// Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront distribution. With this operation you can move an alias that’s already in use on a CloudFront distribution to a different distribution in one step. This prevents the downtime that could occur if you first remove the alias from one distribution and then separately add the alias to another distribution. To use this operation to associate an alias with a distribution, you provide the alias and the ID of the target distribution for the alias. For more information, including how to set up the target distribution, prerequisites that you must complete, and other restrictions, see Moving an alternate domain name to a different distribution in the Amazon CloudFront Developer Guide.
+    @discardableResult public func associateAlias(_ input: AssociateAliasRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateAlias2020_05_31", path: "/2020-05-31/distribution/{TargetDistributionId}/associate-alias", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Creates a cache policy. After you create a cache policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the cache policy determines the following:   The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.   The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.   The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can’t find an object in its cache that matches the request’s cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see Controlling the cache key in the Amazon CloudFront Developer Guide.
     public func createCachePolicy(_ input: CreateCachePolicyRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCachePolicyResult> {
         return self.client.execute(operation: "CreateCachePolicy2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -312,7 +317,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "GetStreamingDistributionConfig2020_05_31", path: "/2020-05-31/streaming-distribution/{Id}/config", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listCachePolicies(_ input: ListCachePoliciesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCachePoliciesResult> {
         return self.client.execute(operation: "ListCachePolicies2020_05_31", path: "/2020-05-31/cache-policy", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -320,6 +325,11 @@ public struct CloudFront: AWSService {
     /// Lists origin access identities.
     public func listCloudFrontOriginAccessIdentities(_ input: ListCloudFrontOriginAccessIdentitiesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCloudFrontOriginAccessIdentitiesResult> {
         return self.client.execute(operation: "ListCloudFrontOriginAccessIdentities2020_05_31", path: "/2020-05-31/origin-access-identity/cloudfront", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or overlap with the provided alias, and the associated CloudFront distributions and Amazon Web Services accounts for each conflicting alias. In the returned list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don’t own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (*.example.com), if they exist. If you provide *.example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, you provide the alias to search and the ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias. For more information, including how to set up the distribution and certificate, see Moving an alternate domain name to a different distribution in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listConflictingAliases(_ input: ListConflictingAliasesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConflictingAliasesResult> {
+        return self.client.execute(operation: "ListConflictingAliases2020_05_31", path: "/2020-05-31/conflicting-alias", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// List CloudFront distributions.
@@ -347,7 +357,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListDistributionsByRealtimeLogConfig2020_05_31", path: "/2020-05-31/distributionsByRealtimeLogConfig/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// List the distributions that are associated with a specified AWS WAF web ACL.
+    /// List the distributions that are associated with a specified WAF web ACL.
     public func listDistributionsByWebACLId(_ input: ListDistributionsByWebACLIdRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDistributionsByWebACLIdResult> {
         return self.client.execute(operation: "ListDistributionsByWebACLId2020_05_31", path: "/2020-05-31/distributionsByWebACLId/{WebACLId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -362,7 +372,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListFieldLevelEncryptionProfiles2020_05_31", path: "/2020-05-31/field-level-encryption-profile", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Gets a list of all CloudFront functions in your AWS account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of all CloudFront functions in your account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listFunctions(_ input: ListFunctionsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionsResult> {
         return self.client.execute(operation: "ListFunctions2020_05_31", path: "/2020-05-31/function", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -377,7 +387,7 @@ public struct CloudFront: AWSService {
         return self.client.execute(operation: "ListKeyGroups2020_05_31", path: "/2020-05-31/key-group", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listOriginRequestPolicies(_ input: ListOriginRequestPoliciesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginRequestPoliciesResult> {
         return self.client.execute(operation: "ListOriginRequestPolicies2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

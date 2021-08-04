@@ -1049,6 +1049,7 @@ extension CloudFormation.ListTypeVersionsInput: AWSPaginateToken {
             deprecatedStatus: self.deprecatedStatus,
             maxResults: self.maxResults,
             nextToken: token,
+            publisherId: self.publisherId,
             type: self.type,
             typeName: self.typeName
         )
@@ -1059,6 +1060,7 @@ extension CloudFormation.ListTypesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CloudFormation.ListTypesInput {
         return .init(
             deprecatedStatus: self.deprecatedStatus,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             provisioningType: self.provisioningType,

@@ -127,6 +127,7 @@ extension Lambda {
         case basicAuth = "BASIC_AUTH"
         case saslScram256Auth = "SASL_SCRAM_256_AUTH"
         case saslScram512Auth = "SASL_SCRAM_512_AUTH"
+        case virtualHost = "VIRTUAL_HOST"
         case vpcSecurityGroup = "VPC_SECURITY_GROUP"
         case vpcSubnet = "VPC_SUBNET"
         public var description: String { return self.rawValue }
@@ -169,7 +170,7 @@ extension Lambda {
 
         /// The maximum size of a function's deployment package and layers when they're extracted.
         public let codeSizeUnzipped: Int64?
-        /// The maximum size of a deployment package when it's uploaded directly to AWS Lambda. Use Amazon S3 for larger files.
+        /// The maximum size of a deployment package when it's uploaded directly to Lambda. Use Amazon S3 for larger files.
         public let codeSizeZipped: Int64?
         /// The maximum number of simultaneous function executions.
         public let concurrentExecutions: Int?
@@ -226,7 +227,7 @@ extension Lambda {
         public let layerName: String
         /// With the principal set to *, grant permission to all accounts in the specified organization.
         public let organizationId: String?
-        /// An account ID, or * to grant permission to all AWS accounts.
+        /// An account ID, or * to grant layer usage permission to all accounts in an organization, or all Amazon Web Services accounts (if organizationId is not specified). For the last case, make sure that you really do want all Amazon Web Services accounts to have usage permission to this layer.
         public let principal: String
         /// Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
         public let revisionId: String?
@@ -246,10 +247,12 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.action, name: "action", parent: name, max: 22)
             try self.validate(self.action, name: "action", parent: name, pattern: "lambda:GetLayerVersion")
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
             try self.validate(self.layerName, name: "layerName", parent: name, pattern: "(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "o-[a-z0-9]{10,32}")
             try self.validate(self.principal, name: "principal", parent: name, pattern: "\\d{12}|\\*|arn:(aws[a-zA-Z-]*):iam::\\d{12}:root")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
@@ -295,7 +298,7 @@ extension Lambda {
         public let eventSourceToken: String?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The AWS service or account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
+        /// The Amazon Web Services service or account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
         /// Specify a version or alias to add permissions to a published version of the function.
         public let qualifier: String?
@@ -303,7 +306,7 @@ extension Lambda {
         public let revisionId: String?
         /// For Amazon S3, the ID of the account that owns the resource. Use this together with SourceArn to ensure that the resource is owned by the specified account. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
         public let sourceAccount: String?
-        /// For AWS services, the ARN of the AWS resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
+        /// For Amazon Web Services services, the ARN of the Amazon Web Services resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
         public let sourceArn: String?
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
@@ -328,10 +331,11 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try self.validate(self.principal, name: "principal", parent: name, pattern: ".*")
+            try self.validate(self.principal, name: "principal", parent: name, pattern: "[^\\s]+")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(|[a-zA-Z0-9$_-]+)")
+            try self.validate(self.sourceAccount, name: "sourceAccount", parent: name, max: 12)
             try self.validate(self.sourceAccount, name: "sourceAccount", parent: name, pattern: "\\d{12}")
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
@@ -599,9 +603,9 @@ extension Lambda {
 
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
-        /// (Streams) If the function returns an error, split the batch in two and retry.
+        /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
-        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
         /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
@@ -609,15 +613,15 @@ extension Lambda {
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
-        /// (Streams) A list of current response type enums applied to the event source mapping.
+        /// (Streams only) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
         /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
+        /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
+        /// (Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
         public let maximumRetryAttempts: Int?
-        /// (Streams) The number of batches to process from each shard concurrently.
+        /// (Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
@@ -631,7 +635,7 @@ extension Lambda {
         public let startingPositionTimestamp: Date?
         /// The name of the Kafka topic.
         public let topics: [String]?
-        /// (Streams) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
+        /// (Streams only) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
 
         public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
@@ -737,13 +741,13 @@ extension Lambda {
         public let functionName: String
         /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
-        ///  Container image configuration values that override the values in the container image Dockerfile.
+        /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
-        /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
+        /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
         public let kMSKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
-        /// The amount of memory available to the function at runtime. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
+        /// The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
         public let memorySize: Int?
         /// The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
         public let packageType: PackageType?
@@ -755,11 +759,11 @@ extension Lambda {
         public let runtime: Runtime?
         /// A list of tags to apply to the function.
         public let tags: [String: String]?
-        /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.
+        /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
         public let timeout: Int?
-        /// Set Mode to Active to sample and trace a subset of incoming requests with AWS X-Ray.
+        /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
         public let tracingConfig: TracingConfig?
-        /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
+        /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
         public init(code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
@@ -1105,7 +1109,7 @@ extension Lambda {
 
     public struct Environment: AWSEncodableShape {
 
-        /// Environment variable key-value pairs.
+        /// Environment variable key-value pairs. For more information, see Using Lambda environment variables.
         public let variables: [String: String]?
 
         public init(variables: [String: String]? = nil) {
@@ -1163,27 +1167,27 @@ extension Lambda {
 
         /// The maximum number of items to retrieve in a single batch.
         public let batchSize: Int?
-        /// (Streams) If the function returns an error, split the batch in two and retry. The default value is false.
+        /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
         public let bisectBatchOnFunctionError: Bool?
-        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
         /// The ARN of the Lambda function.
         public let functionArn: String?
-        /// (Streams) A list of current response type enums applied to the event source mapping.
+        /// (Streams only) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
         /// The date that the event source mapping was last updated, or its state changed.
         public let lastModified: Date?
-        /// The result of the last AWS Lambda invocation of your Lambda function.
+        /// The result of the last Lambda invocation of your Lambda function.
         public let lastProcessingResult: String?
         /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds. The default value is zero.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public let maximumRetryAttempts: Int?
-        /// (Streams) The number of batches to process from each shard concurrently. The default value is 1.
+        /// (Streams only) The number of batches to process from each shard concurrently. The default value is 1.
         public let parallelizationFactor: Int?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
@@ -1201,7 +1205,7 @@ extension Lambda {
         public let stateTransitionReason: String?
         /// The name of the Kafka topic.
         public let topics: [String]?
-        /// (Streams) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
+        /// (Streams only) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String?
@@ -1286,13 +1290,13 @@ extension Lambda {
 
         /// URI of a container image in the Amazon ECR registry.
         public let imageUri: String?
-        /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
+        /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account.
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package.
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
+        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: Data?
 
         public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
@@ -1406,7 +1410,7 @@ extension Lambda {
         public let stateReasonCode: StateReasonCode?
         /// The amount of time in seconds that Lambda allows a function to run before stopping it.
         public let timeout: Int?
-        /// The function's AWS X-Ray tracing configuration.
+        /// The function's X-Ray tracing configuration.
         public let tracingConfig: TracingConfigResponse?
         /// The version of the Lambda function.
         public let version: String?
@@ -2268,7 +2272,7 @@ extension Lambda {
         public let s3Key: String?
         /// For versioned objects, the version of the layer archive object to use.
         public let s3ObjectVersion: String?
-        /// The base64-encoded contents of the layer archive. AWS SDK and AWS CLI clients handle the encoding for you.
+        /// The base64-encoded contents of the layer archive. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: Data?
 
         public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
@@ -2643,7 +2647,7 @@ extension Lambda {
         public let functionVersion: FunctionVersion?
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
-        /// For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
+        /// For Lambda@Edge functions, the Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
         public let masterRegion: SotoCore.Region?
         /// The maximum number of functions to return in the response. Note that ListFunctions returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
@@ -2873,7 +2877,7 @@ extension Lambda {
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
-        /// The maximum number of versions to return.
+        /// The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response, even if you set the number higher.
         public let maxItems: Int?
 
         public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
@@ -3395,7 +3399,7 @@ extension Lambda {
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
 
-        /// The type of authentication protocol or the VPC components for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (MQ) The Secrets Manager secret that stores your broker credentials.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your Self-Managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your Self-Managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka brokers.
+        /// The type of authentication protocol or the VPC components for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (MQ) The Secrets Manager secret that stores your broker credentials.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your Self-Managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your Self-Managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka brokers.    VIRTUAL_HOST - The name of the virtual host in your RabbitMQ broker. Lambda will use this host as the event source.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -3600,27 +3604,27 @@ extension Lambda {
 
         /// The maximum number of items to retrieve in a single batch.    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
         public let batchSize: Int?
-        /// (Streams) If the function returns an error, split the batch in two and retry.
+        /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
-        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public let destinationConfig: DestinationConfig?
         /// If true, the event source mapping is active. Set to false to pause polling and invocation.
         public let enabled: Bool?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
-        /// (Streams) A list of current response type enums applied to the event source mapping.
+        /// (Streams only) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
         /// (Streams and SQS standard queues) The maximum amount of time to gather records before invoking the function, in seconds.
         public let maximumBatchingWindowInSeconds: Int?
-        /// (Streams) Discard records older than the specified age. The default value is infinite (-1).
+        /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
         public let maximumRecordAgeInSeconds: Int?
-        /// (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
+        /// (Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
         public let maximumRetryAttempts: Int?
-        /// (Streams) The number of batches to process from each shard concurrently.
+        /// (Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
         /// An array of the authentication protocol, or the VPC components to secure your event source.
         public let sourceAccessConfigurations: [SourceAccessConfiguration]?
-        /// (Streams) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
+        /// (Streams only) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
         /// The identifier of the event source mapping.
         public let uuid: String
@@ -3698,13 +3702,13 @@ extension Lambda {
         public let publish: Bool?
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?
-        /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
+        /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account.
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package.
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
+        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: Data?
 
         public init(dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
@@ -3763,11 +3767,11 @@ extension Lambda {
         public let handler: String?
         ///  Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
-        /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
+        /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
         public let kMSKeyArn: String?
         /// A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
         public let layers: [String]?
-        /// The amount of memory available to the function at runtime. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
+        /// The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
         public let memorySize: Int?
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?
@@ -3775,11 +3779,11 @@ extension Lambda {
         public let role: String?
         /// The identifier of the function's runtime.
         public let runtime: Runtime?
-        /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.
+        /// The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
         public let timeout: Int?
-        /// Set Mode to Active to sample and trace a subset of incoming requests with AWS X-Ray.
+        /// Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
         public let tracingConfig: TracingConfig?
-        /// For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
+        /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
         public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kMSKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {

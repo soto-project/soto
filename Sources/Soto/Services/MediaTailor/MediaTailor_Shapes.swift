@@ -22,6 +22,7 @@ extension MediaTailor {
 
     public enum AccessType: String, CustomStringConvertible, Codable {
         case s3Sigv4 = "S3_SIGV4"
+        case secretsManagerAccessToken = "SECRETS_MANAGER_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
 
@@ -71,13 +72,17 @@ extension MediaTailor {
 
         /// The type of authentication used to access content from HttpConfiguration::BaseUrl on your source location. Accepted value: S3_SIGV4. S3_SIGV4 - AWS Signature Version 4 authentication for Amazon S3 hosted virtual-style access. If your source location base URL is an Amazon S3 bucket, MediaTailor can use AWS Signature Version 4 (SigV4) authentication to access the bucket where your source content is stored. Your MediaTailor source location baseURL must follow the S3 virtual hosted-style request URL format. For example, https://bucket-name.s3.Region.amazonaws.com/key-name. Before you can use S3_SIGV4, you must meet these requirements: • You must allow MediaTailor to access your S3 bucket by granting mediatailor.amazonaws.com principal access in IAM. For information about configuring access in IAM, see Access management in the IAM User Guide. • The mediatailor.amazonaws.com service principal must have permissions to read all top level manifests referenced by the VodSource packaging configurations. • The caller of the API must have s3:GetObject IAM permissions to read all top level manifests referenced by your MediaTailor VodSource packaging configurations.
         public let accessType: AccessType?
+        /// AWS Secrets Manager access token configuration parameters.
+        public let secretsManagerAccessTokenConfiguration: SecretsManagerAccessTokenConfiguration?
 
-        public init(accessType: AccessType? = nil) {
+        public init(accessType: AccessType? = nil, secretsManagerAccessTokenConfiguration: SecretsManagerAccessTokenConfiguration? = nil) {
             self.accessType = accessType
+            self.secretsManagerAccessTokenConfiguration = secretsManagerAccessTokenConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessType = "AccessType"
+            case secretsManagerAccessTokenConfiguration = "SecretsManagerAccessTokenConfiguration"
         }
     }
 
@@ -118,6 +123,37 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct Alert: AWSDecodableShape {
+
+        /// The code for the alert. For example, NOT_PROCESSED.
+        public let alertCode: String
+        /// If an alert is generated for a resource, an explanation of the reason for the alert.
+        public let alertMessage: String
+        /// The timestamp when the alert was last modified.
+        @CustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date
+        /// The Amazon Resource Names (ARNs) related to this alert.
+        public let relatedResourceArns: [String]
+        /// The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        public init(alertCode: String, alertMessage: String, lastModifiedTime: Date, relatedResourceArns: [String], resourceArn: String) {
+            self.alertCode = alertCode
+            self.alertMessage = alertMessage
+            self.lastModifiedTime = lastModifiedTime
+            self.relatedResourceArns = relatedResourceArns
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertCode = "AlertCode"
+            case alertMessage = "AlertMessage"
+            case lastModifiedTime = "LastModifiedTime"
+            case relatedResourceArns = "RelatedResourceArns"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -1155,6 +1191,49 @@ extension MediaTailor {
         }
     }
 
+    public struct ListAlertsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let resourceArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAlertsResponse: AWSDecodableShape {
+
+        /// An array of alerts that are associated with this resource.
+        public let items: [Alert]?
+        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [Alert]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListChannelsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
@@ -1676,6 +1755,33 @@ extension MediaTailor {
         }
     }
 
+    public struct ScheduleAdBreak: AWSDecodableShape {
+
+        /// The approximate duration of the ad break, in seconds.
+        public let approximateDurationSeconds: Int64?
+        /// The approximate time that the ad will start playing.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var approximateStartTime: Date?
+        /// The name of the source location containing the VOD source used for the ad break.
+        public let sourceLocationName: String?
+        /// The name of the VOD source used for the ad break.
+        public let vodSourceName: String?
+
+        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+            self.approximateDurationSeconds = approximateDurationSeconds
+            self.approximateStartTime = approximateStartTime
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateDurationSeconds = "ApproximateDurationSeconds"
+            case approximateStartTime = "ApproximateStartTime"
+            case sourceLocationName = "SourceLocationName"
+            case vodSourceName = "VodSourceName"
+        }
+    }
+
     public struct ScheduleConfiguration: AWSEncodableShape {
 
         /// Program transition configurations.
@@ -1703,17 +1809,20 @@ extension MediaTailor {
         public let channelName: String
         /// The name of the program.
         public let programName: String
+        /// The schedule's ad break properties.
+        public let scheduleAdBreaks: [ScheduleAdBreak]?
         /// The name of the source location.
         public let sourceLocationName: String
         /// The name of the VOD source.
         public let vodSourceName: String
 
-        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, programName: String, sourceLocationName: String, vodSourceName: String) {
+        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, programName: String, scheduleAdBreaks: [ScheduleAdBreak]? = nil, sourceLocationName: String, vodSourceName: String) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.arn = arn
             self.channelName = channelName
             self.programName = programName
+            self.scheduleAdBreaks = scheduleAdBreaks
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
         }
@@ -1724,8 +1833,31 @@ extension MediaTailor {
             case arn = "Arn"
             case channelName = "ChannelName"
             case programName = "ProgramName"
+            case scheduleAdBreaks = "ScheduleAdBreaks"
             case sourceLocationName = "SourceLocationName"
             case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct SecretsManagerAccessTokenConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// The name of the HTTP header used to supply the access token in requests to the source location.
+        public let headerName: String?
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the access token.
+        public let secretArn: String?
+        /// The AWS Secrets Manager SecretString key associated with the access token. MediaTailor uses the key to look up SecretString key and value pair containing the access token.
+        public let secretStringKey: String?
+
+        public init(headerName: String? = nil, secretArn: String? = nil, secretStringKey: String? = nil) {
+            self.headerName = headerName
+            self.secretArn = secretArn
+            self.secretStringKey = secretStringKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headerName = "HeaderName"
+            case secretArn = "SecretArn"
+            case secretStringKey = "SecretStringKey"
         }
     }
 

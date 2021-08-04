@@ -64,57 +64,57 @@ public struct MWAA: AWSService {
 
     /// Create a CLI token to use Airflow CLI.
     public func createCliToken(_ input: CreateCliTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCliTokenResponse> {
-        return self.client.execute(operation: "CreateCliToken", path: "/clitoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "CreateCliToken", path: "/clitoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", context: context, on: eventLoop)
     }
 
-    /// JSON blob that describes the environment to create.
+    /// Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func createEnvironment(_ input: CreateEnvironmentInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEnvironmentOutput> {
-        return self.client.execute(operation: "CreateEnvironment", path: "/environments/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "CreateEnvironment", path: "/environments/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
     /// Create a JWT token to be used to login to Airflow Web UI with claims based Authentication.
     public func createWebLoginToken(_ input: CreateWebLoginTokenRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWebLoginTokenResponse> {
-        return self.client.execute(operation: "CreateWebLoginToken", path: "/webtoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "CreateWebLoginToken", path: "/webtoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", context: context, on: eventLoop)
     }
 
-    /// Delete an existing environment.
+    /// Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEnvironmentOutput> {
-        return self.client.execute(operation: "DeleteEnvironment", path: "/environments/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "DeleteEnvironment", path: "/environments/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
-    /// Get details of an existing environment.
+    /// Retrieves the details of an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func getEnvironment(_ input: GetEnvironmentInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentOutput> {
-        return self.client.execute(operation: "GetEnvironment", path: "/environments/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "GetEnvironment", path: "/environments/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
-    /// List Amazon MWAA Environments.
+    /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
     public func listEnvironments(_ input: ListEnvironmentsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEnvironmentsOutput> {
-        return self.client.execute(operation: "ListEnvironments", path: "/environments", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "ListEnvironments", path: "/environments", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
-    /// List the tags for MWAA environments.
+    /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     public func listTagsForResource(_ input: ListTagsForResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
     /// An operation for publishing metrics from the customers to the Ops plane.
     public func publishMetrics(_ input: PublishMetricsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishMetricsOutput> {
-        return self.client.execute(operation: "PublishMetrics", path: "/metrics/environments/{EnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "PublishMetrics", path: "/metrics/environments/{EnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "ops.", context: context, on: eventLoop)
     }
 
-    /// Add tag to the MWAA environments.
+    /// Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func tagResource(_ input: TagResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
-    /// Remove a tag from the MWAA environments.
+    /// Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     public func untagResource(_ input: UntagResourceInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 
-    /// Update an MWAA environment.
+    /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func updateEnvironment(_ input: UpdateEnvironmentInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEnvironmentOutput> {
-        return self.client.execute(operation: "UpdateEnvironment", path: "/environments/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+        return self.client.execute(operation: "UpdateEnvironment", path: "/environments/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "api.", context: context, on: eventLoop)
     }
 }
 

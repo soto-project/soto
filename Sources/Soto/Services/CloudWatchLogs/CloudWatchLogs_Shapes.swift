@@ -48,6 +48,39 @@ extension CloudWatchLogs {
         case failed = "Failed"
         case running = "Running"
         case scheduled = "Scheduled"
+        case timeout = "Timeout"
+        case unknown = "Unknown"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StandardUnit: String, CustomStringConvertible, Codable {
+        case bits = "Bits"
+        case bitsSecond = "Bits/Second"
+        case bytes = "Bytes"
+        case bytesSecond = "Bytes/Second"
+        case count = "Count"
+        case countSecond = "Count/Second"
+        case gigabits = "Gigabits"
+        case gigabitsSecond = "Gigabits/Second"
+        case gigabytes = "Gigabytes"
+        case gigabytesSecond = "Gigabytes/Second"
+        case kilobits = "Kilobits"
+        case kilobitsSecond = "Kilobits/Second"
+        case kilobytes = "Kilobytes"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabits = "Megabits"
+        case megabitsSecond = "Megabits/Second"
+        case megabytes = "Megabytes"
+        case megabytesSecond = "Megabytes/Second"
+        case microseconds = "Microseconds"
+        case milliseconds = "Milliseconds"
+        case none = "None"
+        case percent = "Percent"
+        case seconds = "Seconds"
+        case terabits = "Terabits"
+        case terabitsSecond = "Terabits/Second"
+        case terabytes = "Terabytes"
+        case terabytesSecond = "Terabytes/Second"
         public var description: String { return self.rawValue }
     }
 
@@ -111,7 +144,7 @@ extension CloudWatchLogs {
         public let logStreamNamePrefix: String?
         /// The name of the export task.
         public let taskName: String?
-        /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
+        /// The end time of the range for the request, expreswatchlogsdocused as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
         public let to: Int64
 
         public init(destination: String, destinationPrefix: String? = nil, from: Int64, logGroupName: String, logStreamNamePrefix: String? = nil, taskName: String? = nil, to: Int64) {
@@ -574,7 +607,7 @@ extension CloudWatchLogs {
         public let logStreamNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.  lastEventTimeStamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
+        /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.  lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimestamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public let orderBy: OrderBy?
 
         public init(descending: Bool? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
@@ -1037,7 +1070,7 @@ extension CloudWatchLogs {
         public let logStreamNames: [String]?
         /// The token for the next set of events to return. (You received this token from a previous call.)
         public let nextToken: String?
-        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned. If you omit startTime and endTime the most recent log events are retrieved, to up 1 MB or 10,000 log events.
+        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         public let startTime: Int64?
 
         public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupName: String, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil) {
@@ -1216,7 +1249,7 @@ extension CloudWatchLogs {
 
         /// The name of the log group to search.
         public let logGroupName: String
-        /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the past 15 minutes are queried. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let time: Int64?
 
         public init(logGroupName: String, time: Int64? = nil) {
@@ -1525,21 +1558,31 @@ extension CloudWatchLogs {
 
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
         public let defaultValue: Double?
+        /// The fields to use as dimensions for the metric. One metric filter can include as many as three dimensions.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric.  To help prevent accidental high charges, Amazon disables a metric filter if it generates 1000 different name/value pairs for the dimensions that you have specified within a certain amount of time. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see  Creating a Billing Alarm to Monitor Your Estimated AWS Charges.
+        public let dimensions: [String: String]?
         /// The name of the CloudWatch metric.
         public let metricName: String
         /// A custom namespace to contain your metric in CloudWatch. Use namespaces to group together metrics that are similar. For more information, see Namespaces.
         public let metricNamespace: String
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
         public let metricValue: String
+        /// The unit to assign to the metric. If you omit this, the unit is set as None.
+        public let unit: StandardUnit?
 
-        public init(defaultValue: Double? = nil, metricName: String, metricNamespace: String, metricValue: String) {
+        public init(defaultValue: Double? = nil, dimensions: [String: String]? = nil, metricName: String, metricNamespace: String, metricValue: String, unit: StandardUnit? = nil) {
             self.defaultValue = defaultValue
+            self.dimensions = dimensions
             self.metricName = metricName
             self.metricNamespace = metricNamespace
             self.metricValue = metricValue
+            self.unit = unit
         }
 
         public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try validate($0.key, name: "dimensions.key", parent: name, max: 255)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, max: 255)
+            }
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, pattern: "[^:*$]*")
             try self.validate(self.metricNamespace, name: "metricNamespace", parent: name, max: 255)
@@ -1549,9 +1592,11 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case defaultValue = "defaultValue"
+            case dimensions = "dimensions"
             case metricName = "metricName"
             case metricNamespace = "metricNamespace"
             case metricValue = "metricValue"
+            case unit = "unit"
         }
     }
 
@@ -1864,11 +1909,11 @@ extension CloudWatchLogs {
 
     public struct PutSubscriptionFilterRequest: AWSEncodableShape {
 
-        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.
+        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you are setting up a cross-account subscription, the destination must have an IAM policy associated with it that allows the sender to send logs to the destination. For more information, see PutDestinationPolicy.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.
         public let destinationArn: String
         /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
         public let distribution: Distribution?
-        /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. Otherwise, the call fails because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
+        /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
         /// A filter pattern for subscribing to a filtered stream of log events.
         public let filterPattern: String

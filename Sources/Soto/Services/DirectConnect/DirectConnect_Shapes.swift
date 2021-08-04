@@ -150,11 +150,11 @@ extension DirectConnect {
 
     public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
 
-        /// The ID of the AWS account that owns the virtual private gateway or transit gateway.
+        /// The ID of the account that owns the virtual private gateway or transit gateway.
         public let associatedGatewayOwnerAccount: String
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
-        /// Overrides the Amazon VPC prefixes advertised to the Direct Connect gateway. For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
+        /// Overrides the Amazon VPC prefixes advertised to the Direct Connect gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide.
         public let overrideAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the request proposal.
         public let proposalId: String
@@ -189,13 +189,13 @@ extension DirectConnect {
 
     public struct AllocateConnectionOnInterconnectRequest: AWSEncodableShape {
 
-        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
         /// The name of the provisioned connection.
         public let connectionName: String
         /// The ID of the interconnect on which the connection will be provisioned.
         public let interconnectId: String
-        /// The ID of the AWS account of the customer for whom the connection will be provisioned.
+        /// The ID of the account of the customer for whom the connection will be provisioned.
         public let ownerAccount: String
         /// The dedicated VLAN provisioned to the connection.
         public let vlan: Int
@@ -219,13 +219,13 @@ extension DirectConnect {
 
     public struct AllocateHostedConnectionRequest: AWSEncodableShape {
 
-        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
         /// The ID of the interconnect or LAG.
         public let connectionId: String
         /// The name of the hosted connection.
         public let connectionName: String
-        /// The ID of the AWS account ID of the customer for the connection.
+        /// The ID of the account ID of the customer for the connection.
         public let ownerAccount: String
         /// The tags associated with the connection.
         public let tags: [Tag]?
@@ -264,7 +264,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the private virtual interface.
         public let newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation
-        /// The ID of the AWS account that owns the virtual private interface.
+        /// The ID of the account that owns the virtual private interface.
         public let ownerAccount: String
 
         public init(connectionId: String, newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation, ownerAccount: String) {
@@ -290,7 +290,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the public virtual interface.
         public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
-        /// The ID of the AWS account that owns the public virtual interface.
+        /// The ID of the account that owns the public virtual interface.
         public let ownerAccount: String
 
         public init(connectionId: String, newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation, ownerAccount: String) {
@@ -316,7 +316,7 @@ extension DirectConnect {
         public let connectionId: String
         /// Information about the transit virtual interface.
         public let newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation
-        /// The ID of the AWS account that owns the transit virtual interface.
+        /// The ID of the account that owns the transit virtual interface.
         public let ownerAccount: String
 
         public init(connectionId: String, newTransitVirtualInterfaceAllocation: NewTransitVirtualInterfaceAllocation, ownerAccount: String) {
@@ -451,7 +451,7 @@ extension DirectConnect {
 
         /// The ID of the associated gateway.
         public let id: String?
-        /// The ID of the AWS account that owns the associated virtual private gateway or transit gateway.
+        /// The ID of the account that owns the associated virtual private gateway or transit gateway.
         public let ownerAccount: String?
         /// The Region where the associated gateway is located.
         public let region: String?
@@ -485,6 +485,7 @@ extension DirectConnect {
         public let authKey: String?
         /// The Direct Connect endpoint on which the BGP peer terminates.
         public let awsDeviceV2: String?
+        public let awsLogicalDeviceId: String?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
         /// The state of the BGP peer. The following are the possible values:    verifying: The BGP peering addresses or ASN require validation before the BGP peer can be created. This state applies only to public virtual interfaces.    pending: The BGP peer is created, and remains in this state until it is ready to be established.    available: The BGP peer is ready to be established.    deleting: The BGP peer is being deleted.    deleted: The BGP peer is deleted and cannot be established.
@@ -494,12 +495,13 @@ extension DirectConnect {
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeerId: String? = nil, bgpPeerState: BGPPeerState? = nil, bgpStatus: BGPStatus? = nil, customerAddress: String? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
+            self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bgpPeerId = bgpPeerId
             self.bgpPeerState = bgpPeerState
             self.bgpStatus = bgpStatus
@@ -512,6 +514,7 @@ extension DirectConnect {
             case asn = "asn"
             case authKey = "authKey"
             case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
             case bgpPeerId = "bgpPeerId"
             case bgpPeerState = "bgpPeerState"
             case bgpStatus = "bgpStatus"
@@ -649,6 +652,8 @@ extension DirectConnect {
         public let awsDevice: String?
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDeviceV2: String?
+        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        public let awsLogicalDeviceId: String?
         /// The bandwidth of the connection.
         public let bandwidth: String?
         /// The ID of the connection.
@@ -673,24 +678,25 @@ extension DirectConnect {
         public let macSecCapable: Bool?
         /// The MAC Security (MACsec) security keys associated with the connection.
         public let macSecKeys: [MacSecKey]?
-        /// The ID of the AWS account that owns the connection.
+        /// The ID of the account that owns the connection.
         public let ownerAccount: String?
-        /// The name of the AWS Direct Connect service provider associated with the connection.
+        /// The name of the Direct Connect service provider associated with the connection.
         public let partnerName: String?
         /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
         public let portEncryptionStatus: String?
         /// The name of the service provider associated with the connection.
         public let providerName: String?
-        /// The AWS Region where the connection is located.
+        /// The Region where the connection is located.
         public let region: String?
         /// The tags associated with the connection.
         public let tags: [Tag]?
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
+            self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
             self.connectionId = connectionId
             self.connectionName = connectionName
@@ -715,6 +721,7 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case awsDevice = "awsDevice"
             case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
             case bandwidth = "bandwidth"
             case connectionId = "connectionId"
             case connectionName = "connectionName"
@@ -795,7 +802,7 @@ extension DirectConnect {
         public let location: String
         /// The name of the service provider associated with the requested connection.
         public let providerName: String?
-        /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the AWS Direct Connect User Guide.
+        /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect User Guide.
         public let requestMACSec: Bool?
         /// The tags to associate with the lag.
         public let tags: [Tag]?
@@ -834,7 +841,7 @@ extension DirectConnect {
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
-        /// The ID of the AWS account that owns the Direct Connect gateway.
+        /// The ID of the account that owns the Direct Connect gateway.
         public let directConnectGatewayOwnerAccount: String
         /// The ID of the virtual private gateway or transit gateway.
         public let gatewayId: String
@@ -874,7 +881,7 @@ extension DirectConnect {
 
     public struct CreateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
 
-        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the Direct Connect User Guide.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
@@ -1001,7 +1008,7 @@ extension DirectConnect {
         public let numberOfConnections: Int
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
-        /// Indicates whether the connection will support MAC Security (MACsec).  All connections in the LAG must be capable of supporting MAC Security (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the AWS Direct Connect User Guide.
+        /// Indicates whether the connection will support MAC Security (MACsec).  All connections in the LAG must be capable of supporting MAC Security (MACsec). For information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect User Guide.
         public let requestMACSec: Bool?
         /// The tags to associate with the LAG.
         public let tags: [Tag]?
@@ -1741,7 +1748,7 @@ extension DirectConnect {
         public let directConnectGatewayName: String?
         /// The state of the Direct Connect gateway. The following are the possible values:    pending: The initial state after calling CreateDirectConnectGateway.    available: The Direct Connect gateway is ready for use.    deleting: The initial state after calling DeleteDirectConnectGateway.    deleted: The Direct Connect gateway is deleted and cannot pass traffic.
         public let directConnectGatewayState: DirectConnectGatewayState?
-        /// The ID of the AWS account that owns the Direct Connect gateway.
+        /// The ID of the account that owns the Direct Connect gateway.
         public let ownerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
@@ -1777,15 +1784,15 @@ extension DirectConnect {
         public let associationState: DirectConnectGatewayAssociationState?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The ID of the AWS account that owns the associated gateway.
+        /// The ID of the account that owns the associated gateway.
         public let directConnectGatewayOwnerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
         /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
         public let virtualGatewayId: String?
-        /// The ID of the AWS account that owns the virtual private gateway.
+        /// The ID of the account that owns the virtual private gateway.
         public let virtualGatewayOwnerAccount: String?
-        /// The AWS Region where the virtual private gateway is located.
+        /// The Region where the virtual private gateway is located.
         public let virtualGatewayRegion: String?
 
         public init(allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]? = nil, associatedGateway: AssociatedGateway? = nil, associationId: String? = nil, associationState: DirectConnectGatewayAssociationState? = nil, directConnectGatewayId: String? = nil, directConnectGatewayOwnerAccount: String? = nil, stateChangeError: String? = nil, virtualGatewayId: String? = nil, virtualGatewayOwnerAccount: String? = nil, virtualGatewayRegion: String? = nil) {
@@ -1821,7 +1828,7 @@ extension DirectConnect {
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
-        /// The ID of the AWS account that owns the Direct Connect gateway.
+        /// The ID of the account that owns the Direct Connect gateway.
         public let directConnectGatewayOwnerAccount: String?
         /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
         public let existingAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -1865,9 +1872,9 @@ extension DirectConnect {
         public let stateChangeError: String?
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String?
-        /// The ID of the AWS account that owns the virtual interface.
+        /// The ID of the account that owns the virtual interface.
         public let virtualInterfaceOwnerAccount: String?
-        /// The AWS Region where the virtual interface is located.
+        /// The Region where the virtual interface is located.
         public let virtualInterfaceRegion: String?
 
         public init(attachmentState: DirectConnectGatewayAttachmentState? = nil, attachmentType: DirectConnectGatewayAttachmentType? = nil, directConnectGatewayId: String? = nil, stateChangeError: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceOwnerAccount: String? = nil, virtualInterfaceRegion: String? = nil) {
@@ -1951,6 +1958,8 @@ extension DirectConnect {
         public let awsDevice: String?
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDeviceV2: String?
+        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        public let awsLogicalDeviceId: String?
         /// The bandwidth of the connection.
         public let bandwidth: String?
         /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
@@ -1971,14 +1980,15 @@ extension DirectConnect {
         public let location: String?
         /// The name of the service provider associated with the interconnect.
         public let providerName: String?
-        /// The AWS Region where the connection is located.
+        /// The Region where the connection is located.
         public let region: String?
         /// The tags associated with the interconnect.
         public let tags: [Tag]?
 
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, interconnectId: String? = nil, interconnectName: String? = nil, interconnectState: InterconnectState? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
+            self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
             self.hasLogicalRedundancy = hasLogicalRedundancy
             self.interconnectId = interconnectId
@@ -1996,6 +2006,7 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case awsDevice = "awsDevice"
             case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
             case bandwidth = "bandwidth"
             case hasLogicalRedundancy = "hasLogicalRedundancy"
             case interconnectId = "interconnectId"
@@ -2029,10 +2040,12 @@ extension DirectConnect {
 
         /// Indicates whether the LAG can host other connections.
         public let allowsHostedConnections: Bool?
-        /// The AWS Direct Connect endpoint that hosts the LAG.
+        /// The Direct Connect endpoint that hosts the LAG.
         public let awsDevice: String?
-        /// The AWS Direct Connect endpoint that hosts the LAG.
+        /// The Direct Connect endpoint that hosts the LAG.
         public let awsDeviceV2: String?
+        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        public let awsLogicalDeviceId: String?
         /// The connections bundled by the LAG.
         public let connections: [Connection]?
         /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
@@ -2059,19 +2072,20 @@ extension DirectConnect {
         public let minimumLinks: Int?
         /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
         public let numberOfConnections: Int?
-        /// The ID of the AWS account that owns the LAG.
+        /// The ID of the account that owns the LAG.
         public let ownerAccount: String?
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
-        /// The AWS Region where the connection is located.
+        /// The Region where the connection is located.
         public let region: String?
         /// The tags associated with the LAG.
         public let tags: [Tag]?
 
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
+            self.awsLogicalDeviceId = awsLogicalDeviceId
             self.connections = connections
             self.connectionsBandwidth = connectionsBandwidth
             self.encryptionMode = encryptionMode
@@ -2095,6 +2109,7 @@ extension DirectConnect {
             case allowsHostedConnections = "allowsHostedConnections"
             case awsDevice = "awsDevice"
             case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
             case connections = "connections"
             case connectionsBandwidth = "connectionsBandwidth"
             case encryptionMode = "encryptionMode"
@@ -2211,7 +2226,7 @@ extension DirectConnect {
         public let locationCode: String?
         /// The name of the location. This includes the name of the colocation partner and the physical site of the building.
         public let locationName: String?
-        /// The AWS Region for the location.
+        /// The Region for the location.
         public let region: String?
 
         public init(availableMacSecPortSpeeds: [String]? = nil, availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
@@ -2429,7 +2444,7 @@ extension DirectConnect {
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
+        /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
         public let tags: [Tag]?
@@ -2482,7 +2497,7 @@ extension DirectConnect {
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
+        /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
         public let tags: [Tag]?
@@ -2882,7 +2897,7 @@ extension DirectConnect {
 
     public struct UpdateLagRequest: AWSEncodableShape {
 
-        /// The LAG MAC Security (MACsec) encryption mode. AWS applies the value to all connections which are part of the LAG.
+        /// The LAG MAC Security (MACsec) encryption mode. Amazon Web Services applies the value to all connections which are part of the LAG.
         public let encryptionMode: String?
         /// The ID of the LAG.
         public let lagId: String
@@ -2970,6 +2985,8 @@ extension DirectConnect {
         public let authKey: String?
         /// The Direct Connect endpoint on which the virtual interface terminates.
         public let awsDeviceV2: String?
+        /// The Direct Connect endpoint that terminates a physical connection's BGP sessions.
+        public let awsLogicalDeviceId: String?
         /// The BGP peers configured on this virtual interface.
         public let bgpPeers: [BGPPeer]?
         /// The ID of the connection.
@@ -2986,11 +3003,11 @@ extension DirectConnect {
         public let location: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
-        /// The ID of the AWS account that owns the virtual interface.
+        /// The ID of the account that owns the virtual interface.
         public let ownerAccount: String?
-        /// The AWS Region where the virtual interface is located.
+        /// The Region where the virtual interface is located.
         public let region: String?
-        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual interfaces.
+        /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the virtual interface.
         public let tags: [Tag]?
@@ -3007,13 +3024,14 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
             self.asn = asn
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
+            self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bgpPeers = bgpPeers
             self.connectionId = connectionId
             self.customerAddress = customerAddress
@@ -3041,6 +3059,7 @@ extension DirectConnect {
             case asn = "asn"
             case authKey = "authKey"
             case awsDeviceV2 = "awsDeviceV2"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
             case bgpPeers = "bgpPeers"
             case connectionId = "connectionId"
             case customerAddress = "customerAddress"

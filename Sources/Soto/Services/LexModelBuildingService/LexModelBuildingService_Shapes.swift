@@ -78,6 +78,7 @@ extension LexModelBuildingService {
         case deDe = "de-DE"
         case enAu = "en-AU"
         case enGb = "en-GB"
+        case enIn = "en-IN"
         case enUs = "en-US"
         case es419 = "es-419"
         case esEs = "es-ES"
@@ -98,6 +99,31 @@ extension LexModelBuildingService {
     public enum MergeStrategy: String, CustomStringConvertible, Codable {
         case failOnConflict = "FAIL_ON_CONFLICT"
         case overwriteLatest = "OVERWRITE_LATEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationAlertType: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case warn = "WARN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationSortAttribute: String, CustomStringConvertible, Codable {
+        case migrationDateTime = "MIGRATION_DATE_TIME"
+        case v1BotName = "V1_BOT_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MigrationStrategy: String, CustomStringConvertible, Codable {
+        case createNew = "CREATE_NEW"
+        case updateExisting = "UPDATE_EXISTING"
         public var description: String { return self.rawValue }
     }
 
@@ -129,6 +155,12 @@ extension LexModelBuildingService {
     public enum SlotValueSelectionStrategy: String, CustomStringConvertible, Codable {
         case originalValue = "ORIGINAL_VALUE"
         case topResolution = "TOP_RESOLUTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -338,7 +370,7 @@ extension LexModelBuildingService {
             try self.validate(self.messageVersion, name: "messageVersion", parent: name, min: 1)
             try self.validate(self.uri, name: "uri", parent: name, max: 2048)
             try self.validate(self.uri, name: "uri", parent: name, min: 20)
-            try self.validate(self.uri, name: "uri", parent: name, pattern: "arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?")
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "arn:aws[a-zA-Z-]*:lambda:[a-z]+-[a-z]+(-[a-z]+)*-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(\\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1936,6 +1968,138 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct GetMigrationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "migrationId", location: .uri(locationName: "migrationId"))
+        ]
+
+        /// The unique identifier of the migration to view. The migrationID is returned by the operation.
+        public let migrationId: String
+
+        public init(migrationId: String) {
+            self.migrationId = migrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationId, name: "migrationId", parent: name, max: 10)
+            try self.validate(self.migrationId, name: "migrationId", parent: name, min: 10)
+            try self.validate(self.migrationId, name: "migrationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMigrationResponse: AWSDecodableShape {
+
+        /// A list of alerts and warnings that indicate issues with the migration for the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon Lex V1 feature has a different implementation if Amazon Lex V2. For more information, see Migrating a bot in the Amazon Lex V2 developer guide.
+        public let alerts: [MigrationAlert]?
+        /// The unique identifier of the migration. This is the same as the identifier used when calling the GetMigration operation.
+        public let migrationId: String?
+        /// Indicates the status of the migration. When the status is COMPLETE the migration is finished and the bot is available in Amazon Lex V2. There may be alerts and warnings that need to be resolved to complete the migration.
+        public let migrationStatus: MigrationStatus?
+        /// The strategy used to conduct the migration.    CREATE_NEW - Creates a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to the new bot.    UPDATE_EXISTING - Overwrites the existing Amazon Lex V2 bot metadata and the locale being migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the locale doesn't exist, a new locale is created in the Amazon Lex V2 bot.
+        public let migrationStrategy: MigrationStrategy?
+        /// The date and time that the migration started.
+        public let migrationTimestamp: Date?
+        /// The locale of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+        public let v1BotLocale: Locale?
+        /// The name of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+        public let v1BotName: String?
+        /// The version of the Amazon Lex V1 bot migrated to Amazon Lex V2.
+        public let v1BotVersion: String?
+        /// The unique identifier of the Amazon Lex V2 bot that the Amazon Lex V1 is being migrated to.
+        public let v2BotId: String?
+        /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+        public let v2BotRole: String?
+
+        public init(alerts: [MigrationAlert]? = nil, migrationId: String? = nil, migrationStatus: MigrationStatus? = nil, migrationStrategy: MigrationStrategy? = nil, migrationTimestamp: Date? = nil, v1BotLocale: Locale? = nil, v1BotName: String? = nil, v1BotVersion: String? = nil, v2BotId: String? = nil, v2BotRole: String? = nil) {
+            self.alerts = alerts
+            self.migrationId = migrationId
+            self.migrationStatus = migrationStatus
+            self.migrationStrategy = migrationStrategy
+            self.migrationTimestamp = migrationTimestamp
+            self.v1BotLocale = v1BotLocale
+            self.v1BotName = v1BotName
+            self.v1BotVersion = v1BotVersion
+            self.v2BotId = v2BotId
+            self.v2BotRole = v2BotRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alerts = "alerts"
+            case migrationId = "migrationId"
+            case migrationStatus = "migrationStatus"
+            case migrationStrategy = "migrationStrategy"
+            case migrationTimestamp = "migrationTimestamp"
+            case v1BotLocale = "v1BotLocale"
+            case v1BotName = "v1BotName"
+            case v1BotVersion = "v1BotVersion"
+            case v2BotId = "v2BotId"
+            case v2BotRole = "v2BotRole"
+        }
+    }
+
+    public struct GetMigrationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "migrationStatusEquals", location: .querystring(locationName: "migrationStatusEquals")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "sortByAttribute", location: .querystring(locationName: "sortByAttribute")), 
+            AWSMemberEncoding(label: "sortByOrder", location: .querystring(locationName: "sortByOrder")), 
+            AWSMemberEncoding(label: "v1BotNameContains", location: .querystring(locationName: "v1BotNameContains"))
+        ]
+
+        /// The maximum number of migrations to return in the response. The default is 10.
+        public let maxResults: Int?
+        /// Filters the list to contain only migrations in the specified state.
+        public let migrationStatusEquals: MigrationStatus?
+        /// A pagination token that fetches the next page of migrations. If the response to this operation is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of migrations, specify the pagination token in the request.
+        public let nextToken: String?
+        /// The field to sort the list of migrations by. You can sort by the Amazon Lex V1 bot name or the date and time that the migration was started.
+        public let sortByAttribute: MigrationSortAttribute?
+        /// The order so sort the list.
+        public let sortByOrder: SortOrder?
+        /// Filters the list to contain only bots whose name contains the specified string. The string is matched anywhere in bot name.
+        public let v1BotNameContains: String?
+
+        public init(maxResults: Int? = nil, migrationStatusEquals: MigrationStatus? = nil, nextToken: String? = nil, sortByAttribute: MigrationSortAttribute? = nil, sortByOrder: SortOrder? = nil, v1BotNameContains: String? = nil) {
+            self.maxResults = maxResults
+            self.migrationStatusEquals = migrationStatusEquals
+            self.nextToken = nextToken
+            self.sortByAttribute = sortByAttribute
+            self.sortByOrder = sortByOrder
+            self.v1BotNameContains = v1BotNameContains
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.v1BotNameContains, name: "v1BotNameContains", parent: name, max: 50)
+            try self.validate(self.v1BotNameContains, name: "v1BotNameContains", parent: name, min: 2)
+            try self.validate(self.v1BotNameContains, name: "v1BotNameContains", parent: name, pattern: "^([A-Za-z]_?)+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMigrationsResponse: AWSDecodableShape {
+
+        /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To see details of the migration, use the migrationId from the summary in a call to the operation.
+        public let migrationSummaries: [MigrationSummary]?
+        /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of migrations.
+        public let nextToken: String?
+
+        public init(migrationSummaries: [MigrationSummary]? = nil, nextToken: String? = nil) {
+            self.migrationSummaries = migrationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationSummaries = "migrationSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetSlotTypeRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
@@ -2400,6 +2564,78 @@ extension LexModelBuildingService {
             case content = "content"
             case contentType = "contentType"
             case groupNumber = "groupNumber"
+        }
+    }
+
+    public struct MigrationAlert: AWSDecodableShape {
+
+        /// Additional details about the alert.
+        public let details: [String]?
+        /// A message that describes why the alert was issued.
+        public let message: String?
+        /// A link to the Amazon Lex documentation that describes how to resolve the alert.
+        public let referenceURLs: [String]?
+        /// The type of alert. There are two kinds of alerts:    ERROR - There was an issue with the migration that can't be resolved. The migration stops.    WARN - There was an issue with the migration that requires manual changes to the new Amazon Lex V2 bot. The migration continues.
+        public let type: MigrationAlertType?
+
+        public init(details: [String]? = nil, message: String? = nil, referenceURLs: [String]? = nil, type: MigrationAlertType? = nil) {
+            self.details = details
+            self.message = message
+            self.referenceURLs = referenceURLs
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case message = "message"
+            case referenceURLs = "referenceURLs"
+            case type = "type"
+        }
+    }
+
+    public struct MigrationSummary: AWSDecodableShape {
+
+        /// The unique identifier that Amazon Lex assigned to the migration.
+        public let migrationId: String?
+        /// The status of the operation. When the status is COMPLETE the bot is available in Amazon Lex V2. There may be alerts and warnings that need to be resolved to complete the migration.
+        public let migrationStatus: MigrationStatus?
+        /// The strategy used to conduct the migration.
+        public let migrationStrategy: MigrationStrategy?
+        /// The date and time that the migration started.
+        public let migrationTimestamp: Date?
+        /// The locale of the Amazon Lex V1 bot that is the source of the migration.
+        public let v1BotLocale: Locale?
+        /// The name of the Amazon Lex V1 bot that is the source of the migration.
+        public let v1BotName: String?
+        /// The version of the Amazon Lex V1 bot that is the source of the migration.
+        public let v1BotVersion: String?
+        /// The unique identifier of the Amazon Lex V2 that is the destination of the migration.
+        public let v2BotId: String?
+        /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+        public let v2BotRole: String?
+
+        public init(migrationId: String? = nil, migrationStatus: MigrationStatus? = nil, migrationStrategy: MigrationStrategy? = nil, migrationTimestamp: Date? = nil, v1BotLocale: Locale? = nil, v1BotName: String? = nil, v1BotVersion: String? = nil, v2BotId: String? = nil, v2BotRole: String? = nil) {
+            self.migrationId = migrationId
+            self.migrationStatus = migrationStatus
+            self.migrationStrategy = migrationStrategy
+            self.migrationTimestamp = migrationTimestamp
+            self.v1BotLocale = v1BotLocale
+            self.v1BotName = v1BotName
+            self.v1BotVersion = v1BotVersion
+            self.v2BotId = v2BotId
+            self.v2BotRole = v2BotRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationId = "migrationId"
+            case migrationStatus = "migrationStatus"
+            case migrationStrategy = "migrationStrategy"
+            case migrationTimestamp = "migrationTimestamp"
+            case v1BotLocale = "v1BotLocale"
+            case v1BotName = "v1BotName"
+            case v1BotVersion = "v1BotVersion"
+            case v2BotId = "v2BotId"
+            case v2BotRole = "v2BotRole"
         }
     }
 
@@ -3337,6 +3573,93 @@ extension LexModelBuildingService {
             case name = "name"
             case resourceType = "resourceType"
             case tags = "tags"
+        }
+    }
+
+    public struct StartMigrationRequest: AWSEncodableShape {
+
+        /// The strategy used to conduct the migration.    CREATE_NEW - Creates a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to the new bot.    UPDATE_EXISTING - Overwrites the existing Amazon Lex V2 bot metadata and the locale being migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the locale doesn't exist, a new locale is created in the Amazon Lex V2 bot.
+        public let migrationStrategy: MigrationStrategy
+        /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+        public let v1BotName: String
+        /// The version of the bot to migrate to Amazon Lex V2. You can migrate the $LATEST version as well as any numbered version.
+        public let v1BotVersion: String
+        /// The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1 bot to.    If the Amazon Lex V2 bot doesn't exist, you must use the CREATE_NEW migration strategy.   If the Amazon Lex V2 bot exists, you must use the UPDATE_EXISTING migration strategy to change the contents of the Amazon Lex V2 bot.
+        public let v2BotName: String
+        /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+        public let v2BotRole: String
+
+        public init(migrationStrategy: MigrationStrategy, v1BotName: String, v1BotVersion: String, v2BotName: String, v2BotRole: String) {
+            self.migrationStrategy = migrationStrategy
+            self.v1BotName = v1BotName
+            self.v1BotVersion = v1BotVersion
+            self.v2BotName = v2BotName
+            self.v2BotRole = v2BotRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.v1BotName, name: "v1BotName", parent: name, max: 50)
+            try self.validate(self.v1BotName, name: "v1BotName", parent: name, min: 2)
+            try self.validate(self.v1BotName, name: "v1BotName", parent: name, pattern: "^([A-Za-z]_?)+$")
+            try self.validate(self.v1BotVersion, name: "v1BotVersion", parent: name, max: 64)
+            try self.validate(self.v1BotVersion, name: "v1BotVersion", parent: name, min: 1)
+            try self.validate(self.v1BotVersion, name: "v1BotVersion", parent: name, pattern: "\\$LATEST|[0-9]+")
+            try self.validate(self.v2BotName, name: "v2BotName", parent: name, max: 100)
+            try self.validate(self.v2BotName, name: "v2BotName", parent: name, min: 1)
+            try self.validate(self.v2BotName, name: "v2BotName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.v2BotRole, name: "v2BotRole", parent: name, max: 2048)
+            try self.validate(self.v2BotRole, name: "v2BotRole", parent: name, min: 20)
+            try self.validate(self.v2BotRole, name: "v2BotRole", parent: name, pattern: "^arn:[\\w\\-]+:iam::[\\d]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationStrategy = "migrationStrategy"
+            case v1BotName = "v1BotName"
+            case v1BotVersion = "v1BotVersion"
+            case v2BotName = "v2BotName"
+            case v2BotRole = "v2BotRole"
+        }
+    }
+
+    public struct StartMigrationResponse: AWSDecodableShape {
+
+        /// The unique identifier that Amazon Lex assigned to the migration.
+        public let migrationId: String?
+        /// The strategy used to conduct the migration.
+        public let migrationStrategy: MigrationStrategy?
+        /// The date and time that the migration started.
+        public let migrationTimestamp: Date?
+        /// The locale used for the Amazon Lex V1 bot.
+        public let v1BotLocale: Locale?
+        /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+        public let v1BotName: String?
+        /// The version of the bot to migrate to Amazon Lex V2.
+        public let v1BotVersion: String?
+        /// The unique identifier for the Amazon Lex V2 bot.
+        public let v2BotId: String?
+        /// The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+        public let v2BotRole: String?
+
+        public init(migrationId: String? = nil, migrationStrategy: MigrationStrategy? = nil, migrationTimestamp: Date? = nil, v1BotLocale: Locale? = nil, v1BotName: String? = nil, v1BotVersion: String? = nil, v2BotId: String? = nil, v2BotRole: String? = nil) {
+            self.migrationId = migrationId
+            self.migrationStrategy = migrationStrategy
+            self.migrationTimestamp = migrationTimestamp
+            self.v1BotLocale = v1BotLocale
+            self.v1BotName = v1BotName
+            self.v1BotVersion = v1BotVersion
+            self.v2BotId = v2BotId
+            self.v2BotRole = v2BotRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationId = "migrationId"
+            case migrationStrategy = "migrationStrategy"
+            case migrationTimestamp = "migrationTimestamp"
+            case v1BotLocale = "v1BotLocale"
+            case v1BotName = "v1BotName"
+            case v1BotVersion = "v1BotVersion"
+            case v2BotId = "v2BotId"
+            case v2BotRole = "v2BotRole"
         }
     }
 

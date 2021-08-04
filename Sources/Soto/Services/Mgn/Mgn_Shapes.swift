@@ -174,7 +174,6 @@ extension Mgn {
     public enum ReplicationConfigurationEbsEncryption: String, CustomStringConvertible, Codable {
         case custom = "CUSTOM"
         case `default` = "DEFAULT"
-        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 

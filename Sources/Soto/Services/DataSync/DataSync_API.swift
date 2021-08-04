@@ -88,7 +88,7 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "CreateLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Creates an endpoint for a self-managed object storage bucket. For more information about self-managed object storage locations, see create-object-location.
+    /// Creates an endpoint for a self-managed object storage bucket. For more information about self-managed object storage locations, see Creating a location for object storage.
     public func createLocationObjectStorage(_ input: CreateLocationObjectStorageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLocationObjectStorageResponse> {
         return self.client.execute(operation: "CreateLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -143,7 +143,7 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "DescribeLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Returns metadata about a self-managed object storage server location. For more information about self-managed object storage locations, see create-object-location.
+    /// Returns metadata about a self-managed object storage server location. For more information about self-managed object storage locations, see Creating a location for object storage.
     public func describeLocationObjectStorage(_ input: DescribeLocationObjectStorageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLocationObjectStorageResponse> {
         return self.client.execute(operation: "DescribeLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -213,17 +213,17 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "UpdateAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see create-nfs-location.
+    /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see Creating a location for NFS.
     public func updateLocationNfs(_ input: UpdateLocationNfsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLocationNfsResponse> {
         return self.client.execute(operation: "UpdateLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Updates some of the parameters of a previously created location for self-managed object storage server access. For information about creating a self-managed object storage location, see create-object-location.
+    /// Updates some of the parameters of a previously created location for self-managed object storage server access. For information about creating a self-managed object storage location, see Creating a location for object storage.
     public func updateLocationObjectStorage(_ input: UpdateLocationObjectStorageRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLocationObjectStorageResponse> {
         return self.client.execute(operation: "UpdateLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see create-smb-location.
+    /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see Creating a location for SMB.
     public func updateLocationSmb(_ input: UpdateLocationSmbRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLocationSmbResponse> {
         return self.client.execute(operation: "UpdateLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

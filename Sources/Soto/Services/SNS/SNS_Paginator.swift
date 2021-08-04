@@ -74,6 +74,116 @@ extension SNS {
         )
     }
 
+    ///  Lists the calling account's dedicated origination numbers and their metadata. For more information about origination numbers, see Origination numbers in the Amazon SNS Developer Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listOriginationNumbersPaginator<Result>(
+        _ input: ListOriginationNumbersRequest,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListOriginationNumbersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listOriginationNumbers,
+            inputKey: \ListOriginationNumbersRequest.nextToken,
+            outputKey: \ListOriginationNumbersResult.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listOriginationNumbersPaginator(
+        _ input: ListOriginationNumbersRequest,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListOriginationNumbersResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listOriginationNumbers,
+            inputKey: \ListOriginationNumbersRequest.nextToken,
+            outputKey: \ListOriginationNumbersResult.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them. The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to 100 phone numbers. If additional phone numbers are available after the first page of results, then a NextToken string will be returned. To receive the next page, you call ListPhoneNumbersOptedOut again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPhoneNumbersOptedOutPaginator<Result>(
+        _ input: ListPhoneNumbersOptedOutInput,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPhoneNumbersOptedOutResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPhoneNumbersOptedOut,
+            inputKey: \ListPhoneNumbersOptedOutInput.nextToken,
+            outputKey: \ListPhoneNumbersOptedOutResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPhoneNumbersOptedOutPaginator(
+        _ input: ListPhoneNumbersOptedOutInput,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPhoneNumbersOptedOutResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPhoneNumbersOptedOut,
+            inputKey: \ListPhoneNumbersOptedOutInput.nextToken,
+            outputKey: \ListPhoneNumbersOptedOutResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 15 transactions per second (TPS).
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -123,6 +233,61 @@ extension SNS {
             command: listPlatformApplications,
             inputKey: \ListPlatformApplicationsInput.nextToken,
             outputKey: \ListPlatformApplicationsResponse.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the calling account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSMSSandboxPhoneNumbersPaginator<Result>(
+        _ input: ListSMSSandboxPhoneNumbersInput,
+        _ initialValue: Result,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSMSSandboxPhoneNumbersResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listSMSSandboxPhoneNumbers,
+            inputKey: \ListSMSSandboxPhoneNumbersInput.nextToken,
+            outputKey: \ListSMSSandboxPhoneNumbersResult.nextToken,
+            context: context,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - context: LoggingContext used for instrumentation
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSMSSandboxPhoneNumbersPaginator(
+        _ input: ListSMSSandboxPhoneNumbersInput,
+        context: LoggingContext,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSMSSandboxPhoneNumbersResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listSMSSandboxPhoneNumbers,
+            inputKey: \ListSMSSandboxPhoneNumbersInput.nextToken,
+            outputKey: \ListSMSSandboxPhoneNumbersResult.nextToken,
             context: context,
             on: eventLoop,
             onPage: onPage
@@ -304,9 +469,35 @@ extension SNS.ListEndpointsByPlatformApplicationInput: AWSPaginateToken {
     }
 }
 
+extension SNS.ListOriginationNumbersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SNS.ListOriginationNumbersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SNS.ListPhoneNumbersOptedOutInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SNS.ListPhoneNumbersOptedOutInput {
+        return .init(
+            nextToken: token
+        )
+    }
+}
+
 extension SNS.ListPlatformApplicationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SNS.ListPlatformApplicationsInput {
         return .init(
+            nextToken: token
+        )
+    }
+}
+
+extension SNS.ListSMSSandboxPhoneNumbersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> SNS.ListSMSSandboxPhoneNumbersInput {
+        return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

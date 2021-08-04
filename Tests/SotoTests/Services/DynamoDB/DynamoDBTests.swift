@@ -63,8 +63,13 @@ class DynamoDBTests: XCTestCase {
                     throw error
                 }
             }
+<<<<<<< HEAD
             .flatMap { _ -> EventLoopFuture<Void> in
                 return self.waitForActiveTable(name: name, on: Self.dynamoDB.client.eventLoopGroup.next())
+=======
+            .flatMap { (_) -> EventLoopFuture<Void> in
+                return Self.dynamoDB.waitUntilTableExists(.init(tableName: name))
+>>>>>>> upstream/main
             }
     }
 

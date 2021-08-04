@@ -22,6 +22,7 @@ public struct BraketErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case deviceOfflineException = "DeviceOfflineException"
+        case deviceRetiredException = "DeviceRetiredException"
         case internalServiceException = "InternalServiceException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -53,6 +54,8 @@ public struct BraketErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The specified device is currently offline.
     public static var deviceOfflineException: Self { .init(.deviceOfflineException) }
+    /// The specified device has been retired.
+    public static var deviceRetiredException: Self { .init(.deviceRetiredException) }
     /// The request processing has failed because of an unknown error, exception, or failure.
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The specified resource was not found.

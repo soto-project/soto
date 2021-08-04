@@ -92,6 +92,12 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
+    public enum KeyStorageSecurityStandard: String, CustomStringConvertible, Codable {
+        case fips1402Level2OrHigher = "FIPS_140_2_LEVEL_2_OR_HIGHER"
+        case fips1402Level3OrHigher = "FIPS_140_2_LEVEL_3_OR_HIGHER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PolicyQualifierId: String, CustomStringConvertible, Codable {
         case cps = "CPS"
         public var description: String { return self.rawValue }
@@ -112,6 +118,12 @@ extension ACMPCA {
         case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
         case superseded = "SUPERSEDED"
         case unspecified = "UNSPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectAcl: String, CustomStringConvertible, Codable {
+        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        case publicRead = "PUBLIC_READ"
         public var description: String { return self.rawValue }
     }
 
@@ -315,6 +327,8 @@ extension ACMPCA {
         public let createdAt: Date?
         /// Reason the request to create your private CA failed.
         public let failureReason: FailureReason?
+        /// Defines a cryptographic key management compliance standard used for handling CA keys.  Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: AWS Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and value when creating a CA in that Region. Specifying a different value (or no value) results in an InvalidArgsException with the message "A certificate authority cannot be created in this region with the specified security standard."
+        public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
         /// Date and time at which your private CA was last updated.
         public let lastStateChangeAt: Date?
         /// Date and time after which your private CA certificate is not valid.
@@ -334,11 +348,12 @@ extension ACMPCA {
         /// Type of your private CA.
         public let type: CertificateAuthorityType?
 
-        public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil) {
+        public init(arn: String? = nil, certificateAuthorityConfiguration: CertificateAuthorityConfiguration? = nil, createdAt: Date? = nil, failureReason: FailureReason? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, lastStateChangeAt: Date? = nil, notAfter: Date? = nil, notBefore: Date? = nil, ownerAccount: String? = nil, restorableUntil: Date? = nil, revocationConfiguration: RevocationConfiguration? = nil, serial: String? = nil, status: CertificateAuthorityStatus? = nil, type: CertificateAuthorityType? = nil) {
             self.arn = arn
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.createdAt = createdAt
             self.failureReason = failureReason
+            self.keyStorageSecurityStandard = keyStorageSecurityStandard
             self.lastStateChangeAt = lastStateChangeAt
             self.notAfter = notAfter
             self.notBefore = notBefore
@@ -355,6 +370,7 @@ extension ACMPCA {
             case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
             case createdAt = "CreatedAt"
             case failureReason = "FailureReason"
+            case keyStorageSecurityStandard = "KeyStorageSecurityStandard"
             case lastStateChangeAt = "LastStateChangeAt"
             case notAfter = "NotAfter"
             case notBefore = "NotBefore"
@@ -454,15 +470,18 @@ extension ACMPCA {
         public let certificateAuthorityType: CertificateAuthorityType
         /// Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within five minutes, ACM Private CA recognizes that you are requesting only certificate authority and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificate authorities.
         public let idempotencyToken: String?
+        /// Specifies a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in Region ap-northeast-3. When creating a CA in the ap-northeast-3, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the message, "A certificate authority cannot be created in this region with the specified security standard."
+        public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
         /// Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM Private CA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure.
         public let revocationConfiguration: RevocationConfiguration?
         /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA. For information using tags with IAM to manage permissions, see Controlling Access Using IAM Tags.
         public let tags: [Tag]?
 
-        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(certificateAuthorityConfiguration: CertificateAuthorityConfiguration, certificateAuthorityType: CertificateAuthorityType, idempotencyToken: String? = nil, keyStorageSecurityStandard: KeyStorageSecurityStandard? = nil, revocationConfiguration: RevocationConfiguration? = nil, tags: [Tag]? = nil) {
             self.certificateAuthorityConfiguration = certificateAuthorityConfiguration
             self.certificateAuthorityType = certificateAuthorityType
             self.idempotencyToken = idempotencyToken
+            self.keyStorageSecurityStandard = keyStorageSecurityStandard
             self.revocationConfiguration = revocationConfiguration
             self.tags = tags
         }
@@ -484,6 +503,7 @@ extension ACMPCA {
             case certificateAuthorityConfiguration = "CertificateAuthorityConfiguration"
             case certificateAuthorityType = "CertificateAuthorityType"
             case idempotencyToken = "IdempotencyToken"
+            case keyStorageSecurityStandard = "KeyStorageSecurityStandard"
             case revocationConfiguration = "RevocationConfiguration"
             case tags = "Tags"
         }
@@ -553,12 +573,15 @@ extension ACMPCA {
         public let expirationInDays: Int?
         /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the UpdateCertificateAuthority action. You must specify a bucket policy that allows ACM Private CA to write the CRL to your bucket.
         public let s3BucketName: String?
+        /// Determines whether the CRL will be publicly readable or privately held in the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access.  If no value is specified, the default is PUBLIC_READ.  Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see Blocking public access to the S3 bucket.
+        public let s3ObjectAcl: S3ObjectAcl?
 
-        public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int? = nil, s3BucketName: String? = nil) {
+        public init(customCname: String? = nil, enabled: Bool, expirationInDays: Int? = nil, s3BucketName: String? = nil, s3ObjectAcl: S3ObjectAcl? = nil) {
             self.customCname = customCname
             self.enabled = enabled
             self.expirationInDays = expirationInDays
             self.s3BucketName = s3BucketName
+            self.s3ObjectAcl = s3ObjectAcl
         }
 
         public func validate(name: String) throws {
@@ -575,6 +598,7 @@ extension ACMPCA {
             case enabled = "Enabled"
             case expirationInDays = "ExpirationInDays"
             case s3BucketName = "S3BucketName"
+            case s3ObjectAcl = "S3ObjectAcl"
         }
     }
 

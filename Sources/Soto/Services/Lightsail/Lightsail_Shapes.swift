@@ -26,6 +26,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccessType: String, CustomStringConvertible, Codable {
+        case `private` = "private"
+        case `public` = "public"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AddOnType: String, CustomStringConvertible, Codable {
         case autosnapshot = "AutoSnapshot"
         public var description: String { return self.rawValue }
@@ -55,6 +61,12 @@ extension Lightsail {
     public enum BlueprintType: String, CustomStringConvertible, Codable {
         case app = "app"
         case os = "os"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BucketMetricName: String, CustomStringConvertible, Codable {
+        case bucketsizebytes = "BucketSizeBytes"
+        case numberofobjects = "NumberOfObjects"
         public var description: String { return self.rawValue }
     }
 
@@ -459,6 +471,8 @@ extension Lightsail {
         case attachloadbalancertlscertificate = "AttachLoadBalancerTlsCertificate"
         case attachstaticip = "AttachStaticIp"
         case closeinstancepublicports = "CloseInstancePublicPorts"
+        case createbucket = "CreateBucket"
+        case createbucketaccesskey = "CreateBucketAccessKey"
         case createcertificate = "CreateCertificate"
         case createcontactmethod = "CreateContactMethod"
         case createcontainerservice = "CreateContainerService"
@@ -478,6 +492,8 @@ extension Lightsail {
         case createrelationaldatabasefromsnapshot = "CreateRelationalDatabaseFromSnapshot"
         case createrelationaldatabasesnapshot = "CreateRelationalDatabaseSnapshot"
         case deletealarm = "DeleteAlarm"
+        case deletebucket = "DeleteBucket"
+        case deletebucketaccesskey = "DeleteBucketAccessKey"
         case deletecertificate = "DeleteCertificate"
         case deletecontactmethod = "DeleteContactMethod"
         case deletecontainerimage = "DeleteContainerImage"
@@ -512,11 +528,14 @@ extension Lightsail {
         case resetdistributioncache = "ResetDistributionCache"
         case sendcontactmethodverification = "SendContactMethodVerification"
         case setipaddresstype = "SetIpAddressType"
+        case setresourceaccessforbucket = "SetResourceAccessForBucket"
         case startinstance = "StartInstance"
         case startrelationaldatabase = "StartRelationalDatabase"
         case stopinstance = "StopInstance"
         case stoprelationaldatabase = "StopRelationalDatabase"
         case testalarm = "TestAlarm"
+        case updatebucket = "UpdateBucket"
+        case updatebucketbundle = "UpdateBucketBundle"
         case updatecontainerservice = "UpdateContainerService"
         case updatedistribution = "UpdateDistribution"
         case updatedistributionbundle = "UpdateDistributionBundle"
@@ -568,6 +587,7 @@ extension Lightsail {
         case apSoutheast2 = "ap-southeast-2"
         case caCentral1 = "ca-central-1"
         case euCentral1 = "eu-central-1"
+        case euNorth1 = "eu-north-1"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
@@ -608,8 +628,15 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceBucketAccess: String, CustomStringConvertible, Codable {
+        case allow = "allow"
+        case deny = "deny"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case alarm = "Alarm"
+        case bucket = "Bucket"
         case certificate = "Certificate"
         case cloudformationstackrecord = "CloudFormationStackRecord"
         case contactmethod = "ContactMethod"
@@ -631,6 +658,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum StatusType: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TreatMissingData: String, CustomStringConvertible, Codable {
         case breaching = "breaching"
         case ignore = "ignore"
@@ -640,6 +673,50 @@ extension Lightsail {
     }
 
     // MARK: Shapes
+
+    public struct AccessKey: AWSDecodableShape {
+
+        /// The ID of the access key.
+        public let accessKeyId: String?
+        /// The timestamp when the access key was created.
+        public let createdAt: Date?
+        /// The secret access key used to sign requests. You should store the secret access key in a safe location. We recommend that you delete the access key if the secret access key is compromised.
+        public let secretAccessKey: String?
+        /// The status of the access key. A status of Active means that the key is valid, while Inactive means it is not.
+        public let status: StatusType?
+
+        public init(accessKeyId: String? = nil, createdAt: Date? = nil, secretAccessKey: String? = nil, status: StatusType? = nil) {
+            self.accessKeyId = accessKeyId
+            self.createdAt = createdAt
+            self.secretAccessKey = secretAccessKey
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case createdAt = "createdAt"
+            case secretAccessKey = "secretAccessKey"
+            case status = "status"
+        }
+    }
+
+    public struct AccessRules: AWSEncodableShape & AWSDecodableShape {
+
+        /// A Boolean value that indicates whether the access control list (ACL) permissions that are applied to individual objects override the getObject option that is currently specified. When this is true, you can use the PutObjectAcl Amazon S3 API action to set individual objects to public (read-only) using the public-read ACL, or to private using the private ACL.
+        public let allowPublicOverrides: Bool?
+        /// Specifies the anonymous access to all objects in a bucket. The following options can be specified:    public - Sets all objects in the bucket to public (read-only), making them readable by anyone in the world. If the getObject value is set to public, then all objects in the bucket default to public regardless of the allowPublicOverrides value.    private - Sets all objects in the bucket to private, making them readable only by you or anyone you give access to. If the getObject value is set to private, and the allowPublicOverrides value is set to true, then all objects in the bucket default to private unless they are configured with a public-read ACL. Individual objects with a public-read ACL are readable by anyone in the world.
+        public let getObject: AccessType?
+
+        public init(allowPublicOverrides: Bool? = nil, getObject: AccessType? = nil) {
+            self.allowPublicOverrides = allowPublicOverrides
+            self.getObject = getObject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowPublicOverrides = "allowPublicOverrides"
+            case getObject = "getObject"
+        }
+    }
 
     public struct AddOn: AWSDecodableShape {
 
@@ -1141,6 +1218,127 @@ extension Lightsail {
         }
     }
 
+    public struct Bucket: AWSDecodableShape {
+
+        /// Indicates whether the bundle that is currently applied to a bucket can be changed to another bundle. You can update a bucket's bundle only one time within a monthly AWS billing cycle. Use the UpdateBucketBundle action to change a bucket's bundle.
+        public let ableToUpdateBundle: Bool?
+        /// An object that describes the access rules of the bucket.
+        public let accessRules: AccessRules?
+        /// The Amazon Resource Name (ARN) of the bucket.
+        public let arn: String?
+        /// The ID of the bundle currently applied to the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the UpdateBucketBundle action to change the bundle of a bucket.
+        public let bundleId: String?
+        /// The timestamp when the distribution was created.
+        public let createdAt: Date?
+        public let location: ResourceLocation?
+        /// The name of the bucket.
+        public let name: String?
+        /// Indicates whether object versioning is enabled for the bucket. The following options can be configured:    Enabled - Object versioning is enabled.    Suspended - Object versioning was previously enabled but is currently suspended. Existing object versions are retained.    NeverEnabled - Object versioning has never been enabled.
+        public let objectVersioning: String?
+        /// An array of strings that specify the AWS account IDs that have read-only access to the bucket.
+        public let readonlyAccessAccounts: [String]?
+        /// An array of objects that describe Lightsail instances that have access to the bucket. Use the SetResourceAccessForBucket action to update the instances that have access to a bucket.
+        public let resourcesReceivingAccess: [ResourceReceivingAccess]?
+        /// The Lightsail resource type of the bucket (for example, Bucket).
+        public let resourceType: String?
+        /// An object that describes the state of the bucket.
+        public let state: BucketState?
+        /// The support code for a bucket. Include this code in your email to support when you have questions about a Lightsail bucket. This code enables our support team to look up your Lightsail information more easily.
+        public let supportCode: String?
+        /// The tag keys and optional values for the bucket. For more information, see Tags in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        public let tags: [Tag]?
+        /// The URL of the bucket.
+        public let url: String?
+
+        public init(ableToUpdateBundle: Bool? = nil, accessRules: AccessRules? = nil, arn: String? = nil, bundleId: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, objectVersioning: String? = nil, readonlyAccessAccounts: [String]? = nil, resourcesReceivingAccess: [ResourceReceivingAccess]? = nil, resourceType: String? = nil, state: BucketState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, url: String? = nil) {
+            self.ableToUpdateBundle = ableToUpdateBundle
+            self.accessRules = accessRules
+            self.arn = arn
+            self.bundleId = bundleId
+            self.createdAt = createdAt
+            self.location = location
+            self.name = name
+            self.objectVersioning = objectVersioning
+            self.readonlyAccessAccounts = readonlyAccessAccounts
+            self.resourcesReceivingAccess = resourcesReceivingAccess
+            self.resourceType = resourceType
+            self.state = state
+            self.supportCode = supportCode
+            self.tags = tags
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ableToUpdateBundle = "ableToUpdateBundle"
+            case accessRules = "accessRules"
+            case arn = "arn"
+            case bundleId = "bundleId"
+            case createdAt = "createdAt"
+            case location = "location"
+            case name = "name"
+            case objectVersioning = "objectVersioning"
+            case readonlyAccessAccounts = "readonlyAccessAccounts"
+            case resourcesReceivingAccess = "resourcesReceivingAccess"
+            case resourceType = "resourceType"
+            case state = "state"
+            case supportCode = "supportCode"
+            case tags = "tags"
+            case url = "url"
+        }
+    }
+
+    public struct BucketBundle: AWSDecodableShape {
+
+        /// The ID of the bundle.
+        public let bundleId: String?
+        /// Indicates whether the bundle is active. Use for a new or existing bucket.
+        public let isActive: Bool?
+        /// The name of the bundle.
+        public let name: String?
+        /// The monthly price of the bundle, in US dollars.
+        public let price: Float?
+        /// The storage size of the bundle, in GB.
+        public let storagePerMonthInGb: Int?
+        /// The monthly network transfer quota of the bundle.
+        public let transferPerMonthInGb: Int?
+
+        public init(bundleId: String? = nil, isActive: Bool? = nil, name: String? = nil, price: Float? = nil, storagePerMonthInGb: Int? = nil, transferPerMonthInGb: Int? = nil) {
+            self.bundleId = bundleId
+            self.isActive = isActive
+            self.name = name
+            self.price = price
+            self.storagePerMonthInGb = storagePerMonthInGb
+            self.transferPerMonthInGb = transferPerMonthInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "bundleId"
+            case isActive = "isActive"
+            case name = "name"
+            case price = "price"
+            case storagePerMonthInGb = "storagePerMonthInGb"
+            case transferPerMonthInGb = "transferPerMonthInGb"
+        }
+    }
+
+    public struct BucketState: AWSDecodableShape {
+
+        /// The state code of the bucket. The following codes are possible:    OK - The bucket is in a running state.    Unknown - Creation of the bucket might have timed-out. You might want to delete the bucket and create a new one.
+        public let code: String?
+        /// A message that describes the state of the bucket.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct Bundle: AWSDecodableShape {
 
         /// The bundle ID (e.g., micro_1_0).
@@ -1316,7 +1514,7 @@ extension Lightsail {
         public let subjectAlternativeNames: [String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail certificate. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationRecords: [DomainValidationRecord]? = nil, eligibleToRenew: String? = nil, inUseResourceCount: Int? = nil, issuedAt: Date? = nil, issuerCA: String? = nil, keyAlgorithm: String? = nil, name: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalSummary: RenewalSummary? = nil, requestFailureReason: String? = nil, revocationReason: String? = nil, revokedAt: Date? = nil, serialNumber: String? = nil, status: CertificateStatus? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -1378,7 +1576,7 @@ extension Lightsail {
         public let certificateName: String?
         /// The domain name of the certificate.
         public let domainName: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(certificateArn: String? = nil, certificateDetail: Certificate? = nil, certificateName: String? = nil, domainName: String? = nil, tags: [Tag]? = nil) {
@@ -1626,7 +1824,7 @@ extension Lightsail {
         public let state: ContainerServiceState?
         /// An object that describes the current state of the container service.  The state detail is populated only when a container service is in a PENDING, DEPLOYING, or UPDATING state.
         public let stateDetail: ContainerServiceStateDetail?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
         /// The publicly accessible URL of the container service. If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
         public let url: String?
@@ -1760,7 +1958,7 @@ extension Lightsail {
         public let intervalSeconds: Int?
         /// The path on the container on which to perform the health check. The default value is /.
         public let path: String?
-        /// The HTTP codes to use when checking for a successful response from a container. You can specify values between 200 and 499.
+        /// The HTTP codes to use when checking for a successful response from a container. You can specify values between 200 and 499. You can specify multiple values (for example, 200,202) or a range of values (for example, 200-299).
         public let successCodes: String?
         /// The amount of time, in seconds, during which no response means a failed health check. You can specify between 2 and 60 seconds. The default value is 2.
         public let timeoutSeconds: Int?
@@ -1916,17 +2114,17 @@ extension Lightsail {
 
     public struct CopySnapshotRequest: AWSEncodableShape {
 
-        /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.
+        /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let restoreDate: String?
         /// The AWS Region where the source manual or automatic snapshot is located.
         public let sourceRegion: RegionName
-        /// The name of the source instance or disk from which the source automatic snapshot was created. Constraint:   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.
+        /// The name of the source instance or disk from which the source automatic snapshot was created. Constraint:   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let sourceResourceName: String?
         /// The name of the source manual snapshot to copy. Constraint:   Define this parameter only when copying a manual snapshot as another manual snapshot.
         public let sourceSnapshotName: String?
         /// The name of the new manual snapshot to be created as a copy.
         public let targetSnapshotName: String
-        /// A Boolean value to indicate whether to use the latest available automatic snapshot of the specified source instance or disk. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot of the specified source instance or disk. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let useLatestRestorableAutoSnapshot: Bool?
 
         public init(restoreDate: String? = nil, sourceRegion: RegionName, sourceResourceName: String? = nil, sourceSnapshotName: String? = nil, targetSnapshotName: String, useLatestRestorableAutoSnapshot: Bool? = nil) {
@@ -1963,6 +2161,95 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateBucketAccessKeyRequest: AWSEncodableShape {
+
+        /// The name of the bucket that the new access key will belong to, and grant access to.
+        public let bucketName: String
+
+        public init(bucketName: String) {
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+        }
+    }
+
+    public struct CreateBucketAccessKeyResult: AWSDecodableShape {
+
+        /// An object that describes the access key that is created.
+        public let accessKey: AccessKey?
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(accessKey: AccessKey? = nil, operations: [Operation]? = nil) {
+            self.accessKey = accessKey
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKey = "accessKey"
+            case operations = "operations"
+        }
+    }
+
+    public struct CreateBucketRequest: AWSEncodableShape {
+
+        /// The name for the bucket. For more information about bucket names, see Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        public let bucketName: String
+        /// The ID of the bundle to use for the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action to change the bundle after the bucket is created.
+        public let bundleId: String
+        /// A Boolean value that indicates whether to enable versioning of objects in the bucket. For more information about versioning, see Enabling and suspending bucket object versioning in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+        public let enableObjectVersioning: Bool?
+        /// The tag keys and optional values to add to the bucket during creation. Use the TagResource action to tag the bucket after it's created.
+        public let tags: [Tag]?
+
+        public init(bucketName: String, bundleId: String, enableObjectVersioning: Bool? = nil, tags: [Tag]? = nil) {
+            self.bucketName = bucketName
+            self.bundleId = bundleId
+            self.enableObjectVersioning = enableObjectVersioning
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case bundleId = "bundleId"
+            case enableObjectVersioning = "enableObjectVersioning"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateBucketResult: AWSDecodableShape {
+
+        /// An object that describes the bucket that is created.
+        public let bucket: Bucket?
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(bucket: Bucket? = nil, operations: [Operation]? = nil) {
+            self.bucket = bucket
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
             case operations = "operations"
         }
     }
@@ -2163,7 +2450,7 @@ extension Lightsail {
         public let scale: Int
         /// The name for the container service. The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) AWS region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following are the requirements for container service names:   Must be unique within each AWS Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
         public let serviceName: String
-        /// The tag keys and optional values for the container service. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(deployment: ContainerServiceDeploymentRequest? = nil, power: ContainerServicePowerName, publicDomainNames: [String: [String]]? = nil, scale: Int, serviceName: String, tags: [Tag]? = nil) {
@@ -2218,15 +2505,15 @@ extension Lightsail {
         public let diskName: String
         /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk. Constraint:   This parameter cannot be defined together with the source disk name parameter. The disk snapshot name and source disk name parameters are mutually exclusive.
         public let diskSnapshotName: String?
-        /// The date of the automatic snapshot to use for the new disk. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+        /// The date of the automatic snapshot to use for the new disk. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let restoreDate: String?
         /// The size of the disk in GB (e.g., 32).
         public let sizeInGb: Int
-        /// The name of the source disk from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+        /// The name of the source disk from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the disk snapshot name parameter. The source disk name and disk snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let sourceDiskName: String?
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
-        /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let useLatestRestorableAutoSnapshot: Bool?
 
         public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, diskName: String, diskSnapshotName: String? = nil, restoreDate: String? = nil, sizeInGb: Int, sourceDiskName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil) {
@@ -2479,7 +2766,7 @@ extension Lightsail {
 
     public struct CreateDomainRequest: AWSEncodableShape {
 
-        /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain.
+        /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain using Lightsail.
         public let domainName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
@@ -2568,15 +2855,15 @@ extension Lightsail {
         public let ipAddressType: IpAddressType?
         /// The name for your key pair.
         public let keyPairName: String?
-        /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+        /// The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let restoreDate: String?
-        /// The name of the source instance from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+        /// The name of the source instance from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let sourceInstanceName: String?
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
-        /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+        /// A Boolean value to indicate whether to use the latest available automatic snapshot. Constraints:   This parameter cannot be defined together with the restore date parameter. The use latest restorable auto snapshot and restore date parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let useLatestRestorableAutoSnapshot: Bool?
-        /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide.
+        /// You can create a launch script that configures a server with additional user data. For example, apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail Developer Guide.
         public let userData: String?
 
         public init(addOns: [AddOnRequest]? = nil, attachedDiskMapping: [String: [DiskMap]]? = nil, availabilityZone: String, bundleId: String, instanceNames: [String], instanceSnapshotName: String? = nil, ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, restoreDate: String? = nil, sourceInstanceName: String? = nil, tags: [Tag]? = nil, useLatestRestorableAutoSnapshot: Bool? = nil, userData: String? = nil) {
@@ -2656,7 +2943,7 @@ extension Lightsail {
         public let keyPairName: String?
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
-        /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide.
+        /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail Developer Guide.
         public let userData: String?
 
         public init(addOns: [AddOnRequest]? = nil, availabilityZone: String, blueprintId: String, bundleId: String, instanceNames: [String], ipAddressType: IpAddressType? = nil, keyPairName: String? = nil, tags: [Tag]? = nil, userData: String? = nil) {
@@ -3102,6 +3389,83 @@ extension Lightsail {
     }
 
     public struct DeleteAutoSnapshotResult: AWSDecodableShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DeleteBucketAccessKeyRequest: AWSEncodableShape {
+
+        /// The ID of the access key to delete. Use the GetBucketAccessKeys action to get a list of access key IDs that you can specify.
+        public let accessKeyId: String
+        /// The name of the bucket that the access key belongs to.
+        public let bucketName: String
+
+        public init(accessKeyId: String, bucketName: String) {
+            self.accessKeyId = accessKeyId
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessKeyId, name: "accessKeyId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "accessKeyId"
+            case bucketName = "bucketName"
+        }
+    }
+
+    public struct DeleteBucketAccessKeyResult: AWSDecodableShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct DeleteBucketRequest: AWSEncodableShape {
+
+        /// The name of the bucket to delete. Use the GetBuckets action to get a list of bucket names that you can specify.
+        public let bucketName: String
+        /// A Boolean value that indicates whether to force delete the bucket. You must force delete the bucket if it has one of the following conditions:   The bucket is the origin of a distribution.   The bucket has instances that were granted access to it using the SetResourceAccessForBucket action.   The bucket has objects.   The bucket has access keys.    Force deleting a bucket might impact other resources that rely on the bucket, such as instances, distributions, or software that use the issued access keys.
+        public let forceDelete: Bool?
+
+        public init(bucketName: String, forceDelete: Bool? = nil) {
+            self.bucketName = bucketName
+            self.forceDelete = forceDelete
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case forceDelete = "forceDelete"
+        }
+    }
+
+    public struct DeleteBucketResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -3892,7 +4256,7 @@ extension Lightsail {
         public let state: DiskState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(addOns: [AddOn]? = nil, arn: String? = nil, attachedTo: String? = nil, createdAt: Date? = nil, iops: Int? = nil, isAttached: Bool? = nil, isSystemDisk: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, path: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -4011,7 +4375,7 @@ extension Lightsail {
         public let state: DiskSnapshotState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, fromDiskArn: String? = nil, fromDiskName: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: DiskSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -4069,7 +4433,7 @@ extension Lightsail {
 
         /// The ID of the bundle.
         public let bundleId: String?
-        /// Indicates whether the bundle is active, and can be specified for a new distribution.
+        /// Indicates whether the bundle is active, and can be specified for a new or existing distribution.
         public let isActive: Bool?
         /// The name of the distribution bundle.
         public let name: String?
@@ -4111,7 +4475,7 @@ extension Lightsail {
         public let resourceType: ResourceType?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, domainEntries: [DomainEntry]? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -4145,9 +4509,9 @@ extension Lightsail {
         public let isAlias: Bool?
         /// The name of the domain.
         public let name: String?
-        /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
+        /// The target IP address (e.g., 192.0.2.0), or AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. For Lightsail distributions, the value looks like exampled1182ne.cloudfront.net. For Lightsail container services, the value looks like container-service-1.example23scljs.us-west-2.cs.amazonlightsail.com. Be sure to also set isAlias to true when setting up an A record for a Lightsail load balancer, distribution, or container service.
         public let target: String?
-        /// The type of domain entry, such as address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     CNAME     MX     NS     SOA     SRV     TXT
+        /// The type of domain entry, such as address for IPv4 (A), address for IPv6 (AAAA), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     AAAA     CNAME     MX     NS     SOA     SRV     TXT
         public let type: String?
 
         public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, target: String? = nil, type: String? = nil) {
@@ -4539,6 +4903,178 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case blueprints = "blueprints"
+            case nextPageToken = "nextPageToken"
+        }
+    }
+
+    public struct GetBucketAccessKeysRequest: AWSEncodableShape {
+
+        /// The name of the bucket for which to return access keys.
+        public let bucketName: String
+
+        public init(bucketName: String) {
+            self.bucketName = bucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+        }
+    }
+
+    public struct GetBucketAccessKeysResult: AWSDecodableShape {
+
+        /// An object that describes the access keys for the specified bucket.
+        public let accessKeys: [AccessKey]?
+
+        public init(accessKeys: [AccessKey]? = nil) {
+            self.accessKeys = accessKeys
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeys = "accessKeys"
+        }
+    }
+
+    public struct GetBucketBundlesRequest: AWSEncodableShape {
+
+        /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response.
+        public let includeInactive: Bool?
+
+        public init(includeInactive: Bool? = nil) {
+            self.includeInactive = includeInactive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeInactive = "includeInactive"
+        }
+    }
+
+    public struct GetBucketBundlesResult: AWSDecodableShape {
+
+        /// An object that describes bucket bundles.
+        public let bundles: [BucketBundle]?
+
+        public init(bundles: [BucketBundle]? = nil) {
+            self.bundles = bundles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundles = "bundles"
+        }
+    }
+
+    public struct GetBucketMetricDataRequest: AWSEncodableShape {
+
+        /// The name of the bucket for which to get metric data.
+        public let bucketName: String
+        /// The timestamp indicating the latest data to be returned.
+        public let endTime: Date
+        /// The metric for which you want to return information. Valid bucket metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.  These bucket metrics are reported once per day.      BucketSizeBytes  - The amount of data in bytes stored in a bucket. This value is calculated by summing the size of all objects in the bucket (including object versions), including the size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Maximum. Unit: The published unit is Bytes.     NumberOfObjects  - The total number of objects stored in a bucket. This value is calculated by counting all objects in the bucket (including object versions) and the total number of parts for all incomplete multipart uploads to the bucket. Statistics: The most useful statistic is Average. Unit: The published unit is Count.
+        public let metricName: BucketMetricName
+        /// The granularity, in seconds, of the returned data points.  Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day.
+        public let period: Int
+        /// The timestamp indicating the earliest data to be returned.
+        public let startTime: Date
+        /// The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - The sum of all values submitted for the matching metric. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.
+        public let statistics: [MetricStatistic]
+        /// The unit for the metric data request. Valid units depend on the metric data being requested. For the valid units with each available metric, see the metricName parameter.
+        public let unit: MetricUnit
+
+        public init(bucketName: String, endTime: Date, metricName: BucketMetricName, period: Int, startTime: Date, statistics: [MetricStatistic], unit: MetricUnit) {
+            self.bucketName = bucketName
+            self.endTime = endTime
+            self.metricName = metricName
+            self.period = period
+            self.startTime = startTime
+            self.statistics = statistics
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.validate(self.period, name: "period", parent: name, max: 86400)
+            try self.validate(self.period, name: "period", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case endTime = "endTime"
+            case metricName = "metricName"
+            case period = "period"
+            case startTime = "startTime"
+            case statistics = "statistics"
+            case unit = "unit"
+        }
+    }
+
+    public struct GetBucketMetricDataResult: AWSDecodableShape {
+
+        /// An array of objects that describe the metric data returned.
+        public let metricData: [MetricDatapoint]?
+        /// The name of the metric returned.
+        public let metricName: BucketMetricName?
+
+        public init(metricData: [MetricDatapoint]? = nil, metricName: BucketMetricName? = nil) {
+            self.metricData = metricData
+            self.metricName = metricName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricData = "metricData"
+            case metricName = "metricName"
+        }
+    }
+
+    public struct GetBucketsRequest: AWSEncodableShape {
+
+        /// The name of the bucket for which to return information. When omitted, the response includes all of your buckets in the AWS Region where the request is made.
+        public let bucketName: String?
+        /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the SetResourceAccessForBucket action.
+        public let includeConnectedResources: Bool?
+        /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBuckets request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
+
+        public init(bucketName: String? = nil, includeConnectedResources: Bool? = nil, pageToken: String? = nil) {
+            self.bucketName = bucketName
+            self.includeConnectedResources = includeConnectedResources
+            self.pageToken = pageToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case includeConnectedResources = "includeConnectedResources"
+            case pageToken = "pageToken"
+        }
+    }
+
+    public struct GetBucketsResult: AWSDecodableShape {
+
+        /// An array of objects that describe buckets.
+        public let buckets: [Bucket]?
+        /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetBuckets request and specify the next page token using the pageToken parameter.
+        public let nextPageToken: String?
+
+        public init(buckets: [Bucket]? = nil, nextPageToken: String? = nil) {
+            self.buckets = buckets
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buckets = "buckets"
             case nextPageToken = "nextPageToken"
         }
     }
@@ -5175,7 +5711,7 @@ extension Lightsail {
 
     public struct GetDistributionsRequest: AWSEncodableShape {
 
-        /// The name of the distribution for which to return information. Use the GetDistributions action to get a list of distribution names that you can specify. When omitted, the response includes all of your distributions in the AWS Region where the request is made.
+        /// The name of the distribution for which to return information. When omitted, the response includes all of your distributions in the AWS Region where the request is made.
         public let distributionName: String?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -6645,7 +7181,7 @@ extension Lightsail {
         public let state: InstanceState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
         /// The user name for connecting to the instance (e.g., ec2-user).
         public let username: String?
@@ -6966,7 +7502,7 @@ extension Lightsail {
         public let state: InstanceSnapshotState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, fromAttachedDisks: [Disk]? = nil, fromBlueprintId: String? = nil, fromBundleId: String? = nil, fromInstanceArn: String? = nil, fromInstanceName: String? = nil, isFromAutoSnapshot: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, progress: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: InstanceSnapshotState? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -7086,7 +7622,7 @@ extension Lightsail {
         public let resourceType: ResourceType?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, fingerprint: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -7152,7 +7688,7 @@ extension Lightsail {
         public let status: String?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail distribution. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, ipAddressType: IpAddressType? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -7234,7 +7770,7 @@ extension Lightsail {
         public let state: LoadBalancerState?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
@@ -7330,7 +7866,7 @@ extension Lightsail {
         public let subjectAlternativeNames: [String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationRecords: [LoadBalancerTlsCertificateDomainValidationRecord]? = nil, failureReason: LoadBalancerTlsCertificateFailureReason? = nil, isAttached: Bool? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, loadBalancerName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalSummary: LoadBalancerTlsCertificateRenewalSummary? = nil, resourceType: ResourceType? = nil, revocationReason: LoadBalancerTlsCertificateRevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: LoadBalancerTlsCertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -8136,7 +8672,7 @@ extension Lightsail {
         public let state: String?
         /// The support code for the database. Include this code in your email to support when you have questions about a database in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, backupRetentionEnabled: Bool? = nil, caCertificateIdentifier: String? = nil, createdAt: Date? = nil, engine: String? = nil, engineVersion: String? = nil, hardware: RelationalDatabaseHardware? = nil, latestRestorableTime: Date? = nil, location: ResourceLocation? = nil, masterDatabaseName: String? = nil, masterEndpoint: RelationalDatabaseEndpoint? = nil, masterUsername: String? = nil, name: String? = nil, parameterApplyStatus: String? = nil, pendingMaintenanceActions: [PendingMaintenanceAction]? = nil, pendingModifiedValues: PendingModifiedRelationalDatabaseValues? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, relationalDatabaseBlueprintId: String? = nil, relationalDatabaseBundleId: String? = nil, resourceType: ResourceType? = nil, secondaryAvailabilityZone: String? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -8416,7 +8952,7 @@ extension Lightsail {
         public let state: String?
         /// The support code for the database snapshot. Include this code in your email to support when you have questions about a database snapshot in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
-        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdAt: Date? = nil, engine: String? = nil, engineVersion: String? = nil, fromRelationalDatabaseArn: String? = nil, fromRelationalDatabaseBlueprintId: String? = nil, fromRelationalDatabaseBundleId: String? = nil, fromRelationalDatabaseName: String? = nil, location: ResourceLocation? = nil, name: String? = nil, resourceType: ResourceType? = nil, sizeInGb: Int? = nil, state: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
@@ -8572,6 +9108,24 @@ extension Lightsail {
         }
     }
 
+    public struct ResourceReceivingAccess: AWSDecodableShape {
+
+        /// The name of the Lightsail instance.
+        public let name: String?
+        /// The Lightsail resource type (for example, Instance).
+        public let resourceType: String?
+
+        public init(name: String? = nil, resourceType: String? = nil) {
+            self.name = name
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResourceRecord: AWSDecodableShape {
 
         /// The name of the record.
@@ -8649,6 +9203,49 @@ extension Lightsail {
     }
 
     public struct SetIpAddressTypeResult: AWSDecodableShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct SetResourceAccessForBucketRequest: AWSEncodableShape {
+
+        /// The access setting. The following access settings are available:    allow - Allows access to the bucket and its objects.    deny - Denies access to the bucket and its objects. Use this setting to remove access for a resource previously set to allow.
+        public let access: ResourceBucketAccess
+        /// The name of the bucket for which to set access to another Lightsail resource.
+        public let bucketName: String
+        /// The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state.
+        public let resourceName: String
+
+        public init(access: ResourceBucketAccess, bucketName: String, resourceName: String) {
+            self.access = access
+            self.bucketName = bucketName
+            self.resourceName = resourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "\\w[\\w\\-]*\\w")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case access = "access"
+            case bucketName = "bucketName"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct SetResourceAccessForBucketResult: AWSDecodableShape {
 
         /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operations: [Operation]?
@@ -8999,6 +9596,100 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct UpdateBucketBundleRequest: AWSEncodableShape {
+
+        /// The name of the bucket for which to update the bundle.
+        public let bucketName: String
+        /// The ID of the new bundle to apply to the bucket. Use the GetBucketBundles action to get a list of bundle IDs that you can specify.
+        public let bundleId: String
+
+        public init(bucketName: String, bundleId: String) {
+            self.bucketName = bucketName
+            self.bundleId = bundleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case bundleId = "bundleId"
+        }
+    }
+
+    public struct UpdateBucketBundleResult: AWSDecodableShape {
+
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(operations: [Operation]? = nil) {
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operations = "operations"
+        }
+    }
+
+    public struct UpdateBucketRequest: AWSEncodableShape {
+
+        /// An object that sets the public accessibility of objects in the specified bucket.
+        public let accessRules: AccessRules?
+        /// The name of the bucket to update.
+        public let bucketName: String
+        /// An array of strings to specify the AWS account IDs that can access the bucket. You can give a maximum of 10 AWS accounts access to a bucket.
+        public let readonlyAccessAccounts: [String]?
+        /// Specifies whether to enable or suspend versioning of objects in the bucket. The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
+        public let versioning: String?
+
+        public init(accessRules: AccessRules? = nil, bucketName: String, readonlyAccessAccounts: [String]? = nil, versioning: String? = nil) {
+            self.accessRules = accessRules
+            self.bucketName = bucketName
+            self.readonlyAccessAccounts = readonlyAccessAccounts
+            self.versioning = versioning
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 54)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$")
+            try self.readonlyAccessAccounts?.forEach {
+                try validate($0, name: "readonlyAccessAccounts[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.validate(self.readonlyAccessAccounts, name: "readonlyAccessAccounts", parent: name, max: 10)
+            try self.validate(self.versioning, name: "versioning", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRules = "accessRules"
+            case bucketName = "bucketName"
+            case readonlyAccessAccounts = "readonlyAccessAccounts"
+            case versioning = "versioning"
+        }
+    }
+
+    public struct UpdateBucketResult: AWSDecodableShape {
+
+        /// An object that describes the bucket that is updated.
+        public let bucket: Bucket?
+        /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+        public let operations: [Operation]?
+
+        public init(bucket: Bucket? = nil, operations: [Operation]? = nil) {
+            self.bucket = bucket
+            self.operations = operations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
             case operations = "operations"
         }
     }

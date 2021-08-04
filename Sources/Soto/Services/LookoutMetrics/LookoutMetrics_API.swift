@@ -97,7 +97,7 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "DeleteAnomalyDetector", path: "/DeleteAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes an alert.
+    /// Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func describeAlert(_ input: DescribeAlertRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlertResponse> {
         return self.client.execute(operation: "DescribeAlert", path: "/DescribeAlert", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -107,12 +107,12 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "DescribeAnomalyDetectionExecutions", path: "/DescribeAnomalyDetectionExecutions", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes a detector.
+    /// Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func describeAnomalyDetector(_ input: DescribeAnomalyDetectorRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAnomalyDetectorResponse> {
         return self.client.execute(operation: "DescribeAnomalyDetector", path: "/DescribeAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Describes a dataset.
+    /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func describeMetricSet(_ input: DescribeMetricSetRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMetricSetResponse> {
         return self.client.execute(operation: "DescribeMetricSet", path: "/DescribeMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -132,12 +132,12 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "GetSampleData", path: "/GetSampleData", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Lists the alerts attached to a detector.
+    /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func listAlerts(_ input: ListAlertsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlertsResponse> {
         return self.client.execute(operation: "ListAlerts", path: "/ListAlerts", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Lists the detectors in the current AWS Region.
+    /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func listAnomalyDetectors(_ input: ListAnomalyDetectorsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyDetectorsResponse> {
         return self.client.execute(operation: "ListAnomalyDetectors", path: "/ListAnomalyDetectors", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -152,7 +152,7 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "ListAnomalyGroupTimeSeries", path: "/ListAnomalyGroupTimeSeries", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Lists the datasets in the current AWS Region.
+    /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func listMetricSets(_ input: ListMetricSetsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricSetsResponse> {
         return self.client.execute(operation: "ListMetricSets", path: "/ListMetricSets", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

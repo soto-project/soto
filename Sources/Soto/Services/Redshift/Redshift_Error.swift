@@ -21,6 +21,9 @@ public struct RedshiftErrorType: AWSErrorType {
     enum Code: String {
         case accessToClusterDeniedFault = "AccessToClusterDenied"
         case accessToSnapshotDeniedFault = "AccessToSnapshotDenied"
+        case authenticationProfileAlreadyExistsFault = "AuthenticationProfileAlreadyExistsFault"
+        case authenticationProfileNotFoundFault = "AuthenticationProfileNotFoundFault"
+        case authenticationProfileQuotaExceededFault = "AuthenticationProfileQuotaExceededFault"
         case authorizationAlreadyExistsFault = "AuthorizationAlreadyExists"
         case authorizationNotFoundFault = "AuthorizationNotFound"
         case authorizationQuotaExceededFault = "AuthorizationQuotaExceeded"
@@ -65,6 +68,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case incompatibleOrderableOptions = "IncompatibleOrderableOptions"
         case insufficientClusterCapacityFault = "InsufficientClusterCapacity"
         case insufficientS3BucketPolicyFault = "InsufficientS3BucketPolicyFault"
+        case invalidAuthenticationProfileRequestFault = "InvalidAuthenticationProfileRequestFault"
         case invalidAuthorizationStateFault = "InvalidAuthorizationState"
         case invalidClusterParameterGroupStateFault = "InvalidClusterParameterGroupState"
         case invalidClusterSecurityGroupStateFault = "InvalidClusterSecurityGroupState"
@@ -162,6 +166,12 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var accessToClusterDeniedFault: Self { .init(.accessToClusterDeniedFault) }
     /// The owner of the specified snapshot has not authorized your account to access the snapshot.
     public static var accessToSnapshotDeniedFault: Self { .init(.accessToSnapshotDeniedFault) }
+    /// The authentication profile already exists.
+    public static var authenticationProfileAlreadyExistsFault: Self { .init(.authenticationProfileAlreadyExistsFault) }
+    /// The authentication profile can't be found.
+    public static var authenticationProfileNotFoundFault: Self { .init(.authenticationProfileNotFoundFault) }
+    /// The size or number of authentication profiles has exceeded the quota. The maximum length of the JSON string and maximum number of authentication profiles is determined by a quota for your account.
+    public static var authenticationProfileQuotaExceededFault: Self { .init(.authenticationProfileQuotaExceededFault) }
     /// The specified CIDR block or EC2 security group is already authorized for the specified cluster security group.
     public static var authorizationAlreadyExistsFault: Self { .init(.authorizationAlreadyExistsFault) }
     /// The specified CIDR IP range or EC2 security group is not authorized for the specified cluster security group.
@@ -250,6 +260,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
     /// The cluster does not have read bucket or put object permissions on the S3 bucket specified when enabling logging.
     public static var insufficientS3BucketPolicyFault: Self { .init(.insufficientS3BucketPolicyFault) }
+    /// The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Region.
+    public static var invalidAuthenticationProfileRequestFault: Self { .init(.invalidAuthenticationProfileRequestFault) }
     /// The status of the authorization is not valid.
     public static var invalidAuthorizationStateFault: Self { .init(.invalidAuthorizationStateFault) }
     /// The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
@@ -304,7 +316,7 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var invalidUsageLimitFault: Self { .init(.invalidUsageLimitFault) }
     /// The cluster subnet group does not cover all Availability Zones.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
-    /// The encryption key has exceeded its grant limit in AWS KMS.
+    /// The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     public static var limitExceededFault: Self { .init(.limitExceededFault) }
     /// The operation would exceed the number of nodes allowed for a cluster.
     public static var numberOfNodesPerClusterLimitExceededFault: Self { .init(.numberOfNodesPerClusterLimitExceededFault) }
@@ -352,7 +364,7 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var snapshotCopyGrantAlreadyExistsFault: Self { .init(.snapshotCopyGrantAlreadyExistsFault) }
     /// The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
     public static var snapshotCopyGrantNotFoundFault: Self { .init(.snapshotCopyGrantNotFoundFault) }
-    /// The AWS account has exceeded the maximum number of snapshot copy grants in this region.
+    /// The account has exceeded the maximum number of snapshot copy grants in this region.
     public static var snapshotCopyGrantQuotaExceededFault: Self { .init(.snapshotCopyGrantQuotaExceededFault) }
     /// The specified snapshot schedule already exists.
     public static var snapshotScheduleAlreadyExistsFault: Self { .init(.snapshotScheduleAlreadyExistsFault) }

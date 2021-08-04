@@ -63,7 +63,7 @@ public struct SNS: AWSService {
 
     // MARK: API Calls
 
-    /// Adds a statement to a topic's access control policy, granting access for the specified AWS accounts to the specified actions.
+    /// Adds a statement to a topic's access control policy, granting access for the specified accounts to the specified actions.
     @discardableResult public func addPermission(_ input: AddPermissionInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AddPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -88,7 +88,12 @@ public struct SNS: AWSService {
         return self.client.execute(operation: "CreatePlatformEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Creates a topic to which notifications can be published. Users can create at most 100,000 standard topics (at most 1,000 FIFO topics). For more information, see https://aws.amazon.com/sns. This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic.
+    /// Adds a destination phone number to an account in the SMS sandbox and sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+    public func createSMSSandboxPhoneNumber(_ input: CreateSMSSandboxPhoneNumberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSMSSandboxPhoneNumberResult> {
+        return self.client.execute(operation: "CreateSMSSandboxPhoneNumber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Creates a topic to which notifications can be published. Users can create at most 100,000 standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon SNS topic in the Amazon SNS Developer Guide. This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic.
     public func createTopic(_ input: CreateTopicInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTopicResponse> {
         return self.client.execute(operation: "CreateTopic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -101,6 +106,11 @@ public struct SNS: AWSService {
     /// Deletes a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using Amazon SNS Mobile Push Notifications.
     @discardableResult public func deletePlatformApplication(_ input: DeletePlatformApplicationInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeletePlatformApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Deletes an account's verified or pending phone number from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+    public func deleteSMSSandboxPhoneNumber(_ input: DeleteSMSSandboxPhoneNumberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSMSSandboxPhoneNumberResult> {
+        return self.client.execute(operation: "DeleteSMSSandboxPhoneNumber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Deletes a topic and all its subscriptions. Deleting a topic might prevent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error.
@@ -123,6 +133,11 @@ public struct SNS: AWSService {
         return self.client.execute(operation: "GetSMSAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Retrieves the SMS sandbox status for the calling account in the target Region. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+    public func getSMSSandboxAccountStatus(_ input: GetSMSSandboxAccountStatusInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSMSSandboxAccountStatusResult> {
+        return self.client.execute(operation: "GetSMSSandboxAccountStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Returns all of the properties of a subscription.
     public func getSubscriptionAttributes(_ input: GetSubscriptionAttributesInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSubscriptionAttributesResponse> {
         return self.client.execute(operation: "GetSubscriptionAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -138,6 +153,11 @@ public struct SNS: AWSService {
         return self.client.execute(operation: "ListEndpointsByPlatformApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Lists the calling account's dedicated origination numbers and their metadata. For more information about origination numbers, see Origination numbers in the Amazon SNS Developer Guide.
+    public func listOriginationNumbers(_ input: ListOriginationNumbersRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOriginationNumbersResult> {
+        return self.client.execute(operation: "ListOriginationNumbers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them. The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to 100 phone numbers. If additional phone numbers are available after the first page of results, then a NextToken string will be returned. To receive the next page, you call ListPhoneNumbersOptedOut again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null.
     public func listPhoneNumbersOptedOut(_ input: ListPhoneNumbersOptedOutInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPhoneNumbersOptedOutResponse> {
         return self.client.execute(operation: "ListPhoneNumbersOptedOut", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -146,6 +166,11 @@ public struct SNS: AWSService {
     /// Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications.  This action is throttled at 15 transactions per second (TPS).
     public func listPlatformApplications(_ input: ListPlatformApplicationsInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPlatformApplicationsResponse> {
         return self.client.execute(operation: "ListPlatformApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Lists the calling account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+    public func listSMSSandboxPhoneNumbers(_ input: ListSMSSandboxPhoneNumbersInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSMSSandboxPhoneNumbersResult> {
+        return self.client.execute(operation: "ListSMSSandboxPhoneNumbers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results. This action is throttled at 30 transactions per second (TPS).
@@ -173,7 +198,7 @@ public struct SNS: AWSService {
         return self.client.execute(operation: "OptInPhoneNumber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it shortly. To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.  For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices.   You can publish messages only to topics and endpoints in the same AWS Region.
+    /// Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it shortly. To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.  For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices.   You can publish messages only to topics and endpoints in the same Region.
     public func publish(_ input: PublishInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishResponse> {
         return self.client.execute(operation: "Publish", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -208,17 +233,17 @@ public struct SNS: AWSService {
         return self.client.execute(operation: "SetTopicAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same AWS account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
+    /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
     public func subscribe(_ input: SubscribeInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SubscribeResponse> {
         return self.client.execute(operation: "Subscribe", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide. When you use topic tags, keep the following guidelines in mind:   Adding more than 50 tags to a topic isn't recommended.   Tags don't have any semantic meaning. Amazon SNS interprets tags as character strings.   Tags are case-sensitive.   A new tag with a key identical to that of an existing tag overwrites the existing tag.   Tagging actions are limited to 10 TPS per AWS account, per AWS region. If your application requires a higher throughput, file a technical support request.
+    /// Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide. When you use topic tags, keep the following guidelines in mind:   Adding more than 50 tags to a topic isn't recommended.   Tags don't have any semantic meaning. Amazon SNS interprets tags as character strings.   Tags are case-sensitive.   A new tag with a key identical to that of an existing tag overwrites the existing tag.   Tagging actions are limited to 10 TPS per account, per Region. If your application requires a higher throughput, file a technical support request.
     public func tagResource(_ input: TagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
+    /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
     @discardableResult public func unsubscribe(_ input: UnsubscribeInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "Unsubscribe", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -226,6 +251,11 @@ public struct SNS: AWSService {
     /// Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the Amazon SNS Developer Guide.
     public func untagResource(_ input: UntagResourceRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Verifies a destination phone number with a one-time password (OTP) for the calling account. When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+    public func verifySMSSandboxPhoneNumber(_ input: VerifySMSSandboxPhoneNumberInput, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VerifySMSSandboxPhoneNumberResult> {
+        return self.client.execute(operation: "VerifySMSSandboxPhoneNumber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 }
 

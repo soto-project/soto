@@ -103,14 +103,14 @@ public struct IoTDeviceAdvisor: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Lists all the test cases in the test suite.
-    public func listTestCases(_ input: ListTestCasesRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTestCasesResponse> {
-        return self.client.execute(operation: "ListTestCases", path: "/testCases", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
-    }
-
     /// Starts a Device Advisor test suite run.
     public func startSuiteRun(_ input: StartSuiteRunRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSuiteRunResponse> {
         return self.client.execute(operation: "StartSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
+    /// Stops a Device Advisor test suite run that is currently running.
+    public func stopSuiteRun(_ input: StopSuiteRunRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSuiteRunResponse> {
+        return self.client.execute(operation: "StopSuiteRun", path: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
     /// Adds to and modifies existing tags of an IoT Device Advisor resource.

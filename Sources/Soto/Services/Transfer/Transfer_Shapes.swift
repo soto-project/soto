@@ -41,6 +41,7 @@ extension Transfer {
 
     public enum IdentityProviderType: String, CustomStringConvertible, Codable {
         case apiGateway = "API_GATEWAY"
+        case awsDirectoryService = "AWS_DIRECTORY_SERVICE"
         case serviceManaged = "SERVICE_MANAGED"
         public var description: String { return self.rawValue }
     }
@@ -64,24 +65,105 @@ extension Transfer {
 
     // MARK: Shapes
 
+    public struct CreateAccessRequest: AWSEncodableShape {
+
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        public let externalId: String
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        public let homeDirectory: String?
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]  In most cases, you can use this value instead of the scope-down policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        public let homeDirectoryType: HomeDirectoryType?
+        /// A scope-down policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This only applies when domain of ServerId is S3. Amazon EFS does not use scope-down policies. For scope-down policies, Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Example scope-down policy. For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
+        public let policy: String?
+        public let posixProfile: PosixProfile?
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        public let role: String
+        /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
+        public let serverId: String
+
+        public init(externalId: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String, serverId: String) {
+            self.externalId = externalId
+            self.homeDirectory = homeDirectory
+            self.homeDirectoryMappings = homeDirectoryMappings
+            self.homeDirectoryType = homeDirectoryType
+            self.policy = policy
+            self.posixProfile = posixProfile
+            self.role = role
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.externalId, name: "externalId", parent: name, max: 256)
+            try self.validate(self.externalId, name: "externalId", parent: name, min: 1)
+            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^S-1-[\\d-]+$")
+            try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, max: 1024)
+            try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, pattern: "^$|/.*")
+            try self.homeDirectoryMappings?.forEach {
+                try $0.validate(name: "\(name).homeDirectoryMappings[]")
+            }
+            try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, max: 50)
+            try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, max: 2048)
+            try self.posixProfile?.validate(name: "\(name).posixProfile")
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "arn:.*role/.*")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case homeDirectory = "HomeDirectory"
+            case homeDirectoryMappings = "HomeDirectoryMappings"
+            case homeDirectoryType = "HomeDirectoryType"
+            case policy = "Policy"
+            case posixProfile = "PosixProfile"
+            case role = "Role"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct CreateAccessResponse: AWSDecodableShape {
+
+        /// The external ID of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family.
+        public let externalId: String
+        /// The ID of the server that the user is attached to.
+        public let serverId: String
+
+        public init(externalId: String, serverId: String) {
+            self.externalId = externalId
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case serverId = "ServerId"
+        }
+    }
+
     public struct CreateServerRequest: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  AWS Certificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  AWS Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  AWS Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  Amazon Web Services Certificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  Amazon Web Services Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  Amazon Web Services Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
         public let certificate: String?
+        /// The domain of the storage system that is used for file transfers. There are two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The default value is S3.  After the server is created, the domain cannot be changed.
         public let domain: Domain?
-        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IPs and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
+        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IP addresses and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
-        /// The type of VPC endpoint that you want your server to connect to. You can choose to connect to the public internet or a VPC endpoint. With a VPC endpoint, you can restrict access to your server and resources only within your VPC.  It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
+        /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.   After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
-        /// The RSA private key as generated by the ssh-keygen -N "" -m PEM -f my-new-server-key command.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Change the host key for your SFTP-enabled server in the AWS Transfer Family User Guide.
+        /// The RSA private key as generated by the ssh-keygen -N "" -m PEM -f my-new-server-key command.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Change the host key for your SFTP-enabled server in the Amazon Web Services Transfer Family User Guide.
         public let hostKey: String?
-        /// Required when IdentityProviderType is set to API_GATEWAY. Accepts an array containing all of the information required to call a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
+        /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the AWS Transfer Family service. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
+        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
         public let identityProviderType: IdentityProviderType?
-        /// Allows the service to write your users' activity to your Amazon CloudWatch logs for monitoring and auditing purposes.
+        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
-        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in AWS Certificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in Amazon Web Services Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
         public let protocols: [Protocol]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
@@ -152,16 +234,17 @@ extension Transfer {
 
     public struct CreateUserRequest: AWSEncodableShape {
 
-        /// The landing directory (folder) for a user when they log in to the server using the client. An example is  your-Amazon-S3-bucket-name&gt;/home/username .
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a '/' for it to be considered a folder.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 paths visible to your users.
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// A scope-down policy for your user so you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  For scope-down policies, AWS Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Creating a scope-down policy. For more information, see AssumeRole in the AWS Security Token Service API Reference.
+        /// A scope-down policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This only applies when domain of ServerId is S3. EFS does not use scope down policy. For scope-down policies, Amazon Web Services Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Example scope-down policy. For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
         public let policy: String?
+        /// Specifies the full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon EFS file systems. The POSIX permissions that are set on files and directories in Amazon EFS determine the level of access your users get when transferring files into and out of your Amazon EFS file systems.
         public let posixProfile: PosixProfile?
-        /// The IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
@@ -242,6 +325,33 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case userName = "UserName"
+        }
+    }
+
+    public struct DeleteAccessRequest: AWSEncodableShape {
+
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        public let externalId: String
+        /// A system-assigned unique identifier for a server that has this user assigned.
+        public let serverId: String
+
+        public init(externalId: String, serverId: String) {
+            self.externalId = externalId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.externalId, name: "externalId", parent: name, max: 256)
+            try self.validate(self.externalId, name: "externalId", parent: name, min: 1)
+            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^S-1-[\\d-]+$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case serverId = "ServerId"
         }
     }
 
@@ -326,6 +436,51 @@ extension Transfer {
         }
     }
 
+    public struct DescribeAccessRequest: AWSEncodableShape {
+
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        public let externalId: String
+        /// A system-assigned unique identifier for a server that has this access assigned.
+        public let serverId: String
+
+        public init(externalId: String, serverId: String) {
+            self.externalId = externalId
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.externalId, name: "externalId", parent: name, max: 256)
+            try self.validate(self.externalId, name: "externalId", parent: name, min: 1)
+            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^S-1-[\\d-]+$")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct DescribeAccessResponse: AWSDecodableShape {
+
+        /// The external ID of the server that the access is attached to.
+        public let access: DescribedAccess
+        /// A system-assigned unique identifier for a server that has this access assigned.
+        public let serverId: String
+
+        public init(access: DescribedAccess, serverId: String) {
+            self.access = access
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case access = "Access"
+            case serverId = "ServerId"
+        }
+    }
+
     public struct DescribeSecurityPolicyRequest: AWSEncodableShape {
 
         /// Specifies the name of the security policy that is attached to the server.
@@ -397,7 +552,7 @@ extension Transfer {
 
         /// A system-assigned unique identifier for a server that has this user assigned.
         public let serverId: String
-        /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the AWS Transfer Family service and perform file transfer tasks.
+        /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Amazon Web Services Transfer Family service and perform file transfer tasks.
         public let userName: String
 
         public init(serverId: String, userName: String) {
@@ -435,6 +590,43 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case serverId = "ServerId"
             case user = "User"
+        }
+    }
+
+    public struct DescribedAccess: AWSDecodableShape {
+
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        public let externalId: String?
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        public let homeDirectory: String?
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the scope-down policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
+        public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        public let homeDirectoryType: HomeDirectoryType?
+        /// A scope-down policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
+        public let policy: String?
+        public let posixProfile: PosixProfile?
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        public let role: String?
+
+        public init(externalId: String? = nil, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil) {
+            self.externalId = externalId
+            self.homeDirectory = homeDirectory
+            self.homeDirectoryMappings = homeDirectoryMappings
+            self.homeDirectoryType = homeDirectoryType
+            self.policy = policy
+            self.posixProfile = posixProfile
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case homeDirectory = "HomeDirectory"
+            case homeDirectoryMappings = "HomeDirectoryMappings"
+            case homeDirectoryType = "HomeDirectoryType"
+            case policy = "Policy"
+            case posixProfile = "PosixProfile"
+            case role = "Role"
         }
     }
 
@@ -476,21 +668,24 @@ extension Transfer {
 
         /// Specifies the unique Amazon Resource Name (ARN) of the server.
         public let arn: String
-        /// Specifies the ARN of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
+        /// Specifies the ARN of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         public let certificate: String?
+        /// Specifies the domain of the storage system that is used for file transfers.
         public let domain: Domain?
-        /// Specifies the virtual private cloud (VPC) endpoint settings that you configured for your server.
+        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IP addresses and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
         /// Defines the type of endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?
         /// Specifies the Base64-encoded SHA256 fingerprint of the server's host key. This value is equivalent to the output of the ssh-keygen -l -f my-new-server-key command.
         public let hostKeyFingerprint: String?
-        /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of a server is SERVICE_MANAGED.
+        /// Specifies information to call a customer-supplied authentication API. This field is not populated when the IdentityProviderType of a server is AWS_DIRECTORY_SERVICE or SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Specifies the mode of authentication method enabled for this service. A value of SERVICE_MANAGED means that you are using this server to store and access user credentials within the service. A value of API_GATEWAY indicates that you have integrated an API Gateway endpoint that will be invoked for authenticating your user into the service.
+        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
         public let identityProviderType: IdentityProviderType?
-        /// Specifies the AWS Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 events. When set, user activity can be viewed in your CloudWatch logs.
+        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
+        ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
+        public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer
         public let protocols: [Protocol]?
         /// Specifies the name of the security policy that is attached to the server.
@@ -504,7 +699,7 @@ extension Transfer {
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
 
-        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
+        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil) {
             self.arn = arn
             self.certificate = certificate
             self.domain = domain
@@ -514,6 +709,7 @@ extension Transfer {
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
+            self.protocolDetails = protocolDetails
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
             self.serverId = serverId
@@ -532,6 +728,7 @@ extension Transfer {
             case identityProviderDetails = "IdentityProviderDetails"
             case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
+            case protocolDetails = "ProtocolDetails"
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
             case serverId = "ServerId"
@@ -545,16 +742,17 @@ extension Transfer {
 
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         public let arn: String
-        /// Specifies the landing directory (or folder), which is the location that files are written to or read from in an Amazon S3 bucket, for the described user. An example is  your-Amazon-S3-bucket-name&gt;/home/username .
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Specifies the logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your AWS Identity and Access Management (IAM) role provides access to paths in Target. In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// Specifies the type of landing directory (folder) you mapped for your users to see when they log into the file transfer protocol-enabled server. If you set it to PATH, the user will see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 paths visible to your users.
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// Specifies the name of the policy in use for the described user.
+        /// A scope-down policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.
         public let policy: String?
+        /// Specifies the full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon Elastic File System (Amazon EFS) file systems. The POSIX permissions that are set on files and directories in your file system determine the level of access your users get when transferring files into and out of your Amazon EFS file systems.
         public let posixProfile: PosixProfile?
-        /// Specifies the IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows a server to access your resources when servicing your users' transfer requests.
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// Specifies the public key portion of the Secure Shell (SSH) keys stored for the described user.
         public let sshPublicKeys: [SshPublicKey]?
@@ -594,11 +792,11 @@ extension Transfer {
 
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint.  This property can only be set when EndpointType is set to VPC and it is only valid in the UpdateServer API.
         public let addressAllocationIds: [String]?
-        /// A list of security groups IDs that are available to attach to your server's endpoint.  This property can only be set when EndpointType is set to VPC. You can only edit the SecurityGroupIds property in the UpdateServer API and only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC.
+        /// A list of security groups IDs that are available to attach to your server's endpoint.  This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the UpdateServer API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 ModifyVpcEndpoint API.
         public let securityGroupIds: [String]?
         /// A list of subnet IDs that are required to host your server endpoint in your VPC.  This property can only be set when EndpointType is set to VPC.
         public let subnetIds: [String]?
-        /// The ID of the VPC endpoint.  This property can only be set when EndpointType is set to VPC_ENDPOINT.
+        /// The ID of the VPC endpoint.  This property can only be set when EndpointType is set to VPC_ENDPOINT. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
         public let vpcEndpointId: String?
         /// The VPC ID of the VPC in which a server's endpoint will be hosted.  This property can only be set when EndpointType is set to VPC.
         public let vpcId: String?
@@ -633,7 +831,7 @@ extension Transfer {
 
     public struct HomeDirectoryMapEntry: AWSEncodableShape & AWSDecodableShape {
 
-        /// Represents an entry and a target for HomeDirectoryMappings.
+        /// Represents an entry for HomeDirectoryMappings.
         public let entry: String
         /// Represents the map target that is used in a HomeDirectorymapEntry.
         public let target: String
@@ -658,17 +856,23 @@ extension Transfer {
 
     public struct IdentityProviderDetails: AWSEncodableShape & AWSDecodableShape {
 
+        /// The identifier of the Amazon Web ServicesDirectory Service directory that you want to stop sharing.
+        public let directoryId: String?
         /// Provides the type of InvocationRole used to authenticate the user account.
         public let invocationRole: String?
         /// Provides the location of the service endpoint used to authenticate users.
         public let url: String?
 
-        public init(invocationRole: String? = nil, url: String? = nil) {
+        public init(directoryId: String? = nil, invocationRole: String? = nil, url: String? = nil) {
+            self.directoryId = directoryId
             self.invocationRole = invocationRole
             self.url = url
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, max: 12)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, min: 12)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, max: 2048)
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, min: 20)
             try self.validate(self.invocationRole, name: "invocationRole", parent: name, pattern: "arn:.*role/.*")
@@ -676,6 +880,7 @@ extension Transfer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
             case invocationRole = "InvocationRole"
             case url = "Url"
         }
@@ -733,6 +938,60 @@ extension Transfer {
             case serverId = "ServerId"
             case sshPublicKeyId = "SshPublicKeyId"
             case userName = "UserName"
+        }
+    }
+
+    public struct ListAccessesRequest: AWSEncodableShape {
+
+        /// Specifies the maximum number of access SIDs to return.
+        public let maxResults: Int?
+        /// When you can get additional results from the ListAccesses call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional accesses.
+        public let nextToken: String?
+        /// A system-assigned unique identifier for a server that has users assigned to it.
+        public let serverId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct ListAccessesResponse: AWSDecodableShape {
+
+        /// Returns the accesses and their properties for the ServerId value that you specify.
+        public let accesses: [ListedAccess]
+        /// When you can get additional results from the ListAccesses call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional accesses.
+        public let nextToken: String?
+        /// A system-assigned unique identifier for a server that has users assigned to it.
+        public let serverId: String
+
+        public init(accesses: [ListedAccess], nextToken: String? = nil, serverId: String) {
+            self.accesses = accesses
+            self.nextToken = nextToken
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accesses = "Accesses"
+            case nextToken = "NextToken"
+            case serverId = "ServerId"
         }
     }
 
@@ -824,7 +1083,7 @@ extension Transfer {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
 
-        /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific AWS resource, such as a server, user, or role.
+        /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a server, user, or role.
         public let arn: String
         /// Specifies the number of tags to return as a response to the ListTagsForResource request.
         public let maxResults: Int?
@@ -930,16 +1189,43 @@ extension Transfer {
         }
     }
 
+    public struct ListedAccess: AWSDecodableShape {
+
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        public let externalId: String?
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        public let homeDirectory: String?
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        public let homeDirectoryType: HomeDirectoryType?
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        public let role: String?
+
+        public init(externalId: String? = nil, homeDirectory: String? = nil, homeDirectoryType: HomeDirectoryType? = nil, role: String? = nil) {
+            self.externalId = externalId
+            self.homeDirectory = homeDirectory
+            self.homeDirectoryType = homeDirectoryType
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case homeDirectory = "HomeDirectory"
+            case homeDirectoryType = "HomeDirectoryType"
+            case role = "Role"
+        }
+    }
+
     public struct ListedServer: AWSDecodableShape {
 
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         public let arn: String
+        /// Specifies the domain of the storage system that is used for file transfers.
         public let domain: Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public let endpointType: EndpointType?
-        /// Specifies the authentication method used to validate a user for a server that was specified. This can include Secure Shell (SSH), user name and password combinations, or your own custom authentication method. Valid values include SERVICE_MANAGED or API_GATEWAY.
+        /// Specifies the mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connectors. This option also requires you to provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to call for authentication using the IdentityProviderDetails parameter.
         public let identityProviderType: IdentityProviderType?
-        /// Specifies the AWS Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging.
+        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
         /// Specifies the unique system assigned identifier for the servers that were listed.
         public let serverId: String?
@@ -975,11 +1261,11 @@ extension Transfer {
 
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         public let arn: String
-        /// Specifies the location that files are written to or read from an Amazon S3 bucket for the user you specify by their ARN.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Specifies the type of landing directory (folder) you mapped for your users' home directory. If you set it to PATH, the user will see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 paths visible to your users.
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// Specifies the role that is in use by this user. A role is an AWS Identity and Access Management (IAM) entity that, in this case, allows a file transfer protocol-enabled server to act on a user's behalf. It allows the server to inherit the trust relationship that enables that user to perform file operations to their Amazon S3 bucket.
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.  The IAM role that controls your users' access to your Amazon S3 bucket for servers with Domain=S3, or your EFS file system for servers with Domain=EFS.  The policies attached to this role determine the level of access you want to provide your users when transferring files into and out of your S3 buckets or EFS file systems.
         public let role: String?
         /// Specifies the number of SSH public keys stored for the user you specified.
         public let sshPublicKeyCount: Int?
@@ -1007,8 +1293,11 @@ extension Transfer {
 
     public struct PosixProfile: AWSEncodableShape & AWSDecodableShape {
 
+        /// The POSIX group ID used for all EFS operations by this user.
         public let gid: Int64
+        /// The secondary POSIX group IDs used for all EFS operations by this user.
         public let secondaryGids: [Int64]?
+        /// The POSIX user ID used for all EFS operations by this user.
         public let uid: Int64
 
         public init(gid: Int64, secondaryGids: [Int64]? = nil, uid: Int64) {
@@ -1034,6 +1323,24 @@ extension Transfer {
             case gid = "Gid"
             case secondaryGids = "SecondaryGids"
             case uid = "Uid"
+        }
+    }
+
+    public struct ProtocolDetails: AWSEncodableShape & AWSDecodableShape {
+
+        ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer. For example:    aws transfer update-server --protocol-details PassiveIp=0.0.0.0   Replace  0.0.0.0  in the example above with the actual IP address you want to use.
+        public let passiveIp: String?
+
+        public init(passiveIp: String? = nil) {
+            self.passiveIp = passiveIp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.passiveIp, name: "passiveIp", parent: name, max: 15)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case passiveIp = "PassiveIp"
         }
     }
 
@@ -1124,7 +1431,7 @@ extension Transfer {
 
     public struct TagResourceRequest: AWSEncodableShape {
 
-        /// An Amazon Resource Name (ARN) for a specific AWS resource, such as a server, user, or role.
+        /// An Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a server, user, or role.
         public let arn: String
         /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
         public let tags: [Tag]
@@ -1221,7 +1528,7 @@ extension Transfer {
 
     public struct UntagResourceRequest: AWSEncodableShape {
 
-        /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific AWS resource, such as a server, user, or role.
+        /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific Amazon Web Services resource, such as a server, user, or role.
         public let arn: String
         /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
         public let tagKeys: [String]
@@ -1248,34 +1555,117 @@ extension Transfer {
         }
     }
 
+    public struct UpdateAccessRequest: AWSEncodableShape {
+
+        /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web Services Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell.  Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of your Active Directory group. The regex used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+        public let externalId: String
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+        public let homeDirectory: String?
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]  In most cases, you can use this value instead of the scope-down policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
+        public let homeDirectoryType: HomeDirectoryType?
+        /// A scope-down policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This only applies when domain of ServerId is S3. Amazon EFS does not use scope down policy. For scope-down policies, Amazon Web ServicesTransfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Example scope-down policy. For more information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API Reference.
+        public let policy: String?
+        public let posixProfile: PosixProfile?
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        public let role: String?
+        /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
+        public let serverId: String
+
+        public init(externalId: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil, serverId: String) {
+            self.externalId = externalId
+            self.homeDirectory = homeDirectory
+            self.homeDirectoryMappings = homeDirectoryMappings
+            self.homeDirectoryType = homeDirectoryType
+            self.policy = policy
+            self.posixProfile = posixProfile
+            self.role = role
+            self.serverId = serverId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.externalId, name: "externalId", parent: name, max: 256)
+            try self.validate(self.externalId, name: "externalId", parent: name, min: 1)
+            try self.validate(self.externalId, name: "externalId", parent: name, pattern: "^S-1-[\\d-]+$")
+            try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, max: 1024)
+            try self.validate(self.homeDirectory, name: "homeDirectory", parent: name, pattern: "^$|/.*")
+            try self.homeDirectoryMappings?.forEach {
+                try $0.validate(name: "\(name).homeDirectoryMappings[]")
+            }
+            try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, max: 50)
+            try self.validate(self.homeDirectoryMappings, name: "homeDirectoryMappings", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, max: 2048)
+            try self.posixProfile?.validate(name: "\(name).posixProfile")
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "arn:.*role/.*")
+            try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
+            try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case homeDirectory = "HomeDirectory"
+            case homeDirectoryMappings = "HomeDirectoryMappings"
+            case homeDirectoryType = "HomeDirectoryType"
+            case policy = "Policy"
+            case posixProfile = "PosixProfile"
+            case role = "Role"
+            case serverId = "ServerId"
+        }
+    }
+
+    public struct UpdateAccessResponse: AWSDecodableShape {
+
+        /// The external ID of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web ServicesTransfer Family.
+        public let externalId: String
+        /// The ID of the server that the user is attached to.
+        public let serverId: String
+
+        public init(externalId: String, serverId: String) {
+            self.externalId = externalId
+            self.serverId = serverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalId = "ExternalId"
+            case serverId = "ServerId"
+        }
+    }
+
     public struct UpdateServerRequest: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the AWS Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  AWS Certificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  AWS Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  AWS Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
+        /// The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see Request a public certificate in the  Amazon Web ServicesCertificate Manager User Guide. To import an existing certificate into ACM, see Importing certificates into ACM in the  Amazon Web ServicesCertificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see Request a private certificate in the  Amazon Web ServicesCertificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:   2048-bit RSA (RSA_2048)   4096-bit RSA (RSA_4096)   Elliptic Prime Curve 256 bit (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and information about the issuer.
         public let certificate: String?
-        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. With a VPC endpoint, you can restrict access to your server to resources only within your VPC. To control incoming internet traffic, you will need to associate one or more Elastic IP addresses with your server's endpoint.
+        /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make it accessible only to resources within your VPC, or you can attach Elastic IP addresses and make it accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
-        /// The type of endpoint that you want your server to connect to. You can choose to connect to the public internet or a VPC endpoint. With a VPC endpoint, you can restrict access to your server and resources only within your VPC.  It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
+        /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.   After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
-        /// The RSA private key as generated by ssh-keygen -N "" -m PEM -f my-new-server-key.  If you aren't planning to migrate existing users from an existing server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Change the host key for your SFTP-enabled server in the AWS Transfer Family User Guide.
+        /// The RSA private key as generated by ssh-keygen -N "" -m PEM -f my-new-server-key.  If you aren't planning to migrate existing users from an existing server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Change the host key for your SFTP-enabled server in the Amazon Web ServicesTransfer Family User Guide.
         public let hostKey: String?
         /// An array containing all of the information required to call a customer's authentication API method.
         public let identityProviderDetails: IdentityProviderDetails?
-        /// Changes the AWS Identity and Access Management (IAM) role that allows Amazon S3 events to be logged in Amazon CloudWatch, turning logging on or off.
+        /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
-        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in AWS Certificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+        ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
+        public let protocolDetails: ProtocolDetails?
+        /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in Amazon Web ServicesCertificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
         public let protocols: [Protocol]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKey = hostKey
             self.identityProviderDetails = identityProviderDetails
             self.loggingRole = loggingRole
+            self.protocolDetails = protocolDetails
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
             self.serverId = serverId
@@ -1288,6 +1678,7 @@ extension Transfer {
             try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^$|arn:.*role/.*")
+            try self.protocolDetails?.validate(name: "\(name).protocolDetails")
             try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
             try self.validate(self.securityPolicyName, name: "securityPolicyName", parent: name, max: 100)
@@ -1304,6 +1695,7 @@ extension Transfer {
             case hostKey = "HostKey"
             case identityProviderDetails = "IdentityProviderDetails"
             case loggingRole = "LoggingRole"
+            case protocolDetails = "ProtocolDetails"
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
             case serverId = "ServerId"
@@ -1326,16 +1718,17 @@ extension Transfer {
 
     public struct UpdateUserRequest: AWSEncodableShape {
 
-        /// Specifies the landing directory (folder) for a user when they log in to the server using their file transfer protocol client. An example is your-Amazon-S3-bucket-name&gt;/home/username.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 paths and keys should be visible to your user and how you want to make them visible. You will need to specify the "Entry" and "Target" pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 path. If you only specify a target, it will be displayed as is. You will need to also make sure that your IAM role provides access to paths in Target. The following is an example.  '[ "/bucket2/documentation", { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]'  In most cases, you can use this value instead of the scope-down policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.  If the target of a logical directory entry does not exist in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api call instead of s3 so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "your-personal-report.pdf", "Target": "/bucket3/customized-reports/${transfer:UserName}.pdf" } ]  In most cases, you can use this value instead of the scope-down policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
-        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 paths visible to your users.
+        /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
-        /// Allows you to supply a scope-down policy for your user so you can use the same IAM role across multiple users. The policy scopes down user access to portions of your Amazon S3 bucket. Variables you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  For scope-down policies, AWS Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Creating a scope-down policy. For more information, see AssumeRole in the AWS Security Token Service API Reference.
+        /// A scope-down policy for your user so that you can use the same IAM role across multiple users. This policy scopes down user access to portions of their Amazon S3 bucket. Variables that you can use inside this policy include ${Transfer:UserName}, ${Transfer:HomeDirectory}, and ${Transfer:HomeBucket}.  This only applies when domain of ServerId is S3. Amazon EFS does not use scope-down policies. For scope-down policies, Amazon Web ServicesTransfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For an example of a scope-down policy, see Creating a scope-down policy. For more information, see AssumeRole in the Amazon Web Services Security Token Service API Reference.
         public let policy: String?
+        /// Specifies the full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon Elastic File Systems (Amazon EFS). The POSIX permissions that are set on files and directories in your file system determines the level of access your users get when transferring files into and out of your Amazon EFS file systems.
         public let posixProfile: PosixProfile?
-        /// The IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your users' access to your Amazon S3 bucket or EFS file system. The policies attached to this role determine the level of access that you want to provide your users when transferring files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String

@@ -50,6 +50,13 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum GatewayCapacity: String, CustomStringConvertible, Codable {
+        case large = "Large"
+        case medium = "Medium"
+        case small = "Small"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HostEnvironment: String, CustomStringConvertible, Codable {
         case ec2 = "EC2"
         case hyperV = "HYPER-V"
@@ -100,15 +107,15 @@ extension StorageGateway {
 
     public struct ActivateGatewayInput: AWSEncodableShape {
 
-        /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the AWS Storage Gateway User Guide.
+        /// Your gateway activation key. You can obtain the activation key by sending an HTTP GET request with redirects enabled to the gateway IP address (port 80). The redirect URL returned in the response provides you the activation key for your gateway in the query string parameter activationKey. It may also include other activation-related parameters, however, these are merely defaults -- the arguments you pass to the ActivateGateway API call determine the actual configuration of your gateway. For more information, see Getting activation key in the Storage Gateway User Guide.
         public let activationKey: String
         /// The name you configured for your gateway.
         public let gatewayName: String
-        /// A value that indicates the AWS Region where you want to store your data. The gateway AWS Region specified must be the same AWS Region as the AWS Region in your Host header in the request. For more information about available AWS Regions and endpoints for AWS Storage Gateway, see AWS Storage Gateway endpoints and quotas in the AWS General Reference. Valid Values: See AWS Storage Gateway endpoints and quotas in the AWS General Reference.
+        /// A value that indicates the Region where you want to store your data. The gateway Region specified must be the same Region as the Region in your Host header in the request. For more information about available Regions and endpoints for Storage Gateway, see  Storage Gateway endpoints and quotas in the Amazon Web Services General Reference. Valid Values: See  Storage Gateway endpoints and quotas in the Amazon Web Services General Reference.
         public let gatewayRegion: String
         /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
         public let gatewayTimezone: String
-        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3
+        /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB|
         public let gatewayType: String?
         /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402
         public let mediumChangerType: String?
@@ -380,10 +387,12 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
         public let auditDestinationARN: String?
         public let cacheAttributes: CacheAttributes?
-        /// A unique string value that you supply that is used by the file gateway to ensure idempotent file system association creation.
+        /// A unique string value that you supply that is used by the FSx File Gateway to ensure idempotent file system association creation.
         public let clientToken: String
+        /// Specifies the network configuration information for the gateway associated with the Amazon FSx file system.  If multiple file systems are associated with this gateway, this parameter's IpAddresses field is required.
+        public let endpointNetworkConfiguration: EndpointNetworkConfiguration?
         public let gatewayARN: String
-        /// The Amazon Resource Name (ARN) of the Amazon FSx file system to associate with the Amazon FSx file gateway.
+        /// The Amazon Resource Name (ARN) of the Amazon FSx file system to associate with the FSx File Gateway.
         public let locationARN: String
         /// The password of the user credential.
         public let password: String
@@ -392,10 +401,11 @@ extension StorageGateway {
         /// The user name of the user credential that has permission to access the root share D$ of the Amazon FSx file system. The user account must belong to the Amazon FSx delegated admin user group.
         public let userName: String
 
-        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientToken: String, gatewayARN: String, locationARN: String, password: String, tags: [Tag]? = nil, userName: String) {
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientToken: String, endpointNetworkConfiguration: EndpointNetworkConfiguration? = nil, gatewayARN: String, locationARN: String, password: String, tags: [Tag]? = nil, userName: String) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
             self.clientToken = clientToken
+            self.endpointNetworkConfiguration = endpointNetworkConfiguration
             self.gatewayARN = gatewayARN
             self.locationARN = locationARN
             self.password = password
@@ -407,6 +417,7 @@ extension StorageGateway {
             try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
+            try self.endpointNetworkConfiguration?.validate(name: "\(name).endpointNetworkConfiguration")
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 512)
@@ -426,6 +437,7 @@ extension StorageGateway {
             case auditDestinationARN = "AuditDestinationARN"
             case cacheAttributes = "CacheAttributes"
             case clientToken = "ClientToken"
+            case endpointNetworkConfiguration = "EndpointNetworkConfiguration"
             case gatewayARN = "GatewayARN"
             case locationARN = "LocationARN"
             case password = "Password"
@@ -625,7 +637,7 @@ extension StorageGateway {
 
     public struct CacheAttributes: AWSEncodableShape & AWSDecodableShape {
 
-        /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values: 300 to 2,592,000 seconds (5 minutes to 30 days)
+        /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the length of time since the last refresh after which access to the directory would cause the file gateway to first refresh that directory's contents from the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in seconds. Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days)
         public let cacheStaleTimeoutInSeconds: Int?
 
         public init(cacheStaleTimeoutInSeconds: Int? = nil) {
@@ -807,7 +819,7 @@ extension StorageGateway {
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.
         public let clientToken: String
         public let gatewayARN: String
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
@@ -891,44 +903,49 @@ extension StorageGateway {
 
     public struct CreateNFSFileShareInput: AWSEncodableShape {
 
+        /// Specifies the Region of the S3 bucket where the NFS file share stores files.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let bucketRegion: String?
         /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
-        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
-        /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
+        /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation.
         public let clientToken: String
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN.
         public let fileShareName: String?
-        /// The Amazon Resource Name (ARN) of the file gateway on which you want to create a file share.
+        /// The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to create a file share.
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".
+        /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".  You can specify a bucket attached to an access point using a complete ARN that includes the bucket region as shown:  arn:aws:s3:region:account-id:accesspoint/access-point-name   If you specify a bucket attached to an access point, the bucket policy must be configured to delegate access control to the access point. For information, see Delegating access control to access points in the Amazon S3 User Guide.
         public let locationARN: String
         /// File share default values. Optional.
         public let nFSFileShareDefaults: NFSFileShareDefaults?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
-        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
+        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
         public let readOnly: Bool?
         /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration.  Valid Values: true | false
         public let requesterPays: Bool?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage.
+        /// The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage.
         public let role: String
         /// A value that maps a user to anonymous user. Valid values are the following:    RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.
         public let squash: String?
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
+        /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let vPCEndpointDNSName: String?
 
-        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil) {
+        public init(bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vPCEndpointDNSName: String? = nil) {
+            self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.clientToken = clientToken
@@ -947,9 +964,12 @@ extension StorageGateway {
             self.role = role
             self.squash = squash
             self.tags = tags
+            self.vPCEndpointDNSName = vPCEndpointDNSName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, max: 25)
+            try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, min: 1)
             try self.clientList?.forEach {
                 try validate($0, name: "clientList[]", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$")
             }
@@ -980,9 +1000,13 @@ extension StorageGateway {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, max: 255)
+            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, min: 1)
+            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketRegion = "BucketRegion"
             case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case clientToken = "ClientToken"
@@ -1001,6 +1025,7 @@ extension StorageGateway {
             case role = "Role"
             case squash = "Squash"
             case tags = "Tags"
+            case vPCEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -1028,50 +1053,57 @@ extension StorageGateway {
         public let auditDestinationARN: String?
         /// The authentication method that users use to access the file share. The default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess
         public let authentication: String?
+        /// Specifies the Region of the S3 bucket where the SMB file share stores files.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let bucketRegion: String?
         /// Specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
-        /// A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
+        /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation.
         public let clientToken: String
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN.
         public let fileShareName: String?
-        /// The ARN of the file gateway on which you want to create a file share.
+        /// The ARN of the S3 File Gateway on which you want to create a file share.
         public let gatewayARN: String
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".
+        /// The ARN of the backend storage used for storing file data. A prefix name can be added to the S3 bucket name. It must end with a "/".  You can specify a bucket attached to an access point using a complete ARN that includes the bucket region as shown:  arn:aws:s3:region:account-id:accesspoint/access-point-name   If you specify a bucket attached to an access point, the bucket policy must be configured to delegate access control to the access point. For information, see Delegating access control to access points in the Amazon S3 User Guide.
         public let locationARN: String
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
-        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
+        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
+        /// Specifies whether opportunistic locking is enabled for the SMB file share.  Enabling opportunistic locking on case-sensitive shares is not recommended for workloads that involve access to files with the same name in different case.  Valid Values: true | false
+        public let oplocksEnabled: Bool?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
         public let readOnly: Bool?
         /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration.  Valid Values: true | false
         public let requesterPays: Bool?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that a file gateway assumes when it accesses the underlying storage.
+        /// The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway assumes when it accesses the underlying storage.
         public let role: String
-        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the AWS Storage Gateway User Guide. Valid Values: true | false
+        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide. Valid Values: true | false
         public let sMBACLEnabled: Bool?
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
         /// A list of users or groups in the Active Directory that are allowed to access the file  share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
+        /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let vPCEndpointDNSName: String?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vPCEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.authentication = authentication
+            self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
             self.caseSensitivity = caseSensitivity
             self.clientToken = clientToken
@@ -1085,12 +1117,14 @@ extension StorageGateway {
             self.locationARN = locationARN
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
+            self.oplocksEnabled = oplocksEnabled
             self.readOnly = readOnly
             self.requesterPays = requesterPays
             self.role = role
             self.sMBACLEnabled = sMBACLEnabled
             self.tags = tags
             self.validUserList = validUserList
+            self.vPCEndpointDNSName = vPCEndpointDNSName
         }
 
         public func validate(name: String) throws {
@@ -1103,6 +1137,8 @@ extension StorageGateway {
             try self.validate(self.auditDestinationARN, name: "auditDestinationARN", parent: name, max: 1024)
             try self.validate(self.authentication, name: "authentication", parent: name, max: 15)
             try self.validate(self.authentication, name: "authentication", parent: name, min: 5)
+            try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, max: 25)
+            try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
             try self.validate(self.defaultStorageClass, name: "defaultStorageClass", parent: name, max: 50)
@@ -1137,6 +1173,9 @@ extension StorageGateway {
             }
             try self.validate(self.validUserList, name: "validUserList", parent: name, max: 100)
             try self.validate(self.validUserList, name: "validUserList", parent: name, min: 0)
+            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, max: 255)
+            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, min: 1)
+            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1144,6 +1183,7 @@ extension StorageGateway {
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case authentication = "Authentication"
+            case bucketRegion = "BucketRegion"
             case cacheAttributes = "CacheAttributes"
             case caseSensitivity = "CaseSensitivity"
             case clientToken = "ClientToken"
@@ -1157,12 +1197,14 @@ extension StorageGateway {
             case locationARN = "LocationARN"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
+            case oplocksEnabled = "OplocksEnabled"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
             case role = "Role"
             case sMBACLEnabled = "SMBACLEnabled"
             case tags = "Tags"
             case validUserList = "ValidUserList"
+            case vPCEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -1182,7 +1224,7 @@ extension StorageGateway {
 
     public struct CreateSnapshotFromVolumeRecoveryPointInput: AWSEncodableShape {
 
-        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field.
+        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the Storage Gateway snapshot Details pane, Description field.
         public let snapshotDescription: String
         /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
@@ -1236,7 +1278,7 @@ extension StorageGateway {
 
     public struct CreateSnapshotInput: AWSEncodableShape {
 
-        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field.
+        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the Storage Gateway snapshot Details pane, Description field.
         public let snapshotDescription: String
         /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
@@ -1289,7 +1331,7 @@ extension StorageGateway {
         /// The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
         public let diskId: String
         public let gatewayARN: String
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
@@ -1375,7 +1417,7 @@ extension StorageGateway {
         public let poolName: String
         /// Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days).
         public let retentionLockTimeInDays: Int?
-        /// Tape retention lock can be configured in two modes. When configured in governance mode, AWS accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root AWS account.
+        /// Tape retention lock can be configured in two modes. When configured in governance mode, accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root account.
         public let retentionLockType: RetentionLockType?
         /// The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let storageClass: TapeStorageClass
@@ -1412,7 +1454,7 @@ extension StorageGateway {
 
     public struct CreateTapePoolOutput: AWSDecodableShape {
 
-        /// The unique Amazon Resource Name (ARN) that represents the custom tape pool. Use the ListTapePools operation to return a list of tape pools for your account and AWS Region.
+        /// The unique Amazon Resource Name (ARN) that represents the custom tape pool. Use the ListTapePools operation to return a list of tape pools for your account and Region.
         public let poolARN: String?
 
         public init(poolARN: String? = nil) {
@@ -1426,9 +1468,9 @@ extension StorageGateway {
 
     public struct CreateTapeWithBarcodeInput: AWSEncodableShape {
 
-        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
+        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Region.
         public let gatewayARN: String
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
@@ -1500,9 +1542,9 @@ extension StorageGateway {
 
         /// A unique identifier that you use to retry a request. If you retry a request, use the same ClientToken you specified in the initial request.  Using the same ClientToken prevents creating the tape multiple times.
         public let clientToken: String
-        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
+        /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tapes with. Use the ListGateways operation to return a list of gateways for your account and Region.
         public let gatewayARN: String
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
@@ -1696,7 +1738,7 @@ extension StorageGateway {
 
         /// The Amazon Resource Name (ARN) of the file share to be deleted.
         public let fileShareARN: String
-        /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted until all data is uploaded to AWS. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
+        /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
         public let forceDelete: Bool?
 
         public init(fileShareARN: String, forceDelete: Bool? = nil) {
@@ -1835,7 +1877,7 @@ extension StorageGateway {
 
         /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
         public let bypassGovernanceRetention: Bool?
-        /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
+        /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and Region.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape to delete.
         public let tapeARN: String
@@ -2076,7 +2118,7 @@ extension StorageGateway {
 
         /// The amount of cache in bytes allocated to a gateway.
         public let cacheAllocatedInBytes: Int64?
-        /// The file share's contribution to the overall percentage of the gateway's cache that has not been persisted to AWS. The sample is taken at the end of the reporting period.
+        /// The file share's contribution to the overall percentage of the gateway's cache that has not been persisted to Amazon Web Services. The sample is taken at the end of the reporting period.
         public let cacheDirtyPercentage: Double?
         /// Percent of application read operations from the file shares that are served from cache. The sample is taken at the end of the reporting period.
         public let cacheHitPercentage: Double?
@@ -2240,11 +2282,13 @@ extension StorageGateway {
         public let deprecationDate: String?
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
-        /// The AWS Region where the Amazon EC2 instance is located.
+        /// The Region where the Amazon EC2 instance is located.
         public let ec2InstanceRegion: String?
         /// The type of endpoint for your gateway. Valid Values: STANDARD | FIPS
         public let endpointType: String?
         public let gatewayARN: String?
+        /// Specifies the size of the gateway's metadata cache.
+        public let gatewayCapacity: GatewayCapacity?
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
         public let gatewayId: String?
         /// The name you configured for your gateway.
@@ -2265,18 +2309,21 @@ extension StorageGateway {
         public let nextUpdateAvailabilityDate: String?
         /// Date after which this gateway will not receive software updates for new features.
         public let softwareUpdatesEndDate: String?
+        /// A list of the metadata cache sizes that the gateway can support based on its current hardware specifications.
+        public let supportedGatewayCapacities: [GatewayCapacity]?
         /// A list of up to 50 tags assigned to the gateway, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway.
         public let vPCEndpoint: String?
 
-        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayCapacity: GatewayCapacity? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, supportedGatewayCapacities: [GatewayCapacity]? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
             self.endpointType = endpointType
             self.gatewayARN = gatewayARN
+            self.gatewayCapacity = gatewayCapacity
             self.gatewayId = gatewayId
             self.gatewayName = gatewayName
             self.gatewayNetworkInterfaces = gatewayNetworkInterfaces
@@ -2287,6 +2334,7 @@ extension StorageGateway {
             self.lastSoftwareUpdate = lastSoftwareUpdate
             self.nextUpdateAvailabilityDate = nextUpdateAvailabilityDate
             self.softwareUpdatesEndDate = softwareUpdatesEndDate
+            self.supportedGatewayCapacities = supportedGatewayCapacities
             self.tags = tags
             self.vPCEndpoint = vPCEndpoint
         }
@@ -2298,6 +2346,7 @@ extension StorageGateway {
             case ec2InstanceRegion = "Ec2InstanceRegion"
             case endpointType = "EndpointType"
             case gatewayARN = "GatewayARN"
+            case gatewayCapacity = "GatewayCapacity"
             case gatewayId = "GatewayId"
             case gatewayName = "GatewayName"
             case gatewayNetworkInterfaces = "GatewayNetworkInterfaces"
@@ -2308,6 +2357,7 @@ extension StorageGateway {
             case lastSoftwareUpdate = "LastSoftwareUpdate"
             case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
             case softwareUpdatesEndDate = "SoftwareUpdatesEndDate"
+            case supportedGatewayCapacities = "SupportedGatewayCapacities"
             case tags = "Tags"
             case vPCEndpoint = "VPCEndpoint"
         }
@@ -2462,12 +2512,12 @@ extension StorageGateway {
         public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The name of the domain that the gateway is joined to.
         public let domainName: String?
-        /// The shares on this gateway appear when listing shares.
+        /// The shares on this gateway appear when listing shares. Only supported for S3 File Gateways.
         public let fileSharesVisible: Bool?
         public let gatewayARN: String?
-        /// This value is true if a password for the guest user smbguest is set, otherwise false. Valid Values: true | false
+        /// This value is true if a password for the guest user smbguest is set, otherwise false. Only supported for S3 File Gateways. Valid Values: true | false
         public let sMBGuestPasswordSet: Bool?
-        /// The type of security strategy that was specified for file gateway.    ClientSpecified: If you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment.    MandatorySigning: If you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.    MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+        /// The type of security strategy that was specified for file gateway.    ClientSpecified: If you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Only supported for S3 File Gateways.    MandatorySigning: If you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.    MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
         public let sMBSecurityStrategy: SMBSecurityStrategy?
 
         public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, fileSharesVisible: Bool? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
@@ -3050,6 +3100,30 @@ extension StorageGateway {
         }
     }
 
+    public struct EndpointNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+
+        /// A list of gateway IP addresses on which the associated Amazon FSx file system is available.  If multiple file systems are associated with this gateway, this field is required.
+        public let ipAddresses: [String]?
+
+        public init(ipAddresses: [String]? = nil) {
+            self.ipAddresses = ipAddresses
+        }
+
+        public func validate(name: String) throws {
+            try self.ipAddresses?.forEach {
+                try validate($0, name: "ipAddresses[]", parent: name, max: 15)
+                try validate($0, name: "ipAddresses[]", parent: name, min: 7)
+                try validate($0, name: "ipAddresses[]", parent: name, pattern: "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\\.(?!$)|$)){4}")
+            }
+            try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, max: 1)
+            try self.validate(self.ipAddresses, name: "ipAddresses", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddresses = "IpAddresses"
+        }
+    }
+
     public struct FileShareInfo: AWSDecodableShape {
 
         public let fileShareARN: String?
@@ -3080,9 +3154,11 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
         public let auditDestinationARN: String?
         public let cacheAttributes: CacheAttributes?
+        /// Specifies network configuration information for the gateway associated with the Amazon FSx file system.  If multiple file systems are associated with this gateway, this parameter's IpAddresses field is required.
+        public let endpointNetworkConfiguration: EndpointNetworkConfiguration?
         /// The Amazon Resource Name (ARN) of the file system association.
         public let fileSystemAssociationARN: String?
-        /// The status of the file system association. Valid Values: AVAILABLE | CREATING | DELETING | FORCE_DELETING | MISCONFIGURED | UPDATING | UNAVAILABLE
+        /// The status of the file system association. Valid Values: AVAILABLE | CREATING | DELETING | FORCE_DELETING | UPDATING | ERROR
         public let fileSystemAssociationStatus: String?
         public let gatewayARN: String?
         /// The ARN of the backend Amazon FSx file system used for storing file data. For information, see FileSystem in the Amazon FSx API Reference.
@@ -3090,9 +3166,10 @@ extension StorageGateway {
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair.
         public let tags: [Tag]?
 
-        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, fileSystemAssociationARN: String? = nil, fileSystemAssociationStatus: String? = nil, gatewayARN: String? = nil, locationARN: String? = nil, tags: [Tag]? = nil) {
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, endpointNetworkConfiguration: EndpointNetworkConfiguration? = nil, fileSystemAssociationARN: String? = nil, fileSystemAssociationStatus: String? = nil, gatewayARN: String? = nil, locationARN: String? = nil, tags: [Tag]? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
+            self.endpointNetworkConfiguration = endpointNetworkConfiguration
             self.fileSystemAssociationARN = fileSystemAssociationARN
             self.fileSystemAssociationStatus = fileSystemAssociationStatus
             self.gatewayARN = gatewayARN
@@ -3103,6 +3180,7 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case auditDestinationARN = "AuditDestinationARN"
             case cacheAttributes = "CacheAttributes"
+            case endpointNetworkConfiguration = "EndpointNetworkConfiguration"
             case fileSystemAssociationARN = "FileSystemAssociationARN"
             case fileSystemAssociationStatus = "FileSystemAssociationStatus"
             case gatewayARN = "GatewayARN"
@@ -3117,7 +3195,7 @@ extension StorageGateway {
         public let fileSystemAssociationARN: String?
         /// The ID of the file system association.
         public let fileSystemAssociationId: String?
-        /// The status of the file share. Valid Values: AVAILABLE | CREATING | DELETING | FORCE_DELETING | MISCONFIGURED | UPDATING | UNAVAILABLE
+        /// The status of the file share. Valid Values: AVAILABLE | CREATING | DELETING | FORCE_DELETING | UPDATING | ERROR
         public let fileSystemAssociationStatus: String?
         public let gatewayARN: String?
 
@@ -3140,9 +3218,9 @@ extension StorageGateway {
 
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public let ec2InstanceId: String?
-        /// The AWS Region where the Amazon EC2 instance is located.
+        /// The Region where the Amazon EC2 instance is located.
         public let ec2InstanceRegion: String?
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Region.
         public let gatewayARN: String?
         /// The unique identifier assigned to your gateway during activation. This ID becomes part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
         public let gatewayId: String?
@@ -3180,7 +3258,7 @@ extension StorageGateway {
         public let domainControllers: [String]?
         /// The name of the domain that you want the gateway to join.
         public let domainName: String
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Region.
         public let gatewayARN: String
         /// The organizational unit (OU) is a container in an Active Directory that can hold users, groups, computers, and other OUs and this parameter specifies the OU that the gateway will join within the AD domain.
         public let organizationalUnit: String?
@@ -3317,7 +3395,7 @@ extension StorageGateway {
 
     public struct ListFileSharesOutput: AWSDecodableShape {
 
-        /// An array of information about the file gateway's file shares.
+        /// An array of information about the S3 File Gateway's file shares.
         public let fileShareInfoList: [FileShareInfo]?
         /// If the request includes Marker, the response returns that value in this field.
         public let marker: String?
@@ -3775,10 +3853,12 @@ extension StorageGateway {
 
     public struct NFSFileShareInfo: AWSDecodableShape {
 
+        /// Specifies the Region of the S3 bucket where the NFS file share stores files.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let bucketRegion: String?
         /// Refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         public let clientList: [String]?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         public let fileShareARN: String?
         public let fileShareId: String?
@@ -3788,7 +3868,7 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         public let kMSKey: String?
         public let locationARN: String?
@@ -3805,8 +3885,11 @@ extension StorageGateway {
         public let squash: String?
         /// A list of up to 50 tags assigned to the NFS file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
+        /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let vPCEndpointDNSName: String?
 
-        public init(cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil) {
+        public init(bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vPCEndpointDNSName: String? = nil) {
+            self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
             self.defaultStorageClass = defaultStorageClass
@@ -3828,9 +3911,11 @@ extension StorageGateway {
             self.role = role
             self.squash = squash
             self.tags = tags
+            self.vPCEndpointDNSName = vPCEndpointDNSName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bucketRegion = "BucketRegion"
             case cacheAttributes = "CacheAttributes"
             case clientList = "ClientList"
             case defaultStorageClass = "DefaultStorageClass"
@@ -3852,6 +3937,7 @@ extension StorageGateway {
             case role = "Role"
             case squash = "Squash"
             case tags = "Tags"
+            case vPCEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -3913,7 +3999,7 @@ extension StorageGateway {
 
     public struct PoolInfo: AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the custom tape pool. Use the ListTapePools operation to return a list of custom tape pools for your account and AWS Region.
+        /// The Amazon Resource Name (ARN) of the custom tape pool. Use the ListTapePools operation to return a list of custom tape pools for your account and Region.
         public let poolARN: String?
         /// The name of the custom tape pool. PoolName can use all ASCII characters, except '/' and '\'.
         public let poolName: String?
@@ -3921,7 +4007,7 @@ extension StorageGateway {
         public let poolStatus: PoolStatus?
         /// Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days).
         public let retentionLockTimeInDays: Int?
-        /// Tape retention lock type, which can be configured in two modes. When configured in governance mode, AWS accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root AWS account.
+        /// Tape retention lock type, which can be configured in two modes. When configured in governance mode, accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root account.
         public let retentionLockType: RetentionLockType?
         /// The storage class that is associated with the custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let storageClass: TapeStorageClass?
@@ -4069,7 +4155,7 @@ extension StorageGateway {
 
     public struct RetrieveTapeArchiveInput: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and AWS Region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
+        /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the virtual tape to. Use the ListGateways operation to return a list of gateways for your account and Region. You retrieve archived virtual tapes to only one gateway and the gateway must be a tape gateway.
         public let gatewayARN: String
         /// The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from the virtual tape shelf (VTS).
         public let tapeARN: String
@@ -4155,11 +4241,13 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the storage used for audit logs.
         public let auditDestinationARN: String?
         public let authentication: String?
+        /// Specifies the Region of the S3 bucket where the SMB file share stores files.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let bucketRegion: String?
         /// Refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         public let fileShareARN: String?
         public let fileShareId: String?
@@ -4171,13 +4259,15 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         public let kMSKey: String?
         public let locationARN: String?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
         public let objectACL: ObjectACL?
+        /// Specifies whether opportunistic locking is enabled for the SMB file share.  Enabling opportunistic locking on case-sensitive shares is not recommended for workloads that involve access to files with the same name in different case.  Valid Values: true | false
+        public let oplocksEnabled: Bool?
         /// The file share path used by the SMB client to identify the mount point.
         public let path: String?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
@@ -4185,18 +4275,21 @@ extension StorageGateway {
         /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration.  Valid Values: true | false
         public let requesterPays: Bool?
         public let role: String?
-        /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the AWS Storage Gateway User Guide.
+        /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide.
         public let sMBACLEnabled: Bool?
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
+        /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
+        public let vPCEndpointDNSName: String?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vPCEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
             self.authentication = authentication
+            self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
             self.caseSensitivity = caseSensitivity
             self.defaultStorageClass = defaultStorageClass
@@ -4212,6 +4305,7 @@ extension StorageGateway {
             self.locationARN = locationARN
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
+            self.oplocksEnabled = oplocksEnabled
             self.path = path
             self.readOnly = readOnly
             self.requesterPays = requesterPays
@@ -4219,6 +4313,7 @@ extension StorageGateway {
             self.sMBACLEnabled = sMBACLEnabled
             self.tags = tags
             self.validUserList = validUserList
+            self.vPCEndpointDNSName = vPCEndpointDNSName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4226,6 +4321,7 @@ extension StorageGateway {
             case adminUserList = "AdminUserList"
             case auditDestinationARN = "AuditDestinationARN"
             case authentication = "Authentication"
+            case bucketRegion = "BucketRegion"
             case cacheAttributes = "CacheAttributes"
             case caseSensitivity = "CaseSensitivity"
             case defaultStorageClass = "DefaultStorageClass"
@@ -4241,6 +4337,7 @@ extension StorageGateway {
             case locationARN = "LocationARN"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
+            case oplocksEnabled = "OplocksEnabled"
             case path = "Path"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
@@ -4248,6 +4345,7 @@ extension StorageGateway {
             case sMBACLEnabled = "SMBACLEnabled"
             case tags = "Tags"
             case validUserList = "ValidUserList"
+            case vPCEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -4291,7 +4389,7 @@ extension StorageGateway {
 
     public struct SetSMBGuestPasswordInput: AWSEncodableShape {
 
-        /// The Amazon Resource Name (ARN) of the file gateway the SMB file share is associated with.
+        /// The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share is associated with.
         public let gatewayARN: String
         /// The password that you want to set for your SMB server.
         public let password: String
@@ -4639,7 +4737,7 @@ extension StorageGateway {
 
     public struct TapeInfo: AWSDecodableShape {
 
-        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Region.
         public let gatewayARN: String?
         /// The date that the tape entered the custom tape pool with tape retention lock enabled.
         public let poolEntryDate: Date?
@@ -4942,13 +5040,16 @@ extension StorageGateway {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs?
         public let cloudWatchLogGroupARN: String?
         public let gatewayARN: String
+        /// Specifies the size of the gateway's metadata cache.
+        public let gatewayCapacity: GatewayCapacity?
         public let gatewayName: String?
         /// A value that indicates the time zone of the gateway.
         public let gatewayTimezone: String?
 
-        public init(cloudWatchLogGroupARN: String? = nil, gatewayARN: String, gatewayName: String? = nil, gatewayTimezone: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, gatewayARN: String, gatewayCapacity: GatewayCapacity? = nil, gatewayName: String? = nil, gatewayTimezone: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.gatewayARN = gatewayARN
+            self.gatewayCapacity = gatewayCapacity
             self.gatewayName = gatewayName
             self.gatewayTimezone = gatewayTimezone
         }
@@ -4967,6 +5068,7 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogGroupARN = "CloudWatchLogGroupARN"
             case gatewayARN = "GatewayARN"
+            case gatewayCapacity = "GatewayCapacity"
             case gatewayName = "GatewayName"
             case gatewayTimezone = "GatewayTimezone"
         }
@@ -5079,9 +5181,9 @@ extension StorageGateway {
 
         /// specifies refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
-        /// The list of clients that are allowed to access the file gateway. The list must contain either valid IP addresses or valid CIDR blocks.
+        /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The Amazon Resource Name (ARN) of the file share to be updated.
         public let fileShareARN: String
@@ -5089,7 +5191,7 @@ extension StorageGateway {
         public let fileShareName: String?
         /// A value that enables guessing of the MIME type for uploaded objects based on file extensions. Set this value to true to enable MIME type guessing, otherwise set to false. The default value is true. Valid Values: true | false
         public let guessMIMETypeEnabled: Bool?
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
@@ -5097,7 +5199,7 @@ extension StorageGateway {
         public let nFSFileShareDefaults: NFSFileShareDefaults?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
-        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
+        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
         /// A value that sets the write status of a file share. Set this value to true to set the write status to read-only, otherwise set to false. Valid Values: true | false
         public let readOnly: Bool?
@@ -5190,7 +5292,7 @@ extension StorageGateway {
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
-        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
         public let fileShareARN: String
@@ -5200,24 +5302,26 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// A list of users or groups in the Active Directory that are not allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let invalidUserList: [String]?
-        /// Set to true to use Amazon S3 server-side encryption with your own AWS KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+        /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.   SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The following example sets NotificationPolicy off.  {}
         public let notificationPolicy: String?
-        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a file gateway puts objects into. The default value is private.
+        /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
         public let objectACL: ObjectACL?
+        /// Specifies whether opportunistic locking is enabled for the SMB file share.  Enabling opportunistic locking on case-sensitive shares is not recommended for workloads that involve access to files with the same name in different case.  Valid Values: true | false
+        public let oplocksEnabled: Bool?
         /// A value that sets the write status of a file share. Set this value to true to set write status to read-only, otherwise set to false. Valid Values: true | false
         public let readOnly: Bool?
         /// A value that sets who pays the cost of the request and the cost associated with data download from the S3 bucket. If this value is set to true, the requester pays the costs; otherwise, the S3 bucket owner pays. However, the S3 bucket owner always pays the cost of storing data.   RequesterPays is a configuration for the S3 bucket that backs the file share, so make sure that the configuration on the file share is the same as the S3 bucket configuration.  Valid Values: true | false
         public let requesterPays: Bool?
-        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the AWS Storage Gateway User Guide. Valid Values: true | false
+        /// Set this value to true to enable access control list (ACL) on the SMB file share. Set it to false to map file and directory permissions to the POSIX permissions. For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide. Valid Values: true | false
         public let sMBACLEnabled: Bool?
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -5232,6 +5336,7 @@ extension StorageGateway {
             self.kMSKey = kMSKey
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
+            self.oplocksEnabled = oplocksEnabled
             self.readOnly = readOnly
             self.requesterPays = requesterPays
             self.sMBACLEnabled = sMBACLEnabled
@@ -5287,6 +5392,7 @@ extension StorageGateway {
             case kMSKey = "KMSKey"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
+            case oplocksEnabled = "OplocksEnabled"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
             case sMBACLEnabled = "SMBACLEnabled"
@@ -5346,7 +5452,7 @@ extension StorageGateway {
     public struct UpdateSMBSecurityStrategyInput: AWSEncodableShape {
 
         public let gatewayARN: String
-        /// Specifies the type of security strategy. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer. MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+        /// Specifies the type of security strategy. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only in S3 File Gateway. MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer. MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
         public let sMBSecurityStrategy: SMBSecurityStrategy
 
         public init(gatewayARN: String, sMBSecurityStrategy: SMBSecurityStrategy) {

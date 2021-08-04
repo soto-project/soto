@@ -132,7 +132,7 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "GetBackendAPIModels", path: "/backend/{appId}/api/{backendEnvironmentName}/getModels", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Gets backend auth details.
+    /// Gets a backend auth details.
     public func getBackendAuth(_ input: GetBackendAuthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBackendAuthResponse> {
         return self.client.execute(operation: "GetBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/details", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -147,6 +147,11 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "GetToken", path: "/backend/{appId}/challenge/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
+    /// Imports an existing backend authentication resource.
+    public func importBackendAuth(_ input: ImportBackendAuthRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportBackendAuthResponse> {
+        return self.client.execute(operation: "ImportBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}/import", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
+    }
+
     /// Lists the jobs for the backend of an Amplify app.
     public func listBackendJobs(_ input: ListBackendJobsRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBackendJobsResponse> {
         return self.client.execute(operation: "ListBackendJobs", path: "/backend/{appId}/job/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
@@ -157,7 +162,7 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "RemoveAllBackends", path: "/backend/{appId}/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Removes the AWS resources that are required to access the Amplify Admin UI.
+    /// Removes the AWS resources required to access the Amplify Admin UI.
     public func removeBackendConfig(_ input: RemoveBackendConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveBackendConfigResponse> {
         return self.client.execute(operation: "RemoveBackendConfig", path: "/backend/{appId}/config/remove", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
@@ -172,7 +177,7 @@ public struct AmplifyBackend: AWSService {
         return self.client.execute(operation: "UpdateBackendAuth", path: "/backend/{appId}/auth/{backendEnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }
 
-    /// Updates the AWS resources that are required to access the Amplify Admin UI.
+    /// Updates the AWS resources required to access the Amplify Admin UI.
     public func updateBackendConfig(_ input: UpdateBackendConfigRequest, context: LoggingContext, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBackendConfigResponse> {
         return self.client.execute(operation: "UpdateBackendConfig", path: "/backend/{appId}/config/update", httpMethod: .POST, serviceConfig: self.config, input: input, context: context, on: eventLoop)
     }

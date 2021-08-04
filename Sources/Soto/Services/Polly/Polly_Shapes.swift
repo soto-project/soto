@@ -113,6 +113,7 @@ extension Polly {
         case enrique = "Enrique"
         case ewa = "Ewa"
         case filiz = "Filiz"
+        case gabrielle = "Gabrielle"
         case geraint = "Geraint"
         case giorgio = "Giorgio"
         case gwyneth = "Gwyneth"
