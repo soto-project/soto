@@ -505,7 +505,8 @@ let package = Package(
         .target(name: "SotoQuickSight", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/QuickSight"),
         .target(name: "SotoRAM", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/RAM"),
         .target(name: "SotoRDS", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/RDS"),
-        .target(name: "SotoRDSDataService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/RDSDataService"),
+        .target(name: "SotoRDSDataService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/", sources: ["Services/RDSDataService", "Extensions/RDSDataService"]),
+        
         .target(name: "SotoRedshift", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Redshift"),
         .target(name: "SotoRedshiftDataAPIService", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/RedshiftDataAPIService"),
         .target(name: "SotoRekognition", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Rekognition"),

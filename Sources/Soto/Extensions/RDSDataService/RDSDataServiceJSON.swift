@@ -15,7 +15,7 @@
 import Foundation
 
 public struct RDSDataServiceDecoder {
-    
+        
     private static func parseField(field: RDSDataService.Field) -> Any? {
         if let arrayValue = field.arrayValue { return arrayValue }
         if let blobValue = field.blobValue { return blobValue }
@@ -25,6 +25,22 @@ public struct RDSDataServiceDecoder {
         if let longValue = field.longValue { return longValue }
         if let stringValue = field.stringValue { return stringValue }
         return nil
+    }
+    
+    private static func parseRow(row: [RDSDataService.Field], columns: [String]) -> [String: Any] {
+        var dictionary = [String: Any]()
+        
+        _ = row.enumerated().map { index, field in
+            if columns.indices.contains(index) {
+                dictionary[columns[index]] = parseField(field: field) ?? ""
+            }
+        }
+        
+        return dictionary
+    }
+    
+    static func getRecords(executeStatementResponse: RDSDataService.ExecuteStatementResponse) -> [[RDSDataService.Field]] {
+        return executeStatementResponse.records ?? [[]]
     }
 
     private static func parseTable(executeStatementResponse: RDSDataService.ExecuteStatementResponse) -> [[String: Any]] {
