@@ -39,7 +39,7 @@ public struct RDSDataServiceDecoder {
         return dictionary
     }
     
-    static func getRecords(executeStatementResponse: RDSDataService.ExecuteStatementResponse) -> [[RDSDataService.Field]] {
+    private static func getRecords(executeStatementResponse: RDSDataService.ExecuteStatementResponse) -> [[RDSDataService.Field]] {
         return executeStatementResponse.records ?? [[]]
     }
 
