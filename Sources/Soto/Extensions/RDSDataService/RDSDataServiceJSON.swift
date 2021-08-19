@@ -104,13 +104,20 @@ public struct RDSDataServiceDecoder {
 extension RDSDataService.ExecuteStatementResponse {
     /// This function is part of the RDSDataService.ExecuteStatementResponse object. It can be called on self and returns a JSON string with the database results.
     /// - Returns: JSON string with the database results
-    public func jsonString() throws -> String {
+    private func jsonString() throws -> String {
         return try RDSDataServiceDecoder.parseTableToJSONString(executeStatementResponse: self)
     }
     
     /// This function is part of the RDSDataService.ExecuteStatementResponse object. It can be called on self and returns a JSON data with the database results.
     /// - Returns: JSON data with the database results
-    public func jsonData() throws -> Data {
+    private func jsonData() throws -> Data {
         return try RDSDataServiceDecoder.parseTableToJSONData(executeStatementResponse: self)
+    }
+    
+    public func decode<T: Decodable>(_ type: T.Type) throws -> T {
+        let jsonData = try self.jsonData()
+        let jsonDecoder = JSONDecoder()
+        let value = try jsonDecoder.decode(T.self, from: jsonData)
+        return value
     }
 }
