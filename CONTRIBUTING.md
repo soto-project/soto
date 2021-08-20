@@ -28,7 +28,7 @@ The main development branch of the repository is  `main`. Each major version rel
 
 ### Formatting
 
-We use Nick Lockwood's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted. The current version of SwiftFormat we are using is v0.47.4.
+We use Nick Lockwood's SwiftFormat for formatting code. PRs will not be accepted if they haven't be formatted. The current version of SwiftFormat we are using is v0.47.13.
 
 All new files need to include the following file header at the top
 ```swift
@@ -36,7 +36,7 @@ All new files need to include the following file header at the top
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2021 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
