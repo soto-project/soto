@@ -23,14 +23,6 @@ usage()
     exit 2
 }
 
-get_aws_code_generator()
-{
-    DESTIONATION_FOLDER=$1
-    BRANCH_NAME="main"
-    # clone soto-codegenerator into folder
-    git clone --depth 1 https://github.com/soto-project/soto-codegenerator.git "$DESTIONATION_FOLDER"
-}
-
 get_aws_sdk_go_v2()
 {
     DESTIONATION_FOLDER=$1
@@ -54,7 +46,7 @@ copy_model_files()
     SOURCE_FOLDER=$1
     ENDPOINT_FILE=$2
     DESTINATION_FOLDER=$3
-    rm -rf "$DESTIONATION_FOLDER"/*
+    rm -rf "$DESTINATION_FOLDER"/*
     cp -R "$SOURCE_FOLDER"/* "$DESTINATION_FOLDER"/
     mkdir "$DESTINATION_FOLDER"/endpoints/
     cp "$ENDPOINT_FILE" "$DESTINATION_FOLDER"/endpoints/
@@ -63,18 +55,13 @@ copy_model_files()
 
 build_files()
 {
-    AWS_CODE_GENERATOR=$1
-    # build the code generator and run it
-    echo "Build and run the code generator"
-    CURRENT_FOLDER=$(pwd)
-    cd "$AWS_CODE_GENERATOR"
-    rm -rf "CURRENT_FOLDER"/Sources/Soto/Services/*
-    swift run -c release SotoCodeGenerator \
+    echo "Run the code generator"
+    rm -rf Sources/Soto/Services/*
+    SotoCodeGenerator \
         --format \
-        --input-folder "$CURRENT_FOLDER"/models \
-        --output-folder "$CURRENT_FOLDER"/Sources/Soto/Services \
-        --endpoints "$CURRENT_FOLDER"/models/endpoints/endpoints.json
-    cd "$CURRENT_FOLDER"
+        --input-folder models \
+        --output-folder Sources/Soto/Services \
+        --endpoints models/endpoints/endpoints.json
 }
 
 compile_files()
@@ -134,9 +121,8 @@ check_for_local_changes
 TEMP_DIR=$(mktemp -d)
 echo "Using temp folder $TEMP_DIR"
 
-echo "Get code generator"
-AWS_CODE_GENERATOR=$TEMP_DIR/aws-code-generator/
-get_aws_code_generator $AWS_CODE_GENERATOR
+echo "Install code generator"
+mint install https://github.com/soto-project/soto-codegenerator
 
 echo "Get aws-sdk-go models"
 AWS_SDK_GO=$TEMP_DIR/aws-sdk-go-v2/
@@ -151,7 +137,7 @@ TARGET_MODELS=models
 copy_model_files "$AWS_SDK_GO_MODELS" "$AWS_SDK_GO_ENDPOINT" "$TARGET_MODELS"
 
 echo "Building Service files"
-build_files $AWS_CODE_GENERATOR
+build_files
 echo "Building Package.swift"
 ./scripts/generate-package.swift
 
