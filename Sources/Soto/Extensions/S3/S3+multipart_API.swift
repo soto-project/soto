@@ -392,7 +392,21 @@ extension S3 {
             )
             return self.completeMultipartUpload(request, logger: logger, on: eventLoop)
         }.flatMapErrorThrowing { error in
-            guard abortOnFail else { throw S3ErrorType.multipart.abortedUpload(resumeRequest: input, error: error) }
+            guard abortOnFail else {
+                // if error is MultipartUploadError then we have completed uploading some parts and should include that in the error
+                if let error = error as? MultipartUploadError {
+                    throw S3ErrorType.multipart.abortedUpload(
+                        resumeRequest: .init(uploadRequest: input.uploadRequest, uploadId: input.uploadId, completedParts: error.completedParts),
+                        error: error.error
+                    )
+                } else {
+                    throw S3ErrorType.multipart.abortedUpload(
+                        resumeRequest: input,
+                        error: error
+                    )
+                }
+                //throw S3ErrorType.multipart.abortedUpload(resumeRequest: input, error: error)
+            }
             // if failure then abort the multipart upload
             let request = S3.AbortMultipartUploadRequest(
                 bucket: uploadRequest.bucket,
