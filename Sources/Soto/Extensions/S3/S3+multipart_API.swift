@@ -405,7 +405,6 @@ extension S3 {
                         error: error
                     )
                 }
-                //throw S3ErrorType.multipart.abortedUpload(resumeRequest: input, error: error)
             }
             // if failure then abort the multipart upload
             let request = S3.AbortMultipartUploadRequest(
