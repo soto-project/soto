@@ -99,9 +99,7 @@ check_for_local_changes()
 commit_changes()
 {
     MODELS_VERSION=$1
-    COMMIT_MSG="Sync models with aws-sdk-go $MODELS_VERSION"
-    BRANCH_NAME="aws-sdk-go-$MODELS_VERSION"
-    git checkout -b $BRANCH_NAME
+    COMMIT_MSG="Sync models with aws-sdk-go-v2 $MODELS_VERSION"
     git add models
     git add Sources/Soto
     git commit -m "$COMMIT_MSG"
@@ -152,7 +150,10 @@ AWS_SDK_GO_ENDPOINT=$AWS_SDK_GO/codegen/smithy-aws-go-codegen/src/main/resources
 TARGET_MODELS=models
 copy_model_files "$AWS_SDK_GO_MODELS" "$AWS_SDK_GO_ENDPOINT" "$TARGET_MODELS"
 
+echo "Building Service files"
 build_files $AWS_CODE_GENERATOR
+echo "Building Package.swift"
+./scripts/generate-package.swift
 
 if [ -n "$COMPILE_FILES" ]; then
     compile_files
