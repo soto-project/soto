@@ -23,12 +23,20 @@ usage()
     exit 2
 }
 
-get_aws_sdk_go()
+get_aws_code_generator()
+{
+    DESTIONATION_FOLDER=$1
+    BRANCH_NAME="main"
+    # clone soto-codegenerator into folder
+    git clone --depth 1 https://github.com/soto-project/soto-codegenerator.git "$DESTIONATION_FOLDER"
+}
+
+get_aws_sdk_go_v2()
 {
     DESTIONATION_FOLDER=$1
     BRANCH_NAME=$2
-    # clone aws-sdk-go into folder
-    git clone https://github.com/aws/aws-sdk-go.git "$DESTIONATION_FOLDER"
+    # clone aws-sdk-go-v2 into folder
+    git clone --depth 1 https://github.com/aws/aws-sdk-go-v2.git "$DESTIONATION_FOLDER"
     CURRENT_FOLDER=$(pwd)
     cd "$DESTIONATION_FOLDER"
     if [ -z "$BRANCH_NAME"]; then
@@ -44,23 +52,28 @@ get_aws_sdk_go()
 copy_model_files()
 {
     SOURCE_FOLDER=$1
-    DESTIONATION_FOLDER=$2
-    rm -rf "$DESTIONATION_FOLDER"/apis/*
-    rm -rf "$DESTIONATION_FOLDER"/endpoints/*
-    cp -R "$SOURCE_FOLDER"/apis/* "$DESTIONATION_FOLDER"/apis/
-    cp -R "$SOURCE_FOLDER"/endpoints/* "$DESTIONATION_FOLDER"/endpoints/
-    rm "$DESTIONATION_FOLDER"/apis/*.go
-    rm "$DESTIONATION_FOLDER"/endpoints/*.go
+    ENDPOINT_FILE=$2
+    DESTINATION_FOLDER=$3
+    rm -rf "$DESTIONATION_FOLDER"/*
+    cp -R "$SOURCE_FOLDER"/* "$DESTINATION_FOLDER"/
+    mkdir "$DESTINATION_FOLDER"/endpoints/
+    cp "$ENDPOINT_FILE" "$DESTINATION_FOLDER"/endpoints/
     return 0
 }
 
 build_files()
 {
+    AWS_CODE_GENERATOR=$1
     # build the code generator and run it
     echo "Build and run the code generator"
     CURRENT_FOLDER=$(pwd)
-    cd "$CURRENT_FOLDER"/CodeGenerator
-    swift run -c release soto-codegenerator --format
+    cd "$AWS_CODE_GENERATOR"
+    rm -rf "CURRENT_FOLDER"/Sources/Soto/Services/*
+    swift run -c release SotoCodeGenerator \
+        --format \
+        --input-folder "$CURRENT_FOLDER"/models \
+        --output-folder "$CURRENT_FOLDER"/Sources/Soto/Services \
+        --endpoints "$CURRENT_FOLDER"/models/endpoints/endpoints.json
     cd "$CURRENT_FOLDER"
 }
 
@@ -103,14 +116,14 @@ cleanup()
 
 AWS_MODELS_VERSION=""
 COMPILE_FILES=""
-DONT_COMMIT=""
+COMMIT_FILES=""
 
 while getopts 'bcv:' option
 do
     case $option in
         v) AWS_MODELS_VERSION=$OPTARG ;;
         c) COMPILE_FILES=1 ;;
-        b) DONT_COMMIT=1 ;;
+        g) COMMIT_FILES=1 ;;
         *) usage ;;
     esac
 done
@@ -123,21 +136,27 @@ check_for_local_changes
 TEMP_DIR=$(mktemp -d)
 echo "Using temp folder $TEMP_DIR"
 
+echo "Get code generator"
+AWS_CODE_GENERATOR=$TEMP_DIR/aws-code-generator/
+get_aws_code_generator $AWS_CODE_GENERATOR
+
 echo "Get aws-sdk-go models"
-AWS_SDK_GO=$TEMP_DIR/aws-sdk-go/
-AWS_MODELS_VERSION=$(get_aws_sdk_go "$AWS_SDK_GO" "$AWS_MODELS_VERSION")
+AWS_SDK_GO=$TEMP_DIR/aws-sdk-go-v2/
+AWS_MODELS_VERSION=$(get_aws_sdk_go_v2 "$AWS_SDK_GO" "$AWS_MODELS_VERSION")
 
 # required by update_models.yml to extract the version number of the models
 echo "AWS_MODELS_VERSION=$AWS_MODELS_VERSION"
 echo "Copy models to soto"
-AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
+AWS_SDK_GO_MODELS=$AWS_SDK_GO/codegen/sdk-codegen/aws-models
+AWS_SDK_GO_ENDPOINT=$AWS_SDK_GO/codegen/smithy-aws-go-codegen/src/main/resources/software/amazon/smithy/aws/go/codegen/endpoints.json
 TARGET_MODELS=models
-copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"
+copy_model_files "$AWS_SDK_GO_MODELS" "$AWS_SDK_GO_ENDPOINT" "$TARGET_MODELS"
 
-build_files
+build_files $AWS_CODE_GENERATOR
+
 if [ -n "$COMPILE_FILES" ]; then
     compile_files
 fi
-if [ -z "$DONT_COMMIT" ]; then
+if [ -n "$COMMIT_FILES" ]; then
     commit_changes "$AWS_MODELS_VERSION"
 fi
