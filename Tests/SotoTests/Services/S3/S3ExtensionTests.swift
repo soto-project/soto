@@ -188,7 +188,7 @@ class S3ExtensionTests: XCTestCase {
             .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
                 return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
-                    guard $0 < 0.95 else { throw CancelError() }
+                    guard $0 < 0.45 else { throw CancelError() }
                     print("Progress \($0 * 100)")
                 }
             }.flatMapThrowing { _ -> S3.ResumeMultipartUploadRequest in
@@ -203,9 +203,26 @@ class S3ExtensionTests: XCTestCase {
                     throw CancelError()
                 }
             }.flatMap { resumeRequest -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
-                return s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)") }
-            }
-            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
+                    guard $0 < 0.95 else { throw CancelError() }
+                    print("Progress \($0 * 100)")
+                }.flatMapThrowing { _ -> S3.ResumeMultipartUploadRequest in
+                    XCTFail("First multipartUpload was successful")
+                    throw CancelError()
+                }.flatMapErrorThrowing { error -> S3.ResumeMultipartUploadRequest in
+                    switch error {
+                    case S3ErrorType.multipart.abortedUpload(let resumeRequest, _):
+                        return resumeRequest
+                    default:
+                        XCTFail("First multipartUpload threw the wrong error")
+                        throw CancelError()
+                    }
+                }.flatMap { resumeRequest -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                    return s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) {
+                        print("Progress \($0 * 100)")
+                    }
+                }
+            }.flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 return s3.getObject(.init(bucket: name, key: name))
             }
             .map { response -> Void in
