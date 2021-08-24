@@ -13,7 +13,7 @@
 ##
 ##===----------------------------------------------------------------------===##
 
-set -eu
+set -eux
 
 TEMP_DIR=""
 
@@ -33,7 +33,11 @@ get_aws_sdk_go_v2()
     cd "$DESTIONATION_FOLDER"
     if [ -z "$BRANCH_NAME"]; then
         RELEASE_REVISION=$(git rev-list --tags --max-count=1)
-        BRANCH_NAME=$(git describe --tags "$RELEASE_REVISION")
+        if [ -n "$RELEASE_REVISION" ]; then
+            BRANCH_NAME=$(git describe --tags "$RELEASE_REVISION")
+        else
+            BRANCH_NAME=$(git rev-parse HEAD)
+        fi
     fi
     git checkout "$BRANCH_NAME"
     cd "$CURRENT_FOLDER"
