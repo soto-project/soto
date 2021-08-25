@@ -134,6 +134,9 @@ extension AWSService {
     }
 
     struct OperationContext {
+        struct DiscoverableEndpoint {
+            let required: Bool
+        }
         let comment: [String.SubSequence]
         let funcName: String
         let inputShape: String?
@@ -145,6 +148,7 @@ extension AWSService {
         let deprecated: String?
         let streaming: String?
         let documentationUrl: String?
+        let endpointRequired: DiscoverableEndpoint?
     }
 
     struct PaginatorContext {
@@ -291,7 +295,8 @@ extension AWSService {
             hostPrefix: operation.endpoint?.hostPrefix,
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
             streaming: streaming ? "ByteBuffer" : nil,
-            documentationUrl: operation.documentationUrl
+            documentationUrl: operation.documentationUrl,
+            endpointRequired: operation.endpointDiscovery.map { return .init(required: $0.required ?? false) }
         )
     }
 
@@ -343,7 +348,12 @@ extension AWSService {
             if operation.value.streaming == true {
                 streamingOperationContexts.append(self.generateOperationContext(operation.value, name: operation.key, streaming: true))
             }
+            // Is this a endpoint discovery operation
+            if operation.value.endpointOperation == true {
+                context["endpointDiscovery"] = operation.value.name.toSwiftVariableCase()
+            }
         }
+        
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
         context["streamingOperations"] = streamingOperationContexts.sorted { $0.funcName < $1.funcName }
         context["logger"] = self.getSymbol(for: "Logger", from: "Logging", api: self.api)
