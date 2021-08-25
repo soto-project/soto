@@ -137,6 +137,7 @@ extension AWSService {
         struct DiscoverableEndpoint {
             let required: Bool
         }
+
         let comment: [String.SubSequence]
         let funcName: String
         let inputShape: String?
@@ -353,7 +354,7 @@ extension AWSService {
                 context["endpointOperation"] = operation.value.name.toSwiftVariableCase()
             }
         }
-        
+
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
         context["streamingOperations"] = streamingOperationContexts.sorted { $0.funcName < $1.funcName }
         context["logger"] = self.getSymbol(for: "Logger", from: "Logging", api: self.api)
