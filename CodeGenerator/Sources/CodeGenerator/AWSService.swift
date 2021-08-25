@@ -148,7 +148,7 @@ extension AWSService {
         let deprecated: String?
         let streaming: String?
         let documentationUrl: String?
-        let endpointRequired: DiscoverableEndpoint?
+        let endpointDiscovery: DiscoverableEndpoint?
     }
 
     struct PaginatorContext {
@@ -296,7 +296,7 @@ extension AWSService {
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
             streaming: streaming ? "ByteBuffer" : nil,
             documentationUrl: operation.documentationUrl,
-            endpointRequired: operation.endpointDiscovery.map { return .init(required: $0.required ?? false) }
+            endpointDiscovery: operation.endpointDiscovery.map { return .init(required: $0.required ?? false) }
         )
     }
 
@@ -350,7 +350,7 @@ extension AWSService {
             }
             // Is this a endpoint discovery operation
             if operation.value.endpointOperation == true {
-                context["endpointDiscovery"] = operation.value.name.toSwiftVariableCase()
+                context["endpointOperation"] = operation.value.name.toSwiftVariableCase()
             }
         }
         
