@@ -95,6 +95,6 @@ extension TimestreamQuery {
     public init(from: TimestreamQuery, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
-        self.endpointStorage = .init(endpoint: self.config.endpoint)
+        self.endpointStorage = from.endpointStorage
     }
 }

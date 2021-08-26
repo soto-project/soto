@@ -140,7 +140,7 @@ extension {{ name }} {
         self.client = from.client
         self.config = from.config.with(patch: patch)
 {{#endpointOperation}}
-        self.endpointStorage = .init(endpoint: self.config.endpoint)
+        self.endpointStorage = from.endpointStorage
 {{/endpointOperation}}
     }
 }
