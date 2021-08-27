@@ -36,6 +36,7 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         var response = response
 
         self.getLocationResponseFixup(response: &response)
+        self.fixupHeadErrors(response: &response)
 
         return response
     }
@@ -145,6 +146,17 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
                 parentElement.addChild(element)
                 response.body = .xml(parentElement)
             }
+        }
+    }
+
+    func fixupHeadErrors(response: inout AWSResponse) {
+        if response.status == .notFound, response.body.isEmpty {
+            let errorNode = XML.Element(name: "Error")
+            let codeNode = XML.Element(name: "Code", stringValue: "NotFound")
+            let messageNode = XML.Element(name: "Message", stringValue: "Not Found")
+            errorNode.addChild(codeNode)
+            errorNode.addChild(messageNode)
+            response.body = .xml(errorNode)
         }
     }
 }
