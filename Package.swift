@@ -588,7 +588,8 @@ let package = Package(
             "SotoSNS",
             "SotoSQS",
             "SotoSSM",
-            "SotoSTS"
+            "SotoSTS",
+            "SotoTimestreamWrite"
         ])
     ]
 )
