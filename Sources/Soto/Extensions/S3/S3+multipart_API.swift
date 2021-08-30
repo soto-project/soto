@@ -687,7 +687,9 @@ extension S3 {
                         return
                     }
                     completedParts.append(part)
-                    multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId)
+                    _ = eventLoop.submit {
+                        multipartUploadPart(partNumber: partNumber + 1, uploadId: uploadId)
+                    }
                 }.cascadeFailure(to: promise)
             } else {
                 // supply payload data
